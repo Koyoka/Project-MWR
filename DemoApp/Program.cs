@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using System.Diagnostics;
+using ComLib.db;
+using DemoApp.TblModel;
 
 namespace DemoApp
 {
@@ -14,16 +16,19 @@ namespace DemoApp
         [STAThread]
         static void Main()
         {
-            Console.WriteLine("eleven");
-            Debug.WriteLine("casdf");
-            //Application.EnableVisualStyles();
-            //Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new Form1());
+            Debug.WriteLine("-----------");
+
+            Init();
+            
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new Form1());
         }
-        public static int a()
+
+        static void Init()
         {
-            Console.WriteLine("adf");
-            return 1010;
+            SqlDBMng.initDBMng(DBHelper.GetDB());
         }
+      
     }
 }

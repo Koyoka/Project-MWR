@@ -1,0 +1,4 @@
+T tbl_1
+C id 1 0 1 int 10 0  int(11) 
+C str1 0 1 0 varchar 20 0  varchar(20) 
+
