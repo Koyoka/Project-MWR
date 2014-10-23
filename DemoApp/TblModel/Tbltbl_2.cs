@@ -6,11 +6,11 @@ using ComLib.db;
 namespace DemoApp.TblModel
 {
 
-    public class Tbltbl_1 : BaseDataModule
+    public class Tbltbl_2 : BaseDataModule
     {
 
-        private static string TableName = "tbl_1";
-        public Tbltbl_1()
+        private static string TableName = "tbl_2";
+        public Tbltbl_2()
         {
         }
         public static string getFormatTableName()
@@ -60,8 +60,6 @@ namespace DemoApp.TblModel
         }
 
 
-        public const string STR1_ENUM_PER = "2";//个人用户;
-        public const string STR1_ENUM_BUS = "1";//企业用户;
 
     }
 }

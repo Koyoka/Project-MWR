@@ -58,6 +58,10 @@
     <Compile Include="TblModel\DBHelper.cs" />
     <Compile Include="TblModel\Tbltbl_1.cs" />
     <Compile Include="TblModel\Tbltbl_1Ctrl.cs" />
+    <Compile Include="TblModel\Tbltbl_2.cs" />
+    <Compile Include="TblModel\Tbltbl_2Ctrl.cs" />
+    <Compile Include="TblModel\Vewtbl1withtbl2.cs" />
+    <Compile Include="TblModel\Vewtbl1withtbl2Ctrl.cs" />
     <Compile Include="Test.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
