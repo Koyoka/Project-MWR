@@ -8,6 +8,13 @@ namespace DemoApp.TblModel
 {
     public class Tbltbl_2Ctrl : BaseDataCtrl
     {
+        public static bool QueryPage(DataCtrlInfo dcf, SqlWhere sw, int page, int pageSize, ref List<Tbltbl_2> itemList, ref string errMsg)
+        {
+            SqlQueryMng sqm = new SqlQueryMng();
+            sqm.Condition.Where.AddWhere(sw);
+            return QueryPage(dcf, sqm, page, pageSize, ref itemList, ref errMsg);
+        }
+ 
         public static bool QueryPage(DataCtrlInfo dcf, SqlQueryMng sqm, int page, int pageSize,ref List<Tbltbl_2> itemList,ref string errMsg)
         {
             try
@@ -103,6 +110,7 @@ namespace DemoApp.TblModel
             string sql = sum.getInsertSql();
             if (sql == null)
             {
+                _errMsg = sum.ErrMsg;
                 return false;
             }
             return doUpdateCtrl(dcf, sql,ref _count,ref _errMsg);
@@ -121,6 +129,11 @@ namespace DemoApp.TblModel
             SqlUpdateMng sum = new SqlUpdateMng();
             sum.setQueryTableName(Tbltbl_2.getFormatTableName());
             string sql = sum.getUpdateSql(suc, sw);
+            if (sql == null)
+            {
+                errMsg = sum.ErrMsg;
+                return false;
+            }
             return doUpdateCtrl(dcf, sql, ref count,ref errMsg);
         }
 

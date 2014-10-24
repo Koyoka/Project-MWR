@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace DemoApp
 {
@@ -20,6 +21,7 @@ namespace DemoApp
         {
             string errMsg = "";
             Test.do1(ref errMsg);
+            Debug.WriteLine(errMsg);
         }
     }
 }

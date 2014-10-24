@@ -7,9 +7,9 @@ namespace ComLib
     public class ComFn
     {
         #region other
-        public static int getPageCount(int pageSize, int rowCount)
+        public static long getPageCount(long pageSize, long rowCount)
         {
-            int pageCount = rowCount % pageSize == 0 ? ((rowCount - (rowCount % pageSize)) / pageSize) : ((rowCount - (rowCount % pageSize)) / pageSize) + 1;
+            long pageCount = rowCount % pageSize == 0 ? ((rowCount - (rowCount % pageSize)) / pageSize) : ((rowCount - (rowCount % pageSize)) / pageSize) + 1;
             return pageCount;
         }
         #endregion

@@ -8,11 +8,11 @@ namespace ComLib.db
     {
         
 
-        protected static bool doUpdateCtrl()
-        {
+        //protected static bool doUpdateCtrl()
+        //{
             
-            return true;
-        }
+        //    return true;
+        //}
 
         protected static bool doUpdateCtrl(DataCtrlInfo dcf, string sql,ref int count,ref string errMsg)
         {

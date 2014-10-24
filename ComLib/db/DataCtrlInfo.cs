@@ -9,16 +9,16 @@ namespace ComLib.db
 
         public bool IsTrans = false;
         public bool Success = false;
-        public int RowCount = 0;
-        public int PageCount = 0;
+        public long RowCount = 0;
+        public long PageCount = 0;
 
         public List<string> sqlList = new List<string>();
-        public String makeSql(String sql)
+        public string makeSql(String sql)
         {
-            if (!IsTrans)
-            {
-                //			sqlList.add("");//add use database
-            }
+            //if (!IsTrans)
+            //{
+            //    //			sqlList.add("");//add use database
+            //}
             sqlList.Add(sql);
             return sql;
         }
@@ -35,6 +35,15 @@ namespace ComLib.db
 
        
         public String ErrMsg = "";
+
+        public void BeginTrans()
+        {
+            IsTrans = true;
+        }
+        public bool Commit(ref int[] counts,ref string errMsg)
+        {
+            return SqlDBMng.doSql(this, ref counts, ref errMsg);
+        }
 
         public void set(bool isSuccess, string errMsg)
         { 

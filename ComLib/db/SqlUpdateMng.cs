@@ -86,7 +86,7 @@ namespace ComLib.db
             return "";
         }
 
-        public String getUpdateSql(SqlUpdateColumn suc, SqlWhere sw)
+        public string getUpdateSql(SqlUpdateColumn suc, SqlWhere sw)
         {
             string sqlupdatecolumns = suc.getSql();
             if (sqlupdatecolumns == null)
@@ -162,7 +162,7 @@ namespace ComLib.db
 		    }
 		    return sb.ToString();
 	    }
-        private String getInsertParamsSql(){
+        private string getInsertParamsSql(){
 		    bool hasBeanAppend = false;
 		    StringBuilder sb = new StringBuilder();
 		    foreach(Object o in buildValuesList){

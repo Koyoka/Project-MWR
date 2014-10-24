@@ -6,17 +6,19 @@ namespace ComLib.db
 {
     public class SqlOrderBy : SqlQueryBase
     {
-        public void Add(DataColumnInfo column)
+        public SqlOrderBy Add(DataColumnInfo column)
         {
             Add(column, SqlCommonFn.SqlOrderByType.DESC);
+            return this;
         }
-        public void Add(DataColumnInfo column, SqlCommonFn.SqlOrderByType orderByType)
+        public SqlOrderBy Add(DataColumnInfo column, SqlCommonFn.SqlOrderByType orderByType)
         {
             string defineOrderByStr = "";
             defineOrderByStr =
                     SqlCommonFn.FormatSqlColumnNameString(column.ColumnName) +
                     SqlCommonFn.FormatSqlOrderByEnumString(orderByType);
             buildSqlList.Add(defineOrderByStr);
+            return this;
         }
 
         public string getSql()

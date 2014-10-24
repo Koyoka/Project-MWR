@@ -31,7 +31,7 @@ namespace ComLib.db
 
         }
 
-        public void AddIsNull(DataColumnInfo column)
+        public SqlWhere AddIsNull(DataColumnInfo column)
         {
             string defineWhereStr = "";
 
@@ -40,9 +40,10 @@ namespace ComLib.db
                     " IS NULL";
 
             buildSqlList.Add(defineWhereStr);
+            return this;
         }
 
-        public void AddCompareValue(DataColumnInfo column, SqlCommonFn.SqlWhereCompareEnum compareType, object val)
+        public SqlWhere AddCompareValue(DataColumnInfo column, SqlCommonFn.SqlWhereCompareEnum compareType, object val)
         {
 
             string defineWhereStr = "";
@@ -53,6 +54,7 @@ namespace ComLib.db
                     SqlCommonFn.FormatSqlValueString(val);
 
             buildSqlList.Add(defineWhereStr);
+            return this;
         }
 
         //public void AddCompareParams(DataColumnInfo column, SqlCommonFn.SqlWhereCompareEnum compareType, Object val)
@@ -70,7 +72,7 @@ namespace ComLib.db
 
         //}
 
-        public void AddLikeValue(DataColumnInfo column, SqlCommonFn.SqlWhereLikeEnum likeType, string val)
+        public SqlWhere AddLikeValue(DataColumnInfo column, SqlCommonFn.SqlWhereLikeEnum likeType, string val)
         {
             string defineWhereStr = "";
 
@@ -79,6 +81,7 @@ namespace ComLib.db
                     SqlCommonFn.FormatSqlLikeEnumString(likeType, val);
 
             buildSqlList.Add(defineWhereStr);
+            return this;
         }
 
         public string getSql(){

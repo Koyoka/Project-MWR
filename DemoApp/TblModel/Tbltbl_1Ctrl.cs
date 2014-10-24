@@ -8,6 +8,13 @@ namespace DemoApp.TblModel
 {
     public class Tbltbl_1Ctrl : BaseDataCtrl
     {
+        public static bool QueryPage(DataCtrlInfo dcf, SqlWhere sw, int page, int pageSize, ref List<Tbltbl_1> itemList, ref string errMsg)
+        {
+            SqlQueryMng sqm = new SqlQueryMng();
+            sqm.Condition.Where.AddWhere(sw);
+            return QueryPage(dcf, sqm, page, pageSize, ref itemList, ref errMsg);
+        }
+ 
         public static bool QueryPage(DataCtrlInfo dcf, SqlQueryMng sqm, int page, int pageSize,ref List<Tbltbl_1> itemList,ref string errMsg)
         {
             try
@@ -86,6 +93,7 @@ namespace DemoApp.TblModel
         {
             return Insert(dcf,
                 item.str1,
+                item.int1,
                     ref count,
                     ref errMsg
                     );
@@ -93,6 +101,7 @@ namespace DemoApp.TblModel
 
         public static bool Insert(DataCtrlInfo dcf,
             string str1,
+            int int1,
                 ref int _count,
                 ref string _errMsg
                 )
@@ -100,9 +109,11 @@ namespace DemoApp.TblModel
             SqlUpdateMng sum = new SqlUpdateMng();
             sum.setQueryTableName(Tbltbl_1.getFormatTableName());
             sum.Add(Tbltbl_1.getStr1Column(), str1);
+            sum.Add(Tbltbl_1.getInt1Column(), int1);
             string sql = sum.getInsertSql();
             if (sql == null)
             {
+                _errMsg = sum.ErrMsg;
                 return false;
             }
             return doUpdateCtrl(dcf, sql,ref _count,ref _errMsg);
@@ -113,6 +124,7 @@ namespace DemoApp.TblModel
             SqlUpdateColumn suc = new SqlUpdateColumn();
             suc.Add(Tbltbl_1.getIdColumn(), item.id);
             suc.Add(Tbltbl_1.getStr1Column(), item.str1);
+            suc.Add(Tbltbl_1.getInt1Column(), item.int1);
             return Update(dcf, suc, sw, ref count, ref errMsg);
         }
 
@@ -121,6 +133,11 @@ namespace DemoApp.TblModel
             SqlUpdateMng sum = new SqlUpdateMng();
             sum.setQueryTableName(Tbltbl_1.getFormatTableName());
             string sql = sum.getUpdateSql(suc, sw);
+            if (sql == null)
+            {
+                errMsg = sum.ErrMsg;
+                return false;
+            }
             return doUpdateCtrl(dcf, sql, ref count,ref errMsg);
         }
 

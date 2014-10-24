@@ -21,7 +21,8 @@ namespace DemoApp.TblModel
         public static DataColumnInfo[] Columns = 
                 new DataColumnInfo[]{
             new DataColumnInfo(true,false,true,false,"id",SqlCommonFn.DataColumnType.INT,10),
-            new DataColumnInfo(false,true,false,false,"str1",SqlCommonFn.DataColumnType.STRING,20)
+            new DataColumnInfo(false,true,false,false,"str1",SqlCommonFn.DataColumnType.STRING,20),
+            new DataColumnInfo(false,true,false,false,"int1",SqlCommonFn.DataColumnType.INT,10)
         };
 
         public static DataColumnInfo getIdColumn()
@@ -32,9 +33,14 @@ namespace DemoApp.TblModel
         {
             return Columns[1];
         }
+        public static DataColumnInfo getInt1Column()
+        {
+            return Columns[2];
+        }
 
         private int _id = 0;
         private string _str1 = "";
+        private int _int1 = 0;
 
         public int id
         {
@@ -56,6 +62,17 @@ namespace DemoApp.TblModel
             set
             {
                 _str1 = value;
+            }
+        }
+        public int int1
+        {
+            get
+            {
+                return _int1;
+            }
+            set
+            {
+                _int1 = value;
             }
         }
 

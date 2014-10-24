@@ -69,27 +69,12 @@
     <Compile Include="db\SqlUpdateColumn.cs" />
     <Compile Include="db\SqlUpdateMng.cs" />
     <Compile Include="db\SqlWhere.cs" />
-    <Compile Include="module\Tblarbizcustomerdetail.cs" />
-    <Compile Include="module\TblarbizcustomerdetailCtrl.cs" />
-    <Compile Include="module\Tblarcustomer.cs" />
-    <Compile Include="module\Tblarcustomeraccount.cs" />
-    <Compile Include="module\TblarcustomeraccountCtrl.cs" />
-    <Compile Include="module\TblarcustomerCtrl.cs" />
-    <Compile Include="module\Tblartargetitem.cs" />
-    <Compile Include="module\TblartargetitemCtrl.cs" />
-    <Compile Include="module\Tblartargetitemgroup.cs" />
-    <Compile Include="module\TblartargetitemgroupCtrl.cs" />
-    <Compile Include="module\Tblartargetmetadata.cs" />
-    <Compile Include="module\TblartargetmetadataCtrl.cs" />
-    <Compile Include="module\Tblarusertargetkey.cs" />
-    <Compile Include="module\TblarusertargetkeyCtrl.cs" />
-    <Compile Include="module\Tblbean.cs" />
-    <Compile Include="module\TblbeanCtrl.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="db\sqlserver\" />
+    <Folder Include="module\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

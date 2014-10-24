@@ -175,12 +175,15 @@ namespace ComLib.db.mysql
             }
         }
 
-        public SqlMySqlDBMng(string database, string datasource, string uid, string password)
+        //public SqlMySqlDBMng(string database, string datasource, string uid, string password)
+        //{
+        //    connstr = string.Format("Database='{0}';Data Source='{1}';User Id='{2}';Password='{3}';charset='utf8'", 
+        //        database,datasource,uid,password);
+        //}
+        
+        public SqlMySqlDBMng(string s)
         {
-            connstr = string.Format("Database='{0}';Data Source='{1}';User Id='{2}';Password='{3}';charset='utf8'", 
-                database,datasource,uid,password);
+            connstr = s; 
         }
-        public SqlMySqlDBMng()
-        { }
     }
 }

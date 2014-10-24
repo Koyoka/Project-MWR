@@ -9,46 +9,84 @@ namespace ComLib.db
     {
         private static ISqlDBMng dbmng = null;
 
-        public static void initDBMng(ISqlDBMng mng)
-        {
-            dbmng = mng;
+        public enum DBTypeEnum
+        { 
+            MySQl,
+            SqlServer
         }
+
+        public static DBTypeEnum DBType = DBTypeEnum.MySQl;
+        private static string _constr = "";
+
+        public static string GetConnStr(string dbname,string dbsource,string uid,string password)
+        {
+            return string.Format("Database='{0}';Data Source='{1}';User Id='{2}';Password='{3}';charset='utf8'"
+                ,dbname,dbsource,uid,password);
+
+        }
+        public static void initDBMng(string connstr,DBTypeEnum type)
+        {
+            DBType = type;
+            _constr = connstr;
+        }
+
+        //public static void initDBMng(ISqlDBMng mng)
+        //{
+        //    dbmng = mng;
+        //}
         public static ISqlDBMng getInstance()
         {
             if (dbmng == null)
             {
-                //mysql
-                dbmng = new SqlMySqlDBMng();
-                //sqlserver
-                //dbmng = new SqlSqlServerDBMng();
+                switch (DBType)
+                { 
+                    case DBTypeEnum.MySQl:
+                        //mysql
+                        dbmng = new SqlMySqlDBMng(_constr);
+                        break;
+                    case DBTypeEnum.SqlServer:
+                        //sqlserver
+                        //dbmng = new SqlSqlServerDBMng();
+                        break;
+                }
+               
+               
             }
             return dbmng;
         }
 
-        public static int[] doSql(DataCtrlInfo dcf,ref string errMsg)
+        public static bool doSql(DataCtrlInfo dcf,ref int[] counts,ref string errMsg)
         {
-            int[] count = null;
+
             if (dcf.IsTrans)
             {
                 try
                 {
-                    count = getInstance().doSql(dcf.sqlList);
+                    counts = getInstance().doSql(dcf.sqlList);
                     dcf.set(true, "");
                 }
                 catch (Exception e)
                 {
                     errMsg = e.Message;
+                    return false;
                 }
                 finally
                 {
                     dcf.IsTrans = false;
-                    if (count == null)
+                    if (counts == null)
                     {
-                        count = new int[dcf.sqlList.Count];
+                        counts = new int[dcf.sqlList.Count];
                     }
                 }
             }
-            return count;
+            else
+            {
+                if (counts == null)
+                {
+                    counts = new int[dcf.sqlList.Count];
+                }
+            }
+            return true;
         }
     }
 }

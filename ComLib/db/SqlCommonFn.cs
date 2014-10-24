@@ -45,61 +45,70 @@ namespace ComLib.db
         {
             if (sqlFnInstance == null)
             {
-                //factory mysql
-                sqlFnInstance = new SqlMySqlFn();
-                //factory sqlserver
-                //			sqlFnInstance = new SqlSqlServerFn();
+                switch (SqlDBMng.DBType)
+                {
+                    case SqlDBMng.DBTypeEnum.MySQl:
+                        //factory mysql
+                        sqlFnInstance = new SqlMySqlFn();
+                        break;
+                    case SqlDBMng.DBTypeEnum.SqlServer:
+                        //factory sqlserver
+                        //			sqlFnInstance = new SqlSqlServerFn();
+                        break;
+                }
+               
+                
             }
 
             return sqlFnInstance;
         }
 
-        public static String EncryptString(string s)
+        public static string EncryptString(string s)
         {
             return createSqlFnInstance().EncryptString(s);
         }
 
-        public static String FormatTopSqlString(string sql, int topCount)
+        public static string FormatTopSqlString(string sql, int topCount)
         {
             return createSqlFnInstance().FormatTopSqlString(sql, topCount);
         }
 
-        public static String FormatSqlColumnNameString(string columnName)
+        public static string FormatSqlColumnNameString(string columnName)
         {
             return createSqlFnInstance().FormatSqlColumnNameString(columnName);
         }
 
-        public static String FormatSqlTableNameString(string tableName)
+        public static string FormatSqlTableNameString(string tableName)
         {
             return createSqlFnInstance().FormatSqlTableNameString(tableName);
         }
 
-        public static String FormatSqlValueString(Object val)
+        public static string FormatSqlValueString(Object val)
         {
             return createSqlFnInstance().FormatSqlValueString(val);
         }
 
-        public static String FormatSqlCompareEnumString(SqlWhereCompareEnum compareType)
+        public static string FormatSqlCompareEnumString(SqlWhereCompareEnum compareType)
         {
             return createSqlFnInstance().FormatSqlCompareEnumString(compareType);
         }
 
-        public static String FormatSqlLikeEnumString(SqlWhereLikeEnum likeType, string val)
+        public static string FormatSqlLikeEnumString(SqlWhereLikeEnum likeType, string val)
         {
             return createSqlFnInstance().FormatSqlLikeEnumString(likeType, val);
         }
 
-        public static String FormatSqlOrderByEnumString(SqlOrderByType orderByType)
+        public static string FormatSqlOrderByEnumString(SqlOrderByType orderByType)
         {
             return createSqlFnInstance().FormatSqlOrderByEnumString(orderByType);
         }
 
-        public static String FormatQuerySql(string sql)
+        public static string FormatQuerySql(string sql)
         {
             return createSqlFnInstance().FormatQuerySql(sql);
         }
 
-        public static String FormatQueryPageSql(string sql, int page, int pageSize)
+        public static string FormatQueryPageSql(string sql, int page, int pageSize)
         {
             return createSqlFnInstance().FormatQueryPageSql(sql, page, pageSize);
         }

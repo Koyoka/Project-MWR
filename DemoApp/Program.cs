@@ -17,6 +17,9 @@ namespace DemoApp
         static void Main()
         {
             Debug.WriteLine("-----------");
+            Debug.WriteLine("-----------" + (true && true));
+            Debug.WriteLine("-----------" + (true && false));
+            Debug.WriteLine("-----------" + (false && false));
 
             Init();
             
@@ -27,7 +30,9 @@ namespace DemoApp
 
         static void Init()
         {
-            SqlDBMng.initDBMng(DBHelper.GetDB());
+            SqlDBMng.initDBMng(
+                SqlDBMng.GetConnStr("test","127.0.0.1","root","-101868"),
+                SqlDBMng.DBTypeEnum.MySQl);
         }
       
     }
