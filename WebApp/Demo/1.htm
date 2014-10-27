@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+
+<div id="div1" data-wgt="t" style="border:1px solid red;width:100px;height:100px;">
+    
+    </div>
+
+<form id="commentForm" data-wgt="validate" data-rules="login" method="get" action="" >
+
+<div class="wrap inputBox" style="border:1px solid red;">
+
+<input id="cname" name="name"  type="text"  />
+<span class="msg">
+</span>
+<div class="help" style="border:1px solid red;">123</div>
+</div>
+
+<div  class="wrap inputBox" style="border:1px solid red;">
+<input id="cname1" name="name1" type="text"  />
+<span class="msg">
+</span>
+
+</div>
+<input class="submit" type="submit" value="Submit"/>
+
+</form>
+
+<script language="javascript" type="text/javascript" src="../Scripts/jquery/jquery.min.js"></script>
+<script src="../Scripts/jquery/validate/jquery.validate.js"></script>
+<script src="../Scripts/jquery/validate/localization/messages_zh.js"></script>
+<script language="javascript" type="text/javascript" src="../Scripts/yr_com.js"></script>
+<script language="javascript" type="text/javascript" src="../Scripts/wgt.js"></script>
+
+<script>
+
+    gl.validationSettings.login = {
+        rules: {
+            name: { required: true },
+            name1: { required: true }
+        },
+        messages: {
+            name: { required: "asdfafd" }
+        }
+    }
+    //window.alert(gl.validationSettings)
+</script>
+
+</body>
+</html>
