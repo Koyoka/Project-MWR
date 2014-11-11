@@ -47,6 +47,14 @@
   <ItemGroup>
     <Compile Include="Class1.cs" />
     <Compile Include="ComFn.cs" />
+    <Compile Include="db\BaseModule\Class1.cs" />
+    <Compile Include="db\BaseModule\TblSysNextId.cs" />
+    <Compile Include="db\BaseModule\TblSysNextIdCtrl.cs" />
+    <Compile Include="db\BaseModule\TblSysParameter.cs" />
+    <Compile Include="db\BaseModule\TblSysParameterCtrl.cs" />
+    <Compile Include="db\BaseSys\LockerMng.cs" />
+    <Compile Include="db\BaseSys\NextIdMng.cs" />
+    <Compile Include="db\BaseSys\SysParams.cs" />
     <Compile Include="db\DataCtrlInfo.cs" />
     <Compile Include="db\BaseDataCtrl.cs" />
     <Compile Include="db\BaseDataModule.cs" />

@@ -6,15 +6,20 @@ gl.wgt.set('t', {
         this.element.on("click", this.testClick.bind(this));
     },
     testClick: function (e) {
-        window.alert(1)
+        $.AjaxPostURL("Test.aspx", "TestFunc", {
+                a: 1,
+                b: 2
+            },
+            function (data) {
+                // window.location.href = "COperatOrder.aspx?OrderId=" + data;
+            }, function (data) {
+                window.alert(data);
+            }
+        );
     }
 });
 
-
 gl.validationSettings = {};
-
-
-
 
 gl.wgt.set('validate', {
     init: function () {

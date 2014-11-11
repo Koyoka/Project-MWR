@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using ComLib.db.mysql;
 
 namespace ComLib.db
 {
@@ -13,6 +14,23 @@ namespace ComLib.db
             
         //    return true;
         //}
+
+        protected static void SetUpdateColumnValue<T>(SqlUpdateColumn suc, T t) where T : BaseDataModule,new()
+        {
+            System.Reflection.PropertyInfo[] propertys = t.GetType().GetProperties();
+            foreach (DataColumnInfo dataInfo in suc.Columns)
+            {
+                foreach (System.Reflection.PropertyInfo pi in propertys)
+                {
+                    if (dataInfo.ColumnName.Contains(pi.Name))
+                    {
+                        object o = new object();
+                        pi.GetValue(o, null);
+                        suc.Add(dataInfo, o);
+                    }
+                }
+            }
+        }
 
         protected static bool doUpdateCtrl(DataCtrlInfo dcf, string sql,ref int count,ref string errMsg)
         {
@@ -28,7 +46,19 @@ namespace ComLib.db
                 {
                     try
                     {
-                        count = SqlDBMng.getInstance().update(sql);
+                        if (string.IsNullOrEmpty(dcf.GetDBSession()))
+                        {
+                            count = SqlDBMng.getInstance().update(sql);
+                        }
+                        else
+                        {
+                            ISqlDBMng tempDBMng = SqlDBMng.getInstance(dcf.GetDBSession());
+                            if (tempDBMng == null)
+                            {
+                                throw new Exception("dbsession is null.");
+                            }
+                            count = tempDBMng.update(sql);
+                        }
                     }
                     catch (Exception e)
                     {

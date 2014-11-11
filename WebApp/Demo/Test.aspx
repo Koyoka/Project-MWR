@@ -10,20 +10,20 @@
 <body>
     <form id="form1" >
     <div id="div1" data-wgt="t" style="border:1px solid red;width:100px;height:100px;">
-    
+    <input type="button" name="aa" value="dsaf" />
     </div>
     </form>
 
-    <script  language="javascript" type="text/javascript">
-        
-        $(document).ready(function () {
-
-          //  $("div").html("<button>eleven</button>");
-
-        });
-    </script>
+   
     <script language="javascript" type="text/javascript" src="../Scripts/jquery/jquery.min.js"></script>
     <script language="javascript" type="text/javascript" src="../Scripts/yr_com.js"></script>
     <script language="javascript" type="text/javascript" src="../Scripts/wgt.js"></script>
+    <script  language="javascript" type="text/javascript">
+
+        $(document).ready(function () {
+         
+        });
+    </script>
+
 </body>
 </html>

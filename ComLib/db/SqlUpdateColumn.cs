@@ -7,8 +7,21 @@ namespace ComLib.db
     public class SqlUpdateColumn : SqlQueryBase
     {
         private bool hasErr = false;
+        private DataColumnInfo[] _columns;
+        public DataColumnInfo[] Columns
+        {
+            get
+            {
+                return _columns;
+            }
+        }
         public String ErrMsg = "";
         //	private ArrayList<String> buildSqlList = new ArrayList<String>();
+
+        public void Add(params DataColumnInfo[] columns)
+        {
+            _columns = columns;
+        }
 
         public void Add(DataColumnInfo column, Object val)
         {

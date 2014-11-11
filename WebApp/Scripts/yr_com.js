@@ -1,4 +1,39 @@
-﻿if (!Function.prototype.bind) {
+﻿jQuery.extend({
+    AjaxPostURL: function (URL, Func, Params, SCallFunc, ECallFunc, type) {
+        var requestType = type != "" && type != "text" ? "json" : "text";
+        if (Params == null) Params = {};
+        Params["_AjaxRequest"] = "AjaxRequest";
+        Params["Method"] = Func;
+        $.post(URL, Params,
+             function (data, success) {
+                 if (success == "success") {
+                     if (requestType == "json") {
+                         if (data.Result == 0) {
+                             SCallFunc(data.Value);
+                         }
+                         else {
+                             ECallFunc(data.Value);
+                         }
+                     }
+                     else {
+                         SCallFunc(data);
+                     }
+                 }
+                 else {
+                     ECallFunc(data);
+                 }
+                 SCallFunc = null;
+                 ECallFunc = null;
+                 requestType = null;
+                 Params = null;
+                 success = null;
+                 data = null;
+             },
+            requestType);
+    }
+});
+
+if (!Function.prototype.bind) {
 	Function.prototype.bind = function(oThis) {
 		if (typeof this !== "function") {
 			// closest thing possible to the ECMAScript 5 internal IsCallable

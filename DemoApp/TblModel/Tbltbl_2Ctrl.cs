@@ -124,6 +124,16 @@ namespace DemoApp.TblModel
             return Update(dcf, suc, sw, ref count, ref errMsg);
         }
 
+        public static bool Update(DataCtrlInfo dcf, Tbltbl_2 item, SqlUpdateColumn suc, SqlWhere sw,ref int count,ref string errMsg)
+        {
+            if (suc.Columns == null)
+                 return true;
+            if (suc.Columns.Length == 0)
+                 return true;
+            SetUpdateColumnValue(suc, item);
+            return Update(dcf, suc, sw, ref count, ref errMsg);
+        }
+
         public static bool Update(DataCtrlInfo dcf, SqlUpdateColumn suc, SqlWhere sw,ref int count,ref string errMsg)
         {
             SqlUpdateMng sum = new SqlUpdateMng();

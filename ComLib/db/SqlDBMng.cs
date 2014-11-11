@@ -54,6 +54,21 @@ namespace ComLib.db
             }
             return dbmng;
         }
+        public static ISqlDBMng getInstance(string constr)
+        {
+            switch (DBType)
+            {
+                case DBTypeEnum.MySQl:
+                    //mysql
+                    return new SqlMySqlDBMng(constr);
+                    break;
+                case DBTypeEnum.SqlServer:
+                    //sqlserver
+                    //dbmng = new SqlSqlServerDBMng();
+                    break;
+            }
+            return null;
+        }
 
         public static bool doSql(DataCtrlInfo dcf,ref int[] counts,ref string errMsg)
         {

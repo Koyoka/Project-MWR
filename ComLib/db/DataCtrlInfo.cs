@@ -49,5 +49,15 @@ namespace ComLib.db
         { 
             
         }
+
+        private string _connstr = null;
+        public string GetDBSession()
+        {
+            return _connstr;
+        }
+        public void SetDBSession(string connstr)
+        {
+            _connstr = connstr;
+        }
     }
 }
