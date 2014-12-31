@@ -39,14 +39,18 @@ namespace ComLib.db
                     break;
             }
 
+            int paramsIndex = getParamsIndex();
+
             buildColumnList.Add(
                     SqlCommonFn.FormatSqlColumnNameString(column.ColumnName)
                     );
             buildValuesList.Add(
-                    "@" + column.ColumnName + buildParamsList.Count
+                    new p(
+                    "@" + column.ColumnName + paramsIndex//buildParamsList.Count
+                    )
                     );
             buildParamsList.Add(
-                    new object[] { column.ColumnName + buildParamsList.Count, val }
+                    new object[] { column.ColumnName + paramsIndex, val, paramsIndex }
                     );
         }
         public void Add(DataColumnInfo column, Object val)
@@ -113,6 +117,8 @@ namespace ComLib.db
             putSpace(sb);
             sb.Append(sqlupdatecolumns);
 
+            buildParamsList.AddRange(suc.getParams());
+
             String sqlwhere = sw.getSql();
             if (!string.IsNullOrEmpty(sqlwhere))
             //if (!sqlwhere.isEmpty())
@@ -122,7 +128,7 @@ namespace ComLib.db
                 putSpace(sb);
                 sb.Append(sqlwhere);
                 //buildParamsList.addAll(sw.getParams());
-                buildParamsList.AddRange(sw.getParams());
+                //buildParamsList.AddRange(sw.getParams());
             }
 
             return SqlCommonFn.FormatQuerySql(sb.ToString());//sb.toString();
@@ -170,7 +176,7 @@ namespace ComLib.db
 				    sb.Append(",");
 			    }
 			    if(o is p){
-                    sb.Append("?");
+                    sb.Append(((p)o).Name);
 			    }else{
                     sb.Append(
 						    SqlCommonFn.FormatSqlValueString(o)
@@ -210,6 +216,6 @@ namespace ComLib.db
         }
 
 
-        class p { }
+       
     }
 }

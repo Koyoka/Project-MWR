@@ -84,7 +84,7 @@ namespace ComLib.db.mysql
                 for (int i = 0; i < ps.Length; i++)
                 {
                     object[] item = ps[i];
-                    if (item != null && item.Length == 2)
+                    if (item != null && item.Length == 3)
                     {
                         sqlParams[i] = new MySql.Data.MySqlClient.MySqlParameter("@" + item[0].ToString(), item[1]);
                     }

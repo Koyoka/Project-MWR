@@ -61,14 +61,17 @@ namespace ComLib.db
         //{
         //    string defineWhereStr = "";
 
+        //    int paramsIndex = getParamsIndex();
+
         //    defineWhereStr =
         //            SqlCommonFn.FormatSqlColumnNameString(column.ColumnName) +
         //            SqlCommonFn.FormatSqlCompareEnumString(compareType) +
-        //            "@" + column.ColumnName + buildParamsList.Count;
-        //            //"?";
+        //            "@" + column.ColumnName + paramsIndex;
+           
+        //    //"?";
         //    buildSqlList.Add(defineWhereStr);
         //    //buildParamsList.Add(val);
-        //    buildParamsList.Add(new object[] { column.ColumnName + buildParamsList.Count, val });
+        //    buildParamsList.Add(new object[] { column.ColumnName + paramsIndex, val, paramsIndex });
 
         //}
 

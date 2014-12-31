@@ -24,15 +24,53 @@ namespace ComLib.db
                 {
                     if (dataInfo.ColumnName.Contains(pi.Name))
                     {
-                        object o = new object();
-                        pi.GetValue(o, null);
+                        object o =  pi.GetValue(t, null);
                         suc.Add(dataInfo, o);
                     }
                 }
             }
         }
 
-        protected static bool doUpdateCtrl(DataCtrlInfo dcf, string sql,ref int count,ref string errMsg)
+        public static bool doUpdateCtrl(DataCtrlInfo dcf, string sql, ref int count, ref string errMsg,params object[][] ps)
+        {
+
+            if (sql == null)
+            {
+                return true;
+            }
+            else
+            {
+                dcf.makeSql(sql);
+                if (!dcf.IsTrans)
+                {
+                    try
+                    {
+                        if (string.IsNullOrEmpty(dcf.GetDBSession()))
+                        {
+                            count = SqlDBMng.getInstance().update(sql,ps);
+                        }
+                        else
+                        {
+                            ISqlDBMng tempDBMng = SqlDBMng.getInstance(dcf.GetDBSession());
+                            if (tempDBMng == null)
+                            {
+                                throw new Exception("dbsession is null.");
+                            }
+                            count = tempDBMng.update(sql);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        errMsg = e.Message;
+                        return false;
+                    }
+                }
+                return true;
+            }
+
+        }
+
+        public static bool doUpdateCtrl(DataCtrlInfo dcf, string sql,ref int count,ref string errMsg)
         {
            
             if (sql == null)

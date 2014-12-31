@@ -9,11 +9,11 @@ namespace ComLib.db.BaseSys
     {
         #region Base
 
-        private static bool GetNextId(DataCtrlInfo dcf, string key, ref int nextId, ref string errMsg)
+        public static bool GetNextId(DataCtrlInfo dcf, string key, ref int nextId, ref string errMsg)
         {
             return GetNextId(dcf, key, 1, ref nextId, ref errMsg);
         }
-        private static bool GetNextId(DataCtrlInfo dcf, string key, int count, ref int nextId, ref string errMsg)
+        public static bool GetNextId(DataCtrlInfo dcf, string key, int count, ref int nextId, ref string errMsg)
         {
             //if (count == 1)
             //{

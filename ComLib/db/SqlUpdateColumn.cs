@@ -18,6 +18,39 @@ namespace ComLib.db
         public String ErrMsg = "";
         //	private ArrayList<String> buildSqlList = new ArrayList<String>();
 
+        public void AddByParams(DataColumnInfo column, Object val)
+        {
+            switch (SqlCommonFn.CheckUpdateColumnValue(column, val))
+            {
+                case 1:
+                    hasErr = true;
+                    ErrMsg += "[" + column.ColumnName + "] value length failure ";
+                    return;
+                case 2:
+                    hasErr = true;
+                    ErrMsg += "[" + column.ColumnName + "] value can't NULL ";
+                    return;
+                default:
+                    break;
+            }
+            int paramsIndex = getParamsIndex();
+            string defineUpdateParam =
+                   SqlCommonFn.FormatSqlColumnNameString(column.ColumnName) +
+                   " = " +
+                   //new p(
+                    "@" + column.ColumnName + paramsIndex//buildParamsList.Count
+                    ;
+                   //);
+             buildParamsList.Add(
+                    new object[] { column.ColumnName + paramsIndex, 
+                    (column.EncryptAble && column.ColumnType == SqlCommonFn.DataColumnType.STRING ?
+                               SqlCommonFn.EncryptString(val.ToString()) :
+                               val)
+                    , paramsIndex }
+                    );
+            buildSqlList.Add(defineUpdateParam);
+        }
+        
         public void Add(params DataColumnInfo[] columns)
         {
             _columns = columns;

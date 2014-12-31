@@ -7,11 +7,26 @@ namespace ComLib.db.BaseSys
 {
     public class SysParams
     {
+        private static object _instanceLocker = new object();
+        private static SysParams _sysparams;
+        public static SysParams GetInstance()
+        {
+            if (_sysparams == null)
+            {
+                lock (_instanceLocker)
+                {
+                    _sysparams = new SysParams();
+                }
+            }
+
+            return _sysparams;
+        }
+
         #region Base
         private object _locker = new object();
         private Dictionary<string, string> _allParaList = null;
 
-        private string GetValue(DataCtrlInfo dcf,string key)
+        public string GetValue(DataCtrlInfo dcf,string key)
         {
             if (_allParaList == null)
             {
@@ -56,7 +71,7 @@ namespace ComLib.db.BaseSys
             }
         }
 
-        private bool SetValue(DataCtrlInfo dcf,string key, string value, ref string errMsg)
+        public bool SetValue(DataCtrlInfo dcf,string key, string value, ref string errMsg)
         {
             GetValue(dcf, key);
             lock (_locker)
