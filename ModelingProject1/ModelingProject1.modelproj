@@ -8,6 +8,10 @@
     <ArchitectureToolsVersion>1.0.0.0</ArchitectureToolsVersion>
     <Name>ModelingProject1</Name>
     <RootNamespace>ModelingProject1</RootNamespace>
+    <SccProjectName>"$/ComLib/DemoSolution.root/DemoSolution", RCAAAAAA</SccProjectName>
+    <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
+    <SccAuxPath />
+    <SccLocalPath>..</SccLocalPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>bin\Debug\</OutputPath>

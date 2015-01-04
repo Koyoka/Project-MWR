@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{5D8E6A3B-CF6A-45A2-8F5E-9CEE7993EBB4}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MWRDBModule</RootNamespace>
+    <AssemblyName>MWRDBModule</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DBModule\TblMWCar.cs" />
+    <Compile Include="DBModule\TblMWCarCtrl.cs" />
+    <Compile Include="DBModule\TblMWCarDispatch.cs" />
+    <Compile Include="DBModule\TblMWCarDispatchCtrl.cs" />
+    <Compile Include="DBModule\TblMWCrate.cs" />
+    <Compile Include="DBModule\TblMWCrateCtrl.cs" />
+    <Compile Include="DBModule\TblMWDepot.cs" />
+    <Compile Include="DBModule\TblMWDepotCtrl.cs" />
+    <Compile Include="DBModule\TblMWDestroyDetail.cs" />
+    <Compile Include="DBModule\TblMWDestroyDetailCtrl.cs" />
+    <Compile Include="DBModule\TblMWDestroyHeader.cs" />
+    <Compile Include="DBModule\TblMWDestroyHeaderCtrl.cs" />
+    <Compile Include="DBModule\TblMWEmploy.cs" />
+    <Compile Include="DBModule\TblMWEmployCtrl.cs" />
+    <Compile Include="DBModule\TblMWFunction.cs" />
+    <Compile Include="DBModule\TblMWFunctionCtrl.cs" />
+    <Compile Include="DBModule\TblMWFunctionGroup.cs" />
+    <Compile Include="DBModule\TblMWFunctionGroupCtrl.cs" />
+    <Compile Include="DBModule\TblMWFunctionGroupDetail.cs" />
+    <Compile Include="DBModule\TblMWFunctionGroupDetailCtrl.cs" />
+    <Compile Include="DBModule\TblMWInvAuthorize.cs" />
+    <Compile Include="DBModule\TblMWInvAuthorizeAttach.cs" />
+    <Compile Include="DBModule\TblMWInvAuthorizeAttachCtrl.cs" />
+    <Compile Include="DBModule\TblMWInvAuthorizeCtrl.cs" />
+    <Compile Include="DBModule\TblMWInventory.cs" />
+    <Compile Include="DBModule\TblMWInventoryCtrl.cs" />
+    <Compile Include="DBModule\TblMWInventoryLog.cs" />
+    <Compile Include="DBModule\TblMWInventoryLogCtrl.cs" />
+    <Compile Include="DBModule\TblMWInventoryTrack.cs" />
+    <Compile Include="DBModule\TblMWInventoryTrackCtrl.cs" />
+    <Compile Include="DBModule\TblMWPostDetail.cs" />
+    <Compile Include="DBModule\TblMWPostDetailCtrl.cs" />
+    <Compile Include="DBModule\TblMWPostHeader.cs" />
+    <Compile Include="DBModule\TblMWPostHeaderCtrl.cs" />
+    <Compile Include="DBModule\TblMWRecoverDetail.cs" />
+    <Compile Include="DBModule\TblMWRecoverDetailCtrl.cs" />
+    <Compile Include="DBModule\TblMWRecoverHeader.cs" />
+    <Compile Include="DBModule\TblMWRecoverHeaderCtrl.cs" />
+    <Compile Include="DBModule\TblMWResidueInventory.cs" />
+    <Compile Include="DBModule\TblMWResidueInventoryCtrl.cs" />
+    <Compile Include="DBModule\TblMWUserGroup.cs" />
+    <Compile Include="DBModule\TblMWUserGroupCtrl.cs" />
+    <Compile Include="DBModule\TblMWUserPermission.cs" />
+    <Compile Include="DBModule\TblMWUserPermissionCtrl.cs" />
+    <Compile Include="DBModule\TblMWVendor.cs" />
+    <Compile Include="DBModule\TblMWVendorCtrl.cs" />
+    <Compile Include="DBModule\TblMWWasteCategory.cs" />
+    <Compile Include="DBModule\TblMWWasteCategoryCtrl.cs" />
+    <Compile Include="DBModule\TblSysLog.cs" />
+    <Compile Include="DBModule\TblSysLogCtrl.cs" />
+    <Compile Include="DBModule\TblSysParameter.cs" />
+    <Compile Include="DBModule\TblSysParameterCtrl.cs" />
+    <Compile Include="DBModule\TblSystemNextId.cs" />
+    <Compile Include="DBModule\TblSystemNextIdCtrl.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\ComLib\ComLib.csproj">
+      <Project>{70D21FDA-A5E3-4629-907B-B94051A65093}</Project>
+      <Name>ComLib</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
