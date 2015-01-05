@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using ComLib.db;
 
-namespace MWRDBModule.DBModule
+namespace YRKJ.MWR
 {
 
     public class TblMWCrate : BaseDataModule

@@ -103,5 +103,52 @@ namespace ComLib.db
             }
             return true;
         }
+
+        #region Common DB Operate Function
+
+        public static bool GetDBNow(string connStr,ref DateTime value, ref string errMsg)
+        {
+            try
+            {
+                string sql = "";
+                switch (DBType)
+                {
+                    case DBTypeEnum.MySQl:
+                        value = ComFn.GetDBFieldDateTime(
+                            getInstance(connStr == null ? _constr : connStr).query("SELECT NOW()").Tables[0].Rows[0][0]);
+                        //mysql
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                errMsg = ex.Message;
+                return false;
+            }
+            return true;
+
+        }
+
+        public static bool DetectDBServer(string dbname, string server, string uid, string pwd,ref string errMsg)
+        {
+            try
+            {
+                DateTime d = DateTime.MinValue;
+                if (!GetDBNow(GetConnStr(dbname, server, uid, pwd), ref d, ref errMsg))
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                errMsg = ex.Message;
+                return false;
+            }
+            return true;
+        }
+
+        #endregion
+
+
     }
 }

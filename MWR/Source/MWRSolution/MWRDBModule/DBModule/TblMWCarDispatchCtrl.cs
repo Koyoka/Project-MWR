@@ -4,7 +4,7 @@ using System.Text;
 using ComLib;
 using ComLib.db;
 
-namespace MWRDBModule.DBModule
+namespace YRKJ.MWR
 {
     public class TblMWCarDispatchCtrl : BaseDataCtrl
     {

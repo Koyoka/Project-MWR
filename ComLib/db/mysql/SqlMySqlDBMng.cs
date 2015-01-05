@@ -11,7 +11,34 @@ namespace ComLib.db.mysql
 
         private static string connstr = "Database='yrkjar';Data Source='127.0.0.1';User Id='root';Password='-101868';charset='utf8'";
 
+        
+
         #region ISqlDBMng 成员
+
+        public DataSet query(string sql, params object[][] ps)
+        {
+            System.Diagnostics.Debug.WriteLine(sql);
+
+            MySql.Data.MySqlClient.MySqlParameter[] sqlParams = null;
+            if (ps != null && ps.Length != 0)
+            {
+                sqlParams = new MySql.Data.MySqlClient.MySqlParameter[ps.Length];
+                for (int i = 0; i < ps.Length; i++)
+                {
+                    object[] item = ps[i];
+                    if (item != null && item.Length == 2)
+                    {
+                        sqlParams[i] = new MySql.Data.MySqlClient.MySqlParameter("@" + item[0].ToString(), item[1]);
+                    }
+                    else
+                    {
+                        throw new Exception("Sql params error");
+                    }
+                }
+            }
+
+            return MySqlHelper2.GetDataSet(connstr, System.Data.CommandType.Text, sql, sqlParams);
+        }
 
         public List<T> query<T>(string sql, T clazz, params object[][] ps) where T : class,new()
         {

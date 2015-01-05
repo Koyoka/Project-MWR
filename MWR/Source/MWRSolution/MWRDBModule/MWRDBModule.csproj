@@ -8,7 +8,7 @@
     <ProjectGuid>{5D8E6A3B-CF6A-45A2-8F5E-9CEE7993EBB4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MWRDBModule</RootNamespace>
+    <RootNamespace>YRKJ.MWR</RootNamespace>
     <AssemblyName>MWRDBModule</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

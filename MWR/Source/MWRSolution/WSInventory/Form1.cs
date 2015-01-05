@@ -15,5 +15,8 @@ namespace WSInventory
         {
             InitializeComponent();
         }
+
+
+
     }
 }
