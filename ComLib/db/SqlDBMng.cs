@@ -26,7 +26,15 @@ namespace ComLib.db
         }
         public static void initDBMng(string connstr,DBTypeEnum type)
         {
+            initDBMng(type);
+            setConnectionString(connstr);
+        }
+        public static void initDBMng(DBTypeEnum type)
+        {
             DBType = type;
+        }
+        public static void setConnectionString(string connstr)
+        {
             _constr = connstr;
         }
 
@@ -114,8 +122,9 @@ namespace ComLib.db
                 switch (DBType)
                 {
                     case DBTypeEnum.MySQl:
+                        sql = "SELECT NOW()";
                         value = ComFn.GetDBFieldDateTime(
-                            getInstance(connStr == null ? _constr : connStr).query("SELECT NOW()").Tables[0].Rows[0][0]);
+                            getInstance(connStr == null ? _constr : connStr).query(sql).Tables[0].Rows[0][0]);
                         //mysql
                         break;
                 }

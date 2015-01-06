@@ -8,20 +8,21 @@ namespace YRKJ.MWR.WinBase.WinAppBase.Config
 {
     public class ConfigMng
     {
-        private const string ClassName = "Profitek.Qooway.Manager.UIBase.Config.ConfigMng";
+        private const string ClassName = "YRKJ.MWR.WinBase.WinAppBase.Config.ConfigMng";
 
+        private const string cfgFileName = "mwr.cfg";
         public static bool ReadAppConfig(ref AppConfig data, ref string errMsg)
         {
             try
             {
-                string path = WinAppFn.GetSettingFolder() + "qw.cfg";
+                string path = WinAppFn.GetSettingFolder() + cfgFileName;
 
                 if (!System.IO.File.Exists(path))
                 {
                     AppConfig tempData = new AppConfig();
                     tempData.DBServerName = ".";
                     tempData.DBUserName = "root";
-                    tempData.DBPassword = ComFn.DecryptDBPassword(WinAppStatic.DBKey,"bj|S@WkJIMal@wQSbsOdDieIGVIXhIzPWK^JB[KqFWp");
+                    tempData.DBPassword = ComFn.DecryptDBPassword(WinAppStatic.DBKey, WinAppStatic.DefaultEPassword);
                     tempData.ServiceRoot = "127.0.0.1";
                     //tempData.DBDatabaseNumber = "0";
                     if (!SaveAppConfig(tempData, ref  errMsg))
@@ -53,7 +54,7 @@ namespace YRKJ.MWR.WinBase.WinAppBase.Config
         {
             try
             {
-                string path = WinAppFn.GetSettingFolder() + "qw.cfg";
+                string path = WinAppFn.GetSettingFolder() + cfgFileName;
 
                 System.Text.StringBuilder sb = new System.Text.StringBuilder();
 

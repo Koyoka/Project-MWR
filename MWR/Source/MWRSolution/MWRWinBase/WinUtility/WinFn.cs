@@ -47,5 +47,55 @@ namespace YRKJ.MWR.WinBase.WinUtility
             return GetAllControls(frm.Controls);
         }
 
+
+        #region Operate Ctrl
+
+        public static void SafeFocus(Control ctl)
+        {
+            try
+            {
+                ctl.TabStop = true;
+                ctl.Focus();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
+        }
+
+        public static void SafeFocusAndSelectAll(Control ctl)
+        {
+            if (ctl is TextBox 
+                //|| ctl is ButtonEdit
+                )
+            {
+
+            }
+            else
+            {
+                return;
+            }
+
+            SafeFocus(ctl);
+
+            try
+            {
+                if (ctl is TextBox)
+                {
+                    ((TextBox)ctl).SelectAll();
+                }
+                //else if (ctl is ButtonEdit)
+                //{
+                //    ((Button)ctl).Select();
+                //}
+                
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
+        }
+
+        #endregion
     }
 }

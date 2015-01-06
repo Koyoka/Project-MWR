@@ -13,19 +13,32 @@
     <Snippet>
       <References />
       <Imports />
-      <Declarations />
-      <Code Language="csharp" Kind="" Delimiter="$"><![CDATA[#region Event
+      <Declarations>
+        <Literal Editable="true">
+          <ID>ClassName</ID>
+          <Type></Type>
+          <ToolTip></ToolTip>
+          <Default>ClassName</Default>
+          <Function></Function>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp" Kind="" Delimiter="$"><![CDATA[private const string ClassName = "$ClassName$";
+        private FormMng _frmMng = null;
 
-#endregion
+		$selected$ $end$
+	
+		#region Event
 
-#region Functions
+		#endregion
+
+		#region Functions
 
         private bool InitFrm()
         {
             if (!LoadData())
                 return false;
 			
-			$selected$ $end$		
+				
 
             return true;
         }
@@ -43,6 +56,11 @@
         #endregion
 
         #region Common
+
+		private class LngRes
+        {
+			public const string MSG_FormName = "";
+		}
 
         #endregion
 

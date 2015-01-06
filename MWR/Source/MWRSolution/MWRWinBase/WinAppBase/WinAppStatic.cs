@@ -8,5 +8,7 @@ namespace YRKJ.MWR.WinBase.WinAppBase
     public class WinAppStatic
     {
         public const string DBKey = "pRKJMwrdbWORD";
+        public const string DefaultEPassword = "{n~zRggiQJGJnXW~zmdazmx_LtqMMjdovu@qMtfQmP";
+        public const string DBName = "MWRDB";
     }
 }

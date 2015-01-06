@@ -10,7 +10,12 @@ namespace YRKJ.MWR.WinBase.WinAppBase
     {
         public static void Error(Exception ex)
         {
-            MessageBox.Show(ex.Message);
+            MessageBox.Show(ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+        public static void Error(string msg)
+        {
+          
+            MessageBox.Show(msg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         public static void Show(string msg)

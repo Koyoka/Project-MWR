@@ -92,6 +92,13 @@
       <Project>{5D8E6A3B-CF6A-45A2-8F5E-9CEE7993EBB4}</Project>
       <Name>MWRDBModule</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MWRWinBase\MWRWinBase.csproj">
+      <Project>{E3145096-4256-408E-AA4B-0B291E2D1F7B}</Project>
+      <Name>MWRWinBase</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Setting\Images\logo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

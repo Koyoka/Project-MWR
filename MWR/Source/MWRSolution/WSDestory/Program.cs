@@ -18,24 +18,25 @@ namespace YRKJ.MWR.WSDestory
         [STAThread]
         static void Main()
         {
-            
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            
             try
             {
                 string errMsg = "";
 
-                #region DBMng
-                Init();
+                #region DBMng Init
+
+                SqlDBMng.initDBMng(SqlDBMng.DBTypeEnum.MySQl);
+
                 #endregion
 
                 #region Log
                 {
                     if (!LogMng.InitLog(WinAppFn.GetSettingFolder() + "Log", "MWR", ref errMsg))
                     {
-                        ShowErrorMsg("CANNOT init log file.", errMsg);
+                        MsgBox.Error("初始化错误/r/n" + errMsg);
                         return;
                     }
                 }
@@ -46,64 +47,47 @@ namespace YRKJ.MWR.WSDestory
                     AppConfig configData = null;
                     if (!ConfigMng.ReadAppConfig(ref configData, ref errMsg))
                     {
-                        ShowErrorMsg("CANNOT read config file.", errMsg);
+                        MsgBox.Error("配置文件读取失败/r/n" + errMsg);
                         return;
                     }
-                    if (!SqlDBMng.DetectDBServer("test", "1227.0.0.11", "root", "-101868", ref errMsg))
+                    if (!SqlDBMng.DetectDBServer(
+                        WinAppStatic.DBName,
+                         configData.DBServerName,
+                         configData.DBUserName,
+                         configData.DBPassword, ref errMsg))
                     {
                         using (FrmInitConfig f = new FrmInitConfig())
                         {
-                            f.ShowDialog();
+                            if (f.ShowDialog() != DialogResult.OK)
+                            {
+                                return;
+                            }
                         }
+
+                        if (!ConfigMng.ReadAppConfig(ref configData, ref errMsg))
+                        {
+                            MsgBox.Error("配置文件读取失败/r/n" + errMsg);
+                            return;
+                        }
+
+                        SqlDBMng.setConnectionString(
+                         SqlDBMng.GetConnStr(WinAppStatic.DBName,
+                         configData.DBServerName,
+                         configData.DBUserName,
+                         configData.DBPassword));
                     }
-                    //DateTime d = SqlDBMng.GetDBNow("test", "127.0.0.1", "root", "-101868",ref errMsg);
-                    //if (!Profitek.Qooway.Common.Database.SqlServer.SqlServerMng.DetectDBServer(configData.DBServerName, configData.DBUserName, configData.DBPassword, ref errMsg))
-                    //{
-                    //    using (FrmDBConfig frm = new FrmDBConfig())
-                    //    {
-                    //        if (frm.ShowDialog() != DialogResult.OK)
-                    //        {
-                    //            return;
-                    //        }
-                    //    }
 
-                    //    if (!ConfigMng.ReadAppConfig(ref configData, ref errMsg))
-                    //    {
-                    //        ShowErrorMsg("CANNOT read config file.", errMsg);
-                    //        return;
-                    //    }
-                    //}
-
-                    //DbInfoMng.SetDataDb(configData.DBServerName, configData.DBUserName, configData.DBPassword, configData.DBDatabaseNumber);
                 }
                 #endregion
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                ShowErrorMsg("System Error", ex.Message);
+                MsgBox.Error("系统错误/r/n" + ex.Message);
                 return;
             }
-            Application.Run(new FrmInitConfig());
-           
+            Application.Run(new Forms.FrmMain());
 
-            //Application.Run(new Form1());
-        }
-
-        static void Init()
-        {
-            SqlDBMng.initDBMng(
-                SqlDBMng.GetConnStr("test", "127.0.0.1", "root", "-101868"),
-                SqlDBMng.DBTypeEnum.MySQl);
-        }
-
-        private static void ShowErrorMsg(string name, string errMsg)
-        {
-            System.Text.StringBuilder sb = new System.Text.StringBuilder();
-            sb.AppendLine(name);
-            sb.AppendLine(errMsg);
-
-            MessageBox.Show(sb.ToString(), "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 }

@@ -25,15 +25,17 @@ namespace YRKJ.MWR.WinBase.WinAppBase
             _form = form;
             _className = ClassName;
 
+            _form.BackColor = Color.FromArgb(240, 240, 240);
+            _form.KeyPreview = true;
             _form.Icon = GetDefaultLogo();
-
+            
             _form.Shown += new EventHandler(_form_Shown);
             _form.KeyDown += new System.Windows.Forms.KeyEventHandler(this._form_KeyDown);
             _form.Resize += new System.EventHandler(this._form_Resize);
             _form.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this._form_FormClosed);
             _form.Disposed += new EventHandler(_form_Disposed);
-
-
+           
+           
 
         }
 
@@ -56,14 +58,7 @@ namespace YRKJ.MWR.WinBase.WinAppBase
 
         public void _form_FormClosed(object sender, FormClosedEventArgs e)
         {
-            try
-            {
-                
-            }
-            catch (Exception ex)
-            { 
-                
-            }
+            
         }
 
         public void _form_Disposed(object sender, EventArgs e)

@@ -20,7 +20,7 @@ namespace ComLib.Log
                 System.IO.Directory.CreateDirectory(fileFolder);
             }
 
-            Write(DateTime.Now.ToString("yyyyMMddHHmmss") + ";INF;Log Test--------------------------------");
+            //Write(DateTime.Now.ToString("yyyyMMddHHmmss") + ";INF;Log Test--------------------------------");
         }
 
         private Dictionary<int, int> _errorList = new Dictionary<int, int>();
@@ -144,7 +144,7 @@ namespace ComLib.Log
         {
             lock (this)
             {
-                string path = ComFn.GetSafeDirectory(_fileFolder) + _fileName + DateTime.Now.ToString("yyyyMMdd") + ".txt";
+                string path = ComFn.GetSafeDirectory(_fileFolder) + _fileName + DateTime.Now.ToString("yyyyMMdd") + ".syslog";
 
                 using (StreamWriter sw = new StreamWriter(path, true, System.Text.Encoding.UTF8))
                 {

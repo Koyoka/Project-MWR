@@ -40,6 +40,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.c_btnOk = new System.Windows.Forms.Button();
             this.c_btnCancel = new System.Windows.Forms.Button();
+            this.c_btnDetectDB = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -174,12 +175,24 @@
             this.c_btnCancel.UseVisualStyleBackColor = true;
             this.c_btnCancel.Click += new System.EventHandler(this.c_btnCancel_Click);
             // 
+            // c_btnDetectDB
+            // 
+            this.c_btnDetectDB.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.c_btnDetectDB.Location = new System.Drawing.Point(12, 197);
+            this.c_btnDetectDB.Name = "c_btnDetectDB";
+            this.c_btnDetectDB.Size = new System.Drawing.Size(102, 43);
+            this.c_btnDetectDB.TabIndex = 4;
+            this.c_btnDetectDB.Text = "测试连接";
+            this.c_btnDetectDB.UseVisualStyleBackColor = true;
+            this.c_btnDetectDB.Click += new System.EventHandler(this.c_btnDetectDB_Click);
+            // 
             // FrmInitConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.ClientSize = new System.Drawing.Size(474, 250);
+            this.Controls.Add(this.c_btnDetectDB);
             this.Controls.Add(this.c_btnCancel);
             this.Controls.Add(this.c_btnOk);
             this.Controls.Add(this.groupBox2);
@@ -209,5 +222,6 @@
         private System.Windows.Forms.Button c_btnDefaultPwd;
         private System.Windows.Forms.Button c_btnOk;
         private System.Windows.Forms.Button c_btnCancel;
+        private System.Windows.Forms.Button c_btnDetectDB;
     }
 }

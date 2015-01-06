@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using ComLib.db;
+using ComLib.Log;
+using YRKJ.MWR.WinBase.WinAppBase;
+using YRKJ.MWR.WinBase.WinAppBase.Config;
+using YRKJ.MWR.WinBase.WinAppBase.BaseForm;
 
 namespace YRKJ.MWR.WSInventory
 {
@@ -15,7 +20,74 @@ namespace YRKJ.MWR.WSInventory
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new Form1());
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+
+            try
+            {
+                string errMsg = "";
+
+                #region DBMng Init
+
+                SqlDBMng.initDBMng(SqlDBMng.DBTypeEnum.MySQl);
+
+                #endregion
+
+                #region Log
+                {
+                    if (!LogMng.InitLog(WinAppFn.GetSettingFolder() + "Log", "MWR", ref errMsg))
+                    {
+                        MsgBox.Error("初始化错误/r/n" + errMsg);
+                        return;
+                    }
+                }
+                #endregion
+
+                #region Database
+                {
+                    AppConfig configData = null;
+                    if (!ConfigMng.ReadAppConfig(ref configData, ref errMsg))
+                    {
+                        MsgBox.Error("配置文件读取失败/r/n" + errMsg);
+                        return;
+                    }
+                    if (!SqlDBMng.DetectDBServer(
+                        WinAppStatic.DBName,
+                         configData.DBServerName,
+                         configData.DBUserName,
+                         configData.DBPassword, ref errMsg))
+                    {
+                        using (FrmInitConfig f = new FrmInitConfig())
+                        {
+                            if (f.ShowDialog() != DialogResult.OK)
+                            {
+                                return;
+                            }
+                        }
+
+                        if (!ConfigMng.ReadAppConfig(ref configData, ref errMsg))
+                        {
+                            MsgBox.Error("配置文件读取失败/r/n" + errMsg);
+                            return;
+                        }
+
+                        SqlDBMng.setConnectionString(
+                         SqlDBMng.GetConnStr(WinAppStatic.DBName,
+                         configData.DBServerName,
+                         configData.DBUserName,
+                         configData.DBPassword));
+                    }
+
+                }
+                #endregion
+
+            }
+            catch (Exception ex)
+            {
+                MsgBox.Error("系统错误/r/n" + ex.Message);
+                return;
+            }
+            Application.Run(new FrmInitConfig());
         }
     }
 }
