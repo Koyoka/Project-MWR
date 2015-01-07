@@ -19,7 +19,7 @@ namespace YRKJ.MWR.WSDestory.Forms
         private List<Form> _childForms = new List<Form>();
         private Form _curForm = null;
 
-        private enum TabToggleEnum { RECOVER, POST, SEARCH }
+        public enum TabToggleEnum { RECOVER, POST, SEARCH,RECOVE_RDETAIL }
 
         public FrmMain()
         {
@@ -84,7 +84,17 @@ namespace YRKJ.MWR.WSDestory.Forms
             {
                 this.Cursor = Cursors.WaitCursor;
 
-                ShowFrom(TabToggleEnum.RECOVER);
+                //if (_curForm is FrmMWRecoverDetail
+                //&& !_curForm.IsDisposed)
+                //{
+                //    ShowFrom(TabToggleEnum.RECOVE_RDETAIL);
+                //    return;
+                //}
+                //else
+                //{
+                    ShowFrom(TabToggleEnum.RECOVER);
+                //}
+                
             }
             catch (Exception ex)
             {
@@ -185,8 +195,41 @@ namespace YRKJ.MWR.WSDestory.Forms
             return true;
         }
         
-        private void ShowFrom(TabToggleEnum tabToggle)
+        public void ShowFrom(TabToggleEnum tabToggle)
         {
+            #region remove dispose form
+
+            for (int i = 0; i < _childForms.Count; i++)
+            {
+                Form f = _childForms[i];
+                if (f.IsDisposed)
+                {
+                    _childForms.Remove(f);
+                    i--;
+                }
+            }
+               
+            #endregion
+
+            #region has been open detail form
+
+            if (tabToggle == TabToggleEnum.RECOVER)
+            {
+                foreach (Form f in this.c_panForm.Controls)
+                {
+                    if (f is FrmMWRecoverDetail)
+                    {
+                        ShowFrom(TabToggleEnum.RECOVE_RDETAIL);
+                        return;
+                    }
+                }
+            }
+            else if (tabToggle == TabToggleEnum.POST)
+            { 
+                
+            }
+
+            #endregion
 
             #region has been add mdi controls
             foreach (Form f in this.c_panForm.Controls)
@@ -215,6 +258,13 @@ namespace YRKJ.MWR.WSDestory.Forms
                     (f as FrmInventorySearch).ControlActivity();
                     return;
                 }
+                else if (tabToggle == TabToggleEnum.RECOVE_RDETAIL
+                    && f is FrmMWRecoverDetail)
+                {
+                    _curForm = f;
+                    f.BringToFront();
+                    return;
+                }
 
             }
             #endregion
@@ -222,7 +272,7 @@ namespace YRKJ.MWR.WSDestory.Forms
             #region has clear all because resize mdi control
             foreach (Form f in _childForms)
             {
-
+                
                 if (tabToggle == TabToggleEnum.RECOVER
                     && f is FrmMWRecover)
                 {
@@ -247,6 +297,14 @@ namespace YRKJ.MWR.WSDestory.Forms
                     (f as FrmInventorySearch).ControlActivity();
                     return;
                 }
+                else if (tabToggle == TabToggleEnum.RECOVE_RDETAIL
+                    && f is FrmMWRecoverDetail)
+                {
+                    _curForm = f;
+                    resizeMdiForm(f);
+                    //(f as FrmInventorySearch).ControlActivity();
+                    return;
+                }
             }
             #endregion
 
@@ -256,13 +314,16 @@ namespace YRKJ.MWR.WSDestory.Forms
                 switch (tabToggle)
                 {
                     case TabToggleEnum.RECOVER:
-                        f = new FrmMWRecover();
+                        f = new FrmMWRecover(this);
                         break;
                     case TabToggleEnum.POST:
                         f = new FrmMWPost();
                         break;
                     case TabToggleEnum.SEARCH:
                         f = new FrmInventorySearch();
+                        break;
+                    case  TabToggleEnum.RECOVE_RDETAIL:
+                        f = new FrmMWRecoverDetail(this);
                         break;
                     default:
                         return;
@@ -296,6 +357,7 @@ namespace YRKJ.MWR.WSDestory.Forms
         private class LngRes
         {
             public const string MSG_FormName = "医疗废物回收工作站";
+            public const string MSG_DoingRecover = "正在进行回收处理";
         }
 
         #endregion

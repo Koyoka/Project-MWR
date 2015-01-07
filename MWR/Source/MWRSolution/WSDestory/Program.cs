@@ -80,6 +80,17 @@ namespace YRKJ.MWR.WSDestory
                 }
                 #endregion
 
+                #region user login
+
+                using (YRKJ.MWR.WSDestory.Forms.FrmLogin f = new Forms.FrmLogin())
+                {
+                    if (f.ShowDialog() != DialogResult.OK)
+                    {
+                        return;
+                    }
+                }
+
+                #endregion
             }
             catch (Exception ex)
             {

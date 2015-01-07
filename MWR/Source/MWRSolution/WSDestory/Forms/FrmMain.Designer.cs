@@ -77,7 +77,7 @@
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(831, 17);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(789, 20);
             this.toolStripStatusLabel1.Spring = true;
             this.toolStripStatusLabel1.Text = "登陆员工:xxx";
             this.toolStripStatusLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -85,7 +85,7 @@
             // toolStripStatusLabel2
             // 
             this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(162, 17);
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(204, 20);
             this.toolStripStatusLabel2.Text = "时间：2015-01-01 12:00:00";
             this.toolStripStatusLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -128,9 +128,9 @@
             this.c_btnLogout.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.c_btnLogout.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.c_btnLogout.Image = ((System.Drawing.Image)(resources.GetObject("c_btnLogout.Image")));
-            this.c_btnLogout.Location = new System.Drawing.Point(866, 12);
+            this.c_btnLogout.Location = new System.Drawing.Point(877, 12);
             this.c_btnLogout.Name = "c_btnLogout";
-            this.c_btnLogout.Size = new System.Drawing.Size(133, 86);
+            this.c_btnLogout.Size = new System.Drawing.Size(122, 86);
             this.c_btnLogout.TabIndex = 0;
             this.c_btnLogout.Text = "注销";
             this.c_btnLogout.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;

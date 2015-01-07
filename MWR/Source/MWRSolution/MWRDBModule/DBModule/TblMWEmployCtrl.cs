@@ -97,6 +97,8 @@ namespace YRKJ.MWR
                 item.Name,
                 item.UserGroupId,
                 item.EmpyType,
+                item.UserName,
+                item.Password,
                     ref count,
                     ref errMsg
                     );
@@ -108,6 +110,8 @@ namespace YRKJ.MWR
             string name,
             int userGroupId,
             string empyType,
+            string userName,
+            string password,
                 ref int _count,
                 ref string _errMsg
                 )
@@ -119,6 +123,8 @@ namespace YRKJ.MWR
             sum.Add(TblMWEmploy.getNameColumn(), name);
             sum.Add(TblMWEmploy.getUserGroupIdColumn(), userGroupId);
             sum.Add(TblMWEmploy.getEmpyTypeColumn(), empyType);
+            sum.Add(TblMWEmploy.getUserNameColumn(), userName);
+            sum.Add(TblMWEmploy.getPasswordColumn(), password);
             string sql = sum.getInsertSql();
             if (sql == null)
             {
@@ -136,6 +142,8 @@ namespace YRKJ.MWR
             suc.Add(TblMWEmploy.getNameColumn(), item.Name);
             suc.Add(TblMWEmploy.getUserGroupIdColumn(), item.UserGroupId);
             suc.Add(TblMWEmploy.getEmpyTypeColumn(), item.EmpyType);
+            suc.Add(TblMWEmploy.getUserNameColumn(), item.UserName);
+            suc.Add(TblMWEmploy.getPasswordColumn(), item.Password);
             return Update(dcf, suc, sw, ref count, ref errMsg);
         }
 

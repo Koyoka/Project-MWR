@@ -25,6 +25,7 @@ namespace YRKJ.MWR.WinBase.WinAppBase
             _form = form;
             _className = ClassName;
 
+            
             _form.BackColor = Color.FromArgb(240, 240, 240);
             _form.KeyPreview = true;
             _form.Icon = GetDefaultLogo();

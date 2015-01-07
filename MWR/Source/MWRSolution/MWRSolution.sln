@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MWRWinBase", "MWRWinBase\MW
 EndProject
 Global
 	GlobalSection(SourceCodeControl) = preSolution
-		SccNumberOfProjects = 7
+		SccNumberOfProjects = 8
 		SccLocalPath0 = .
 		SccProjectUniqueName1 = WSInventory\\WSInventory.csproj
 		SccLocalPath1 = .
@@ -37,6 +37,9 @@ Global
 		SccProjectUniqueName6 = MWRBusiness\\MWRBusiness.csproj
 		SccLocalPath6 = .
 		SccProjectFilePathRelativizedFromConnection6 = MWRBusiness\\
+		SccProjectUniqueName7 = MWRWinBase\\MWRWinBase.csproj
+		SccLocalPath7 = .
+		SccProjectFilePathRelativizedFromConnection7 = MWRWinBase\\
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

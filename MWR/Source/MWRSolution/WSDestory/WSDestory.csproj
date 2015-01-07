@@ -68,6 +68,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Business\Sys\SysInfo.cs" />
+    <Compile Include="Business\Sys\SysInfoMng.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -80,6 +82,12 @@
     </Compile>
     <Compile Include="Forms\FrmInventorySearch.Designer.cs">
       <DependentUpon>FrmInventorySearch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmLogin.Designer.cs">
+      <DependentUpon>FrmLogin.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\FrmMain.cs">
       <SubType>Form</SubType>
@@ -99,6 +107,12 @@
     <Compile Include="Forms\FrmMWRecover.Designer.cs">
       <DependentUpon>FrmMWRecover.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FrmMWRecoverDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmMWRecoverDetail.Designer.cs">
+      <DependentUpon>FrmMWRecoverDetail.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmTest.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -110,6 +124,9 @@
     <EmbeddedResource Include="Forms\FrmInventorySearch.resx">
       <DependentUpon>FrmInventorySearch.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmLogin.resx">
+      <DependentUpon>FrmLogin.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmMain.resx">
       <DependentUpon>FrmMain.cs</DependentUpon>
     </EmbeddedResource>
@@ -118,6 +135,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmMWRecover.resx">
       <DependentUpon>FrmMWRecover.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmMWRecoverDetail.resx">
+      <DependentUpon>FrmMWRecoverDetail.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmTest.resx">
       <DependentUpon>FrmTest.cs</DependentUpon>

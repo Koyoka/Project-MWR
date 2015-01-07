@@ -24,7 +24,9 @@ namespace YRKJ.MWR
             new DataColumnInfo(false,true,false,false,"EmpyCode",SqlCommonFn.DataColumnType.STRING,20),
             new DataColumnInfo(false,true,false,false,"Name",SqlCommonFn.DataColumnType.STRING,45),
             new DataColumnInfo(false,true,false,false,"UserGroupId",SqlCommonFn.DataColumnType.INT,10),
-            new DataColumnInfo(false,true,false,false,"EmpyType",SqlCommonFn.DataColumnType.STRING,2)
+            new DataColumnInfo(false,true,false,false,"EmpyType",SqlCommonFn.DataColumnType.STRING,2),
+            new DataColumnInfo(false,true,false,false,"UserName",SqlCommonFn.DataColumnType.STRING,45),
+            new DataColumnInfo(false,true,false,true,"Password",SqlCommonFn.DataColumnType.STRING,45)
         };
 
         public static DataColumnInfo getEmpyIdColumn()
@@ -47,12 +49,22 @@ namespace YRKJ.MWR
         {
             return Columns[4];
         }
+        public static DataColumnInfo getUserNameColumn()
+        {
+            return Columns[5];
+        }
+        public static DataColumnInfo getPasswordColumn()
+        {
+            return Columns[6];
+        }
 
         private int _EmpyId = 0;
         private string _EmpyCode = "";
         private string _Name = "";
         private int _UserGroupId = 0;
         private string _EmpyType = "";
+        private string _UserName = "";
+        private string _Password = "";
 
         public int EmpyId
         {
@@ -107,6 +119,28 @@ namespace YRKJ.MWR
             set
             {
                 _EmpyType = value;
+            }
+        }
+        public string UserName
+        {
+            get
+            {
+                return _UserName;
+            }
+            set
+            {
+                _UserName = value;
+            }
+        }
+        public string Password
+        {
+            get
+            {
+                return _Password;
+            }
+            set
+            {
+                _Password = value;
             }
         }
 
