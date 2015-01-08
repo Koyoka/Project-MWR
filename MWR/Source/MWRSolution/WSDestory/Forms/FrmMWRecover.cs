@@ -42,7 +42,7 @@ namespace YRKJ.MWR.WSDestory.Forms
             {
                 this.Cursor = Cursors.WaitCursor;
 
-                WinFn.SafeFocusAndSelectAll(textBox1);
+                //WinFn.SafeFocusAndSelectAll(textBox1);
 
                 if (!InitFrm())
                 {
@@ -71,7 +71,7 @@ namespace YRKJ.MWR.WSDestory.Forms
             try
             {
                 this.Cursor = Cursors.WaitCursor;
-                WinFn.SafeFocusAndSelectAll(textBox1);
+                //WinFn.SafeFocusAndSelectAll(textBox1);
 
             }
             catch (Exception ex)
@@ -92,9 +92,12 @@ namespace YRKJ.MWR.WSDestory.Forms
                 this.Cursor = Cursors.WaitCursor;
                 if (_frmMain != null)
                 {
-                    _frmMain.ShowFrom(FrmMain.TabToggleEnum.RECOVE_RDETAIL);
+                    _frmMain.ShowFrom(FrmMain.TabToggleEnum.RECOVE_RDETAIL, new FrmMWRecoverDetail(_frmMain));
+                    //FrmMWRecoverDetail f = new FrmMWRecoverDetail();
+                    //this.Tag = f;
+                    //_frmMain.ShowInMdiForm(f);
                 }
-                //FrmMWRecoverDetail f = new FrmMWRecoverDetail();
+               
                 //{
                 //    //f.ShowDialog();
                 //    f.MdiParent = this.MdiParent;
@@ -134,6 +137,8 @@ namespace YRKJ.MWR.WSDestory.Forms
             c_grdMWRecover_C_CarCode.DataPropertyName = "CarCode";
             c_grdMWRecover_C_Driver.DataPropertyName = "Driver";
             c_grdMWRecover_C_Inspector.DataPropertyName = "Inspector";
+            c_grdMWRecover_C_TotleCount.DataPropertyName = "TotalCount";
+            c_grdMWRecover_C_TotolWeight.DataPropertyName = "TotalWeight";
             c_grdMWRecover_C_OutDate.DataPropertyName = "OutDate";
             c_grdMWRecover_C_InDate.DataPropertyName = "InDate";
             c_grdMWRecover_C_StratDate.DataPropertyName = "StratDate";
@@ -223,6 +228,19 @@ namespace YRKJ.MWR.WSDestory.Forms
                 set { _status = value; }
             }
 
+            private int _totalCount = 0;
+            public int TotalCount
+            {
+                get { return _totalCount; }
+                set { _totalCount = value; }
+            }
+
+            private float _totalWeight = 0;
+            public float TotalWeight
+            {
+                get { return _totalWeight; }
+                set { _totalWeight = value; }
+            }
         }
 
         #endregion

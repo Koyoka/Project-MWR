@@ -11,65 +11,26 @@ using ComLib.Log;
 
 namespace YRKJ.MWR.WSDestory.Forms
 {
-    public partial class FrmLogin : Form
+    public partial class FrmMWCrateReview : Form
     {
-        private const string ClassName = "YRKJ.MWR.WSDestory.Forms.FrmLogin";
+        private const string ClassName = "YRKJ.MWR.WSDestory.Forms.FrmMWCrateReview";
         private FormMng _frmMng = null;
 
-        public FrmLogin()
+        public FrmMWCrateReview()
         {
             InitializeComponent();
 
             _frmMng = new FormMng(this, ClassName, FormMng.EscExistEnum.YES);
-            this.Text = LngRes.MSG_FormName;
 
+            this.Text = LngRes.MSG_FormName;
             this.StartPosition = FormStartPosition.CenterScreen;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.ShowInTaskbar = false;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
         } 
 
         #region Event
-
-        private void c_btnLogin_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                this.Cursor = Cursors.WaitCursor;
-
-                this.DialogResult = System.Windows.Forms.DialogResult.OK;
-                this.Close();
-            }
-            catch (Exception ex)
-            {
-                LogMng.GetLog().PrintError(ClassName, "c_btnLogin_Click", ex);
-                MsgBox.Error(ex);
-            }
-            finally
-            {
-                this.Cursor = Cursors.Default;
-            }
-        }
-
-        private void c_btnCancel_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                this.Cursor = Cursors.WaitCursor;
-
-                this.Close();
-            }
-            catch (Exception ex)
-            {
-                LogMng.GetLog().PrintError(ClassName, "c_btnCancel_Click", ex);
-                MsgBox.Error(ex);
-            }
-            finally
-            {
-                this.Cursor = Cursors.Default;
-            }
-        }
-
 
         #endregion
 
@@ -101,16 +62,51 @@ namespace YRKJ.MWR.WSDestory.Forms
 
         private class LngRes
         {
-            public const string MSG_FormName = "用户登录";
+            public const string MSG_FormName = "周转箱审核";
         }
 
         #endregion
 
-       
+        private void c_btnOk_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                this.Cursor = Cursors.WaitCursor;
+
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                LogMng.GetLog().PrintError(ClassName, "c_btnOk_Click", ex);
+                MsgBox.Error(ex);
+            }
+            finally
+            {
+                this.Cursor = Cursors.Default;
+            }
+        }
+
+        private void c_btnCancel_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                this.Cursor = Cursors.WaitCursor;
+
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                LogMng.GetLog().PrintError(ClassName, "c_btnCancel_Click", ex);
+                MsgBox.Error(ex);
+            }
+            finally
+            {
+                this.Cursor = Cursors.Default;
+            }
+        }
+
         #region Form Data Property
 
         #endregion
-
-
     }
 }

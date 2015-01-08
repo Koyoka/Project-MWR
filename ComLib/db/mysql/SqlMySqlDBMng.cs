@@ -14,6 +14,12 @@ namespace ComLib.db.mysql
         
 
         #region ISqlDBMng 成员
+        public DateTime getDBDateTime()
+        {
+            string sql = "SELECT NOW()";
+
+            return ComFn.GetDBFieldDateTime(query(sql).Tables[0].Rows[0][0]);
+        }
 
         public DataSet query(string sql, params object[][] ps)
         {

@@ -81,13 +81,25 @@ namespace YRKJ.MWR.WSInventory
                 }
                 #endregion
 
+                #region user login
+
+                using (YRKJ.MWR.WSInventory.Forms.FrmLogin f = new Forms.FrmLogin())
+                {
+                    if (f.ShowDialog() != DialogResult.OK)
+                    {
+                        return;
+                    }
+                }
+
+                #endregion
+
             }
             catch (Exception ex)
             {
                 MsgBox.Error("系统错误/r/n" + ex.Message);
                 return;
             }
-            Application.Run(new FrmInitConfig());
+            Application.Run(new Forms.FrmMain());
         }
     }
 }

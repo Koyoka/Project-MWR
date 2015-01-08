@@ -7,37 +7,42 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using YRKJ.MWR.WinBase.WinAppBase;
-using YRKJ.MWR.WinBase.WinUtility;
 using ComLib.Log;
 
-namespace YRKJ.MWR.WSDestory.Forms
+namespace YRKJ.MWR.WSDestory.Forms.Dtl
 {
-    public partial class FrmInventorySearch : Form
+    public partial class FrmDepotDtl : Form
     {
-        private const string ClassName = "YRKJ.MWR.WSDestory.Forms.FrmInventorySearch";
+        private const string ClassName = "YRKJ.MWR.WSDestory.Forms.Dtl.FrmDepotDtl";
         private FormMng _frmMng = null;
 
-        public FrmInventorySearch()
+        public FrmDepotDtl()
         {
             InitializeComponent();
 
-            _frmMng = new FormMng(this, ClassName);
+            _frmMng = new FormMng(this, ClassName, FormMng.EscExistEnum.YES);
             this.Text = LngRes.MSG_FormName;
+            this.StartPosition = FormStartPosition.CenterScreen;
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.ShowInTaskbar = false;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
         } 
 
         #region Event
 
-        private void FrmInventorySearch_Load(object sender, EventArgs e)
+
+        private void c_btnOk_Click(object sender, EventArgs e)
         {
             try
             {
                 this.Cursor = Cursors.WaitCursor;
-                //WinFn.SafeFocusAndSelectAll(textBox1);
+                this.Close();
 
             }
             catch (Exception ex)
             {
-                LogMng.GetLog().PrintError(ClassName, "FrmInventorySearch_Load", ex);
+                LogMng.GetLog().PrintError(ClassName, "c_btnOk_Click", ex);
                 MsgBox.Error(ex);
             }
             finally
@@ -46,17 +51,17 @@ namespace YRKJ.MWR.WSDestory.Forms
             }
         }
 
-        public void ControlActivity()
+        private void c_btnCancel_Click(object sender, EventArgs e)
         {
             try
             {
                 this.Cursor = Cursors.WaitCursor;
-                //WinFn.SafeFocusAndSelectAll(textBox1);
 
+                this.Close();
             }
             catch (Exception ex)
             {
-                LogMng.GetLog().PrintError(ClassName, "ControlActivity", ex);
+                LogMng.GetLog().PrintError(ClassName, "c_btnCancel_Click", ex);
                 MsgBox.Error(ex);
             }
             finally
@@ -64,6 +69,7 @@ namespace YRKJ.MWR.WSDestory.Forms
                 this.Cursor = Cursors.Default;
             }
         }
+
 
         #endregion
 
@@ -95,7 +101,7 @@ namespace YRKJ.MWR.WSDestory.Forms
 
         private class LngRes
         {
-            public const string MSG_FormName = "出入库查询";
+            public const string MSG_FormName = "仓库列表";
         }
 
         #endregion

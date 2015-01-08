@@ -118,16 +118,17 @@ namespace ComLib.db
         {
             try
             {
-                string sql = "";
-                switch (DBType)
-                {
-                    case DBTypeEnum.MySQl:
-                        sql = "SELECT NOW()";
-                        value = ComFn.GetDBFieldDateTime(
-                            getInstance(connStr == null ? _constr : connStr).query(sql).Tables[0].Rows[0][0]);
-                        //mysql
-                        break;
-                }
+                //string sql = "";
+                //switch (DBType)
+                //{
+                //    case DBTypeEnum.MySQl:
+                //        sql = "SELECT NOW()";
+                //        value = ComFn.GetDBFieldDateTime(
+                //            getInstance(connStr == null ? _constr : connStr).query(sql).Tables[0].Rows[0][0]);
+                //        //mysql
+                //        break;
+                //}
+                value = getInstance(connStr).getDBDateTime();
             }
             catch (Exception ex)
             {

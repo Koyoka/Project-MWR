@@ -18,29 +18,60 @@ namespace YRKJ.MWR.WinBase.WinAppBase
 
         private static Icon _defaultIcon = null;
 
+        public enum EscExistEnum { YES,NO}
+
         public bool ClearMemoryOnExist = false;
 
+
+
         public FormMng(Form form, string ClassName)
+            : this(form, ClassName, EscExistEnum.NO)
+        {
+
+        }
+
+        public FormMng(Form form, string ClassName, EscExistEnum EscExist)
         {
             _form = form;
             _className = ClassName;
 
-            
+
             _form.BackColor = Color.FromArgb(240, 240, 240);
             _form.KeyPreview = true;
             _form.Icon = GetDefaultLogo();
-            
+
             _form.Shown += new EventHandler(_form_Shown);
             _form.KeyDown += new System.Windows.Forms.KeyEventHandler(this._form_KeyDown);
             _form.Resize += new System.EventHandler(this._form_Resize);
             _form.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this._form_FormClosed);
             _form.Disposed += new EventHandler(_form_Disposed);
-           
-           
-
+            if (EscExist == EscExistEnum.YES)
+                _form.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this._form_KeyPress);
         }
 
         #region Events
+
+        private void _form_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            try
+            {
+                _form.Cursor = Cursors.WaitCursor;
+
+                if (e.KeyChar == (char)Keys.Escape)
+                {
+                    _form.Close();
+                } 
+            }
+            catch (Exception ex)
+            {
+                LogMng.GetLog().PrintError(ClassName, "_form_KeyPress", ex);
+                MsgBox.Error(ex);
+            }
+            finally
+            {
+                _form.Cursor = Cursors.Default;
+            }
+        }
 
         private void _form_Shown(object sender, EventArgs e)
         { 

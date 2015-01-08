@@ -7,7 +7,7 @@ namespace YRKJ.MWR.WSDestory.Business.Sys
 {
     public class SysInfo
     {
-        public int SystemVersion = 1;
+        public const int SystemVersion = 1;
         public TblMWEmploy Employ = null;
 
         private SysInfo _sysInfo = null;

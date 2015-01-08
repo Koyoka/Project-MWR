@@ -19,7 +19,7 @@ namespace YRKJ.MWR.WSDestory.Forms
 
 
 
-        public FrmMWRecoverDetail()
+        public FrmMWRecoverDetail(FrmMain f)
         {
             InitializeComponent();
 
@@ -29,18 +29,38 @@ namespace YRKJ.MWR.WSDestory.Forms
             this.WindowState = FormWindowState.Maximized;
             this.StartPosition = FormStartPosition.CenterScreen;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.ShowInTaskbar = false;
+            //this.ShowInTaskbar = false;
             //this.MaximizeBox = false;
             //this.MinimizeBox = false;
-        }
 
-        public FrmMWRecoverDetail(FrmMain f)
-            : this()
-        {
             _frmMain = f;
         }
+      
 
         #region Event
+
+
+        private void c_btnRecover_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                this.Cursor = Cursors.WaitCursor;
+
+                this.Close();
+                _frmMain.ShowFrom(FrmMain.TabToggleEnum.RECOVER);
+
+            }
+            catch (Exception ex)
+            {
+                LogMng.GetLog().PrintError(ClassName, "c_btnRecover_Click", ex);
+                MsgBox.Error(ex);
+            }
+            finally
+            {
+                this.Cursor = Cursors.Default;
+            }
+        }
+
 
         private void c_btnStopRecover_Click(object sender, EventArgs e)
         {
@@ -62,6 +82,74 @@ namespace YRKJ.MWR.WSDestory.Forms
             }
         }
 
+        private void c_btnSelectDepot_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                this.Cursor = Cursors.WaitCursor;
+
+                using (Dtl.FrmDepotDtl f = new Dtl.FrmDepotDtl())
+                {
+                    f.ShowDialog();
+                }
+            }
+            catch (Exception ex)
+            {
+                LogMng.GetLog().PrintError(ClassName, "c_btnSelectDepot_Click", ex);
+                MsgBox.Error(ex);
+            }
+            finally
+            {
+                this.Cursor = Cursors.Default;
+            }
+        }
+
+        private void c_btnManually_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                this.Cursor = Cursors.WaitCursor;
+                using (FrmMWCrateView f = new FrmMWCrateView())
+                {
+                    f.ShowDialog();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                LogMng.GetLog().PrintError(ClassName, "c_btnManually_Click", ex);
+                MsgBox.Error(ex);
+            }
+            finally
+            {
+                this.Cursor = Cursors.Default;
+            }
+        }
+
+        private void c_btnCheck_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                this.Cursor = Cursors.WaitCursor;
+
+                using (FrmMWCrateReview f = new FrmMWCrateReview())
+                {
+                    f.ShowDialog();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                LogMng.GetLog().PrintError(ClassName, "c_btnCheck_Click", ex);
+                MsgBox.Error(ex);
+            }
+            finally
+            {
+                this.Cursor = Cursors.Default;
+            }
+        }
+
+    
         #endregion
 
         #region Functions
