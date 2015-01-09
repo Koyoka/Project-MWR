@@ -18,19 +18,19 @@ EndProject
 Global
 	GlobalSection(SourceCodeControl) = preSolution
 		SccNumberOfProjects = 8
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = WSInventory\\WSInventory.csproj
+		SccProjectUniqueName0 = ..\\..\\..\\ComLib\\ComLib.csproj
+		SccProjectName0 = \u0022$/ComLib\u0022,\u0020PCAAAAAA
+		SccLocalPath0 = ..\\..\\..\\ComLib
 		SccLocalPath1 = .
-		SccProjectFilePathRelativizedFromConnection1 = WSInventory\\
 		SccProjectUniqueName2 = MWRBackOffice\\MWRBackOffice.csproj
 		SccLocalPath2 = .
 		SccProjectFilePathRelativizedFromConnection2 = MWRBackOffice\\
-		SccProjectUniqueName3 = WSDestory\\WSDestory.csproj
+		SccProjectUniqueName3 = WSInventory\\WSInventory.csproj
 		SccLocalPath3 = .
-		SccProjectFilePathRelativizedFromConnection3 = WSDestory\\
-		SccProjectUniqueName4 = ..\\..\\..\\ComLib\\ComLib.csproj
-		SccProjectName4 = \u0022$/ComLib/DemoSolution.root/DemoSolution/ComLib\u0022,\u0020UCAAAAAA
-		SccLocalPath4 = ..\\..\\..\\ComLib
+		SccProjectFilePathRelativizedFromConnection3 = WSInventory\\
+		SccProjectUniqueName4 = WSDestory\\WSDestory.csproj
+		SccLocalPath4 = .
+		SccProjectFilePathRelativizedFromConnection4 = WSDestory\\
 		SccProjectUniqueName5 = MWRDBModule\\MWRDBModule.csproj
 		SccLocalPath5 = .
 		SccProjectFilePathRelativizedFromConnection5 = MWRDBModule\\
