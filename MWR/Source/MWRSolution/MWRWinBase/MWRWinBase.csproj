@@ -59,6 +59,7 @@
     <Compile Include="WinAppBase\MsgBox.cs" />
     <Compile Include="WinAppBase\WinAppFn.cs" />
     <Compile Include="WinAppBase\WinAppStatic.cs" />
+    <Compile Include="WinUtility\ScannerMng.cs" />
     <Compile Include="WinUtility\WinFn.cs" />
   </ItemGroup>
   <ItemGroup>

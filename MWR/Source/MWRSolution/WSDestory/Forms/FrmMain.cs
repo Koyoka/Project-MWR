@@ -20,7 +20,7 @@ namespace YRKJ.MWR.WSDestory.Forms
         private List<Form> _childForms = new List<Form>();
         private Form _curForm = null;
 
-        public enum TabToggleEnum { RECOVER, POST, SEARCH, RECOVE_RDETAIL, POST_DETAIL}
+        public enum TabToggleEnum { DESTORY, RESIDUE, SEARCH, DESTORY_DETAIL, DESTORY_RECOVER }
 
         public FrmMain()
         {
@@ -91,7 +91,7 @@ namespace YRKJ.MWR.WSDestory.Forms
                 this.Cursor = Cursors.WaitCursor;
 
                 
-                ShowFrom(TabToggleEnum.RECOVER);
+                ShowFrom(TabToggleEnum.DESTORY);
 
             }
             catch (Exception ex)
@@ -110,7 +110,7 @@ namespace YRKJ.MWR.WSDestory.Forms
             try
             {
                 this.Cursor = Cursors.WaitCursor;
-                ShowFrom(TabToggleEnum.POST);
+                ShowFrom(TabToggleEnum.RESIDUE);
             }
             catch (Exception ex)
             {
@@ -180,7 +180,7 @@ namespace YRKJ.MWR.WSDestory.Forms
 
                 _tabBgCtrl = new Control[] { c_labBg1, c_labBg2, c_labBg3 };
 
-                ShowFrom(TabToggleEnum.RECOVER); 
+                ShowFrom(TabToggleEnum.DESTORY); 
             }
             catch (Exception ex)
             {
@@ -243,8 +243,8 @@ namespace YRKJ.MWR.WSDestory.Forms
         {
             #region show current tab bg
             if (
-                (tabToggle == TabToggleEnum.RECOVER
-                ||  tabToggle == TabToggleEnum.POST
+                (tabToggle == TabToggleEnum.DESTORY
+                || tabToggle == TabToggleEnum.RESIDUE
                 ||  tabToggle == TabToggleEnum.SEARCH
                 )
                 && _tabBgCtrl != null && _tabBgCtrl.Length == 3)
@@ -253,10 +253,10 @@ namespace YRKJ.MWR.WSDestory.Forms
 
                 switch (tabToggle)
                 {
-                    case TabToggleEnum.RECOVER:
+                    case TabToggleEnum.DESTORY:
                         tabIndex = 0;
                         break;
-                    case TabToggleEnum.POST:
+                    case TabToggleEnum.RESIDUE:
                         tabIndex = 1;
                         break;
                     case TabToggleEnum.SEARCH:
@@ -294,72 +294,98 @@ namespace YRKJ.MWR.WSDestory.Forms
 
             #region has been open detail form
 
-            if (tabToggle == TabToggleEnum.RECOVER)
+            if (tabToggle == TabToggleEnum.DESTORY)
             {
                 foreach (Form f in this.c_panForm.Controls)
                 {
-                    if (f is FrmMWRecoverDetail)
+                    if (f is FrmMWDestoryDetail)
                     {
-                        ShowFrom(TabToggleEnum.RECOVE_RDETAIL);
+                        ShowFrom(TabToggleEnum.DESTORY_DETAIL);
+                        return;
+                    }
+                    else if (f is FrmMWDestoryRecover)
+                    {
+                        ShowFrom(TabToggleEnum.DESTORY_RECOVER);
                         return;
                     }
                 }
             }
-            else if (tabToggle == TabToggleEnum.POST)
-            {
-                foreach (Form f in this.c_panForm.Controls)
-                {
-                    if (f is FrmMWPostDetail)
-                    {
-                        ShowFrom(TabToggleEnum.POST_DETAIL);
-                        return;
-                    }
-                }
-            }
+            //else if (tabToggle == TabToggleEnum.POST)
+            //{
+            //    foreach (Form f in this.c_panForm.Controls)
+            //    {
+            //        if (f is FrmMWPostDetail)
+            //        {
+            //            ShowFrom(TabToggleEnum.POST_DETAIL);
+            //            return;
+            //        }
+            //    }
+            //}
 
             #endregion
 
             #region has been add mdi controls
             foreach (Form f in this.c_panForm.Controls)
             {
-                if (tabToggle == TabToggleEnum.RECOVER
-                    && f is FrmMWRecover)
+                if (tabToggle == TabToggleEnum.DESTORY
+                    && f is FrmMWDestory)
                 {
                     _curForm = f;
                     f.BringToFront();
-                    (f as FrmMWRecover).ControlActivity();
+                    //(f as FrmMWRecover).ControlActivity();
                     return;
                 }
-                else if (tabToggle == TabToggleEnum.POST
-                   && f is FrmMWPost)
-                {
-                    _curForm = f;
-                    f.BringToFront();
-                    (f as FrmMWPost).ControlActivity();
-                    return;
-                }
-                else if (tabToggle == TabToggleEnum.SEARCH
-                    && f is FrmInventorySearch)
-                {
-                    _curForm = f;
-                    f.BringToFront();
-                    (f as FrmInventorySearch).ControlActivity();
-                    return;
-                }
-                else if (tabToggle == TabToggleEnum.RECOVE_RDETAIL
-                    && f is FrmMWRecoverDetail)
+                else if(tabToggle == TabToggleEnum.DESTORY_DETAIL
+                    && f is FrmMWDestoryDetail)
                 {
                     _curForm = f;
                     f.BringToFront();
                     return;
                 }
-                else if (tabToggle == TabToggleEnum.POST_DETAIL
-                   && f is FrmMWPostDetail)
+                else if(tabToggle == TabToggleEnum.DESTORY_RECOVER
+                    && f is FrmMWDestoryRecover)
                 {
                     _curForm = f;
                     f.BringToFront();
                     return;
                 }
+                else if (tabToggle == TabToggleEnum.RESIDUE
+                    && f is FrmMWResidue)
+                {
+                    _curForm = f;
+                    f.BringToFront();
+                    return;
+                }
+                //else if (tabToggle == TabToggleEnum.POST
+                //   && f is FrmMWPost)
+                //{
+                //    _curForm = f;
+                //    f.BringToFront();
+                //    (f as FrmMWPost).ControlActivity();
+                //    return;
+                //}
+                //else if (tabToggle == TabToggleEnum.SEARCH
+                //    && f is FrmInventorySearch)
+                //{
+                //    _curForm = f;
+                //    f.BringToFront();
+                //    (f as FrmInventorySearch).ControlActivity();
+                //    return;
+                //}
+                //else if (tabToggle == TabToggleEnum.RECOVE_RDETAIL
+                //    && f is FrmMWRecoverDetail)
+                //{
+                //    _curForm = f;
+                //    f.BringToFront();
+                //    return;
+                //}
+                //else if (tabToggle == TabToggleEnum.POST_DETAIL
+                //   && f is FrmMWPostDetail)
+                //{
+                //    _curForm = f;
+                //    f.BringToFront();
+                //    return;
+                //}
 
             }
             #endregion
@@ -368,44 +394,66 @@ namespace YRKJ.MWR.WSDestory.Forms
             foreach (Form f in _childForms)
             {
 
-                if (tabToggle == TabToggleEnum.RECOVER
-                    && f is FrmMWRecover)
+                if (tabToggle == TabToggleEnum.DESTORY
+                    && f is FrmMWDestory)
                 {
                     _curForm = f;
                     resizeMdiForm(f);
-                    (f as FrmMWRecover).ControlActivity();
+                    //(f as FrmMWRecover).ControlActivity();
                     return;
                 }
-                else if (tabToggle == TabToggleEnum.POST
-                   && f is FrmMWPost)
-                {
-                    _curForm = f;
-                    resizeMdiForm(f);
-                    (f as FrmMWPost).ControlActivity();
-                    return;
-                }
-                else if (tabToggle == TabToggleEnum.SEARCH
-                    && f is FrmInventorySearch)
-                {
-                    _curForm = f;
-                    resizeMdiForm(f);
-                    (f as FrmInventorySearch).ControlActivity();
-                    return;
-                }
-                else if (tabToggle == TabToggleEnum.RECOVE_RDETAIL
-                    && f is FrmMWRecoverDetail)
+                else if(tabToggle == TabToggleEnum.DESTORY_DETAIL
+                    && f is FrmMWDestoryDetail)
                 {
                     _curForm = f;
                     resizeMdiForm(f);
                     return;
                 }
-                else if (tabToggle == TabToggleEnum.POST_DETAIL
-                   && f is FrmMWPostDetail)
+                else if (tabToggle == TabToggleEnum.DESTORY_RECOVER
+                     && f is FrmMWDestoryRecover)
                 {
                     _curForm = f;
                     resizeMdiForm(f);
                     return;
                 }
+                else if (tabToggle == TabToggleEnum.RESIDUE
+                     && f is FrmMWResidue)
+                {
+                    _curForm = f;
+                    resizeMdiForm(f);
+                    return;
+                }
+
+                //else if (tabToggle == TabToggleEnum.POST
+                //   && f is FrmMWPost)
+                //{
+                //    _curForm = f;
+                //    resizeMdiForm(f);
+                //    (f as FrmMWPost).ControlActivity();
+                //    return;
+                //}
+                //else if (tabToggle == TabToggleEnum.SEARCH
+                //    && f is FrmInventorySearch)
+                //{
+                //    _curForm = f;
+                //    resizeMdiForm(f);
+                //    (f as FrmInventorySearch).ControlActivity();
+                //    return;
+                //}
+                //else if (tabToggle == TabToggleEnum.RECOVE_RDETAIL
+                //    && f is FrmMWRecoverDetail)
+                //{
+                //    _curForm = f;
+                //    resizeMdiForm(f);
+                //    return;
+                //}
+                //else if (tabToggle == TabToggleEnum.POST_DETAIL
+                //   && f is FrmMWPostDetail)
+                //{
+                //    _curForm = f;
+                //    resizeMdiForm(f);
+                //    return;
+                //}
             }
             #endregion
 
@@ -420,21 +468,30 @@ namespace YRKJ.MWR.WSDestory.Forms
                 {
                     switch (tabToggle)
                     {
-                        case TabToggleEnum.RECOVER:
-                            f = new FrmMWRecover(this);
+                        case TabToggleEnum.DESTORY:
+                            f = new FrmMWDestory(this);
                             break;
-                        case TabToggleEnum.POST:
-                            f = new FrmMWPost(this);
+                        case TabToggleEnum.DESTORY_DETAIL:
+                            f = new FrmMWDestoryDetail();
                             break;
-                        case TabToggleEnum.SEARCH:
-                            f = new FrmInventorySearch();
+                        case TabToggleEnum.DESTORY_RECOVER:
+                            f = new FrmMWDestoryRecover();
                             break;
-                        case TabToggleEnum.RECOVE_RDETAIL:
-                            f = new FrmMWRecoverDetail(this);
+                        case TabToggleEnum.RESIDUE:
+                            f = new FrmMWResidue();
                             break;
-                        case TabToggleEnum.POST_DETAIL:
-                            f = new FrmMWPostDetail();
-                            break;
+                        //case TabToggleEnum.POST:
+                        //    f = new FrmMWPost(this);
+                        //    break;
+                        //case TabToggleEnum.SEARCH:
+                        //    f = new FrmInventorySearch();
+                        //    break;
+                        //case TabToggleEnum.RECOVE_RDETAIL:
+                        //    f = new FrmMWRecoverDetail(this);
+                        //    break;
+                        //case TabToggleEnum.POST_DETAIL:
+                        //    f = new FrmMWPostDetail();
+                        //    break;
                         default:
                             return;
                     }
@@ -467,8 +524,8 @@ namespace YRKJ.MWR.WSDestory.Forms
 
         private class LngRes
         {
-            public const string MSG_FormName = "医疗废物回收工作站";
-            public const string MSG_DoingRecover = "正在进行回收处理";
+            public const string MSG_FormName = "医疗废物处置工作站";
+            //public const string MSG_DoingRecover = "正在进行回收处理";
         }
 
         #endregion

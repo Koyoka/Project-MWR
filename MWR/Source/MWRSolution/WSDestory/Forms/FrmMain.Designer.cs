@@ -122,6 +122,7 @@
             this.label2.TabIndex = 3;
             this.label2.Text = "4";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label2.Visible = false;
             // 
             // c_btnMWPost
             // 
@@ -132,7 +133,7 @@
             this.c_btnMWPost.Name = "c_btnMWPost";
             this.c_btnMWPost.Size = new System.Drawing.Size(135, 61);
             this.c_btnMWPost.TabIndex = 0;
-            this.c_btnMWPost.Text = "出库计划";
+            this.c_btnMWPost.Text = "残渣管理";
             this.c_btnMWPost.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.c_btnMWPost.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.c_btnMWPost.UseVisualStyleBackColor = true;
@@ -147,7 +148,7 @@
             this.c_btnMWRecover.Name = "c_btnMWRecover";
             this.c_btnMWRecover.Size = new System.Drawing.Size(135, 61);
             this.c_btnMWRecover.TabIndex = 0;
-            this.c_btnMWRecover.Text = "入库计划";
+            this.c_btnMWRecover.Text = "废品处置";
             this.c_btnMWRecover.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.c_btnMWRecover.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.c_btnMWRecover.UseVisualStyleBackColor = true;

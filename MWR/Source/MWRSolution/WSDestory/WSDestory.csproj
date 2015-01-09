@@ -89,11 +89,17 @@
     <Compile Include="Forms\Dtl\FrmInventoryDtl.Designer.cs">
       <DependentUpon>FrmInventoryDtl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FrmMWCrateReview.cs">
+    <Compile Include="Forms\FrmMWDestoryDetail.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\FrmMWCrateReview.Designer.cs">
-      <DependentUpon>FrmMWCrateReview.cs</DependentUpon>
+    <Compile Include="Forms\FrmMWDestoryDetail.Designer.cs">
+      <DependentUpon>FrmMWDestoryDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmMWDestoryRecover.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmMWDestoryRecover.Designer.cs">
+      <DependentUpon>FrmMWDestoryRecover.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\FrmInventorySearch.cs">
       <SubType>Form</SubType>
@@ -113,17 +119,11 @@
     <Compile Include="Forms\FrmMain.Designer.cs">
       <DependentUpon>FrmMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FrmMWCrateView.cs">
+    <Compile Include="Forms\FrmMWDestory.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\FrmMWCrateView.Designer.cs">
-      <DependentUpon>FrmMWCrateView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\FrmMWPost.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\FrmMWPost.Designer.cs">
-      <DependentUpon>FrmMWPost.cs</DependentUpon>
+    <Compile Include="Forms\FrmMWDestory.Designer.cs">
+      <DependentUpon>FrmMWDestory.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\FrmMWRecover.cs">
       <SubType>Form</SubType>
@@ -131,17 +131,11 @@
     <Compile Include="Forms\FrmMWRecover.Designer.cs">
       <DependentUpon>FrmMWRecover.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FrmMWRecoverDetail.cs">
+    <Compile Include="Forms\FrmMWResidue.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\FrmMWRecoverDetail.Designer.cs">
-      <DependentUpon>FrmMWRecoverDetail.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\FrmMWPostDetail.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\FrmMWPostDetail.Designer.cs">
-      <DependentUpon>FrmMWPostDetail.cs</DependentUpon>
+    <Compile Include="Forms\FrmMWResidue.Designer.cs">
+      <DependentUpon>FrmMWResidue.cs</DependentUpon>
     </Compile>
     <Compile Include="FrmTest.cs">
       <SubType>Form</SubType>
@@ -160,8 +154,11 @@
     <EmbeddedResource Include="Forms\Dtl\FrmInventoryDtl.resx">
       <DependentUpon>FrmInventoryDtl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FrmMWCrateReview.resx">
-      <DependentUpon>FrmMWCrateReview.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\FrmMWDestoryDetail.resx">
+      <DependentUpon>FrmMWDestoryDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmMWDestoryRecover.resx">
+      <DependentUpon>FrmMWDestoryRecover.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmInventorySearch.resx">
       <DependentUpon>FrmInventorySearch.cs</DependentUpon>
@@ -172,20 +169,14 @@
     <EmbeddedResource Include="Forms\FrmMain.resx">
       <DependentUpon>FrmMain.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FrmMWCrateView.resx">
-      <DependentUpon>FrmMWCrateView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FrmMWPost.resx">
-      <DependentUpon>FrmMWPost.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\FrmMWDestory.resx">
+      <DependentUpon>FrmMWDestory.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmMWRecover.resx">
       <DependentUpon>FrmMWRecover.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FrmMWRecoverDetail.resx">
-      <DependentUpon>FrmMWRecoverDetail.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FrmMWPostDetail.resx">
-      <DependentUpon>FrmMWPostDetail.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\FrmMWResidue.resx">
+      <DependentUpon>FrmMWResidue.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmTest.resx">
       <DependentUpon>FrmTest.cs</DependentUpon>
@@ -230,7 +221,22 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="logo.ico" />
+    <Content Include="Setting\Images\ic_menu_myplaces.png" />
+    <Content Include="Setting\Images\logo1.ico" />
+    <Content Include="Setting\Images\pop.png" />
     <None Include="Setting\Images\ic_menu_delete.png" />
+    <Content Include="Setting\Images\delete.png" />
+    <Content Include="Setting\Images\ic_menu_add.png" />
+    <Content Include="Setting\Images\ic_menu_close_clear_cancel.png" />
+    <Content Include="Setting\Images\ic_menu_delete_played.png" />
+    <Content Include="Setting\Images\ic_menu_goto.png" />
+    <Content Include="Setting\Images\ic_menu_logout.png" />
+    <Content Include="Setting\Images\ic_menu_merge_calls.png" />
+    <Content Include="Setting\Images\ic_menu_move_down.png" />
+    <Content Include="Setting\Images\ic_menu_set_as.png" />
+    <Content Include="Setting\Images\ic_menu_show_list.png" />
+    <Content Include="Setting\Images\ic_menu_zoom.png" />
+    <Content Include="Setting\Images\logo.ico" />
     <Content Include="Setting\Images\logo.png" />
   </ItemGroup>
   <ItemGroup>

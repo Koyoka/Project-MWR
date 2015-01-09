@@ -10,11 +10,11 @@ using YRKJ.MWR.WinBase.WinAppBase;
 using ComLib.Log;
 using YRKJ.MWR.WinBase.WinUtility;
 
-namespace YRKJ.MWR.WSDestory.Forms
+namespace YRKJ.MWR.WSInventory.Forms
 {
     public partial class FrmMWRecover : Form
     {
-        private const string ClassName = "YRKJ.MWR.WSDestory.Forms.FrmMWRevocer";
+        private const string ClassName = "YRKJ.MWR.WSInventory.Forms.FrmMWRevocer";
         private FormMng _frmMng = null;
 
         private FrmMain _frmMain = null;
@@ -92,7 +92,8 @@ namespace YRKJ.MWR.WSDestory.Forms
                 this.Cursor = Cursors.WaitCursor;
                 if (_frmMain != null)
                 {
-                    //_frmMain.ShowFrom(FrmMain.TabToggleEnum.RECOVE_RDETAIL, new FrmMWRecoverDetail(_frmMain));
+                    string defineRecoNum = "WF00001";
+                    _frmMain.ShowFrom(FrmMain.TabToggleEnum.RECOVE_RDETAIL, new FrmMWRecoverDetail(_frmMain, defineRecoNum));
                     //FrmMWRecoverDetail f = new FrmMWRecoverDetail();
                     //this.Tag = f;
                     //_frmMain.ShowInMdiForm(f);

@@ -70,12 +70,12 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.label2.Location = new System.Drawing.Point(336, 232);
+            this.label2.Location = new System.Drawing.Point(327, 232);
             this.label2.Name = "label2";
             this.label2.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.label2.Size = new System.Drawing.Size(131, 17);
+            this.label2.Size = new System.Drawing.Size(143, 17);
             this.label2.TabIndex = 1;
-            this.label2.Text = "出入库管理工作站 v1.0";
+            this.label2.Text = "医疗废物处理工作站 v1.0";
             // 
             // groupBox2
             // 

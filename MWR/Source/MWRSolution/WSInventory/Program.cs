@@ -20,8 +20,9 @@ namespace YRKJ.MWR.WSInventory
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+
+            //Application.Run(new WSInventory.Form1());
+            //return;
 
             try
             {

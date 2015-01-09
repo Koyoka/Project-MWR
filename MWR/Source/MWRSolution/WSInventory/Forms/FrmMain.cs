@@ -241,215 +241,219 @@ namespace YRKJ.MWR.WSInventory.Forms
         }
         public void ShowFrom(TabToggleEnum tabToggle,Form defineForm)
         {
-            //#region show current tab bg
-            //if (
-            //    (tabToggle == TabToggleEnum.RECOVER
-            //    ||  tabToggle == TabToggleEnum.POST
-            //    ||  tabToggle == TabToggleEnum.SEARCH
-            //    )
-            //    && _tabBgCtrl != null && _tabBgCtrl.Length == 3)
-            //{
-            //    int tabIndex = 0;
+            #region show current tab bg
+            if (
+                (tabToggle == TabToggleEnum.RECOVER
+                || tabToggle == TabToggleEnum.POST
+                || tabToggle == TabToggleEnum.SEARCH
+                )
+                && _tabBgCtrl != null && _tabBgCtrl.Length == 3)
+            {
+                int tabIndex = 0;
 
-            //    switch (tabToggle)
-            //    {
-            //        case TabToggleEnum.RECOVER:
-            //            tabIndex = 0;
-            //            break;
-            //        case TabToggleEnum.POST:
-            //            tabIndex = 1;
-            //            break;
-            //        case TabToggleEnum.SEARCH:
-            //            tabIndex = 2;
-            //            break;
-            //    }
+                switch (tabToggle)
+                {
+                    case TabToggleEnum.RECOVER:
+                        tabIndex = 0;
+                        break;
+                    case TabToggleEnum.POST:
+                        tabIndex = 1;
+                        break;
+                    case TabToggleEnum.SEARCH:
+                        tabIndex = 2;
+                        break;
+                }
 
-            //    foreach (Control ctrl in _tabBgCtrl)
-            //    {
-            //        if (ctrl.Name != _tabBgCtrl[tabIndex].Name)
-            //        {
-            //            ctrl.Visible = false;
-            //        }
-            //        else if (!ctrl.Visible)
-            //        {
-            //            ctrl.Visible = true;
-            //        }
-            //    }
-            //}
-            //#endregion
+                foreach (Control ctrl in _tabBgCtrl)
+                {
+                    if (ctrl.Name != _tabBgCtrl[tabIndex].Name)
+                    {
+                        ctrl.Visible = false;
+                    }
+                    else if (!ctrl.Visible)
+                    {
+                        ctrl.Visible = true;
+                    }
+                }
+            }
+            #endregion
 
-            //#region remove dispose form
+            #region remove dispose form
 
-            //for (int i = 0; i < _childForms.Count; i++)
-            //{
-            //    Form f = _childForms[i];
-            //    if (f.IsDisposed)
-            //    {
-            //        _childForms.Remove(f);
-            //        i--;
-            //    }
-            //}
+            for (int i = 0; i < _childForms.Count; i++)
+            {
+                Form f = _childForms[i];
+                if (f.IsDisposed)
+                {
+                    _childForms.Remove(f);
+                    i--;
+                }
+            }
 
-            //#endregion
+            #endregion
 
-            //#region has been open detail form
+            #region has been open detail form
 
-            //if (tabToggle == TabToggleEnum.RECOVER)
-            //{
-            //    foreach (Form f in this.c_panForm.Controls)
-            //    {
-            //        if (f is FrmMWRecoverDetail)
-            //        {
-            //            ShowFrom(TabToggleEnum.RECOVE_RDETAIL);
-            //            return;
-            //        }
-            //    }
-            //}
-            //else if (tabToggle == TabToggleEnum.POST)
-            //{
-            //    foreach (Form f in this.c_panForm.Controls)
-            //    {
-            //        if (f is FrmMWPostDetail)
-            //        {
-            //            ShowFrom(TabToggleEnum.POST_DETAIL);
-            //            return;
-            //        }
-            //    }
-            //}
+            if (tabToggle == TabToggleEnum.RECOVER)
+            {
+                foreach (Form f in this.c_panForm.Controls)
+                {
+                    if (f is FrmMWRecoverDetail)
+                    {
+                        ShowFrom(TabToggleEnum.RECOVE_RDETAIL);
+                        return;
+                    }
+                }
+            }
+            else if (tabToggle == TabToggleEnum.POST)
+            {
+                foreach (Form f in this.c_panForm.Controls)
+                {
+                    if (f is FrmMWPostDetail)
+                    {
+                        ShowFrom(TabToggleEnum.POST_DETAIL);
+                        return;
+                    }
+                }
+            }
 
-            //#endregion
+            #endregion
 
-            //#region has been add mdi controls
-            //foreach (Form f in this.c_panForm.Controls)
-            //{
-            //    if (tabToggle == TabToggleEnum.RECOVER
-            //        && f is FrmMWRecover)
-            //    {
-            //        _curForm = f;
-            //        f.BringToFront();
-            //        (f as FrmMWRecover).ControlActivity();
-            //        return;
-            //    }
-            //    else if (tabToggle == TabToggleEnum.POST
-            //       && f is FrmMWPost)
-            //    {
-            //        _curForm = f;
-            //        f.BringToFront();
-            //        (f as FrmMWPost).ControlActivity();
-            //        return;
-            //    }
-            //    else if (tabToggle == TabToggleEnum.SEARCH
-            //        && f is FrmInventorySearch)
-            //    {
-            //        _curForm = f;
-            //        f.BringToFront();
-            //        (f as FrmInventorySearch).ControlActivity();
-            //        return;
-            //    }
-            //    else if (tabToggle == TabToggleEnum.RECOVE_RDETAIL
-            //        && f is FrmMWRecoverDetail)
-            //    {
-            //        _curForm = f;
-            //        f.BringToFront();
-            //        return;
-            //    }
-            //    else if (tabToggle == TabToggleEnum.POST_DETAIL
-            //       && f is FrmMWPostDetail)
-            //    {
-            //        _curForm = f;
-            //        f.BringToFront();
-            //        return;
-            //    }
+            #region has been add mdi controls
+            foreach (Form f in this.c_panForm.Controls)
+            {
+                if (tabToggle == TabToggleEnum.RECOVER
+                    && f is FrmMWRecover)
+                {
+                    _curForm = f;
+                    f.BringToFront();
+                    (f as FrmMWRecover).ControlActivity();
+                    return;
+                }
+                else if (tabToggle == TabToggleEnum.POST
+                   && f is FrmMWPost)
+                {
+                    _curForm = f;
+                    f.BringToFront();
+                    (f as FrmMWPost).ControlActivity();
+                    return;
+                }
+                else if (tabToggle == TabToggleEnum.SEARCH
+                    && f is FrmInventorySearch)
+                {
+                    _curForm = f;
+                    f.BringToFront();
+                    (f as FrmInventorySearch).ControlActivity();
+                    return;
+                }
+                else if (tabToggle == TabToggleEnum.RECOVE_RDETAIL
+                    && f is FrmMWRecoverDetail)
+                {
+                    _curForm = f;
+                    f.BringToFront();
+                    (f as FrmMWRecoverDetail).ControlActivity();
+                    return;
+                }
+                else if (tabToggle == TabToggleEnum.POST_DETAIL
+                   && f is FrmMWPostDetail)
+                {
+                    _curForm = f;
+                    f.BringToFront();
+                    (f as FrmMWPostDetail).ControlActivity();
+                    return;
+                }
 
-            //}
-            //#endregion
+            }
+            #endregion
 
-            //#region has clear all because resize mdi control
-            //foreach (Form f in _childForms)
-            //{
+            #region has clear all because resize mdi control
+            foreach (Form f in _childForms)
+            {
 
-            //    if (tabToggle == TabToggleEnum.RECOVER
-            //        && f is FrmMWRecover)
-            //    {
-            //        _curForm = f;
-            //        resizeMdiForm(f);
-            //        (f as FrmMWRecover).ControlActivity();
-            //        return;
-            //    }
-            //    else if (tabToggle == TabToggleEnum.POST
-            //       && f is FrmMWPost)
-            //    {
-            //        _curForm = f;
-            //        resizeMdiForm(f);
-            //        (f as FrmMWPost).ControlActivity();
-            //        return;
-            //    }
-            //    else if (tabToggle == TabToggleEnum.SEARCH
-            //        && f is FrmInventorySearch)
-            //    {
-            //        _curForm = f;
-            //        resizeMdiForm(f);
-            //        (f as FrmInventorySearch).ControlActivity();
-            //        return;
-            //    }
-            //    else if (tabToggle == TabToggleEnum.RECOVE_RDETAIL
-            //        && f is FrmMWRecoverDetail)
-            //    {
-            //        _curForm = f;
-            //        resizeMdiForm(f);
-            //        return;
-            //    }
-            //    else if (tabToggle == TabToggleEnum.POST_DETAIL
-            //       && f is FrmMWPostDetail)
-            //    {
-            //        _curForm = f;
-            //        resizeMdiForm(f);
-            //        return;
-            //    }
-            //}
-            //#endregion
+                if (tabToggle == TabToggleEnum.RECOVER
+                    && f is FrmMWRecover)
+                {
+                    _curForm = f;
+                    resizeMdiForm(f);
+                    (f as FrmMWRecover).ControlActivity();
+                    return;
+                }
+                else if (tabToggle == TabToggleEnum.POST
+                   && f is FrmMWPost)
+                {
+                    _curForm = f;
+                    resizeMdiForm(f);
+                    (f as FrmMWPost).ControlActivity();
+                    return;
+                }
+                else if (tabToggle == TabToggleEnum.SEARCH
+                    && f is FrmInventorySearch)
+                {
+                    _curForm = f;
+                    resizeMdiForm(f);
+                    (f as FrmInventorySearch).ControlActivity();
+                    return;
+                }
+                else if (tabToggle == TabToggleEnum.RECOVE_RDETAIL
+                    && f is FrmMWRecoverDetail)
+                {
+                    _curForm = f;
+                    resizeMdiForm(f);
+                    (f as FrmMWRecoverDetail).ControlActivity();
+                    return;
+                }
+                else if (tabToggle == TabToggleEnum.POST_DETAIL
+                   && f is FrmMWPostDetail)
+                {
+                    _curForm = f;
+                    resizeMdiForm(f);
+                    (f as FrmMWPostDetail).ControlActivity();
+                    return;
+                }
+            }
+            #endregion
 
-            //#region add new form to mdi control
-            //{
-            //    Form f;
-            //    if (defineForm != null)
-            //    {
-            //        f = defineForm;
-            //    }
-            //    else
-            //    {
-            //        switch (tabToggle)
-            //        {
-            //            case TabToggleEnum.RECOVER:
-            //                //f = new FrmMWRecover(this);
-            //                break;
-            //            case TabToggleEnum.POST:
-            //                //f = new FrmMWPost(this);
-            //                break;
-            //            case TabToggleEnum.SEARCH:
-            //                //f = new FrmInventorySearch();
-            //                break;
-            //            case TabToggleEnum.RECOVE_RDETAIL:
-            //                //f = new FrmMWRecoverDetail(this);
-            //                break;
-            //            case TabToggleEnum.POST_DETAIL:
-            //                //f = new FrmMWPostDetail();
-            //                break;
-            //            default:
-            //                return;
-            //        }
-            //    }
+            #region add new form to mdi control
+            {
+                Form f;
+                if (defineForm != null)
+                {
+                    f = defineForm;
+                }
+                else
+                {
+                    switch (tabToggle)
+                    {
+                        case TabToggleEnum.RECOVER:
+                            f = new FrmMWRecover(this);
+                            break;
+                        case TabToggleEnum.POST:
+                            f = new FrmMWPost(this);
+                            break;
+                        case TabToggleEnum.SEARCH:
+                            f = new FrmInventorySearch();
+                            break;
+                        case TabToggleEnum.RECOVE_RDETAIL:
+                            f = new FrmMWRecoverDetail();
+                            break;
+                        case TabToggleEnum.POST_DETAIL:
+                            f = new FrmMWPostDetail();
+                            break;
+                        default:
+                            return;
+                    }
+                }
 
-            //    //f.MdiParent = this;
-            //    //f.WindowState = FormWindowState.Maximized;
-            //    //f.Parent = this.c_panForm;
-            //    //f.FormBorderStyle = FormBorderStyle.None;
-            //    //f.Show();
-            //    //_curForm = f;
-            //    //_childForms.Add(f);
-            //}
+                f.MdiParent = this;
+                f.WindowState = FormWindowState.Maximized;
+                f.Parent = this.c_panForm;
+                f.FormBorderStyle = FormBorderStyle.None;
+                f.Show();
+                _curForm = f;
+                _childForms.Add(f);
+            }
 
-            //#endregion
+            #endregion
         }
 
         private void resizeMdiForm(Form f)
@@ -467,7 +471,7 @@ namespace YRKJ.MWR.WSInventory.Forms
 
         private class LngRes
         {
-            public const string MSG_FormName = "医疗废物处置工作站";
+            public const string MSG_FormName = "医疗废物库存工作站";
             public const string MSG_DoingRecover = "正在进行回收处理";
         }
 

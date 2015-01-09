@@ -73,9 +73,9 @@
             this.label2.Location = new System.Drawing.Point(336, 232);
             this.label2.Name = "label2";
             this.label2.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.label2.Size = new System.Drawing.Size(119, 17);
+            this.label2.Size = new System.Drawing.Size(131, 17);
             this.label2.TabIndex = 1;
-            this.label2.Text = "废品处置工作站 v1.0";
+            this.label2.Text = "废品出入库工作站 v1.0";
             // 
             // groupBox2
             // 
