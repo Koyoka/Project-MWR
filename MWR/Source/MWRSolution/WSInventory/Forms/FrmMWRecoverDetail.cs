@@ -39,8 +39,9 @@ namespace YRKJ.MWR.WSInventory.Forms
             _frmMain = f;
             _recoNum = recoNum;
 
-            _scannerMng = new ScannerMng(this, ClassName);
+            _scannerMng = new ScannerMng(this, ClassName, WinAppStatic.BarCodeMask);
             _scannerMng.CodeScanned += new ScannerMng.ScannedEventHandler(FrmMWRecoverDetail_CodeScanned);
+            _scannerMng.InvalidCodeScanned += new ScannerMng.ScannedEventHandler(FrmMWRecoverDetail_InvalidCodeScanned);
         }
 
         #region Event
@@ -73,6 +74,23 @@ namespace YRKJ.MWR.WSInventory.Forms
             }
         }
 
+        private void FrmMWRecoverDetail_InvalidCodeScanned(string code)
+        {
+            try
+            {
+                this.Cursor = Cursors.WaitCursor;
+                //MsgBox.Show(LngRes.MSG_InvalidBarCode + " " + code);
+            }
+            catch (Exception ex)
+            {
+                LogMng.GetLog().PrintError(ClassName, "FrmMWRecoverDetail_InvalidCodeScanned", ex);
+                MsgBox.Error(ex);
+            }
+            finally
+            {
+                this.Cursor = Cursors.Default;
+            }
+        }
         private void FrmMWRecoverDetail_CodeScanned(string code)
         {
             try
@@ -261,6 +279,7 @@ namespace YRKJ.MWR.WSInventory.Forms
         private class LngRes
         {
             public const string MSG_FormName = "废物货箱回收";
+            public const string MSG_InvalidBarCode = "无效的条形码，请重新扫描";
         }
 
         #endregion
