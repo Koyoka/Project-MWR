@@ -1,0 +1,29 @@
+/* here you can put your own css to customize and override the theme */
+
+@import url('font-awesome.min.css');
+@import url('bootstrap.min.css');
+@import url('uniform.default.css');
+
+@import url('style-metronic.css');
+@import url('style.css');
+@import url('style-responsive.css');
+@import url('plugins.css');
+@import url('themes/light.css.css');
+
+
+/*@import url('/assets/plugins/font-awesome/css/font-awesome.min.css');
+@import url('/assets/plugins/font-awesome/css/bootstrap.min.css');
+@import url('/assets/plugins/font-awesome/css/uniform.default.css');
+
+@import url('/assets/plugins/font-awesome/css/style-metronic.css');
+@import url('/assets/plugins/font-awesome/css/style.css');
+@import url('/assets/plugins/font-awesome/css/style-responsive.css');
+@import url('/assets/plugins/font-awesome/css/plugins.css');
+@import url('/assets/plugins/font-awesome/css/themes/light.css.css');*/
+
+/*<link href="/assets/css/custom.css" rel="stylesheet" type="text/css">*/
+
+.page-sidebar-menu > li > a {
+  font-size: 1.6rem;
+  
+}

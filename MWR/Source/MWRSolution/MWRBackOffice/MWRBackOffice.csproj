@@ -54,6 +54,8 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\custom.css" />
+    <Content Include="Pages\BO\BOMain.aspx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -63,6 +65,32 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Business\Sys\RedirectHelper.cs" />
+    <Compile Include="Business\Sys\UrlParaCollection.cs" />
+    <Compile Include="Business\Sys\UrlParaData.cs" />
+    <Compile Include="Business\Sys\WebUIFn.cs" />
+    <Compile Include="Class1.cs" />
+    <Compile Include="Pages\BO\BOMain.aspx.cs">
+      <DependentUpon>BOMain.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\BO\BOMain.aspx.designer.cs">
+      <DependentUpon>BOMain.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\MasterPages\MWBOEmpty.Master.cs">
+      <DependentUpon>MWBOEmpty.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\MasterPages\MWBOEmpty.Master.designer.cs">
+      <DependentUpon>MWBOEmpty.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\MasterPages\MWBOMain.master.cs">
+      <DependentUpon>MWBOMain.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\MasterPages\MWBOMain.master.designer.cs">
+      <DependentUpon>MWBOMain.master</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -79,6 +107,15 @@
       <Name>MWRDBModule</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Setting\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Pages\MasterPages\MWBOEmpty.Master" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Pages\MasterPages\MWBOMain.master" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
   <ProjectExtensions>
@@ -87,7 +124,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>19589</DevelopmentServerPort>
+          <DevelopmentServerPort>15809</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>
