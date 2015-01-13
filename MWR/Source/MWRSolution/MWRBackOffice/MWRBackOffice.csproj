@@ -54,8 +54,160 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\css\animate.css" />
+    <Content Include="Assets\css\custom.css" />
+    <Content Include="Assets\css\pages\about-us.css" />
+    <Content Include="Assets\css\pages\blog.css" />
+    <Content Include="Assets\css\pages\coming-soon.css" />
+    <Content Include="Assets\css\pages\email.css" />
+    <Content Include="Assets\css\pages\error.css" />
+    <Content Include="Assets\css\pages\image-crop.css" />
+    <Content Include="Assets\css\pages\inbox.css" />
+    <Content Include="Assets\css\pages\invoice.css" />
+    <Content Include="Assets\css\pages\lock.css" />
+    <Content Include="Assets\css\pages\login-soft.css" />
+    <Content Include="Assets\css\pages\login.css" />
+    <Content Include="Assets\css\pages\news.css" />
+    <Content Include="Assets\css\pages\portfolio.css" />
+    <Content Include="Assets\css\pages\pricing-tables.css" />
+    <Content Include="Assets\css\pages\profile.css" />
+    <Content Include="Assets\css\pages\promo.css" />
+    <Content Include="Assets\css\pages\search.css" />
+    <Content Include="Assets\css\pages\tasks.css" />
+    <Content Include="Assets\css\pages\timeline.css" />
+    <Content Include="Assets\css\plugins.css" />
+    <Content Include="Assets\css\print.css" />
+    <Content Include="Assets\css\style-metronic.css" />
+    <Content Include="Assets\css\style-non-responsive.css" />
+    <Content Include="Assets\css\style-responsive.css" />
+    <Content Include="Assets\css\style.css" />
+    <Content Include="Assets\css\themes\blue.css" />
+    <Content Include="Assets\css\themes\brown.css" />
+    <Content Include="Assets\css\themes\default.css" />
+    <Content Include="Assets\css\themes\grey.css" />
+    <Content Include="Assets\css\themes\light.css" />
+    <Content Include="Assets\css\themes\purple.css" />
     <Content Include="Assets\custom.css" />
+    <Content Include="Assets\customer.js" />
+    <Content Include="Assets\fonts\font.css" />
+    <Content Include="Assets\fonts\fontawesome-webfont.svg" />
+    <Content Include="Assets\images\logo.png" />
+    <Content Include="Assets\img\ajax-loading.gif" />
+    <Content Include="Assets\img\ajax-modal-loading.gif" />
+    <Content Include="Assets\img\arrow-down.png" />
+    <Content Include="Assets\img\avatar.png" />
+    <Content Include="Assets\img\avatar1.jpg" />
+    <Content Include="Assets\img\avatar1_small.jpg" />
+    <Content Include="Assets\img\avatar2.jpg" />
+    <Content Include="Assets\img\avatar3.jpg" />
+    <Content Include="Assets\img\avatar3_small.jpg" />
+    <Content Include="Assets\img\bg-opacity.png" />
+    <Content Include="Assets\img\bg-white-lock.png" />
+    <Content Include="Assets\img\bg-white.png" />
+    <Content Include="Assets\img\datatable-row-openclose.png" />
+    <Content Include="Assets\img\del_menu-toggler.png" />
+    <Content Include="Assets\img\hor-menu-red-arrow.png" />
+    <Content Include="Assets\img\hor-menu-search-close-white.png" />
+    <Content Include="Assets\img\hor-menu-search-close.png" />
+    <Content Include="Assets\img\hor-menu-search.jpg" />
+    <Content Include="Assets\img\hor-menu-search.png" />
+    <Content Include="Assets\img\icon-color-close.png" />
+    <Content Include="Assets\img\icon-color.png" />
+    <Content Include="Assets\img\icon-img-down.png" />
+    <Content Include="Assets\img\icon-img-up.png" />
+    <Content Include="Assets\img\inbox-nav-arrow-blue.png" />
+    <Content Include="Assets\img\input-spinner.gif" />
+    <Content Include="Assets\img\loading.gif" />
+    <Content Include="Assets\img\logo-big.png" />
+    <Content Include="Assets\img\logo.png" />
+    <Content Include="Assets\img\menu-toggler.png" />
+    <Content Include="Assets\img\overlay-icon.png" />
+    <Content Include="Assets\img\photo1.jpg" />
+    <Content Include="Assets\img\photo2.jpg" />
+    <Content Include="Assets\img\portlet-collapse-icon-white.png" />
+    <Content Include="Assets\img\portlet-collapse-icon.png" />
+    <Content Include="Assets\img\portlet-config-icon-white.png" />
+    <Content Include="Assets\img\portlet-config-icon.png" />
+    <Content Include="Assets\img\portlet-expand-icon-white.png" />
+    <Content Include="Assets\img\portlet-expand-icon.png" />
+    <Content Include="Assets\img\portlet-reload-icon-white.png" />
+    <Content Include="Assets\img\portlet-reload-icon.png" />
+    <Content Include="Assets\img\portlet-remove-icon-white.png" />
+    <Content Include="Assets\img\portlet-remove-icon.png" />
+    <Content Include="Assets\img\remove-icon-small.png" />
+    <Content Include="Assets\img\search-icon-blue.png" />
+    <Content Include="Assets\img\search-icon-brown.png" />
+    <Content Include="Assets\img\search-icon-purple.png" />
+    <Content Include="Assets\img\search-icon-red.png" />
+    <Content Include="Assets\img\search-icon-white.png" />
+    <Content Include="Assets\img\search-icon.png" />
+    <Content Include="Assets\img\select-caret.png" />
+    <Content Include="Assets\img\sidebar-menu-arrow-green-reverse.png" />
+    <Content Include="Assets\img\sidebar-menu-arrow-green.png" />
+    <Content Include="Assets\img\sidebar-menu-arrow-reverse.png" />
+    <Content Include="Assets\img\sidebar-menu-arrow-right.png" />
+    <Content Include="Assets\img\sidebar-menu-arrow.png" />
+    <Content Include="Assets\img\sidebar-search-close-blue.png" />
+    <Content Include="Assets\img\sidebar-search-close-brown.png" />
+    <Content Include="Assets\img\sidebar-search-close-light.png" />
+    <Content Include="Assets\img\sidebar-search-close-purple.png" />
+    <Content Include="Assets\img\sidebar-search-close.png" />
+    <Content Include="Assets\img\sidebar-toggler-blue.jpg" />
+    <Content Include="Assets\img\sidebar-toggler-brown.jpg" />
+    <Content Include="Assets\img\sidebar-toggler-light.jpg" />
+    <Content Include="Assets\img\sidebar-toggler-purple.jpg" />
+    <Content Include="Assets\img\sidebar-toggler.jpg" />
+    <Content Include="Assets\img\sidebar-toggler.png" />
+    <Content Include="Assets\img\syncfusion-icons-white.png" />
+    <Content Include="Assets\img\syncfusion-icons.png" />
+    <Content Include="Assets\scripts\app.js" />
+    <Content Include="Assets\scripts\calendar.js" />
+    <Content Include="Assets\scripts\charts.js" />
+    <Content Include="Assets\scripts\coming-soon.js" />
+    <Content Include="Assets\scripts\contact-us.js" />
+    <Content Include="Assets\scripts\custom.js" />
+    <Content Include="Assets\scripts\form-components.js" />
+    <Content Include="Assets\scripts\form-dropzone.js" />
+    <Content Include="Assets\scripts\form-editable.js" />
+    <Content Include="Assets\scripts\form-fileupload.js" />
+    <Content Include="Assets\scripts\form-image-crop.js" />
+    <Content Include="Assets\scripts\form-samples.js" />
+    <Content Include="Assets\scripts\form-validation.js" />
+    <Content Include="Assets\scripts\form-wizard.js" />
+    <Content Include="Assets\scripts\idle-timeout.js" />
+    <Content Include="Assets\scripts\inbox.js" />
+    <Content Include="Assets\scripts\index.js" />
+    <Content Include="Assets\scripts\lock.js" />
+    <Content Include="Assets\scripts\login-soft.js" />
+    <Content Include="Assets\scripts\login.js" />
+    <Content Include="Assets\scripts\maps-google.js" />
+    <Content Include="Assets\scripts\maps-vector.js" />
+    <Content Include="Assets\scripts\portfolio.js" />
+    <Content Include="Assets\scripts\portlet-draggable.js" />
+    <Content Include="Assets\scripts\search.js" />
+    <Content Include="Assets\scripts\table-advanced.js" />
+    <Content Include="Assets\scripts\table-ajax.js" />
+    <Content Include="Assets\scripts\table-editable.js" />
+    <Content Include="Assets\scripts\table-managed.js" />
+    <Content Include="Assets\scripts\tasks.js" />
+    <Content Include="Assets\scripts\ui-bootbox.js" />
+    <Content Include="Assets\scripts\ui-datepaginator.js" />
+    <Content Include="Assets\scripts\ui-extended-modals.js" />
+    <Content Include="Assets\scripts\ui-general.js" />
+    <Content Include="Assets\scripts\ui-ion-sliders.js" />
+    <Content Include="Assets\scripts\ui-jqueryui-sliders.js" />
+    <Content Include="Assets\scripts\ui-knob.js" />
+    <Content Include="Assets\scripts\ui-nestable.js" />
+    <Content Include="Assets\scripts\ui-nouisliders.js" />
+    <Content Include="Assets\scripts\ui-toastr.js" />
+    <Content Include="Assets\scripts\ui-tree.js" />
     <Content Include="Pages\BO\BOMain.aspx" />
+    <Content Include="Pages\BO\Car\CarDispatch.aspx" />
+    <Content Include="Pages\BO\Car\CarLocus.aspx" />
+    <Content Include="Pages\BO\Car\CarRound.aspx" />
+    <Content Include="Pages\BO\Car\CarTrack.aspx" />
+    <Content Include="Pages\BO\HTMLPage1.htm" />
+    <Content Include="Pages\BO\Inventory\InvAuthorize.aspx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -69,6 +221,7 @@
     <Compile Include="Business\Sys\UrlParaCollection.cs" />
     <Compile Include="Business\Sys\UrlParaData.cs" />
     <Compile Include="Business\Sys\WebUIFn.cs" />
+    <Compile Include="Business\WebAppBase\WebPageMng.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="Pages\BO\BOMain.aspx.cs">
       <DependentUpon>BOMain.aspx</DependentUpon>
@@ -76,6 +229,41 @@
     </Compile>
     <Compile Include="Pages\BO\BOMain.aspx.designer.cs">
       <DependentUpon>BOMain.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\BO\Car\CarDispatch.aspx.cs">
+      <DependentUpon>CarDispatch.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\BO\Car\CarDispatch.aspx.designer.cs">
+      <DependentUpon>CarDispatch.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\BO\Car\CarLocus.aspx.cs">
+      <DependentUpon>CarLocus.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\BO\Car\CarLocus.aspx.designer.cs">
+      <DependentUpon>CarLocus.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\BO\Car\CarRound.aspx.cs">
+      <DependentUpon>CarRound.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\BO\Car\CarRound.aspx.designer.cs">
+      <DependentUpon>CarRound.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\BO\Car\CarTrack.aspx.cs">
+      <DependentUpon>CarTrack.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\BO\Car\CarTrack.aspx.designer.cs">
+      <DependentUpon>CarTrack.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\BO\Inventory\InvAuthorize.aspx.cs">
+      <DependentUpon>InvAuthorize.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\BO\Inventory\InvAuthorize.aspx.designer.cs">
+      <DependentUpon>InvAuthorize.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\MasterPages\MWBOEmpty.Master.cs">
       <DependentUpon>MWBOEmpty.Master</DependentUpon>
@@ -108,6 +296,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Pages\BO\BaseData\" />
+    <Folder Include="Pages\BO\DailyClose\" />
+    <Folder Include="Pages\BO\Report\" />
+    <Folder Include="Pages\BO\System\" />
     <Folder Include="Setting\" />
   </ItemGroup>
   <ItemGroup>
@@ -115,6 +307,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Pages\MasterPages\MWBOMain.master" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\fonts\cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff" />
+    <None Include="Assets\fonts\DXI1ORHCpsQm3Vp6mXoaTXhCUOGz7vYGh680lGh-uXM.woff" />
+    <None Include="Assets\fonts\fontawesome-webfont.eot" />
+    <None Include="Assets\fonts\fontawesome-webfont.ttf" />
+    <None Include="Assets\fonts\fontawesome-webfont.woff" />
+    <None Include="Assets\fonts\FontAwesome.otf" />
+    <None Include="Assets\fonts\k3k702ZOKiLJc3WVjuplzHhCUOGz7vYGh680lGh-uXM.woff" />
+    <None Include="Assets\fonts\MTP_ySUJH_bn48VBG8sNSnhCUOGz7vYGh680lGh-uXM.woff" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
