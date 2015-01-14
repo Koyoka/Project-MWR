@@ -36,7 +36,7 @@ namespace YRKJ.MWR.BackOffice.Business.Sys
 
         public static void Redirect(HttpResponse response, string pageUrl, UrlParaCollection paraList)
         {
-            string url = WebUIFn.GetFullUrl(pageUrl);
+            string url = WebAppFn.GetFullUrl(pageUrl);
 
             if (paraList != null && paraList.Count > 0)
             {

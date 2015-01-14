@@ -5,7 +5,7 @@ using System.Web;
 
 namespace YRKJ.MWR.BackOffice.Business.Sys
 {
-    public class WebUIFn
+    public class WebAppFn
     {
         #region Url
         private static string _siteRoot = null;
@@ -34,5 +34,26 @@ namespace YRKJ.MWR.BackOffice.Business.Sys
             }
         }
         #endregion
+
+        #region request response
+
+        public static string SafeQueryString(string name)
+        {
+            if (HttpContext.Current.Request.QueryString[name] != null)
+            {
+                return HttpContext.Current.Request.QueryString[name].ToString();
+            }
+
+            return "";
+        }
+
+        #endregion
+
+        public static string GetCurrentPageName()
+        { 
+            string currentFilePath = HttpContext.Current.Request.FilePath; 
+            string CurrentPageName = currentFilePath.Substring(currentFilePath.LastIndexOf("/") + 1);
+            return CurrentPageName;
+        }
     }
 }

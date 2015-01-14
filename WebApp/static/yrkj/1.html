@@ -1,0 +1,63 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>jQuery validation plug-in - main demo</title>
+<!-- <link rel="stylesheet" href="https://www.layar.com/static/combined/base.ff85082844f7.css"> -->
+
+<style type="text/css">
+#commentForm { width: 500px; }
+#commentForm label { width: 250px; }
+#commentForm label.error, #commentForm input.submit { margin-left: 253px; }
+#signupForm { width: 670px; }
+#signupForm label.error {
+	margin-left: 10px;
+	width: auto;
+	display: inline;
+}
+#newsletter_topics label.error {
+	display: none;
+	margin-left: 103px;
+}
+</style>
+
+<body>
+
+<form id="commentForm" data-wgt="validate" data-rules="login" method="get" action="" >
+
+<div class="wrap" style="border:1px solid red;">
+
+<input id="cname" name="name"  type="text"  />
+<div class="help" style="border:1px solid red;">123</div>
+</div>
+
+<div class="wrap" style="border:1px solid red;">
+<input id="cname1" name="name1" type="text"  />
+
+</div>
+<input class="submit" type="submit" value="Submit"/>
+
+</form>
+
+<script src="lib/jquery/jquery.min.js"></script>
+<script src="lib/jquery/validate/jquery.validate.js"></script>
+<script src="lib/jquery/validate/localization/messages_zh.js"></script>
+<script src="js/yr_com.js"></script>
+<script src="widget/wgt.js"></script>
+<script>
+
+gl.validationSettings.login = {
+	rules: {
+		name : {required:true},
+		name1 : {required:true}
+	},
+	messages:{
+		name : {required: "asdfafd"}
+	}
+}
+//window.alert(gl.validationSettings)
+</script>
+
+</body>
+</html>

@@ -201,12 +201,15 @@
     <Content Include="Assets\scripts\ui-nouisliders.js" />
     <Content Include="Assets\scripts\ui-toastr.js" />
     <Content Include="Assets\scripts\ui-tree.js" />
+    <Content Include="Assets\test.js" />
+    <Content Include="Pages\BO\BOIndex.aspx" />
     <Content Include="Pages\BO\BOMain.aspx" />
     <Content Include="Pages\BO\Car\CarDispatch.aspx" />
     <Content Include="Pages\BO\Car\CarLocus.aspx" />
     <Content Include="Pages\BO\Car\CarRound.aspx" />
     <Content Include="Pages\BO\Car\CarTrack.aspx" />
     <Content Include="Pages\BO\HTMLPage1.htm" />
+    <Content Include="Pages\BO\index.html" />
     <Content Include="Pages\BO\Inventory\InvAuthorize.aspx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -220,9 +223,16 @@
     <Compile Include="Business\Sys\RedirectHelper.cs" />
     <Compile Include="Business\Sys\UrlParaCollection.cs" />
     <Compile Include="Business\Sys\UrlParaData.cs" />
-    <Compile Include="Business\Sys\WebUIFn.cs" />
+    <Compile Include="Business\Sys\WebAppFn.cs" />
     <Compile Include="Business\WebAppBase\WebPageMng.cs" />
     <Compile Include="Class1.cs" />
+    <Compile Include="Pages\BO\BOIndex.aspx.cs">
+      <DependentUpon>BOIndex.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\BO\BOIndex.aspx.designer.cs">
+      <DependentUpon>BOIndex.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Pages\BO\BOMain.aspx.cs">
       <DependentUpon>BOMain.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

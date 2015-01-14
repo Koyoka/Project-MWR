@@ -1,0 +1,211 @@
+﻿/* LIGHTBOX CORE STYLING
+----------------------------------------------------------- */
+.lyr-lb-lightbox {
+    z-index: 1000; /* Keep same number as .vitrage in layar.css,
+                      Z order should be defined by order in DOM */
+    top: 0; /* IE9, will be overwritten by inline position */
+
+}
+
+.lyr-lb-lightbox.canhasanim {
+            transition: all 0.5s;
+         -o-transition: all 0.5s;
+       -moz-transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+}
+
+.lyr-lb-vitrage {
+    background: #000;
+}
+
+.lyr-lb-lightbox {
+    position: absolute;
+    background: #fff;
+    -webkit-border-radius: 10px;
+       -moz-border-radius: 10px;
+            border-radius: 10px;
+    -webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, .4);
+       -moz-box-shadow: 0 1px 6px rgba(0, 0, 0, .4);
+            box-shadow: 0 1px 6px rgba(0, 0, 0, .4);
+}
+
+/* Slanted shadows */
+.lyr-lb-lightbox:before,
+.lyr-lb-lightbox:after {
+    z-index: -1;
+    position: absolute;
+    content: "";
+    bottom: 13px;
+    left: 10px;
+    width: 50%;
+    top: 80%;
+    max-width: 300px;
+    background: rgba(0, 0, 0, .7);
+    -webkit-box-shadow: 0 13px 10px rgba(0, 0, 0, .5);
+       -moz-box-shadow: 0 13px 10px rgba(0, 0, 0, .5);
+            box-shadow: 0 13px 10px rgba(0, 0, 0, .5);
+    -webkit-transform: rotate(-4deg);
+       -moz-transform: rotate(-4deg);
+        -ms-transform: rotate(-4deg);
+         -o-transform: rotate(-4deg);
+            transform: rotate(-4deg);
+}
+.lyr-lb-lightbox:after {
+    -webkit-transform: rotate(5deg);
+       -moz-transform: rotate(5deg);
+        -ms-transform: rotate(5deg);
+         -o-transform: rotate(5deg);
+            transform: rotate(5deg);
+    right: 10px;
+    left: auto;
+}
+    .lyr-lb-close {
+        position: absolute;
+        right: 10px;
+        top: 11px;
+        width: 25px;
+        height: 25px;
+        overflow: hidden;
+        text-indent: -9999em;
+        cursor: pointer;
+        background: url("close.d0f1d5fb7a1f.png") no-repeat 0 0;
+    }
+    .lyr-lb-close:hover {
+        background-position: 0 100%;
+    }
+
+    .lyr-lb-content {
+        background: #fff;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+        padding: 10px 20px;
+        min-height: 120px;
+    }
+        .lyr-lb-loading {
+            background: url("loading.6b3d503dd054.gif") no-repeat 50% 50%;
+            -webkit-border-radius: 7px;
+               -moz-border-radius: 7px;
+                    border-radius: 7px;
+            margin: 0 auto;
+            height: 150px;
+            width: 400px;
+        }
+
+/* LIGHTBOX USUAL SUSPECTS
+----------------------------------------------------------- */
+.lyr-lb-content h1 {
+    font-size: 18px;
+    margin: -10px -20px 18px;
+    padding: 16px 20px 10px;
+    border-bottom: 1px solid #ccc;
+}
+.lyr-lb-content form h1 {
+    margin-bottom: 0;
+}
+    .lyr-lb-content form {
+    }
+        .lyr-lb-content form h1 + p {
+            margin-top: 10px;
+            margin-bottom: 0;
+        }
+
+        .lyr-lb-content form .description {
+            color: #666;
+            margin: 0 -20px;
+            padding: 15px 30px 15px 20px;
+            background: #F5F7FA;
+            border-bottom: 1px dotted #ccc;
+        }
+
+.lyr-lb-content .tabs {
+    border-bottom: 1px solid #ccc;
+    margin: -10px -20px 10px;
+    padding: 10px 10px 0;
+    height: 40px;
+}
+    .lyr-lb-content .tabs li {
+        display: inline-block;
+        margin-right: 5px;
+    }
+        .lyr-lb-content .tabs li a {
+            background: #eee;
+            color: #777;
+            display: block;
+            border: 1px solid #ccc;
+            padding: 0 35px;
+            line-height: 45px;
+            height: 39px;
+            font-size: 18px;
+            font-weight: bold;
+            text-decoration: none;
+            -webkit-border-radius: 7px 7px 0 0;
+               -moz-border-radius: 7px 7px 0 0;
+                    border-radius: 7px 7px 0 0;
+        }
+        .lyr-lb-content .tabs li a:hover {
+            color: #000;
+        }
+        .lyr-lb-content .tabs li.selected a,
+        .lyr-lb-content .tabs li.selected a:hover {
+            padding-bottom: 1px;
+            border-bottom: none;
+            cursor: default;
+            background: #fff;
+            color: #000;
+        }
+
+.lyr-lb-content .item-last > label,
+.lyr-lb-content .item-last .wrap {
+    border-bottom: none;
+}
+
+.lyr-lb-content .buttons {
+    background: #eee;
+    border-top: 1px solid #ccc;
+    margin: -1px -20px -10px;
+    padding: 12px 18px 11px;
+    -webkit-border-radius: 0 0 8px 8px;
+       -moz-border-radius: 0 0 8px 8px;
+            border-radius: 0 0 8px 8px;
+    -webkit-box-shadow: inset 0 -2px 0 #dadada;
+       -moz-box-shadow: inset 0 -2px 0 #dadada;
+            box-shadow: inset 0 -2px 0 #dadada;
+}
+
+/* LIGHTBOX THEMES
+--------------------------------------------------------------- */
+.lyr-lb-lightbox.overlay {
+    -webkit-box-shadow: none;
+       -moz-box-shadow: none;
+            box-shadow: none;
+    background: none;
+    z-index: 500;
+}
+
+.lyr-lb-lightbox.overlay:before,
+.lyr-lb-lightbox.overlay:after {
+    content: none;
+    display: none;
+}
+
+.lyr-lb-lightbox.overlay .lyr-lb-content {
+    background-clip: padding-box;
+    border: 10px solid rgba(0, 0, 0, 0.2);
+    -webkit-border-radius: 20px;
+       -moz-border-radius: 20px;
+            border-radius: 20px;
+}
+
+.lyr-lb-lightbox.overlay .lyr-lb-content h1 {
+    border-bottom: 1px dotted #ccc;
+}
+
+.lyr-lb-lightbox.overlay .lyr-lb-content .buttons {
+    background: none;
+    -webkit-box-shadow: none;
+       -moz-box-shadow: none;
+            box-shadow: none;
+    border: none;
+    border-top: 1px dotted #ccc;
+}

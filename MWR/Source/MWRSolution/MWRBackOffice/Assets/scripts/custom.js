@@ -5,8 +5,12 @@ var Custom = function () {
 
     // private functions & variables
 
-    var myFunc = function(text) {
+    var myFunc = function (text) {
         alert(text);
+    }
+
+    var InitGLWgt = function () { 
+        
     }
 
     // public functions
@@ -24,7 +28,7 @@ var Custom = function () {
 
     };
 
-}();
+} ();
 
 /***
 Usage

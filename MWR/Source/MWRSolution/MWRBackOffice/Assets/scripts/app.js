@@ -239,6 +239,7 @@ var App = function () {
                 success: function (res) {
                     App.unblockUI(pageContent);
                     pageContentBody.html(res);
+                   
                     App.fixContentHeight(); // fix content height
                     App.initAjax(); // initialize core stuff
                 },
@@ -959,7 +960,9 @@ var App = function () {
             handlePopovers(); // handles bootstrap popovers
             handleAccordions(); //handles accordions 
             handleUniform(); // hanfle custom radio & checkboxes     
-            handleDropdownHover() // handles dropdown hover       
+            handleDropdownHover() // handles dropdown hover 
+
+            handleScrollers();// add by eleven handle scrollers      
         },
 
         //public function to fix the sidebar and content height accordingly

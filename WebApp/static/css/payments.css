@@ -1,0 +1,462 @@
+﻿/*******************
+  SEE: payments.less
+*******************/
+/*** colors ***/
+/*** typography ***/
+/*** library ***/
+.pmt-option {
+  -webkit-border-radius: 14px;
+  -moz-border-radius: 14px;
+  border-radius: 14px;
+  display: inline-block;
+  text-align: center;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-weight: 300;
+  background: #f5f7fa;
+  color: #4a4a50;
+  cursor: pointer;
+  vertical-align: top;
+  border: solid 1px #e3e3e3;
+  -webkit-box-shadow: inset 0 -2px 5px -2px #e3e3e3, inset 0 1px 1px 1px #ffffff;
+  -moz-box-shadow: inset 0 -2px 5px -2px #e3e3e3, inset 0 1px 1px 1px #ffffff;
+  box-shadow: inset 0 -2px 5px -2px #e3e3e3, inset 0 1px 1px 1px #ffffff;
+}
+.pmt-option-selected {
+  border: 1px solid #ccc;
+}
+.dec {
+  font-size: 14px;
+  display: inline-block;
+  vertical-align: top;
+  line-height: 8px;
+}
+.pmt-help-msg {
+  text-align: left;
+  display: inline-block;
+  margin: 10px;
+  color: #999;
+  width: 586px;
+}
+/*** main ***/
+.pmt-buy-options {
+  text-align: center;
+}
+/*
+  ********
+  ******** VIA-CREDITS
+  ********
+----------------------------------------------------------- */
+.pmt-publish-via-credits .pmt-buy-options {
+  padding-bottom: 30px;
+  width: 535px;
+}
+.pmt-publish-via-credits fieldset {
+  -webkit-border-radius: 14px;
+  -moz-border-radius: 14px;
+  border-radius: 14px;
+  display: inline-block;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-weight: 300;
+  background: #f5f7fa;
+  color: #4a4a50;
+  cursor: pointer;
+  vertical-align: top;
+  border: solid 1px #e3e3e3;
+  -webkit-box-shadow: inset 0 -2px 5px -2px #e3e3e3, inset 0 1px 1px 1px #ffffff;
+  -moz-box-shadow: inset 0 -2px 5px -2px #e3e3e3, inset 0 1px 1px 1px #ffffff;
+  box-shadow: inset 0 -2px 5px -2px #e3e3e3, inset 0 1px 1px 1px #ffffff;
+  width: 280px;
+  text-align: center;
+  min-height: 220px;
+  position: relative;
+}
+.pmt-publish-via-credits fieldset h2 {
+  color: #00b1cc;
+  font-family: Dosis, Trebuchet MS, Trebuchet, sans-serif;
+  margin-top: 14px;
+}
+.pmt-publish-via-credits fieldset ul {
+  margin-top: 14px;
+  width: 200px;
+  text-align: left;
+  /*
+            Vertical alignment of '2 credits will remain in your acct'
+            Purchasing pages with credits
+        */
+
+}
+.pmt-publish-via-credits fieldset ul li {
+  list-style-type: disc;
+}
+.pmt-publish-via-credits fieldset ul.buffer {
+  display: table-row;
+  width: 200px;
+}
+.pmt-publish-via-credits fieldset ul.buffer li {
+  display: table-cell;
+  vertical-align: middle;
+  padding: 30px;
+  width: 200px;
+}
+.pmt-publish-via-credits fieldset strong {
+  font-size: 22px;
+}
+.pmt-publish-via-credits fieldset label {
+  position: absolute;
+  bottom: 12px;
+  left: 49%;
+}
+.pmt-publish-via-credits fieldset:first-child {
+  margin-right: 20px;
+}
+.pmt-publish-via-credits fieldset:first-child p {
+  margin-bottom: 0;
+}
+.pmt-publish-via-credits fieldset:last-child,
+.pmt-publish-via-credits fieldset .free {
+  font-size: 90%;
+  width: 220px !important;
+  text-align: center;
+}
+.pmt-publish-via-credits fieldset:last-child ul,
+.pmt-publish-via-credits fieldset .free ul {
+  margin-left: 28px;
+  width: 180px;
+}
+.pmt-publish-via-credits fieldset:last-child input,
+.pmt-publish-via-credits fieldset .free input {
+  font-size: 14px;
+}
+.pmt-publish-via-credits footer {
+  display: inline;
+}
+.pmt-publish-via-credits footer .pmt-help-msg {
+  padding: 10px 0;
+}
+/* argh */
+.ie8 .pmt-publish-via-credits fieldset.free.inline ul li {
+  margin-left: 30px;
+}
+/*
+  ********
+  ******** VIA-MONEY
+  ********
+----------------------------------------------------------- */
+.pmt-publish-via-money fieldset {
+  -webkit-border-radius: 14px;
+  -moz-border-radius: 14px;
+  border-radius: 14px;
+  display: inline-block;
+  text-align: center;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-weight: 300;
+  background: #f5f7fa;
+  color: #4a4a50;
+  cursor: pointer;
+  vertical-align: top;
+  border: solid 1px #e3e3e3;
+  -webkit-box-shadow: inset 0 -2px 5px -2px #e3e3e3, inset 0 1px 1px 1px #ffffff;
+  -moz-box-shadow: inset 0 -2px 5px -2px #e3e3e3, inset 0 1px 1px 1px #ffffff;
+  box-shadow: inset 0 -2px 5px -2px #e3e3e3, inset 0 1px 1px 1px #ffffff;
+  width: 280px;
+  padding-bottom: 8px;
+}
+.pmt-publish-via-money fieldset.selected {
+  border: 1px solid #ccc;
+}
+.pmt-publish-via-money fieldset h2 {
+  color: #00b1cc;
+  font-family: Dosis, Trebuchet MS, Trebuchet, sans-serif;
+  margin-top: 14px;
+}
+.pmt-publish-via-money fieldset ul {
+  margin-top: 14px;
+}
+.pmt-publish-via-money fieldset p span {
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 16px;
+  display: inline-block;
+  color: #ffffff;
+  background: #00b1cc;
+  margin-top: 14px;
+}
+.pmt-publish-via-money fieldset p strong {
+  margin-top: 14px;
+  margin-bottom: -4px;
+  font-size: 24px;
+  display: block;
+}
+.pmt-publish-via-money fieldset label {
+  padding-bottom: 12px;
+}
+.pmt-publish-via-money fieldset:first-child {
+  margin-right: 20px;
+}
+.pmt-publish-via-money fieldset:first-child ul {
+  width: 250px;
+  padding-right: 40px;
+}
+.pmt-publish-via-money fieldset:first-child ul li {
+  text-align: right;
+}
+.pmt-publish-via-money fieldset:first-child ul li span {
+  float: right;
+  margin-left: 10px;
+  font-weight: bold;
+}
+.pmt-publish-via-money footer {
+  display: inline;
+  background: #fff;
+}
+.pmt-publish-via-money fieldset.free {
+  width: 586px;
+  /* 280*2 + 26*/
+
+  text-align: left;
+  padding: 10px;
+  margin: 10px 0 20px;
+  cursor: pointer;
+}
+.pmt-publish-via-money fieldset.free h2 {
+  margin: 6px 0 2px 0;
+  text-align: center;
+}
+.pmt-publish-via-money fieldset.free h2 span {
+  display: inline-block;
+  font-size: 12px;
+  color: #00b1cc;
+  margin-left: 1px;
+}
+.pmt-publish-via-money fieldset.free h2 span:before {
+  content: '▶';
+}
+.pmt-publish-via-money fieldset.free h2 span.on:before {
+  content: '▼';
+}
+.pmt-publish-via-money fieldset.free ul {
+  width: auto;
+  margin: 15px 0 0;
+}
+.pmt-publish-via-money fieldset.free ul li {
+  list-style: none;
+  text-align: center;
+}
+.pmt-publish-via-money fieldset.free label {
+  display: block;
+  text-align: center;
+  margin: 10px 0 -10px;
+}
+.pmt-publish-via-money blockquote {
+  position: absolute;
+  text-align: left;
+  width: 80px;
+  left: 224px;
+  top: 22px;
+  z-index: 99;
+  color: #fff;
+  font-size: 13px;
+  font-weight: normal;
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+.pmt-publish-via-money .sash-parent {
+  position: relative;
+}
+.pmt-publish-via-money .sash-parent:after {
+  content: '';
+  display: block;
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  background: url("/static/img/sash.313a449dbcf9.png") no-repeat 50% 50%;
+  top: -16px;
+  right: -18px;
+}
+.ie8 blockquote {
+  display: none;
+}
+.ie8 .sash-parent:after {
+  display: none;
+}
+/*
+  ********
+  ******** PRE-PURCHASE
+  ********
+----------------------------------------------------------- */
+.pmt-pre-purchase {
+  text-align: center;
+  /* TABLE OF RECEIPTS */
+
+  /* input section of bundles */
+
+}
+.pmt-pre-purchase fieldset {
+  width: 180px;
+  display: inline-block;
+  text-align: center;
+}
+.pmt-pre-purchase fieldset.selected section {
+  border: 1px solid #ccc;
+}
+.pmt-pre-purchase fieldset section {
+  -webkit-border-radius: 14px;
+  -moz-border-radius: 14px;
+  border-radius: 14px;
+  display: inline-block;
+  text-align: center;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-weight: 300;
+  background: #f5f7fa;
+  color: #4a4a50;
+  cursor: pointer;
+  vertical-align: top;
+  border: solid 1px #e3e3e3;
+  -webkit-box-shadow: inset 0 -2px 5px -2px #e3e3e3, inset 0 1px 1px 1px #ffffff;
+  -moz-box-shadow: inset 0 -2px 5px -2px #e3e3e3, inset 0 1px 1px 1px #ffffff;
+  box-shadow: inset 0 -2px 5px -2px #e3e3e3, inset 0 1px 1px 1px #ffffff;
+  min-height: 120px;
+  width: 165px;
+}
+.pmt-pre-purchase fieldset section header {
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  width: 82%;
+  height: auto;
+  margin: 0 auto;
+  margin-top: 8px;
+  background: #00b1cc;
+  color: #ffffff;
+  padding: 4px 6px;
+  font-size: 16px;
+}
+.pmt-pre-purchase fieldset section h2 {
+  margin-top: 24px;
+  font-size: 24px;
+}
+.pmt-pre-purchase fieldset section h2 .pge {
+  font-size: 12px;
+}
+.pmt-pre-purchase fieldset section h2 .dec {
+  line-height: 10px;
+}
+.pmt-pre-purchase fieldset section footer {
+  margin-top: 12px;
+  font-size: 13px;
+  height: auto;
+  background: none;
+  color: #4a4a50;
+}
+.pmt-pre-purchase fieldset label {
+  display: block;
+  width: 180px;
+  padding: 8px 0;
+}
+.pmt-pre-purchase table.pmt-receipt {
+  width: 100%;
+  margin: 10px 0 20px;
+}
+.pmt-pre-purchase table.pmt-receipt.visible {
+  width: 100%;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  border-collapse: inherit;
+  border: 1px solid #ccc;
+}
+.pmt-pre-purchase label {
+  cursor: default;
+  position: relative;
+}
+.pmt-pre-purchase input.bundle-volume {
+  margin: 10px 10px 10px 10px;
+  width: 40px;
+  text-align: center;
+}
+.pmt-pre-purchase input[type=number]::-webkit-inner-spin-button,
+.pmt-pre-purchase input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.pmt-pre-purchase .volume-spinner {
+  position: absolute;
+  width: 20px;
+  height: 14px;
+  line-height: 14px;
+  left: 23px;
+  color: #ddd;
+  font-size: 14px;
+  cursor: pointer;
+  display: none;
+}
+.pmt-pre-purchase .pmt-bundle-price:hover .volume-spinner {
+  display: block;
+}
+.pmt-pre-purchase .volume-spinner.up {
+  top: -15px;
+  background: url("/static/img/btg-sprite-arrows-v2.57e58ea17a2f.png") no-repeat -7px -62px;
+}
+.pmt-pre-purchase .volume-spinner.dwn {
+  bottom: -15px;
+  background: url("/static/img/btg-sprite-arrows-v2.57e58ea17a2f.png") no-repeat -7px -104px;
+}
+.pmt-pre-purchase td {
+  border-bottom: 1px solid #ccc;
+  white-space: nowrap;
+  padding: 8px 0;
+  vertical-align: middle;
+}
+.pmt-pre-purchase td.td0 {
+  width: 10%;
+  text-align: center;
+}
+.pmt-pre-purchase td.td0 .strong {
+  margin-top: -14px;
+  display: block;
+}
+.pmt-pre-purchase td.td1 {
+  width: 70%;
+  height: 40px;
+  text-align: left;
+}
+.pmt-pre-purchase td.td2 {
+  width: 20%;
+  text-align: left;
+}
+.pmt-pre-purchase td.td2 .note {
+  font-size: 80%;
+}
+.pmt-pre-purchase .pmt-receipt-total-row .pmt-receipt-msg {
+  white-space: inherit;
+  border-bottom: 0;
+  padding: 10px 0 0 0;
+}
+.pmt-pre-purchase .pmt-receipt-total-row .pmt-receipt-msg .pmt-help-msg {
+  font-size: 90%;
+  padding: 0 10px;
+}
+.pmt-pre-purchase .pmt-receipt-total-row .pmt-receipt-pages-label {
+  font-size: 220%;
+}
+.pmt-pre-purchase .pmt-receipt-total-row span.dec {
+  font-size: 14px;
+  vertical-align: top;
+  display: inline-block;
+  line-height: 8px;
+}
+.pmt-pre-purchase .text-chunk {
+  text-align: left;
+}
+.layar-frontend .pmt-pre-purchase fieldset section footer {
+  margin-top: 0px;
+}
+/** TOTAL ROW **/
+.pre-purchase .pmt-receipt-pages-label,
+.pre-purchase .pmt-receipt-total-row .td2 {
+  font-size: 220%;
+}

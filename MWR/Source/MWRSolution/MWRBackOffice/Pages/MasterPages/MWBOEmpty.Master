@@ -3,7 +3,7 @@
 
 <%@ Import Namespace="YRKJ.MWR.BackOffice.Business.Sys" %>
 
-
+<% if (!IsContainerPage){ %>
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
@@ -52,9 +52,22 @@
 <!-- BEGIN BODY -->
 <body class="page-header-fixed page-footer-fixed1">
 
+<%  }%>
+
+<% if (!IsIndexPage && !IsContainerPage)
+   { %>
+<div class="page-content" style="">
+<%  }%>
 
 <asp:ContentPlaceHolder ID="body" runat="server">
 </asp:ContentPlaceHolder>
+
+<% if (!IsIndexPage && !IsContainerPage)
+   { %>
+</div>
+<%  }%>
+
+<% if (!IsContainerPage){ %>
 
 <!--[if lt IE 9]>
    <script src="/assets/plugins/respond.min.js"></script>
@@ -91,22 +104,35 @@
 <script src="/assets/plugins/jquery-easy-pie-chart/jquery.easy-pie-chart.js" type="text/javascript"></script>
 <script src="/assets/plugins/jquery.sparkline.min.js" type="text/javascript"></script>
 <!-- END PAGE LEVEL PLUGINS -->
-
-
-<asp:ContentPlaceHolder ID="footscript" runat="server">
-</asp:ContentPlaceHolder>
+<script src="/assets/plugins/bootstrap-daterangepicker/moment.min.js" type="text/javascript"></script>
+<script src="/assets/plugins/bootstrap-daterangepicker/daterangepicker.js" type="text/javascript"></script>
 
 <script src="/assets/scripts/app.js"></script>
+<script src="/assets/scripts/index.js" type="text/javascript"></script>
+
+
+
+
+<script src="/assets/customer.js"></script>
+
 
 <script>
     jQuery(document).ready(function () {
         App.init();
+        Custom.init();
     });
-   </script>
+</script>
 
-
-
+<%  }%>
 <asp:ContentPlaceHolder ID="foot" runat="server">
 </asp:ContentPlaceHolder>
-
+<asp:ContentPlaceHolder ID="footscript" runat="server">
+</asp:ContentPlaceHolder>
+<% if (!IsContainerPage){ %>
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        Custom.scan();
+    });
+</script>
 </body></html>
+<%  }%>

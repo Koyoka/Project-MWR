@@ -1,11 +1,12 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Pages/MasterPages/MWBOMain.master"
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Pages/MasterPages/MWBOEmpty.Master"
     AutoEventWireup="true" CodeBehind="BOMain.aspx.cs" Inherits="YRKJ.MWR.BackOffice.Pages.BO.BOMain" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-
+
+
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
-    
+
             <div class="modal fade" id="portlet-config" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 				<div class="modal-dialog">
 					<div class="modal-content">
@@ -25,6 +26,7 @@
 				</div>
 				<!-- /.modal-dialog -->
 			</div>
+            
 
             <!-- begin target bar -->
             <div class="row">
@@ -787,29 +789,19 @@
             <div class="clearfix">
             </div>
             <!--end Home page MWR detail -->
-               
-       
-   
+
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="footscript" runat="server">
 
-
+
+
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="foot" runat="server">
-    <script src="/assets/plugins/bootstrap-daterangepicker/moment.min.js" type="text/javascript"></script>
-    <script src="/assets/plugins/bootstrap-daterangepicker/daterangepicker.js" type="text/javascript"></script>
-    <script src="/assets/scripts/index.js" type="text/javascript"></script>
-    <script>
-        jQuery(document).ready(function () {
-           
-
-        });
-    </script>
+   
     <script type="text/javascript">
         jQuery(document).ready(function () {
             Index.init();
             Index.initCalendar(); // init index page's custom scripts
-            MW_AppHelper.SetCurMenu("MW_Home");
 
         });
     </script>
