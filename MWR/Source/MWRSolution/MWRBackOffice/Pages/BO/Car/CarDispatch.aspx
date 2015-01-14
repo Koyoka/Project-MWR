@@ -37,13 +37,13 @@
                 </div>
                 <div class="portlet-body form">
                     <!-- BEGIN FORM-->
-                    <form action="#" class="">
+                    <form id="cc" action="#" class="">
                     <div class="form-body">
                         <div class="form-group">
                             <label class="control-label">
                                 当前驻厂车辆</label>
-                            <select class="form-control input-lg">
-                                <option>选择车辆</option>
+                            <select  name="data1" class="form-control input-lg">
+                                <option value="value1">选择车辆</option>
                                 <option>鄂A88888</option>
                                 <option>鄂A88888</option>
                                 <option>鄂A88888</option>
@@ -54,8 +54,8 @@
                         <div class="form-group">
                             <label class="control-label">
                                 当前驻留司机</label>
-                            <select class="form-control input-lg">
-                                <option>选择司机</option>
+                            <select  name="data2" class="form-control input-lg">
+                                <option  value="value2">选择司机</option>
                                 <option>张三</option>
                                 <option>张三</option>
                                 <option>张三</option>
@@ -67,8 +67,8 @@
                         <div class="form-group last">
                             <label class="control-label">
                                 当前驻留跟车员</label>
-                            <select class="form-control input-lg">
-                                <option>选择跟车员</option>
+                            <select name="data3" class="form-control input-lg">
+                                <option  value="value3">选择跟车员</option>
                                 <option>李四</option>
                                 <option>李四</option>
                                 <option>李四</option>
@@ -78,10 +78,9 @@
                         </div>
                     </div>
                     <div class="form-actions right">
-                        <button type="submit" class="btn green">
-                            确定</button>
-                        <button type="button" class="btn default">
-                            Cancel</button>
+                        <button type="button" data-loading-text="提交..." class="demo-loading-btn btn btn-primary green">
+								提交 </button>
+                        
                     </div>
                     </form>
                     <!-- END FORM-->
@@ -331,14 +330,47 @@
    
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="foot" runat="server">
-<script src="assets/plugins/fullcalendar/fullcalendar/fullcalendar.min.js" type="text/javascript"></script>
-<script type="text/javascript" src="/assets/plugins/data-tables/DT_bootstrap.js"></script>
+<script src="/assets/plugins/fullcalendar/fullcalendar/fullcalendar.min.js" type="text/javascript"></script>
+<%--<script type="text/javascript" src="/assets/plugins/data-tables/DT_bootstrap.js"></script>--%>
 
 <script src="/assets/scripts/table-managed.js"></script>
 <script>
     jQuery(document).ready(function () {
-      
-        TableManaged.init();
+
+        //        TableManaged.init();
+
+
+        // initiate  and plugins
+        // button state demo
+
+        $('.demo-loading-btn')
+              .click(function () {
+                  var btn = $(this)
+                  btn.button('loading');
+                  $.ajax({
+                      cache: true,
+                      type: "POST",
+                      url: "CarDispatch.aspx",
+                      data: $('#cc').serialize(), // 你的formid
+                      async: false,
+                      error: function (request) {
+
+                          alert("Connection error");
+                          btn.button('reset');
+                      },
+                      success: function (data) {
+                          btn.button('reset');
+                          window.alert("success")
+                      }
+                  });
+
+
+
+              });
     });
+
+
+
+//         
 </script>
 </asp:Content>
