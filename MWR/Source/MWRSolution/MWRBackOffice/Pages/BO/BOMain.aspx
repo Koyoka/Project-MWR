@@ -1,33 +1,11 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Pages/MasterPages/MWBOEmpty.Master"
     AutoEventWireup="true" CodeBehind="BOMain.aspx.cs" Inherits="YRKJ.MWR.BackOffice.Pages.BO.BOMain" %>
-
+<%@ Import Namespace="YRKJ.MWR.BackOffice.Business.Sys" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
-
-            <div class="modal fade" id="portlet-config" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-							<h4 class="modal-title">Modal title</h4>
-						</div>
-						<div class="modal-body">
-							    Widget settings form goes here
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn blue">Save changes</button>
-							<button type="button" class="btn default" data-dismiss="modal">Close</button>
-						</div>
-					</div>
-					<!-- /.modal-content -->
-				</div>
-				<!-- /.modal-dialog -->
-			</div>
-            
-
             <!-- begin target bar -->
             <div class="row">
                 <div class="col-md-12">
@@ -49,7 +27,7 @@
                                 <li><a href="#">Separated link</a> </li>
                             </ul>
                         </li>
-                        <li><i class="fa fa-home"></i><a href="index.html">首页</a>
+                        <li><i class="fa fa-home"></i><a href="#<% = RedirectHelper.BOMain %>">首页</a>
                             <!-- <i class="fa fa-angle-right"></i>-->
                         </li>
                         <!-- <li>
@@ -80,7 +58,7 @@
                                 当前外出车辆
                             </div>
                         </div>
-                        <a class="more" href="#">车辆调度 <i class="m-icon-swapright m-icon-white"></i></a>
+                        <a class="more" href="#<% = RedirectHelper.CarDispatch %>">车辆调度 <i class="m-icon-swapright m-icon-white"></i></a>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">

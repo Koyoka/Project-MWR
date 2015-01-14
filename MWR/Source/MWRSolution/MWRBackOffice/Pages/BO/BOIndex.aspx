@@ -246,13 +246,13 @@
                         class="title">车辆管理 </span><span class="arrow "></span><span class="selected"></span>
                     </a>
                         <ul class="sub-menu">
-                            <li id="MW_Car_Dispatch" class=""><a href="#Car/CarDispatch.aspx">
+                            <li id="MW_Car_Dispatch" class=""><a href="#<% = RedirectHelper.CarDispatch %>">
                                 车辆调度管理</a> </li>
-                            <li id="MW_Car_Track" class=""><a href="#Car/CarTrack.aspx">
+                            <li id="MW_Car_Track" class=""><a href="#<% = RedirectHelper.CarTrack %>">
                                 车辆行驶跟踪</a> </li>
-                            <li id="MW_Car_Locus" class=""><a href="#Car/CarLocus.aspx">
+                            <li id="MW_Car_Locus" class=""><a href="#<% = RedirectHelper.CarLocus %>">
                                 车辆历史轨迹</a> </li>
-                            <li id="MW_Car_Round" class=""><a href="#Car/CarRound.aspx">
+                            <li id="MW_Car_Round" class=""><a href="#<% = RedirectHelper.CarRound %>">
                                 地理围栏设置</a> </li>
                         </ul>
                     </li>
@@ -307,8 +307,29 @@
         <!-- BEGIN CONTENT -->
          <div class="page-content-wrapper">
             <div class="page-content" style="">
+
+                   <div class="modal fade" id="portlet-config" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			            <div class="modal-dialog">
+				            <div class="modal-content">
+					            <div class="modal-header">
+						            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+						            <h4 class="modal-title">Modal title</h4>
+					            </div>
+					            <div class="modal-body">
+							            Widget settings form goes here
+					            </div>
+					            <div class="modal-footer">
+						            <button type="button" class="btn blue">Save changes</button>
+						            <button type="button" class="btn default" data-dismiss="modal">Close</button>
+					            </div>
+				            </div>
+				            <!-- /.modal-content -->
+			            </div>
+			            <!-- /.modal-dialog -->
+		            </div>
+
                 <%--<span id="cc" data-wgt="t">Eleven</span>--%>
-                <div class="page-content-body" data-default="BOMain.aspx" data-wgt="mw-loadpage">                 </div>
+                <div class="page-content-body" data-default="<% = RedirectHelper.BOMain %>" data-wgt="mw-loadpage">                 </div>
             </div>
         </div>
         <!-- END CONTENT -->

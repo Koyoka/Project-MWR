@@ -201,7 +201,7 @@
     <Content Include="Assets\scripts\ui-nouisliders.js" />
     <Content Include="Assets\scripts\ui-toastr.js" />
     <Content Include="Assets\scripts\ui-tree.js" />
-    <Content Include="Assets\test.js" />
+    <Content Include="Assets\boindex.js" />
     <Content Include="Pages\BO\BOIndex.aspx" />
     <Content Include="Pages\BO\BOMain.aspx" />
     <Content Include="Pages\BO\Car\CarDispatch.aspx" />

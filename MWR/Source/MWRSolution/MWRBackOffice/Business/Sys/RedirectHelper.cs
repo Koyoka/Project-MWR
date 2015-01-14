@@ -7,12 +7,12 @@ namespace YRKJ.MWR.BackOffice.Business.Sys
 {
     public class RedirectHelper
     {
-        public const string PAGE_ROOT = @"Pages/BO/";
+        public const string PAGE_ROOT = "";//@"Pages/BO/";
 
         public const string SysError = PAGE_ROOT + "";
 
         #region Main page
-        public const string Main = PAGE_ROOT + "BOMain.aspx";
+        public const string BOMain = PAGE_ROOT + "BOMain.aspx";
         #endregion
 
         #region Car page

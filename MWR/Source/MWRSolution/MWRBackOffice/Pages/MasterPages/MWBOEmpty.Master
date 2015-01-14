@@ -30,7 +30,10 @@
 <link href="/assets/plugins/jqvmap/jqvmap/jqvmap.css" rel="stylesheet" type="text/css"/>
 <link href="/assets/plugins/jquery-easy-pie-chart/jquery.easy-pie-chart.css" rel="stylesheet" type="text/css"/>
 <!-- END PAGE LEVEL PLUGIN STYLES -->
-
+<%  }%>
+<asp:ContentPlaceHolder ID="head" runat="server">
+</asp:ContentPlaceHolder>
+<% if (!IsContainerPage){ %>
 <link href="/assets/css/style-metronic.css" rel="stylesheet" type="text/css">
 <link href="/assets/css/style.css" rel="stylesheet" type="text/css">
 <link href="/assets/css/style-responsive.css" rel="stylesheet" type="text/css">
@@ -45,8 +48,7 @@
 <link rel="shortcut icon" href="favicon.ico">
 
 
-<asp:ContentPlaceHolder ID="head" runat="server">
-</asp:ContentPlaceHolder>
+
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
@@ -56,6 +58,7 @@
 
 <% if (!IsIndexPage && !IsContainerPage)
    { %>
+<div class="page-content-wrapper">
 <div class="page-content" style="">
 <%  }%>
 
@@ -64,6 +67,7 @@
 
 <% if (!IsIndexPage && !IsContainerPage)
    { %>
+</div>
 </div>
 <%  }%>
 

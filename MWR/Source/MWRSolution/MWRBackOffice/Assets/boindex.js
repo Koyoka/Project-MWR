@@ -86,14 +86,13 @@ var IndexHelper = function () {
                             gl.wgt.scan(pageContent);
                         },
                         error: function (xhr, ajaxOptions, thrownError) {
-                            pageContentBody.html('<h4>Could not load the requested content.</h4>');
+                            pageContentBody.html('<h4>页面加载连接错误。</h4>');
                             App.unblockUI(pageContent);
                         },
                         async: true
                     });
                 }, 10);
             }
-
 
         });
     };
