@@ -37,6 +37,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json.Net20, Version=3.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\Newtonsoft.Json.Net20.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -54,6 +58,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\bocomm.js" />
     <Content Include="Assets\css\animate.css" />
     <Content Include="Assets\css\custom.css" />
     <Content Include="Assets\css\pages\about-us.css" />
@@ -202,6 +207,7 @@
     <Content Include="Assets\scripts\ui-toastr.js" />
     <Content Include="Assets\scripts\ui-tree.js" />
     <Content Include="Assets\boindex.js" />
+    <Content Include="Lib\Newtonsoft.Json.Net20.dll" />
     <Content Include="Pages\BO\BOIndex.aspx" />
     <Content Include="Pages\BO\BOMain.aspx" />
     <Content Include="Pages\BO\Car\CarDispatch.aspx" />
@@ -211,6 +217,8 @@
     <Content Include="Pages\BO\HTMLPage1.htm" />
     <Content Include="Pages\BO\index.html" />
     <Content Include="Pages\BO\Inventory\InvAuthorize.aspx" />
+    <Content Include="Pages\BO\WebForm1.aspx" />
+    <Content Include="Pages\UCtrl\UModal.ascx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -220,6 +228,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Business\Sys\BasePage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Business\Sys\RedirectHelper.cs" />
     <Compile Include="Business\Sys\UrlParaCollection.cs" />
     <Compile Include="Business\Sys\UrlParaData.cs" />
@@ -275,6 +286,13 @@
     <Compile Include="Pages\BO\Inventory\InvAuthorize.aspx.designer.cs">
       <DependentUpon>InvAuthorize.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Pages\BO\WebForm1.aspx.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\BO\WebForm1.aspx.designer.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Pages\MasterPages\MWBOEmpty.Master.cs">
       <DependentUpon>MWBOEmpty.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -288,6 +306,13 @@
     </Compile>
     <Compile Include="Pages\MasterPages\MWBOMain.master.designer.cs">
       <DependentUpon>MWBOMain.master</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\UCtrl\UModal.ascx.cs">
+      <DependentUpon>UModal.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\UCtrl\UModal.ascx.designer.cs">
+      <DependentUpon>UModal.ascx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -1,6 +1,6 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="MWBOEmpty.Master.cs"
     Inherits="YRKJ.MWR.BackOffice.Pages.MasterPages.MWBOMain" %>
-
+<%@ Register src="~/Pages/UCtrl/UModal.ascx" tagname="UModal" tagprefix="uc1" %>
 <%@ Import Namespace="YRKJ.MWR.BackOffice.Business.Sys" %>
 
 <% if (!IsContainerPage){ %>
@@ -60,6 +60,7 @@
    { %>
 <div class="page-content-wrapper">
 <div class="page-content" style="">
+<uc1:UModal ID="UModal1" runat="server" />
 <%  }%>
 
 <asp:ContentPlaceHolder ID="body" runat="server">
@@ -123,6 +124,7 @@
 <script>
     jQuery(document).ready(function () {
         App.init();
+        
         Custom.init();
     });
 </script>

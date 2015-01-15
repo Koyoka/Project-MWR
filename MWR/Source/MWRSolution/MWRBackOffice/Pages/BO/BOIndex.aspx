@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Pages/MasterPages/MWBOEmpty.Master" AutoEventWireup="true" CodeBehind="BOIndex.aspx.cs" Inherits="YRKJ.MWR.BackOffice.Pages.BO.BOIndex" %>
+<%@ Register src="~/Pages/UCtrl/UModal.ascx" tagname="UModal" tagprefix="uc1" %>
 <%@ Import Namespace="YRKJ.MWR.BackOffice.Business.Sys" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
@@ -307,27 +308,7 @@
         <!-- BEGIN CONTENT -->
          <div class="page-content-wrapper">
             <div class="page-content" style="">
-
-                   <div class="modal fade" id="portlet-config" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-			            <div class="modal-dialog">
-				            <div class="modal-content">
-					            <div class="modal-header">
-						            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-						            <h4 class="modal-title">Modal title</h4>
-					            </div>
-					            <div class="modal-body">
-							            Widget settings form goes here
-					            </div>
-					            <div class="modal-footer">
-						            <button type="button" class="btn blue">Save changes</button>
-						            <button type="button" class="btn default" data-dismiss="modal">Close</button>
-					            </div>
-				            </div>
-				            <!-- /.modal-content -->
-			            </div>
-			            <!-- /.modal-dialog -->
-		            </div>
-
+                   <uc1:UModal ID="UModal1" runat="server" />
                 <%--<span id="cc" data-wgt="t">Eleven</span>--%>
                 <div class="page-content-body" data-default="<% = RedirectHelper.BOMain %>" data-wgt="mw-loadpage">                 </div>
             </div>

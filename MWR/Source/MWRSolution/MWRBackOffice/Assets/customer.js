@@ -21,44 +21,177 @@ var Custom = function () {
         alert(text);
     }
 
+    var initCustModal = function (modelId) {
+
+        $(function () {
+            window.Modal = function () {
+                var reg = new RegExp("\\[([^\\[\\]]*?)\\]", 'igm');
+                var alr = $(modelId ? "#" + modelId : "#portlet-config");
+                var ahtml = alr.html();
+
+                //关闭时恢复 modal html 原样，供下次调用时 replace 用
+                //var _init = function () {
+                //	alr.on("hidden.bs.modal", function (e) {
+                //		$(this).html(ahtml);
+                //	});
+                //}();
+
+                /* html 复原不在 _init() 里面做了，重复调用时会有问题，直接在 _alert/_confirm 里面做 */
+
+
+                var _alert = function (options) {
+                    alr.html(ahtml); // 复原
+                    alr.find('.ok').removeClass('btn-success').addClass('btn-primary');
+                    alr.find('.cancel').hide();
+                    _dialog(options);
+
+                    return {
+                        on: function (callback) {
+                            if (callback && callback instanceof Function) {
+                                alr.find('.ok').click(function () { callback(true) });
+                            }
+                        }
+                    };
+                };
+
+                var _confirm = function (options) {
+                    alr.html(ahtml); // 复原
+                    alr.find('.ok').removeClass('btn-primary').addClass('btn-success');
+                    alr.find('.cancel').show();
+                    _dialog(options);
+
+                    return {
+                        on: function (callback) {
+                            if (callback && callback instanceof Function) {
+                                alr.find('.ok').click(function () { callback(true) });
+                                alr.find('.cancel').click(function () { callback(false) });
+                            }
+                        }
+                    };
+                };
+
+                var _dialog = function (options) {
+                    var ops = {
+                        msg: "提示内容",
+                        title: "操作提示",
+                        btnok: "确定",
+                        btncl: "取消"
+                    };
+
+                    $.extend(ops, options);
+
+//                    console.log(alr);
+
+                    var html = alr.html().replace(reg, function (node, key) {
+                        return {
+                            Title: ops.title,
+                            Message: ops.msg,
+                            BtnOk: ops.btnok,
+                            BtnCancel: ops.btncl
+                        }[key];
+                    });
+
+                    alr.html(html);
+                    alr.modal({
+                        width: 500,
+                        backdrop: 'static'
+                    });
+                }
+
+                return {
+                    alert: _alert,
+                    confirm: _confirm
+                }
+
+            } ();
+        });
+
+//        Modal.alert(
+//        {
+//            msg: '内容',
+//            title: '标题',
+//            btnok: '确定',
+//            btncl: '取消'
+//        });
+
+//            // 如需增加回调函数，后面直接加 .on( function(e){} );
+//            // 点击“确定” e: true
+//            // 点击“取消” e: false
+//            Modal.confirm(
+//        {
+//            msg: "是否删除角色？"
+//        })
+//        .on(function (e) {
+//            alert("返回结果：" + e);
+//        });
+    }
+
     var initCommonWGT = function () {
 
     }
-
+    var initjQueryPlus = function () {
+        $.fn.serializeJson = function () {
+            var serializeObj = {};
+            $(this.serializeArray()).each(function () {
+                serializeObj[this.name] = this.value;
+            });
+            return serializeObj;
+        };
+    }
     var initCustAjax = function () {
         jQuery.extend({
+
             AjaxPostURL: function (URL, Func, Params, SCallFunc, ECallFunc, type) {
                 var requestType = type != "" && type != "text" ? "json" : "text";
                 if (Params == null) Params = {};
                 Params["_AjaxRequest"] = "AjaxRequest";
                 Params["Method"] = Func;
                 $.post(URL, Params,
-             function (data, success) {
-                 if (success == "success") {
-                     if (requestType == "json") {
-                         if (data.Result == 0) {
-                             SCallFunc(data.Value);
+                 function (data, success) {
+                     if (success == "success") {
+                         if (requestType == "json") {
+                             if (data.Result == 0) {
+                                 SCallFunc(data.Value);
+                             }
+                             else {
+                                 ECallFunc(data.Value);
+                             }
                          }
                          else {
-                             ECallFunc(data.Value);
+                             SCallFunc(data);
                          }
                      }
                      else {
-                         SCallFunc(data);
+                         ECallFunc(data);
                      }
-                 }
-                 else {
-                     ECallFunc(data);
-                 }
-                 SCallFunc = null;
-                 ECallFunc = null;
-                 requestType = null;
-                 Params = null;
-                 success = null;
-                 data = null;
-             },
-            requestType);
+                     SCallFunc = null;
+                     ECallFunc = null;
+                     requestType = null;
+                     Params = null;
+                     success = null;
+                     data = null;
+                 },
+                    requestType);
+            },
+            AjaxPJson: function (URL, FUNC, JSONDATA, SCallFunc, ECallFunc) {
+                JSONDATA["_AjaxRequest"] = "AjaxRequest";
+                JSONDATA["_Method"] = FUNC;
+                $.ajax({
+                    cache: true,
+                    //                    dataType: "json",
+                    type: "POST",
+                    url: URL,
+                    data: JSONDATA,
+                    async: false,
+                    error: function (request) {
+                        ECallFunc(request);
+                    },
+                    success: function (data) {
+                        SCallFunc(data);
+                    }
+                });
             }
+
         });
     }
     var initFunctionBind = function () {
@@ -282,12 +415,14 @@ var Custom = function () {
         //main function
         init: function () {
             //initialize here something.    
+            initjQueryPlus();
             initFunctionBind();
             initGLWgt();
             initCustAjax();
             initCommonWGT();
+            initCustModal();
         },
-        scan : function(){
+        scan: function () {
             gl.wgt.scan();
         },
         //some helper function

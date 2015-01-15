@@ -6,7 +6,6 @@
 <link rel="stylesheet" href="/assets/plugins/data-tables/DT_bootstrap.css"/>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
-
     <!-- begin target bar -->
     <div class="row">
         <div class="col-md-12">
@@ -37,7 +36,7 @@
                 </div>
                 <div class="portlet-body form">
                     <!-- BEGIN FORM-->
-                    <form id="cc" action="#" class="">
+                    <form id="cc" data-wgt="mw-submit-cardispatch" data-submit-method="AjaxSubCarDispstch" action="<% = WebAppFn.GetBoFullPageUrl(RedirectHelper.CarDispatch) %>" class="">
                     <div class="form-body">
                         <div class="form-group">
                             <label class="control-label">
@@ -78,9 +77,9 @@
                         </div>
                     </div>
                     <div class="form-actions right">
-                        <button type="button" data-loading-text="提交..." class="demo-loading-btn btn btn-primary green">
-								提交 </button>
-                        
+                        <input type="submit" value="提交" data-loading-text="提交..." class="demo-loading-btn btn btn-primary green" />
+                       <%-- <button type="button" data-loading-text="提交..." class="demo-loading-btn btn btn-primary green">
+								提交 </button>--%>
                     </div>
                     </form>
                     <!-- END FORM-->
@@ -331,45 +330,40 @@
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="foot" runat="server">
 <script src="/assets/plugins/fullcalendar/fullcalendar/fullcalendar.min.js" type="text/javascript"></script>
-<%--<script type="text/javascript" src="/assets/plugins/data-tables/DT_bootstrap.js"></script>--%>
+<%--<script type="text/javascript" src="/assets/plugins/data-tables/DT_bootstrap.js"></script>--%><script src="/assets/scripts/table-managed.js"></script>
+<script src="/assets/bocomm.js" type="text/javascript"></script>
 
-<script src="/assets/scripts/table-managed.js"></script>
 <script>
     jQuery(document).ready(function () {
 
         //        TableManaged.init();
-
-
+        CommHelper.init();
+        //        $('body').addClass("modal-open-noscroll");
         // initiate  and plugins
         // button state demo
 
         $('.demo-loading-btn')
-              .click(function () {
-                  var btn = $(this)
-                  btn.button('loading');
-                  $.ajax({
-                      cache: true,
-                      type: "POST",
-                      url: "CarDispatch.aspx",
-                      data: $('#cc').serialize(), // 你的formid
-                      async: false,
-                      error: function (request) {
-
-                          alert("Connection error");
-                          btn.button('reset');
-                      },
-                      success: function (data) {
-                          btn.button('reset');
-                          window.alert("success")
-                      }
-                  });
-
-
-
+          .click(function () {
+              Modal.alert(
+              {
+                  msg: '内容11111111',
+                  title: '标题',
+                  btnok: '确定',
+                  btncl: '取消'
               });
+              var btn = $(this)
+              btn.button('loading')
+              setTimeout(function () {
+                  btn.button('reset')
+              }, 3000)
+          });
+        //    
+
+
     });
 
 
+	
 
 //         
 </script>
