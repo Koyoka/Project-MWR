@@ -123,24 +123,37 @@ namespace YRKJ.MWR.BackOffice.Business.Sys
                     System.Reflection.MethodInfo me = tp.GetMethod(methodName);
                     if (me != null)
                     {
-                        string s = me.Invoke(this, Param).ToString();
-                        AjaxResponseMng.ResponsWrite(this.Response, s);
+                        _isPostBack = true;
+                        object o = me.Invoke(this, Param);
+                        
+                        if (o != null)
+                        {
+                            string s = me.Invoke(this, Param).ToString();
+                            AjaxResponseMng.ResponsWrite(this.Response, s);
+                            Response.End();
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                        
                     }
                     else
                     {
                         throw new Exception("not have method:(" + methodName + ")");
                     }
-
+                   
                     return true;
                 }
                 catch (Exception ex)
                 {
                     AjaxResponseMng.ReturnAjaxResponse(this.Response, AjaxResponseMng.AJAXResultObj.EnumResult.Err, ex.Message);
+                    Response.End();
                     return true;
                 }
                 finally
                 {
-                    Response.End();
+                   
 
                 }
             }
@@ -154,8 +167,18 @@ namespace YRKJ.MWR.BackOffice.Business.Sys
             #endregion
         }
 
+        private bool _isPostBack = false;
+        public new bool IsPostBack
+        {
+            get {
+                return base.IsPostBack || _isPostBack;
+            }
+        }
+
         protected override void OnLoad(EventArgs e)
         {
+            
+
             if (!InitPage())
             {
                 base.OnLoad(e);
