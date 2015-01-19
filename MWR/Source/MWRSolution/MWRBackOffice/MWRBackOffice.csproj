@@ -220,6 +220,7 @@
     <Content Include="Pages\BO\Inventory\InvAuthorize.aspx" />
     <Content Include="Pages\BO\WebForm1.aspx" />
     <Content Include="Pages\UCtrl\UModal.ascx" />
+    <Content Include="Pages\UCtrl\UPage.ascx" />
     <Content Include="Services\config.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -329,6 +330,13 @@
     </Compile>
     <Compile Include="Pages\UCtrl\UModal.ascx.designer.cs">
       <DependentUpon>UModal.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\UCtrl\UPage.ascx.cs">
+      <DependentUpon>UPage.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\UCtrl\UPage.ascx.designer.cs">
+      <DependentUpon>UPage.ascx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
