@@ -261,7 +261,7 @@
                     </i><span class="title">库存管理 </span><span class="arrow "></span><span class="selected">
                     </span></a>
                         <ul class="sub-menu">
-                            <li id="MW_Inventory_Auth" class=""><a href="javascript:void;">货损审核</a> </li>
+                            <li id="MW_Inventory_Auth" class=""><a href="#<% = RedirectHelper.InvAuthorize %>">货损审核</a> </li>
                             <li id="MW_Inventory_Log" class=""><a href="javascript:void;">出入库日志</a> </li>
                             <li id="MW_Residue_Log" class=""><a href="javascript:void;">残渣处理日志</a> </li>
                         </ul>

@@ -12,6 +12,7 @@ namespace YRKJ.MWR.BackOffice.Business.Sys
         public const string SysError = PAGE_ROOT + "";
 
         #region Main page
+        public const string BOIndex = "BOIndex.aspx";
         public const string BOMain = PAGE_ROOT + "BOMain.aspx";
         #endregion
 
@@ -20,6 +21,12 @@ namespace YRKJ.MWR.BackOffice.Business.Sys
         public const string CarLocus = PAGE_ROOT + "Car/CarLocus.aspx";
         public const string CarTrack = PAGE_ROOT + "Car/CarTrack.aspx";
         public const string CarRound = PAGE_ROOT + "Car/CarRound.aspx";
+        #endregion
+
+        #region Inventory
+        public const string InvAuthorize = "Inventory/InvAuthorize.aspx";
+
+
         #endregion
 
         public static void GotoErrPage( string errMsg)

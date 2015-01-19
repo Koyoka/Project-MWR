@@ -74,7 +74,7 @@
                                 待审核货箱
                             </div>
                         </div>
-                        <a class="more" href="#">进入审核 <i class="m-icon-swapright m-icon-white"></i></a>
+                        <a class="more" href="#<% = RedirectHelper.InvAuthorize %>">进入审核 <i class="m-icon-swapright m-icon-white"></i></a>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">

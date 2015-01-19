@@ -178,7 +178,7 @@ var Custom = function () {
                  },
                     requestType);
             },
-            AjaxPJson: function (URL, FUNC, JSONDATA, SCallFunc, ECallFunc) {
+            AjaxPJson: function (URL, FUNC, JSONDATA, SCallFunc, ECallFunc, BF, CF) {
                 JSONDATA["_AjaxRequest"] = "AjaxRequest";
                 JSONDATA["_Method"] = FUNC;
                 $.ajax({
@@ -193,6 +193,14 @@ var Custom = function () {
                     },
                     success: function (data) {
                         SCallFunc(data);
+                    },
+                    beforeSend: function () {
+                        if (BF)
+                            BF();
+                    },
+                    complete: function () {
+                        if (CF)
+                            CF();
                     }
                 });
             }

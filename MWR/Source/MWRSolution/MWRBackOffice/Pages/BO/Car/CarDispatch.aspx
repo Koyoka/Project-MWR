@@ -31,12 +31,16 @@
             <div class="portlet box blue">
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class="fa fa-reorder"></i>车辆调度
+                        <i class="fa fa-cogs"></i>车辆调度
                     </div>
                 </div>
                 <div class="portlet-body form">
                     <!-- BEGIN FORM-->
-                   <form id="mwFrmCarDisp" data-wgt="mw-submit-cardispatch" data-wgt-submit-method="AjaxSubCarDispstch" action="<% = WebAppFn.GetBoFullPageUrl(RedirectHelper.CarDispatch) %>" class="">
+                   <form id="mwFrmCarDisp" 
+                       data-wgt="mw-submit" 
+                       data-wgt-submit-method="AjaxSubCarDispstch" 
+                       data-wgt-submit-options-recall="CommHelper.recallCarDispatch"
+                       action="<% = WebAppFn.GetBoFullPageUrl(RedirectHelper.CarDispatch) %>" class="">
                     <div class="form-body">
                         <div class="form-group">
                             <label class="control-label">
@@ -97,7 +101,7 @@
             <div class="portlet box blue">
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class="fa fa-cogs"></i>车辆班次列表
+                        <i class="fa fa-reorder"></i>车辆班次列表
                     </div>
                      <div class="actions ">
                      2015年01月16日
@@ -108,13 +112,18 @@
 						</div>--%>
                     </div>
                 </div>
-                <div class="portlet-body">
-                <form id="mwFrmDispList" data-wgt="mw-submit-cardispatchList" data-wgt-submit-method="AjaxGetCarDispstch" action="<% = WebAppFn.GetBoFullPageUrl(RedirectHelper.CarDispatch) %>">
+                <div class="portlet-body" >
+                <form data-wgt="mw-submit" 
+                    id="mwFrmDispList"
+                    data-wgt-submit-method="AjaxGetCarDispstch" 
+                    data-wgt-submit-options-reload="true" 
+                    data-wgt-submit-options-block="true" 
+                   <%-- data-wgt-submit-options-recall="CommHelper.recallCarDispatch" --%>
+                    action="<% = WebAppFn.GetBoFullPageUrl(RedirectHelper.CarDispatch) %>">
                     <div class="table-responsive table-scrollable">
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    
                                     <th>
                                         车辆编号
                                     </th>
@@ -208,13 +217,7 @@
 <script src="/assets/plugins/fullcalendar/fullcalendar/fullcalendar.min.js" type="text/javascript"></script>
 <%--<script type="text/javascript" src="/assets/plugins/data-tables/DT_bootstrap.js"></script>--%>
 <script src="/assets/scripts/table-managed.js"></script>
-<script src="/assets/bocomm.js" type="text/javascript"></script>
 
-<script>
-    jQuery(document).ready(function () {
-        CommHelper.init();
-    });
-       
-</script>
+
 
 </asp:Content>
