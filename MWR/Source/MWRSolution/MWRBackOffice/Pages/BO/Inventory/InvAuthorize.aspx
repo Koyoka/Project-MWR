@@ -16,7 +16,6 @@
                 货损审核 <small>审核工作站上报货损货箱</small>
             </h3>
             <ul class="page-breadcrumb breadcrumb">
-                
                 <li><i class="fa fa-home"></i><a href="#<% = RedirectHelper.BOMain %>">首页</a> <i
                     class="fa fa-angle-right"></i></li>
                 <li><a href="#">库存管理</a> <i class="fa fa-angle-right"></i></li>
@@ -61,6 +60,9 @@
                                         货箱实际重量
                                     </th>
                                     <th>
+                                        提交审核时间
+                                    </th>
+                                    <th>
                                         操作类型
                                     </th>
                                     <th>
@@ -86,59 +88,17 @@
                                         12kg
                                     </td>
                                     <td>
+                                        2015-01-15 15:30
+                                    </td>
+                                    <td>
                                         入库提交
                                     </td>
                                     <td>
                                         
-                                        <a href="javascript:void;" data-target="#stack1"  data-toggle="modal" class="btn default btn-xs purple"><i class="fa fa-edit"></i> 审核</a>
+                                        <a href="#" data-target="#stack1"  data-toggle="modal" class="btn default btn-xs purple"><i class="fa fa-edit"></i> 审核</a>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>
-                                        A00002
-                                    </td>
-                                    <td>
-                                        WS001
-                                    </td>
-                                    <td>
-                                        张三
-                                    </td>
-                                    <td>
-                                        15kg
-                                    </td>
-                                    <td>
-                                        12kg
-                                    </td>
-                                    <td>
-                                        出库提交
-                                    </td>
-                                    <td>
-                                        <a href="#" class="btn default btn-xs purple"><i class="fa fa-edit"></i> 审核</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        A00003
-                                    </td>
-                                    <td>
-                                        WS002
-                                    </td>
-                                    <td>
-                                        张三
-                                    </td>
-                                    <td>
-                                        15kg
-                                    </td>
-                                    <td>
-                                        12kg
-                                    </td>
-                                    <td>
-                                        处置提交
-                                    </td>
-                                    <td>
-                                        <a href="#" class="btn default btn-xs purple"><i class="fa fa-edit"></i> 审核</a>
-                                    </td>
-                                </tr>
+                              
                             </tbody>
                         </table>
                        
@@ -163,9 +123,14 @@
                                                             提交工作站</label>
                                                         <input type="text" class="form-control" placeholder="Disabled" value="WS001" disabled="">
                                                     </div>
-                                                    <div class="form-group last">
+                                                    <div class="form-group ">
                                                         <label class="control-label">
                                                             操作员</label>
+                                                        <input type="text" class="form-control" placeholder="Disabled" value="张三" disabled="">
+                                                    </div>
+                                                    <div class="form-group last">
+                                                        <label class="control-label">
+                                                            提交审核时间</label>
                                                         <input type="text" class="form-control" placeholder="Disabled" value="张三" disabled="">
                                                     </div>
                                                 </div>

@@ -147,6 +147,7 @@ namespace YRKJ.MWR.BackOffice.Business.Sys
                 }
                 catch (Exception ex)
                 {
+                    //AjaxResponseMng.ResponsWrite(this.Response, ex.Message);
                     AjaxResponseMng.ReturnAjaxResponse(this.Response, AjaxResponseMng.AJAXResultObj.EnumResult.Err, ex.Message);
                     Response.End();
                     return true;

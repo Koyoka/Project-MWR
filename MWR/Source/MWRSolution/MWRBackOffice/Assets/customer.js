@@ -192,7 +192,16 @@ var Custom = function () {
                         ECallFunc(request);
                     },
                     success: function (data) {
-                        SCallFunc(data);
+                        if (typeof data === "object") {
+                            if (data.Result == 0) {
+                                SCallFunc(data);
+                            }
+                            else {
+                                ECallFunc(data.Value);
+                            }
+                        } else {
+                            SCallFunc(data);
+                        }
                     },
                     beforeSend: function () {
                         if (BF)

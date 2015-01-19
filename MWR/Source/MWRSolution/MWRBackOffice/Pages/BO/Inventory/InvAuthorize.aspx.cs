@@ -49,6 +49,11 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Inventory
 
         #region PageDatas
 
+        protected class PageInvAuthorizeData
+        { 
+            
+        }
+
         #endregion
 
         #region Common

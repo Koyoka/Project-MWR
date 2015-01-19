@@ -73,11 +73,26 @@
                                     %>
                             </select>
                         </div>
-                        <div class="form-group last">
+                        <div class="form-group ">
                             <label class="control-label">
                                 当前驻留跟车员</label>
                             <select name="data3" class="form-control input-lg">
                                 <option  value="0">选择跟车员</option>
+                                 <% 
+                                    foreach (PageEmplData item in PageEmplInspectorDataList)
+                                    {
+                                 %>
+                                 <option value="<% = item.EmplCode %>"><% = item.EmplName%></option>
+                                 <%   
+                                    }
+                                %>
+                            </select>
+                        </div>
+                         <div class="form-group last">
+                            <label class="control-label">
+                                当前可派发的终端</label>
+                            <select name="data4" class="form-control input-lg">
+                                <option  value="0">选择配置的移动终端</option>
                                  <% 
                                     foreach (PageEmplData item in PageEmplInspectorDataList)
                                     {
@@ -134,10 +149,16 @@
                                         跟车员
                                     </th>
                                     <th>
+                                        手机终端
+                                    </th>
+                                    <th>
                                         出车时间
                                     </th>
                                     <th>
                                         回车时间
+                                    </th>
+                                    <th>
+                                        
                                     </th>
                                 </tr>
                             </thead>
@@ -157,10 +178,16 @@
                                         <% = item.InspectorName %>
                                     </td>
                                     <td>
+                                        <% = item.InspectorName %>
+                                    </td>
+                                    <td>
                                         <% = item.OutTime %>
                                     </td>
                                     <td>
                                         <% = item.InTime %>
+                                    </td>
+                                    <td>
+                                         <a href="#"  class="btn default btn-xs purple"><i class="fa fa-edit"></i> 完成本班次</a>
                                     </td>
                                 </tr>
                                 <%

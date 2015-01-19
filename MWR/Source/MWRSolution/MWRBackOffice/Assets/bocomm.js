@@ -61,7 +61,7 @@
                         recall(el, d);
                    
                 }, function (r) {
-                    Modal.alert('服务器连接错误，请联系管理员。');
+                    Modal.alert('服务器连接错误，请联系管理员。[' + r + ']');
 
                 }, function () {
                     
