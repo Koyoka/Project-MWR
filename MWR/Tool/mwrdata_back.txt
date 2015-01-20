@@ -1,22 +1,24 @@
 T MWCar
-C CarId 1 0 0 int 10 0  int(11) 
-C CarCode 0 1 0 varchar 20 0  varchar(20) 
+C CarCode 1 0 0 varchar 20 0  varchar(20) 
 C Desc 0 1 0 varchar 45 0  varchar(45) 
 
 T MWCarDispatch
 C CarDisId 1 0 0 int 10 0  int(11) 
 C CarCode 0 1 0 varchar 20 0  varchar(20) 
+C DriverCode 0 1 0 varchar 20 0  varchar(20) 
+C InspectorCode 0 1 0 varchar 20 0  varchar(20) 
+C RecoMWSCode 0 1 0 varchar 20 0  varchar(20) 
 C OutDate 0 1 0 datetime 0 0  datetime 
 C InDate 0 1 0 datetime 0 0  datetime 
+C Status 0 1 0 varchar 2 0  varchar(2) 
 
 T MWCrate
-C CrateId 1 0 0 int 10 0  int(11) 
-C CrateCode 0 1 0 varchar 20 0  varchar(20) 
+C CrateCode 1 0 0 varchar 20 0  varchar(20) 
 C Desc 0 1 0 varchar 45 0  varchar(45) 
 C Status 0 1 0 varchar 2 0  varchar(2) 
 
 T MWDepot
-C DepotId 1 0 0 int 10 0  int(11) 
+C DeptCode 1 0 0 varchar 20 0  varchar(20) 
 C Total 0 1 0 int 10 0  int(11) 
 C Desc 0 1 0 varchar 45 0  varchar(45) 
 
@@ -33,25 +35,18 @@ C WasteCode 0 1 0 varchar 20 0  varchar(20)
 C PostWeight 0 1 0 float 12 0  float 
 C DestWeight 0 1 0 float 12 0  float 
 C Status 0 1 0 varchar 2 0  varchar(2) 
-C PostHeaderId 0 0 0 int 10 0  int(11) 
+C PostHeaderId 0 1 0 int 10 0  int(11) 
 C InvRecordId 0 1 0 int 10 0  int(11) 
-C InvAuthId 0 0 0 int 10 0  int(11) 
-
-T MWDestroyHeader
-C DestHeaderId 1 0 0 int 10 0  int(11) 
-C DestNum 0 1 0 varchar 20 0  varchar(20) 
-C StratDate 0 1 0 datetime 0 0  datetime 
-C EndDate 0 1 0 datetime 0 0  datetime 
-C DestWSCode 0 1 0 varchar 20 0  varchar(20) 
-C DestEmpyCode 0 1 0 varchar 20 0  varchar(20) 
-C Status 0 1 0 varchar 2 0  varchar(2) 
+C InvAuthId 0 1 0 int 10 0  int(11) 
 
 T MWEmploy
 C EmpyId 1 0 0 int 10 0  int(11) 
 C EmpyCode 0 1 0 varchar 20 0  varchar(20) 
-C Name 0 1 0 varchar 45 0  varchar(45) 
+C EmpyName 0 1 0 varchar 45 0  varchar(45) 
 C UserGroupId 0 1 0 int 10 0  int(11) 
 C EmpyType 0 1 0 varchar 2 0  varchar(2) 
+C UserName 0 1 0 varchar 45 0  varchar(45) 
+C Password 0 1 0 varchar 45 0  varchar(45) 
 
 T MWFunction
 C FuncTag 1 0 0 varchar 45 0  varchar(45) 
@@ -68,10 +63,20 @@ C FuncTag 0 1 0 varchar 45 0  varchar(45)
 
 T MWInvAuthorize
 C InvAuthId 1 0 0 int 10 0  int(11) 
+C TxnNum 0 1 0 varchar 20 0  varchar(20) 
+C TxnDetailId 0 1 0 int 10 0  int(11) 
 C EmpyCode 0 1 0 varchar 20 0  varchar(20) 
+C EmpyName 0 1 0 varchar 45 0  varchar(45) 
+C WSCode 0 1 0 varchar 20 0  varchar(20) 
+C AuthEmpyCode 0 1 0 varchar 20 0  varchar(20) 
+C AuthEmpyName 0 1 0 varchar 45 0  varchar(45) 
 C Remark 0 1 0 varchar 45 0  varchar(45) 
-C EntryDate 0 1 0 datetime 0 0  datetime 
+C SubWeight 0 1 0 float 12 0  float 
+C TxnWeight 0 1 0 float 12 0  float 
 C DiffWeight 0 1 0 float 12 0  float 
+C EntryDate 0 1 0 datetime 0 0  datetime 
+C CompDate 0 1 0 datetime 0 0  datetime 
+C Status 0 1 0 varchar 2 0  varchar(2) 
 
 T MWInvAuthorizeAttach
 C InvAttachId 1 0 0 int 10 0  int(11) 
@@ -80,11 +85,8 @@ C Path 0 1 0 varchar 128 0  varchar(128)
 
 T MWInventory
 C InvRecordId 1 0 0 int 10 0  int(11) 
-C RecoHeaderId 0 0 0 int 10 0  int(11) 
-C RecoNum 0 1 0 varchar 20 0  varchar(20) 
 C CrateCode 0 1 0 varchar 20 0  varchar(20) 
 C DepotCode 0 1 0 varchar 20 0  varchar(20) 
-C Source 0 1 0 varchar 45 0  varchar(45) 
 C Vendor 0 1 0 varchar 45 0  varchar(45) 
 C VendorCode 0 1 0 varchar 20 0  varchar(20) 
 C Waste 0 1 0 varchar 45 0  varchar(45) 
@@ -92,42 +94,31 @@ C WasteCode 0 1 0 varchar 20 0  varchar(20)
 C RecoWeight 0 1 0 float 12 0  float 
 C InvWeight 0 1 0 float 12 0  float 
 C PostWeight 0 1 0 float 12 0  float 
-C RecoWSCode 0 1 0 varchar 20 0  varchar(20) 
-C RecoEmpyCode 0 1 0 varchar 20 0  varchar(20) 
-C RecoDate 0 1 0 datetime 0 0  datetime 
-C PostDate 0 1 0 datetime 0 0  datetime 
-C Status 0 1 0 varchar 2 0  varchar(2) 
-C InvAuthId 0 0 0 int 10 0  int(11) 
-
-T MWInventoryLog
-C InvLogId 1 0 0 int 10 0  int(11) 
-C WSCode 0 1 0 varchar 20 0  varchar(20) 
-C EmpyCode 0 1 0 varchar 20 0  varchar(20) 
-C OptType 0 1 0 varchar 2 0  varchar(2) 
-C OptDate 0 1 0 datetime 0 0  datetime 
-C InvLogType 0 1 0 varchar 2 0  varchar(2) 
-C InvRecordId 0 1 0 int 10 0  int(11) 
+C DestWeight 0 1 0 float 12 0  float 
+C EntryDate 0 1 0 datetime 0 0  datetime 
+C Status 0 1 0 varchar 3 0  varchar(3) 
+C DailyClose 0 1 0 bit 1 0  bit(1) 
 
 T MWInventoryTrack
 C InvTrackRecordId 1 0 0 int 10 0  int(11) 
-C PostHeaderId 0 1 0 int 10 0  int(11) 
+C InvRecordId 0 1 0 int 10 0  int(11) 
+C TxnNum 0 1 0 int 10 0  int(11) 
+C TxnType 0 1 0 varchar 2 0  varchar(2) 
+C TxnDetailId 0 1 0 int 10 0  int(11) 
 C CrateCode 0 1 0 varchar 20 0  varchar(20) 
-C PostNum 0 1 0 varchar 20 0  varchar(20) 
 C DepotCode 0 1 0 varchar 20 0  varchar(20) 
-C Source 0 1 0 varchar 45 0  varchar(45) 
 C Vendor 0 1 0 varchar 45 0  varchar(45) 
 C VendorCode 0 1 0 varchar 20 0  varchar(20) 
 C Waste 0 1 0 varchar 45 0  varchar(45) 
 C WasteCode 0 1 0 varchar 20 0  varchar(20) 
-C InvWeight 0 1 0 float 12 0  float 
-C PostWeight 0 1 0 float 12 0  float 
-C PostWSCode 0 1 0 varchar 20 0  varchar(20) 
-C PostEmpyCode 0 1 0 varchar 20 0  varchar(20) 
-C ReceiveDate 0 1 0 datetime 0 0  datetime 
-C PostDate 0 1 0 datetime 0 0  datetime 
+C SubWeight 0 1 0 float 12 0  float 
+C TxnWeight 0 1 0 float 12 0  float 
+C WSCode 0 1 0 varchar 20 0  varchar(20) 
+C EmpyName 0 1 0 varchar 45 0  varchar(45) 
+C EmpyCode 0 1 0 varchar 20 0  varchar(20) 
+C EntryDate 0 1 0 datetime 0 0  datetime 
 C Status 0 1 0 varchar 2 0  varchar(2) 
-C InvRecordId 0 1 0 int 10 0  int(11) 
-C InvAuthId 0 0 0 int 10 0  int(11) 
+C InvAuthId 0 1 0 int 10 0  int(11) 
 
 T MWPostDetail
 C PostDtlId 1 0 0 int 10 0  int(11) 
@@ -143,17 +134,7 @@ C InvWeight 0 1 0 float 12 0  float
 C PostWeight 0 1 0 float 12 0  float 
 C Status 0 1 0 varchar 2 0  varchar(2) 
 C InvRecordId 0 1 0 int 10 0  int(11) 
-C InvAuthId 0 0 0 int 10 0  int(11) 
-
-T MWPostHeader
-C PostHeaderId 1 0 0 int 10 0  int(11) 
-C PostNum 0 1 0 varchar 20 0  varchar(20) 
-C Status 0 1 0 varchar 2 0  varchar(2) 
-C StratDate 0 1 0 datetime 0 0  datetime 
-C EndDate 0 1 0 datetime 0 0  datetime 
-C PostWSCode 0 1 0 varchar 20 0  varchar(20) 
-C PostEmpCode 0 1 0 varchar 20 0  varchar(20) 
-C PostType 0 1 0 varchar 2 0  varchar(2) 
+C InvAuthId 0 1 0 int 10 0  int(11) 
 
 T MWRecoverDetail
 C RecoDtlId 1 0 0 int 10 0  int(11) 
@@ -166,31 +147,93 @@ C Waste 0 1 0 varchar 45 0  varchar(45)
 C WasteCode 0 1 0 varchar 20 0  varchar(20) 
 C RecoWeight 0 1 0 float 12 0  float 
 C RecoDate 0 1 0 datetime 0 0  datetime 
-C InvAuthId 0 0 0 int 10 0  int(11) 
+C InvAuthId 0 1 0 int 10 0  int(11) 
 C Status 0 1 0 varchar 2 0  varchar(2) 
-
-T MWRecoverHeader
-C RecoHeaderId 1 0 0 int 10 0  int(11) 
-C RecoNum 0 1 0 varchar 20 0  varchar(20) 
-C CarCode 0 1 0 varchar 20 0  varchar(20) 
-C DriverCode 0 1 0 varchar 20 0  varchar(20) 
-C InspectorCode 0 1 0 varchar 20 0  varchar(20) 
-C CrateQty 0 1 0 int 10 0  int(11) 
-C RecoWSCode 0 1 0 varchar 20 0  varchar(20) 
-C RecoEmpyCode 0 1 0 varchar 20 0  varchar(20) 
-C StratDate 0 1 0 datetime 0 0  datetime 
-C EndDate 0 1 0 datetime 0 0  datetime 
-C OperateType 0 1 0 varchar 2 0  varchar(2) 
-C Status 0 1 0 varchar 2 0  varchar(2) 
-C CarDisId 0 1 0 int 10 0  int(11) 
 
 T MWResidueInventory
 C ResdInvId 1 0 0 int 10 0  int(11) 
 C InvWeight 0 1 0 float 12 0  float 
 C EntryDate 0 1 0 datetime 0 0  datetime 
+C HandlingDate 0 1 0 datetime 0 0  datetime 
 C RecoWSCode 0 1 0 varchar 20 0  varchar(20) 
 C RecoEmpyCode 0 1 0 varchar 20 0  varchar(20) 
 C HandlingType 0 1 0 varchar 2 0  varchar(2) 
+
+T MWTxnDestroyHeader
+C DestHeaderId 1 0 0 int 10 0  int(11) 
+C TxnNum 0 1 0 varchar 20 0  varchar(20) 
+C StratDate 0 1 0 datetime 0 0  datetime 
+C EndDate 0 1 0 datetime 0 0  datetime 
+C DestWSCode 0 1 0 varchar 20 0  varchar(20) 
+C DestEmpyName 0 1 0 varchar 45 0  varchar(45) 
+C DestEmpyCode 0 1 0 varchar 20 0  varchar(20) 
+C TotalCrateQty 0 1 0 int 10 0  int(11) 
+C TotalSubWeight 0 1 0 float 12 0  float 
+C TotalTxnWeight 0 1 0 float 12 0  float 
+C Status 0 1 0 varchar 2 0  varchar(2) 
+
+T MWTxnDetail
+C TxnDetailId 1 0 0 int 10 0  int(11) 
+C TxnType 0 1 0 varchar 2 0  varchar(2) 
+C TxnNum 0 1 0 varchar 20 0  varchar(20) 
+C WSCode 0 1 0 varchar 20 0  varchar(20) 
+C EmpyName 0 1 0 varchar 45 0  varchar(45) 
+C EmpyCode 0 1 0 varchar 20 0  varchar(20) 
+C CrateCode 0 1 0 varchar 20 0  varchar(20) 
+C Vendor 0 1 0 varchar 20 0  varchar(20) 
+C Waste 0 1 0 varchar 20 0  varchar(20) 
+C SubWeight 0 1 0 float 12 0  float 
+C TxnWeight 0 1 0 float 12 0  float 
+C InvRecordId 0 1 0 int 10 0  int(11) 
+C InvAuthId 0 1 0 int 10 0  int(11) 
+C Status 0 1 0 varchar 2 0  varchar(2) 
+
+T MWTxnLog
+C TxnLogId 1 0 0 int 10 0  int(11) 
+C TxnNum 0 1 0 varchar 20 0  varchar(20) 
+C TxnDetailId 0 1 0 int 10 0  int(11) 
+C WSCode 0 1 0 varchar 20 0  varchar(20) 
+C EmpyName 0 1 0 varchar 45 0  varchar(45) 
+C EmpyCode 0 1 0 varchar 20 0  varchar(20) 
+C OptType 0 1 0 varchar 2 0  varchar(2) 
+C OptDate 0 1 0 datetime 0 0  datetime 
+C TxnLogType 0 1 0 varchar 2 0  varchar(2) 
+C InvRecordId 0 1 0 int 10 0  int(11) 
+
+T MWTxnPostHeader
+C PostHeaderId 1 0 0 int 10 0  int(11) 
+C TxnNum 0 1 0 varchar 20 0  varchar(20) 
+C PostWSCode 0 1 0 varchar 20 0  varchar(20) 
+C PostEmpyName 0 1 0 varchar 45 0  varchar(45) 
+C PostEmpyCode 0 1 0 varchar 20 0  varchar(20) 
+C StratDate 0 1 0 datetime 0 0  datetime 
+C EndDate 0 1 0 datetime 0 0  datetime 
+C PostType 0 1 0 varchar 2 0  varchar(2) 
+C TotalCrateQty 0 1 0 int 10 0  int(11) 
+C TotalSubWeight 0 1 0 float 12 0  float 
+C TotalTxnWeight 0 1 0 float 12 0  float 
+C Status 0 1 0 varchar 2 0  varchar(2) 
+
+T MWTxnRecoverHeader
+C RecoHeaderId 1 0 0 int 10 0  int(11) 
+C TxnNum 0 1 0 varchar 20 0  varchar(20) 
+C CarCode 0 1 0 varchar 20 0  varchar(20) 
+C Driver 0 1 0 varchar 45 0  varchar(45) 
+C DriverCode 0 1 0 varchar 20 0  varchar(20) 
+C Inspector 0 1 0 varchar 45 0  varchar(45) 
+C InspectorCode 0 1 0 varchar 20 0  varchar(20) 
+C RecoMWSCode 0 1 0 varchar 20 0  varchar(20) 
+C RecoWSCode 0 1 0 varchar 20 0  varchar(20) 
+C RecoEmpyName 0 1 0 varchar 45 0  varchar(45) 
+C RecoEmpyCode 0 1 0 varchar 20 0  varchar(20) 
+C StratDate 0 1 0 datetime 0 0  datetime 
+C EndDate 0 1 0 datetime 0 0  datetime 
+C OperateType 0 1 0 varchar 2 0  varchar(2) 
+C TotalCrateQty 0 1 0 int 10 0  int(11) 
+C TotalSubWeight 0 1 0 float 12 0  float 
+C TotalTxnWeight 0 1 0 float 12 0  float 
+C CarDisId 0 1 0 int 10 0  int(11) 
+C Status 0 1 0 varchar 2 0  varchar(2) 
 
 T MWUserGroup
 C UserGroupId 1 0 0 int 10 0  int(11) 
@@ -202,15 +245,18 @@ C UserGroupId 0 1 0 int 10 0  int(11)
 C FuncGroupId 0 1 0 int 10 0  int(11) 
 
 T MWVendor
-C VendorId 1 0 0 int 10 0  int(11) 
+C VendorCode 1 0 0 varchar 20 0  varchar(20) 
 C Vendor 0 1 0 varchar 45 0  varchar(45) 
-C VendorCode 0 1 0 varchar 20 0  varchar(20) 
 C Address 0 1 0 varchar 128 0  varchar(128) 
 
 T MWWasteCategory
-C CateId 1 0 0 int 10 0  int(11) 
-C WasteCode 0 1 0 varchar 20 0  varchar(20) 
+C WasteCode 1 0 0 varchar 20 0  varchar(20) 
 C Waste 0 1 0 varchar 45 0  varchar(45) 
+
+T MWWorkStation
+C WSCode 1 0 0 varchar 20 0  varchar(20) 
+C Desc 0 1 0 varchar 45 0  varchar(45) 
+C WSType 0 1 0 varchar 2 0  varchar(2) 
 
 T SysLog
 C LogId 1 0 0 int 10 0  int(11) 

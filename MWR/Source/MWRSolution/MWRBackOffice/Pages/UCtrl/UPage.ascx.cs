@@ -21,8 +21,18 @@ namespace YRKJ.MWR.BackOffice.Pages.UCtrl
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            CurrentPage = 1;// ComLib.ComFn.StringToInt(page);
-            PageCount = p;
+            //CurrentPage = 1;// ComLib.ComFn.StringToInt(page);
+            //PageCount = p;
+            //NextPage = CurrentPage + 1;//> PageCount ? PageCount : CurrentPage + 1;
+            //PrePage = CurrentPage - 1;//< 0 ? 0 : CurrentPage - 1;
+            //DisNext = NextPage > PageCount ? DisClass : "";
+            //DisPre = PrePage < 1 ? DisClass : "";
+        }
+
+        public void ShowPage(int curPage,int pageCount)
+        {
+            CurrentPage = curPage;// 1;// ComLib.ComFn.StringToInt(page);
+            PageCount = pageCount;// p;
             NextPage = CurrentPage + 1;//> PageCount ? PageCount : CurrentPage + 1;
             PrePage = CurrentPage - 1;//< 0 ? 0 : CurrentPage - 1;
             DisNext = NextPage > PageCount ? DisClass : "";

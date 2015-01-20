@@ -82,6 +82,7 @@
     <Compile Include="db\SqlUpdateColumn.cs" />
     <Compile Include="db\SqlUpdateMng.cs" />
     <Compile Include="db\SqlWhere.cs" />
+    <Compile Include="Error\ErrorMng.cs" />
     <Compile Include="Log\LogMng.cs" />
     <Compile Include="Log\TextLog.cs" />
     <Compile Include="Program.cs" />

@@ -11,6 +11,8 @@ namespace ComLib.db.mysql
         public abstract string FormatTopSqlString(string sql, int topCount);
         public abstract string FormatQuerySql(string sql);
         public abstract string FormatQueryPageSql(string sql, int page, int pageSize);
+        public abstract string FormatSqlDateTimeString(DateTime val, SqlCommonFn.SqlWhereDateTimeFormatEnum dateFormat);
+        public abstract string FormatSqlDateTimeColumnString(string columnName,SqlCommonFn.SqlWhereDateTimeFormatEnum dateFormat);
 
         public String EncryptString(String s)
         {

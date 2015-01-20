@@ -8,7 +8,6 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <!-- begin target bar -->
-   
     <div class="row">
         <div class="col-md-12">
             <!-- BEGIN PAGE TITLE & BREADCRUMB-->
@@ -180,7 +179,7 @@
 								</div>
 							</div>
                     </div>
-                    <uc1:UPage ID="UPage1" runat="server" />
+                    <uc1:UPage ID="c_UPage" runat="server" />
                   
 
                     <!-- END FORM-->

@@ -8,6 +8,16 @@ namespace ComLib.db
 {
     public class SqlCommonFn
     {
+        public enum SqlWhereDateTimeFormatEnum
+        { 
+            Y,
+            YM,
+            YMD,
+            YMDH,
+            YMDHM,
+            YMDHMS
+        }
+
         public enum SqlWhereCompareEnum
         {
             Equals,      //=
@@ -111,6 +121,16 @@ namespace ComLib.db
         public static string FormatQueryPageSql(string sql, int page, int pageSize)
         {
             return createSqlFnInstance().FormatQueryPageSql(sql, page, pageSize);
+        }
+
+        public static string FormatSqlDateTimeString(DateTime val,SqlCommonFn.SqlWhereDateTimeFormatEnum dateFormat)
+        {
+            return createSqlFnInstance().FormatSqlDateTimeString(val, dateFormat);
+        }
+
+        public static string FormatSqlDateTimeColumnString(string columnName, SqlCommonFn.SqlWhereDateTimeFormatEnum dateFormat)
+        {
+            return createSqlFnInstance().FormatSqlDateTimeColumnString(columnName, dateFormat);
         }
 
         /**

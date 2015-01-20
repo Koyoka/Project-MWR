@@ -92,9 +92,8 @@ namespace YRKJ.MWR
         public static bool Insert(DataCtrlInfo dcf, TblMWEmploy item, ref int count,ref string errMsg)
         {
             return Insert(dcf,
-                item.EmpyId,
                 item.EmpyCode,
-                item.Name,
+                item.EmpyName,
                 item.UserGroupId,
                 item.EmpyType,
                 item.UserName,
@@ -105,9 +104,8 @@ namespace YRKJ.MWR
         }
 
         public static bool Insert(DataCtrlInfo dcf,
-            int empyId,
             string empyCode,
-            string name,
+            string empyName,
             int userGroupId,
             string empyType,
             string userName,
@@ -118,9 +116,8 @@ namespace YRKJ.MWR
         {
             SqlUpdateMng sum = new SqlUpdateMng();
             sum.setQueryTableName(TblMWEmploy.getFormatTableName());
-            sum.Add(TblMWEmploy.getEmpyIdColumn(), empyId);
             sum.Add(TblMWEmploy.getEmpyCodeColumn(), empyCode);
-            sum.Add(TblMWEmploy.getNameColumn(), name);
+            sum.Add(TblMWEmploy.getEmpyNameColumn(), empyName);
             sum.Add(TblMWEmploy.getUserGroupIdColumn(), userGroupId);
             sum.Add(TblMWEmploy.getEmpyTypeColumn(), empyType);
             sum.Add(TblMWEmploy.getUserNameColumn(), userName);
@@ -137,9 +134,8 @@ namespace YRKJ.MWR
         public static bool Update(DataCtrlInfo dcf, TblMWEmploy item, SqlWhere sw,ref int count,ref string errMsg)
         {
             SqlUpdateColumn suc = new SqlUpdateColumn();
-            suc.Add(TblMWEmploy.getEmpyIdColumn(), item.EmpyId);
             suc.Add(TblMWEmploy.getEmpyCodeColumn(), item.EmpyCode);
-            suc.Add(TblMWEmploy.getNameColumn(), item.Name);
+            suc.Add(TblMWEmploy.getEmpyNameColumn(), item.EmpyName);
             suc.Add(TblMWEmploy.getUserGroupIdColumn(), item.UserGroupId);
             suc.Add(TblMWEmploy.getEmpyTypeColumn(), item.EmpyType);
             suc.Add(TblMWEmploy.getUserNameColumn(), item.UserName);

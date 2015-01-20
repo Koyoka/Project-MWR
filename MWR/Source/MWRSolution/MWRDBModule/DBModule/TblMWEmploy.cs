@@ -20,63 +20,46 @@ namespace YRKJ.MWR
 
         public static DataColumnInfo[] Columns = 
                 new DataColumnInfo[]{
-            new DataColumnInfo(true,false,false,false,"EmpyId",SqlCommonFn.DataColumnType.INT,10),
-            new DataColumnInfo(false,true,false,false,"EmpyCode",SqlCommonFn.DataColumnType.STRING,20),
-            new DataColumnInfo(false,true,false,false,"Name",SqlCommonFn.DataColumnType.STRING,45),
+            new DataColumnInfo(true,false,false,false,"EmpyCode",SqlCommonFn.DataColumnType.STRING,20),
+            new DataColumnInfo(false,true,false,false,"EmpyName",SqlCommonFn.DataColumnType.STRING,45),
             new DataColumnInfo(false,true,false,false,"UserGroupId",SqlCommonFn.DataColumnType.INT,10),
             new DataColumnInfo(false,true,false,false,"EmpyType",SqlCommonFn.DataColumnType.STRING,2),
             new DataColumnInfo(false,true,false,false,"UserName",SqlCommonFn.DataColumnType.STRING,45),
             new DataColumnInfo(false,true,false,true,"Password",SqlCommonFn.DataColumnType.STRING,45)
         };
 
-        public static DataColumnInfo getEmpyIdColumn()
+        public static DataColumnInfo getEmpyCodeColumn()
         {
             return Columns[0];
         }
-        public static DataColumnInfo getEmpyCodeColumn()
+        public static DataColumnInfo getEmpyNameColumn()
         {
             return Columns[1];
         }
-        public static DataColumnInfo getNameColumn()
+        public static DataColumnInfo getUserGroupIdColumn()
         {
             return Columns[2];
         }
-        public static DataColumnInfo getUserGroupIdColumn()
+        public static DataColumnInfo getEmpyTypeColumn()
         {
             return Columns[3];
         }
-        public static DataColumnInfo getEmpyTypeColumn()
+        public static DataColumnInfo getUserNameColumn()
         {
             return Columns[4];
         }
-        public static DataColumnInfo getUserNameColumn()
+        public static DataColumnInfo getPasswordColumn()
         {
             return Columns[5];
         }
-        public static DataColumnInfo getPasswordColumn()
-        {
-            return Columns[6];
-        }
 
-        private int _EmpyId = 0;
         private string _EmpyCode = "";
-        private string _Name = "";
+        private string _EmpyName = "";
         private int _UserGroupId = 0;
         private string _EmpyType = "";
         private string _UserName = "";
         private string _Password = "";
 
-        public int EmpyId
-        {
-            get
-            {
-                return _EmpyId;
-            }
-            set
-            {
-                _EmpyId = value;
-            }
-        }
         public string EmpyCode
         {
             get
@@ -88,15 +71,15 @@ namespace YRKJ.MWR
                 _EmpyCode = value;
             }
         }
-        public string Name
+        public string EmpyName
         {
             get
             {
-                return _Name;
+                return _EmpyName;
             }
             set
             {
-                _Name = value;
+                _EmpyName = value;
             }
         }
         public int UserGroupId
@@ -145,6 +128,9 @@ namespace YRKJ.MWR
         }
 
 
+        public const string EMPYTYPE_ENUM_Driver = "D";//司机;
+        public const string EMPYTYPE_ENUM_Inspector = "I";//跟车员;
+        public const string EMPYTYPE_ENUM_WorkStation = "S";//工作站操作员;
 
     }
 }

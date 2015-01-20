@@ -6,11 +6,11 @@ using ComLib.db;
 namespace YRKJ.MWR
 {
 
-    public class TblMWInventoryLog : BaseDataModule
+    public class TblMWTxnLog : BaseDataModule
     {
 
-        private static string TableName = "MWInventoryLog";
-        public TblMWInventoryLog()
+        private static string TableName = "MWTxnLog";
+        public TblMWTxnLog()
         {
         }
         public static string getFormatTableName()
@@ -20,61 +20,101 @@ namespace YRKJ.MWR
 
         public static DataColumnInfo[] Columns = 
                 new DataColumnInfo[]{
-            new DataColumnInfo(true,false,false,false,"InvLogId",SqlCommonFn.DataColumnType.INT,10),
+            new DataColumnInfo(true,false,false,false,"TxnLogId",SqlCommonFn.DataColumnType.INT,10),
+            new DataColumnInfo(false,true,false,false,"TxnNum",SqlCommonFn.DataColumnType.STRING,20),
+            new DataColumnInfo(false,true,false,false,"TxnDetailId",SqlCommonFn.DataColumnType.INT,10),
             new DataColumnInfo(false,true,false,false,"WSCode",SqlCommonFn.DataColumnType.STRING,20),
+            new DataColumnInfo(false,true,false,false,"EmpyName",SqlCommonFn.DataColumnType.STRING,45),
             new DataColumnInfo(false,true,false,false,"EmpyCode",SqlCommonFn.DataColumnType.STRING,20),
             new DataColumnInfo(false,true,false,false,"OptType",SqlCommonFn.DataColumnType.STRING,2),
             new DataColumnInfo(false,true,false,false,"OptDate",SqlCommonFn.DataColumnType.DATETIME,0),
-            new DataColumnInfo(false,true,false,false,"InvLogType",SqlCommonFn.DataColumnType.STRING,2),
+            new DataColumnInfo(false,true,false,false,"TxnLogType",SqlCommonFn.DataColumnType.STRING,2),
             new DataColumnInfo(false,true,false,false,"InvRecordId",SqlCommonFn.DataColumnType.INT,10)
         };
 
-        public static DataColumnInfo getInvLogIdColumn()
+        public static DataColumnInfo getTxnLogIdColumn()
         {
             return Columns[0];
         }
-        public static DataColumnInfo getWSCodeColumn()
+        public static DataColumnInfo getTxnNumColumn()
         {
             return Columns[1];
         }
-        public static DataColumnInfo getEmpyCodeColumn()
+        public static DataColumnInfo getTxnDetailIdColumn()
         {
             return Columns[2];
         }
-        public static DataColumnInfo getOptTypeColumn()
+        public static DataColumnInfo getWSCodeColumn()
         {
             return Columns[3];
         }
-        public static DataColumnInfo getOptDateColumn()
+        public static DataColumnInfo getEmpyNameColumn()
         {
             return Columns[4];
         }
-        public static DataColumnInfo getInvLogTypeColumn()
+        public static DataColumnInfo getEmpyCodeColumn()
         {
             return Columns[5];
         }
-        public static DataColumnInfo getInvRecordIdColumn()
+        public static DataColumnInfo getOptTypeColumn()
         {
             return Columns[6];
         }
+        public static DataColumnInfo getOptDateColumn()
+        {
+            return Columns[7];
+        }
+        public static DataColumnInfo getTxnLogTypeColumn()
+        {
+            return Columns[8];
+        }
+        public static DataColumnInfo getInvRecordIdColumn()
+        {
+            return Columns[9];
+        }
 
-        private int _InvLogId = 0;
+        private int _TxnLogId = 0;
+        private string _TxnNum = "";
+        private int _TxnDetailId = 0;
         private string _WSCode = "";
+        private string _EmpyName = "";
         private string _EmpyCode = "";
         private string _OptType = "";
         private DateTime _OptDate = DateTime.MinValue;
-        private string _InvLogType = "";
+        private string _TxnLogType = "";
         private int _InvRecordId = 0;
 
-        public int InvLogId
+        public int TxnLogId
         {
             get
             {
-                return _InvLogId;
+                return _TxnLogId;
             }
             set
             {
-                _InvLogId = value;
+                _TxnLogId = value;
+            }
+        }
+        public string TxnNum
+        {
+            get
+            {
+                return _TxnNum;
+            }
+            set
+            {
+                _TxnNum = value;
+            }
+        }
+        public int TxnDetailId
+        {
+            get
+            {
+                return _TxnDetailId;
+            }
+            set
+            {
+                _TxnDetailId = value;
             }
         }
         public string WSCode
@@ -86,6 +126,17 @@ namespace YRKJ.MWR
             set
             {
                 _WSCode = value;
+            }
+        }
+        public string EmpyName
+        {
+            get
+            {
+                return _EmpyName;
+            }
+            set
+            {
+                _EmpyName = value;
             }
         }
         public string EmpyCode
@@ -121,15 +172,15 @@ namespace YRKJ.MWR
                 _OptDate = value;
             }
         }
-        public string InvLogType
+        public string TxnLogType
         {
             get
             {
-                return _InvLogType;
+                return _TxnLogType;
             }
             set
             {
-                _InvLogType = value;
+                _TxnLogType = value;
             }
         }
         public int InvRecordId

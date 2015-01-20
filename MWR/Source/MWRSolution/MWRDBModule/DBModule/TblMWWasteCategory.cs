@@ -20,39 +20,22 @@ namespace YRKJ.MWR
 
         public static DataColumnInfo[] Columns = 
                 new DataColumnInfo[]{
-            new DataColumnInfo(true,false,false,false,"CateId",SqlCommonFn.DataColumnType.INT,10),
-            new DataColumnInfo(false,true,false,false,"WasteCode",SqlCommonFn.DataColumnType.STRING,20),
+            new DataColumnInfo(true,false,false,false,"WasteCode",SqlCommonFn.DataColumnType.STRING,20),
             new DataColumnInfo(false,true,false,false,"Waste",SqlCommonFn.DataColumnType.STRING,45)
         };
 
-        public static DataColumnInfo getCateIdColumn()
+        public static DataColumnInfo getWasteCodeColumn()
         {
             return Columns[0];
         }
-        public static DataColumnInfo getWasteCodeColumn()
+        public static DataColumnInfo getWasteColumn()
         {
             return Columns[1];
         }
-        public static DataColumnInfo getWasteColumn()
-        {
-            return Columns[2];
-        }
 
-        private int _CateId = 0;
         private string _WasteCode = "";
         private string _Waste = "";
 
-        public int CateId
-        {
-            get
-            {
-                return _CateId;
-            }
-            set
-            {
-                _CateId = value;
-            }
-        }
         public string WasteCode
         {
             get

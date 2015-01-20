@@ -92,9 +92,8 @@ namespace YRKJ.MWR
         public static bool Insert(DataCtrlInfo dcf, TblMWVendor item, ref int count,ref string errMsg)
         {
             return Insert(dcf,
-                item.VendorId,
-                item.Vendor,
                 item.VendorCode,
+                item.Vendor,
                 item.Address,
                     ref count,
                     ref errMsg
@@ -102,9 +101,8 @@ namespace YRKJ.MWR
         }
 
         public static bool Insert(DataCtrlInfo dcf,
-            int vendorId,
-            string vendor,
             string vendorCode,
+            string vendor,
             string address,
                 ref int _count,
                 ref string _errMsg
@@ -112,9 +110,8 @@ namespace YRKJ.MWR
         {
             SqlUpdateMng sum = new SqlUpdateMng();
             sum.setQueryTableName(TblMWVendor.getFormatTableName());
-            sum.Add(TblMWVendor.getVendorIdColumn(), vendorId);
-            sum.Add(TblMWVendor.getVendorColumn(), vendor);
             sum.Add(TblMWVendor.getVendorCodeColumn(), vendorCode);
+            sum.Add(TblMWVendor.getVendorColumn(), vendor);
             sum.Add(TblMWVendor.getAddressColumn(), address);
             string sql = sum.getInsertSql();
             if (sql == null)
@@ -128,9 +125,8 @@ namespace YRKJ.MWR
         public static bool Update(DataCtrlInfo dcf, TblMWVendor item, SqlWhere sw,ref int count,ref string errMsg)
         {
             SqlUpdateColumn suc = new SqlUpdateColumn();
-            suc.Add(TblMWVendor.getVendorIdColumn(), item.VendorId);
-            suc.Add(TblMWVendor.getVendorColumn(), item.Vendor);
             suc.Add(TblMWVendor.getVendorCodeColumn(), item.VendorCode);
+            suc.Add(TblMWVendor.getVendorColumn(), item.Vendor);
             suc.Add(TblMWVendor.getAddressColumn(), item.Address);
             return Update(dcf, suc, sw, ref count, ref errMsg);
         }

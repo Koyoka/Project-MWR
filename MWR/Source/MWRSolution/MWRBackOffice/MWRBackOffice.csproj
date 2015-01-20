@@ -207,6 +207,7 @@
     <Content Include="Assets\scripts\ui-toastr.js" />
     <Content Include="Assets\scripts\ui-tree.js" />
     <Content Include="Assets\boindex.js" />
+    <Content Include="Global.asax" />
     <Content Include="Lib\Newtonsoft.Json.Net20.dll" />
     <Content Include="Pages\BO\Block\BlockSendCarDispatch.aspx" />
     <Content Include="Pages\BO\BOIndex.aspx" />
@@ -240,6 +241,9 @@
     <Compile Include="Business\Sys\WebAppFn.cs" />
     <Compile Include="Business\WebAppBase\WebPageMng.cs" />
     <Compile Include="Class1.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
     <Compile Include="Pages\BO\Block\BlockSendCarDispatch.aspx.cs">
       <DependentUpon>BlockSendCarDispatch.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

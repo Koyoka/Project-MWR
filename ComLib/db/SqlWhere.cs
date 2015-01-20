@@ -56,6 +56,88 @@ namespace ComLib.db
             buildSqlList.Add(defineWhereStr);
             return this;
         }
+        public SqlWhere AddDateTimeCompareValue(DataColumnInfo column, SqlCommonFn.SqlWhereCompareEnum compareType, DateTime val,SqlCommonFn.SqlWhereDateTimeFormatEnum dateFormat)
+        {
+            string defineWhereStr = "";
+
+            defineWhereStr =
+                    SqlCommonFn.FormatSqlDateTimeColumnString(column.ColumnName, dateFormat) +
+                    SqlCommonFn.FormatSqlCompareEnumString(compareType) +
+                    SqlCommonFn.FormatSqlDateTimeString(val,dateFormat);
+
+            buildSqlList.Add(defineWhereStr);
+            return this;
+        }
+
+
+        public SqlWhere AddInValues(DataColumnInfo column,params object[] vals)
+        {
+            string defineWhereStr = "";
+            StringBuilder defineInWhere = new StringBuilder();
+            foreach(object v in vals)
+            {
+                defineInWhere.Append(SqlCommonFn.FormatSqlValueString(v)+",");
+            }
+            defineWhereStr =
+                    SqlCommonFn.FormatSqlColumnNameString(column.ColumnName) +
+                    " IN (" + defineInWhere.ToString().TrimEnd(',') + ")";
+            buildSqlList.Add(defineWhereStr);
+            return this;
+        }
+        public SqlWhere AddInValues(DataColumnInfo column, string sql)
+        {
+            string defineWhereStr = "";
+           
+            defineWhereStr =
+                    SqlCommonFn.FormatSqlColumnNameString(column.ColumnName) +
+                    " IN (" + sql + ")";
+            buildSqlList.Add(defineWhereStr);
+            return this;
+        }
+        public SqlWhere AddInValues(DataColumnInfo column, SqlQueryMng sqm)
+        {
+            string defineWhereStr = "";
+
+            defineWhereStr =
+                    SqlCommonFn.FormatSqlColumnNameString(column.ColumnName) +
+                    " IN (" + sqm.getInSql() + ")";
+            buildSqlList.Add(defineWhereStr);
+            return this;
+        }
+        public SqlWhere AddNotInValues(DataColumnInfo column, params object[] vals)
+        {
+            string defineWhereStr = "";
+            StringBuilder defineInWhere = new StringBuilder();
+            foreach (object v in vals)
+            {
+                defineInWhere.Append(SqlCommonFn.FormatSqlValueString(v) + ",");
+            }
+            defineWhereStr =
+                    SqlCommonFn.FormatSqlColumnNameString(column.ColumnName) +
+                    " NOT IN (" + defineInWhere.ToString().TrimEnd(',') + ")";
+            buildSqlList.Add(defineWhereStr);
+            return this;
+        }
+        public SqlWhere AddNotInValues(DataColumnInfo column, string sql)
+        {
+            string defineWhereStr = "";
+
+            defineWhereStr =
+                    SqlCommonFn.FormatSqlColumnNameString(column.ColumnName) +
+                    " NOT IN (" + sql + ")";
+            buildSqlList.Add(defineWhereStr);
+            return this;
+        }
+        public SqlWhere AddNotInValues(DataColumnInfo column, SqlQueryMng sqm)
+        {
+            string defineWhereStr = "";
+
+            defineWhereStr =
+                    SqlCommonFn.FormatSqlColumnNameString(column.ColumnName) +
+                    " NOT IN (" + sqm.getInSql() + ")";
+            buildSqlList.Add(defineWhereStr);
+            return this;
+        }
 
         //public void AddCompareParams(DataColumnInfo column, SqlCommonFn.SqlWhereCompareEnum compareType, Object val)
         //{

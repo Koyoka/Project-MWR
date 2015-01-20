@@ -93,11 +93,8 @@ namespace YRKJ.MWR
         {
             return Insert(dcf,
                 item.InvRecordId,
-                item.RecoHeaderId,
-                item.RecoNum,
                 item.CrateCode,
                 item.DepotCode,
-                item.Source,
                 item.Vendor,
                 item.VendorCode,
                 item.Waste,
@@ -105,12 +102,10 @@ namespace YRKJ.MWR
                 item.RecoWeight,
                 item.InvWeight,
                 item.PostWeight,
-                item.RecoWSCode,
-                item.RecoEmpyCode,
-                item.RecoDate,
-                item.PostDate,
+                item.DestWeight,
+                item.EntryDate,
                 item.Status,
-                item.InvAuthId,
+                item.DailyClose,
                     ref count,
                     ref errMsg
                     );
@@ -118,11 +113,8 @@ namespace YRKJ.MWR
 
         public static bool Insert(DataCtrlInfo dcf,
             int invRecordId,
-            int recoHeaderId,
-            string recoNum,
             string crateCode,
             string depotCode,
-            string source,
             string vendor,
             string vendorCode,
             string waste,
@@ -130,12 +122,10 @@ namespace YRKJ.MWR
             float recoWeight,
             float invWeight,
             float postWeight,
-            string recoWSCode,
-            string recoEmpyCode,
-            DateTime recoDate,
-            DateTime postDate,
+            float destWeight,
+            DateTime entryDate,
             string status,
-            int invAuthId,
+            bool dailyClose,
                 ref int _count,
                 ref string _errMsg
                 )
@@ -143,11 +133,8 @@ namespace YRKJ.MWR
             SqlUpdateMng sum = new SqlUpdateMng();
             sum.setQueryTableName(TblMWInventory.getFormatTableName());
             sum.Add(TblMWInventory.getInvRecordIdColumn(), invRecordId);
-            sum.Add(TblMWInventory.getRecoHeaderIdColumn(), recoHeaderId);
-            sum.Add(TblMWInventory.getRecoNumColumn(), recoNum);
             sum.Add(TblMWInventory.getCrateCodeColumn(), crateCode);
             sum.Add(TblMWInventory.getDepotCodeColumn(), depotCode);
-            sum.Add(TblMWInventory.getSourceColumn(), source);
             sum.Add(TblMWInventory.getVendorColumn(), vendor);
             sum.Add(TblMWInventory.getVendorCodeColumn(), vendorCode);
             sum.Add(TblMWInventory.getWasteColumn(), waste);
@@ -155,12 +142,10 @@ namespace YRKJ.MWR
             sum.Add(TblMWInventory.getRecoWeightColumn(), recoWeight);
             sum.Add(TblMWInventory.getInvWeightColumn(), invWeight);
             sum.Add(TblMWInventory.getPostWeightColumn(), postWeight);
-            sum.Add(TblMWInventory.getRecoWSCodeColumn(), recoWSCode);
-            sum.Add(TblMWInventory.getRecoEmpyCodeColumn(), recoEmpyCode);
-            sum.Add(TblMWInventory.getRecoDateColumn(), recoDate);
-            sum.Add(TblMWInventory.getPostDateColumn(), postDate);
+            sum.Add(TblMWInventory.getDestWeightColumn(), destWeight);
+            sum.Add(TblMWInventory.getEntryDateColumn(), entryDate);
             sum.Add(TblMWInventory.getStatusColumn(), status);
-            sum.Add(TblMWInventory.getInvAuthIdColumn(), invAuthId);
+            sum.Add(TblMWInventory.getDailyCloseColumn(), dailyClose);
             string sql = sum.getInsertSql();
             if (sql == null)
             {
@@ -174,11 +159,8 @@ namespace YRKJ.MWR
         {
             SqlUpdateColumn suc = new SqlUpdateColumn();
             suc.Add(TblMWInventory.getInvRecordIdColumn(), item.InvRecordId);
-            suc.Add(TblMWInventory.getRecoHeaderIdColumn(), item.RecoHeaderId);
-            suc.Add(TblMWInventory.getRecoNumColumn(), item.RecoNum);
             suc.Add(TblMWInventory.getCrateCodeColumn(), item.CrateCode);
             suc.Add(TblMWInventory.getDepotCodeColumn(), item.DepotCode);
-            suc.Add(TblMWInventory.getSourceColumn(), item.Source);
             suc.Add(TblMWInventory.getVendorColumn(), item.Vendor);
             suc.Add(TblMWInventory.getVendorCodeColumn(), item.VendorCode);
             suc.Add(TblMWInventory.getWasteColumn(), item.Waste);
@@ -186,12 +168,10 @@ namespace YRKJ.MWR
             suc.Add(TblMWInventory.getRecoWeightColumn(), item.RecoWeight);
             suc.Add(TblMWInventory.getInvWeightColumn(), item.InvWeight);
             suc.Add(TblMWInventory.getPostWeightColumn(), item.PostWeight);
-            suc.Add(TblMWInventory.getRecoWSCodeColumn(), item.RecoWSCode);
-            suc.Add(TblMWInventory.getRecoEmpyCodeColumn(), item.RecoEmpyCode);
-            suc.Add(TblMWInventory.getRecoDateColumn(), item.RecoDate);
-            suc.Add(TblMWInventory.getPostDateColumn(), item.PostDate);
+            suc.Add(TblMWInventory.getDestWeightColumn(), item.DestWeight);
+            suc.Add(TblMWInventory.getEntryDateColumn(), item.EntryDate);
             suc.Add(TblMWInventory.getStatusColumn(), item.Status);
-            suc.Add(TblMWInventory.getInvAuthIdColumn(), item.InvAuthId);
+            suc.Add(TblMWInventory.getDailyCloseColumn(), item.DailyClose);
             return Update(dcf, suc, sw, ref count, ref errMsg);
         }
 

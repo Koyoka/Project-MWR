@@ -49,7 +49,8 @@
                 if (needblock)
                     blockEl = el.parent();
                 var loadBtn = this.element.find(".demo-loading-btn").length == 1 ? this.element.find(".demo-loading-btn") : false;
-//                window.cursor = "hand"
+                //                window.cursor = "hand"
+                
                 $.AjaxPJson(url, method, data, function (d) {
 
                     if (needreload) {
@@ -58,13 +59,13 @@
                         el.replaceWith(defineEl)
                     }
                     if (recall)
-                        recall(el, d);
-                   
+                        recall(el, d, data);
+
                 }, function (r) {
-                    Modal.alert('服务器连接错误，请联系管理员。[' + r + ']');
+                    Modal.alert('[' + r + ']');
 
                 }, function () {
-                    
+
                     if (loadBtn)
                         loadBtn.button('loading');
                     if (blockEl)
@@ -74,7 +75,7 @@
                         loadBtn.button('reset');
                     if (blockEl)
                         App.unblockUI(blockEl);
-                    
+
                 });
 
 
@@ -92,7 +93,58 @@
             }
         });
 
-        gl.wgt.set('mw-submit-cardispatch', {
+        gl.wgt.set('mw-submit-completecardispatch', {
+            init: function () {
+                this.element.on("click", this.completeDispatch.bind(this));
+            },
+            completeDispatch: function (e) {
+                e.preventDefault();
+                var disId = this.element.attr("data-wgt-submit-completecardispatch-disid");
+
+                Modal.confirm({
+                    msg: "请确认车辆回场，终端回收！是否继续完成本班次？",
+                    title: "车辆班次完成",
+                    btnok: "继续",
+                    btncl: "取消"
+                }).on(function (r) {
+                    if (r) {
+                        $("#mwDisId").val(disId);
+                        $("#mwTxtIsSubmit").val("");
+                        $("#mwFrmDispList").submit();
+                        $("#mwFrmCarDisp").submit();
+                        //                        Modal.alert('车辆调度已提交。');
+                    } else {
+                    }
+                });
+            }
+
+
+        });
+    }
+
+    var _testFunc = function (s) {
+        window.alert(12345 + " " + s)
+    }
+
+    var _recallCarDispatch = function (el, netData,locData) {
+        $("#mwFrmDispList").submit();
+        if (!!locData.issubmit)
+            Modal.alert('车辆调度已提交。'); //.on(function (e) {});
+    }
+
+    return {
+        init: function () {
+            initHelper();
+            //            initFromPageEvent();
+        },
+
+        testFunc: _testFunc,
+        recallCarDispatch: _recallCarDispatch
+    };
+} ();
+
+/*
+ gl.wgt.set('mw-submit-cardispatch', {
 
             init: function () {
                 if (this.element.context.tagName !== "FORM") {
@@ -172,24 +224,4 @@
                 });
             }
         });
-    }
-
-    var _testFunc = function (s) {
-        window.alert(12345 + " " + s)
-    }
-
-    var _recallCarDispatch = function (el, data) {
-        $("#mwFrmDispList").submit();
-        Modal.alert('车辆调度已提交。'); //.on(function (e) {});
-    }
-
-    return {
-        init: function () {
-            initHelper();
-            //            initFromPageEvent();
-        },
-
-        testFunc: _testFunc,
-        recallCarDispatch: _recallCarDispatch
-    };
-} ();
+*/

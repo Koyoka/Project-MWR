@@ -92,7 +92,7 @@ namespace YRKJ.MWR
         public static bool Insert(DataCtrlInfo dcf, TblMWDepot item, ref int count,ref string errMsg)
         {
             return Insert(dcf,
-                item.DepotId,
+                item.DeptCode,
                 item.Total,
                 item.Desc,
                     ref count,
@@ -101,7 +101,7 @@ namespace YRKJ.MWR
         }
 
         public static bool Insert(DataCtrlInfo dcf,
-            int depotId,
+            string deptCode,
             int total,
             string desc,
                 ref int _count,
@@ -110,7 +110,7 @@ namespace YRKJ.MWR
         {
             SqlUpdateMng sum = new SqlUpdateMng();
             sum.setQueryTableName(TblMWDepot.getFormatTableName());
-            sum.Add(TblMWDepot.getDepotIdColumn(), depotId);
+            sum.Add(TblMWDepot.getDeptCodeColumn(), deptCode);
             sum.Add(TblMWDepot.getTotalColumn(), total);
             sum.Add(TblMWDepot.getDescColumn(), desc);
             string sql = sum.getInsertSql();
@@ -125,7 +125,7 @@ namespace YRKJ.MWR
         public static bool Update(DataCtrlInfo dcf, TblMWDepot item, SqlWhere sw,ref int count,ref string errMsg)
         {
             SqlUpdateColumn suc = new SqlUpdateColumn();
-            suc.Add(TblMWDepot.getDepotIdColumn(), item.DepotId);
+            suc.Add(TblMWDepot.getDeptCodeColumn(), item.DeptCode);
             suc.Add(TblMWDepot.getTotalColumn(), item.Total);
             suc.Add(TblMWDepot.getDescColumn(), item.Desc);
             return Update(dcf, suc, sw, ref count, ref errMsg);

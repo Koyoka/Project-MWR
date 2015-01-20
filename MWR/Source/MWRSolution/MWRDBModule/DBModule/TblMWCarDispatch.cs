@@ -22,8 +22,14 @@ namespace YRKJ.MWR
                 new DataColumnInfo[]{
             new DataColumnInfo(true,false,false,false,"CarDisId",SqlCommonFn.DataColumnType.INT,10),
             new DataColumnInfo(false,true,false,false,"CarCode",SqlCommonFn.DataColumnType.STRING,20),
+            new DataColumnInfo(false,true,false,false,"Driver",SqlCommonFn.DataColumnType.STRING,45),
+            new DataColumnInfo(false,true,false,false,"DriverCode",SqlCommonFn.DataColumnType.STRING,20),
+            new DataColumnInfo(false,true,false,false,"Inspector",SqlCommonFn.DataColumnType.STRING,45),
+            new DataColumnInfo(false,true,false,false,"InspectorCode",SqlCommonFn.DataColumnType.STRING,20),
+            new DataColumnInfo(false,true,false,false,"RecoMWSCode",SqlCommonFn.DataColumnType.STRING,20),
             new DataColumnInfo(false,true,false,false,"OutDate",SqlCommonFn.DataColumnType.DATETIME,0),
-            new DataColumnInfo(false,true,false,false,"InDate",SqlCommonFn.DataColumnType.DATETIME,0)
+            new DataColumnInfo(false,true,false,false,"InDate",SqlCommonFn.DataColumnType.DATETIME,0),
+            new DataColumnInfo(false,true,false,false,"Status",SqlCommonFn.DataColumnType.STRING,2)
         };
 
         public static DataColumnInfo getCarDisIdColumn()
@@ -34,19 +40,49 @@ namespace YRKJ.MWR
         {
             return Columns[1];
         }
-        public static DataColumnInfo getOutDateColumn()
+        public static DataColumnInfo getDriverColumn()
         {
             return Columns[2];
         }
-        public static DataColumnInfo getInDateColumn()
+        public static DataColumnInfo getDriverCodeColumn()
         {
             return Columns[3];
+        }
+        public static DataColumnInfo getInspectorColumn()
+        {
+            return Columns[4];
+        }
+        public static DataColumnInfo getInspectorCodeColumn()
+        {
+            return Columns[5];
+        }
+        public static DataColumnInfo getRecoMWSCodeColumn()
+        {
+            return Columns[6];
+        }
+        public static DataColumnInfo getOutDateColumn()
+        {
+            return Columns[7];
+        }
+        public static DataColumnInfo getInDateColumn()
+        {
+            return Columns[8];
+        }
+        public static DataColumnInfo getStatusColumn()
+        {
+            return Columns[9];
         }
 
         private int _CarDisId = 0;
         private string _CarCode = "";
+        private string _Driver = "";
+        private string _DriverCode = "";
+        private string _Inspector = "";
+        private string _InspectorCode = "";
+        private string _RecoMWSCode = "";
         private DateTime _OutDate = DateTime.MinValue;
         private DateTime _InDate = DateTime.MinValue;
+        private string _Status = "";
 
         public int CarDisId
         {
@@ -68,6 +104,61 @@ namespace YRKJ.MWR
             set
             {
                 _CarCode = value;
+            }
+        }
+        public string Driver
+        {
+            get
+            {
+                return _Driver;
+            }
+            set
+            {
+                _Driver = value;
+            }
+        }
+        public string DriverCode
+        {
+            get
+            {
+                return _DriverCode;
+            }
+            set
+            {
+                _DriverCode = value;
+            }
+        }
+        public string Inspector
+        {
+            get
+            {
+                return _Inspector;
+            }
+            set
+            {
+                _Inspector = value;
+            }
+        }
+        public string InspectorCode
+        {
+            get
+            {
+                return _InspectorCode;
+            }
+            set
+            {
+                _InspectorCode = value;
+            }
+        }
+        public string RecoMWSCode
+        {
+            get
+            {
+                return _RecoMWSCode;
+            }
+            set
+            {
+                _RecoMWSCode = value;
             }
         }
         public DateTime OutDate
@@ -92,8 +183,21 @@ namespace YRKJ.MWR
                 _InDate = value;
             }
         }
+        public string Status
+        {
+            get
+            {
+                return _Status;
+            }
+            set
+            {
+                _Status = value;
+            }
+        }
 
 
+        public const string STATUS_ENUM_ShiftStrat = "S";//班次开始了;
+        public const string STATUS_ENUM_ShiftEnd = "E";//班次完成了;
 
     }
 }

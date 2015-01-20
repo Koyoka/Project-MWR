@@ -92,7 +92,6 @@ namespace YRKJ.MWR
         public static bool Insert(DataCtrlInfo dcf, TblMWWasteCategory item, ref int count,ref string errMsg)
         {
             return Insert(dcf,
-                item.CateId,
                 item.WasteCode,
                 item.Waste,
                     ref count,
@@ -101,7 +100,6 @@ namespace YRKJ.MWR
         }
 
         public static bool Insert(DataCtrlInfo dcf,
-            int cateId,
             string wasteCode,
             string waste,
                 ref int _count,
@@ -110,7 +108,6 @@ namespace YRKJ.MWR
         {
             SqlUpdateMng sum = new SqlUpdateMng();
             sum.setQueryTableName(TblMWWasteCategory.getFormatTableName());
-            sum.Add(TblMWWasteCategory.getCateIdColumn(), cateId);
             sum.Add(TblMWWasteCategory.getWasteCodeColumn(), wasteCode);
             sum.Add(TblMWWasteCategory.getWasteColumn(), waste);
             string sql = sum.getInsertSql();
@@ -125,7 +122,6 @@ namespace YRKJ.MWR
         public static bool Update(DataCtrlInfo dcf, TblMWWasteCategory item, SqlWhere sw,ref int count,ref string errMsg)
         {
             SqlUpdateColumn suc = new SqlUpdateColumn();
-            suc.Add(TblMWWasteCategory.getCateIdColumn(), item.CateId);
             suc.Add(TblMWWasteCategory.getWasteCodeColumn(), item.WasteCode);
             suc.Add(TblMWWasteCategory.getWasteColumn(), item.Waste);
             return Update(dcf, suc, sw, ref count, ref errMsg);

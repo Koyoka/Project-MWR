@@ -21,23 +21,23 @@ namespace YRKJ.MWR
         public static DataColumnInfo[] Columns = 
                 new DataColumnInfo[]{
             new DataColumnInfo(true,false,false,false,"InvTrackRecordId",SqlCommonFn.DataColumnType.INT,10),
-            new DataColumnInfo(false,true,false,false,"PostHeaderId",SqlCommonFn.DataColumnType.INT,10),
+            new DataColumnInfo(false,true,false,false,"InvRecordId",SqlCommonFn.DataColumnType.INT,10),
+            new DataColumnInfo(false,true,false,false,"TxnNum",SqlCommonFn.DataColumnType.INT,10),
+            new DataColumnInfo(false,true,false,false,"TxnType",SqlCommonFn.DataColumnType.STRING,2),
+            new DataColumnInfo(false,true,false,false,"TxnDetailId",SqlCommonFn.DataColumnType.INT,10),
             new DataColumnInfo(false,true,false,false,"CrateCode",SqlCommonFn.DataColumnType.STRING,20),
-            new DataColumnInfo(false,true,false,false,"PostNum",SqlCommonFn.DataColumnType.STRING,20),
             new DataColumnInfo(false,true,false,false,"DepotCode",SqlCommonFn.DataColumnType.STRING,20),
-            new DataColumnInfo(false,true,false,false,"Source",SqlCommonFn.DataColumnType.STRING,45),
             new DataColumnInfo(false,true,false,false,"Vendor",SqlCommonFn.DataColumnType.STRING,45),
             new DataColumnInfo(false,true,false,false,"VendorCode",SqlCommonFn.DataColumnType.STRING,20),
             new DataColumnInfo(false,true,false,false,"Waste",SqlCommonFn.DataColumnType.STRING,45),
             new DataColumnInfo(false,true,false,false,"WasteCode",SqlCommonFn.DataColumnType.STRING,20),
-            new DataColumnInfo(false,true,false,false,"InvWeight",SqlCommonFn.DataColumnType.FLOAT,12),
-            new DataColumnInfo(false,true,false,false,"PostWeight",SqlCommonFn.DataColumnType.FLOAT,12),
-            new DataColumnInfo(false,true,false,false,"PostWSCode",SqlCommonFn.DataColumnType.STRING,20),
-            new DataColumnInfo(false,true,false,false,"PostEmpyCode",SqlCommonFn.DataColumnType.STRING,20),
-            new DataColumnInfo(false,true,false,false,"ReceiveDate",SqlCommonFn.DataColumnType.DATETIME,0),
-            new DataColumnInfo(false,true,false,false,"PostDate",SqlCommonFn.DataColumnType.DATETIME,0),
+            new DataColumnInfo(false,true,false,false,"SubWeight",SqlCommonFn.DataColumnType.FLOAT,12),
+            new DataColumnInfo(false,true,false,false,"TxnWeight",SqlCommonFn.DataColumnType.FLOAT,12),
+            new DataColumnInfo(false,true,false,false,"WSCode",SqlCommonFn.DataColumnType.STRING,20),
+            new DataColumnInfo(false,true,false,false,"EmpyName",SqlCommonFn.DataColumnType.STRING,45),
+            new DataColumnInfo(false,true,false,false,"EmpyCode",SqlCommonFn.DataColumnType.STRING,20),
+            new DataColumnInfo(false,true,false,false,"EntryDate",SqlCommonFn.DataColumnType.DATETIME,0),
             new DataColumnInfo(false,true,false,false,"Status",SqlCommonFn.DataColumnType.STRING,2),
-            new DataColumnInfo(false,true,false,false,"InvRecordId",SqlCommonFn.DataColumnType.INT,10),
             new DataColumnInfo(false,true,false,false,"InvAuthId",SqlCommonFn.DataColumnType.INT,10)
         };
 
@@ -45,71 +45,71 @@ namespace YRKJ.MWR
         {
             return Columns[0];
         }
-        public static DataColumnInfo getPostHeaderIdColumn()
+        public static DataColumnInfo getInvRecordIdColumn()
         {
             return Columns[1];
         }
-        public static DataColumnInfo getCrateCodeColumn()
+        public static DataColumnInfo getTxnNumColumn()
         {
             return Columns[2];
         }
-        public static DataColumnInfo getPostNumColumn()
+        public static DataColumnInfo getTxnTypeColumn()
         {
             return Columns[3];
         }
-        public static DataColumnInfo getDepotCodeColumn()
+        public static DataColumnInfo getTxnDetailIdColumn()
         {
             return Columns[4];
         }
-        public static DataColumnInfo getSourceColumn()
+        public static DataColumnInfo getCrateCodeColumn()
         {
             return Columns[5];
         }
-        public static DataColumnInfo getVendorColumn()
+        public static DataColumnInfo getDepotCodeColumn()
         {
             return Columns[6];
         }
-        public static DataColumnInfo getVendorCodeColumn()
+        public static DataColumnInfo getVendorColumn()
         {
             return Columns[7];
         }
-        public static DataColumnInfo getWasteColumn()
+        public static DataColumnInfo getVendorCodeColumn()
         {
             return Columns[8];
         }
-        public static DataColumnInfo getWasteCodeColumn()
+        public static DataColumnInfo getWasteColumn()
         {
             return Columns[9];
         }
-        public static DataColumnInfo getInvWeightColumn()
+        public static DataColumnInfo getWasteCodeColumn()
         {
             return Columns[10];
         }
-        public static DataColumnInfo getPostWeightColumn()
+        public static DataColumnInfo getSubWeightColumn()
         {
             return Columns[11];
         }
-        public static DataColumnInfo getPostWSCodeColumn()
+        public static DataColumnInfo getTxnWeightColumn()
         {
             return Columns[12];
         }
-        public static DataColumnInfo getPostEmpyCodeColumn()
+        public static DataColumnInfo getWSCodeColumn()
         {
             return Columns[13];
         }
-        public static DataColumnInfo getReceiveDateColumn()
+        public static DataColumnInfo getEmpyNameColumn()
         {
             return Columns[14];
         }
-        public static DataColumnInfo getPostDateColumn()
+        public static DataColumnInfo getEmpyCodeColumn()
         {
             return Columns[15];
         }
-        public static DataColumnInfo getStatusColumn()
+        public static DataColumnInfo getEntryDateColumn()
         {
             return Columns[16];
         }
-        public static DataColumnInfo getInvRecordIdColumn()
+        public static DataColumnInfo getStatusColumn()
         {
             return Columns[17];
         }
@@ -119,23 +119,23 @@ namespace YRKJ.MWR
         }
 
         private int _InvTrackRecordId = 0;
-        private int _PostHeaderId = 0;
+        private int _InvRecordId = 0;
+        private int _TxnNum = 0;
+        private string _TxnType = "";
+        private int _TxnDetailId = 0;
         private string _CrateCode = "";
-        private string _PostNum = "";
         private string _DepotCode = "";
-        private string _Source = "";
         private string _Vendor = "";
         private string _VendorCode = "";
         private string _Waste = "";
         private string _WasteCode = "";
-        private float _InvWeight = 0;
-        private float _PostWeight = 0;
-        private string _PostWSCode = "";
-        private string _PostEmpyCode = "";
-        private DateTime _ReceiveDate = DateTime.MinValue;
-        private DateTime _PostDate = DateTime.MinValue;
+        private float _SubWeight = 0;
+        private float _TxnWeight = 0;
+        private string _WSCode = "";
+        private string _EmpyName = "";
+        private string _EmpyCode = "";
+        private DateTime _EntryDate = DateTime.MinValue;
         private string _Status = "";
-        private int _InvRecordId = 0;
         private int _InvAuthId = 0;
 
         public int InvTrackRecordId
@@ -149,15 +149,48 @@ namespace YRKJ.MWR
                 _InvTrackRecordId = value;
             }
         }
-        public int PostHeaderId
+        public int InvRecordId
         {
             get
             {
-                return _PostHeaderId;
+                return _InvRecordId;
             }
             set
             {
-                _PostHeaderId = value;
+                _InvRecordId = value;
+            }
+        }
+        public int TxnNum
+        {
+            get
+            {
+                return _TxnNum;
+            }
+            set
+            {
+                _TxnNum = value;
+            }
+        }
+        public string TxnType
+        {
+            get
+            {
+                return _TxnType;
+            }
+            set
+            {
+                _TxnType = value;
+            }
+        }
+        public int TxnDetailId
+        {
+            get
+            {
+                return _TxnDetailId;
+            }
+            set
+            {
+                _TxnDetailId = value;
             }
         }
         public string CrateCode
@@ -171,17 +204,6 @@ namespace YRKJ.MWR
                 _CrateCode = value;
             }
         }
-        public string PostNum
-        {
-            get
-            {
-                return _PostNum;
-            }
-            set
-            {
-                _PostNum = value;
-            }
-        }
         public string DepotCode
         {
             get
@@ -191,17 +213,6 @@ namespace YRKJ.MWR
             set
             {
                 _DepotCode = value;
-            }
-        }
-        public string Source
-        {
-            get
-            {
-                return _Source;
-            }
-            set
-            {
-                _Source = value;
             }
         }
         public string Vendor
@@ -248,70 +259,70 @@ namespace YRKJ.MWR
                 _WasteCode = value;
             }
         }
-        public float InvWeight
+        public float SubWeight
         {
             get
             {
-                return _InvWeight;
+                return _SubWeight;
             }
             set
             {
-                _InvWeight = value;
+                _SubWeight = value;
             }
         }
-        public float PostWeight
+        public float TxnWeight
         {
             get
             {
-                return _PostWeight;
+                return _TxnWeight;
             }
             set
             {
-                _PostWeight = value;
+                _TxnWeight = value;
             }
         }
-        public string PostWSCode
+        public string WSCode
         {
             get
             {
-                return _PostWSCode;
+                return _WSCode;
             }
             set
             {
-                _PostWSCode = value;
+                _WSCode = value;
             }
         }
-        public string PostEmpyCode
+        public string EmpyName
         {
             get
             {
-                return _PostEmpyCode;
+                return _EmpyName;
             }
             set
             {
-                _PostEmpyCode = value;
+                _EmpyName = value;
             }
         }
-        public DateTime ReceiveDate
+        public string EmpyCode
         {
             get
             {
-                return _ReceiveDate;
+                return _EmpyCode;
             }
             set
             {
-                _ReceiveDate = value;
+                _EmpyCode = value;
             }
         }
-        public DateTime PostDate
+        public DateTime EntryDate
         {
             get
             {
-                return _PostDate;
+                return _EntryDate;
             }
             set
             {
-                _PostDate = value;
+                _EntryDate = value;
             }
         }
         public string Status
@@ -323,17 +334,6 @@ namespace YRKJ.MWR
             set
             {
                 _Status = value;
-            }
-        }
-        public int InvRecordId
-        {
-            get
-            {
-                return _InvRecordId;
-            }
-            set
-            {
-                _InvRecordId = value;
             }
         }
         public int InvAuthId

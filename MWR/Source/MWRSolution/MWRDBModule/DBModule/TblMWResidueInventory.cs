@@ -23,6 +23,7 @@ namespace YRKJ.MWR
             new DataColumnInfo(true,false,false,false,"ResdInvId",SqlCommonFn.DataColumnType.INT,10),
             new DataColumnInfo(false,true,false,false,"InvWeight",SqlCommonFn.DataColumnType.FLOAT,12),
             new DataColumnInfo(false,true,false,false,"EntryDate",SqlCommonFn.DataColumnType.DATETIME,0),
+            new DataColumnInfo(false,true,false,false,"HandlingDate",SqlCommonFn.DataColumnType.DATETIME,0),
             new DataColumnInfo(false,true,false,false,"RecoWSCode",SqlCommonFn.DataColumnType.STRING,20),
             new DataColumnInfo(false,true,false,false,"RecoEmpyCode",SqlCommonFn.DataColumnType.STRING,20),
             new DataColumnInfo(false,true,false,false,"HandlingType",SqlCommonFn.DataColumnType.STRING,2)
@@ -40,22 +41,27 @@ namespace YRKJ.MWR
         {
             return Columns[2];
         }
-        public static DataColumnInfo getRecoWSCodeColumn()
+        public static DataColumnInfo getHandlingDateColumn()
         {
             return Columns[3];
         }
-        public static DataColumnInfo getRecoEmpyCodeColumn()
+        public static DataColumnInfo getRecoWSCodeColumn()
         {
             return Columns[4];
         }
-        public static DataColumnInfo getHandlingTypeColumn()
+        public static DataColumnInfo getRecoEmpyCodeColumn()
         {
             return Columns[5];
+        }
+        public static DataColumnInfo getHandlingTypeColumn()
+        {
+            return Columns[6];
         }
 
         private int _ResdInvId = 0;
         private float _InvWeight = 0;
         private DateTime _EntryDate = DateTime.MinValue;
+        private DateTime _HandlingDate = DateTime.MinValue;
         private string _RecoWSCode = "";
         private string _RecoEmpyCode = "";
         private string _HandlingType = "";
@@ -91,6 +97,17 @@ namespace YRKJ.MWR
             set
             {
                 _EntryDate = value;
+            }
+        }
+        public DateTime HandlingDate
+        {
+            get
+            {
+                return _HandlingDate;
+            }
+            set
+            {
+                _HandlingDate = value;
             }
         }
         public string RecoWSCode

@@ -92,7 +92,6 @@ namespace YRKJ.MWR
         public static bool Insert(DataCtrlInfo dcf, TblMWCrate item, ref int count,ref string errMsg)
         {
             return Insert(dcf,
-                item.CrateId,
                 item.CrateCode,
                 item.Desc,
                 item.Status,
@@ -102,7 +101,6 @@ namespace YRKJ.MWR
         }
 
         public static bool Insert(DataCtrlInfo dcf,
-            int crateId,
             string crateCode,
             string desc,
             string status,
@@ -112,7 +110,6 @@ namespace YRKJ.MWR
         {
             SqlUpdateMng sum = new SqlUpdateMng();
             sum.setQueryTableName(TblMWCrate.getFormatTableName());
-            sum.Add(TblMWCrate.getCrateIdColumn(), crateId);
             sum.Add(TblMWCrate.getCrateCodeColumn(), crateCode);
             sum.Add(TblMWCrate.getDescColumn(), desc);
             sum.Add(TblMWCrate.getStatusColumn(), status);
@@ -128,7 +125,6 @@ namespace YRKJ.MWR
         public static bool Update(DataCtrlInfo dcf, TblMWCrate item, SqlWhere sw,ref int count,ref string errMsg)
         {
             SqlUpdateColumn suc = new SqlUpdateColumn();
-            suc.Add(TblMWCrate.getCrateIdColumn(), item.CrateId);
             suc.Add(TblMWCrate.getCrateCodeColumn(), item.CrateCode);
             suc.Add(TblMWCrate.getDescColumn(), item.Desc);
             suc.Add(TblMWCrate.getStatusColumn(), item.Status);

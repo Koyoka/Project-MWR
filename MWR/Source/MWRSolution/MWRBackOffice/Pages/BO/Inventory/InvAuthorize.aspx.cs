@@ -31,6 +31,9 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Inventory
 
         private bool InitPage()
         {
+
+            c_UPage.ShowPage(1, 10);
+
             if (!LoadData())
             {
                 return false;

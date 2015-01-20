@@ -20,13 +20,12 @@ namespace YRKJ.MWR
 
         public static DataColumnInfo[] Columns = 
                 new DataColumnInfo[]{
-            new DataColumnInfo(true,false,false,false,"VendorId",SqlCommonFn.DataColumnType.INT,10),
+            new DataColumnInfo(true,false,false,false,"VendorCode",SqlCommonFn.DataColumnType.STRING,20),
             new DataColumnInfo(false,true,false,false,"Vendor",SqlCommonFn.DataColumnType.STRING,45),
-            new DataColumnInfo(false,true,false,false,"VendorCode",SqlCommonFn.DataColumnType.STRING,20),
             new DataColumnInfo(false,true,false,false,"Address",SqlCommonFn.DataColumnType.STRING,128)
         };
 
-        public static DataColumnInfo getVendorIdColumn()
+        public static DataColumnInfo getVendorCodeColumn()
         {
             return Columns[0];
         }
@@ -34,29 +33,24 @@ namespace YRKJ.MWR
         {
             return Columns[1];
         }
-        public static DataColumnInfo getVendorCodeColumn()
+        public static DataColumnInfo getAddressColumn()
         {
             return Columns[2];
         }
-        public static DataColumnInfo getAddressColumn()
-        {
-            return Columns[3];
-        }
 
-        private int _VendorId = 0;
-        private string _Vendor = "";
         private string _VendorCode = "";
+        private string _Vendor = "";
         private string _Address = "";
 
-        public int VendorId
+        public string VendorCode
         {
             get
             {
-                return _VendorId;
+                return _VendorCode;
             }
             set
             {
-                _VendorId = value;
+                _VendorCode = value;
             }
         }
         public string Vendor
@@ -68,17 +62,6 @@ namespace YRKJ.MWR
             set
             {
                 _Vendor = value;
-            }
-        }
-        public string VendorCode
-        {
-            get
-            {
-                return _VendorCode;
-            }
-            set
-            {
-                _VendorCode = value;
             }
         }
         public string Address

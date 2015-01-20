@@ -113,8 +113,11 @@ namespace ComLib.db
         }
 
         #region Common DB Operate Function
-
-        public static bool GetDBNow(string connStr,ref DateTime value, ref string errMsg)
+        public static DateTime GetDBNow()
+        {
+            return getInstance().getDBDateTime();
+        }
+        private static bool GetDBNow(string connStr,ref DateTime value, ref string errMsg)
         {
             try
             {

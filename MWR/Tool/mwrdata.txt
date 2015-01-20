@@ -1,9 +1,12 @@
-T MWEmploy
-C EmpyId 1 0 0 int 10 0  int(11) 
-C EmpyCode 0 1 0 varchar 20 0  varchar(20) 
-C Name 0 1 0 varchar 45 0  varchar(45) 
-C UserGroupId 0 1 0 int 10 0  int(11) 
-C EmpyType 0 1 0 varchar 2 0  varchar(2) 
-C UserName 0 1 0 varchar 45 0  varchar(45) 
-C Password 0 1 0 varchar 45 0  varchar(45) 
+T mwcardispatch
+C CarDisId 1 0 0 int 10 0  int(11) 
+C CarCode 0 1 0 varchar 20 0  varchar(20) 
+C Driver 0 1 0 varchar 45 0  varchar(45) 
+C DriverCode 0 1 0 varchar 20 0  varchar(20) 
+C Inspector 0 1 0 varchar 45 0  varchar(45) 
+C InspectorCode 0 1 0 varchar 20 0  varchar(20) 
+C RecoMWSCode 0 1 0 varchar 20 0  varchar(20) 
+C OutDate 0 1 0 datetime 0 0  datetime 
+C InDate 0 1 0 datetime 0 0  datetime 
+C Status 0 1 0 varchar 2 0  varchar(2) 
 

@@ -93,10 +93,20 @@ namespace YRKJ.MWR
         {
             return Insert(dcf,
                 item.InvAuthId,
+                item.TxnNum,
+                item.TxnDetailId,
                 item.EmpyCode,
+                item.EmpyName,
+                item.WSCode,
+                item.AuthEmpyCode,
+                item.AuthEmpyName,
                 item.Remark,
-                item.EntryDate,
+                item.SubWeight,
+                item.TxnWeight,
                 item.DiffWeight,
+                item.EntryDate,
+                item.CompDate,
+                item.Status,
                     ref count,
                     ref errMsg
                     );
@@ -104,10 +114,20 @@ namespace YRKJ.MWR
 
         public static bool Insert(DataCtrlInfo dcf,
             int invAuthId,
+            string txnNum,
+            int txnDetailId,
             string empyCode,
+            string empyName,
+            string wSCode,
+            string authEmpyCode,
+            string authEmpyName,
             string remark,
-            DateTime entryDate,
+            float subWeight,
+            float txnWeight,
             float diffWeight,
+            DateTime entryDate,
+            DateTime compDate,
+            string status,
                 ref int _count,
                 ref string _errMsg
                 )
@@ -115,10 +135,20 @@ namespace YRKJ.MWR
             SqlUpdateMng sum = new SqlUpdateMng();
             sum.setQueryTableName(TblMWInvAuthorize.getFormatTableName());
             sum.Add(TblMWInvAuthorize.getInvAuthIdColumn(), invAuthId);
+            sum.Add(TblMWInvAuthorize.getTxnNumColumn(), txnNum);
+            sum.Add(TblMWInvAuthorize.getTxnDetailIdColumn(), txnDetailId);
             sum.Add(TblMWInvAuthorize.getEmpyCodeColumn(), empyCode);
+            sum.Add(TblMWInvAuthorize.getEmpyNameColumn(), empyName);
+            sum.Add(TblMWInvAuthorize.getWSCodeColumn(), wSCode);
+            sum.Add(TblMWInvAuthorize.getAuthEmpyCodeColumn(), authEmpyCode);
+            sum.Add(TblMWInvAuthorize.getAuthEmpyNameColumn(), authEmpyName);
             sum.Add(TblMWInvAuthorize.getRemarkColumn(), remark);
-            sum.Add(TblMWInvAuthorize.getEntryDateColumn(), entryDate);
+            sum.Add(TblMWInvAuthorize.getSubWeightColumn(), subWeight);
+            sum.Add(TblMWInvAuthorize.getTxnWeightColumn(), txnWeight);
             sum.Add(TblMWInvAuthorize.getDiffWeightColumn(), diffWeight);
+            sum.Add(TblMWInvAuthorize.getEntryDateColumn(), entryDate);
+            sum.Add(TblMWInvAuthorize.getCompDateColumn(), compDate);
+            sum.Add(TblMWInvAuthorize.getStatusColumn(), status);
             string sql = sum.getInsertSql();
             if (sql == null)
             {
@@ -132,10 +162,20 @@ namespace YRKJ.MWR
         {
             SqlUpdateColumn suc = new SqlUpdateColumn();
             suc.Add(TblMWInvAuthorize.getInvAuthIdColumn(), item.InvAuthId);
+            suc.Add(TblMWInvAuthorize.getTxnNumColumn(), item.TxnNum);
+            suc.Add(TblMWInvAuthorize.getTxnDetailIdColumn(), item.TxnDetailId);
             suc.Add(TblMWInvAuthorize.getEmpyCodeColumn(), item.EmpyCode);
+            suc.Add(TblMWInvAuthorize.getEmpyNameColumn(), item.EmpyName);
+            suc.Add(TblMWInvAuthorize.getWSCodeColumn(), item.WSCode);
+            suc.Add(TblMWInvAuthorize.getAuthEmpyCodeColumn(), item.AuthEmpyCode);
+            suc.Add(TblMWInvAuthorize.getAuthEmpyNameColumn(), item.AuthEmpyName);
             suc.Add(TblMWInvAuthorize.getRemarkColumn(), item.Remark);
-            suc.Add(TblMWInvAuthorize.getEntryDateColumn(), item.EntryDate);
+            suc.Add(TblMWInvAuthorize.getSubWeightColumn(), item.SubWeight);
+            suc.Add(TblMWInvAuthorize.getTxnWeightColumn(), item.TxnWeight);
             suc.Add(TblMWInvAuthorize.getDiffWeightColumn(), item.DiffWeight);
+            suc.Add(TblMWInvAuthorize.getEntryDateColumn(), item.EntryDate);
+            suc.Add(TblMWInvAuthorize.getCompDateColumn(), item.CompDate);
+            suc.Add(TblMWInvAuthorize.getStatusColumn(), item.Status);
             return Update(dcf, suc, sw, ref count, ref errMsg);
         }
 

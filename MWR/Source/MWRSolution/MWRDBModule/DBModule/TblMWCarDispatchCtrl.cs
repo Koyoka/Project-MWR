@@ -94,8 +94,14 @@ namespace YRKJ.MWR
             return Insert(dcf,
                 item.CarDisId,
                 item.CarCode,
+                item.Driver,
+                item.DriverCode,
+                item.Inspector,
+                item.InspectorCode,
+                item.RecoMWSCode,
                 item.OutDate,
                 item.InDate,
+                item.Status,
                     ref count,
                     ref errMsg
                     );
@@ -104,8 +110,14 @@ namespace YRKJ.MWR
         public static bool Insert(DataCtrlInfo dcf,
             int carDisId,
             string carCode,
+            string driver,
+            string driverCode,
+            string inspector,
+            string inspectorCode,
+            string recoMWSCode,
             DateTime outDate,
             DateTime inDate,
+            string status,
                 ref int _count,
                 ref string _errMsg
                 )
@@ -114,8 +126,14 @@ namespace YRKJ.MWR
             sum.setQueryTableName(TblMWCarDispatch.getFormatTableName());
             sum.Add(TblMWCarDispatch.getCarDisIdColumn(), carDisId);
             sum.Add(TblMWCarDispatch.getCarCodeColumn(), carCode);
+            sum.Add(TblMWCarDispatch.getDriverColumn(), driver);
+            sum.Add(TblMWCarDispatch.getDriverCodeColumn(), driverCode);
+            sum.Add(TblMWCarDispatch.getInspectorColumn(), inspector);
+            sum.Add(TblMWCarDispatch.getInspectorCodeColumn(), inspectorCode);
+            sum.Add(TblMWCarDispatch.getRecoMWSCodeColumn(), recoMWSCode);
             sum.Add(TblMWCarDispatch.getOutDateColumn(), outDate);
             sum.Add(TblMWCarDispatch.getInDateColumn(), inDate);
+            sum.Add(TblMWCarDispatch.getStatusColumn(), status);
             string sql = sum.getInsertSql();
             if (sql == null)
             {
@@ -130,8 +148,14 @@ namespace YRKJ.MWR
             SqlUpdateColumn suc = new SqlUpdateColumn();
             suc.Add(TblMWCarDispatch.getCarDisIdColumn(), item.CarDisId);
             suc.Add(TblMWCarDispatch.getCarCodeColumn(), item.CarCode);
+            suc.Add(TblMWCarDispatch.getDriverColumn(), item.Driver);
+            suc.Add(TblMWCarDispatch.getDriverCodeColumn(), item.DriverCode);
+            suc.Add(TblMWCarDispatch.getInspectorColumn(), item.Inspector);
+            suc.Add(TblMWCarDispatch.getInspectorCodeColumn(), item.InspectorCode);
+            suc.Add(TblMWCarDispatch.getRecoMWSCodeColumn(), item.RecoMWSCode);
             suc.Add(TblMWCarDispatch.getOutDateColumn(), item.OutDate);
             suc.Add(TblMWCarDispatch.getInDateColumn(), item.InDate);
+            suc.Add(TblMWCarDispatch.getStatusColumn(), item.Status);
             return Update(dcf, suc, sw, ref count, ref errMsg);
         }
 

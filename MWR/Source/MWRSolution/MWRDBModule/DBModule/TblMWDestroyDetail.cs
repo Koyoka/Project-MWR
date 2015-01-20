@@ -32,9 +32,9 @@ namespace YRKJ.MWR
             new DataColumnInfo(false,true,false,false,"PostWeight",SqlCommonFn.DataColumnType.FLOAT,12),
             new DataColumnInfo(false,true,false,false,"DestWeight",SqlCommonFn.DataColumnType.FLOAT,12),
             new DataColumnInfo(false,true,false,false,"Status",SqlCommonFn.DataColumnType.STRING,2),
-            new DataColumnInfo(false,false,false,false,"PostHeaderId",SqlCommonFn.DataColumnType.INT,10),
+            new DataColumnInfo(false,true,false,false,"PostHeaderId",SqlCommonFn.DataColumnType.INT,10),
             new DataColumnInfo(false,true,false,false,"InvRecordId",SqlCommonFn.DataColumnType.INT,10),
-            new DataColumnInfo(false,false,false,false,"InvAuthId",SqlCommonFn.DataColumnType.INT,10)
+            new DataColumnInfo(false,true,false,false,"InvAuthId",SqlCommonFn.DataColumnType.INT,10)
         };
 
         public static DataColumnInfo getDestroyDtlIdColumn()

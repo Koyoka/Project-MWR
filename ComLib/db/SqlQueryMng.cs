@@ -22,6 +22,29 @@ namespace ComLib.db
             queryTableName = tabName;
         }
 
+        public string getInSql()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("SELECT");
+            putSpace(sb);
+            sb.Append(QueryColumn.getSql());
+            putSpace(sb);
+            sb.Append("FROM");
+            putSpace(sb);
+            sb.Append(queryTableName);
+
+            string sqlcondition = Condition.getSql();
+            if (!string.IsNullOrEmpty(sqlcondition))
+            {
+                putSpace(sb);
+                sb.Append(sqlcondition);
+                buildParamsList.AddRange(Condition.getParams());
+            }
+            
+            string topSql = SqlCommonFn.FormatTopSqlString(sb.ToString(), QueryColumn.GetTopCount());
+            return topSql;
+        }
+
         public string getSql()
         {
             StringBuilder sb = new StringBuilder();

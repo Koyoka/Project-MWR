@@ -1,7 +1,8 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Pages/MasterPages/MWBOEmpty.Master"
     AutoEventWireup="true" CodeBehind="CarDispatch.aspx.cs" Inherits="YRKJ.MWR.BackOffice.Pages.BO.Car.CarDispatch" %>
-
 <%@ Import Namespace="YRKJ.MWR.BackOffice.Business.Sys" %>
+<%@ Register src="../../UCtrl/UPage.ascx" tagname="UPage" tagprefix="uc1" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 <link rel="stylesheet" href="/assets/plugins/data-tables/DT_bootstrap.css"/>
 </asp:Content>
@@ -45,13 +46,26 @@
                         <div class="form-group">
                             <label class="control-label">
                                 当前驻厂车辆</label>
-                            <select  name="data1" class="form-control input-lg">
-                                <option value="0">选择车辆</option>
+                            <select  name="carCode" class="form-control input-lg">
+                                <% 
+                                    if (PageCarDataList.Count == 0)
+                                    { 
+                                %>
+                                    <option  value="0">没有车辆可选...</option>
+                                <%        
+                                    }else if (PageCarDataList.Count != 1)
+                                  { 
+                                %>
+                                    <option value="0">选择车辆</option>
+                                <%        
+                                    }
+                                %>
+                                
                                 <% 
                                     foreach (PageCarData item in PageCarDataList)
                                     { 
                                 %> 
-                                    <option value="<% = item.CarCode %>"><% = item.CarDesc %></option>
+                                    <option value="<% = item.CarCode %>"><% = item.CarCode%></option>
                                 <% 
                                     }
                                 %>
@@ -61,8 +75,21 @@
                         <div class="form-group">
                             <label class="control-label">
                                 当前驻留司机</label>
-                            <select  name="data2" class="form-control input-lg">
-                                <option  value="0">选择司机</option>
+                            <select  name="driverCode" class="form-control input-lg">
+                                <% 
+                                    if (PageEmplDriverDataList.Count == 0)
+                                    { 
+                                %>
+                                    <option  value="0">没有司机可选...</option>
+                                <%        
+                                    }else if (PageEmplDriverDataList.Count != 1)
+                                    { 
+                                %>
+                                    <option  value="0">选择司机</option>
+                                <%        
+                                    }
+                                %>
+                                
                                  <% 
                                     foreach (PageEmplData item in PageEmplDriverDataList)
                                     {
@@ -76,8 +103,21 @@
                         <div class="form-group ">
                             <label class="control-label">
                                 当前驻留跟车员</label>
-                            <select name="data3" class="form-control input-lg">
-                                <option  value="0">选择跟车员</option>
+                            <select name="inspectorCode" class="form-control input-lg">
+                                <% 
+                                    if (PageEmplInspectorDataList.Count == 0)
+                                    { 
+                                %>
+                                    <option  value="0">没有跟车员可选...</option>
+                                <%        
+                                    }else if (PageEmplInspectorDataList.Count != 1)
+                                    { 
+                                %>
+                                    <option  value="0">选择跟车员</option>
+                                <%        
+                                    }
+                                %>
+                                
                                  <% 
                                     foreach (PageEmplData item in PageEmplInspectorDataList)
                                     {
@@ -88,16 +128,27 @@
                                 %>
                             </select>
                         </div>
-                         <div class="form-group last">
+                        <div class="form-group last">
                             <label class="control-label">
                                 当前可派发的终端</label>
-                            <select name="data4" class="form-control input-lg">
-                                <option  value="0">选择配置的移动终端</option>
+                            <select name="mwsCode" class="form-control input-lg">
+                                <% 
+                                    if (PageMobileWSDataList.Count == 0)
+                                    { 
+                                %>
+                                    <option  value="0">没有移动终端可选...</option>
+                                <%        
+                                    }else if (PageMobileWSDataList.Count != 1){ 
+                                %>
+                                    <option  value="0">选择配置的移动终端</option>
+                                <%        
+                                    }
+                                %>
                                  <% 
-                                    foreach (PageEmplData item in PageEmplInspectorDataList)
+                                     foreach (string  item in PageMobileWSDataList)
                                     {
                                  %>
-                                 <option value="<% = item.EmplCode %>"><% = item.EmplName%></option>
+                                 <option value="<% = item %>"><% = item%></option>
                                  <%   
                                     }
                                 %>
@@ -105,6 +156,7 @@
                         </div>
                     </div>
                     <div class="form-actions right">
+                        <input id="mwTxtIsSubmit" type="hidden" name="issubmit" value="YES" />
                         <input type="submit" value="提交" data-loading-text="提交..." class="demo-loading-btn btn btn-primary green" />
                     </div>
                     </form>
@@ -178,7 +230,7 @@
                                         <% = item.InspectorName %>
                                     </td>
                                     <td>
-                                        <% = item.InspectorName %>
+                                        <% = item.MWSCode %>
                                     </td>
                                     <td>
                                         <% = item.OutTime %>
@@ -187,7 +239,7 @@
                                         <% = item.InTime %>
                                     </td>
                                     <td>
-                                         <a href="#"  class="btn default btn-xs purple"><i class="fa fa-edit"></i> 完成本班次</a>
+                                         <a href="#" data-wgt="mw-submit-completecardispatch" data-wgt-submit-completecardispatch-disid="<% = item.DisId %>" class="btn default btn-xs purple"><i class="fa fa-edit"></i> 完成本班次</a>
                                     </td>
                                 </tr>
                                 <%
@@ -196,43 +248,8 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="row">
-                        <div class="col-md-3 ">
-                            <div class="dataTables_info" id="sample_2_info">
-                            <% = CurrentPage+"" %>/<% = PageCount+""%> 页</div>
-                        </div>
-                        <div class="col-md-9 ">
-                            <div class="dataTables_paginate paging_bootstrap">
-                                <input type="hidden" class="mw_curpage" name="page" value="<% = CurrentPage %>" />
-                                <ul class="pagination" style="visibility: visible;">
-                                    
-                                    <li class="prev <% = DisPre %>">
-                                        <a href="#" data-wgt-page="<% = PrePage %>" title="Prev" class="<% = DisPre %>">
-                                        <i class="fa fa-angle-left"></i>
-                                        </a>
-                                    </li>
-                                    <%
-                                        
-                                        for (int i = 1; i <= PageCount; i++ )
-                                        {
-                                            
-                                    %>
-                                    <li class="<% = (i==CurrentPage?"active":"") %>"><a href="#" data-wgt-page="<% = i %>"><% = i %></a></li>
-                                    <%
-                                        }
-                                    %>
-                                    
-                                   <%-- <li><a href="#" data-wgt-page="2">2</a></li>
-                                    <li><a href="#" data-wgt-page="3">3</a></li>--%>
-                                    <li class="next <% = DisNext %>">
-                                        <a href="#" title="Next" data-wgt-page="<% = NextPage %>" class="<% = DisNext %>">
-                                        <i class="fa fa-angle-right"></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+                    <uc1:UPage ID="c_UPage" runat="server" />
+                    <input id="mwDisId" type="hidden" name="disId" value="" />
                 </form>
                 </div>
             </div>

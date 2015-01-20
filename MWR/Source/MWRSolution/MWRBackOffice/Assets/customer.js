@@ -188,8 +188,18 @@ var Custom = function () {
                     url: URL,
                     data: JSONDATA,
                     async: false,
-                    error: function (request) {
-                        ECallFunc(request);
+                    error: function (data) {
+                        if (typeof data === "object") {
+                            if (data.Result == 0) {
+                                SCallFunc(data);
+                            }
+                            else {
+                                ECallFunc(data.Value);
+                            }
+                        } else {
+                            ECallFunc(data);
+                        }
+                        
                     },
                     success: function (data) {
                         if (typeof data === "object") {

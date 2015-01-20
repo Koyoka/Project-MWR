@@ -8,9 +8,26 @@ namespace YRKJ.MWR.BackOffice.Business.Sys
 {
     public class BasePage : System.Web.UI.Page
     {
+        public const string ClassName = "YRKJ.MWR.BackOffice.Business.Sys.BasePage";
+
         protected static class AjaxResponseMng
         {
 
+            public static string GetAjaxErrorMsg(string errMsg)
+            { 
+                string jsonStr = "";
+                AJAXResultObj resultObj = new AJAXResultObj(AJAXResultObj.EnumResult.Err, errMsg);
+                if (!ObjectToJson(resultObj, ref jsonStr, ref errMsg))
+                {
+                    AJAXResultObj ajaxObj = new AJAXResultObj(AJAXResultObj.EnumResult.Err, errMsg);
+                    ObjectToJson(ajaxObj, ref jsonStr, ref errMsg);
+
+                    return jsonStr;
+                }
+
+                return jsonStr;
+
+            }
             public static void ReturnAjaxResponse(HttpResponse response, AJAXResultObj.EnumResult result, object Obj)
             {
                 string errMsg = "";
@@ -36,7 +53,7 @@ namespace YRKJ.MWR.BackOffice.Business.Sys
                 response.ContentType = "appliction/json";
                 response.Write(strJson);
                 response.Flush();
-                //HttpContext.Current.ApplicationInstance.CompleteRequest();
+                HttpContext.Current.ApplicationInstance.CompleteRequest();
                 //response.End();
 
             }
@@ -97,6 +114,16 @@ namespace YRKJ.MWR.BackOffice.Business.Sys
                 }
             }
         }
+        public void ReturnAjaxError(string errMsg)
+        {
+            AjaxResponseMng.ReturnAjaxResponse(this.Response, AjaxResponseMng.AJAXResultObj.EnumResult.Err, errMsg);
+        }
+        public void ReturnAjaxJson(string str)
+        {
+            AjaxResponseMng.ReturnAjaxResponse(this.Response, AjaxResponseMng.AJAXResultObj.EnumResult.Success, str);
+        }
+
+
 
         private bool InitPage()
         {
@@ -125,37 +152,34 @@ namespace YRKJ.MWR.BackOffice.Business.Sys
                     {
                         _isPostBack = true;
                         object o = me.Invoke(this, Param);
-                        
-                        if (o != null)
+                        //return to continue write page code
+                        if (o is bool)
                         {
-                            string s = me.Invoke(this, Param).ToString();
-                            AjaxResponseMng.ResponsWrite(this.Response, s);
-                            Response.End();
+                            if (!(bool)o)
+                            {
+                                return true;
+                            }
+                            else
+                            {
+                                return false;
+                            }
                         }
                         else
                         {
-                            return false;
+                            throw new Exception("ajax service function need return [boo]");
                         }
                         
                     }
                     else
                     {
-                        throw new Exception("not have method:(" + methodName + ")");
+                        ReturnAjaxError(ComLib.Error.ErrorMng.GetCodingError(ClassName, "", "not have method:(" + methodName + ")"));
+                        return true;
                     }
-                   
-                    return true;
                 }
                 catch (Exception ex)
                 {
-                    //AjaxResponseMng.ResponsWrite(this.Response, ex.Message);
-                    AjaxResponseMng.ReturnAjaxResponse(this.Response, AjaxResponseMng.AJAXResultObj.EnumResult.Err, ex.Message);
-                    Response.End();
+                    ReturnAjaxError(ex.Message);
                     return true;
-                }
-                finally
-                {
-                   
-
                 }
             }
             else
@@ -178,11 +202,15 @@ namespace YRKJ.MWR.BackOffice.Business.Sys
 
         protected override void OnLoad(EventArgs e)
         {
-            
+
 
             if (!InitPage())
             {
                 base.OnLoad(e);
+            }
+            else
+            {
+                Response.End();
             }
 
         }

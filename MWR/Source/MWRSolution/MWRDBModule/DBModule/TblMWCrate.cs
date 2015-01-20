@@ -20,45 +20,28 @@ namespace YRKJ.MWR
 
         public static DataColumnInfo[] Columns = 
                 new DataColumnInfo[]{
-            new DataColumnInfo(true,false,false,false,"CrateId",SqlCommonFn.DataColumnType.INT,10),
-            new DataColumnInfo(false,true,false,false,"CrateCode",SqlCommonFn.DataColumnType.STRING,20),
+            new DataColumnInfo(true,false,false,false,"CrateCode",SqlCommonFn.DataColumnType.STRING,20),
             new DataColumnInfo(false,true,false,false,"Desc",SqlCommonFn.DataColumnType.STRING,45),
             new DataColumnInfo(false,true,false,false,"Status",SqlCommonFn.DataColumnType.STRING,2)
         };
 
-        public static DataColumnInfo getCrateIdColumn()
+        public static DataColumnInfo getCrateCodeColumn()
         {
             return Columns[0];
         }
-        public static DataColumnInfo getCrateCodeColumn()
+        public static DataColumnInfo getDescColumn()
         {
             return Columns[1];
         }
-        public static DataColumnInfo getDescColumn()
+        public static DataColumnInfo getStatusColumn()
         {
             return Columns[2];
         }
-        public static DataColumnInfo getStatusColumn()
-        {
-            return Columns[3];
-        }
 
-        private int _CrateId = 0;
         private string _CrateCode = "";
         private string _Desc = "";
         private string _Status = "";
 
-        public int CrateId
-        {
-            get
-            {
-                return _CrateId;
-            }
-            set
-            {
-                _CrateId = value;
-            }
-        }
         public string CrateCode
         {
             get

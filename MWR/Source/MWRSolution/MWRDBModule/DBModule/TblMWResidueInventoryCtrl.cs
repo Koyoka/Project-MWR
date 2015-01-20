@@ -95,6 +95,7 @@ namespace YRKJ.MWR
                 item.ResdInvId,
                 item.InvWeight,
                 item.EntryDate,
+                item.HandlingDate,
                 item.RecoWSCode,
                 item.RecoEmpyCode,
                 item.HandlingType,
@@ -107,6 +108,7 @@ namespace YRKJ.MWR
             int resdInvId,
             float invWeight,
             DateTime entryDate,
+            DateTime handlingDate,
             string recoWSCode,
             string recoEmpyCode,
             string handlingType,
@@ -119,6 +121,7 @@ namespace YRKJ.MWR
             sum.Add(TblMWResidueInventory.getResdInvIdColumn(), resdInvId);
             sum.Add(TblMWResidueInventory.getInvWeightColumn(), invWeight);
             sum.Add(TblMWResidueInventory.getEntryDateColumn(), entryDate);
+            sum.Add(TblMWResidueInventory.getHandlingDateColumn(), handlingDate);
             sum.Add(TblMWResidueInventory.getRecoWSCodeColumn(), recoWSCode);
             sum.Add(TblMWResidueInventory.getRecoEmpyCodeColumn(), recoEmpyCode);
             sum.Add(TblMWResidueInventory.getHandlingTypeColumn(), handlingType);
@@ -137,6 +140,7 @@ namespace YRKJ.MWR
             suc.Add(TblMWResidueInventory.getResdInvIdColumn(), item.ResdInvId);
             suc.Add(TblMWResidueInventory.getInvWeightColumn(), item.InvWeight);
             suc.Add(TblMWResidueInventory.getEntryDateColumn(), item.EntryDate);
+            suc.Add(TblMWResidueInventory.getHandlingDateColumn(), item.HandlingDate);
             suc.Add(TblMWResidueInventory.getRecoWSCodeColumn(), item.RecoWSCode);
             suc.Add(TblMWResidueInventory.getRecoEmpyCodeColumn(), item.RecoEmpyCode);
             suc.Add(TblMWResidueInventory.getHandlingTypeColumn(), item.HandlingType);

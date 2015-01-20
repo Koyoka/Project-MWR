@@ -21,38 +21,98 @@ namespace YRKJ.MWR
         public static DataColumnInfo[] Columns = 
                 new DataColumnInfo[]{
             new DataColumnInfo(true,false,false,false,"InvAuthId",SqlCommonFn.DataColumnType.INT,10),
+            new DataColumnInfo(false,true,false,false,"TxnNum",SqlCommonFn.DataColumnType.STRING,20),
+            new DataColumnInfo(false,true,false,false,"TxnDetailId",SqlCommonFn.DataColumnType.INT,10),
             new DataColumnInfo(false,true,false,false,"EmpyCode",SqlCommonFn.DataColumnType.STRING,20),
+            new DataColumnInfo(false,true,false,false,"EmpyName",SqlCommonFn.DataColumnType.STRING,45),
+            new DataColumnInfo(false,true,false,false,"WSCode",SqlCommonFn.DataColumnType.STRING,20),
+            new DataColumnInfo(false,true,false,false,"AuthEmpyCode",SqlCommonFn.DataColumnType.STRING,20),
+            new DataColumnInfo(false,true,false,false,"AuthEmpyName",SqlCommonFn.DataColumnType.STRING,45),
             new DataColumnInfo(false,true,false,false,"Remark",SqlCommonFn.DataColumnType.STRING,45),
+            new DataColumnInfo(false,true,false,false,"SubWeight",SqlCommonFn.DataColumnType.FLOAT,12),
+            new DataColumnInfo(false,true,false,false,"TxnWeight",SqlCommonFn.DataColumnType.FLOAT,12),
+            new DataColumnInfo(false,true,false,false,"DiffWeight",SqlCommonFn.DataColumnType.FLOAT,12),
             new DataColumnInfo(false,true,false,false,"EntryDate",SqlCommonFn.DataColumnType.DATETIME,0),
-            new DataColumnInfo(false,true,false,false,"DiffWeight",SqlCommonFn.DataColumnType.FLOAT,12)
+            new DataColumnInfo(false,true,false,false,"CompDate",SqlCommonFn.DataColumnType.DATETIME,0),
+            new DataColumnInfo(false,true,false,false,"Status",SqlCommonFn.DataColumnType.STRING,2)
         };
 
         public static DataColumnInfo getInvAuthIdColumn()
         {
             return Columns[0];
         }
-        public static DataColumnInfo getEmpyCodeColumn()
+        public static DataColumnInfo getTxnNumColumn()
         {
             return Columns[1];
         }
-        public static DataColumnInfo getRemarkColumn()
+        public static DataColumnInfo getTxnDetailIdColumn()
         {
             return Columns[2];
         }
-        public static DataColumnInfo getEntryDateColumn()
+        public static DataColumnInfo getEmpyCodeColumn()
         {
             return Columns[3];
         }
-        public static DataColumnInfo getDiffWeightColumn()
+        public static DataColumnInfo getEmpyNameColumn()
         {
             return Columns[4];
         }
+        public static DataColumnInfo getWSCodeColumn()
+        {
+            return Columns[5];
+        }
+        public static DataColumnInfo getAuthEmpyCodeColumn()
+        {
+            return Columns[6];
+        }
+        public static DataColumnInfo getAuthEmpyNameColumn()
+        {
+            return Columns[7];
+        }
+        public static DataColumnInfo getRemarkColumn()
+        {
+            return Columns[8];
+        }
+        public static DataColumnInfo getSubWeightColumn()
+        {
+            return Columns[9];
+        }
+        public static DataColumnInfo getTxnWeightColumn()
+        {
+            return Columns[10];
+        }
+        public static DataColumnInfo getDiffWeightColumn()
+        {
+            return Columns[11];
+        }
+        public static DataColumnInfo getEntryDateColumn()
+        {
+            return Columns[12];
+        }
+        public static DataColumnInfo getCompDateColumn()
+        {
+            return Columns[13];
+        }
+        public static DataColumnInfo getStatusColumn()
+        {
+            return Columns[14];
+        }
 
         private int _InvAuthId = 0;
+        private string _TxnNum = "";
+        private int _TxnDetailId = 0;
         private string _EmpyCode = "";
+        private string _EmpyName = "";
+        private string _WSCode = "";
+        private string _AuthEmpyCode = "";
+        private string _AuthEmpyName = "";
         private string _Remark = "";
-        private DateTime _EntryDate = DateTime.MinValue;
+        private float _SubWeight = 0;
+        private float _TxnWeight = 0;
         private float _DiffWeight = 0;
+        private DateTime _EntryDate = DateTime.MinValue;
+        private DateTime _CompDate = DateTime.MinValue;
+        private string _Status = "";
 
         public int InvAuthId
         {
@@ -63,6 +123,28 @@ namespace YRKJ.MWR
             set
             {
                 _InvAuthId = value;
+            }
+        }
+        public string TxnNum
+        {
+            get
+            {
+                return _TxnNum;
+            }
+            set
+            {
+                _TxnNum = value;
+            }
+        }
+        public int TxnDetailId
+        {
+            get
+            {
+                return _TxnDetailId;
+            }
+            set
+            {
+                _TxnDetailId = value;
             }
         }
         public string EmpyCode
@@ -76,6 +158,50 @@ namespace YRKJ.MWR
                 _EmpyCode = value;
             }
         }
+        public string EmpyName
+        {
+            get
+            {
+                return _EmpyName;
+            }
+            set
+            {
+                _EmpyName = value;
+            }
+        }
+        public string WSCode
+        {
+            get
+            {
+                return _WSCode;
+            }
+            set
+            {
+                _WSCode = value;
+            }
+        }
+        public string AuthEmpyCode
+        {
+            get
+            {
+                return _AuthEmpyCode;
+            }
+            set
+            {
+                _AuthEmpyCode = value;
+            }
+        }
+        public string AuthEmpyName
+        {
+            get
+            {
+                return _AuthEmpyName;
+            }
+            set
+            {
+                _AuthEmpyName = value;
+            }
+        }
         public string Remark
         {
             get
@@ -85,6 +211,39 @@ namespace YRKJ.MWR
             set
             {
                 _Remark = value;
+            }
+        }
+        public float SubWeight
+        {
+            get
+            {
+                return _SubWeight;
+            }
+            set
+            {
+                _SubWeight = value;
+            }
+        }
+        public float TxnWeight
+        {
+            get
+            {
+                return _TxnWeight;
+            }
+            set
+            {
+                _TxnWeight = value;
+            }
+        }
+        public float DiffWeight
+        {
+            get
+            {
+                return _DiffWeight;
+            }
+            set
+            {
+                _DiffWeight = value;
             }
         }
         public DateTime EntryDate
@@ -98,15 +257,26 @@ namespace YRKJ.MWR
                 _EntryDate = value;
             }
         }
-        public float DiffWeight
+        public DateTime CompDate
         {
             get
             {
-                return _DiffWeight;
+                return _CompDate;
             }
             set
             {
-                _DiffWeight = value;
+                _CompDate = value;
+            }
+        }
+        public string Status
+        {
+            get
+            {
+                return _Status;
+            }
+            set
+            {
+                _Status = value;
             }
         }
 

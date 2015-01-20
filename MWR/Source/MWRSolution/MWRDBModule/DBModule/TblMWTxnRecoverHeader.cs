@@ -6,11 +6,11 @@ using ComLib.db;
 namespace YRKJ.MWR
 {
 
-    public class TblMWRecoverHeader : BaseDataModule
+    public class TblMWTxnRecoverHeader : BaseDataModule
     {
 
-        private static string TableName = "MWRecoverHeader";
-        public TblMWRecoverHeader()
+        private static string TableName = "MWTxnRecoverHeader";
+        public TblMWTxnRecoverHeader()
         {
         }
         public static string getFormatTableName()
@@ -21,25 +21,31 @@ namespace YRKJ.MWR
         public static DataColumnInfo[] Columns = 
                 new DataColumnInfo[]{
             new DataColumnInfo(true,false,false,false,"RecoHeaderId",SqlCommonFn.DataColumnType.INT,10),
-            new DataColumnInfo(false,true,false,false,"RecoNum",SqlCommonFn.DataColumnType.STRING,20),
+            new DataColumnInfo(false,true,false,false,"TxnNum",SqlCommonFn.DataColumnType.STRING,20),
             new DataColumnInfo(false,true,false,false,"CarCode",SqlCommonFn.DataColumnType.STRING,20),
+            new DataColumnInfo(false,true,false,false,"Driver",SqlCommonFn.DataColumnType.STRING,45),
             new DataColumnInfo(false,true,false,false,"DriverCode",SqlCommonFn.DataColumnType.STRING,20),
+            new DataColumnInfo(false,true,false,false,"Inspector",SqlCommonFn.DataColumnType.STRING,45),
             new DataColumnInfo(false,true,false,false,"InspectorCode",SqlCommonFn.DataColumnType.STRING,20),
-            new DataColumnInfo(false,true,false,false,"CrateQty",SqlCommonFn.DataColumnType.INT,10),
+            new DataColumnInfo(false,true,false,false,"RecoMWSCode",SqlCommonFn.DataColumnType.STRING,20),
             new DataColumnInfo(false,true,false,false,"RecoWSCode",SqlCommonFn.DataColumnType.STRING,20),
+            new DataColumnInfo(false,true,false,false,"RecoEmpyName",SqlCommonFn.DataColumnType.STRING,45),
             new DataColumnInfo(false,true,false,false,"RecoEmpyCode",SqlCommonFn.DataColumnType.STRING,20),
             new DataColumnInfo(false,true,false,false,"StratDate",SqlCommonFn.DataColumnType.DATETIME,0),
             new DataColumnInfo(false,true,false,false,"EndDate",SqlCommonFn.DataColumnType.DATETIME,0),
             new DataColumnInfo(false,true,false,false,"OperateType",SqlCommonFn.DataColumnType.STRING,2),
-            new DataColumnInfo(false,true,false,false,"Status",SqlCommonFn.DataColumnType.STRING,2),
-            new DataColumnInfo(false,true,false,false,"CarDisId",SqlCommonFn.DataColumnType.INT,10)
+            new DataColumnInfo(false,true,false,false,"TotalCrateQty",SqlCommonFn.DataColumnType.INT,10),
+            new DataColumnInfo(false,true,false,false,"TotalSubWeight",SqlCommonFn.DataColumnType.FLOAT,12),
+            new DataColumnInfo(false,true,false,false,"TotalTxnWeight",SqlCommonFn.DataColumnType.FLOAT,12),
+            new DataColumnInfo(false,true,false,false,"CarDisId",SqlCommonFn.DataColumnType.INT,10),
+            new DataColumnInfo(false,true,false,false,"Status",SqlCommonFn.DataColumnType.STRING,2)
         };
 
         public static DataColumnInfo getRecoHeaderIdColumn()
         {
             return Columns[0];
         }
-        public static DataColumnInfo getRecoNumColumn()
+        public static DataColumnInfo getTxnNumColumn()
         {
             return Columns[1];
         }
@@ -47,60 +53,90 @@ namespace YRKJ.MWR
         {
             return Columns[2];
         }
-        public static DataColumnInfo getDriverCodeColumn()
+        public static DataColumnInfo getDriverColumn()
         {
             return Columns[3];
         }
-        public static DataColumnInfo getInspectorCodeColumn()
+        public static DataColumnInfo getDriverCodeColumn()
         {
             return Columns[4];
         }
-        public static DataColumnInfo getCrateQtyColumn()
+        public static DataColumnInfo getInspectorColumn()
         {
             return Columns[5];
         }
-        public static DataColumnInfo getRecoWSCodeColumn()
+        public static DataColumnInfo getInspectorCodeColumn()
         {
             return Columns[6];
         }
-        public static DataColumnInfo getRecoEmpyCodeColumn()
+        public static DataColumnInfo getRecoMWSCodeColumn()
         {
             return Columns[7];
         }
-        public static DataColumnInfo getStratDateColumn()
+        public static DataColumnInfo getRecoWSCodeColumn()
         {
             return Columns[8];
         }
-        public static DataColumnInfo getEndDateColumn()
+        public static DataColumnInfo getRecoEmpyNameColumn()
         {
             return Columns[9];
         }
-        public static DataColumnInfo getOperateTypeColumn()
+        public static DataColumnInfo getRecoEmpyCodeColumn()
         {
             return Columns[10];
         }
-        public static DataColumnInfo getStatusColumn()
+        public static DataColumnInfo getStratDateColumn()
         {
             return Columns[11];
         }
-        public static DataColumnInfo getCarDisIdColumn()
+        public static DataColumnInfo getEndDateColumn()
         {
             return Columns[12];
         }
+        public static DataColumnInfo getOperateTypeColumn()
+        {
+            return Columns[13];
+        }
+        public static DataColumnInfo getTotalCrateQtyColumn()
+        {
+            return Columns[14];
+        }
+        public static DataColumnInfo getTotalSubWeightColumn()
+        {
+            return Columns[15];
+        }
+        public static DataColumnInfo getTotalTxnWeightColumn()
+        {
+            return Columns[16];
+        }
+        public static DataColumnInfo getCarDisIdColumn()
+        {
+            return Columns[17];
+        }
+        public static DataColumnInfo getStatusColumn()
+        {
+            return Columns[18];
+        }
 
         private int _RecoHeaderId = 0;
-        private string _RecoNum = "";
+        private string _TxnNum = "";
         private string _CarCode = "";
+        private string _Driver = "";
         private string _DriverCode = "";
+        private string _Inspector = "";
         private string _InspectorCode = "";
-        private int _CrateQty = 0;
+        private string _RecoMWSCode = "";
         private string _RecoWSCode = "";
+        private string _RecoEmpyName = "";
         private string _RecoEmpyCode = "";
         private DateTime _StratDate = DateTime.MinValue;
         private DateTime _EndDate = DateTime.MinValue;
         private string _OperateType = "";
-        private string _Status = "";
+        private int _TotalCrateQty = 0;
+        private float _TotalSubWeight = 0;
+        private float _TotalTxnWeight = 0;
         private int _CarDisId = 0;
+        private string _Status = "";
 
         public int RecoHeaderId
         {
@@ -113,15 +149,15 @@ namespace YRKJ.MWR
                 _RecoHeaderId = value;
             }
         }
-        public string RecoNum
+        public string TxnNum
         {
             get
             {
-                return _RecoNum;
+                return _TxnNum;
             }
             set
             {
-                _RecoNum = value;
+                _TxnNum = value;
             }
         }
         public string CarCode
@@ -135,6 +171,17 @@ namespace YRKJ.MWR
                 _CarCode = value;
             }
         }
+        public string Driver
+        {
+            get
+            {
+                return _Driver;
+            }
+            set
+            {
+                _Driver = value;
+            }
+        }
         public string DriverCode
         {
             get
@@ -144,6 +191,17 @@ namespace YRKJ.MWR
             set
             {
                 _DriverCode = value;
+            }
+        }
+        public string Inspector
+        {
+            get
+            {
+                return _Inspector;
+            }
+            set
+            {
+                _Inspector = value;
             }
         }
         public string InspectorCode
@@ -157,15 +215,15 @@ namespace YRKJ.MWR
                 _InspectorCode = value;
             }
         }
-        public int CrateQty
+        public string RecoMWSCode
         {
             get
             {
-                return _CrateQty;
+                return _RecoMWSCode;
             }
             set
             {
-                _CrateQty = value;
+                _RecoMWSCode = value;
             }
         }
         public string RecoWSCode
@@ -177,6 +235,17 @@ namespace YRKJ.MWR
             set
             {
                 _RecoWSCode = value;
+            }
+        }
+        public string RecoEmpyName
+        {
+            get
+            {
+                return _RecoEmpyName;
+            }
+            set
+            {
+                _RecoEmpyName = value;
             }
         }
         public string RecoEmpyCode
@@ -223,15 +292,37 @@ namespace YRKJ.MWR
                 _OperateType = value;
             }
         }
-        public string Status
+        public int TotalCrateQty
         {
             get
             {
-                return _Status;
+                return _TotalCrateQty;
             }
             set
             {
-                _Status = value;
+                _TotalCrateQty = value;
+            }
+        }
+        public float TotalSubWeight
+        {
+            get
+            {
+                return _TotalSubWeight;
+            }
+            set
+            {
+                _TotalSubWeight = value;
+            }
+        }
+        public float TotalTxnWeight
+        {
+            get
+            {
+                return _TotalTxnWeight;
+            }
+            set
+            {
+                _TotalTxnWeight = value;
             }
         }
         public int CarDisId
@@ -243,6 +334,17 @@ namespace YRKJ.MWR
             set
             {
                 _CarDisId = value;
+            }
+        }
+        public string Status
+        {
+            get
+            {
+                return _Status;
+            }
+            set
+            {
+                _Status = value;
             }
         }
 

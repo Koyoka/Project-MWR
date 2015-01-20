@@ -20,12 +20,12 @@ namespace YRKJ.MWR
 
         public static DataColumnInfo[] Columns = 
                 new DataColumnInfo[]{
-            new DataColumnInfo(true,false,false,false,"DepotId",SqlCommonFn.DataColumnType.INT,10),
+            new DataColumnInfo(true,false,false,false,"DeptCode",SqlCommonFn.DataColumnType.STRING,20),
             new DataColumnInfo(false,true,false,false,"Total",SqlCommonFn.DataColumnType.INT,10),
             new DataColumnInfo(false,true,false,false,"Desc",SqlCommonFn.DataColumnType.STRING,45)
         };
 
-        public static DataColumnInfo getDepotIdColumn()
+        public static DataColumnInfo getDeptCodeColumn()
         {
             return Columns[0];
         }
@@ -38,19 +38,19 @@ namespace YRKJ.MWR
             return Columns[2];
         }
 
-        private int _DepotId = 0;
+        private string _DeptCode = "";
         private int _Total = 0;
         private string _Desc = "";
 
-        public int DepotId
+        public string DeptCode
         {
             get
             {
-                return _DepotId;
+                return _DeptCode;
             }
             set
             {
-                _DepotId = value;
+                _DeptCode = value;
             }
         }
         public int Total
