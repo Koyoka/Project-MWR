@@ -13,6 +13,7 @@ namespace YRKJ.MWR.Business.BO
         public const string ClassName = "YRKJ.MWR.Business.BO.MWRWorkflowMng";
 
         #region 1.car out
+        static object _lockCarOut = new object();
         public static bool CarOutToReover(
             string carCode,
             string driverCode,
@@ -20,75 +21,228 @@ namespace YRKJ.MWR.Business.BO
             string MWSCode,
             ref string errMsg)
         {
-            int updCount = 0;
+            
 
             DataCtrlInfo dcf = new DataCtrlInfo();
             string driver = "";
             string inspector = "";
 
-            List<TblMWEmploy> empyDataList = null;
+            lock (_lockCarOut)
             {
-                SqlQueryMng sqm = new SqlQueryMng();
-                sqm.Condition.Where.SetLinkType(SqlCommonFn.SqlWhereLinkType.OR);
-                sqm.Condition.Where.AddCompareValue(TblMWEmploy.getEmpyCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, driverCode);
-                sqm.Condition.Where.AddCompareValue(TblMWEmploy.getEmpyCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, inspectorCode);
+                #region check async submit, use this employ
+                {
+                    SqlQueryMng sqm = new SqlQueryMng();
+                    sqm.Condition.Where.AddCompareValue(TblMWCarDispatch.getStatusColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, TblMWCarDispatch.STATUS_ENUM_ShiftStrat);
+                    {
+                        SqlWhere sw = new SqlWhere(SqlCommonFn.SqlWhereLinkType.OR);
+                        sw.AddCompareValue(TblMWCarDispatch.getCarCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, carCode);
+                        sw.AddCompareValue(TblMWCarDispatch.getDriverCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, driverCode);
+                        sw.AddCompareValue(TblMWCarDispatch.getInspectorCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, inspectorCode);
+                        sw.AddCompareValue(TblMWCarDispatch.getRecoMWSCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, MWSCode);
+                        sqm.Condition.Where.AddWhere(sw);
+                    }
 
-                if (!TblMWEmployCtrl.QueryMore(dcf, sqm, ref empyDataList, ref errMsg))
+                    List<TblMWCarDispatch> carDispDataList = null;
+                    if (!TblMWCarDispatchCtrl.QueryMore(dcf, sqm, ref carDispDataList, ref errMsg))
+                    {
+                        return false;
+                    }
+
+                    if (carDispDataList.Count > 0)
+                    {
+                        errMsg = "当前选择的[车辆][跟车员][司机][终端]已被其他人员派出，请重新选择";
+                        return false;
+                    }
+
+                }
+                #endregion
+
+                #region check exist employ
+                {
+                    List<TblMWEmploy> empyDataList = null;
+                    {
+                        SqlQueryMng sqm = new SqlQueryMng();
+                        sqm.Condition.Where.SetLinkType(SqlCommonFn.SqlWhereLinkType.OR);
+                        sqm.Condition.Where.AddCompareValue(TblMWEmploy.getEmpyCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, driverCode);
+                        sqm.Condition.Where.AddCompareValue(TblMWEmploy.getEmpyCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, inspectorCode);
+
+                        if (!TblMWEmployCtrl.QueryMore(dcf, sqm, ref empyDataList, ref errMsg))
+                        {
+                            return false;
+                        }
+                    }
+                    foreach (TblMWEmploy data in empyDataList)
+                    {
+                        if (data.EmpyType == TblMWEmploy.EMPYTYPE_ENUM_Driver)
+                        {
+                            driver = data.EmpyName;
+                        }
+                        else if (data.EmpyType == TblMWEmploy.EMPYTYPE_ENUM_Inspector)
+                        {
+                            inspector = data.EmpyName;
+                        }
+                    }
+                    if (string.IsNullOrEmpty(driver) || string.IsNullOrEmpty(inspector))
+                    {
+                        errMsg = "当前选择的跟车员或司机信息不存在";
+                        return false;
+                    }
+                }
+                #endregion
+              
+                #region add data
+                int carDisId = MWNextIdMng.GetCarDispatchNextId();
+                if (carDisId == 0)
+                {
+                    errMsg = ErrorMng.GetDBError(ClassName, "CarOutToReover", "Id增长列添加错误");
+                    return false;
+                }
+                TblMWCarDispatch item = new TblMWCarDispatch();
+                item.CarDisId = carDisId;
+                item.CarCode = carCode;
+                item.Driver = driver;
+                item.DriverCode = driverCode;
+                item.Inspector = inspector;
+                item.InspectorCode = inspectorCode;
+                item.RecoMWSCode = MWSCode;
+                item.OutDate = SqlDBMng.GetDBNow();
+                item.Status = TblMWCarDispatch.STATUS_ENUM_ShiftStrat;
+
+                int updCount = 0;
+                if (!TblMWCarDispatchCtrl.Insert(dcf, item, ref updCount, ref errMsg))
                 {
                     return false;
                 }
-            }
-            foreach (TblMWEmploy data in empyDataList)
-            {
-                if (data.EmpyType == TblMWEmploy.EMPYTYPE_ENUM_Driver)
+                if (updCount == 0)
                 {
-                    driver = data.EmpyName;
+                    errMsg = ErrorMng.GetDBError(ClassName, "CarOutToReover", "数据未添加");
+                    return false;
                 }
-                else if (data.EmpyType == TblMWEmploy.EMPYTYPE_ENUM_Inspector)
-                {
-                    inspector = data.EmpyName;
-                }
-            }
-            if (string.IsNullOrEmpty(driver) || string.IsNullOrEmpty(inspector))
-            {
-                errMsg = "当前选择的跟车员或司机信息不存在";
-                return false;
-            }
-
-
-            int carDisId = MWNextIdMng.GetCarDispatchNextId();
-            if (carDisId == 0)
-            {
-                errMsg = ErrorMng.GetDBError(ClassName, "CarOutToReover", "Id增长列添加错误");
-                return false;
-            }
-            TblMWCarDispatch item = new TblMWCarDispatch();
-            item.CarDisId = carDisId;
-            item.CarCode = carCode;
-            item.Driver = driver;
-            item.DriverCode = driverCode;
-            item.Inspector = inspector;
-            item.InspectorCode = inspectorCode;
-            item.RecoMWSCode = MWSCode;
-            item.OutDate = SqlDBMng.GetDBNow();
-            item.Status = TblMWCarDispatch.STATUS_ENUM_ShiftStrat;
-
-            if (!TblMWCarDispatchCtrl.Insert(dcf, item, ref updCount, ref errMsg))
-            {
-                return false;
-            }
-
-            if (updCount == 0)
-            {
-                errMsg = ErrorMng.GetDBError(ClassName, "CarOutToReover", "数据未添加");
-                return false;
+                #endregion
             }
 
             return true;
         }
         #endregion
 
-        #region 2.1 car recover resposne inv workstation
+        #region 2.1 send txnheader,car recover resposne inv workstation
+
+        public static bool recoverToInventory(
+            string carCode,
+            string driverCode,
+            string inspectorCode,
+            string mwsCode,
+            List<TblMWTxnDetail> txnDetailList,
+            ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+
+            string driver = "";
+            string inspector = "";
+           
+            float totalSubWeight = 0;
+            float totalCrateQty = 0;
+            TblMWCarDispatch carDispatchInfo = null;
+            #region get moblie workstation base data
+            {
+                totalCrateQty = txnDetailList.Count;
+                foreach (TblMWTxnDetail dtl in txnDetailList)
+                {
+                    totalSubWeight += dtl.SubWeight;
+                }
+
+                #region CarDispatch
+                {
+                    SqlQueryMng sqm = new SqlQueryMng();
+                    sqm.Condition.Where.AddCompareValue(TblMWCarDispatch.getCarCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, carCode);
+                    sqm.Condition.Where.AddCompareValue(TblMWCarDispatch.getStatusColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, TblMWCarDispatch.STATUS_ENUM_ShiftStrat);
+                    sqm.Condition.Where.AddCompareValue(TblMWCarDispatch.getInDateColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, DateTime.MinValue);
+                    sqm.Condition.Where.AddCompareValue(TblMWCarDispatch.getDriverCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, driverCode);
+                    sqm.Condition.Where.AddCompareValue(TblMWCarDispatch.getInspectorCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, inspectorCode);
+                    sqm.Condition.Where.AddCompareValue(TblMWCarDispatch.getRecoMWSCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, mwsCode);
+                    
+                    if (!TblMWCarDispatchCtrl.QueryOne(dcf, sqm, ref carDispatchInfo, ref errMsg))
+                    {
+                        return false;
+                    }
+                    if (carDispatchInfo == null)
+                    {
+                        errMsg = "没有找到当前车辆的出车记录";
+                        return false;
+                    }
+                }
+                #endregion
+
+                #region driver
+                {
+                    TblMWEmploy data = null;
+                    SqlQueryMng sqm = new SqlQueryMng();
+                    sqm.Condition.Where.AddCompareValue(TblMWEmploy.getEmpyCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, driverCode);
+                    if (!TblMWEmployCtrl.QueryOne(dcf, sqm, ref data, ref errMsg))
+                    {
+                        return false;
+                    }
+                    if (data == null)
+                    {
+                        errMsg = "没有当前编号的司机";
+                        return false;
+                    }
+                    driver = data.EmpyName;
+                }
+                #endregion
+
+                #region inspector
+                {
+                    TblMWEmploy data = null;
+                    SqlQueryMng sqm = new SqlQueryMng();
+                    sqm.Condition.Where.AddCompareValue(TblMWEmploy.getEmpyCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, inspectorCode);
+                    if (!TblMWEmployCtrl.QueryOne(dcf, sqm, ref data, ref errMsg))
+                    {
+                        return false;
+                    }
+                    if (data == null)
+                    {
+                        errMsg = "没有当前编号的跟车员";
+                        return false;
+                    }
+                    inspector = data.EmpyName;
+                }
+                #endregion
+            }
+            #endregion
+
+          
+
+            int nextId = MWNextIdMng.GetTxnRecoverHeaderNextId();
+            string nextTxnNum = MWNextIdMng.GetTxnNextNum();
+            TblMWTxnRecoverHeader header = new TblMWTxnRecoverHeader();
+            header.RecoHeaderId = nextId;
+            header.TxnNum = nextTxnNum;
+
+            header.CarCode = carCode;
+            header.Driver = driver;
+            header.DriverCode = driverCode;
+            header.Inspector = inspector;
+            header.InspectorCode = inspectorCode;
+            header.RecoMWSCode = mwsCode;
+
+
+            header.RecoWSCode = "";
+            header.RecoEmpyName = "";
+            header.RecoEmpyCode = "";
+
+            header.StratDate = SqlDBMng.GetDBNow();
+            header.EndDate = DateTime.MinValue;
+            header.OperateType = TblMWTxnRecoverHeader.OPERATETYPE_ENUM_ToInventory;
+            header.TotalCrateQty = 0;
+            header.TotalSubWeight = 0;
+            header.TotalTxnWeight = 0;
+            header.CarDisId = carDispatchInfo.CarDisId;
+            header.Status = TblMWTxnRecoverHeader.STATUS_ENUM_Process;
+
+
+            return true;
+        }
 
         #endregion
 

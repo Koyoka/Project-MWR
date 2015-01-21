@@ -15,13 +15,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MWRBusiness", "MWRBusiness\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MWRWinBase", "MWRWinBase\MWRWinBase.csproj", "{E3145096-4256-408E-AA4B-0B291E2D1F7B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobilePhoneDemoApp", "MobilePhoneDemoApp\MobilePhoneDemoApp.csproj", "{63989717-E5B9-47EB-B18F-4BC9D84C91EC}"
+EndProject
 Global
 	GlobalSection(SourceCodeControl) = preSolution
 		SccNumberOfProjects = 8
-		SccProjectUniqueName0 = ..\\..\\..\\ComLib\\ComLib.csproj
-		SccProjectName0 = \u0022$/ComLib\u0022,\u0020PCAAAAAA
-		SccLocalPath0 = ..\\..\\..\\ComLib
-		SccLocalPath1 = .
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = ..\\..\\..\\ComLib\\ComLib.csproj
+		SccProjectName1 = \u0022$/ComLib\u0022,\u0020PCAAAAAA
+		SccLocalPath1 = ..\\..\\..\\ComLib
 		SccProjectUniqueName2 = MWRBackOffice\\MWRBackOffice.csproj
 		SccLocalPath2 = .
 		SccProjectFilePathRelativizedFromConnection2 = MWRBackOffice\\
@@ -120,6 +122,16 @@ Global
 		{E3145096-4256-408E-AA4B-0B291E2D1F7B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{E3145096-4256-408E-AA4B-0B291E2D1F7B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{E3145096-4256-408E-AA4B-0B291E2D1F7B}.Release|x86.ActiveCfg = Release|Any CPU
+		{63989717-E5B9-47EB-B18F-4BC9D84C91EC}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{63989717-E5B9-47EB-B18F-4BC9D84C91EC}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{63989717-E5B9-47EB-B18F-4BC9D84C91EC}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{63989717-E5B9-47EB-B18F-4BC9D84C91EC}.Debug|x86.ActiveCfg = Debug|x86
+		{63989717-E5B9-47EB-B18F-4BC9D84C91EC}.Debug|x86.Build.0 = Debug|x86
+		{63989717-E5B9-47EB-B18F-4BC9D84C91EC}.Release|Any CPU.ActiveCfg = Release|x86
+		{63989717-E5B9-47EB-B18F-4BC9D84C91EC}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{63989717-E5B9-47EB-B18F-4BC9D84C91EC}.Release|Mixed Platforms.Build.0 = Release|x86
+		{63989717-E5B9-47EB-B18F-4BC9D84C91EC}.Release|x86.ActiveCfg = Release|x86
+		{63989717-E5B9-47EB-B18F-4BC9D84C91EC}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

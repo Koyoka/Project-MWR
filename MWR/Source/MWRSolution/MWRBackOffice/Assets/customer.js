@@ -194,7 +194,10 @@ var Custom = function () {
                                 SCallFunc(data);
                             }
                             else {
-                                ECallFunc(data.Value);
+                                if (!!data.Value)
+                                    ECallFunc(data.Value);
+                                else
+                                    ECallFunc("服务器连接错误，请联系管理员");
                             }
                         } else {
                             ECallFunc(data);

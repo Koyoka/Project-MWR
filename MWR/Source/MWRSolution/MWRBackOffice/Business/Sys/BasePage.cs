@@ -118,6 +118,9 @@ namespace YRKJ.MWR.BackOffice.Business.Sys
         {
             AjaxResponseMng.ReturnAjaxResponse(this.Response, AjaxResponseMng.AJAXResultObj.EnumResult.Err, errMsg);
         }
+        public void ReturnAjaxError(int code, string errMsg) 
+        {
+        }
         public void ReturnAjaxJson(string str)
         {
             AjaxResponseMng.ReturnAjaxResponse(this.Response, AjaxResponseMng.AJAXResultObj.EnumResult.Success, str);

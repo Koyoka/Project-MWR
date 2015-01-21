@@ -11,5 +11,7 @@ namespace YRKJ.MWR.WinBase.WinAppBase
         public const string DefaultEPassword = "{n~zRggiQJGJnXW~zmdazmx_LtqMMjdovu@qMtfQmP";
         public const string DBName = "MWRDATA";
         public const string BarCodeMask = "HX#####";
+
+        public const string CrateBarCodeMask = "HX###";
     }
 }

@@ -27,10 +27,13 @@ namespace YRKJ.MWR
             new DataColumnInfo(false,true,false,false,"EmpyName",SqlCommonFn.DataColumnType.STRING,45),
             new DataColumnInfo(false,true,false,false,"EmpyCode",SqlCommonFn.DataColumnType.STRING,20),
             new DataColumnInfo(false,true,false,false,"CrateCode",SqlCommonFn.DataColumnType.STRING,20),
-            new DataColumnInfo(false,true,false,false,"Vendor",SqlCommonFn.DataColumnType.STRING,20),
-            new DataColumnInfo(false,true,false,false,"Waste",SqlCommonFn.DataColumnType.STRING,20),
+            new DataColumnInfo(false,true,false,false,"Vendor",SqlCommonFn.DataColumnType.STRING,45),
+            new DataColumnInfo(false,true,false,false,"VendorCode",SqlCommonFn.DataColumnType.STRING,20),
+            new DataColumnInfo(false,true,false,false,"Waste",SqlCommonFn.DataColumnType.STRING,45),
+            new DataColumnInfo(false,true,false,false,"WasteCode",SqlCommonFn.DataColumnType.STRING,20),
             new DataColumnInfo(false,true,false,false,"SubWeight",SqlCommonFn.DataColumnType.FLOAT,12),
             new DataColumnInfo(false,true,false,false,"TxnWeight",SqlCommonFn.DataColumnType.FLOAT,12),
+            new DataColumnInfo(false,true,false,false,"EntryDate",SqlCommonFn.DataColumnType.DATETIME,0),
             new DataColumnInfo(false,true,false,false,"InvRecordId",SqlCommonFn.DataColumnType.INT,10),
             new DataColumnInfo(false,true,false,false,"InvAuthId",SqlCommonFn.DataColumnType.INT,10),
             new DataColumnInfo(false,true,false,false,"Status",SqlCommonFn.DataColumnType.STRING,2)
@@ -68,29 +71,41 @@ namespace YRKJ.MWR
         {
             return Columns[7];
         }
-        public static DataColumnInfo getWasteColumn()
+        public static DataColumnInfo getVendorCodeColumn()
         {
             return Columns[8];
         }
-        public static DataColumnInfo getSubWeightColumn()
+        public static DataColumnInfo getWasteColumn()
         {
             return Columns[9];
         }
-        public static DataColumnInfo getTxnWeightColumn()
+        public static DataColumnInfo getWasteCodeColumn()
         {
             return Columns[10];
         }
-        public static DataColumnInfo getInvRecordIdColumn()
+        public static DataColumnInfo getSubWeightColumn()
         {
             return Columns[11];
         }
-        public static DataColumnInfo getInvAuthIdColumn()
+        public static DataColumnInfo getTxnWeightColumn()
         {
             return Columns[12];
         }
-        public static DataColumnInfo getStatusColumn()
+        public static DataColumnInfo getEntryDateColumn()
         {
             return Columns[13];
+        }
+        public static DataColumnInfo getInvRecordIdColumn()
+        {
+            return Columns[14];
+        }
+        public static DataColumnInfo getInvAuthIdColumn()
+        {
+            return Columns[15];
+        }
+        public static DataColumnInfo getStatusColumn()
+        {
+            return Columns[16];
         }
 
         private int _TxnDetailId = 0;
@@ -101,9 +116,12 @@ namespace YRKJ.MWR
         private string _EmpyCode = "";
         private string _CrateCode = "";
         private string _Vendor = "";
+        private string _VendorCode = "";
         private string _Waste = "";
+        private string _WasteCode = "";
         private float _SubWeight = 0;
         private float _TxnWeight = 0;
+        private DateTime _EntryDate = DateTime.MinValue;
         private int _InvRecordId = 0;
         private int _InvAuthId = 0;
         private string _Status = "";
@@ -196,6 +214,17 @@ namespace YRKJ.MWR
                 _Vendor = value;
             }
         }
+        public string VendorCode
+        {
+            get
+            {
+                return _VendorCode;
+            }
+            set
+            {
+                _VendorCode = value;
+            }
+        }
         public string Waste
         {
             get
@@ -205,6 +234,17 @@ namespace YRKJ.MWR
             set
             {
                 _Waste = value;
+            }
+        }
+        public string WasteCode
+        {
+            get
+            {
+                return _WasteCode;
+            }
+            set
+            {
+                _WasteCode = value;
             }
         }
         public float SubWeight
@@ -227,6 +267,17 @@ namespace YRKJ.MWR
             set
             {
                 _TxnWeight = value;
+            }
+        }
+        public DateTime EntryDate
+        {
+            get
+            {
+                return _EntryDate;
+            }
+            set
+            {
+                _EntryDate = value;
             }
         }
         public int InvRecordId
@@ -264,6 +315,9 @@ namespace YRKJ.MWR
         }
 
 
+        public const string STATUS_ENUM_Complete = "C";//1.交易完成 ;
+        public const string STATUS_ENUM_Authorize = "A";//2.交易货箱审核中 ;
+        public const string STATUS_ENUM_Wait = "W";//3.交易货箱审核完成，等待确认;
 
     }
 }

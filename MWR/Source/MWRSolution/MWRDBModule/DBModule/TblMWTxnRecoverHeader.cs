@@ -349,6 +349,11 @@ namespace YRKJ.MWR
         }
 
 
+        public const string OPERATETYPE_ENUM_ToInventory = "I";//回收入库操作;
+        public const string OPERATETYPE_ENUM_ToDestroy = "D";//回收处置操作;
+        public const string STATUS_ENUM_Process = "P";//操作中;
+        public const string STATUS_ENUM_Complete = "C";//完成;
+        public const string STATUS_ENUM_Authorize = "A";//提交审核;
 
     }
 }

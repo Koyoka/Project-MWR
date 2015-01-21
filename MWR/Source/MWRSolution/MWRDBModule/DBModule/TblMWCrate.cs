@@ -77,6 +77,8 @@ namespace YRKJ.MWR
         }
 
 
+        public const string STATUS_ENUM_Active = "A";//使用中;
+        public const string STATUS_ENUM_Void = "V";//作废;
 
     }
 }

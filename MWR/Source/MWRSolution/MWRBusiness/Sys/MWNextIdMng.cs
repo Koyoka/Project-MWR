@@ -12,6 +12,8 @@ namespace YRKJ.MWR.Business.Sys
     {
         public const string ClassName = "YRKJ.MWR.Business.Sys.MWNextIdMng";
 
+        public const string TxnNumMask = "##########";
+
         public static int GetCarDispatchNextId()
         {
             DataCtrlInfo dcf = new DataCtrlInfo();;
@@ -24,6 +26,51 @@ namespace YRKJ.MWR.Business.Sys
             }
 
             return nextId;
+        }
+
+        public static int GetTxnRecoverHeaderNextId()
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo(); ;
+            string errMsg = "";
+            int nextId = 0;
+            if (!NextIdMng.GetNextId(dcf, "TxnRecoverHeader", ref nextId, ref errMsg))
+            {
+                LogMng.GetLog().PrintError(ClassName, "GetTxnRecoverHeaderNextId", new Exception(errMsg));
+                return 0;
+            }
+
+            return nextId;
+        }
+        
+        public static string GetTxnNextNum()
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo(); ;
+            string errMsg = "";
+            int nextId = 0;
+            if (!NextIdMng.GetNextId(dcf, "TxnNum", ref nextId, ref errMsg))
+            {
+                LogMng.GetLog().PrintError(ClassName, "GetTxnNextNum", new Exception(errMsg));
+                return null;
+            }
+
+            if (nextId == 0)
+            {
+                LogMng.GetLog().PrintError(ClassName, "GetTxnNextNum", new Exception("获取txnnum出错"));
+                return null;
+            }
+            string defineNextNum = "";
+            string prefix = TxnNumMask.Replace("#", "");
+            string num = TxnNumMask.TrimStart(prefix.ToCharArray());
+            int len = num.Length;
+            int nextIdLen = nextId.ToString().Length;
+            if (nextIdLen > len)
+            {
+                LogMng.GetLog().PrintError(ClassName, "GetTxnNextNum", new Exception("编号超出界限"));
+                return null;
+            }
+            defineNextNum = prefix + defineNextNum.PadLeft(len - nextIdLen, '0') + nextId;
+
+            return defineNextNum;
         }
     }
 }

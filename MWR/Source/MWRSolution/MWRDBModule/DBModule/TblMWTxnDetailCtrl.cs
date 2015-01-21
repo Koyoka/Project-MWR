@@ -100,9 +100,12 @@ namespace YRKJ.MWR
                 item.EmpyCode,
                 item.CrateCode,
                 item.Vendor,
+                item.VendorCode,
                 item.Waste,
+                item.WasteCode,
                 item.SubWeight,
                 item.TxnWeight,
+                item.EntryDate,
                 item.InvRecordId,
                 item.InvAuthId,
                 item.Status,
@@ -120,9 +123,12 @@ namespace YRKJ.MWR
             string empyCode,
             string crateCode,
             string vendor,
+            string vendorCode,
             string waste,
+            string wasteCode,
             float subWeight,
             float txnWeight,
+            DateTime entryDate,
             int invRecordId,
             int invAuthId,
             string status,
@@ -140,9 +146,12 @@ namespace YRKJ.MWR
             sum.Add(TblMWTxnDetail.getEmpyCodeColumn(), empyCode);
             sum.Add(TblMWTxnDetail.getCrateCodeColumn(), crateCode);
             sum.Add(TblMWTxnDetail.getVendorColumn(), vendor);
+            sum.Add(TblMWTxnDetail.getVendorCodeColumn(), vendorCode);
             sum.Add(TblMWTxnDetail.getWasteColumn(), waste);
+            sum.Add(TblMWTxnDetail.getWasteCodeColumn(), wasteCode);
             sum.Add(TblMWTxnDetail.getSubWeightColumn(), subWeight);
             sum.Add(TblMWTxnDetail.getTxnWeightColumn(), txnWeight);
+            sum.Add(TblMWTxnDetail.getEntryDateColumn(), entryDate);
             sum.Add(TblMWTxnDetail.getInvRecordIdColumn(), invRecordId);
             sum.Add(TblMWTxnDetail.getInvAuthIdColumn(), invAuthId);
             sum.Add(TblMWTxnDetail.getStatusColumn(), status);
@@ -166,9 +175,12 @@ namespace YRKJ.MWR
             suc.Add(TblMWTxnDetail.getEmpyCodeColumn(), item.EmpyCode);
             suc.Add(TblMWTxnDetail.getCrateCodeColumn(), item.CrateCode);
             suc.Add(TblMWTxnDetail.getVendorColumn(), item.Vendor);
+            suc.Add(TblMWTxnDetail.getVendorCodeColumn(), item.VendorCode);
             suc.Add(TblMWTxnDetail.getWasteColumn(), item.Waste);
+            suc.Add(TblMWTxnDetail.getWasteCodeColumn(), item.WasteCode);
             suc.Add(TblMWTxnDetail.getSubWeightColumn(), item.SubWeight);
             suc.Add(TblMWTxnDetail.getTxnWeightColumn(), item.TxnWeight);
+            suc.Add(TblMWTxnDetail.getEntryDateColumn(), item.EntryDate);
             suc.Add(TblMWTxnDetail.getInvRecordIdColumn(), item.InvRecordId);
             suc.Add(TblMWTxnDetail.getInvAuthIdColumn(), item.InvAuthId);
             suc.Add(TblMWTxnDetail.getStatusColumn(), item.Status);
