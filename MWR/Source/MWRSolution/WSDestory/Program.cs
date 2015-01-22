@@ -51,7 +51,7 @@ namespace YRKJ.MWR.WSDestory
                         return;
                     }
                     if (!SqlDBMng.DetectDBServer(
-                        WinAppStatic.DBName,
+                        WinAppBase.DBName,
                          configData.DBServerName,
                          configData.DBUserName,
                          configData.DBPassword, ref errMsg))
@@ -71,7 +71,7 @@ namespace YRKJ.MWR.WSDestory
                         }
 
                         SqlDBMng.setConnectionString(
-                         SqlDBMng.GetConnStr(WinAppStatic.DBName,
+                         SqlDBMng.GetConnStr(WinAppBase.DBName,
                          configData.DBServerName,
                          configData.DBUserName,
                          configData.DBPassword));

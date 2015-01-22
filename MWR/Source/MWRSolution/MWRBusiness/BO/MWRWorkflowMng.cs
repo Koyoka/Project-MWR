@@ -135,16 +135,16 @@ namespace YRKJ.MWR.Business.BO
             List<TblMWTxnDetail> txnDetailList,
             ref string errMsg)
         {
-            DataCtrlInfo dcf = new DataCtrlInfo();
 
             string driver = "";
             string inspector = "";
-           
+
             float totalSubWeight = 0;
             float totalCrateQty = 0;
             TblMWCarDispatch carDispatchInfo = null;
             #region get moblie workstation base data
             {
+                DataCtrlInfo dcf = new DataCtrlInfo();
                 totalCrateQty = txnDetailList.Count;
                 foreach (TblMWTxnDetail dtl in txnDetailList)
                 {
@@ -156,18 +156,28 @@ namespace YRKJ.MWR.Business.BO
                     SqlQueryMng sqm = new SqlQueryMng();
                     sqm.Condition.Where.AddCompareValue(TblMWCarDispatch.getCarCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, carCode);
                     sqm.Condition.Where.AddCompareValue(TblMWCarDispatch.getStatusColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, TblMWCarDispatch.STATUS_ENUM_ShiftStrat);
-                    sqm.Condition.Where.AddCompareValue(TblMWCarDispatch.getInDateColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, DateTime.MinValue);
+                    //sqm.Condition.Where.AddCompareValue(TblMWCarDispatch.getInDateColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, DateTime.MinValue);
                     sqm.Condition.Where.AddCompareValue(TblMWCarDispatch.getDriverCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, driverCode);
                     sqm.Condition.Where.AddCompareValue(TblMWCarDispatch.getInspectorCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, inspectorCode);
                     sqm.Condition.Where.AddCompareValue(TblMWCarDispatch.getRecoMWSCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, mwsCode);
-                    
+
                     if (!TblMWCarDispatchCtrl.QueryOne(dcf, sqm, ref carDispatchInfo, ref errMsg))
                     {
                         return false;
                     }
                     if (carDispatchInfo == null)
                     {
-                        errMsg = "没有找到当前车辆的出车记录";
+                        errMsg = "没有找到当前车辆的出车记录,是否已被完成？";
+                        return false;
+                    }
+                    //if (carDispatchInfo.Status != TblMWCarDispatch.STATUS_ENUM_ShiftStrat)
+                    //{
+                    //    errMsg = "该回收计划已经被管理员关闭";
+                    //    return false;
+                    //}
+                    if (carDispatchInfo.InDate != DateTime.MinValue)
+                    {
+                        errMsg = "该回收计划已经提交";
                         return false;
                     }
                 }
@@ -211,35 +221,122 @@ namespace YRKJ.MWR.Business.BO
             }
             #endregion
 
-          
+            #region add data
+            {
+                DataCtrlInfo dcf = new DataCtrlInfo();
+                dcf.BeginTrans();
 
-            int nextId = MWNextIdMng.GetTxnRecoverHeaderNextId();
-            string nextTxnNum = MWNextIdMng.GetTxnNextNum();
-            TblMWTxnRecoverHeader header = new TblMWTxnRecoverHeader();
-            header.RecoHeaderId = nextId;
-            header.TxnNum = nextTxnNum;
+                DateTime now = SqlDBMng.GetDBNow();
+                #region add txn data
+                {
+                    int nextId = MWNextIdMng.GetTxnRecoverHeaderNextId();
+                    if (nextId == 0)
+                    {
+                        errMsg = ErrorMng.GetDBError(ClassName, "recoverToInventory", "Id增长列添加错误");
+                        return false;
+                    }
+                    string nextTxnNum = MWNextIdMng.GetTxnNextNum(BizBase.GetInstance().TxnNumMask);
+                    if (nextTxnNum == null)
+                    {
+                        errMsg = ErrorMng.GetDBError(ClassName, "recoverToInventory", "TxnNum增长列添加错误");
+                        return false;
+                    }
+                    TblMWTxnRecoverHeader header = new TblMWTxnRecoverHeader();
+                    header.RecoHeaderId = nextId;
+                    header.TxnNum = nextTxnNum;
 
-            header.CarCode = carCode;
-            header.Driver = driver;
-            header.DriverCode = driverCode;
-            header.Inspector = inspector;
-            header.InspectorCode = inspectorCode;
-            header.RecoMWSCode = mwsCode;
+                    header.CarCode = carCode;
+                    header.Driver = driver;
+                    header.DriverCode = driverCode;
+                    header.Inspector = inspector;
+                    header.InspectorCode = inspectorCode;
+                    header.RecoMWSCode = mwsCode;
 
 
-            header.RecoWSCode = "";
-            header.RecoEmpyName = "";
-            header.RecoEmpyCode = "";
+                    header.RecoWSCode = mwsCode;
+                    header.RecoEmpyName = inspector;
+                    header.RecoEmpyCode = inspectorCode;
 
-            header.StratDate = SqlDBMng.GetDBNow();
-            header.EndDate = DateTime.MinValue;
-            header.OperateType = TblMWTxnRecoverHeader.OPERATETYPE_ENUM_ToInventory;
-            header.TotalCrateQty = 0;
-            header.TotalSubWeight = 0;
-            header.TotalTxnWeight = 0;
-            header.CarDisId = carDispatchInfo.CarDisId;
-            header.Status = TblMWTxnRecoverHeader.STATUS_ENUM_Process;
+                    header.StratDate = now;
+                    header.EndDate = DateTime.MinValue;
+                    header.OperateType = TblMWTxnRecoverHeader.OPERATETYPE_ENUM_ToInventory;
+                    header.TotalCrateQty = 0;
+                    header.TotalSubWeight = 0;
+                    header.TotalTxnWeight = 0;
+                    header.CarDisId = carDispatchInfo.CarDisId;
+                    header.Status = TblMWTxnRecoverHeader.STATUS_ENUM_Process;
 
+                    int updCount = 0;
+                    if (!TblMWTxnRecoverHeaderCtrl.Insert(dcf, header, ref updCount, ref errMsg))
+                    {
+                        return false;
+                    }
+
+
+                    int dtlNextId = MWNextIdMng.GetTxnDetailNextId(txnDetailList.Count);
+                    foreach (TblMWTxnDetail dtl in txnDetailList)
+                    {
+                        dtl.TxnDetailId = dtlNextId;
+                        dtl.TxnType = TblMWTxnDetail.TXNTYPE_ENUM_Submit;
+                        dtl.TxnNum = header.TxnNum;
+                        dtl.WSCode = mwsCode;
+                        dtl.EmpyName = inspector;
+                        dtl.EmpyCode = inspectorCode;
+                        
+                        dtl.EntryDate = now;
+
+                        dtl.TxnDetailId = dtlNextId;
+                        dtl.TxnType = TblMWTxnDetail.TXNTYPE_ENUM_Submit;
+                        dtl.TxnNum = header.TxnNum;
+                        dtl.WSCode = mwsCode;
+                        dtl.EmpyName = inspector;
+                        dtl.EmpyCode = inspectorCode;
+                        //dtl.CrateCode = "";
+                        //dtl.Vendor = "";
+                        //dtl.VendorCode = "";
+                        //dtl.Waste = "";
+                        //dtl.WasteCode = "";
+                        //dtl.SubWeight = "";
+                        dtl.TxnWeight = dtl.SubWeight;
+                        dtl.EntryDate = now;
+                        //dtl.InvRecordId = "";
+                        //dtl.InvAuthId = "";
+                        dtl.Status = TblMWTxnDetail.STATUS_ENUM_Complete;
+
+                        if (!TblMWTxnDetailCtrl.Insert(dcf, dtl, ref updCount, ref errMsg))
+                        {
+                            return false;
+                        }
+                        dtlNextId++;
+                    }
+                }
+                #endregion
+
+                #region update cardisptch indate
+                {
+                    int updCount = 0;
+
+                    SqlWhere sw = new SqlWhere();
+                    sw.AddCompareValue(TblMWCarDispatch.getCarDisIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, carDispatchInfo.CarDisId);
+
+                    SqlUpdateColumn suc = new SqlUpdateColumn();
+                    suc.Add(TblMWCarDispatch.getInDateColumn(), now);
+
+                    if (!TblMWCarDispatchCtrl.Update(dcf, carDispatchInfo, suc, sw, ref updCount, ref errMsg))
+                    {
+                        return false;
+                    }
+                }
+                #endregion
+
+                int[] updCounts = null;
+                if (!dcf.Commit(ref updCounts, ref errMsg))
+                {
+                    return false;
+                }
+
+            }
+            #endregion
 
             return true;
         }

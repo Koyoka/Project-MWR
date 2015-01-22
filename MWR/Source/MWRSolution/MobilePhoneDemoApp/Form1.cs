@@ -136,6 +136,25 @@ namespace MobilePhoneDemoApp
             }
         }
 
+        private void button2_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                this.Cursor = Cursors.WaitCursor;
+
+                
+            }
+            catch (Exception ex)
+            {
+                LogMng.GetLog().PrintError(ClassName, "button2_Click", ex);
+                MsgBox.Error(ex);
+            }
+            finally
+            {
+                this.Cursor = Cursors.Default;
+            }
+        }
+
       
 
         #region Form Data Property

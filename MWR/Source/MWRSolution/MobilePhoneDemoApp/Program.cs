@@ -15,7 +15,11 @@ namespace MobilePhoneDemoApp
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
+            string errMsg = "";
+            string resData = "";
+            MWHttpSendHelper.SendTxn(ref resData,ref errMsg);
+            MessageBox.Show(resData);
+            return;
             //int nextId = 121;
             //string s = "";
             //string TxnNumMask = "xxHX###";

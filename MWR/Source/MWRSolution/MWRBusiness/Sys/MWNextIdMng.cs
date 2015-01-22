@@ -12,8 +12,8 @@ namespace YRKJ.MWR.Business.Sys
     {
         public const string ClassName = "YRKJ.MWR.Business.Sys.MWNextIdMng";
 
-        public const string TxnNumMask = "##########";
 
+        #region base data
         public static int GetCarDispatchNextId()
         {
             DataCtrlInfo dcf = new DataCtrlInfo();;
@@ -22,6 +22,23 @@ namespace YRKJ.MWR.Business.Sys
             if (!NextIdMng.GetNextId(dcf, "CarDispatch", ref nextId, ref errMsg))
             {
                 LogMng.GetLog().PrintError(ClassName, "GetCarDispatchNextId", new Exception(errMsg));
+                return 0;
+            }
+
+            return nextId;
+        }
+        #endregion
+
+
+        #region txn
+        public static int GetTxnDetailNextId(int count)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo(); ;
+            string errMsg = "";
+            int nextId = 0;
+            if (!NextIdMng.GetNextId(dcf, "TxnDetail", count, ref nextId, ref errMsg))
+            {
+                LogMng.GetLog().PrintError(ClassName, "GetTxnDetailNextId", new Exception(errMsg));
                 return 0;
             }
 
@@ -42,7 +59,7 @@ namespace YRKJ.MWR.Business.Sys
             return nextId;
         }
         
-        public static string GetTxnNextNum()
+        public static string GetTxnNextNum(string TxnNumMask)
         {
             DataCtrlInfo dcf = new DataCtrlInfo(); ;
             string errMsg = "";
@@ -72,5 +89,6 @@ namespace YRKJ.MWR.Business.Sys
 
             return defineNextNum;
         }
+        #endregion
     }
 }

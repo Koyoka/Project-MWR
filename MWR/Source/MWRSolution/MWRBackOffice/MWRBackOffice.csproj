@@ -223,6 +223,7 @@
     <Content Include="Pages\UCtrl\UModal.ascx" />
     <Content Include="Pages\UCtrl\UPage.ascx" />
     <Content Include="Services\config.html" />
+    <Content Include="Services\MWRecoverServer.aspx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -230,6 +231,7 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
+    <Content Include="WebForm1.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Business\Sys\BasePage.cs">
@@ -343,6 +345,20 @@
       <DependentUpon>UPage.ascx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\MWRecoverServer.aspx.cs">
+      <DependentUpon>MWRecoverServer.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Services\MWRecoverServer.aspx.designer.cs">
+      <DependentUpon>MWRecoverServer.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebForm1.aspx.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebForm1.aspx.designer.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\ComLib\ComLib.csproj">

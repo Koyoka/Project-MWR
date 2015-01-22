@@ -86,7 +86,7 @@ namespace YRKJ.MWR.WinBase.WinAppBase.BaseForm
                 AppConfig cfg = GetCfgDataFromControl();
 
                 #region valid db config
-                if (!ComLib.db.SqlDBMng.DetectDBServer(WinAppStatic.DBName, cfg.DBServerName, cfg.DBUserName, cfg.DBPassword, ref errMsg))
+                if (!ComLib.db.SqlDBMng.DetectDBServer(WinAppBase.DBName, cfg.DBServerName, cfg.DBUserName, cfg.DBPassword, ref errMsg))
                 {
                     MsgBox.Error(LngRes.MSG_DetectDBError);
                     WinFn.SafeFocusAndSelectAll(c_txtService);
@@ -128,7 +128,7 @@ namespace YRKJ.MWR.WinBase.WinAppBase.BaseForm
                 string errMsg = "";
 
                 AppConfig cfg = GetCfgDataFromControl();
-                if (!ComLib.db.SqlDBMng.DetectDBServer(WinAppStatic.DBName, cfg.DBServerName, cfg.DBUserName, cfg.DBPassword, ref errMsg))
+                if (!ComLib.db.SqlDBMng.DetectDBServer(WinAppBase.DBName, cfg.DBServerName, cfg.DBUserName, cfg.DBPassword, ref errMsg))
                 {
                     MsgBox.Error(LngRes.MSG_DetectDBError);
                     WinFn.SafeFocusAndSelectAll(c_txtService);
@@ -157,7 +157,7 @@ namespace YRKJ.MWR.WinBase.WinAppBase.BaseForm
             {
                 this.Cursor = Cursors.WaitCursor;
 
-                this.c_txtPassword.Text = ComLib.ComFn.DecryptDBPassword(WinAppStatic.DBKey, WinAppStatic.DefaultEPassword); 
+                this.c_txtPassword.Text = ComLib.ComFn.DecryptDBPassword(WinAppBase.DBKey, WinAppBase.DefaultEPassword); 
             }
             catch (Exception ex)
             {

@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AuthorizationHelper.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="ComFn.cs" />
     <Compile Include="db\BaseModule\Class1.cs" />

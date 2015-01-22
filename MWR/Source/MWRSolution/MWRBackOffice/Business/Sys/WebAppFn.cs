@@ -52,6 +52,16 @@ namespace YRKJ.MWR.BackOffice.Business.Sys
             return "";
         }
 
+        public static string SafeFormString(string name)
+        {
+            if (HttpContext.Current.Request.Form[name] != null)
+            {
+                return HttpContext.Current.Request.Form[name].ToString();
+            }
+
+            return "";
+        }
+
         #endregion
 
         public static string GetCurrentPageName()

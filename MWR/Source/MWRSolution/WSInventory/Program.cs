@@ -53,7 +53,7 @@ namespace YRKJ.MWR.WSInventory
                         return;
                     }
                     if (!SqlDBMng.DetectDBServer(
-                        WinAppStatic.DBName,
+                        WinAppBase.DBName,
                          configData.DBServerName,
                          configData.DBUserName,
                          configData.DBPassword, ref errMsg))
@@ -73,7 +73,7 @@ namespace YRKJ.MWR.WSInventory
                         }
 
                         SqlDBMng.setConnectionString(
-                         SqlDBMng.GetConnStr(WinAppStatic.DBName,
+                         SqlDBMng.GetConnStr(WinAppBase.DBName,
                          configData.DBServerName,
                          configData.DBUserName,
                          configData.DBPassword));

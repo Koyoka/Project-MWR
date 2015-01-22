@@ -125,7 +125,48 @@ namespace ComLib
 
         #endregion
 
+        #region Encrypt & Decrypt
+        public static string CalculateRFC2104HMAC(string secret, string mk)
+        { 
+            return CalculateRFC2104HMAC(secret, mk,Encoding.UTF8);
+        }
+        public static string CalculateRFC2104HMAC(string secret, string mk, Encoding encoder)
+        {
+            using (HMACSHA1 hmacsha1 = new HMACSHA1())
+            {
+                //hmacsha1.Key = Encoding.ASCII.GetBytes(secret);
+                //byte[] dataBuffer = Encoding.ASCII.GetBytes(mk);
+
+                hmacsha1.Key = encoder.GetBytes(secret);
+                byte[] dataBuffer = encoder.GetBytes(mk);
+                byte[] hashBytes = hmacsha1.ComputeHash(dataBuffer);
+                return Convert.ToBase64String(hashBytes);
+            }
+            //using (System.Security.Cryptography.HMACSHA1 hmac =
+            //    new System.Security.Cryptography.HMACSHA1(Encoding.ASCII.GetBytes(secret))
+            //    )
+            //{
+            //    return Convert.ToBase64String(hmac.ComputeHash(Encoding.ASCII.GetBytes(mk)));
+            //}
+            //return "";
+        }
+
+        public static string EncryptStringBy64(string s)
+        {
+            byte[] bits = UTF8Encoding.Default.GetBytes(s);
+            return Convert.ToBase64String(bits);
+        }
+        public static string DecryptStringBy64(string s)
+        {
+            byte[] bits = Convert.FromBase64String(s);
+            return UTF8Encoding.Default.GetString(bits);
+        }
+
+        #endregion
+
         #region C# Data Convert
+       
+
         public static int StringToInt(string s)
         {
             try

@@ -22,7 +22,7 @@ namespace YRKJ.MWR.WinBase.WinAppBase.Config
                     AppConfig tempData = new AppConfig();
                     tempData.DBServerName = ".";
                     tempData.DBUserName = "root";
-                    tempData.DBPassword = ComFn.DecryptDBPassword(WinAppStatic.DBKey, WinAppStatic.DefaultEPassword);
+                    tempData.DBPassword = ComFn.DecryptDBPassword(WinAppBase.DBKey, WinAppBase.DefaultEPassword);
                     tempData.ServiceRoot = "127.0.0.1";
                     //tempData.DBDatabaseNumber = "0";
                     if (!SaveAppConfig(tempData, ref  errMsg))
@@ -39,7 +39,7 @@ namespace YRKJ.MWR.WinBase.WinAppBase.Config
                 data.DBServerName = ComFn.SafeGetXmlNodeInnerText(doc, "Root/Database/ServerName");
                 //data.DBDatabaseNumber = ComFn.SafeGetXmlNodeInnerText(doc, "Root/Database/DatabaseNumber");
                 data.DBUserName = ComFn.SafeGetXmlNodeInnerText(doc, "Root/Database/UserName");
-                data.DBPassword = ComFn.DecryptDBPassword(WinAppStatic.DBKey,ComFn.SafeGetXmlNodeInnerText(doc, "Root/Database/Password"));
+                data.DBPassword = ComFn.DecryptDBPassword(WinAppBase.DBKey,ComFn.SafeGetXmlNodeInnerText(doc, "Root/Database/Password"));
                 data.ServiceRoot = ComFn.SafeGetXmlNodeInnerText(doc, "Root/WebService/ServiceRoot");
                 return true;
             }
@@ -65,7 +65,7 @@ namespace YRKJ.MWR.WinBase.WinAppBase.Config
                 sb.Append("		<ServerName>" + ComFn.GetSafeXml(data.DBServerName) + "</ServerName>");
                 //sb.Append("		<DatabaseNumber>" + ComFn.GetSafeXml(ComFn.AppendBegin(data.DBDatabaseNumber, 4, '0')) + "</DatabaseNumber>");
                 sb.Append("		<UserName>" + ComFn.GetSafeXml(data.DBUserName) + "</UserName>");
-                sb.Append("		<Password>" + ComFn.GetSafeXml(ComFn.EncryptDBPassword(WinAppStatic.DBKey,data.DBPassword)) + "</Password>");
+                sb.Append("		<Password>" + ComFn.GetSafeXml(ComFn.EncryptDBPassword(WinAppBase.DBKey,data.DBPassword)) + "</Password>");
                 //sb.Append("		<SQLDatabaseFolder>" + ComFn.GetSafeXml("") + "</SQLDatabaseFolder>");
                 sb.Append("	</Database>");
                 #endregion

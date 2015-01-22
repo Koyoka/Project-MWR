@@ -5,7 +5,7 @@ using System.Text;
 
 namespace YRKJ.MWR.WinBase.WinAppBase
 {
-    public class WinAppStatic
+    public class WinAppBase
     {
         public const string DBKey = "pRKJMwrdbWORD";
         public const string DefaultEPassword = "{n~zRggiQJGJnXW~zmdazmx_LtqMMjdovu@qMtfQmP";

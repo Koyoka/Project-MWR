@@ -31,7 +31,7 @@ namespace MobilePhoneDemoApp
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.ControlBox = false;
 
-            _scannerMng = new ScannerMng(this, ClassName, WinAppStatic.CrateBarCodeMask);
+            _scannerMng = new ScannerMng(this, ClassName, WinAppBase.CrateBarCodeMask);
             _scannerMng.CodeScanned += new ScannerMng.ScannedEventHandler(FrmScanner_CodeScanned);
             _scannerMng.InvalidCodeScanned += new ScannerMng.ScannedEventHandler(FrmScanner_InvalidCodeScanned);
         } 

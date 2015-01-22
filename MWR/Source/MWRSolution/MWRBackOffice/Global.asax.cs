@@ -12,6 +12,19 @@ namespace YRKJ.MWR.BackOffice
 
         protected void Application_Start(object sender, EventArgs e)
         {
+
+           
+            string errMsg = "";
+            #region log
+            if (!ComLib.Log.LogMng.InitLog(ComLib.ComFn.GetAppExePath() + "Setting\\Log", "MWR", ref errMsg))
+            {
+                //MsgBox.Error("初始化错误/r/n" + errMsg);
+                return;
+            }
+
+            #endregion
+
+            #region database
             ComLib.db.SqlDBMng.initDBMng(ComLib.db.SqlDBMng.DBTypeEnum.MySQl);
 
             ComLib.db.SqlDBMng.setConnectionString(
@@ -19,6 +32,7 @@ namespace YRKJ.MWR.BackOffice
                        "127.0.0.1",
                        "root",
                        "-101868"));
+            #endregion
         }
 
         protected void Session_Start(object sender, EventArgs e)
