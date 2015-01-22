@@ -22,13 +22,15 @@ namespace MobilePhoneDemoApp
         private string _driverCode = "";
         private string _inspectorCode = "";
         private string _mwsCode = "";
+        private string _carCode = "";
 
-        public FrmInitData(string driverCode, string inspectorCode,string mwscode)
+        public FrmInitData(string driverCode, string inspectorCode,string mwscode,string carCode)
         {
             InitializeComponent();
             _driverCode = driverCode;
             _inspectorCode = inspectorCode;
             _mwsCode = mwscode;
+            _carCode = carCode;
 
             this.Text = LngRes.MSG_FormName;
 
@@ -128,6 +130,7 @@ namespace MobilePhoneDemoApp
                     return false;
                 }
                 DemoData.GetInstance().Driver = data.EmpyName;
+                DemoData.GetInstance().DriverCode = data.EmpyCode;
             }
 
             {
@@ -145,6 +148,7 @@ namespace MobilePhoneDemoApp
                     return false;
                 }
                 DemoData.GetInstance().Inspector = data.EmpyName;
+                DemoData.GetInstance().InspectorCode = data.EmpyCode;
             }
 
             {
@@ -163,6 +167,23 @@ namespace MobilePhoneDemoApp
                     return false;
                 }
                 DemoData.GetInstance().MWSCode = _mwsCode;
+            }
+
+            {
+                TblMWCar car = null;
+                SqlQueryMng sqm = new SqlQueryMng();
+                sqm.Condition.Where.AddCompareValue(TblMWCar.getCarCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, _carCode);
+                if (!TblMWCarCtrl.QueryOne(dcf, sqm, ref car, ref errMsg))
+                {
+                    return false;
+                }
+                if (car == null)
+                {
+                    errMsg = "没有找到当前编号的车辆信息";
+                    return false;
+                }
+                DemoData.GetInstance().CarCode = car.CarCode;
+
             }
             return true;
         }

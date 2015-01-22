@@ -22,8 +22,12 @@ namespace MobilePhoneDemoApp
             get { return _inspectorCode; }
             set { _inspectorCode = value; }
         }
-
-
+        private string _carCode = "";
+        public string CarCode
+        {
+            get { return _carCode; }
+            set { _carCode = value; }
+        }
         public string Driver = "";
         public string Inspector = "";
         public string MWSCode = "";

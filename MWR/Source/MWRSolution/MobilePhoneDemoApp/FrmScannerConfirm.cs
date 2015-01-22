@@ -94,7 +94,7 @@ namespace MobilePhoneDemoApp
                 txnDetail.CrateCode = _code;
                 txnDetail.Vendor = _vendor;
                 txnDetail.VendorCode = _vendorcode;
-                txnDetail.SubWeight = (float)c_txtWeight.Value;
+                txnDetail.SubWeight = c_txtWeight.Value;
                 txnDetail.Waste = (c_cmbWaster.SelectedItem as TblMWWasteCategory).Waste;//c_cmbWaster.SelectedText;
                 txnDetail.WasteCode = (c_cmbWaster.SelectedItem as TblMWWasteCategory).WasteCode;//c_cmbWaster.SelectedValue+"";
                 txnDetail.EntryDate = SqlDBMng.GetDBNow();

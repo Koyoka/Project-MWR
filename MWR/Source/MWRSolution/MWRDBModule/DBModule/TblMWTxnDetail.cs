@@ -31,8 +31,8 @@ namespace YRKJ.MWR
             new DataColumnInfo(false,true,false,false,"VendorCode",SqlCommonFn.DataColumnType.STRING,20),
             new DataColumnInfo(false,true,false,false,"Waste",SqlCommonFn.DataColumnType.STRING,45),
             new DataColumnInfo(false,true,false,false,"WasteCode",SqlCommonFn.DataColumnType.STRING,20),
-            new DataColumnInfo(false,true,false,false,"SubWeight",SqlCommonFn.DataColumnType.FLOAT,12),
-            new DataColumnInfo(false,true,false,false,"TxnWeight",SqlCommonFn.DataColumnType.FLOAT,12),
+            new DataColumnInfo(false,true,false,false,"SubWeight",SqlCommonFn.DataColumnType.DECIMAL,2),
+            new DataColumnInfo(false,true,false,false,"TxnWeight",SqlCommonFn.DataColumnType.DECIMAL,2),
             new DataColumnInfo(false,true,false,false,"EntryDate",SqlCommonFn.DataColumnType.DATETIME,0),
             new DataColumnInfo(false,true,false,false,"InvRecordId",SqlCommonFn.DataColumnType.INT,10),
             new DataColumnInfo(false,true,false,false,"InvAuthId",SqlCommonFn.DataColumnType.INT,10),
@@ -119,8 +119,8 @@ namespace YRKJ.MWR
         private string _VendorCode = "";
         private string _Waste = "";
         private string _WasteCode = "";
-        private float _SubWeight = 0;
-        private float _TxnWeight = 0;
+        private decimal _SubWeight = 0;
+        private decimal _TxnWeight = 0;
         private DateTime _EntryDate = DateTime.MinValue;
         private int _InvRecordId = 0;
         private int _InvAuthId = 0;
@@ -247,7 +247,7 @@ namespace YRKJ.MWR
                 _WasteCode = value;
             }
         }
-        public float SubWeight
+        public decimal SubWeight
         {
             get
             {
@@ -258,7 +258,7 @@ namespace YRKJ.MWR
                 _SubWeight = value;
             }
         }
-        public float TxnWeight
+        public decimal TxnWeight
         {
             get
             {

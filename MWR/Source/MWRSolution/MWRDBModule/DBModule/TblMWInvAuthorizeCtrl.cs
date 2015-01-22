@@ -122,9 +122,9 @@ namespace YRKJ.MWR
             string authEmpyCode,
             string authEmpyName,
             string remark,
-            float subWeight,
-            float txnWeight,
-            float diffWeight,
+            decimal subWeight,
+            decimal txnWeight,
+            decimal diffWeight,
             DateTime entryDate,
             DateTime compDate,
             string status,
@@ -181,11 +181,8 @@ namespace YRKJ.MWR
 
         public static bool Update(DataCtrlInfo dcf, TblMWInvAuthorize item, SqlUpdateColumn suc, SqlWhere sw,ref int count,ref string errMsg)
         {
-            if (suc.Columns == null)
-                 return true;
-            if (suc.Columns.Length == 0)
-                 return true;
-            SetUpdateColumnValue(suc, item);
+            if (suc.Columns != null)
+                 SetUpdateColumnValue(suc, item);
             return Update(dcf, suc, sw, ref count, ref errMsg);
         }
 

@@ -22,7 +22,9 @@ namespace YRKJ.MWR
                 new DataColumnInfo[]{
             new DataColumnInfo(true,false,false,false,"WSCode",SqlCommonFn.DataColumnType.STRING,20),
             new DataColumnInfo(false,true,false,false,"Desc",SqlCommonFn.DataColumnType.STRING,45),
-            new DataColumnInfo(false,true,false,false,"WSType",SqlCommonFn.DataColumnType.STRING,2)
+            new DataColumnInfo(false,true,false,false,"WSType",SqlCommonFn.DataColumnType.STRING,2),
+            new DataColumnInfo(false,true,false,false,"AccessKey",SqlCommonFn.DataColumnType.STRING,40),
+            new DataColumnInfo(false,true,false,false,"SecretKey",SqlCommonFn.DataColumnType.STRING,40)
         };
 
         public static DataColumnInfo getWSCodeColumn()
@@ -37,10 +39,20 @@ namespace YRKJ.MWR
         {
             return Columns[2];
         }
+        public static DataColumnInfo getAccessKeyColumn()
+        {
+            return Columns[3];
+        }
+        public static DataColumnInfo getSecretKeyColumn()
+        {
+            return Columns[4];
+        }
 
         private string _WSCode = "";
         private string _Desc = "";
         private string _WSType = "";
+        private string _AccessKey = "";
+        private string _SecretKey = "";
 
         public string WSCode
         {
@@ -73,6 +85,28 @@ namespace YRKJ.MWR
             set
             {
                 _WSType = value;
+            }
+        }
+        public string AccessKey
+        {
+            get
+            {
+                return _AccessKey;
+            }
+            set
+            {
+                _AccessKey = value;
+            }
+        }
+        public string SecretKey
+        {
+            get
+            {
+                return _SecretKey;
+            }
+            set
+            {
+                _SecretKey = value;
             }
         }
 

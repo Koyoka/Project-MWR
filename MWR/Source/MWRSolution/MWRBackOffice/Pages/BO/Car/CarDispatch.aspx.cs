@@ -196,7 +196,7 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Car
             long pageCount = 0;
             long rowCount = 0;
             List<TblMWCarDispatch> carDispatchDataList = null;
-            if (!MWRWorkflowMng.GetTodayCarDispatchDataList(curPage, PageSize, ref pageCount, ref rowCount, ref carDispatchDataList, ref errMsg))
+            if (!MWRWorkflowMng.GetNoCloseCarDispatchDataList(curPage, PageSize, ref pageCount, ref rowCount, ref carDispatchDataList, ref errMsg))
             {
                 return false;
             }

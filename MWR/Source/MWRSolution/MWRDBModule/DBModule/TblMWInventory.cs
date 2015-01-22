@@ -27,10 +27,10 @@ namespace YRKJ.MWR
             new DataColumnInfo(false,true,false,false,"VendorCode",SqlCommonFn.DataColumnType.STRING,20),
             new DataColumnInfo(false,true,false,false,"Waste",SqlCommonFn.DataColumnType.STRING,45),
             new DataColumnInfo(false,true,false,false,"WasteCode",SqlCommonFn.DataColumnType.STRING,20),
-            new DataColumnInfo(false,true,false,false,"RecoWeight",SqlCommonFn.DataColumnType.FLOAT,12),
-            new DataColumnInfo(false,true,false,false,"InvWeight",SqlCommonFn.DataColumnType.FLOAT,12),
-            new DataColumnInfo(false,true,false,false,"PostWeight",SqlCommonFn.DataColumnType.FLOAT,12),
-            new DataColumnInfo(false,true,false,false,"DestWeight",SqlCommonFn.DataColumnType.FLOAT,12),
+            new DataColumnInfo(false,true,false,false,"RecoWeight",SqlCommonFn.DataColumnType.DECIMAL,10),
+            new DataColumnInfo(false,true,false,false,"InvWeight",SqlCommonFn.DataColumnType.DECIMAL,10),
+            new DataColumnInfo(false,true,false,false,"PostWeight",SqlCommonFn.DataColumnType.DECIMAL,10),
+            new DataColumnInfo(false,true,false,false,"DestWeight",SqlCommonFn.DataColumnType.DECIMAL,10),
             new DataColumnInfo(false,true,false,false,"EntryDate",SqlCommonFn.DataColumnType.DATETIME,0),
             new DataColumnInfo(false,true,false,false,"Status",SqlCommonFn.DataColumnType.STRING,3),
             new DataColumnInfo(false,true,false,false,"DailyClose",SqlCommonFn.DataColumnType.BOOL,1)
@@ -100,10 +100,10 @@ namespace YRKJ.MWR
         private string _VendorCode = "";
         private string _Waste = "";
         private string _WasteCode = "";
-        private float _RecoWeight = 0;
-        private float _InvWeight = 0;
-        private float _PostWeight = 0;
-        private float _DestWeight = 0;
+        private decimal _RecoWeight = 0;
+        private decimal _InvWeight = 0;
+        private decimal _PostWeight = 0;
+        private decimal _DestWeight = 0;
         private DateTime _EntryDate = DateTime.MinValue;
         private string _Status = "";
         private bool _DailyClose = false;
@@ -185,7 +185,7 @@ namespace YRKJ.MWR
                 _WasteCode = value;
             }
         }
-        public float RecoWeight
+        public decimal RecoWeight
         {
             get
             {
@@ -196,7 +196,7 @@ namespace YRKJ.MWR
                 _RecoWeight = value;
             }
         }
-        public float InvWeight
+        public decimal InvWeight
         {
             get
             {
@@ -207,7 +207,7 @@ namespace YRKJ.MWR
                 _InvWeight = value;
             }
         }
-        public float PostWeight
+        public decimal PostWeight
         {
             get
             {
@@ -218,7 +218,7 @@ namespace YRKJ.MWR
                 _PostWeight = value;
             }
         }
-        public float DestWeight
+        public decimal DestWeight
         {
             get
             {

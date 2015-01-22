@@ -158,6 +158,11 @@ namespace ComLib.db.mysql
 
                 return val.ToString().Length > column.ColumnSize ? (column.ColumnSize == 0 ? 0 : 1) : 0;
             }
+            //else if (column.ColumnType == SqlCommonFn.DataColumnType.DECIMAL)
+            //{
+            //    decimal d = 1;
+               
+            //}
 
             //		if(!column.AllowNull && val == null){
             //			return 2;

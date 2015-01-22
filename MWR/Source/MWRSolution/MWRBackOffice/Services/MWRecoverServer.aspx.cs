@@ -6,6 +6,12 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using YRKJ.MWR.BackOffice.Business.Sys;
 using ComLib;
+using System.Text;
+using YRKJ.MWR.Business.BaseData;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using ComLib.Log;
+using YRKJ.MWR.Business.BO;
 
 namespace YRKJ.MWR.BackOffice.Services
 {
@@ -15,25 +21,44 @@ namespace YRKJ.MWR.BackOffice.Services
         
         private string _action = "";
         private string _value = "";
-        private string _accessKey = "[ server access key ]";
-        private string _secretKey = "[ server secret key ]";
+        private JObject _requestJO = null;
+        //private string _requestData = "";
+
+        //private string _accessKey = "[ server access key ]";
+        //private string _secretKey = "[ server secret key ]";
 
         private const string RequestMethod_RecoverInventorySubmit = "RecoverInventorySubmit";
 
+        protected string OutputText = "";
+
         protected void Page_Load(object sender, EventArgs e)
         {
-            string errMsg = "";
-            if (!IsPostBack)
+            try
             {
-                if (!InitPage(ref errMsg))
+                string errMsg = "";
+                if (!IsPostBack)
                 {
-                    // do error thing
-
-                    //Request.Headers.Get(
+                    if (!InitPage(ref errMsg))
+                    {
+                        // do error thing
+                        //OutputText = errMsg + @"\r\n" + _value;
+                        StringBuilder sb = new StringBuilder();
+                        sb.AppendLine(errMsg);
+                        sb.AppendLine(_value);
+                        OutputText = sb.ToString();
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                OutputText = ex.Message;
+                LogMng.GetLog().PrintError(ClassName, "Page_Load", ex);
+            }
+            finally
+            {
+            }
+            
 
-            //Request.HttpMethod
         }
 
         #region Events
@@ -59,24 +84,161 @@ namespace YRKJ.MWR.BackOffice.Services
 
         private bool LoadData(ref string errMsg)
         {
-            _action = WebAppFn.SafeFormString("action");
-            _value = WebAppFn.SafeFormString("value");
 
-            if (string.IsNullOrEmpty(_action) || string.IsNullOrEmpty(_value))
+            string requestData = "";
+            using (System.IO.StreamReader sr = new System.IO.StreamReader(Request.InputStream, Encoding.UTF8))
+            {
+                requestData = sr.ReadToEnd();
+                sr.Close();
+            }
+
+            #region valid request data
+            string Authorization = Request.Headers.Get("Authorization");// "";//MWR 
+            string assessKey = "";
+            string secretKey = "";
+            string reqEncryptStr = "";
+            if (string.IsNullOrEmpty(Authorization))
+            {
+                errMsg = LngRes.MSG_InvalidSubmit;
+                return false;
+            }
+            else
+            {
+                string[] vals = Authorization.TrimStart("MWR".ToCharArray()).Split(':');
+                if (vals == null)
+                {
+                    errMsg = LngRes.MSG_InvalidSubmit;
+                    return false;
+                }
+                else if (vals.Length != 2)
+                {
+                    errMsg = LngRes.MSG_InvalidSubmit;
+                    return false;
+                }
+
+                assessKey = vals[0].Trim();
+                reqEncryptStr = vals[1].Trim();
+
+                TblMWWorkStation ws = null;
+                if (!BaseDataMng.GetWSByAssessKey(assessKey, ref ws, ref errMsg))
+                {
+                    return false;
+                }
+                if (ws == null)
+                {
+                    errMsg = LngRes.MSG_InvalidAssessKey + " " + assessKey;
+                    return false;
+                }
+                secretKey = ws.SecretKey;
+
+               
+
+            }
+
+            //string _S_SECRET_KEY = ComLib.AuthorizationHelper.S_SECRET_KEY;
+            string reqMethod = Request.HttpMethod;
+            string contentType = Request.ContentType;
+            string date = Request.Headers.Get("Date");
+            string fullUrl = Request.Url.ToString();
+            string encryptStr = 
+                ComLib.AuthorizationHelper.EncryptWebBody(secretKey, reqMethod, contentType, date, fullUrl, requestData, Encoding.UTF8);
+
+            if (!reqEncryptStr.Equals(encryptStr))
+            {
+                errMsg = LngRes.MSG_InvalidSecretKey;
+                return false;
+            }
+            #endregion
+            OutputText = requestData;
+
+            _requestJO = (JObject)JsonConvert.DeserializeObject(requestData);
+            if (_requestJO == null)
             {
                 errMsg = LngRes.MSG_InvalidParams;
                 return false;
             }
+            _action = WebAppFn.SafeJsonToString("action", _requestJO);
+            _value = WebAppFn.SafeJsonToString("value", _requestJO);
+
+            //OutputText = _action + " " + RequestMethod_RecoverInventorySubmit + " " + _action.Equals(RequestMethod_RecoverInventorySubmit);
             return true;
         }
 
         private bool RecoverInventorySubmit(ref string errMsg)
         {
-            //_value;
-            string defineVal = ComFn.DecryptStringBy64(_value);
+            
+            //OutputText = _action + " | " + _value;
+
+            JObject jValue = (JObject)_requestJO["value"];
+            try
+            {
+
+                #region set data
+                TblMWTxnRecoverHeader txnHeader = new TblMWTxnRecoverHeader();
+                txnHeader.CarCode = WebAppFn.SafeJsonToString("carcode", jValue);
+                txnHeader.Driver = WebAppFn.SafeJsonToString("drvier", jValue);//= DemoData.GetInstance().Driver;
+                txnHeader.DriverCode = WebAppFn.SafeJsonToString("drivercode", jValue); //DemoData.GetInstance().DriverCode;
+                txnHeader.Inspector = WebAppFn.SafeJsonToString("inspector", jValue); //DemoData.GetInstance().Inspector;
+                txnHeader.InspectorCode = WebAppFn.SafeJsonToString("inspectorcode", jValue); //DemoData.GetInstance().InspectorCode;
+                txnHeader.RecoMWSCode = WebAppFn.SafeJsonToString("mwscode", jValue); //DemoData.GetInstance().MWSCode;
+
+                List<TblMWTxnDetail> txnDetailList = new List<TblMWTxnDetail>();
+                {
+                    JArray jTxnDtlList = (JArray)jValue["txndetaillist"];
+
+                    for (int i = 0; i < jTxnDtlList.Count; i++)
+                    {
+                        JObject jDtl = (JObject)jTxnDtlList[i];
+                        TblMWTxnDetail dtl = new TblMWTxnDetail();
+                        //dtl.TxnDetailId = WebAppFn.SafeJsonToString("TxnDetailId", jDtl);
+                        //dtl.TxnType = WebAppFn.SafeJsonToString("TxnType", jDtl);
+                        //dtl.TxnNum = WebAppFn.SafeJsonToString("TxnNum", jDtl);
+                        //dtl.WSCode = WebAppFn.SafeJsonToString("WSCode", jDtl);
+                        //dtl.EmpyName = WebAppFn.SafeJsonToString("EmpyName", jDtl);
+                        //dtl.EmpyCode = WebAppFn.SafeJsonToString("EmpyCode", jDtl);
+                        dtl.CrateCode = WebAppFn.SafeJsonToString("CrateCode", jDtl);
+                        dtl.Vendor = WebAppFn.SafeJsonToString("Vendor", jDtl);
+                        dtl.VendorCode = WebAppFn.SafeJsonToString("VendorCode", jDtl);
+                        dtl.Waste = WebAppFn.SafeJsonToString("Waste", jDtl);
+                        dtl.WasteCode = WebAppFn.SafeJsonToString("WasteCode", jDtl);
+                        dtl.SubWeight = ComFn.StringToDecimal(WebAppFn.SafeJsonToString("SubWeight", jDtl));
+                        //dtl.TxnWeight = WebAppFn.SafeJsonToString("TxnWeight", jDtl);
+                        //dtl.EntryDate = WebAppFn.SafeJsonToString("EntryDate", jDtl);
+                        //dtl.InvRecordId = WebAppFn.SafeJsonToString("InvRecordId", jDtl);
+                        //dtl.InvAuthId = WebAppFn.SafeJsonToString("InvAuthId", jDtl);
+                        //dtl.Status = WebAppFn.SafeJsonToString("Status", jDtl);
+
+                        txnDetailList.Add(dtl);
+                    }
+                }
+
+                if (!MWRWorkflowMng.RecoverToInventory(
+                    txnHeader.CarCode,
+                    txnHeader.DriverCode,
+                    txnHeader.InspectorCode,
+                    txnHeader.RecoMWSCode,
+                    txnDetailList, ref errMsg))
+                {
+                    return false;
+                }
+
+                OutputText = "Success";
+
+
+                #endregion 
+            }
+            catch (Exception ex)
+            {
+                errMsg = ex.Message;
+                LogMng.GetLog().PrintError(ClassName, "EventName", ex);
+                return false;
+            }
+            finally
+            {
+            }
 
             return true;
-            
+
         }
 
         #endregion
@@ -92,6 +254,9 @@ namespace YRKJ.MWR.BackOffice.Services
         {
             public const string MSG_FormName = "";
             public const string MSG_InvalidParams = "无效的提交参数";
+            public const string MSG_InvalidAssessKey = "无效的AssessKEY";
+            public const string MSG_InvalidSubmit = "无效的提交";
+            public const string MSG_InvalidSecretKey = "无效的提交数据";
         }
 
         public class HttpRequestHelper
@@ -106,3 +271,45 @@ namespace YRKJ.MWR.BackOffice.Services
         #endregion
     }
 }
+
+/*
+ <% = Request.ContentType  %>
+<br/ >
+<% = Request.Headers.Get("Date")%>
+<br/ >
+<% = Request.Url %>
+<br/ >
+<% = Request.HttpMethod %>
+<br/ >
+<% = Request.RawUrl %> == 1
+<br/ >
+<% 
+    string responseData = "";
+    using (System.IO.StreamReader sr = new System.IO.StreamReader(Request.InputStream, Encoding.UTF8))
+    {
+        responseData = sr.ReadToEnd();
+
+        sr.Close();
+    }
+%>
+<% = responseData %>  == 2
+<br />
+<% = Request.Headers.Get("Authorization")%>
+<br />
+<% 
+    string _S_SECRET_KEY = ComLib.AuthorizationHelper.S_SECRET_KEY;
+    string reqMethod = Request.HttpMethod;
+    string contentType = Request.ContentType;
+    string date = Request.Headers.Get("Date");
+    string fullUrl = Request.Url.ToString();
+    string encryptStr = "";
+    encryptStr = ComLib.AuthorizationHelper.EncryptWebBody(_S_SECRET_KEY, reqMethod, contentType, date, fullUrl, responseData, Encoding.UTF8);
+    
+    %>
+    <% = encryptStr %>
+ <br />
+
+ <% = Request.Form.Count %>
+  <br />
+<% = responseData%>
+ */

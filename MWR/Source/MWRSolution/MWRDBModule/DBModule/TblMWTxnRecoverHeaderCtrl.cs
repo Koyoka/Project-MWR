@@ -132,8 +132,8 @@ namespace YRKJ.MWR
             DateTime endDate,
             string operateType,
             int totalCrateQty,
-            float totalSubWeight,
-            float totalTxnWeight,
+            decimal totalSubWeight,
+            decimal totalTxnWeight,
             int carDisId,
             string status,
                 ref int _count,
@@ -197,11 +197,8 @@ namespace YRKJ.MWR
 
         public static bool Update(DataCtrlInfo dcf, TblMWTxnRecoverHeader item, SqlUpdateColumn suc, SqlWhere sw,ref int count,ref string errMsg)
         {
-            if (suc.Columns == null)
-                 return true;
-            if (suc.Columns.Length == 0)
-                 return true;
-            SetUpdateColumnValue(suc, item);
+            if (suc.Columns != null)
+                 SetUpdateColumnValue(suc, item);
             return Update(dcf, suc, sw, ref count, ref errMsg);
         }
 

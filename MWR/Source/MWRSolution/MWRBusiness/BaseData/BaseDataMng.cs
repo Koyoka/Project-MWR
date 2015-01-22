@@ -85,6 +85,25 @@ namespace YRKJ.MWR.Business.BaseData
         #endregion
 
         #region WS
+        public static bool GetWSByAssessKey(string assessKey,ref TblMWWorkStation ws, ref string errMsg)
+        {
+            ws = null;
+
+            DataCtrlInfo dcf = new DataCtrlInfo();
+
+            SqlQueryMng sqm = new SqlQueryMng();
+            sqm.Condition.Where.AddCompareValue(TblMWWorkStation.getAccessKeyColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, assessKey);
+
+            TblMWWorkStation item = null;
+            if (!TblMWWorkStationCtrl.QueryOne(dcf, sqm, ref item, ref errMsg))
+            {
+                return false;
+            }
+            ws = item;
+
+            return true;
+        }
+
         public static bool GetNoOutMobileWSDataList(ref List<TblMWWorkStation> dataList, ref string errMsg)
         {
             dataList = new List<TblMWWorkStation>();

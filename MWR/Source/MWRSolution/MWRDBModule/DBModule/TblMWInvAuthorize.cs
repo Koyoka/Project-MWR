@@ -29,10 +29,10 @@ namespace YRKJ.MWR
             new DataColumnInfo(false,true,false,false,"AuthEmpyCode",SqlCommonFn.DataColumnType.STRING,20),
             new DataColumnInfo(false,true,false,false,"AuthEmpyName",SqlCommonFn.DataColumnType.STRING,45),
             new DataColumnInfo(false,true,false,false,"Remark",SqlCommonFn.DataColumnType.STRING,45),
-            new DataColumnInfo(false,true,false,false,"SubWeight",SqlCommonFn.DataColumnType.FLOAT,12),
-            new DataColumnInfo(false,true,false,false,"TxnWeight",SqlCommonFn.DataColumnType.FLOAT,12),
-            new DataColumnInfo(false,true,false,false,"DiffWeight",SqlCommonFn.DataColumnType.FLOAT,12),
-            new DataColumnInfo(false,true,false,false,"EntryDate",SqlCommonFn.DataColumnType.DATETIME,0),
+            new DataColumnInfo(false,true,false,false,"SubWeight",SqlCommonFn.DataColumnType.DECIMAL,10),
+            new DataColumnInfo(false,true,false,false,"TxnWeight",SqlCommonFn.DataColumnType.DECIMAL,10),
+            new DataColumnInfo(false,true,false,false,"DiffWeight",SqlCommonFn.DataColumnType.DECIMAL,10),
+            new DataColumnInfo(false,true,false,false,"EntryDate",SqlCommonFn.DataColumnType.DATETIME,10),
             new DataColumnInfo(false,true,false,false,"CompDate",SqlCommonFn.DataColumnType.DATETIME,0),
             new DataColumnInfo(false,true,false,false,"Status",SqlCommonFn.DataColumnType.STRING,2)
         };
@@ -107,9 +107,9 @@ namespace YRKJ.MWR
         private string _AuthEmpyCode = "";
         private string _AuthEmpyName = "";
         private string _Remark = "";
-        private float _SubWeight = 0;
-        private float _TxnWeight = 0;
-        private float _DiffWeight = 0;
+        private decimal _SubWeight = 0;
+        private decimal _TxnWeight = 0;
+        private decimal _DiffWeight = 0;
         private DateTime _EntryDate = DateTime.MinValue;
         private DateTime _CompDate = DateTime.MinValue;
         private string _Status = "";
@@ -213,7 +213,7 @@ namespace YRKJ.MWR
                 _Remark = value;
             }
         }
-        public float SubWeight
+        public decimal SubWeight
         {
             get
             {
@@ -224,7 +224,7 @@ namespace YRKJ.MWR
                 _SubWeight = value;
             }
         }
-        public float TxnWeight
+        public decimal TxnWeight
         {
             get
             {
@@ -235,7 +235,7 @@ namespace YRKJ.MWR
                 _TxnWeight = value;
             }
         }
-        public float DiffWeight
+        public decimal DiffWeight
         {
             get
             {

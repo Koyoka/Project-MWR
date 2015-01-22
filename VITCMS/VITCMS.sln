@@ -3,27 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VITCMSApp", "VITCMSApp\VITCMSApp.csproj", "{0EE99726-81F7-4D7D-9750-94E668114316}"
 EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "testWeb", "..\testWeb", "{53123466-E53F-4D50-9D8C-00FA5054C680}"
-	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
-		Debug.AspNetCompiler.VirtualPath = "/testWeb"
-		Debug.AspNetCompiler.PhysicalPath = "..\testWeb\"
-		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\testWeb\"
-		Debug.AspNetCompiler.Updateable = "true"
-		Debug.AspNetCompiler.ForceOverwrite = "true"
-		Debug.AspNetCompiler.FixedNames = "false"
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.VirtualPath = "/testWeb"
-		Release.AspNetCompiler.PhysicalPath = "..\testWeb\"
-		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\testWeb\"
-		Release.AspNetCompiler.Updateable = "true"
-		Release.AspNetCompiler.ForceOverwrite = "true"
-		Release.AspNetCompiler.FixedNames = "false"
-		Release.AspNetCompiler.Debug = "False"
-		VWDPort = "1242"
-		DefaultWebSiteLanguage = "Visual C#"
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,16 +23,6 @@ Global
 		{0EE99726-81F7-4D7D-9750-94E668114316}.Release|Mixed Platforms.Build.0 = Release|x86
 		{0EE99726-81F7-4D7D-9750-94E668114316}.Release|x86.ActiveCfg = Release|x86
 		{0EE99726-81F7-4D7D-9750-94E668114316}.Release|x86.Build.0 = Release|x86
-		{53123466-E53F-4D50-9D8C-00FA5054C680}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{53123466-E53F-4D50-9D8C-00FA5054C680}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{53123466-E53F-4D50-9D8C-00FA5054C680}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{53123466-E53F-4D50-9D8C-00FA5054C680}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{53123466-E53F-4D50-9D8C-00FA5054C680}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{53123466-E53F-4D50-9D8C-00FA5054C680}.Release|Any CPU.ActiveCfg = Debug|Any CPU
-		{53123466-E53F-4D50-9D8C-00FA5054C680}.Release|Any CPU.Build.0 = Debug|Any CPU
-		{53123466-E53F-4D50-9D8C-00FA5054C680}.Release|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{53123466-E53F-4D50-9D8C-00FA5054C680}.Release|Mixed Platforms.Build.0 = Debug|Any CPU
-		{53123466-E53F-4D50-9D8C-00FA5054C680}.Release|x86.ActiveCfg = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -25,11 +25,8 @@ namespace ComLib
                     byte[] md5Byte = md5.ComputeHash(encoding.GetBytes(body));
                     hexDigest = BitConverter.ToString(md5Byte).Replace("-", "").ToLower();
                 }
+                
             }
-            //string method = request.Method;
-            //string contentType = request.ContentType;
-            //string dateValue = request.Headers.Get("Date");
-            //string requestPath = request.RequestUri.LocalPath;// "/targets/4e4149c38c164e209e813028ea79ef06";//r.RequestUri.Host;04-23 13:36:14.540: D/(3942): /targets/4e4149c38c164e209e813028ea79ef06
             string toDigest = method + "\n" + hexDigest + "\n" + contentType + "\n" + dateValue + "\n" + requestPath;
             return ComFn.CalculateRFC2104HMAC(secretKey, toDigest);
         }

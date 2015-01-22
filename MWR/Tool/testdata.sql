@@ -31,18 +31,18 @@ VALUES('YG0008','李6-跟车',0,'I','ls6','1');
 
 -- 工作站基础数据
 DELETE FROM `mwworkstation`;
-INSERT INTO `mwworkstation`(`WSCode`,`Desc`,`WSType`)
-VALUES('WS001','处置工作站','D');
-INSERT INTO `mwworkstation`(`WSCode`,`Desc`,`WSType`)
-VALUES('WS002','库存工作站','I');
-INSERT INTO `mwworkstation`(`WSCode`,`Desc`,`WSType`)
-VALUES('MWS001','手机终端1','M');
-INSERT INTO `mwworkstation`(`WSCode`,`Desc`,`WSType`)
-VALUES('MWS002','手机终端2','M');
-INSERT INTO `mwworkstation`(`WSCode`,`Desc`,`WSType`)
-VALUES('MWS003','手机终端3','M');
-INSERT INTO `mwworkstation`(`WSCode`,`Desc`,`WSType`)
-VALUES('MWS004','手机终端4','M');
+INSERT INTO `mwworkstation`(`WSCode`,`Desc`,`WSType`, `AccessKey`, `SecretKey`)
+VALUES('WS001','处置工作站','D','9e15f4f7d6fdc178eeab8caf79d863054bdfea78','ae46214f1ee0269f7eb5126895ff166f02ede4f1');
+INSERT INTO `mwworkstation`(`WSCode`,`Desc`,`WSType`, `AccessKey`, `SecretKey`)
+VALUES('WS002','库存工作站','I','9e15f4f7d6fdc178eeab8caf79d863054bdfea78','ae46214f1ee0269f7eb5126895ff166f02ede4f1');
+INSERT INTO `mwworkstation`(`WSCode`,`Desc`,`WSType`, `AccessKey`, `SecretKey`)
+VALUES('MWS001','手机终端1','M','9e15f4f7d6fdc178eeab8caf79d863054bdfea78','ae46214f1ee0269f7eb5126895ff166f02ede4f1');
+INSERT INTO `mwworkstation`(`WSCode`,`Desc`,`WSType`, `AccessKey`, `SecretKey`)
+VALUES('MWS002','手机终端2','M','9e15f4f7d6fdc178eeab8caf79d863054bdfea78','ae46214f1ee0269f7eb5126895ff166f02ede4f1');
+INSERT INTO `mwworkstation`(`WSCode`,`Desc`,`WSType`, `AccessKey`, `SecretKey`)
+VALUES('MWS003','手机终端3','M','9e15f4f7d6fdc178eeab8caf79d863054bdfea78','ae46214f1ee0269f7eb5126895ff166f02ede4f1');
+INSERT INTO `mwworkstation`(`WSCode`,`Desc`,`WSType`, `AccessKey`, `SecretKey`)
+VALUES('MWS004','手机终端4','M','9e15f4f7d6fdc178eeab8caf79d863054bdfea78','ae46214f1ee0269f7eb5126895ff166f02ede4f1');
 
 -- 货箱基础数据
 DELETE FROM `MWCrate`;

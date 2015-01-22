@@ -119,10 +119,10 @@ namespace YRKJ.MWR
             string vendorCode,
             string waste,
             string wasteCode,
-            float recoWeight,
-            float invWeight,
-            float postWeight,
-            float destWeight,
+            decimal recoWeight,
+            decimal invWeight,
+            decimal postWeight,
+            decimal destWeight,
             DateTime entryDate,
             string status,
             bool dailyClose,
@@ -177,11 +177,8 @@ namespace YRKJ.MWR
 
         public static bool Update(DataCtrlInfo dcf, TblMWInventory item, SqlUpdateColumn suc, SqlWhere sw,ref int count,ref string errMsg)
         {
-            if (suc.Columns == null)
-                 return true;
-            if (suc.Columns.Length == 0)
-                 return true;
-            SetUpdateColumnValue(suc, item);
+            if (suc.Columns != null)
+                 SetUpdateColumnValue(suc, item);
             return Update(dcf, suc, sw, ref count, ref errMsg);
         }
 

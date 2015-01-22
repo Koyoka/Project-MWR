@@ -119,8 +119,8 @@ namespace YRKJ.MWR
             DateTime endDate,
             string postType,
             int totalCrateQty,
-            float totalSubWeight,
-            float totalTxnWeight,
+            decimal totalSubWeight,
+            decimal totalTxnWeight,
             string status,
                 ref int _count,
                 ref string _errMsg
@@ -169,11 +169,8 @@ namespace YRKJ.MWR
 
         public static bool Update(DataCtrlInfo dcf, TblMWTxnPostHeader item, SqlUpdateColumn suc, SqlWhere sw,ref int count,ref string errMsg)
         {
-            if (suc.Columns == null)
-                 return true;
-            if (suc.Columns.Length == 0)
-                 return true;
-            SetUpdateColumnValue(suc, item);
+            if (suc.Columns != null)
+                 SetUpdateColumnValue(suc, item);
             return Update(dcf, suc, sw, ref count, ref errMsg);
         }
 

@@ -34,8 +34,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json.Net20">
-      <HintPath>..\Lib\Newtonsoft.Json.Net20.dll</HintPath>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\Lib\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -74,6 +74,12 @@
     <Compile Include="FrmScannerConfirm.Designer.cs">
       <DependentUpon>FrmScannerConfirm.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmText.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmText.Designer.cs">
+      <DependentUpon>FrmText.cs</DependentUpon>
+    </Compile>
     <Compile Include="MWHttpSendHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -88,6 +94,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FrmScannerConfirm.resx">
       <DependentUpon>FrmScannerConfirm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmText.resx">
+      <DependentUpon>FrmText.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

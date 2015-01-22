@@ -17,6 +17,10 @@ namespace ComLib.db
 
         protected static void SetUpdateColumnValue<T>(SqlUpdateColumn suc, T t) where T : BaseDataModule,new()
         {
+            if (suc.Columns == null)
+            {
+                return;
+            }
             System.Reflection.PropertyInfo[] propertys = t.GetType().GetProperties();
             foreach (DataColumnInfo dataInfo in suc.Columns)
             {

@@ -15,11 +15,11 @@ namespace MobilePhoneDemoApp
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            string errMsg = "";
-            string resData = "";
-            MWHttpSendHelper.SendTxn(ref resData,ref errMsg);
-            MessageBox.Show(resData);
-            return;
+            //string errMsg = "";
+            //string resData = "";
+            //MWHttpSendHelper.SendTxn(ref resData,ref errMsg);
+            //MessageBox.Show(resData);
+            //return;
             //int nextId = 121;
             //string s = "";
             //string TxnNumMask = "xxHX###";
@@ -43,7 +43,7 @@ namespace MobilePhoneDemoApp
                 return;
             }
 
-            if (args.Length != 3)
+            if (args.Length != 4)
             {
                 MessageBox.Show("请配置[司机][跟车员]的员工编号");
                 return;
@@ -60,7 +60,7 @@ namespace MobilePhoneDemoApp
                        "-101868"));
             #endregion
 
-            using (FrmInitData f = new FrmInitData(args[0], args[1], args[2]))
+            using (FrmInitData f = new FrmInitData(args[0], args[1], args[2],args[3]))
             {
                 if (f.ShowDialog() != DialogResult.OK)
                 {

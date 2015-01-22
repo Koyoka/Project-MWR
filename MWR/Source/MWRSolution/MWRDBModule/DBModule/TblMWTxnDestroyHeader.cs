@@ -28,8 +28,8 @@ namespace YRKJ.MWR
             new DataColumnInfo(false,true,false,false,"DestEmpyName",SqlCommonFn.DataColumnType.STRING,45),
             new DataColumnInfo(false,true,false,false,"DestEmpyCode",SqlCommonFn.DataColumnType.STRING,20),
             new DataColumnInfo(false,true,false,false,"TotalCrateQty",SqlCommonFn.DataColumnType.INT,10),
-            new DataColumnInfo(false,true,false,false,"TotalSubWeight",SqlCommonFn.DataColumnType.FLOAT,12),
-            new DataColumnInfo(false,true,false,false,"TotalTxnWeight",SqlCommonFn.DataColumnType.FLOAT,12),
+            new DataColumnInfo(false,true,false,false,"TotalSubWeight",SqlCommonFn.DataColumnType.DECIMAL,10),
+            new DataColumnInfo(false,true,false,false,"TotalTxnWeight",SqlCommonFn.DataColumnType.DECIMAL,10),
             new DataColumnInfo(false,true,false,false,"Status",SqlCommonFn.DataColumnType.STRING,2)
         };
 
@@ -86,8 +86,8 @@ namespace YRKJ.MWR
         private string _DestEmpyName = "";
         private string _DestEmpyCode = "";
         private int _TotalCrateQty = 0;
-        private float _TotalSubWeight = 0;
-        private float _TotalTxnWeight = 0;
+        private decimal _TotalSubWeight = 0;
+        private decimal _TotalTxnWeight = 0;
         private string _Status = "";
 
         public int DestHeaderId
@@ -178,7 +178,7 @@ namespace YRKJ.MWR
                 _TotalCrateQty = value;
             }
         }
-        public float TotalSubWeight
+        public decimal TotalSubWeight
         {
             get
             {
@@ -189,7 +189,7 @@ namespace YRKJ.MWR
                 _TotalSubWeight = value;
             }
         }
-        public float TotalTxnWeight
+        public decimal TotalTxnWeight
         {
             get
             {

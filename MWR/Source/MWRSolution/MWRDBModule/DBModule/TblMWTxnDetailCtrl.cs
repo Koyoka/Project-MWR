@@ -126,8 +126,8 @@ namespace YRKJ.MWR
             string vendorCode,
             string waste,
             string wasteCode,
-            float subWeight,
-            float txnWeight,
+            decimal subWeight,
+            decimal txnWeight,
             DateTime entryDate,
             int invRecordId,
             int invAuthId,
@@ -189,11 +189,8 @@ namespace YRKJ.MWR
 
         public static bool Update(DataCtrlInfo dcf, TblMWTxnDetail item, SqlUpdateColumn suc, SqlWhere sw,ref int count,ref string errMsg)
         {
-            if (suc.Columns == null)
-                 return true;
-            if (suc.Columns.Length == 0)
-                 return true;
-            SetUpdateColumnValue(suc, item);
+            if (suc.Columns != null)
+                 SetUpdateColumnValue(suc, item);
             return Update(dcf, suc, sw, ref count, ref errMsg);
         }
 

@@ -90,10 +90,18 @@ namespace ComLib.db
 		    if(hasErr){
 			    return null;
 		    }
-    		
+
+            if (buildSqlList.Count == 0)
+            {
+                ErrMsg = "no column add to update";
+                return null;
+            }
+
 		    bool hasBeanAppend = false;
 		    StringBuilder sb = new StringBuilder();
-    		
+
+            
+
 		    foreach(string s in buildSqlList){
 			    if(hasBeanAppend){
 				    sb.Append(",");

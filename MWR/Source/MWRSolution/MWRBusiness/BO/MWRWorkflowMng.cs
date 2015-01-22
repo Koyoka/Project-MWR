@@ -127,7 +127,7 @@ namespace YRKJ.MWR.Business.BO
 
         #region 2.1 send txnheader,car recover resposne inv workstation
 
-        public static bool recoverToInventory(
+        public static bool RecoverToInventory(
             string carCode,
             string driverCode,
             string inspectorCode,
@@ -136,11 +136,22 @@ namespace YRKJ.MWR.Business.BO
             ref string errMsg)
         {
 
+            if (txnDetailList == null)
+            {
+                errMsg = "没有扫描的货箱数据";
+                return false;
+            }
+            if (txnDetailList.Count == 0)
+            {
+                errMsg = "没有扫描的货箱数据";
+                return false;
+            }
+
             string driver = "";
             string inspector = "";
 
-            float totalSubWeight = 0;
-            float totalCrateQty = 0;
+            decimal totalSubWeight = 0;
+            decimal totalCrateQty = 0;
             TblMWCarDispatch carDispatchInfo = null;
             #region get moblie workstation base data
             {
@@ -374,18 +385,18 @@ namespace YRKJ.MWR.Business.BO
         #endregion
 
         #region data search
-        public static bool GetTodayCarDispatchDataList(int page, int pageSize, ref long pageCount, ref long rowCount, ref List<TblMWCarDispatch> dataList, ref string errMsg)
+        public static bool GetNoCloseCarDispatchDataList(int page, int pageSize, ref long pageCount, ref long rowCount, ref List<TblMWCarDispatch> dataList, ref string errMsg)
         {
             DataCtrlInfo dcf = new DataCtrlInfo();
 
             SqlQueryMng sqm = new SqlQueryMng();
 
-            DateTime today = SqlDBMng.GetDBNow();
-            sqm.Condition.Where.AddDateTimeCompareValue(
-                TblMWCarDispatch.getOutDateColumn(), 
-                SqlCommonFn.SqlWhereCompareEnum.Equals, 
-                today, 
-                SqlCommonFn.SqlWhereDateTimeFormatEnum.YMD);
+            //DateTime today = SqlDBMng.GetDBNow();
+            //sqm.Condition.Where.AddDateTimeCompareValue(
+            //    TblMWCarDispatch.getOutDateColumn(), 
+            //    SqlCommonFn.SqlWhereCompareEnum.Equals, 
+            //    today, 
+            //    SqlCommonFn.SqlWhereDateTimeFormatEnum.YMD);
             sqm.Condition.Where.AddCompareValue(TblMWCarDispatch.getStatusColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, TblMWCarDispatch.STATUS_ENUM_ShiftStrat);
             
             if (!TblMWCarDispatchCtrl.QueryPage(dcf, sqm, page, pageSize, ref dataList, ref errMsg))

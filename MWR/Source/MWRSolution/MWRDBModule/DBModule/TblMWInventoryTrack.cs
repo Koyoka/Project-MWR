@@ -31,8 +31,8 @@ namespace YRKJ.MWR
             new DataColumnInfo(false,true,false,false,"VendorCode",SqlCommonFn.DataColumnType.STRING,20),
             new DataColumnInfo(false,true,false,false,"Waste",SqlCommonFn.DataColumnType.STRING,45),
             new DataColumnInfo(false,true,false,false,"WasteCode",SqlCommonFn.DataColumnType.STRING,20),
-            new DataColumnInfo(false,true,false,false,"SubWeight",SqlCommonFn.DataColumnType.FLOAT,12),
-            new DataColumnInfo(false,true,false,false,"TxnWeight",SqlCommonFn.DataColumnType.FLOAT,12),
+            new DataColumnInfo(false,true,false,false,"SubWeight",SqlCommonFn.DataColumnType.DECIMAL,10),
+            new DataColumnInfo(false,true,false,false,"TxnWeight",SqlCommonFn.DataColumnType.DECIMAL,10),
             new DataColumnInfo(false,true,false,false,"WSCode",SqlCommonFn.DataColumnType.STRING,20),
             new DataColumnInfo(false,true,false,false,"EmpyName",SqlCommonFn.DataColumnType.STRING,45),
             new DataColumnInfo(false,true,false,false,"EmpyCode",SqlCommonFn.DataColumnType.STRING,20),
@@ -129,8 +129,8 @@ namespace YRKJ.MWR
         private string _VendorCode = "";
         private string _Waste = "";
         private string _WasteCode = "";
-        private float _SubWeight = 0;
-        private float _TxnWeight = 0;
+        private decimal _SubWeight = 0;
+        private decimal _TxnWeight = 0;
         private string _WSCode = "";
         private string _EmpyName = "";
         private string _EmpyCode = "";
@@ -259,7 +259,7 @@ namespace YRKJ.MWR
                 _WasteCode = value;
             }
         }
-        public float SubWeight
+        public decimal SubWeight
         {
             get
             {
@@ -270,7 +270,7 @@ namespace YRKJ.MWR
                 _SubWeight = value;
             }
         }
-        public float TxnWeight
+        public decimal TxnWeight
         {
             get
             {

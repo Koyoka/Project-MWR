@@ -1,12 +1,19 @@
-T mwcardispatch
-C CarDisId 1 0 0 int 10 0  int(11) 
-C CarCode 0 1 0 varchar 20 0  varchar(20) 
-C Driver 0 1 0 varchar 45 0  varchar(45) 
-C DriverCode 0 1 0 varchar 20 0  varchar(20) 
-C Inspector 0 1 0 varchar 45 0  varchar(45) 
-C InspectorCode 0 1 0 varchar 20 0  varchar(20) 
-C RecoMWSCode 0 1 0 varchar 20 0  varchar(20) 
-C OutDate 0 1 0 datetime 0 0  datetime 
-C InDate 0 1 0 datetime 0 0  datetime 
+T mwtxndetail
+C TxnDetailId 1 0 0 int 10 0  int(11) 
+C TxnType 0 1 0 varchar 2 0  varchar(2) 
+C TxnNum 0 1 0 varchar 20 0  varchar(20) 
+C WSCode 0 1 0 varchar 20 0  varchar(20) 
+C EmpyName 0 1 0 varchar 45 0  varchar(45) 
+C EmpyCode 0 1 0 varchar 20 0  varchar(20) 
+C CrateCode 0 1 0 varchar 20 0  varchar(20) 
+C Vendor 0 1 0 varchar 45 0  varchar(45) 
+C VendorCode 0 1 0 varchar 20 0  varchar(20) 
+C Waste 0 1 0 varchar 45 0  varchar(45) 
+C WasteCode 0 1 0 varchar 20 0  varchar(20) 
+C SubWeight 0 1 0 decimal 2 0  decimal(2,0) 
+C TxnWeight 0 1 0 decimal 2 0  decimal(2,0) 
+C EntryDate 0 1 0 datetime 0 0  datetime 
+C InvRecordId 0 1 0 int 10 0  int(11) 
+C InvAuthId 0 1 0 int 10 0  int(11) 
 C Status 0 1 0 varchar 2 0  varchar(2) 
 

@@ -95,6 +95,8 @@ namespace YRKJ.MWR
                 item.WSCode,
                 item.Desc,
                 item.WSType,
+                item.AccessKey,
+                item.SecretKey,
                     ref count,
                     ref errMsg
                     );
@@ -104,6 +106,8 @@ namespace YRKJ.MWR
             string wSCode,
             string desc,
             string wSType,
+            string accessKey,
+            string secretKey,
                 ref int _count,
                 ref string _errMsg
                 )
@@ -113,6 +117,8 @@ namespace YRKJ.MWR
             sum.Add(TblMWWorkStation.getWSCodeColumn(), wSCode);
             sum.Add(TblMWWorkStation.getDescColumn(), desc);
             sum.Add(TblMWWorkStation.getWSTypeColumn(), wSType);
+            sum.Add(TblMWWorkStation.getAccessKeyColumn(), accessKey);
+            sum.Add(TblMWWorkStation.getSecretKeyColumn(), secretKey);
             string sql = sum.getInsertSql();
             if (sql == null)
             {
@@ -128,16 +134,15 @@ namespace YRKJ.MWR
             suc.Add(TblMWWorkStation.getWSCodeColumn(), item.WSCode);
             suc.Add(TblMWWorkStation.getDescColumn(), item.Desc);
             suc.Add(TblMWWorkStation.getWSTypeColumn(), item.WSType);
+            suc.Add(TblMWWorkStation.getAccessKeyColumn(), item.AccessKey);
+            suc.Add(TblMWWorkStation.getSecretKeyColumn(), item.SecretKey);
             return Update(dcf, suc, sw, ref count, ref errMsg);
         }
 
         public static bool Update(DataCtrlInfo dcf, TblMWWorkStation item, SqlUpdateColumn suc, SqlWhere sw,ref int count,ref string errMsg)
         {
-            if (suc.Columns == null)
-                 return true;
-            if (suc.Columns.Length == 0)
-                 return true;
-            SetUpdateColumnValue(suc, item);
+            if (suc.Columns != null)
+                 SetUpdateColumnValue(suc, item);
             return Update(dcf, suc, sw, ref count, ref errMsg);
         }
 

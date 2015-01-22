@@ -40,6 +40,8 @@
             this.label5 = new System.Windows.Forms.Label();
             this.c_labInspector = new System.Windows.Forms.Label();
             this.button5 = new System.Windows.Forms.Button();
+            this.lable4 = new System.Windows.Forms.Label();
+            this.c_labCarCode = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // button1
@@ -161,6 +163,26 @@
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
+            // lable4
+            // 
+            this.lable4.AutoSize = true;
+            this.lable4.BackColor = System.Drawing.Color.White;
+            this.lable4.Location = new System.Drawing.Point(39, 146);
+            this.lable4.Name = "lable4";
+            this.lable4.Size = new System.Drawing.Size(44, 17);
+            this.lable4.TabIndex = 1;
+            this.lable4.Text = "车辆：";
+            // 
+            // c_labCarCode
+            // 
+            this.c_labCarCode.AutoSize = true;
+            this.c_labCarCode.BackColor = System.Drawing.Color.White;
+            this.c_labCarCode.Location = new System.Drawing.Point(101, 146);
+            this.c_labCarCode.Name = "c_labCarCode";
+            this.c_labCarCode.Size = new System.Drawing.Size(26, 17);
+            this.c_labCarCode.TabIndex = 2;
+            this.c_labCarCode.Text = "xxx";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -169,9 +191,11 @@
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(350, 645);
             this.Controls.Add(this.button5);
+            this.Controls.Add(this.c_labCarCode);
             this.Controls.Add(this.c_labInspector);
             this.Controls.Add(this.c_labDriver);
             this.Controls.Add(this.c_labMWSCode);
+            this.Controls.Add(this.lable4);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label1);
@@ -203,6 +227,8 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label c_labInspector;
         private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Label lable4;
+        private System.Windows.Forms.Label c_labCarCode;
     }
 }
 

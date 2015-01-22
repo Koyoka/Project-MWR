@@ -64,6 +64,28 @@ namespace YRKJ.MWR.BackOffice.Business.Sys
 
         #endregion
 
+        #region json
+        public static string SafeJsonToString(string key,Newtonsoft.Json.Linq.JObject jo)
+        {
+            if (jo == null)
+            {
+                return "";
+            }
+            try
+            {
+                if (jo[key] == null)
+                {
+                    return null;
+                }
+                return jo[key].ToString();
+            }
+            catch (Exception ex)
+            {
+                return "";
+            }
+        }
+        #endregion
+
         public static string GetCurrentPageName()
         { 
             string currentFilePath = HttpContext.Current.Request.FilePath; 

@@ -193,6 +193,32 @@ namespace ComLib
             }
         }
 
+        public static float StringToFloat(string s)
+        {
+            try
+            {
+                return float.Parse(s);
+            }
+            catch
+            {
+                //System.Diagnostics.Debug.WriteLine(ex.Message);
+                return 0;
+            }
+        }
+        public static bool StringToFloatUnSafe(string s,ref float v)
+        {
+            try
+            {
+                v = float.Parse(s);
+                return true;
+            }
+            catch
+            {
+                //System.Diagnostics.Debug.WriteLine(ex.Message);
+                return false;
+            }
+        }
+
         public static decimal StringToDecimal(string s)
         {
             try
