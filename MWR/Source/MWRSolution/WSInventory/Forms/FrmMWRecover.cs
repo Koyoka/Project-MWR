@@ -9,6 +9,10 @@ using System.Windows.Forms;
 using YRKJ.MWR.WinBase.WinAppBase;
 using ComLib.Log;
 using YRKJ.MWR.WinBase.WinUtility;
+using YRKJ.MWR.Business.WS;
+using ComLib;
+using YRKJ.MWR.Business;
+using YRKJ.MWR.WSInventory.Business.Sys;
 
 namespace YRKJ.MWR.WSInventory.Forms
 {
@@ -16,8 +20,9 @@ namespace YRKJ.MWR.WSInventory.Forms
     {
         private const string ClassName = "YRKJ.MWR.WSInventory.Forms.FrmMWRevocer";
         private FormMng _frmMng = null;
-
         private FrmMain _frmMain = null;
+
+        private BindingList<GridMWRecoverData> _gridMWRecoverData = new BindingList<GridMWRecoverData>();
 
         public FrmMWRecover()
         {
@@ -41,15 +46,15 @@ namespace YRKJ.MWR.WSInventory.Forms
             try
             {
                 this.Cursor = Cursors.WaitCursor;
-
+                string errMsg = "";
                 //WinFn.SafeFocusAndSelectAll(textBox1);
 
-                if (!InitFrm())
+                if (!InitFrm(ref errMsg))
                 {
                     return;
                 }
 
-                if (!InitCtrls())
+                if (!InitCtrls(ref errMsg))
                 {
                     return;
                 }
@@ -71,8 +76,15 @@ namespace YRKJ.MWR.WSInventory.Forms
             try
             {
                 this.Cursor = Cursors.WaitCursor;
-                //WinFn.SafeFocusAndSelectAll(textBox1);
-
+                
+                string errMsg = "";
+                _gridMWRecoverData.Clear();
+                if (!LoadData(ref errMsg))
+                {
+                    MsgBox.Error(errMsg);
+                    return;
+                }
+                
             }
             catch (Exception ex)
             {
@@ -90,24 +102,27 @@ namespace YRKJ.MWR.WSInventory.Forms
             try
             {
                 this.Cursor = Cursors.WaitCursor;
+                string errMsg = "";
+
+                GridMWRecoverData data = c_grdMWRecover.CurrentRow.DataBoundItem as GridMWRecoverData;
+                if (data == null)
+                {
+                    return;
+                }
+                
+                string wscode = SysInfo.GetInstance().Config.WSCode;
+                string empyCode = SysInfo.GetInstance().Employ.EmpyCode;
+                if(!TxnMng.BeginOperateTxn(data.TxnNum,wscode,empyCode,ref errMsg))
+                {
+                    MsgBox.Show(errMsg);
+                    return;
+                }
+
                 if (_frmMain != null)
                 {
-                    string defineRecoNum = "WF00001";
+                    string defineRecoNum = data.TxnNum;
                     _frmMain.ShowFrom(FrmMain.TabToggleEnum.RECOVE_RDETAIL, new FrmMWRecoverDetail(_frmMain, defineRecoNum));
-                    //FrmMWRecoverDetail f = new FrmMWRecoverDetail();
-                    //this.Tag = f;
-                    //_frmMain.ShowInMdiForm(f);
                 }
-               
-                //{
-                //    //f.ShowDialog();
-                //    f.MdiParent = this.MdiParent;
-                //    f.WindowState = FormWindowState.Maximized;
-                //    //f.Parent = this.Parent;
-                //    f.FormBorderStyle = FormBorderStyle.None;
-                //    f.Show();
-                //}
-
             }
             catch (Exception ex)
             {
@@ -123,9 +138,9 @@ namespace YRKJ.MWR.WSInventory.Forms
 
         #region Functions
 
-        private bool InitFrm()
+        private bool InitFrm(ref string errMsg)
         {
-            if (!LoadData())
+            if (!LoadData(ref errMsg))
                 return false;
 
 
@@ -133,7 +148,7 @@ namespace YRKJ.MWR.WSInventory.Forms
             return true;
         }
 
-        private bool InitCtrls()
+        private bool InitCtrls(ref string errMsg)
         {
             c_grdMWRecover_C_CarCode.DataPropertyName = "CarCode";
             c_grdMWRecover_C_Driver.DataPropertyName = "Driver";
@@ -146,28 +161,35 @@ namespace YRKJ.MWR.WSInventory.Forms
             c_grdMWRecover_C_Status.DataPropertyName = "Status";
 
             c_grdMWRecover.DataSource = _gridMWRecoverData;
-
+            c_labHeaderCount.Text = _gridMWRecoverData.Count + "";
             return true;
         }
-        BindingList<GridMWRecoverData> _gridMWRecoverData = new BindingList<GridMWRecoverData>();
-        private bool LoadData()
+      
+        private bool LoadData(ref string errMsg)
         {
-
-            for (int i = 0; i < 4; i++)
+            string wscode = SysInfo.GetInstance().Config.WSCode;
+            List<VewTxnHeaderWithCarDispatch> headerList = null;
+            if (!TxnMng.GetRecoverToInvTxnList(wscode,ref headerList, ref errMsg))
+            {
+                return false;
+            }
+            foreach (VewTxnHeaderWithCarDispatch data in headerList)
             {
                 GridMWRecoverData item = new GridMWRecoverData();
-                item.CarCode = "A0000" + i;
-                item.Driver = "司机" + i;
-                item.Inspector = "跟车员";
-                item.OutDate = "2015-01-01 12:00:00";
-                item.InDate = "2015-01-01 12:00:00";
-                item.StratDate = "2015-01-01 12:00:00";
-                item.Status = "OK";
+                item.TxnNum = data.TxnNum;
+                item.CarCode = data.CarCode ;
+                item.Driver = data.Driver;
+                item.Inspector = data.Inspector;
+                item.TotalCount = data.TotalCrateQty;
+                item.TotalWeight = data.TotalSubWeight;
+                item.OutDate = ComFn.DateTimeToString(data.OutDate,"yyyy-MM-dd HH:mm");
+                item.InDate = ComFn.DateTimeToString(data.InDate, "yyyy-MM-dd HH:mm");
+                item.StratDate = ComFn.DateTimeToString(data.StratDate, "yyyy-MM-dd HH:mm");
+                item.Status = BizHelper.GetTxnRecoverHeaderStatus(data.Status);
                 _gridMWRecoverData.Add(item);
             }
             return true;
         }
-
 
         #endregion
 
@@ -180,6 +202,7 @@ namespace YRKJ.MWR.WSInventory.Forms
 
         private class GridMWRecoverData
         {
+            public string TxnNum = "";
             private string _carCode = "";
             public string CarCode
             {
@@ -236,8 +259,8 @@ namespace YRKJ.MWR.WSInventory.Forms
                 set { _totalCount = value; }
             }
 
-            private float _totalWeight = 0;
-            public float TotalWeight
+            private decimal _totalWeight = 0;
+            public decimal TotalWeight
             {
                 get { return _totalWeight; }
                 set { _totalWeight = value; }

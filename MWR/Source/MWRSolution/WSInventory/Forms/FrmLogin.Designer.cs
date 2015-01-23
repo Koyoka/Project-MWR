@@ -108,6 +108,7 @@
             this.c_txtUserId.Name = "c_txtUserId";
             this.c_txtUserId.Size = new System.Drawing.Size(271, 25);
             this.c_txtUserId.TabIndex = 0;
+            this.c_txtUserId.Text = "YG0008";
             // 
             // label4
             // 

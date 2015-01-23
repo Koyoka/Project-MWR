@@ -354,6 +354,7 @@ namespace YRKJ.MWR
         public const string STATUS_ENUM_Process = "P";//操作中;
         public const string STATUS_ENUM_Complete = "C";//完成;
         public const string STATUS_ENUM_Authorize = "A";//提交审核;
+        public const string STATUS_ENUM_Send = "S";//提交等待处理;
 
     }
 }

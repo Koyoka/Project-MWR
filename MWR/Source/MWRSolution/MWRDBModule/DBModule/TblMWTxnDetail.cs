@@ -318,10 +318,10 @@ namespace YRKJ.MWR
         public const string TXNTYPE_ENUM_Recover = "R";//回收入库交易;
         public const string TXNTYPE_ENUM_Post = "P";//出库交易;
         public const string TXNTYPE_ENUM_Destroy = "D";//处置销毁交易;
-        public const string TXNTYPE_ENUM_Submit = "S";//终端提交;
         public const string STATUS_ENUM_Complete = "C";//1.交易完成 ;
         public const string STATUS_ENUM_Authorize = "A";//2.交易货箱审核中 ;
         public const string STATUS_ENUM_Wait = "W";//3.交易货箱审核完成，等待确认;
+        public const string STATUS_ENUM_Process = "P";//交易处理中;
 
     }
 }

@@ -41,6 +41,18 @@ namespace YRKJ.MWR.Business.BaseData
         #endregion
 
         #region Employ
+        public static bool GetEmpyData(string code, ref TblMWEmploy empy, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+
+            SqlQueryMng sqm = new SqlQueryMng();
+            sqm.Condition.Where.AddCompareValue(TblMWEmploy.getEmpyCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, code);
+            if (!TblMWEmployCtrl.QueryOne(dcf, sqm, ref empy, ref errMsg))
+            {
+                return false;
+            }
+            return true;
+        }
 
         public static bool GetNoOutEmpyDataList(string empyType, ref List<TblMWEmploy> dataList, ref string errMsg)
         {

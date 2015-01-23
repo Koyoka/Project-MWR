@@ -543,6 +543,20 @@ namespace ComLib
         #endregion
 
         #region String Help
+        public static string GetMaskNumString(int n, string TxnNumMask)
+        {
+            string defineNextNum = "";
+            string prefix = TxnNumMask.Replace("#", "");
+            string num = TxnNumMask.TrimStart(prefix.ToCharArray());
+            int len = num.Length;
+            int nextIdLen = n.ToString().Length;
+            if (nextIdLen > len)
+            {
+                return null;
+            }
+            defineNextNum = prefix + defineNextNum.PadLeft(len - nextIdLen, '0') + n;
+            return defineNextNum;
+        }
 
         public static string SafeString(string s)
         {

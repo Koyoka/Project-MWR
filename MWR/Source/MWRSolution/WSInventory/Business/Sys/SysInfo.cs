@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using YRKJ.MWR.WinBase.WinAppBase.Config;
 
 namespace YRKJ.MWR.WSInventory.Business.Sys
 {
@@ -9,9 +10,11 @@ namespace YRKJ.MWR.WSInventory.Business.Sys
     {
         public const int SystemVersion = 1;
         public TblMWEmploy Employ = null;
+        public AppConfig Config = null;
 
-        private SysInfo _sysInfo = null;
-        public SysInfo GetInstance()
+
+        private static SysInfo _sysInfo = null;
+        public static SysInfo GetInstance()
         {
             if (_sysInfo == null)
             {

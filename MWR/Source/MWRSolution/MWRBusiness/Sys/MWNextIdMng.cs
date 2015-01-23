@@ -5,6 +5,7 @@ using System.Text;
 using ComLib.db.BaseSys;
 using ComLib.db;
 using ComLib.Log;
+using ComLib;
 
 namespace YRKJ.MWR.Business.Sys
 {
@@ -28,8 +29,7 @@ namespace YRKJ.MWR.Business.Sys
             return nextId;
         }
         #endregion
-
-
+        
         #region txn
         public static int GetTxnDetailNextId(int count)
         {
@@ -75,7 +75,9 @@ namespace YRKJ.MWR.Business.Sys
                 LogMng.GetLog().PrintError(ClassName, "GetTxnNextNum", new Exception("获取txnnum出错"));
                 return null;
             }
-            string defineNextNum = "";
+            string defineNextNum = ComFn.GetMaskNumString(nextId,TxnNumMask);
+            return defineNextNum;
+
             string prefix = TxnNumMask.Replace("#", "");
             string num = TxnNumMask.TrimStart(prefix.ToCharArray());
             int len = num.Length;
@@ -89,6 +91,8 @@ namespace YRKJ.MWR.Business.Sys
 
             return defineNextNum;
         }
+
+       
         #endregion
     }
 }

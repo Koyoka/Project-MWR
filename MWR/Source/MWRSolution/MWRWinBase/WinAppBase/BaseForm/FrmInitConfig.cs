@@ -28,7 +28,6 @@ namespace YRKJ.MWR.WinBase.WinAppBase.BaseForm
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            
            
         }
 
@@ -92,6 +91,12 @@ namespace YRKJ.MWR.WinBase.WinAppBase.BaseForm
                     WinFn.SafeFocusAndSelectAll(c_txtService);
                     return;
                 }
+                #endregion
+
+                #region valid workstation
+                string wscodemask = "WS###";
+                cfg.WSCode = ComLib.ComFn.GetMaskNumString((int)c_txtWSCode.Value, wscodemask);
+                cfg.ServiceRoot = c_txtWebService.Text;
                 #endregion
 
                 #region save config

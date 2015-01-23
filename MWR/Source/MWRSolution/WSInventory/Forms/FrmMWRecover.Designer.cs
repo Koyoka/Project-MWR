@@ -28,12 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMWRecover));
             this.c_grdMWRecover = new System.Windows.Forms.DataGridView();
             this.c_grdMWRecover_C_CarCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -47,7 +47,7 @@
             this.c_grdMWRecover_C_TotolWeight = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.c_btnStratRecover = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.c_labHeaderCount = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.c_grdMWRecover)).BeginInit();
@@ -60,14 +60,14 @@
             this.c_grdMWRecover.AllowUserToDeleteRows = false;
             this.c_grdMWRecover.AllowUserToResizeColumns = false;
             this.c_grdMWRecover.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("微软雅黑", 11F);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.c_grdMWRecover.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("微软雅黑", 11F);
+            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.c_grdMWRecover.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
             this.c_grdMWRecover.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.c_grdMWRecover.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.c_grdMWRecover_C_CarCode,
@@ -115,8 +115,8 @@
             // 
             // c_grdMWRecover_C_OutDate
             // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.c_grdMWRecover_C_OutDate.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.c_grdMWRecover_C_OutDate.DefaultCellStyle = dataGridViewCellStyle8;
             this.c_grdMWRecover_C_OutDate.FillWeight = 150F;
             this.c_grdMWRecover_C_OutDate.HeaderText = "出车时间";
             this.c_grdMWRecover_C_OutDate.Name = "c_grdMWRecover_C_OutDate";
@@ -124,8 +124,8 @@
             // 
             // c_grdMWRecover_C_InDate
             // 
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.c_grdMWRecover_C_InDate.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.c_grdMWRecover_C_InDate.DefaultCellStyle = dataGridViewCellStyle9;
             this.c_grdMWRecover_C_InDate.FillWeight = 150F;
             this.c_grdMWRecover_C_InDate.HeaderText = "回车时间";
             this.c_grdMWRecover_C_InDate.Name = "c_grdMWRecover_C_InDate";
@@ -133,8 +133,8 @@
             // 
             // c_grdMWRecover_C_StratDate
             // 
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.c_grdMWRecover_C_StratDate.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.c_grdMWRecover_C_StratDate.DefaultCellStyle = dataGridViewCellStyle10;
             this.c_grdMWRecover_C_StratDate.FillWeight = 150F;
             this.c_grdMWRecover_C_StratDate.HeaderText = "校验时间";
             this.c_grdMWRecover_C_StratDate.Name = "c_grdMWRecover_C_StratDate";
@@ -149,8 +149,8 @@
             // 
             // c_grdMWRecover_C_TotleCount
             // 
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.c_grdMWRecover_C_TotleCount.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.c_grdMWRecover_C_TotleCount.DefaultCellStyle = dataGridViewCellStyle11;
             this.c_grdMWRecover_C_TotleCount.FillWeight = 80F;
             this.c_grdMWRecover_C_TotleCount.HeaderText = "总数量";
             this.c_grdMWRecover_C_TotleCount.Name = "c_grdMWRecover_C_TotleCount";
@@ -159,8 +159,8 @@
             // c_grdMWRecover_C_TotolWeight
             // 
             this.c_grdMWRecover_C_TotolWeight.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.c_grdMWRecover_C_TotolWeight.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.c_grdMWRecover_C_TotolWeight.DefaultCellStyle = dataGridViewCellStyle12;
             this.c_grdMWRecover_C_TotolWeight.FillWeight = 80F;
             this.c_grdMWRecover_C_TotolWeight.HeaderText = "总重量";
             this.c_grdMWRecover_C_TotolWeight.Name = "c_grdMWRecover_C_TotolWeight";
@@ -189,15 +189,15 @@
             this.label2.Text = "计划数：";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label3
+            // c_labHeaderCount
             // 
-            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label3.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.label3.Location = new System.Drawing.Point(965, 80);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(31, 21);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "12";
+            this.c_labHeaderCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.c_labHeaderCount.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.c_labHeaderCount.Location = new System.Drawing.Point(965, 80);
+            this.c_labHeaderCount.Name = "c_labHeaderCount";
+            this.c_labHeaderCount.Size = new System.Drawing.Size(31, 21);
+            this.c_labHeaderCount.TabIndex = 0;
+            this.c_labHeaderCount.Text = "0";
             // 
             // panel1
             // 
@@ -228,7 +228,7 @@
             this.ClientSize = new System.Drawing.Size(1008, 409);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.c_btnStratRecover);
-            this.Controls.Add(this.label3);
+            this.Controls.Add(this.c_labHeaderCount);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label4);
             this.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -248,7 +248,7 @@
         private System.Windows.Forms.DataGridView c_grdMWRecover;
         private System.Windows.Forms.Button c_btnStratRecover;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label c_labHeaderCount;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.DataGridViewTextBoxColumn c_grdMWRecover_C_CarCode;

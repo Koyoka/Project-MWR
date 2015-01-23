@@ -9,6 +9,9 @@ using System.Windows.Forms;
 using YRKJ.MWR.WinBase.WinAppBase;
 using ComLib.Log;
 using YRKJ.MWR.WinBase.WinUtility;
+using YRKJ.MWR.Business.WS;
+using YRKJ.MWR.WSInventory.Business.Sys;
+using YRKJ.MWR.Business;
 
 namespace YRKJ.MWR.WSInventory.Forms
 {
@@ -18,7 +21,10 @@ namespace YRKJ.MWR.WSInventory.Forms
         private FormMng _frmMng = null;
         private FrmMain _frmMain = null;
         private ScannerMng _scannerMng = null;
-        private string _recoNum = "";
+        private string _txnNum = "";
+
+        private VewTxnHeaderWithCarDispatch _header = null;
+        private List<TblMWTxnDetail> _detailList = null;
        
         public FrmMWRecoverDetail()
         {
@@ -37,7 +43,7 @@ namespace YRKJ.MWR.WSInventory.Forms
             : this()
         {
             _frmMain = f;
-            _recoNum = recoNum;
+            _txnNum = recoNum;
 
             _scannerMng = new ScannerMng(this, ClassName, WinAppBase.BarCodeMask);
             _scannerMng.CodeScanned += new ScannerMng.ScannedEventHandler(FrmMWRecoverDetail_CodeScanned);
@@ -51,6 +57,7 @@ namespace YRKJ.MWR.WSInventory.Forms
             try
             {
                 this.Cursor = Cursors.WaitCursor;
+
 
                 if (!InitFrm())
                 {
@@ -243,13 +250,34 @@ namespace YRKJ.MWR.WSInventory.Forms
 
         private bool InitCtrls()
         {
-            c_grpRecoInfo.Text += "-" + _recoNum; 
+            c_grpRecoInfo.Text += "-流水号：" + _txnNum;
+
+            if (_header == null)
+            {
+                return true;
+            }
+            c_labCarCode.Text = _header.CarCode;
+            c_labDriver.Text = _header.Driver;
+            c_labInspector.Text = _header.Inspector;
+            c_labEmpy.Text = SysInfo.GetInstance().Employ.EmpyName;
+            c_labOutDate.Text = ComLib.ComFn.DateTimeToString(_header.OutDate, "yyyy-MM-dd HH:mm");
+            c_labIndate.Text = ComLib.ComFn.DateTimeToString(_header.InDate, "yyyy-MM-dd HH:mm");
+            c_labHeaderStatus.Text = BizHelper.GetTxnRecoverHeaderStatus(_header.Status);
 
             return true;
         }
 
         private bool LoadData()
         {
+            string errMsg = "";
+
+           
+            if (!TxnMng.GetRecoverHeaderAndDetail(_txnNum, ref _header, ref _detailList, ref errMsg))
+            {
+                return false;
+            }
+
+
             return true;
         }
 

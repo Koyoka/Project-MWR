@@ -8,6 +8,9 @@ using System.Text;
 using System.Windows.Forms;
 using YRKJ.MWR.WinBase.WinAppBase;
 using ComLib.Log;
+using YRKJ.MWR.WSInventory.Business.Sys;
+using YRKJ.MWR.Business.BaseData;
+using ComLib.Error;
 
 namespace YRKJ.MWR.WSInventory.Forms
 {
@@ -36,6 +39,21 @@ namespace YRKJ.MWR.WSInventory.Forms
             try
             {
                 this.Cursor = Cursors.WaitCursor;
+                string errMsg = "";
+
+                TblMWEmploy empy = null;
+                string code = c_txtUserId.Text.Trim();
+                if (!BaseDataMng.GetEmpyData(code, ref empy, ref errMsg))
+                {
+                    MsgBox.Error(errMsg);
+                    return;
+                }
+                if(empy == null)
+                {
+                    MsgBox.Show(LngRes.MSG_InvalidEmpy);
+                    return;
+                }
+                SysInfo.GetInstance().Employ = empy;
 
                 this.DialogResult = System.Windows.Forms.DialogResult.OK;
                 this.Close();
@@ -102,6 +120,7 @@ namespace YRKJ.MWR.WSInventory.Forms
         private class LngRes
         {
             public const string MSG_FormName = "用户登录";
+            public const string MSG_InvalidEmpy = "无效的用户登录";
         }
 
         #endregion

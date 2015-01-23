@@ -64,20 +64,22 @@ namespace YRKJ.MWR.WSInventory
                             {
                                 return;
                             }
-                        }
 
+                           
+                        }
                         if (!ConfigMng.ReadAppConfig(ref configData, ref errMsg))
                         {
                             MsgBox.Error("配置文件读取失败/r/n" + errMsg);
                             return;
                         }
+                    }
 
-                        SqlDBMng.setConnectionString(
+                    YRKJ.MWR.WSInventory.Business.Sys.SysInfo.GetInstance().Config = configData;
+                    SqlDBMng.setConnectionString(
                          SqlDBMng.GetConnStr(WinAppBase.DBName,
                          configData.DBServerName,
                          configData.DBUserName,
                          configData.DBPassword));
-                    }
 
                 }
                 #endregion
@@ -90,6 +92,7 @@ namespace YRKJ.MWR.WSInventory
                     {
                         return;
                     }
+                   
                 }
 
                 #endregion

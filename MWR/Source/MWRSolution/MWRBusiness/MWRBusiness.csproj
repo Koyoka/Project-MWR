@@ -46,9 +46,11 @@
   <ItemGroup>
     <Compile Include="BaseData\BaseDataMng.cs" />
     <Compile Include="BizBase.cs" />
+    <Compile Include="BizHelper.cs" />
     <Compile Include="BO\MWRWorkflowMng.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sys\MWNextIdMng.cs" />
+    <Compile Include="WS\TxnMng.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="WSD\" />

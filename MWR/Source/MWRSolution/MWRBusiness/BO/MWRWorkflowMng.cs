@@ -136,22 +136,22 @@ namespace YRKJ.MWR.Business.BO
             ref string errMsg)
         {
 
-            if (txnDetailList == null)
-            {
-                errMsg = "没有扫描的货箱数据";
-                return false;
-            }
-            if (txnDetailList.Count == 0)
-            {
-                errMsg = "没有扫描的货箱数据";
-                return false;
-            }
+            //if (txnDetailList == null)
+            //{
+            //    errMsg = "没有扫描的货箱数据";
+            //    return false;
+            //}
+            //if (txnDetailList.Count == 0)
+            //{
+            //    errMsg = "没有扫描的货箱数据";
+            //    return false;
+            //}
 
             string driver = "";
             string inspector = "";
 
             decimal totalSubWeight = 0;
-            decimal totalCrateQty = 0;
+            int totalCrateQty = 0;
             TblMWCarDispatch carDispatchInfo = null;
             #region get moblie workstation base data
             {
@@ -240,16 +240,19 @@ namespace YRKJ.MWR.Business.BO
                 DateTime now = SqlDBMng.GetDBNow();
                 #region add txn data
                 {
-                    int nextId = MWNextIdMng.GetTxnRecoverHeaderNextId();
-                    if (nextId == 0)
-                    {
-                        errMsg = ErrorMng.GetDBError(ClassName, "recoverToInventory", "Id增长列添加错误");
-                        return false;
-                    }
+                    
                     string nextTxnNum = MWNextIdMng.GetTxnNextNum(BizBase.GetInstance().TxnNumMask);
                     if (nextTxnNum == null)
                     {
                         errMsg = ErrorMng.GetDBError(ClassName, "recoverToInventory", "TxnNum增长列添加错误");
+                        return false;
+                    }
+
+                    #region add header
+                    int nextId = MWNextIdMng.GetTxnRecoverHeaderNextId();
+                    if (nextId == 0)
+                    {
+                        errMsg = ErrorMng.GetDBError(ClassName, "recoverToInventory", "Id增长列添加错误");
                         return false;
                     }
                     TblMWTxnRecoverHeader header = new TblMWTxnRecoverHeader();
@@ -264,55 +267,47 @@ namespace YRKJ.MWR.Business.BO
                     header.RecoMWSCode = mwsCode;
 
 
-                    header.RecoWSCode = mwsCode;
-                    header.RecoEmpyName = inspector;
-                    header.RecoEmpyCode = inspectorCode;
+                    //header.RecoWSCode = mwsCode;
+                    //header.RecoEmpyName = inspector;
+                    //header.RecoEmpyCode = inspectorCode;
 
-                    header.StratDate = now;
-                    header.EndDate = DateTime.MinValue;
+                    //header.StratDate = DateTime.MinValue;
+                    //header.EndDate = DateTime.MinValue;
                     header.OperateType = TblMWTxnRecoverHeader.OPERATETYPE_ENUM_ToInventory;
-                    header.TotalCrateQty = 0;
-                    header.TotalSubWeight = 0;
+                    header.TotalCrateQty = totalCrateQty;
+                    header.TotalSubWeight = totalSubWeight;
                     header.TotalTxnWeight = 0;
                     header.CarDisId = carDispatchInfo.CarDisId;
-                    header.Status = TblMWTxnRecoverHeader.STATUS_ENUM_Process;
+                    header.Status = TblMWTxnRecoverHeader.STATUS_ENUM_Send;
 
                     int updCount = 0;
                     if (!TblMWTxnRecoverHeaderCtrl.Insert(dcf, header, ref updCount, ref errMsg))
                     {
                         return false;
                     }
+                    #endregion
 
-
+                    #region add detail
                     int dtlNextId = MWNextIdMng.GetTxnDetailNextId(txnDetailList.Count);
                     foreach (TblMWTxnDetail dtl in txnDetailList)
                     {
                         dtl.TxnDetailId = dtlNextId;
-                        dtl.TxnType = TblMWTxnDetail.TXNTYPE_ENUM_Submit;
+                        dtl.TxnType = TblMWTxnDetail.TXNTYPE_ENUM_Recover;
                         dtl.TxnNum = header.TxnNum;
-                        dtl.WSCode = mwsCode;
-                        dtl.EmpyName = inspector;
-                        dtl.EmpyCode = inspectorCode;
-                        
-                        dtl.EntryDate = now;
-
-                        dtl.TxnDetailId = dtlNextId;
-                        dtl.TxnType = TblMWTxnDetail.TXNTYPE_ENUM_Submit;
-                        dtl.TxnNum = header.TxnNum;
-                        dtl.WSCode = mwsCode;
-                        dtl.EmpyName = inspector;
-                        dtl.EmpyCode = inspectorCode;
+                        //dtl.WSCode = mwsCode;
+                        //dtl.EmpyName = inspector;
+                        //dtl.EmpyCode = inspectorCode;
                         //dtl.CrateCode = "";
                         //dtl.Vendor = "";
                         //dtl.VendorCode = "";
                         //dtl.Waste = "";
                         //dtl.WasteCode = "";
                         //dtl.SubWeight = "";
-                        dtl.TxnWeight = dtl.SubWeight;
+                        //dtl.TxnWeight = dtl.SubWeight;
                         dtl.EntryDate = now;
                         //dtl.InvRecordId = "";
                         //dtl.InvAuthId = "";
-                        dtl.Status = TblMWTxnDetail.STATUS_ENUM_Complete;
+                        dtl.Status = TblMWTxnDetail.STATUS_ENUM_Process;
 
                         if (!TblMWTxnDetailCtrl.Insert(dcf, dtl, ref updCount, ref errMsg))
                         {
@@ -320,6 +315,7 @@ namespace YRKJ.MWR.Business.BO
                         }
                         dtlNextId++;
                     }
+                    #endregion
                 }
                 #endregion
 

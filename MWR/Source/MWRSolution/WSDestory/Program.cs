@@ -69,13 +69,12 @@ namespace YRKJ.MWR.WSDestory
                             MsgBox.Error("配置文件读取失败/r/n" + errMsg);
                             return;
                         }
-
-                        SqlDBMng.setConnectionString(
-                         SqlDBMng.GetConnStr(WinAppBase.DBName,
-                         configData.DBServerName,
-                         configData.DBUserName,
-                         configData.DBPassword));
                     }
+                    SqlDBMng.setConnectionString(
+                     SqlDBMng.GetConnStr(WinAppBase.DBName,
+                     configData.DBServerName,
+                     configData.DBUserName,
+                     configData.DBPassword));
 
                 }
                 #endregion

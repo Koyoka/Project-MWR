@@ -17,6 +17,14 @@ namespace YRKJ.MWR.WinBase.WinAppBase.Config
 
         #endregion
 
+        private string _wsCode = "";
+        public string WSCode
+        {
+            get { return _wsCode; }
+            set { _wsCode = value; }
+        }
+
+
         #region DataBase
 
         private string _dBServerName = "";

@@ -41,6 +41,8 @@ namespace YRKJ.MWR.WinBase.WinAppBase.Config
                 data.DBUserName = ComFn.SafeGetXmlNodeInnerText(doc, "Root/Database/UserName");
                 data.DBPassword = ComFn.DecryptDBPassword(WinAppBase.DBKey,ComFn.SafeGetXmlNodeInnerText(doc, "Root/Database/Password"));
                 data.ServiceRoot = ComFn.SafeGetXmlNodeInnerText(doc, "Root/WebService/ServiceRoot");
+
+                data.WSCode = ComFn.SafeGetXmlNodeInnerText(doc, "Root/WorkStation/Code");
                 return true;
             }
             catch (Exception ex)
@@ -73,7 +75,7 @@ namespace YRKJ.MWR.WinBase.WinAppBase.Config
                 sb.Append("     <ServiceRoot>" + ComFn.GetSafeXml(data.ServiceRoot) + "</ServiceRoot>");
                 sb.Append(" </WebService>");
                 sb.Append("	<WorkStation>");
-                sb.Append("		<Code>" + ComFn.GetSafeXml("") + "</Code>");
+                sb.Append("		<Code>" + ComFn.GetSafeXml(data.WSCode) + "</Code>");
                 sb.Append("	</WorkStation>");
                 sb.Append("</Root>");
 
