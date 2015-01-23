@@ -46,7 +46,7 @@ namespace ComLib.db.mysql
             return MySqlHelper2.GetDataSet(connstr, System.Data.CommandType.Text, sql, sqlParams);
         }
 
-        public List<T> query<T>(string sql, T clazz, params object[][] ps) where T : class,new()
+        public List<T> query<T>(string sql, T clazz, params object[][] ps) where T : BaseDataModule, new()
         {
             System.Diagnostics.Debug.WriteLine(sql);
 
@@ -83,7 +83,7 @@ namespace ComLib.db.mysql
             return ts;
         }
 
-        public List<T> query<T>(string sql, T clazz) where T : class,new()
+        public List<T> query<T>(string sql, T clazz) where T : BaseDataModule, new()
         {
             System.Diagnostics.Debug.WriteLine(sql);
             System.Data.DataSet ds = MySqlHelper2.GetDataSet(connstr, System.Data.CommandType.Text, sql);
@@ -159,7 +159,19 @@ namespace ComLib.db.mysql
 
         #endregion
 
-        public bool ConvertToModel<T>(DataTable dt,ref List<T> ts) where T : class,new()
+        public bool ConvertToModel<T>(DataTable dt, ref List<T> ts) where T : BaseDataModule, new()
+        {
+            ts = new List<T>();
+            foreach (DataRow row in dt.Rows)
+            {
+                T t = new T();
+                t.SetValue(row);
+                ts.Add(t);
+            }
+            return true;
+        }
+
+        public bool ConvertToModel1<T>(DataTable dt,ref List<T> ts) where T : class,new()
         {
             try
             {
@@ -207,12 +219,6 @@ namespace ComLib.db.mysql
                 throw ex;
             }
         }
-
-        //public SqlMySqlDBMng(string database, string datasource, string uid, string password)
-        //{
-        //    connstr = string.Format("Database='{0}';Data Source='{1}';User Id='{2}';Password='{3}';charset='utf8'", 
-        //        database,datasource,uid,password);
-        //}
         
         public SqlMySqlDBMng(string s)
         {

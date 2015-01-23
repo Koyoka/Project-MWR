@@ -76,6 +76,12 @@ namespace YRKJ.MWR
             }
         }
 
+         public override void SetValue(System.Data.DataRow row)
+         {
+             SetValue(ref _id, row["id"]);
+             SetValue(ref _UserGroupId, row["UserGroupId"]);
+             SetValue(ref _FuncGroupId, row["FuncGroupId"]);
+         }
 
 
     }

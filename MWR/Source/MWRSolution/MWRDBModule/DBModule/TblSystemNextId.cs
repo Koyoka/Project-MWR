@@ -110,6 +110,14 @@ namespace YRKJ.MWR
             }
         }
 
+         public override void SetValue(System.Data.DataRow row)
+         {
+             SetValue(ref _IdName, row["IdName"]);
+             SetValue(ref _MinValue, row["MinValue"]);
+             SetValue(ref _Increment, row["Increment"]);
+             SetValue(ref _MaxValue, row["MaxValue"]);
+             SetValue(ref _IdValue, row["IdValue"]);
+         }
 
 
     }

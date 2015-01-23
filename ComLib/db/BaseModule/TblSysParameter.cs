@@ -76,7 +76,13 @@ namespace ComLib.db.BaseModule
             }
         }
 
-
+      
+        public override void SetValue(System.Data.DataRow row)
+        {
+            SetValue(ref _ParameterName, row["ParameterName"]);
+            SetValue(ref _ParameterValue, row["ParameterValue"]);
+            SetValue(ref _Remark, row["Remark"]);
+        }
 
     }
 }

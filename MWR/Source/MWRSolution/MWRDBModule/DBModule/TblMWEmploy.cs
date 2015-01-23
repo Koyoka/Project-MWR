@@ -127,6 +127,15 @@ namespace YRKJ.MWR
             }
         }
 
+         public override void SetValue(System.Data.DataRow row)
+         {
+             SetValue(ref _EmpyCode, row["EmpyCode"]);
+             SetValue(ref _EmpyName, row["EmpyName"]);
+             SetValue(ref _UserGroupId, row["UserGroupId"]);
+             SetValue(ref _EmpyType, row["EmpyType"]);
+             SetValue(ref _UserName, row["UserName"]);
+             SetValue(ref _Password, row["Password"]);
+         }
 
         public const string EMPYTYPE_ENUM_Driver = "D";//司机;
         public const string EMPYTYPE_ENUM_Inspector = "I";//跟车员;

@@ -348,6 +348,28 @@ namespace YRKJ.MWR
             }
         }
 
+         public override void SetValue(System.Data.DataRow row)
+         {
+             SetValue(ref _RecoHeaderId, row["RecoHeaderId"]);
+             SetValue(ref _TxnNum, row["TxnNum"]);
+             SetValue(ref _CarCode, row["CarCode"]);
+             SetValue(ref _Driver, row["Driver"]);
+             SetValue(ref _DriverCode, row["DriverCode"]);
+             SetValue(ref _Inspector, row["Inspector"]);
+             SetValue(ref _InspectorCode, row["InspectorCode"]);
+             SetValue(ref _RecoMWSCode, row["RecoMWSCode"]);
+             SetValue(ref _RecoWSCode, row["RecoWSCode"]);
+             SetValue(ref _RecoEmpyName, row["RecoEmpyName"]);
+             SetValue(ref _RecoEmpyCode, row["RecoEmpyCode"]);
+             SetValue(ref _StratDate, row["StratDate"]);
+             SetValue(ref _EndDate, row["EndDate"]);
+             SetValue(ref _OperateType, row["OperateType"]);
+             SetValue(ref _TotalCrateQty, row["TotalCrateQty"]);
+             SetValue(ref _TotalSubWeight, row["TotalSubWeight"]);
+             SetValue(ref _TotalTxnWeight, row["TotalTxnWeight"]);
+             SetValue(ref _CarDisId, row["CarDisId"]);
+             SetValue(ref _Status, row["Status"]);
+         }
 
         public const string OPERATETYPE_ENUM_ToInventory = "I";//回收入库操作;
         public const string OPERATETYPE_ENUM_ToDestroy = "D";//回收处置操作;

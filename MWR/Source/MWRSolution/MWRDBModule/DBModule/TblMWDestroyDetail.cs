@@ -280,6 +280,24 @@ namespace YRKJ.MWR
             }
         }
 
+         public override void SetValue(System.Data.DataRow row)
+         {
+             SetValue(ref _DestroyDtlId, row["DestroyDtlId"]);
+             SetValue(ref _CrateCode, row["CrateCode"]);
+             SetValue(ref _DestHeaderId, row["DestHeaderId"]);
+             SetValue(ref _DestNum, row["DestNum"]);
+             SetValue(ref _DepotCode, row["DepotCode"]);
+             SetValue(ref _Vendor, row["Vendor"]);
+             SetValue(ref _VendorCode, row["VendorCode"]);
+             SetValue(ref _Waste, row["Waste"]);
+             SetValue(ref _WasteCode, row["WasteCode"]);
+             SetValue(ref _PostWeight, row["PostWeight"]);
+             SetValue(ref _DestWeight, row["DestWeight"]);
+             SetValue(ref _Status, row["Status"]);
+             SetValue(ref _PostHeaderId, row["PostHeaderId"]);
+             SetValue(ref _InvRecordId, row["InvRecordId"]);
+             SetValue(ref _InvAuthId, row["InvAuthId"]);
+         }
 
 
     }

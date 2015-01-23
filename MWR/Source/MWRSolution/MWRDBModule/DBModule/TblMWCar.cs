@@ -59,6 +59,11 @@ namespace YRKJ.MWR
             }
         }
 
+         public override void SetValue(System.Data.DataRow row)
+         {
+             SetValue(ref _CarCode, row["CarCode"]);
+             SetValue(ref _Desc, row["Desc"]);
+         }
 
 
     }

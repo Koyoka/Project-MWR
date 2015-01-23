@@ -76,6 +76,12 @@ namespace YRKJ.MWR
             }
         }
 
+         public override void SetValue(System.Data.DataRow row)
+         {
+             SetValue(ref _CrateCode, row["CrateCode"]);
+             SetValue(ref _Desc, row["Desc"]);
+             SetValue(ref _Status, row["Status"]);
+         }
 
         public const string STATUS_ENUM_Active = "A";//使用中;
         public const string STATUS_ENUM_Void = "V";//作废;

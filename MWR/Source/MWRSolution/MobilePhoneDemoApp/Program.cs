@@ -2,11 +2,35 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using ComLib.db;
+using YRKJ.MWR;
 
 namespace MobilePhoneDemoApp
 {
     static class Program
     {
+        static void foo()
+        {
+            #region
+            ComLib.db.SqlDBMng.initDBMng(ComLib.db.SqlDBMng.DBTypeEnum.MySQl);
+
+            ComLib.db.SqlDBMng.setConnectionString(
+                       ComLib.db.SqlDBMng.GetConnStr("MWRDATA",
+                       "127.0.0.1",
+                       "root",
+                       "-101868"));
+            #endregion
+
+            DataCtrlInfo dcf = new ComLib.db.DataCtrlInfo();
+
+            SqlQueryMng sqm = new SqlQueryMng();
+            List<TblMWTxnDetail> itemList = new List<TblMWTxnDetail>();
+            string errMsg = "";
+            TblMWTxnDetailCtrl.QueryMore(dcf, sqm, ref itemList, ref errMsg);
+
+            int a = 0;
+        }
+
         /// <summary>
         /// 应用程序的主入口点。
         /// </summary>
@@ -15,6 +39,9 @@ namespace MobilePhoneDemoApp
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            foo();
+
+            return;
             //string errMsg = "";
             //string resData = "";
             //MWHttpSendHelper.SendTxn(ref resData,ref errMsg);

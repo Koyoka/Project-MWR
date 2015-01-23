@@ -195,6 +195,19 @@ namespace YRKJ.MWR
             }
         }
 
+         public override void SetValue(System.Data.DataRow row)
+         {
+             SetValue(ref _TxnLogId, row["TxnLogId"]);
+             SetValue(ref _TxnNum, row["TxnNum"]);
+             SetValue(ref _TxnDetailId, row["TxnDetailId"]);
+             SetValue(ref _WSCode, row["WSCode"]);
+             SetValue(ref _EmpyName, row["EmpyName"]);
+             SetValue(ref _EmpyCode, row["EmpyCode"]);
+             SetValue(ref _OptType, row["OptType"]);
+             SetValue(ref _OptDate, row["OptDate"]);
+             SetValue(ref _TxnLogType, row["TxnLogType"]);
+             SetValue(ref _InvRecordId, row["InvRecordId"]);
+         }
 
 
     }

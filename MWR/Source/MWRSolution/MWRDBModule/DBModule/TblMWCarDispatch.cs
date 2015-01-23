@@ -195,6 +195,19 @@ namespace YRKJ.MWR
             }
         }
 
+         public override void SetValue(System.Data.DataRow row)
+         {
+             SetValue(ref _CarDisId, row["CarDisId"]);
+             SetValue(ref _CarCode, row["CarCode"]);
+             SetValue(ref _Driver, row["Driver"]);
+             SetValue(ref _DriverCode, row["DriverCode"]);
+             SetValue(ref _Inspector, row["Inspector"]);
+             SetValue(ref _InspectorCode, row["InspectorCode"]);
+             SetValue(ref _RecoMWSCode, row["RecoMWSCode"]);
+             SetValue(ref _OutDate, row["OutDate"]);
+             SetValue(ref _InDate, row["InDate"]);
+             SetValue(ref _Status, row["Status"]);
+         }
 
         public const string STATUS_ENUM_ShiftStrat = "S";//班次开始了;
         public const string STATUS_ENUM_ShiftEnd = "E";//班次完成了;

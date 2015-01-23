@@ -263,6 +263,23 @@ namespace YRKJ.MWR
             }
         }
 
+         public override void SetValue(System.Data.DataRow row)
+         {
+             SetValue(ref _PostDtlId, row["PostDtlId"]);
+             SetValue(ref _PostHeaderId, row["PostHeaderId"]);
+             SetValue(ref _CrateCode, row["CrateCode"]);
+             SetValue(ref _PostNum, row["PostNum"]);
+             SetValue(ref _DepotCode, row["DepotCode"]);
+             SetValue(ref _Vendor, row["Vendor"]);
+             SetValue(ref _VendorCode, row["VendorCode"]);
+             SetValue(ref _Waste, row["Waste"]);
+             SetValue(ref _WasteCode, row["WasteCode"]);
+             SetValue(ref _InvWeight, row["InvWeight"]);
+             SetValue(ref _PostWeight, row["PostWeight"]);
+             SetValue(ref _Status, row["Status"]);
+             SetValue(ref _InvRecordId, row["InvRecordId"]);
+             SetValue(ref _InvAuthId, row["InvAuthId"]);
+         }
 
 
     }

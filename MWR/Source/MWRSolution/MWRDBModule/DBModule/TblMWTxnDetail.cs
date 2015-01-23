@@ -314,6 +314,26 @@ namespace YRKJ.MWR
             }
         }
 
+         public override void SetValue(System.Data.DataRow row)
+         {
+             SetValue(ref _TxnDetailId, row["TxnDetailId"]);
+             SetValue(ref _TxnType, row["TxnType"]);
+             SetValue(ref _TxnNum, row["TxnNum"]);
+             SetValue(ref _WSCode, row["WSCode"]);
+             SetValue(ref _EmpyName, row["EmpyName"]);
+             SetValue(ref _EmpyCode, row["EmpyCode"]);
+             SetValue(ref _CrateCode, row["CrateCode"]);
+             SetValue(ref _Vendor, row["Vendor"]);
+             SetValue(ref _VendorCode, row["VendorCode"]);
+             SetValue(ref _Waste, row["Waste"]);
+             SetValue(ref _WasteCode, row["WasteCode"]);
+             SetValue(ref _SubWeight, row["SubWeight"]);
+             SetValue(ref _TxnWeight, row["TxnWeight"]);
+             SetValue(ref _EntryDate, row["EntryDate"]);
+             SetValue(ref _InvRecordId, row["InvRecordId"]);
+             SetValue(ref _InvAuthId, row["InvAuthId"]);
+             SetValue(ref _Status, row["Status"]);
+         }
 
         public const string TXNTYPE_ENUM_Recover = "R";//回收入库交易;
         public const string TXNTYPE_ENUM_Post = "P";//出库交易;

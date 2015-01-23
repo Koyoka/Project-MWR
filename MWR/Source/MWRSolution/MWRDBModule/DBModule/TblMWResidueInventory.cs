@@ -144,6 +144,16 @@ namespace YRKJ.MWR
             }
         }
 
+         public override void SetValue(System.Data.DataRow row)
+         {
+             SetValue(ref _ResdInvId, row["ResdInvId"]);
+             SetValue(ref _InvWeight, row["InvWeight"]);
+             SetValue(ref _EntryDate, row["EntryDate"]);
+             SetValue(ref _HandlingDate, row["HandlingDate"]);
+             SetValue(ref _RecoWSCode, row["RecoWSCode"]);
+             SetValue(ref _RecoEmpyCode, row["RecoEmpyCode"]);
+             SetValue(ref _HandlingType, row["HandlingType"]);
+         }
 
 
     }

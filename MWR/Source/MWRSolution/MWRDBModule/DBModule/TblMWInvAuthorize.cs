@@ -280,6 +280,24 @@ namespace YRKJ.MWR
             }
         }
 
+         public override void SetValue(System.Data.DataRow row)
+         {
+             SetValue(ref _InvAuthId, row["InvAuthId"]);
+             SetValue(ref _TxnNum, row["TxnNum"]);
+             SetValue(ref _TxnDetailId, row["TxnDetailId"]);
+             SetValue(ref _EmpyCode, row["EmpyCode"]);
+             SetValue(ref _EmpyName, row["EmpyName"]);
+             SetValue(ref _WSCode, row["WSCode"]);
+             SetValue(ref _AuthEmpyCode, row["AuthEmpyCode"]);
+             SetValue(ref _AuthEmpyName, row["AuthEmpyName"]);
+             SetValue(ref _Remark, row["Remark"]);
+             SetValue(ref _SubWeight, row["SubWeight"]);
+             SetValue(ref _TxnWeight, row["TxnWeight"]);
+             SetValue(ref _DiffWeight, row["DiffWeight"]);
+             SetValue(ref _EntryDate, row["EntryDate"]);
+             SetValue(ref _CompDate, row["CompDate"]);
+             SetValue(ref _Status, row["Status"]);
+         }
 
 
     }

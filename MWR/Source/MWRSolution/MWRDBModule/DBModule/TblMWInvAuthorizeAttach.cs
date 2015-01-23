@@ -76,6 +76,12 @@ namespace YRKJ.MWR
             }
         }
 
+         public override void SetValue(System.Data.DataRow row)
+         {
+             SetValue(ref _InvAttachId, row["InvAttachId"]);
+             SetValue(ref _InvAuthId, row["InvAuthId"]);
+             SetValue(ref _Path, row["Path"]);
+         }
 
 
     }

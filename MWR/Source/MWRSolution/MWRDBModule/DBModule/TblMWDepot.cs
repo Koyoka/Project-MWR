@@ -76,6 +76,12 @@ namespace YRKJ.MWR
             }
         }
 
+         public override void SetValue(System.Data.DataRow row)
+         {
+             SetValue(ref _DeptCode, row["DeptCode"]);
+             SetValue(ref _Total, row["Total"]);
+             SetValue(ref _Desc, row["Desc"]);
+         }
 
 
     }

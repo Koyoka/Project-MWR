@@ -110,6 +110,14 @@ namespace YRKJ.MWR
             }
         }
 
+         public override void SetValue(System.Data.DataRow row)
+         {
+             SetValue(ref _WSCode, row["WSCode"]);
+             SetValue(ref _Desc, row["Desc"]);
+             SetValue(ref _WSType, row["WSType"]);
+             SetValue(ref _AccessKey, row["AccessKey"]);
+             SetValue(ref _SecretKey, row["SecretKey"]);
+         }
 
         public const string WSTYPE_ENUM_InvWorkStation = "I";//出入库工作站;
         public const string WSTYPE_ENUM_DesWorkStation = "D";//处置工作站;

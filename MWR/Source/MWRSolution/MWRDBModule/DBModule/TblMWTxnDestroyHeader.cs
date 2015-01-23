@@ -212,6 +212,20 @@ namespace YRKJ.MWR
             }
         }
 
+         public override void SetValue(System.Data.DataRow row)
+         {
+             SetValue(ref _DestHeaderId, row["DestHeaderId"]);
+             SetValue(ref _TxnNum, row["TxnNum"]);
+             SetValue(ref _StratDate, row["StratDate"]);
+             SetValue(ref _EndDate, row["EndDate"]);
+             SetValue(ref _DestWSCode, row["DestWSCode"]);
+             SetValue(ref _DestEmpyName, row["DestEmpyName"]);
+             SetValue(ref _DestEmpyCode, row["DestEmpyCode"]);
+             SetValue(ref _TotalCrateQty, row["TotalCrateQty"]);
+             SetValue(ref _TotalSubWeight, row["TotalSubWeight"]);
+             SetValue(ref _TotalTxnWeight, row["TotalTxnWeight"]);
+             SetValue(ref _Status, row["Status"]);
+         }
 
 
     }

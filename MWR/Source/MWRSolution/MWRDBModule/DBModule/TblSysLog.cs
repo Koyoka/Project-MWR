@@ -93,6 +93,13 @@ namespace YRKJ.MWR
             }
         }
 
+         public override void SetValue(System.Data.DataRow row)
+         {
+             SetValue(ref _LogId, row["LogId"]);
+             SetValue(ref _Desc, row["Desc"]);
+             SetValue(ref _Remark, row["Remark"]);
+             SetValue(ref _LogDate, row["LogDate"]);
+         }
 
 
     }
