@@ -83,7 +83,7 @@ namespace YRKJ.MWR.WSInventory
 
                 }
                 #endregion
-
+                //YRKJ.MWR.Business.WS.TxnMng.TestUpdate();
                 #region user login
 
                 using (YRKJ.MWR.WSInventory.Forms.FrmLogin f = new Forms.FrmLogin())
@@ -96,6 +96,7 @@ namespace YRKJ.MWR.WSInventory
                 }
 
                 #endregion
+               
 
             }
             catch (Exception ex)

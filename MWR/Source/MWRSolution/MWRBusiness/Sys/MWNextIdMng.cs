@@ -58,7 +58,20 @@ namespace YRKJ.MWR.Business.Sys
 
             return nextId;
         }
-        
+
+        public static int GetInventoryNextId()
+        {
+            return GetNextId("Inventory");
+        }
+        public static int GetInventoryTrackNextId()
+        {
+            return GetNextId("InventoryTrack");
+        }
+        public static int GetTxnLogNextId()
+        {
+            return GetNextId("TxnLog");
+        }
+
         public static string GetTxnNextNum(string TxnNumMask)
         {
             DataCtrlInfo dcf = new DataCtrlInfo(); ;
@@ -94,5 +107,33 @@ namespace YRKJ.MWR.Business.Sys
 
        
         #endregion
+
+        private static int GetNextId(string tableName)
+        {
+            string errMsg = "";
+            DataCtrlInfo dcf = new DataCtrlInfo(); ;
+            int nextId = 0;
+            if (!NextIdMng.GetNextId(dcf, tableName, ref nextId, ref errMsg))
+            {
+                LogMng.GetLog().PrintError(ClassName, tableName, new Exception(errMsg));
+                return 0;
+            }
+
+            return nextId;
+        }
+        private static int GetNextId(int count,string tableName)
+        {
+            string errMsg = "";
+            DataCtrlInfo dcf = new DataCtrlInfo(); ;
+            int nextId = 0;
+            if (!NextIdMng.GetNextId(dcf, tableName, count, ref nextId, ref errMsg))
+            {
+                LogMng.GetLog().PrintError(ClassName, tableName, new Exception(errMsg));
+                return 0;
+            }
+
+            return nextId;
+        }
+
     }
 }

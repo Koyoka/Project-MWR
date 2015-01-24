@@ -365,6 +365,7 @@ namespace YRKJ.MWR.WSInventory.Forms
 
         private void SetGridTxnDetailBindingData()
         {
+            
             foreach (TblMWTxnDetail data in _detailList)
             {
                 GridTxnDetailData item = new GridTxnDetailData();
@@ -456,14 +457,16 @@ namespace YRKJ.MWR.WSInventory.Forms
                 f.ShowDialog();
             }
             GridTxnDetailData curData = null;
-            foreach(GridTxnDetailData data in _gridTxnDetailData)
-            {
-                if (data.TxnDetailId == txnDetail.TxnDetailId)
-                {
-                    curData = data;
-                    break;
-                }
-            }
+
+            curData = _gridTxnDetailData.Where(x => x.TxnDetailId == txnDetail.TxnDetailId).First();
+            //foreach(GridTxnDetailData data in _gridTxnDetailData)
+            //{
+            //    if (data.TxnDetailId == txnDetail.TxnDetailId)
+            //    {
+            //        curData = data;
+            //        break;
+            //    }
+            //}
             if (curData == null)
             {
                 return;

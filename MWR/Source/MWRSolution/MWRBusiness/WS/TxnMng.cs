@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ComLib.db;
+using YRKJ.MWR.Business.Sys;
 
 namespace YRKJ.MWR.Business.WS
 {
@@ -11,7 +12,6 @@ namespace YRKJ.MWR.Business.WS
         #region recover txn list
         public static bool GetRecoverToInvTxnList(string wscode, ref List<VewTxnHeaderWithCarDispatch> header, ref string errMsg)
         {
-
             DataCtrlInfo dcf = new DataCtrlInfo();
 
             SqlQueryMng sqm = new SqlQueryMng();
@@ -146,7 +146,187 @@ namespace YRKJ.MWR.Business.WS
             return true;
         }
 
+        public static bool ConfirmCrateToInventory(int txnDetailId,decimal txnWeight, string empyCode,string wscode, ref string errMsg)
+        {
+
+            DataCtrlInfo dcf = new DataCtrlInfo();
+
+            #region get & valid data
+            TblMWTxnDetail detail = null;
+            {
+                SqlQueryMng sqm = new SqlQueryMng();
+                sqm.Condition.Where.AddCompareValue(TblMWTxnDetail.getTxnDetailIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, txnDetailId);
+
+                if (!TblMWTxnDetailCtrl.QueryOne(dcf, sqm, ref detail, ref errMsg))
+                {
+                    return false;
+                }
+                if (detail == null)
+                {
+                    errMsg = "没有找到当前ID的货箱交易详情";
+                    return false;
+                }
+            }
+
+            TblMWEmploy empy = null;
+            {
+                SqlQueryMng sqm = new SqlQueryMng();
+                sqm.Condition.Where.AddCompareValue(TblMWEmploy.getEmpyCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, empyCode);
+                if (!TblMWEmployCtrl.QueryOne(dcf, sqm, ref empy, ref errMsg))
+                {
+                    return false;
+                }
+                if (empy == null)
+                {
+                    errMsg = "没有找到当前编号的员工";
+                    return false;
+                }
+            }
+            #endregion
+
+            dcf.BeginTrans();
+
+            DateTime now = SqlDBMng.GetDBNow();
+            int updCount = 0;
+
+            #region add data
+
+            int invRecordNextId = 0;
+            int invTrackNextId = 0;
+            int txnLogNextId = 0;
+            #region get next id
+            invRecordNextId = MWNextIdMng.GetInventoryNextId();
+            invTrackNextId = MWNextIdMng.GetInventoryTrackNextId();
+            txnLogNextId = MWNextIdMng.GetTxnLogNextId();
+            bool validNextId = true;
+            validNextId = invRecordNextId == 0 && validNextId;
+            validNextId = invTrackNextId == 0 && validNextId;
+
+            if (!validNextId)
+            {
+                errMsg = "ID生成出错";
+                return false;
+            }
+            #endregion
+
+            #region update current txn
+            {
+                //TblMWTxnDetail item = new TblMWTxnDetail();
+                detail.WSCode = empyCode;
+                detail.EmpyCode = empyCode;
+                detail.EmpyName = empy.EmpyName;
+                //dtl.CrateCode = "";
+                //dtl.Vendor = "";
+                //dtl.VendorCode = "";
+                //dtl.Waste = "";
+                //dtl.WasteCode = "";
+                //dtl.SubWeight = "";
+                detail.TxnWeight = txnWeight;
+                detail.EntryDate = now;
+                detail.InvRecordId = invRecordNextId;
+                //dtl.InvAuthId = "";
+                detail.Status = TblMWTxnDetail.STATUS_ENUM_Complete;
+
+                SqlUpdateColumn suc = new SqlUpdateColumn();
+                suc.Add(
+                    TblMWTxnDetail.getWSCodeColumn(),
+                    TblMWTxnDetail.getEmpyCodeColumn(),
+                    TblMWTxnDetail.getEmpyNameColumn(),
+                    TblMWTxnDetail.getTxnWeightColumn(),
+                    TblMWTxnDetail.getEntryDateColumn(),
+                    TblMWTxnDetail.getInvRecordIdColumn(),
+                    TblMWTxnDetail.getStatusColumn()
+                    );
+                SqlWhere sw = new SqlWhere();
+                sw.AddCompareValue(TblMWTxnDetail.getTxnDetailIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, detail.TxnDetailId);
+
+                if (!TblMWTxnDetailCtrl.Update(dcf, detail, suc, sw, ref updCount, ref errMsg))
+                {
+                    return false;
+                }
+            }
+            #endregion
+
+            #region add inventory
+            {
+                TblMWInventory item = new TblMWInventory();
+                item.InvRecordId = invRecordNextId;
+
+                if (!TblMWInventoryCtrl.Insert(dcf, item, ref updCount, ref errMsg))
+                {
+                    return false;
+                }
+            }
+            #endregion
+
+            #region add inventory track
+            {
+                TblMWInventoryTrack item = new TblMWInventoryTrack();
+                item.InvTrackRecordId = invTrackNextId;
+
+                if (!TblMWInventoryTrackCtrl.Insert(dcf, item, ref updCount, ref errMsg))
+                {
+                    return false;
+                }
+            }
+            #endregion
+
+            #region add txn log
+            {
+                TblMWTxnLog item = new TblMWTxnLog();
+                item.TxnLogId = txnLogNextId;
+
+                if (!TblMWTxnLogCtrl.Insert(dcf, item, ref updCount, ref errMsg))
+                {
+                    return false;
+                }
+            }
+            #endregion
+
+            #endregion
+
+            int[] updCounts = null;
+            if (!dcf.Commit(ref updCounts, ref errMsg))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         #endregion
 
+        public static bool TestUpdate()
+        {
+            string errMsg = "";
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            TblMWCarDispatch car = null;
+
+            SqlQueryMng sqm = new SqlQueryMng();
+            sqm.Condition.Where.AddCompareValue(TblMWCarDispatch.getCarDisIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, 1);
+
+            if (!TblMWCarDispatchCtrl.QueryOne(dcf, sqm, ref car, ref errMsg))
+            {
+                return false;
+            }
+            if (car == null)
+            {
+                return false;
+            }
+            SqlUpdateColumn suc = new SqlUpdateColumn();
+            suc.Add(TblMWCarDispatch.getCarCodeColumn());
+
+            SqlWhere sw = new SqlWhere();
+            sw.AddCompareValue(TblMWCarDispatch.getCarDisIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, car.CarDisId);
+            int updCount = 0;
+            if (!TblMWCarDispatchCtrl.Update(dcf,car, suc, sw, ref updCount, ref errMsg))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
     }
+
 }

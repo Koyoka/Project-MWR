@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using ComLib.db.mysql;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace ComLib.db
 {
@@ -14,25 +16,35 @@ namespace ComLib.db
             
         //    return true;
         //}
+        public static void foo(IEnumerable<DataColumnInfo> datas)
+        { 
+            
+        }
 
+        
         protected static void SetUpdateColumnValue<T>(SqlUpdateColumn suc, T t) where T : BaseDataModule,new()
         {
             if (suc.Columns == null)
             {
                 return;
             }
-            System.Reflection.PropertyInfo[] propertys = t.GetType().GetProperties();
+            
             foreach (DataColumnInfo dataInfo in suc.Columns)
             {
-                foreach (System.Reflection.PropertyInfo pi in propertys)
-                {
-                    if (dataInfo.ColumnName.Contains(pi.Name))
-                    {
-                        object o =  pi.GetValue(t, null);
-                        suc.Add(dataInfo, o);
-                    }
-                }
+                object o = typeof(T).GetProperty(dataInfo.ColumnName).GetValue(t, null);
+                suc.Add(dataInfo, o);
             }
+            //typeof(T).GetProperty(dataInfo.ColumnName).ge
+
+            ////foreach (System.Reflection.PropertyInfo pi in propertys)
+            ////{
+            ////    if (dataInfo.ColumnName.Contains(pi.Name))
+            ////    {
+            ////        object o =  pi.GetValue(t, null);
+            ////        suc.Add(dataInfo, o);
+            ////    }
+            ////}
+            //suc.Add(dataInfo, o);
         }
 
         public static bool doUpdateCtrl(DataCtrlInfo dcf, string sql, ref int count, ref string errMsg,params object[][] ps)

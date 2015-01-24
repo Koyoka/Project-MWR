@@ -17,32 +17,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MWRWinBase", "MWRWinBase\MW
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobilePhoneDemoApp", "MobilePhoneDemoApp\MobilePhoneDemoApp.csproj", "{63989717-E5B9-47EB-B18F-4BC9D84C91EC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FW2", "FW2\FW2.csproj", "{5FE6FE8A-055F-4151-951B-6D380C00CC8D}"
+EndProject
 Global
-	GlobalSection(SourceCodeControl) = preSolution
-		SccNumberOfProjects = 8
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = ..\\..\\..\\ComLib\\ComLib.csproj
-		SccProjectName1 = \u0022$/ComLib\u0022,\u0020PCAAAAAA
-		SccLocalPath1 = ..\\..\\..\\ComLib
-		SccProjectUniqueName2 = MWRBackOffice\\MWRBackOffice.csproj
-		SccLocalPath2 = .
-		SccProjectFilePathRelativizedFromConnection2 = MWRBackOffice\\
-		SccProjectUniqueName3 = WSInventory\\WSInventory.csproj
-		SccLocalPath3 = .
-		SccProjectFilePathRelativizedFromConnection3 = WSInventory\\
-		SccProjectUniqueName4 = WSDestory\\WSDestory.csproj
-		SccLocalPath4 = .
-		SccProjectFilePathRelativizedFromConnection4 = WSDestory\\
-		SccProjectUniqueName5 = MWRDBModule\\MWRDBModule.csproj
-		SccLocalPath5 = .
-		SccProjectFilePathRelativizedFromConnection5 = MWRDBModule\\
-		SccProjectUniqueName6 = MWRBusiness\\MWRBusiness.csproj
-		SccLocalPath6 = .
-		SccProjectFilePathRelativizedFromConnection6 = MWRBusiness\\
-		SccProjectUniqueName7 = MWRWinBase\\MWRWinBase.csproj
-		SccLocalPath7 = .
-		SccProjectFilePathRelativizedFromConnection7 = MWRWinBase\\
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -132,6 +109,16 @@ Global
 		{63989717-E5B9-47EB-B18F-4BC9D84C91EC}.Release|Mixed Platforms.Build.0 = Release|x86
 		{63989717-E5B9-47EB-B18F-4BC9D84C91EC}.Release|x86.ActiveCfg = Release|x86
 		{63989717-E5B9-47EB-B18F-4BC9D84C91EC}.Release|x86.Build.0 = Release|x86
+		{5FE6FE8A-055F-4151-951B-6D380C00CC8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FE6FE8A-055F-4151-951B-6D380C00CC8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FE6FE8A-055F-4151-951B-6D380C00CC8D}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{5FE6FE8A-055F-4151-951B-6D380C00CC8D}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{5FE6FE8A-055F-4151-951B-6D380C00CC8D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5FE6FE8A-055F-4151-951B-6D380C00CC8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FE6FE8A-055F-4151-951B-6D380C00CC8D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FE6FE8A-055F-4151-951B-6D380C00CC8D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{5FE6FE8A-055F-4151-951B-6D380C00CC8D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{5FE6FE8A-055F-4151-951B-6D380C00CC8D}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
