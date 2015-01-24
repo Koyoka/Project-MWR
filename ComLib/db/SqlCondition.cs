@@ -9,12 +9,17 @@ namespace ComLib.db
         public SqlWhere Where = null;
         public SqlGroupBy GroupBy = null;
         public SqlOrderBy OrderBy = null;
+        //public SqlJoin LeftJoin = null;
+        //public List<SqlJoinOn<BaseDataModule>> LeftJoin = null;
 
+        
+        
         public SqlCondition()
         {
             Where = new SqlWhere();
             GroupBy = new SqlGroupBy();
             OrderBy = new SqlOrderBy();
+            //LeftJoin = new SqlJoin();
         }
 
         public string getSql()

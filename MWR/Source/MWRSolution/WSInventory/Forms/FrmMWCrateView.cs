@@ -17,6 +17,7 @@ namespace YRKJ.MWR.WSInventory.Forms
         private FormMng _frmMng = null;
 
         private string _crateCode = "";
+        private TblMWTxnDetail _txnDetail = null;
 
         public FrmMWCrateView()
         {
@@ -32,10 +33,11 @@ namespace YRKJ.MWR.WSInventory.Forms
             this.MinimizeBox = false;
         }
 
-        public FrmMWCrateView(string crateCode)
+        public FrmMWCrateView(TblMWTxnDetail txnDetail)
             :this()
         {
-            this._crateCode = crateCode;
+            _txnDetail = txnDetail;
+            this._crateCode = txnDetail.CrateCode;
         }
 
         #region Event
@@ -72,7 +74,8 @@ namespace YRKJ.MWR.WSInventory.Forms
             try
             {
                 this.Cursor = Cursors.WaitCursor;
-
+                _txnDetail.TxnWeight = 999;
+                _txnDetail.Status = TblMWTxnDetail.STATUS_ENUM_Complete;
                 this.Close();
             }
             catch (Exception ex)
@@ -141,6 +144,12 @@ namespace YRKJ.MWR.WSInventory.Forms
         private bool InitCtrls()
         {
             this.c_txtCrateCode.Text = _crateCode;
+
+            this.c_txtCrateCode.DataBindings.Add("Text", _txnDetail, TblMWTxnDetail.getCrateCodeColumn().ColumnName);
+            this.c_labVendor.DataBindings.Add("Text", _txnDetail, TblMWTxnDetail.getVendorColumn().ColumnName);
+            this.c_labWaster.DataBindings.Add("Text", _txnDetail, TblMWTxnDetail.getWasteColumn().ColumnName);
+            this.c_labSubWeight.DataBindings.Add("Text", _txnDetail, TblMWTxnDetail.getSubWeightColumn().ColumnName);
+
             return true;
         }
 

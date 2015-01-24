@@ -47,7 +47,6 @@ namespace YRKJ.MWR.WSInventory.Forms
             {
                 this.Cursor = Cursors.WaitCursor;
                 string errMsg = "";
-                //WinFn.SafeFocusAndSelectAll(textBox1);
 
                 if (!InitFrm(ref errMsg))
                 {

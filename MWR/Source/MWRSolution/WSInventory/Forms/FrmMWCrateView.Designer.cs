@@ -30,13 +30,15 @@
         {
             this.c_btnOk = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label11 = new System.Windows.Forms.Label();
+            this.c_txtCrateCode = new System.Windows.Forms.TextBox();
+            this.c_labSubWeight = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
+            this.c_labEntryData = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
+            this.c_labWaster = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
+            this.c_labVendor = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.c_btnError = new System.Windows.Forms.Button();
             this.c_btnCancel = new System.Windows.Forms.Button();
@@ -44,9 +46,7 @@
             this.label12 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.c_txtCrateCode = new System.Windows.Forms.TextBox();
+            this.c_labTxnWeight = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -70,13 +70,13 @@
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.c_txtCrateCode);
-            this.groupBox1.Controls.Add(this.label11);
+            this.groupBox1.Controls.Add(this.c_labSubWeight);
             this.groupBox1.Controls.Add(this.label7);
-            this.groupBox1.Controls.Add(this.label10);
+            this.groupBox1.Controls.Add(this.c_labEntryData);
             this.groupBox1.Controls.Add(this.label6);
-            this.groupBox1.Controls.Add(this.label9);
+            this.groupBox1.Controls.Add(this.c_labWaster);
             this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Controls.Add(this.label8);
+            this.groupBox1.Controls.Add(this.c_labVendor);
             this.groupBox1.Controls.Add(this.label13);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.c_btnError);
@@ -89,15 +89,23 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "当前货箱";
             // 
-            // label11
+            // c_txtCrateCode
             // 
-            this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.label11.Location = new System.Drawing.Point(123, 182);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(50, 21);
-            this.label11.TabIndex = 3;
-            this.label11.Text = "12KG";
+            this.c_txtCrateCode.Location = new System.Drawing.Point(127, 33);
+            this.c_txtCrateCode.Name = "c_txtCrateCode";
+            this.c_txtCrateCode.ReadOnly = true;
+            this.c_txtCrateCode.Size = new System.Drawing.Size(132, 23);
+            this.c_txtCrateCode.TabIndex = 18;
+            // 
+            // c_labSubWeight
+            // 
+            this.c_labSubWeight.AutoSize = true;
+            this.c_labSubWeight.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.c_labSubWeight.Location = new System.Drawing.Point(123, 182);
+            this.c_labSubWeight.Name = "c_labSubWeight";
+            this.c_labSubWeight.Size = new System.Drawing.Size(50, 21);
+            this.c_labSubWeight.TabIndex = 3;
+            this.c_labSubWeight.Text = "12KG";
             // 
             // label7
             // 
@@ -109,15 +117,15 @@
             this.label7.TabIndex = 3;
             this.label7.Text = "收集重量：";
             // 
-            // label10
+            // c_labEntryData
             // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.label10.Location = new System.Drawing.Point(123, 145);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(163, 21);
-            this.label10.TabIndex = 3;
-            this.label10.Text = "2015-01-01 12:00:00";
+            this.c_labEntryData.AutoSize = true;
+            this.c_labEntryData.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.c_labEntryData.Location = new System.Drawing.Point(123, 145);
+            this.c_labEntryData.Name = "c_labEntryData";
+            this.c_labEntryData.Size = new System.Drawing.Size(163, 21);
+            this.c_labEntryData.TabIndex = 3;
+            this.c_labEntryData.Text = "2015-01-01 12:00:00";
             // 
             // label6
             // 
@@ -129,15 +137,15 @@
             this.label6.TabIndex = 3;
             this.label6.Text = "收集时间：";
             // 
-            // label9
+            // c_labWaster
             // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.label9.Location = new System.Drawing.Point(123, 108);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(74, 21);
-            this.label9.TabIndex = 3;
-            this.label9.Text = "医疗器械";
+            this.c_labWaster.AutoSize = true;
+            this.c_labWaster.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.c_labWaster.Location = new System.Drawing.Point(123, 108);
+            this.c_labWaster.Name = "c_labWaster";
+            this.c_labWaster.Size = new System.Drawing.Size(74, 21);
+            this.c_labWaster.TabIndex = 3;
+            this.c_labWaster.Text = "医疗器械";
             // 
             // label5
             // 
@@ -149,15 +157,25 @@
             this.label5.TabIndex = 3;
             this.label5.Text = "类别：";
             // 
-            // label8
+            // c_labVendor
             // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.label8.Location = new System.Drawing.Point(123, 71);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(74, 21);
-            this.label8.TabIndex = 3;
-            this.label8.Text = "中南医院";
+            this.c_labVendor.AutoSize = true;
+            this.c_labVendor.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.c_labVendor.Location = new System.Drawing.Point(123, 71);
+            this.c_labVendor.Name = "c_labVendor";
+            this.c_labVendor.Size = new System.Drawing.Size(74, 21);
+            this.c_labVendor.TabIndex = 3;
+            this.c_labVendor.Text = "中南医院";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.label13.Location = new System.Drawing.Point(27, 34);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(90, 21);
+            this.label13.TabIndex = 3;
+            this.label13.Text = "货箱编号：";
             // 
             // label4
             // 
@@ -201,7 +219,7 @@
             this.panel1.Controls.Add(this.label12);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.label2);
+            this.panel1.Controls.Add(this.c_labTxnWeight);
             this.panel1.Location = new System.Drawing.Point(12, 305);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(360, 95);
@@ -245,35 +263,17 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "KG";
             // 
-            // label2
+            // c_labTxnWeight
             // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label2.Font = new System.Drawing.Font("微软雅黑", 38F);
-            this.label2.ForeColor = System.Drawing.Color.Lime;
-            this.label2.Location = new System.Drawing.Point(247, 10);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(90, 78);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "0";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.BottomRight;
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.label13.Location = new System.Drawing.Point(27, 34);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(90, 21);
-            this.label13.TabIndex = 3;
-            this.label13.Text = "货箱编号：";
-            // 
-            // c_txtCrateCode
-            // 
-            this.c_txtCrateCode.Location = new System.Drawing.Point(127, 33);
-            this.c_txtCrateCode.Name = "c_txtCrateCode";
-            this.c_txtCrateCode.ReadOnly = true;
-            this.c_txtCrateCode.Size = new System.Drawing.Size(132, 23);
-            this.c_txtCrateCode.TabIndex = 18;
+            this.c_labTxnWeight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.c_labTxnWeight.Font = new System.Drawing.Font("微软雅黑", 38F);
+            this.c_labTxnWeight.ForeColor = System.Drawing.Color.Lime;
+            this.c_labTxnWeight.Location = new System.Drawing.Point(247, 10);
+            this.c_labTxnWeight.Name = "c_labTxnWeight";
+            this.c_labTxnWeight.Size = new System.Drawing.Size(90, 78);
+            this.c_labTxnWeight.TabIndex = 0;
+            this.c_labTxnWeight.Text = "0";
+            this.c_labTxnWeight.TextAlign = System.Drawing.ContentAlignment.BottomRight;
             // 
             // FrmMWCrateView
             // 
@@ -302,17 +302,17 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label c_labTxnWeight;
         private System.Windows.Forms.Button c_btnCancel;
         private System.Windows.Forms.Button c_btnError;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label c_labSubWeight;
+        private System.Windows.Forms.Label c_labEntryData;
+        private System.Windows.Forms.Label c_labWaster;
+        private System.Windows.Forms.Label c_labVendor;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.TextBox c_txtCrateCode;

@@ -88,8 +88,7 @@ namespace YRKJ.MWR.WSInventory.Forms
             try
             {
                 this.Cursor = Cursors.WaitCursor;
-                c_txtCrateCode.Text = code;
-                using (FrmMWCrateView f = new FrmMWCrateView(code))
+                using (FrmMWCrateView f = new FrmMWCrateView())
                 {
                     f.ShowDialog();
                 }

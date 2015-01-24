@@ -304,7 +304,7 @@ namespace YRKJ.MWR.Business.BO
                         //dtl.WasteCode = "";
                         //dtl.SubWeight = "";
                         //dtl.TxnWeight = dtl.SubWeight;
-                        dtl.EntryDate = now;
+                        //dtl.EntryDate = now;
                         //dtl.InvRecordId = "";
                         //dtl.InvAuthId = "";
                         dtl.Status = TblMWTxnDetail.STATUS_ENUM_Process;

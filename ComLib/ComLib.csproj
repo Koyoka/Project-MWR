@@ -65,6 +65,10 @@
     <Compile Include="db\BaseDataCtrl.cs" />
     <Compile Include="db\BaseDataModule.cs" />
     <Compile Include="db\DataColumnInfo.cs" />
+    <Compile Include="db\Demo\TblMWCar.cs" />
+    <Compile Include="db\Demo\TblMWCarCtrl.cs" />
+    <Compile Include="db\Demo\TblMWCarDispatch.cs" />
+    <Compile Include="db\Demo\TblMWCarDispatchCtrl.cs" />
     <Compile Include="db\interface\ISqlBaseFn.cs" />
     <Compile Include="db\interface\ISqlDBMng.cs" />
     <Compile Include="db\mysql\MySqlHelper.cs" />
@@ -83,6 +87,7 @@
     <Compile Include="db\SqlUpdateColumn.cs" />
     <Compile Include="db\SqlUpdateMng.cs" />
     <Compile Include="db\SqlWhere.cs" />
+    <Compile Include="db\Demo\Demo.cs" />
     <Compile Include="Error\ErrorMng.cs" />
     <Compile Include="Log\LogMng.cs" />
     <Compile Include="Log\TextLog.cs" />

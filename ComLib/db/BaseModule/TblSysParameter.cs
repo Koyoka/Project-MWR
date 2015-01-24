@@ -18,6 +18,7 @@ namespace ComLib.db.BaseModule
             return SqlCommonFn.FormatSqlTableNameString(TableName);
         }
 
+
         public static DataColumnInfo[] Columns = 
                 new DataColumnInfo[]{
             new DataColumnInfo(true,false,false,false,"ParameterName",SqlCommonFn.DataColumnType.STRING,128),
@@ -84,5 +85,13 @@ namespace ComLib.db.BaseModule
             SetValue(ref _Remark, row["Remark"]);
         }
 
+        //public override string GetTableName()
+        //{
+        //    return TableName;
+        //}
+        //public override DataColumnInfo[] GetColumns()
+        //{
+        //    return Columns;
+        //}
     }
 }

@@ -39,9 +39,9 @@ namespace MobilePhoneDemoApp
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            foo();
+            //foo();
 
-            return;
+            //return;
             //string errMsg = "";
             //string resData = "";
             //MWHttpSendHelper.SendTxn(ref resData,ref errMsg);

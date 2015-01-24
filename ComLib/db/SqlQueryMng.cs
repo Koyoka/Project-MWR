@@ -69,6 +69,34 @@ namespace ComLib.db
             return SqlCommonFn.FormatQuerySql(topSql);
         }
 
+        //public string getLeftJoinSql()
+        //{
+        //    StringBuilder sb = new StringBuilder();
+        //    sb.Append("SELECT");
+        //    putSpace(sb);
+        //    sb.Append(QueryColumn.getSql());
+        //    putSpace(sb);
+        //    sb.Append("FROM");
+        //    putSpace(sb);
+        //    sb.Append(queryTableName);
+            
+        //    putSpace(sb);
+        //    Condition.LeftJoin.GetSql();
+            
+            
+            
+        //    string sqlcondition = Condition.getSql();
+        //    if (!string.IsNullOrEmpty(sqlcondition))
+        //    {
+        //        putSpace(sb);
+        //        sb.Append(sqlcondition);
+        //        buildParamsList.AddRange(Condition.getParams());
+        //    }
+
+        //    string topSql = SqlCommonFn.FormatTopSqlString(sb.ToString(), QueryColumn.GetTopCount());
+
+        //    return SqlCommonFn.FormatQuerySql(topSql);
+        //}
 
         public string getVewSql(string vewSql)
         {

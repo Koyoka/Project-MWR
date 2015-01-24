@@ -114,11 +114,18 @@ namespace ComLib.db.BaseModule
         public override void SetValue(System.Data.DataRow row)
         {
             SetValue(ref _IdName, row["IdName"]);
-            SetValue(ref _Increment, row["Increment"]);
             SetValue(ref _MinValue, row["MinValue"]);
+            SetValue(ref _Increment, row["Increment"]);
             SetValue(ref _MaxValue, row["MaxValue"]);
-            SetValue(ref _IdValue, row["Remark"]);
+            SetValue(ref _IdValue, row["IdValue"]);
         }
-
+        //public override string GetTableName()
+        //{
+        //    return TableName;
+        //}
+        //public override DataColumnInfo[] GetColumns()
+        //{
+        //    return Columns;
+        //}
     }
 }

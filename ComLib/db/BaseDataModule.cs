@@ -58,6 +58,12 @@ namespace ComLib.db
             val = (float)dataVal;
         }
         public abstract void SetValue(System.Data.DataRow row);
+
+        //public abstract string GetTableName();
+        //public abstract DataColumnInfo[] GetColumns();
+        //{
+        //    return SqlCommonFn.FormatSqlTableNameString(TableName);
+        //}
         //{
         //    return true;
         //}
