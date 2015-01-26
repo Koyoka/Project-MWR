@@ -8,6 +8,8 @@ using System.Text;
 using System.Windows.Forms;
 using YRKJ.MWR.WinBase.WinAppBase;
 using ComLib.Log;
+using YRKJ.MWR.Business.WS;
+using YRKJ.MWR.WSInventory.Business.Sys;
 
 namespace YRKJ.MWR.WSInventory.Forms
 {
@@ -16,7 +18,8 @@ namespace YRKJ.MWR.WSInventory.Forms
         private const string ClassName = "YRKJ.MWR.WSDestory.Forms.FrmMWCrateDetail";
         private FormMng _frmMng = null;
 
-        private string _crateCode = "";
+        //private string _crateCode = "";
+        string _depotCode = "";
         private TblMWTxnDetail _txnDetail = null;
 
         public FrmMWCrateView()
@@ -33,11 +36,11 @@ namespace YRKJ.MWR.WSInventory.Forms
             this.MinimizeBox = false;
         }
 
-        public FrmMWCrateView(TblMWTxnDetail txnDetail)
+        public FrmMWCrateView(TblMWTxnDetail txnDetail,string depotCode)
             :this()
         {
             _txnDetail = txnDetail;
-            this._crateCode = txnDetail.CrateCode;
+            _depotCode = depotCode;
         }
 
         #region Event
@@ -74,8 +77,26 @@ namespace YRKJ.MWR.WSInventory.Forms
             try
             {
                 this.Cursor = Cursors.WaitCursor;
+                string errMsg = "";
+                //string empyCode = SysInfo.GetInstance().Employ.EmpyCode;
+                //string empyName = SysInfo.GetInstance().Employ.EmpyName;
+                //string wscode = SysInfo.GetInstance().Config.WSCode;
+
                 _txnDetail.TxnWeight = 999;
-                _txnDetail.Status = TblMWTxnDetail.STATUS_ENUM_Complete;
+                _txnDetail.EmpyCode = SysInfo.GetInstance().Employ.EmpyCode;
+                _txnDetail.EmpyName = SysInfo.GetInstance().Employ.EmpyName;
+                _txnDetail.WSCode = SysInfo.GetInstance().Config.WSCode;
+                
+                if (!TxnMng.ConfirmCrateToInventory(_txnDetail.TxnDetailId,
+                    //_txnWeight, empyCode, wscode, 
+                    _depotCode,
+                    ref errMsg))
+                {
+                    MsgBox.Error(errMsg);
+                    return;
+                }
+                this.DialogResult = System.Windows.Forms.DialogResult.OK;
+
                 this.Close();
             }
             catch (Exception ex)
@@ -143,7 +164,7 @@ namespace YRKJ.MWR.WSInventory.Forms
 
         private bool InitCtrls()
         {
-            this.c_txtCrateCode.Text = _crateCode;
+            this.c_txtCrateCode.Text = _txnDetail.CrateCode;
 
             this.c_txtCrateCode.DataBindings.Add("Text", _txnDetail, TblMWTxnDetail.getCrateCodeColumn().ColumnName);
             this.c_labVendor.DataBindings.Add("Text", _txnDetail, TblMWTxnDetail.getVendorColumn().ColumnName);

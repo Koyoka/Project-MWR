@@ -28,16 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.c_btnOk = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.c_grdMWRecover = new System.Windows.Forms.DataGridView();
-            this.c_grdMWRecover_C_CarCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.c_grdMWRecover_C_Driver = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.c_grdDepot = new System.Windows.Forms.DataGridView();
             this.c_btnCancel = new System.Windows.Forms.Button();
+            this.c_grdDepot_C_DepotCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.c_grdDepot_C_Desc = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.c_grdMWRecover)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.c_grdDepot)).BeginInit();
             this.SuspendLayout();
             // 
             // c_btnOk
@@ -58,65 +57,44 @@
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.Controls.Add(this.c_grdMWRecover);
+            this.panel1.Controls.Add(this.c_grdDepot);
             this.panel1.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.panel1.Location = new System.Drawing.Point(12, 12);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(381, 363);
             this.panel1.TabIndex = 15;
             // 
-            // c_grdMWRecover
+            // c_grdDepot
             // 
-            this.c_grdMWRecover.AllowUserToAddRows = false;
-            this.c_grdMWRecover.AllowUserToDeleteRows = false;
-            this.c_grdMWRecover.AllowUserToResizeColumns = false;
-            this.c_grdMWRecover.AllowUserToResizeRows = false;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("微软雅黑", 12F);
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.c_grdMWRecover.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
-            this.c_grdMWRecover.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.c_grdMWRecover.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.c_grdMWRecover_C_CarCode,
-            this.c_grdMWRecover_C_Driver});
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("微软雅黑", 11F);
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.c_grdMWRecover.DefaultCellStyle = dataGridViewCellStyle4;
-            this.c_grdMWRecover.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.c_grdMWRecover.Location = new System.Drawing.Point(0, 0);
-            this.c_grdMWRecover.MultiSelect = false;
-            this.c_grdMWRecover.Name = "c_grdMWRecover";
-            this.c_grdMWRecover.RowHeadersVisible = false;
-            this.c_grdMWRecover.RowTemplate.DefaultCellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.c_grdMWRecover.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.c_grdMWRecover.RowTemplate.Height = 60;
-            this.c_grdMWRecover.RowTemplate.ReadOnly = true;
-            this.c_grdMWRecover.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.c_grdMWRecover.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.c_grdMWRecover.Size = new System.Drawing.Size(381, 363);
-            this.c_grdMWRecover.TabIndex = 12;
-            // 
-            // c_grdMWRecover_C_CarCode
-            // 
-            this.c_grdMWRecover_C_CarCode.HeaderText = "仓库编号";
-            this.c_grdMWRecover_C_CarCode.Name = "c_grdMWRecover_C_CarCode";
-            this.c_grdMWRecover_C_CarCode.Width = 101;
-            // 
-            // c_grdMWRecover_C_Driver
-            // 
-            this.c_grdMWRecover_C_Driver.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.c_grdMWRecover_C_Driver.FillWeight = 80F;
-            this.c_grdMWRecover_C_Driver.HeaderText = "仓库名称";
-            this.c_grdMWRecover_C_Driver.Name = "c_grdMWRecover_C_Driver";
+            this.c_grdDepot.AllowUserToAddRows = false;
+            this.c_grdDepot.AllowUserToDeleteRows = false;
+            this.c_grdDepot.AllowUserToResizeColumns = false;
+            this.c_grdDepot.AllowUserToResizeRows = false;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("微软雅黑", 12F);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.c_grdDepot.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            this.c_grdDepot.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.c_grdDepot.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.c_grdDepot_C_DepotCode,
+            this.c_grdDepot_C_Desc});
+            this.c_grdDepot.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.c_grdDepot.Location = new System.Drawing.Point(0, 0);
+            this.c_grdDepot.MultiSelect = false;
+            this.c_grdDepot.Name = "c_grdDepot";
+            this.c_grdDepot.RowHeadersVisible = false;
+            this.c_grdDepot.RowTemplate.DefaultCellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.c_grdDepot.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.c_grdDepot.RowTemplate.Height = 60;
+            this.c_grdDepot.RowTemplate.ReadOnly = true;
+            this.c_grdDepot.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.c_grdDepot.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.c_grdDepot.Size = new System.Drawing.Size(381, 363);
+            this.c_grdDepot.TabIndex = 12;
             // 
             // c_btnCancel
             // 
@@ -131,6 +109,19 @@
             this.c_btnCancel.UseVisualStyleBackColor = true;
             this.c_btnCancel.Click += new System.EventHandler(this.c_btnCancel_Click);
             // 
+            // c_grdDepot_C_DepotCode
+            // 
+            this.c_grdDepot_C_DepotCode.HeaderText = "仓库编号";
+            this.c_grdDepot_C_DepotCode.Name = "c_grdDepot_C_DepotCode";
+            this.c_grdDepot_C_DepotCode.Width = 101;
+            // 
+            // c_grdDepot_C_Desc
+            // 
+            this.c_grdDepot_C_Desc.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.c_grdDepot_C_Desc.FillWeight = 80F;
+            this.c_grdDepot_C_Desc.HeaderText = "仓库名称";
+            this.c_grdDepot_C_Desc.Name = "c_grdDepot_C_Desc";
+            // 
             // FrmDepotDtl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -143,8 +134,9 @@
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "FrmDepotDtl";
             this.Text = "FrmDepotDtl";
+            this.Load += new System.EventHandler(this.FrmDepotDtl_Load);
             this.panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.c_grdMWRecover)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.c_grdDepot)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -153,9 +145,9 @@
 
         private System.Windows.Forms.Button c_btnOk;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.DataGridView c_grdMWRecover;
-        private System.Windows.Forms.DataGridViewTextBoxColumn c_grdMWRecover_C_CarCode;
-        private System.Windows.Forms.DataGridViewTextBoxColumn c_grdMWRecover_C_Driver;
+        private System.Windows.Forms.DataGridView c_grdDepot;
         private System.Windows.Forms.Button c_btnCancel;
+        private System.Windows.Forms.DataGridViewTextBoxColumn c_grdDepot_C_DepotCode;
+        private System.Windows.Forms.DataGridViewTextBoxColumn c_grdDepot_C_Desc;
     }
 }

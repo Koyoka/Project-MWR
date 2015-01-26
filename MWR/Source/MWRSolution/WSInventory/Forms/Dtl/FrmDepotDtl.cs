@@ -8,6 +8,8 @@ using System.Text;
 using System.Windows.Forms;
 using YRKJ.MWR.WinBase.WinAppBase;
 using ComLib.Log;
+using YRKJ.MWR.Business.BaseData;
+using YRKJ.MWR.WSInventory.Business.Sys;
 
 namespace YRKJ.MWR.WSInventory.Forms.Dtl
 {
@@ -15,6 +17,8 @@ namespace YRKJ.MWR.WSInventory.Forms.Dtl
     {
         private const string ClassName = "YRKJ.MWR.WSInventory.Forms.Dtl.FrmDepotDtl";
         private FormMng _frmMng = null;
+
+        private BindingList<GridDepotData> _gridDepotDataList = new BindingList<GridDepotData>();
 
         public FrmDepotDtl()
         {
@@ -30,13 +34,40 @@ namespace YRKJ.MWR.WSInventory.Forms.Dtl
         } 
 
         #region Event
+        private void FrmDepotDtl_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                this.Cursor = Cursors.WaitCursor;
+                if (!InitFrm())
+                {
+                    return;
+                }
 
+                if (!InitCtrls())
+                {
+                    return;
+                }
+            }
+            catch (Exception ex)
+            {
+                LogMng.GetLog().PrintError(ClassName, "FrmDepotDtl_Load", ex);
+                MsgBox.Error(ex);
+            }
+            finally
+            {
+                this.Cursor = Cursors.Default;
+            }
+        }
 
         private void c_btnOk_Click(object sender, EventArgs e)
         {
             try
             {
                 this.Cursor = Cursors.WaitCursor;
+
+                string code = (this.c_grdDepot.CurrentRow.DataBoundItem as GridDepotData).DeptCode;
+
                 this.Close();
 
             }
@@ -87,11 +118,33 @@ namespace YRKJ.MWR.WSInventory.Forms.Dtl
 
         private bool InitCtrls()
         {
+            c_grdDepot_C_DepotCode.DataPropertyName = "DeptCode";
+            c_grdDepot_C_Desc.DataPropertyName = "Desc";
+
+            c_grdDepot.DataSource = _gridDepotDataList;
             return true;
         }
 
         private bool LoadData()
         {
+            string errMsg = "";
+
+            List<TblMWDepot> dataList = null;
+            if (!SysCacheData.GetInstance().GetDepotList(ref dataList, ref errMsg))
+            {
+                MsgBox.Error(errMsg);
+                return false;
+            }
+           
+            foreach (TblMWDepot data in dataList)
+            {
+                _gridDepotDataList.Add(new GridDepotData() { 
+                    DeptCode = data.DeptCode,
+                    Desc = data.Desc
+                });
+            }
+           
+
             return true;
         }
 
@@ -104,7 +157,26 @@ namespace YRKJ.MWR.WSInventory.Forms.Dtl
             public const string MSG_FormName = "仓库列表";
         }
 
+        private class GridDepotData
+        {
+            private string _deptCode = "";
+            public string DeptCode
+            {
+                get { return _deptCode; }
+                set { _deptCode = value; }
+            }
+
+            private string _desc = "";
+            public string Desc
+            {
+                get { return _desc; }
+                set { _desc = value; }
+            }
+        }
+
         #endregion
+
+       
 
         #region Form Data Property
 

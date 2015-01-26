@@ -119,5 +119,11 @@ INSERT INTO `MWRData`.`MWWasteCategory` (`WasteCode`, `Waste`) VALUES ('YF006', 
 INSERT INTO `MWRData`.`MWWasteCategory` (`WasteCode`, `Waste`) VALUES ('YF007', 'GÐÍ·ÏÁÏ');
 INSERT INTO `MWRData`.`MWWasteCategory` (`WasteCode`, `Waste`) VALUES ('YF008', 'HÐÍ·ÏÁÏ');
 
-
+-- ²Ö¿â»ù´¡Êý¾Ý
+DELETE FROM `MWDepot`;
+INSERT INTO `MWRData`.`MWDepot` (`DeptCode`, `Total`, `Desc`) VALUES ('CK001', 100, '1ºÅ²Ö¿â');
+INSERT INTO `MWRData`.`MWDepot` (`DeptCode`, `Total`, `Desc`) VALUES ('CK002', 100, '2ºÅ²Ö¿â');
+INSERT INTO `MWRData`.`MWDepot` (`DeptCode`, `Total`, `Desc`) VALUES ('CK003', 100, '3ºÅ²Ö¿â');
+INSERT INTO `MWRData`.`MWDepot` (`DeptCode`, `Total`, `Desc`) VALUES ('CK004', 100, '4ºÅ²Ö¿â');
+INSERT INTO `MWRData`.`MWDepot` (`DeptCode`, `Total`, `Desc`) VALUES ('CK005', 100, '5ºÅ²Ö¿â');
 

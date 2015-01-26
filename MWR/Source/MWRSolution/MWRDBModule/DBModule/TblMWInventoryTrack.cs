@@ -22,7 +22,7 @@ namespace YRKJ.MWR
                 new DataColumnInfo[]{
             new DataColumnInfo(true,false,false,false,"InvTrackRecordId",SqlCommonFn.DataColumnType.INT,10),
             new DataColumnInfo(false,true,false,false,"InvRecordId",SqlCommonFn.DataColumnType.INT,10),
-            new DataColumnInfo(false,true,false,false,"TxnNum",SqlCommonFn.DataColumnType.INT,10),
+            new DataColumnInfo(false,true,false,false,"TxnNum",SqlCommonFn.DataColumnType.STRING,20),
             new DataColumnInfo(false,true,false,false,"TxnType",SqlCommonFn.DataColumnType.STRING,2),
             new DataColumnInfo(false,true,false,false,"TxnDetailId",SqlCommonFn.DataColumnType.INT,10),
             new DataColumnInfo(false,true,false,false,"CrateCode",SqlCommonFn.DataColumnType.STRING,20),
@@ -120,7 +120,7 @@ namespace YRKJ.MWR
 
         private int _InvTrackRecordId = 0;
         private int _InvRecordId = 0;
-        private int _TxnNum = 0;
+        private string _TxnNum = "";
         private string _TxnType = "";
         private int _TxnDetailId = 0;
         private string _CrateCode = "";
@@ -160,7 +160,7 @@ namespace YRKJ.MWR
                 _InvRecordId = value;
             }
         }
-        public int TxnNum
+        public string TxnNum
         {
             get
             {
@@ -371,6 +371,11 @@ namespace YRKJ.MWR
              SetValue(ref _InvAuthId, row["InvAuthId"]);
          }
 
+        public const string TXNTYPE_ENUM_Recover = "R";//回收入库交易;
+        public const string TXNTYPE_ENUM_Post = "P";//出库交易;
+        public const string TXNTYPE_ENUM_Destroy = "D";//处置销毁交易;
+        public const string STATUS_ENUM_Normal = "N";//1.Normal 该跟踪数据正常;
+        public const string STATUS_ENUM_Void = "V";//2.Void 该跟踪数据无效;
 
     }
 }

@@ -23,6 +23,7 @@ namespace YRKJ.MWR.WSInventory.Forms
         private FrmMain _frmMain = null;
         private ScannerMng _scannerMng = null;
         private string _txnNum = "";
+        private string _depotCode = "";
 
         private VewTxnHeaderWithCarDispatch _header = null;
         private List<TblMWTxnDetail> _detailList = null;
@@ -449,12 +450,17 @@ namespace YRKJ.MWR.WSInventory.Forms
             }
             return true;
         }
-
+       
         private void RecoverCrate(TblMWTxnDetail txnDetail)
         {
-            using (FrmMWCrateView f = new FrmMWCrateView(txnDetail))
+            using (FrmMWCrateView f = new FrmMWCrateView(txnDetail,_depotCode))
             {
-                f.ShowDialog();
+                DialogResult result = f.ShowDialog();
+                if (result == System.Windows.Forms.DialogResult.OK)
+                {
+                  
+                }
+
             }
             GridTxnDetailData curData = null;
 
@@ -592,7 +598,6 @@ namespace YRKJ.MWR.WSInventory.Forms
         }
 
         #endregion
-
 
         #region Form Data Property
 

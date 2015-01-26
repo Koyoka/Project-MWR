@@ -146,13 +146,17 @@ namespace YRKJ.MWR.Business.WS
             return true;
         }
 
-        public static bool ConfirmCrateToInventory(int txnDetailId,decimal txnWeight, string empyCode,string wscode, ref string errMsg)
+        public static bool ConfirmCrateToInventory(int txnDetailId,
+            //decimal txnWeight, string empyCode, string wscode, 
+            string depotCode,
+            ref string errMsg)
         {
 
             DataCtrlInfo dcf = new DataCtrlInfo();
 
-            #region get & valid data
             TblMWTxnDetail detail = null;
+            //TblMWEmploy empy = null;
+            #region get & valid data
             {
                 SqlQueryMng sqm = new SqlQueryMng();
                 sqm.Condition.Where.AddCompareValue(TblMWTxnDetail.getTxnDetailIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, txnDetailId);
@@ -167,22 +171,21 @@ namespace YRKJ.MWR.Business.WS
                     return false;
                 }
             }
-
-            TblMWEmploy empy = null;
-            {
-                SqlQueryMng sqm = new SqlQueryMng();
-                sqm.Condition.Where.AddCompareValue(TblMWEmploy.getEmpyCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, empyCode);
-                if (!TblMWEmployCtrl.QueryOne(dcf, sqm, ref empy, ref errMsg))
-                {
-                    return false;
-                }
-                if (empy == null)
-                {
-                    errMsg = "没有找到当前编号的员工";
-                    return false;
-                }
-            }
+            //{
+            //    SqlQueryMng sqm = new SqlQueryMng();
+            //    sqm.Condition.Where.AddCompareValue(TblMWEmploy.getEmpyCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, empyCode);
+            //    if (!TblMWEmployCtrl.QueryOne(dcf, sqm, ref empy, ref errMsg))
+            //    {
+            //        return false;
+            //    }
+            //    if (empy == null)
+            //    {
+            //        errMsg = "没有找到当前编号的员工";
+            //        return false;
+            //    }
+            //}
             #endregion
+
 
             dcf.BeginTrans();
 
@@ -198,9 +201,11 @@ namespace YRKJ.MWR.Business.WS
             invRecordNextId = MWNextIdMng.GetInventoryNextId();
             invTrackNextId = MWNextIdMng.GetInventoryTrackNextId();
             txnLogNextId = MWNextIdMng.GetTxnLogNextId();
+
             bool validNextId = true;
             validNextId = invRecordNextId == 0 && validNextId;
             validNextId = invTrackNextId == 0 && validNextId;
+            validNextId = txnLogNextId == 0 && validNextId;
 
             if (!validNextId)
             {
@@ -212,16 +217,16 @@ namespace YRKJ.MWR.Business.WS
             #region update current txn
             {
                 //TblMWTxnDetail item = new TblMWTxnDetail();
-                detail.WSCode = empyCode;
-                detail.EmpyCode = empyCode;
-                detail.EmpyName = empy.EmpyName;
+                //detail.WSCode = empyCode;
+                //detail.EmpyCode = empyCode;
+                //detail.EmpyName = empy.EmpyName;
                 //dtl.CrateCode = "";
                 //dtl.Vendor = "";
                 //dtl.VendorCode = "";
                 //dtl.Waste = "";
                 //dtl.WasteCode = "";
                 //dtl.SubWeight = "";
-                detail.TxnWeight = txnWeight;
+                //detail.TxnWeight = txnWeight;
                 detail.EntryDate = now;
                 detail.InvRecordId = invRecordNextId;
                 //dtl.InvAuthId = "";
@@ -251,6 +256,20 @@ namespace YRKJ.MWR.Business.WS
             {
                 TblMWInventory item = new TblMWInventory();
                 item.InvRecordId = invRecordNextId;
+                item.CrateCode = detail.CrateCode;
+                item.DepotCode = depotCode;
+                item.Vendor = detail.Vendor;
+                item.VendorCode = detail.VendorCode;
+                item.Waste = detail.Waste;
+                item.WasteCode = detail.WasteCode;
+                item.RecoWeight = detail.SubWeight;
+                item.InvWeight = detail.TxnWeight;
+                //item.PostWeight = detail.PostWeight;
+                //item.DestWeight = detail.DestWeight;
+                item.EntryDate = now;
+                item.Status = TblMWInventory.STATUS_ENUM_Destroyed;
+                //item.DailyClose = detail.DailyClose;
+
 
                 if (!TblMWInventoryCtrl.Insert(dcf, item, ref updCount, ref errMsg))
                 {
@@ -264,6 +283,26 @@ namespace YRKJ.MWR.Business.WS
                 TblMWInventoryTrack item = new TblMWInventoryTrack();
                 item.InvTrackRecordId = invTrackNextId;
 
+                item.InvRecordId = invRecordNextId;
+
+                item.TxnNum = detail.TxnNum;
+                item.TxnType = TblMWInventoryTrack.TXNTYPE_ENUM_Recover;//detail.TxnType;
+                item.TxnDetailId = detail.TxnDetailId;
+                item.CrateCode = detail.CrateCode;
+                item.DepotCode = depotCode;
+                item.Vendor = detail.Vendor;
+                item.VendorCode = detail.VendorCode;
+                item.Waste = detail.Waste;
+                item.WasteCode = detail.WasteCode;
+                item.SubWeight = detail.SubWeight;
+                item.TxnWeight = detail.TxnWeight;
+                item.WSCode = detail.WSCode;
+                item.EmpyName = detail.EmpyName;
+                item.EmpyCode = detail.EmpyCode;
+                item.EntryDate = now;
+                item.Status = TblMWInventoryTrack.STATUS_ENUM_Normal;
+                item.InvAuthId = detail.InvAuthId;
+
                 if (!TblMWInventoryTrackCtrl.Insert(dcf, item, ref updCount, ref errMsg))
                 {
                     return false;
@@ -275,6 +314,17 @@ namespace YRKJ.MWR.Business.WS
             {
                 TblMWTxnLog item = new TblMWTxnLog();
                 item.TxnLogId = txnLogNextId;
+
+                item.TxnNum = detail.TxnNum;
+                item.TxnDetailId = detail.TxnDetailId;
+                item.WSCode = detail.WSCode;
+                item.EmpyName = detail.EmpyName;
+                item.EmpyCode = detail.EmpyCode;
+                item.OptType = TblMWTxnLog.OPTTYPE_ENUM_SubInventory;
+                item.OptDate = now;
+                item.TxnLogType = TblMWTxnLog.TXNLOGTYPE_ENUM_Recover;
+
+                item.InvRecordId = invRecordNextId;
 
                 if (!TblMWTxnLogCtrl.Insert(dcf, item, ref updCount, ref errMsg))
                 {

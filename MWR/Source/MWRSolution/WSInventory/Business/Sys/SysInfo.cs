@@ -12,7 +12,6 @@ namespace YRKJ.MWR.WSInventory.Business.Sys
         public TblMWEmploy Employ = null;
         public AppConfig Config = null;
 
-
         private static SysInfo _sysInfo = null;
         public static SysInfo GetInstance()
         {

@@ -53,6 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Business\Sys\SysCacheData.cs" />
     <Compile Include="Business\Sys\SysInfo.cs" />
     <Compile Include="Business\Sys\SysInfoMng.cs" />
     <Compile Include="Class1.cs" />

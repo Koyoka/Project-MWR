@@ -119,7 +119,7 @@ namespace YRKJ.MWR
         public static bool Insert(DataCtrlInfo dcf,
             int invTrackRecordId,
             int invRecordId,
-            int txnNum,
+            string txnNum,
             string txnType,
             int txnDetailId,
             string crateCode,

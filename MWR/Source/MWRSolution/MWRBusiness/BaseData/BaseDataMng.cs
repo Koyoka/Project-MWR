@@ -146,5 +146,21 @@ namespace YRKJ.MWR.Business.BaseData
             return true;
         }
         #endregion
+
+        #region Depot
+
+        public static bool GetAllDepotList(ref List<TblMWDepot> depotList, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            SqlQueryMng sqm = new SqlQueryMng();
+            if (!TblMWDepotCtrl.QueryMore(dcf, sqm, ref depotList, ref errMsg))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        #endregion
     }
 }

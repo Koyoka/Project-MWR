@@ -209,6 +209,12 @@ namespace YRKJ.MWR
              SetValue(ref _InvRecordId, row["InvRecordId"]);
          }
 
+        public const string OPTTYPE_ENUM_SubInventory = "SI";//1.提交入库 SC  submit inventory;
+        public const string OPTTYPE_ENUM_SubAuthorize = "SA";//2.提交审核 SA submit authorize;
+        public const string OPTTYPE_ENUM_AuthorizeInventory = "AI";//3.确认审核并入库 AC authorize inventory;
+        public const string TXNLOGTYPE_ENUM_Recover = "R";//回收入库交易;
+        public const string TXNLOGTYPE_ENUM_Post = "P";//出库交易;
+        public const string TXNLOGTYPE_ENUM_Destroy = "D";//处置销毁交易;
 
     }
 }
