@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 using ComLib.db.mysql;
+using ComLib.Log;
 
 namespace ComLib.db
 {
     public class SqlDBMng
     {
+        public static string ClassName = "ComLib.db.SqlDBMng";
         private static ISqlDBMng dbmng = null;
 
         public enum DBTypeEnum
@@ -90,7 +92,9 @@ namespace ComLib.db
                 }
                 catch (Exception e)
                 {
+
                     errMsg = e.Message;
+                    LogMng.GetLog().PrintError(ClassName, "doSql", e);
                     return false;
                 }
                 finally

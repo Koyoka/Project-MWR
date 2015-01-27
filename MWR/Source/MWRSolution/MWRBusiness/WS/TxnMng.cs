@@ -125,6 +125,7 @@ namespace YRKJ.MWR.Business.WS
             suc.Add(TblMWTxnRecoverHeader.getRecoWSCodeColumn(), ws.WSCode);
             suc.Add(TblMWTxnRecoverHeader.getRecoEmpyCodeColumn(), empy.EmpyCode);
             suc.Add(TblMWTxnRecoverHeader.getRecoEmpyNameColumn(), empy.EmpyName);
+            suc.Add(TblMWTxnRecoverHeader.getStratDateColumn(), SqlDBMng.GetDBNow());
             suc.Add(TblMWTxnRecoverHeader.getStatusColumn(),TblMWTxnRecoverHeader.STATUS_ENUM_Process);
 
             SqlWhere sw = new SqlWhere();
@@ -147,7 +148,7 @@ namespace YRKJ.MWR.Business.WS
         }
 
         public static bool ConfirmCrateToInventory(int txnDetailId,
-            //decimal txnWeight, string empyCode, string wscode, 
+            decimal txnWeight, string empyCode, string wscode, 
             string depotCode,
             ref string errMsg)
         {
@@ -155,7 +156,7 @@ namespace YRKJ.MWR.Business.WS
             DataCtrlInfo dcf = new DataCtrlInfo();
 
             TblMWTxnDetail detail = null;
-            //TblMWEmploy empy = null;
+            TblMWEmploy empy = null;
             #region get & valid data
             {
                 SqlQueryMng sqm = new SqlQueryMng();
@@ -170,20 +171,31 @@ namespace YRKJ.MWR.Business.WS
                     errMsg = "没有找到当前ID的货箱交易详情";
                     return false;
                 }
+
+                if (detail.Status == TblMWTxnDetail.STATUS_ENUM_Complete)
+                {
+                    errMsg = "当前货箱已完成入库";
+                    return false;
+                }
+                if (detail.Status == TblMWTxnDetail.STATUS_ENUM_Authorize)
+                {
+                    errMsg = "当前货箱正在审核中";
+                    return false;
+                }
             }
-            //{
-            //    SqlQueryMng sqm = new SqlQueryMng();
-            //    sqm.Condition.Where.AddCompareValue(TblMWEmploy.getEmpyCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, empyCode);
-            //    if (!TblMWEmployCtrl.QueryOne(dcf, sqm, ref empy, ref errMsg))
-            //    {
-            //        return false;
-            //    }
-            //    if (empy == null)
-            //    {
-            //        errMsg = "没有找到当前编号的员工";
-            //        return false;
-            //    }
-            //}
+            {
+                SqlQueryMng sqm = new SqlQueryMng();
+                sqm.Condition.Where.AddCompareValue(TblMWEmploy.getEmpyCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, empyCode);
+                if (!TblMWEmployCtrl.QueryOne(dcf, sqm, ref empy, ref errMsg))
+                {
+                    return false;
+                }
+                if (empy == null)
+                {
+                    errMsg = "没有找到当前编号的员工";
+                    return false;
+                }
+            }
             #endregion
 
 
@@ -203,9 +215,9 @@ namespace YRKJ.MWR.Business.WS
             txnLogNextId = MWNextIdMng.GetTxnLogNextId();
 
             bool validNextId = true;
-            validNextId = invRecordNextId == 0 && validNextId;
-            validNextId = invTrackNextId == 0 && validNextId;
-            validNextId = txnLogNextId == 0 && validNextId;
+            validNextId = invRecordNextId != 0 && validNextId;
+            validNextId = invTrackNextId != 0 && validNextId;
+            validNextId = txnLogNextId != 0 && validNextId;
 
             if (!validNextId)
             {
@@ -217,16 +229,16 @@ namespace YRKJ.MWR.Business.WS
             #region update current txn
             {
                 //TblMWTxnDetail item = new TblMWTxnDetail();
-                //detail.WSCode = empyCode;
-                //detail.EmpyCode = empyCode;
-                //detail.EmpyName = empy.EmpyName;
+                detail.WSCode = empyCode;
+                detail.EmpyCode = empyCode;
+                detail.EmpyName = empy.EmpyName;
                 //dtl.CrateCode = "";
                 //dtl.Vendor = "";
                 //dtl.VendorCode = "";
                 //dtl.Waste = "";
                 //dtl.WasteCode = "";
                 //dtl.SubWeight = "";
-                //detail.TxnWeight = txnWeight;
+                detail.TxnWeight = txnWeight;
                 detail.EntryDate = now;
                 detail.InvRecordId = invRecordNextId;
                 //dtl.InvAuthId = "";
@@ -344,6 +356,62 @@ namespace YRKJ.MWR.Business.WS
             return true;
         }
 
+        public static bool ConfirmCrareToAuthorize(int txnDetailId,
+            decimal txnWeight, string empyCode, string wscode,
+            ref string errMsg)
+        {
+
+            return true;
+        }
+
+        public static bool EndOperateTxn(string txnNum,ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+
+            #region check txn has been complete all txndetail
+            {
+                List<TblMWTxnDetail> detailList = null;
+
+                SqlQueryMng sqm = new SqlQueryMng();
+                sqm.Condition.Where.AddCompareValue(TblMWTxnDetail.getTxnNumColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, txnNum);
+                sqm.Condition.Where.AddCompareValue(TblMWTxnDetail.getStatusColumn(), SqlCommonFn.SqlWhereCompareEnum.UnEquals,
+                    TblMWTxnDetail.STATUS_ENUM_Complete);
+
+                if (!TblMWTxnDetailCtrl.QueryMore(dcf, sqm, ref detailList, ref errMsg))
+                {
+                    return false;
+                }
+
+                if (detailList.Count > 0)
+                {
+                    errMsg = "计划交易，有未审核完成货箱";
+                    return false;
+                }
+            }
+            #endregion
+
+            #region update txn data
+            SqlUpdateColumn suc = new SqlUpdateColumn();
+            suc.Add(TblMWTxnRecoverHeader.getStatusColumn(), TblMWTxnRecoverHeader.STATUS_ENUM_Complete);
+
+            SqlWhere sw = new SqlWhere();
+            sw.AddCompareValue(TblMWTxnRecoverHeader.getTxnNumColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, txnNum);
+
+            int updCount = 0;
+            if (!TblMWTxnRecoverHeaderCtrl.Update(dcf, suc, sw, ref updCount, ref errMsg))
+            {
+                return false;
+            }
+
+            if (updCount == 0)
+            {
+                errMsg = "数据没有被跟新，请查看该单号是否已被修改";
+                return false;
+            }
+            #endregion
+
+            return true;
+        }
         #endregion
 
         public static bool TestUpdate()

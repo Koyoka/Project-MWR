@@ -4,12 +4,13 @@ using System.Text;
 using ComLib.db.mysql;
 using System.Linq;
 using System.Linq.Expressions;
+using ComLib.Log;
 
 namespace ComLib.db
 {
     public class BaseDataCtrl
     {
-        
+        public static string ClassName = "ComLib.db.BaseDataCtrl";
 
         //protected static bool doUpdateCtrl()
         //{
@@ -75,9 +76,10 @@ namespace ComLib.db
                             count = tempDBMng.update(sql);
                         }
                     }
-                    catch (Exception e)
+                    catch (Exception ex)
                     {
-                        errMsg = e.Message;
+                        errMsg = ex.Message;
+                        LogMng.GetLog().PrintError(ClassName, "doUpdateCtrl", ex);
                         return false;
                     }
                 }
@@ -114,9 +116,10 @@ namespace ComLib.db
                             count = tempDBMng.update(sql);
                         }
                     }
-                    catch (Exception e)
+                    catch (Exception ex)
                     {
-                        errMsg = e.Message;
+                        errMsg = ex.Message;
+                        LogMng.GetLog().PrintError(ClassName, "doUpdateCtrl", ex);
                         return false;
                     }
                 }

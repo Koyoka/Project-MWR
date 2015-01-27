@@ -10,6 +10,7 @@ using YRKJ.MWR.WinBase.WinAppBase;
 using ComLib.Log;
 using YRKJ.MWR.Business.WS;
 using YRKJ.MWR.WSInventory.Business.Sys;
+using YRKJ.MWR.WinBase.WinUtility;
 
 namespace YRKJ.MWR.WSInventory.Forms
 {
@@ -19,8 +20,11 @@ namespace YRKJ.MWR.WSInventory.Forms
         private FormMng _frmMng = null;
 
         //private string _crateCode = "";
-        string _depotCode = "";
+        private decimal _txnWeight = 0;
+        private decimal _allowDiffWeight = 1;
+        private string _depotCode = "";
         private TblMWTxnDetail _txnDetail = null;
+        private ScalesMng _scalesMng = null;
 
         public FrmMWCrateView()
         {
@@ -60,6 +64,11 @@ namespace YRKJ.MWR.WSInventory.Forms
                 {
                     return;
                 }
+
+                if (!_scalesMng.Open())
+                {
+                    MsgBox.Show("...");
+                }
             }
             catch (Exception ex)
             {
@@ -71,6 +80,27 @@ namespace YRKJ.MWR.WSInventory.Forms
                 this.Cursor = Cursors.Default;
             }
         }
+
+
+        private void FrmMWCrateView_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            try
+            {
+                this.Cursor = Cursors.WaitCursor;
+                _scalesMng.Close();
+
+            }
+            catch (Exception ex)
+            {
+                LogMng.GetLog().PrintError(ClassName, "FrmMWCrateView_FormClosing", ex);
+                MsgBox.Error(ex);
+            }
+            finally
+            {
+                this.Cursor = Cursors.Default;
+            }
+        }
+
         
         private void c_btnOk_Click(object sender, EventArgs e)
         {
@@ -78,23 +108,34 @@ namespace YRKJ.MWR.WSInventory.Forms
             {
                 this.Cursor = Cursors.WaitCursor;
                 string errMsg = "";
-                //string empyCode = SysInfo.GetInstance().Employ.EmpyCode;
-                //string empyName = SysInfo.GetInstance().Employ.EmpyName;
-                //string wscode = SysInfo.GetInstance().Config.WSCode;
-
-                _txnDetail.TxnWeight = 999;
-                _txnDetail.EmpyCode = SysInfo.GetInstance().Employ.EmpyCode;
-                _txnDetail.EmpyName = SysInfo.GetInstance().Employ.EmpyName;
-                _txnDetail.WSCode = SysInfo.GetInstance().Config.WSCode;
+                string empyCode = SysInfo.GetInstance().Employ.EmpyCode;
+                string empyName = SysInfo.GetInstance().Employ.EmpyName;
+                string wscode = SysInfo.GetInstance().Config.WSCode;
+                decimal weight = _txnWeight;
                 
+                if (Math.Abs(_txnDetail.SubWeight - weight) > _allowDiffWeight)
+                {
+                    MsgBox.Error(LngRes.MSG_DiffWeight);
+                    return;
+                }
+
                 if (!TxnMng.ConfirmCrateToInventory(_txnDetail.TxnDetailId,
-                    //_txnWeight, empyCode, wscode, 
+                    weight, empyCode, wscode, 
                     _depotCode,
                     ref errMsg))
                 {
                     MsgBox.Error(errMsg);
                     return;
                 }
+                #region update current form txndetail data
+
+                _txnDetail.TxnWeight = weight;
+                _txnDetail.EmpyCode = SysInfo.GetInstance().Employ.EmpyCode;
+                _txnDetail.EmpyName = SysInfo.GetInstance().Employ.EmpyName;
+                _txnDetail.WSCode = SysInfo.GetInstance().Config.WSCode;
+                _txnDetail.Status = TblMWTxnDetail.STATUS_ENUM_Complete;
+                #endregion
+
                 this.DialogResult = System.Windows.Forms.DialogResult.OK;
 
                 this.Close();
@@ -157,13 +198,23 @@ namespace YRKJ.MWR.WSInventory.Forms
             if (!LoadData())
                 return false;
 
-
+            _scalesMng = new ScalesMng(this);
+            
+            _scalesMng.onConnected = () => {
+                c_labScalesStatus.Text = "等待称重";
+            };
+            _scalesMng.onDisConnected = () => {
+                c_labScalesStatus.Text = "请链接台秤";
+            };
+            _scalesMng.onScalesDataReceived = FrmMWCrateView_onScalesDataReceived;
 
             return true;
         }
 
         private bool InitCtrls()
         {
+            c_labScalesStatus.Text = "请链接台秤";
+
             this.c_txtCrateCode.Text = _txnDetail.CrateCode;
 
             this.c_txtCrateCode.DataBindings.Add("Text", _txnDetail, TblMWTxnDetail.getCrateCodeColumn().ColumnName);
@@ -178,6 +229,22 @@ namespace YRKJ.MWR.WSInventory.Forms
         {
             return true;
         }
+       
+        private void FrmMWCrateView_onScalesDataReceived(string status, string lable, decimal weight, string unit)
+        {
+            //ThreadSafe(() => {
+                _txnWeight = weight;
+
+                if (status.ToLower() == "us")
+                    c_labScalesStatus.Text = "称重中.....";
+                else if (status.ToLower() == "st")
+                    c_labScalesStatus.Text = "当前重量 " + unit;
+
+                c_labTxnWeight.Text = weight.ToString("f2") + " " + unit;
+              
+            //});
+            
+        }
 
         #endregion
 
@@ -186,6 +253,7 @@ namespace YRKJ.MWR.WSInventory.Forms
         private class LngRes
         {
             public const string MSG_FormName = "周转箱称重";
+            public const string MSG_DiffWeight = "提交重量与回收重量不符，请提交审核";
         }
 
         #endregion

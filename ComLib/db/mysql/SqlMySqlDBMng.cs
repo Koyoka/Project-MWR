@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Text;
 using System.Reflection;
 using System.Data;
+using ComLib.Log;
 
 namespace ComLib.db.mysql
 {
     public class SqlMySqlDBMng : ISqlDBMng
     {
-
+        public string ClassName = "ComLib.db.mysql.SqlMySqlDBMng";
         private static string connstr = "Database='yrkjar';Data Source='127.0.0.1';User Id='root';Password='-101868';charset='utf8'";
 
         
@@ -136,24 +137,34 @@ namespace ComLib.db.mysql
         public int[] doSql(List<string> sqlList, params object[][] ps) 
         {
             int[] count = new int[sqlList.Count];
-
-            MySql.Data.MySqlClient.MySqlParameter[] sqlParams = null;
-            using (MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(connstr))
+            string executeSql = "";
+            try
             {
-                connection.Open();
-                MySql.Data.MySqlClient.MySqlTransaction trans = connection.BeginTransaction();
-                int i = 0;
-                foreach(string sql in sqlList)
+                
+
+                MySql.Data.MySqlClient.MySqlParameter[] sqlParams = null;
+                using (MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(connstr))
                 {
-                    System.Diagnostics.Debug.WriteLine(sql);
-
-                    count[i] = MySqlHelper2.ExecuteNonQuery(trans, System.Data.CommandType.Text, sql, sqlParams);
-                    i++;
+                    connection.Open();
+                    MySql.Data.MySqlClient.MySqlTransaction trans = connection.BeginTransaction();
+                    int i = 0;
+                    foreach (string sql in sqlList)
+                    {
+                        System.Diagnostics.Debug.WriteLine(sql);
+                        executeSql = sql;
+                        count[i] = MySqlHelper2.ExecuteNonQuery(trans, System.Data.CommandType.Text, sql, sqlParams);
+                        i++;
+                    }
+                    trans.Commit();
                 }
-                trans.Commit();
-            }
 
-            return count;
+                return count;
+            }
+            catch (Exception ex)
+            {
+                LogMng.GetLog().PrintError(ClassName, "doSql", new Exception(executeSql));
+                throw ex;
+            }
             //throw new Exception("The method or operation is not implemented.");
         }
 

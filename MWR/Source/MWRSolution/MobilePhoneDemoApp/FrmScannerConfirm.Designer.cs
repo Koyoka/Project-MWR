@@ -95,15 +95,16 @@
             // 
             // c_txtWeight
             // 
+            this.c_txtWeight.DecimalPlaces = 2;
             this.c_txtWeight.Location = new System.Drawing.Point(98, 188);
             this.c_txtWeight.Name = "c_txtWeight";
             this.c_txtWeight.Size = new System.Drawing.Size(120, 23);
             this.c_txtWeight.TabIndex = 5;
             this.c_txtWeight.Value = new decimal(new int[] {
-            10,
+            105,
             0,
             0,
-            0});
+            131072});
             // 
             // label4
             // 

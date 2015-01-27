@@ -23,11 +23,11 @@ namespace YRKJ.MWR.WSInventory.Forms
         private FrmMain _frmMain = null;
         private ScannerMng _scannerMng = null;
         private string _txnNum = "";
-        private string _depotCode = "";
 
         private VewTxnHeaderWithCarDispatch _header = null;
         private List<TblMWTxnDetail> _detailList = null;
         private FromCtrlBindingData _bindingData = new FromCtrlBindingData();
+        private TblMWDepot _defaultDepot = null;
 
         private BindingList<GridTxnDetailData> _gridTxnDetailData = new BindingList<GridTxnDetailData>();
        
@@ -140,8 +140,14 @@ namespace YRKJ.MWR.WSInventory.Forms
 
                 using (Dtl.FrmDepotDtl f = new Dtl.FrmDepotDtl())
                 {
-                    f.ShowDialog();
+                    if (f.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                    {
+                        _defaultDepot = f.GetSelectDepot();
+                        if (_defaultDepot != null)
+                            c_txtDepot.Text = _defaultDepot.Desc;
+                    }
                 }
+               
             }
             catch (Exception ex)
             {
@@ -196,7 +202,10 @@ namespace YRKJ.MWR.WSInventory.Forms
                     }
                 }
 
-                RecoverCrate(txnDetail);
+                if (!RecoverCrate(txnDetail, ref errMsg))
+                {
+                    MsgBox.Error(errMsg);
+                }
             }
             catch (Exception ex)
             {
@@ -222,7 +231,11 @@ namespace YRKJ.MWR.WSInventory.Forms
                     MsgBox.Error(errMsg);
                     return;
                 }
-                RecoverCrate(txnDetail);
+                if (!RecoverCrate(txnDetail,ref errMsg))
+                {
+                    MsgBox.Error(errMsg);
+                    return;
+                }
 
             }
             catch (Exception ex)
@@ -307,6 +320,8 @@ namespace YRKJ.MWR.WSInventory.Forms
             c_labIndate.Text = ComLib.ComFn.DateTimeToString(_header.InDate, "yyyy-MM-dd HH:mm");
             c_labHeaderStatus.Text = BizHelper.GetTxnRecoverHeaderStatus(_header.Status);
 
+            c_txtDepot.Text = _defaultDepot.Desc;
+
             c_labSubTotalQty.Text = _header.TotalCrateQty + "";
             c_labSubTotalWeight.Text = _header.TotalSubWeight + "";
 
@@ -317,7 +332,7 @@ namespace YRKJ.MWR.WSInventory.Forms
 
             c_labTxnTotalQty.Text = _bindingData.TxnTotalQty + "";
             c_labTxnTotalWeigth.Text = _bindingData.TxnTotalWeight + "";
-            c_labLastCount.Text = _bindingData.LastCrateQty + "";
+            c_labLeftCount.Text = _bindingData.LeftCrateQty + "";
 
             c_txtCurCrateCode.DataBindings.Add("Text", _gridTxnDetailData, "CrateCode");
             c_labCurSubWeight.DataBindings.Add("Text", _gridTxnDetailData, "SubWeight");
@@ -351,9 +366,29 @@ namespace YRKJ.MWR.WSInventory.Forms
         private bool LoadData()
         {
             string errMsg = "";
+
+            
+            List<TblMWDepot> depotDataList = null;
+            if (!SysCacheData.GetInstance().GetDepotList(ref depotDataList, ref errMsg))
+            {
+                MsgBox.Error(errMsg);
+                return false;
+            }
+            if (depotDataList.Count != 0)
+            {
+                _defaultDepot = depotDataList[0];
+            }
+            if (_defaultDepot == null)
+            {
+                MsgBox.Error(LngRes.MSG_NoDepotData);
+                return false;
+            }
+
            
             if (!TxnMng.GetRecoverHeaderAndDetail(_txnNum, ref _header, ref _detailList, ref errMsg))
             {
+                MsgBox.Error(errMsg);
+
                 return false;
             }
 
@@ -406,7 +441,7 @@ namespace YRKJ.MWR.WSInventory.Forms
                 }
             }
 
-            _bindingData.LastCrateQty = _header.TotalCrateQty - _bindingData.TxnTotalQty;
+            _bindingData.LeftCrateQty = _header.TotalCrateQty - _bindingData.TxnTotalQty;
         }
 
         private bool GetScannerTxnDetail(string crateCode,ref TblMWTxnDetail txnDetail, ref string errMsg)
@@ -451,14 +486,29 @@ namespace YRKJ.MWR.WSInventory.Forms
             return true;
         }
        
-        private void RecoverCrate(TblMWTxnDetail txnDetail)
+        private bool RecoverCrate(TblMWTxnDetail txnDetail,ref string errMsg)
         {
-            using (FrmMWCrateView f = new FrmMWCrateView(txnDetail,_depotCode))
+            if (_defaultDepot == null)
+            {
+                errMsg = LngRes.MSG_NoSelectDepot;
+                return false;
+            }
+            if (txnDetail.Status == TblMWTxnDetail.STATUS_ENUM_Complete)
+            {
+                errMsg = LngRes.MSG_IsCompleteTxn;
+                return false;
+            }
+            if (txnDetail.Status == TblMWTxnDetail.STATUS_ENUM_Authorize)
+            {
+                errMsg = LngRes.MSG_IsAuthorizeTxn;
+                return false;
+            }
+            using (FrmMWCrateView f = new FrmMWCrateView(txnDetail, _defaultDepot.DeptCode))
             {
                 DialogResult result = f.ShowDialog();
                 if (result == System.Windows.Forms.DialogResult.OK)
                 {
-                  
+                  //check this list last txndetail,and close this txn
                 }
 
             }
@@ -475,7 +525,8 @@ namespace YRKJ.MWR.WSInventory.Forms
             //}
             if (curData == null)
             {
-                return;
+                errMsg = LngRes.MSG_SysDataError;
+                return false;
             }
 
             #region update grid binding data
@@ -493,8 +544,10 @@ namespace YRKJ.MWR.WSInventory.Forms
             CalculateLastWeigthAndCount();
             c_labTxnTotalQty.Text = _bindingData.TxnTotalQty + "";
             c_labTxnTotalWeigth.Text = _bindingData.TxnTotalWeight + "";
-            c_labLastCount.Text = _bindingData.LastCrateQty + "";
+            c_labLeftCount.Text = _bindingData.LeftCrateQty + "";
             #endregion
+
+            return true;
         }
 
         #endregion
@@ -505,13 +558,19 @@ namespace YRKJ.MWR.WSInventory.Forms
         {
             public const string MSG_FormName = "废物货箱回收";
             public const string MSG_InvalidBarCode = "无效的条形码，请重新扫描";
+            public const string MSG_NoDepotData = "没有仓库数据，请联系管理员添加";
+            public const string MSG_NoSelectDepot = "请选择当前货箱入库的仓库";
+            public const string MSG_SysDataError = "加载数据错误，请重新选择";
+            public const string MSG_IsCompleteTxn = "当前货箱已入库";
+            public const string MSG_IsAuthorizeTxn = "当前货箱正在审核中";
+        
         }
 
         private class FromCtrlBindingData
         {
             //public const string LastCrateQtyName = "LastCrateQty";
             private int _lastCrateQty = 0;
-            public int LastCrateQty
+            public int LeftCrateQty
             {
                 get { return _lastCrateQty; }
                 set { _lastCrateQty = value; }

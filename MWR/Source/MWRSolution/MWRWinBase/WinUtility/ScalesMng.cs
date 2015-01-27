@@ -1,0 +1,204 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using UsbHid;
+using System.Windows.Forms;
+
+namespace YRKJ.MWR.WinBase.WinUtility
+{
+    public class ScalesMng
+    {
+        private UsbHidDevice Device = null;
+        private Form _form = null;
+        private bool InvokeRequired
+        {
+            get
+            {
+                return _form == null ? false : _form.InvokeRequired;
+            }
+        }
+
+        private Timer _time = null;
+        string _scalesStatus = "";
+        string _label = "";
+        string _value = "";
+        decimal _weight = 0;
+        string _unit = "";
+
+        private bool _isOpen = false;
+        private bool _isClose = false;
+        private bool _isReceived = false;
+
+        public delegate void ScalesOnConnected();
+        public delegate void ScalesOnDisConected();
+        public delegate void ScalesOnScalesDataReceived(string status,string lable,decimal weight,string unit);
+
+        public ScalesOnConnected onConnected = null;
+        public ScalesOnDisConected onDisConnected = null;
+        public ScalesOnScalesDataReceived onScalesDataReceived = null;
+
+        public ScalesMng(Form form)
+        {
+            _form = form;
+            Init();
+        }
+
+        private void Init()
+        {
+            Device = new UsbHidDevice(0x0483, 0x5750);
+            Device.OnConnected += DeviceOnConnected;
+            Device.OnDisConnected += DeviceOnDisConnected;
+            Device.DataReceived += DeviceDataReceived;
+
+            _time = new Timer();
+            _time.Interval = 10;
+            _time.Tick += (x, y) =>
+            {
+                if (onScalesDataReceived != null && _isReceived)
+                    onScalesDataReceived(_scalesStatus, _label, _weight, _unit);
+            };
+
+        }
+        
+        public bool Open()
+        {
+            _isOpen = Device.Connect();
+            if (_isOpen)
+                _time.Start();
+            return _isOpen;
+        }
+
+        public void Close()
+        {
+            //lock (_closeLock)
+            {
+                if (_isOpen)
+                    _time.Stop();
+
+                _isClose = true;
+                _form = null;
+
+                
+                onConnected = null;
+                onDisConnected = null;
+                onScalesDataReceived = null;
+
+                Device.OnConnected -= DeviceOnConnected;
+                Device.OnDisConnected -= DeviceOnDisConnected;
+                Device.DataReceived -= DeviceDataReceived;
+
+                if (_isOpen)
+                    Device.Disconnect();
+
+                //System.Diagnostics.Debug.WriteLine("Close--------[" + _isClose + "] e");
+            }
+        }
+
+        #region Events
+        // 设备连接事件
+        private void DeviceOnConnected()
+        {
+            if (onConnected != null)
+                onConnected();
+        }
+        // 设备失联事件
+        private void DeviceOnDisConnected()
+        {
+            if (onDisConnected != null)
+                onDisConnected();
+        }
+
+       
+        // 数据接收事件
+        private void DeviceDataReceived(byte[] data)
+        {
+            string[] defineDatas = ByteArrayToString(data).Split(',');
+            if (defineDatas.Length != 3)
+            {
+                return;
+            }
+            #region split data get result 
+          
+           
+            string val = defineDatas[2];
+            #endregion
+
+            #region get weight & unit
+            string[] trimVals = val.Trim().Split(' ');
+            if (trimVals.Length != 2)
+            {
+                return;
+            }
+            _isReceived = false;
+            _scalesStatus = defineDatas[0];
+            _label = defineDatas[1];
+            _value = defineDatas[2];
+            _weight = ComLib.ComFn.StringToDecimal(trimVals[0]);
+            _unit = trimVals[1];
+            _isReceived = true;
+            #endregion
+
+            //if (onScalesDataReceived != null)
+            //{
+            //    //onScalesDataReceived(_scalesStatus, _label, _weight, _unit);
+            //    //ThreadSafe(() => onScalesDataReceived(_scalesStatus, _label, _weight, _unit));
+            //}
+        }
+        #endregion
+        
+        #region utility
+        private static string ByteArrayToString(ICollection<byte> input)
+        {
+            var result = string.Empty;
+
+            if (input != null && input.Count > 0)
+            {
+                var isFirst = true;
+                foreach (var b in input)
+                {
+                    if (isFirst)  // 第一个字节为报告ID，需要丢弃
+                    {
+                        isFirst = false;
+                        continue;
+                    }
+                    else
+                    {
+                        result += (char)b;
+                    }
+                }
+            }
+            return result;
+        }
+        #endregion
+        //private object _closeLock = new object();
+        //private void ThreadSafe(MethodInvoker method)
+        //{
+        //    //lock (_closeLock)
+        //    {
+        //        System.Diagnostics.Debug.WriteLine("ThreadSafe--------[" + _isClose + "] b " + (method != null));
+        //        if (!Device.IsDeviceConnected)
+        //            return;
+        //        if (_isClose)
+        //            return;
+        //        if (_form.IsDisposed)
+        //            return;
+        //        try
+        //        {
+        //            if (InvokeRequired)
+        //                _form.Invoke(method);
+        //            else
+        //                method();
+        //        }
+        //        catch (Exception ex)
+        //        { }
+        //        finally 
+        //        {
+        //            System.Diagnostics.Debug.WriteLine("ThreadSafe--------[" + _isClose + "] e");
+        //        }
+
+                
+        //    }
+        //}
+    }
+}

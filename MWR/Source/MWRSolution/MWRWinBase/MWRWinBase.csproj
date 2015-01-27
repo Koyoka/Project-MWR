@@ -44,6 +44,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="UsbHid">
+      <HintPath>..\Lib\UsbHid.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="WinAppBase\BaseForm\FrmInitConfig.cs">
@@ -59,6 +62,7 @@
     <Compile Include="WinAppBase\MsgBox.cs" />
     <Compile Include="WinAppBase\WinAppFn.cs" />
     <Compile Include="WinAppBase\WinAppStatic.cs" />
+    <Compile Include="WinUtility\ScalesMng.cs" />
     <Compile Include="WinUtility\ScannerMng.cs" />
     <Compile Include="WinUtility\WinFn.cs" />
   </ItemGroup>

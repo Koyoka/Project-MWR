@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMWRecoverDetail));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.c_btnStopRecover = new System.Windows.Forms.Button();
             this.c_grpRecoInfo = new System.Windows.Forms.GroupBox();
             this.c_txtDepot = new System.Windows.Forms.TextBox();
@@ -63,14 +63,14 @@
             this.c_labCurSubWeight = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.c_labCurStatus = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.c_btnCheck = new System.Windows.Forms.Button();
             this.c_btnManually = new System.Windows.Forms.Button();
+            this.label10 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.c_labLastCount = new System.Windows.Forms.Label();
+            this.c_labLeftCount = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.c_grdMWTxnDetail = new System.Windows.Forms.DataGridView();
             this.c_grdMWTxnDetail_C_CrateCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -441,15 +441,6 @@
             this.c_labCurStatus.Text = "未确认";
             this.c_labCurStatus.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(454, 444);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(68, 17);
-            this.label10.TabIndex = 1;
-            this.label10.Text = "货箱状态：";
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -483,13 +474,22 @@
             this.c_btnManually.UseVisualStyleBackColor = true;
             this.c_btnManually.Click += new System.EventHandler(this.c_btnManually_Click);
             // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(454, 444);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(68, 17);
+            this.label10.TabIndex = 1;
+            this.label10.Text = "货箱状态：";
+            // 
             // panel1
             // 
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Black;
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.c_labLastCount);
+            this.panel1.Controls.Add(this.c_labLeftCount);
             this.panel1.Location = new System.Drawing.Point(688, 435);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(163, 95);
@@ -520,17 +520,17 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "箱";
             // 
-            // c_labLastCount
+            // c_labLeftCount
             // 
-            this.c_labLastCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.c_labLastCount.Font = new System.Drawing.Font("微软雅黑", 38F);
-            this.c_labLastCount.ForeColor = System.Drawing.Color.Lime;
-            this.c_labLastCount.Location = new System.Drawing.Point(63, 10);
-            this.c_labLastCount.Name = "c_labLastCount";
-            this.c_labLastCount.Size = new System.Drawing.Size(90, 78);
-            this.c_labLastCount.TabIndex = 0;
-            this.c_labLastCount.Text = "0";
-            this.c_labLastCount.TextAlign = System.Drawing.ContentAlignment.BottomRight;
+            this.c_labLeftCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.c_labLeftCount.Font = new System.Drawing.Font("微软雅黑", 38F);
+            this.c_labLeftCount.ForeColor = System.Drawing.Color.Lime;
+            this.c_labLeftCount.Location = new System.Drawing.Point(63, 10);
+            this.c_labLeftCount.Name = "c_labLeftCount";
+            this.c_labLeftCount.Size = new System.Drawing.Size(90, 78);
+            this.c_labLeftCount.TabIndex = 0;
+            this.c_labLeftCount.Text = "0";
+            this.c_labLeftCount.TextAlign = System.Drawing.ContentAlignment.BottomRight;
             // 
             // panel2
             // 
@@ -550,14 +550,14 @@
             this.c_grdMWTxnDetail.AllowUserToDeleteRows = false;
             this.c_grdMWTxnDetail.AllowUserToResizeColumns = false;
             this.c_grdMWTxnDetail.AllowUserToResizeRows = false;
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("微软雅黑", 12F);
-            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.c_grdMWTxnDetail.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("微软雅黑", 12F);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.c_grdMWTxnDetail.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.c_grdMWTxnDetail.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.c_grdMWTxnDetail.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.c_grdMWTxnDetail_C_CrateCode,
@@ -604,8 +604,8 @@
             // 
             // c_grdMWTxnDetail_C_SubWeight
             // 
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.c_grdMWTxnDetail_C_SubWeight.DefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.c_grdMWTxnDetail_C_SubWeight.DefaultCellStyle = dataGridViewCellStyle2;
             this.c_grdMWTxnDetail_C_SubWeight.HeaderText = "收集重量";
             this.c_grdMWTxnDetail_C_SubWeight.Name = "c_grdMWTxnDetail_C_SubWeight";
             // 
@@ -616,8 +616,8 @@
             // 
             // c_grdMWTxnDetail_C_EntryDate
             // 
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.c_grdMWTxnDetail_C_EntryDate.DefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.c_grdMWTxnDetail_C_EntryDate.DefaultCellStyle = dataGridViewCellStyle3;
             this.c_grdMWTxnDetail_C_EntryDate.FillWeight = 150F;
             this.c_grdMWTxnDetail_C_EntryDate.HeaderText = "提交时间";
             this.c_grdMWTxnDetail_C_EntryDate.Name = "c_grdMWTxnDetail_C_EntryDate";
@@ -626,8 +626,8 @@
             // c_grdMWTxnDetail_C_Status
             // 
             this.c_grdMWTxnDetail_C_Status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.c_grdMWTxnDetail_C_Status.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.c_grdMWTxnDetail_C_Status.DefaultCellStyle = dataGridViewCellStyle4;
             this.c_grdMWTxnDetail_C_Status.FillWeight = 250F;
             this.c_grdMWTxnDetail_C_Status.HeaderText = "货箱状态";
             this.c_grdMWTxnDetail_C_Status.Name = "c_grdMWTxnDetail_C_Status";
@@ -806,7 +806,7 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label c_labLastCount;
+        private System.Windows.Forms.Label c_labLeftCount;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button c_btnManually;

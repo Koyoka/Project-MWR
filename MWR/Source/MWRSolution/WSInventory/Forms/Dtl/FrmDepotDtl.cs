@@ -17,6 +17,7 @@ namespace YRKJ.MWR.WSInventory.Forms.Dtl
     {
         private const string ClassName = "YRKJ.MWR.WSInventory.Forms.Dtl.FrmDepotDtl";
         private FormMng _frmMng = null;
+        private TblMWDepot _selectDepot = null;
 
         private BindingList<GridDepotData> _gridDepotDataList = new BindingList<GridDepotData>();
 
@@ -31,7 +32,7 @@ namespace YRKJ.MWR.WSInventory.Forms.Dtl
             this.ShowInTaskbar = false;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-        } 
+        }
 
         #region Event
         private void FrmDepotDtl_Load(object sender, EventArgs e)
@@ -66,8 +67,24 @@ namespace YRKJ.MWR.WSInventory.Forms.Dtl
             {
                 this.Cursor = Cursors.WaitCursor;
 
-                string code = (this.c_grdDepot.CurrentRow.DataBoundItem as GridDepotData).DeptCode;
+                string errMsg = "";
 
+                List<TblMWDepot> dataList = null;
+                if (!SysCacheData.GetInstance().GetDepotList(ref dataList, ref errMsg))
+                {
+                    MsgBox.Error(errMsg);
+                    return ;
+                }
+                string code = (this.c_grdDepot.CurrentRow.DataBoundItem as GridDepotData).DeptCode;
+                _selectDepot = 
+                    dataList.Where(x => x.DeptCode == code).First();
+
+                //string code = (this.c_grdDepot.CurrentRow.DataBoundItem as GridDepotData).DeptCode;
+                //_selectDepot =
+                    //_gridDepotDataList.Where(x => x.DeptCode == "").First();
+                    //this.c_grdDepot.CurrentRow.DataBoundItem as GridDepotData;
+
+                this.DialogResult = System.Windows.Forms.DialogResult.OK;
                 this.Close();
 
             }
@@ -148,6 +165,11 @@ namespace YRKJ.MWR.WSInventory.Forms.Dtl
             return true;
         }
 
+        public TblMWDepot GetSelectDepot()
+        {
+            return _selectDepot;
+        }
+
         #endregion
 
         #region Common
@@ -175,8 +197,6 @@ namespace YRKJ.MWR.WSInventory.Forms.Dtl
         }
 
         #endregion
-
-       
 
         #region Form Data Property
 

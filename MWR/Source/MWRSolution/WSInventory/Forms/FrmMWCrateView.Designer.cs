@@ -43,7 +43,7 @@
             this.c_btnError = new System.Windows.Forms.Button();
             this.c_btnCancel = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label12 = new System.Windows.Forms.Label();
+            this.c_labScalesStatus = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.c_labTxnWeight = new System.Windows.Forms.Label();
@@ -216,7 +216,7 @@
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Black;
-            this.panel1.Controls.Add(this.label12);
+            this.panel1.Controls.Add(this.c_labScalesStatus);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.c_labTxnWeight);
@@ -225,18 +225,18 @@
             this.panel1.Size = new System.Drawing.Size(360, 95);
             this.panel1.TabIndex = 16;
             // 
-            // label12
+            // c_labScalesStatus
             // 
-            this.label12.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label12.AutoSize = true;
-            this.label12.BackColor = System.Drawing.Color.Black;
-            this.label12.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.label12.ForeColor = System.Drawing.Color.Red;
-            this.label12.Location = new System.Drawing.Point(286, 0);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(65, 20);
-            this.label12.TabIndex = 0;
-            this.label12.Text = "等待称重";
+            this.c_labScalesStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.c_labScalesStatus.BackColor = System.Drawing.Color.Black;
+            this.c_labScalesStatus.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.c_labScalesStatus.ForeColor = System.Drawing.Color.Red;
+            this.c_labScalesStatus.Location = new System.Drawing.Point(231, 0);
+            this.c_labScalesStatus.Name = "c_labScalesStatus";
+            this.c_labScalesStatus.Size = new System.Drawing.Size(120, 20);
+            this.c_labScalesStatus.TabIndex = 0;
+            this.c_labScalesStatus.Text = "设备连接中...";
+            this.c_labScalesStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label3
             // 
@@ -245,7 +245,7 @@
             this.label3.BackColor = System.Drawing.Color.Black;
             this.label3.Font = new System.Drawing.Font("微软雅黑", 15F);
             this.label3.ForeColor = System.Drawing.Color.Lime;
-            this.label3.Location = new System.Drawing.Point(129, 53);
+            this.label3.Location = new System.Drawing.Point(26, 53);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(112, 27);
             this.label3.TabIndex = 0;
@@ -268,12 +268,12 @@
             this.c_labTxnWeight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.c_labTxnWeight.Font = new System.Drawing.Font("微软雅黑", 38F);
             this.c_labTxnWeight.ForeColor = System.Drawing.Color.Lime;
-            this.c_labTxnWeight.Location = new System.Drawing.Point(247, 10);
+            this.c_labTxnWeight.Location = new System.Drawing.Point(144, 22);
             this.c_labTxnWeight.Name = "c_labTxnWeight";
-            this.c_labTxnWeight.Size = new System.Drawing.Size(90, 78);
+            this.c_labTxnWeight.Size = new System.Drawing.Size(192, 68);
             this.c_labTxnWeight.TabIndex = 0;
-            this.c_labTxnWeight.Text = "0";
-            this.c_labTxnWeight.TextAlign = System.Drawing.ContentAlignment.BottomRight;
+            this.c_labTxnWeight.Text = "1.03";
+            this.c_labTxnWeight.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // FrmMWCrateView
             // 
@@ -286,6 +286,7 @@
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "FrmMWCrateView";
             this.Text = "FrmMWCrateDetail";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmMWCrateView_FormClosing);
             this.Load += new System.EventHandler(this.FrmMWCrateView_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -313,7 +314,7 @@
         private System.Windows.Forms.Label c_labEntryData;
         private System.Windows.Forms.Label c_labWaster;
         private System.Windows.Forms.Label c_labVendor;
-        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label c_labScalesStatus;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.TextBox c_txtCrateCode;
     }

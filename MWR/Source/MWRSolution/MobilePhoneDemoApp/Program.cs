@@ -94,9 +94,11 @@ namespace MobilePhoneDemoApp
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            //Application.Run(new FrmScales());
+            //return;
             //foo();
-            fooo();
-            return;
+            //fooo();
+            //return;
             //return;
             //string errMsg = "";
             //string resData = "";
