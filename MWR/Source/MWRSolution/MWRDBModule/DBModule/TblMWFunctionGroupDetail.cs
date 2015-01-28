@@ -78,9 +78,13 @@ namespace YRKJ.MWR
 
          public override void SetValue(System.Data.DataRow row)
          {
-             SetValue(ref _FuncGroupDtlId, row["FuncGroupDtlId"]);
-             SetValue(ref _FuncGroupId, row["FuncGroupId"]);
-             SetValue(ref _FuncTag, row["FuncTag"]);
+             System.Data.DataColumnCollection dataCols = row.Table.Columns;
+             if(dataCols.Contains("FuncGroupDtlId"))
+                 SetValue(ref _FuncGroupDtlId, row["FuncGroupDtlId"]);
+             if(dataCols.Contains("FuncGroupId"))
+                 SetValue(ref _FuncGroupId, row["FuncGroupId"]);
+             if(dataCols.Contains("FuncTag"))
+                 SetValue(ref _FuncTag, row["FuncTag"]);
          }
 
 

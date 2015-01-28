@@ -95,10 +95,15 @@ namespace YRKJ.MWR
 
          public override void SetValue(System.Data.DataRow row)
          {
-             SetValue(ref _LogId, row["LogId"]);
-             SetValue(ref _Desc, row["Desc"]);
-             SetValue(ref _Remark, row["Remark"]);
-             SetValue(ref _LogDate, row["LogDate"]);
+             System.Data.DataColumnCollection dataCols = row.Table.Columns;
+             if(dataCols.Contains("LogId"))
+                 SetValue(ref _LogId, row["LogId"]);
+             if(dataCols.Contains("Desc"))
+                 SetValue(ref _Desc, row["Desc"]);
+             if(dataCols.Contains("Remark"))
+                 SetValue(ref _Remark, row["Remark"]);
+             if(dataCols.Contains("LogDate"))
+                 SetValue(ref _LogDate, row["LogDate"]);
          }
 
 

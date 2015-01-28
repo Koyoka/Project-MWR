@@ -78,9 +78,13 @@ namespace YRKJ.MWR
 
          public override void SetValue(System.Data.DataRow row)
          {
-             SetValue(ref _ParameterName, row["ParameterName"]);
-             SetValue(ref _ParameterValue, row["ParameterValue"]);
-             SetValue(ref _Remark, row["Remark"]);
+             System.Data.DataColumnCollection dataCols = row.Table.Columns;
+             if(dataCols.Contains("ParameterName"))
+                 SetValue(ref _ParameterName, row["ParameterName"]);
+             if(dataCols.Contains("ParameterValue"))
+                 SetValue(ref _ParameterValue, row["ParameterValue"]);
+             if(dataCols.Contains("Remark"))
+                 SetValue(ref _Remark, row["Remark"]);
          }
 
 

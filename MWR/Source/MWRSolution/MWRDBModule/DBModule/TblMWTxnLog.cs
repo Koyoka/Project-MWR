@@ -197,16 +197,27 @@ namespace YRKJ.MWR
 
          public override void SetValue(System.Data.DataRow row)
          {
-             SetValue(ref _TxnLogId, row["TxnLogId"]);
-             SetValue(ref _TxnNum, row["TxnNum"]);
-             SetValue(ref _TxnDetailId, row["TxnDetailId"]);
-             SetValue(ref _WSCode, row["WSCode"]);
-             SetValue(ref _EmpyName, row["EmpyName"]);
-             SetValue(ref _EmpyCode, row["EmpyCode"]);
-             SetValue(ref _OptType, row["OptType"]);
-             SetValue(ref _OptDate, row["OptDate"]);
-             SetValue(ref _TxnLogType, row["TxnLogType"]);
-             SetValue(ref _InvRecordId, row["InvRecordId"]);
+             System.Data.DataColumnCollection dataCols = row.Table.Columns;
+             if(dataCols.Contains("TxnLogId"))
+                 SetValue(ref _TxnLogId, row["TxnLogId"]);
+             if(dataCols.Contains("TxnNum"))
+                 SetValue(ref _TxnNum, row["TxnNum"]);
+             if(dataCols.Contains("TxnDetailId"))
+                 SetValue(ref _TxnDetailId, row["TxnDetailId"]);
+             if(dataCols.Contains("WSCode"))
+                 SetValue(ref _WSCode, row["WSCode"]);
+             if(dataCols.Contains("EmpyName"))
+                 SetValue(ref _EmpyName, row["EmpyName"]);
+             if(dataCols.Contains("EmpyCode"))
+                 SetValue(ref _EmpyCode, row["EmpyCode"]);
+             if(dataCols.Contains("OptType"))
+                 SetValue(ref _OptType, row["OptType"]);
+             if(dataCols.Contains("OptDate"))
+                 SetValue(ref _OptDate, row["OptDate"]);
+             if(dataCols.Contains("TxnLogType"))
+                 SetValue(ref _TxnLogType, row["TxnLogType"]);
+             if(dataCols.Contains("InvRecordId"))
+                 SetValue(ref _InvRecordId, row["InvRecordId"]);
          }
 
         public const string OPTTYPE_ENUM_SubInventory = "SI";//1.Ã·Ωª»Îø‚ SC  submit inventory;

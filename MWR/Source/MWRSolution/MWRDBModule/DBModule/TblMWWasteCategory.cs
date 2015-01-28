@@ -61,8 +61,11 @@ namespace YRKJ.MWR
 
          public override void SetValue(System.Data.DataRow row)
          {
-             SetValue(ref _WasteCode, row["WasteCode"]);
-             SetValue(ref _Waste, row["Waste"]);
+             System.Data.DataColumnCollection dataCols = row.Table.Columns;
+             if(dataCols.Contains("WasteCode"))
+                 SetValue(ref _WasteCode, row["WasteCode"]);
+             if(dataCols.Contains("Waste"))
+                 SetValue(ref _Waste, row["Waste"]);
          }
 
 

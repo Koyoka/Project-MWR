@@ -23,6 +23,7 @@ namespace YRKJ.MWR.WSInventory.Forms
         private FrmMain _frmMain = null;
 
         private BindingList<GridMWRecoverData> _gridMWRecoverData = new BindingList<GridMWRecoverData>();
+        private BindingManagerBase _bindingRecoverDataMng = null;
 
         public FrmMWRecover()
         {
@@ -39,6 +40,7 @@ namespace YRKJ.MWR.WSInventory.Forms
             _frmMain = f;
         }
 
+      
         #region Event
 
         private void FrmMWRecover_Load(object sender, EventArgs e)
@@ -58,6 +60,8 @@ namespace YRKJ.MWR.WSInventory.Forms
                     return;
                 }
 
+                c_time.Start();
+
             }
             catch (Exception ex)
             {
@@ -70,6 +74,26 @@ namespace YRKJ.MWR.WSInventory.Forms
             }
         }
 
+        private void FrmMWRecover_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            try
+            {
+                this.Cursor = Cursors.WaitCursor;
+                //MessageBox.Show("close");
+                c_time.Stop();
+            }
+            catch (Exception ex)
+            {
+                LogMng.GetLog().PrintError(ClassName, "FrmMWRecover_FormClosing", ex);
+                MsgBox.Error(ex);
+            }
+            finally
+            {
+                this.Cursor = Cursors.Default;
+            }
+        }
+
+
         public void ControlActivity()
         {
             try
@@ -77,12 +101,13 @@ namespace YRKJ.MWR.WSInventory.Forms
                 this.Cursor = Cursors.WaitCursor;
                 
                 string errMsg = "";
-                _gridMWRecoverData.Clear();
-                if (!LoadData(ref errMsg))
-                {
-                    MsgBox.Error(errMsg);
-                    return;
-                }
+                //_bindingRecoverDataMng = this.BindingContext[_gridMWRecoverData];
+                //_gridMWRecoverData.Clear();
+                //if (!LoadData(ref errMsg))
+                //{
+                //    MsgBox.Error(errMsg);
+                //    return;
+                //}
                 
             }
             catch (Exception ex)
@@ -103,7 +128,12 @@ namespace YRKJ.MWR.WSInventory.Forms
                 this.Cursor = Cursors.WaitCursor;
                 string errMsg = "";
 
-                GridMWRecoverData data = c_grdMWRecover.CurrentRow.DataBoundItem as GridMWRecoverData;
+                if (_bindingRecoverDataMng.Position == -1)
+                {
+                    MsgBox.Show(LngRes.MSG_NoData);
+                    return;
+                }
+                GridMWRecoverData data = _bindingRecoverDataMng.Current as GridMWRecoverData;
                 if (data == null)
                 {
                     return;
@@ -133,15 +163,108 @@ namespace YRKJ.MWR.WSInventory.Forms
                 this.Cursor = Cursors.Default;
             }
         }
+
+     
+
+        private void c_bgwGetRecoverTxnHeader_DoWork(object sender, DoWorkEventArgs e)
+        {
+            try
+            {
+                string errMsg = "";
+
+                GridMWRecoverData curData = null;
+
+                if (_bindingRecoverDataMng.Position != -1)
+                {
+                    curData = _bindingRecoverDataMng.Current as GridMWRecoverData;
+                }
+
+                ThreadSafe(() =>
+                {
+                    #region get new data
+                    _gridMWRecoverData.Clear();
+                    if (!LoadData(ref errMsg))
+                    {
+                        return;
+                    }
+                    #endregion
+
+                    #region update form view data
+                    c_labHeaderCount.Text = _gridMWRecoverData.Count + "";
+                    BroadcastMng.GetInstance().Send(SysInfo.Broadcast_RecoverTxnCount, new BroadcastMng.BroadcastMessage
+                    {
+                        Message = _gridMWRecoverData.Count,
+                        Data = _gridMWRecoverData.Count
+                    });
+                    #endregion
+
+                    #region set current row select
+                    if (curData != null)
+                    {
+                        bool hasBeenExist = false;
+                        for (int i = 0; i < _gridMWRecoverData.Count; i++)
+                        {
+                            if (_gridMWRecoverData[i].TxnNum.Equals(curData.TxnNum))
+                            {
+                                hasBeenExist = true;
+                                c_grdMWRecover.Rows[i].Selected = true;
+                                c_grdMWRecover.CurrentCell = c_grdMWRecover.Rows[i].Cells[0];
+                                break;
+                            }
+                        }
+                        if (!hasBeenExist)
+                        {
+                            _bindingRecoverDataMng.Position = 0;
+                        }
+                    }
+                    #endregion
+
+                });
+            }
+            catch (Exception ex)
+            {
+                LogMng.GetLog().PrintError(ClassName, "c_bgwGetRecoverTxnHeader_DoWork", ex);
+                MsgBox.Error(ex);
+            }
+            finally
+            {
+            }
+        }
+
+        private void c_time_Tick(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!c_bgwGetRecoverTxnHeader.IsBusy)
+                {
+                    c_bgwGetRecoverTxnHeader.RunWorkerAsync();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                LogMng.GetLog().PrintError(ClassName, "c_time_Tick", ex);
+                MsgBox.Error(ex);
+            }
+            finally
+            {
+            }
+        }
+
+        
         #endregion
 
         #region Functions
 
         private bool InitFrm(ref string errMsg)
         {
+            _bindingRecoverDataMng = this.BindingContext[_gridMWRecoverData];
+           
+            //_bindingRecoverDataMng.PositionChanged += (x,y) => {
+            //    System.Diagnostics.Debug.WriteLine("--------------PositionChanged");
+            //};
             if (!LoadData(ref errMsg))
                 return false;
-
 
 
             return true;
@@ -159,6 +282,7 @@ namespace YRKJ.MWR.WSInventory.Forms
             c_grdMWRecover_C_StratDate.DataPropertyName = "StratDate";
             c_grdMWRecover_C_Status.DataPropertyName = "Status";
 
+           
             c_grdMWRecover.DataSource = _gridMWRecoverData;
             c_labHeaderCount.Text = _gridMWRecoverData.Count + "";
             return true;
@@ -176,18 +300,36 @@ namespace YRKJ.MWR.WSInventory.Forms
             {
                 GridMWRecoverData item = new GridMWRecoverData();
                 item.TxnNum = data.TxnNum;
-                item.CarCode = data.CarCode ;
+                item.CarCode = data.CarCode;
                 item.Driver = data.Driver;
                 item.Inspector = data.Inspector;
                 item.TotalCount = data.TotalCrateQty;
                 item.TotalWeight = data.TotalSubWeight;
-                item.OutDate = ComFn.DateTimeToString(data.OutDate,"yyyy-MM-dd HH:mm");
+                item.OutDate = ComFn.DateTimeToString(data.OutDate, "yyyy-MM-dd HH:mm");
                 item.InDate = ComFn.DateTimeToString(data.InDate, "yyyy-MM-dd HH:mm");
                 item.StratDate = ComFn.DateTimeToString(data.StratDate, "yyyy-MM-dd HH:mm");
                 item.Status = BizHelper.GetTxnRecoverHeaderStatus(data.Status);
                 _gridMWRecoverData.Add(item);
             }
+            
             return true;
+        }
+
+        private void ThreadSafe(MethodInvoker method)
+        {
+            //try
+            //{
+            if (this.InvokeRequired)
+            {
+                this.Invoke(method);
+            }
+            else
+            {
+                method();
+            }
+            //}
+            //catch (Exception ex)
+            //{ }
         }
 
         #endregion
@@ -197,6 +339,7 @@ namespace YRKJ.MWR.WSInventory.Forms
         private class LngRes
         {
             public const string MSG_FormName = "入库计划";
+            public const string MSG_NoData = "没有选择任何数据";
         }
 
         private class GridMWRecoverData
@@ -267,6 +410,8 @@ namespace YRKJ.MWR.WSInventory.Forms
         }
 
         #endregion
+
+
 
         #region Form Data Property
 

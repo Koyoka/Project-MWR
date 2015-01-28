@@ -383,28 +383,51 @@ namespace YRKJ.MWR
 
          public override void SetValue(System.Data.DataRow row)
          {
-             SetValue(ref _RecoHeaderId, row["RecoHeaderId"]);
-             SetValue(ref _TxnNum, row["TxnNum"]);
-             SetValue(ref _CarCode, row["CarCode"]);
-             SetValue(ref _Driver, row["Driver"]);
-             SetValue(ref _DriverCode, row["DriverCode"]);
-             SetValue(ref _Inspector, row["Inspector"]);
-             SetValue(ref _InspectorCode, row["InspectorCode"]);
-             SetValue(ref _RecoMWSCode, row["RecoMWSCode"]);
-             SetValue(ref _RecoWSCode, row["RecoWSCode"]);
-             SetValue(ref _RecoEmpyName, row["RecoEmpyName"]);
-             SetValue(ref _RecoEmpyCode, row["RecoEmpyCode"]);
-             SetValue(ref _StratDate, row["StratDate"]);
-             SetValue(ref _EndDate, row["EndDate"]);
-             SetValue(ref _OperateType, row["OperateType"]);
-             SetValue(ref _TotalCrateQty, row["TotalCrateQty"]);
-             SetValue(ref _TotalSubWeight, row["TotalSubWeight"]);
-             SetValue(ref _TotalTxnWeight, row["TotalTxnWeight"]);
-             SetValue(ref _CarDisId, row["CarDisId"]);
-             SetValue(ref _Status, row["Status"]);
-             SetValue(ref _OutDate, row["OutDate"]);
-             SetValue(ref _InDate, row["InDate"]);
-             SetValue(ref _DisStatus, row["DisStatus"]);
+             System.Data.DataColumnCollection dataCols = row.Table.Columns;
+             if(dataCols.Contains("RecoHeaderId"))
+                 SetValue(ref _RecoHeaderId, row["RecoHeaderId"]);
+             if(dataCols.Contains("TxnNum"))
+                 SetValue(ref _TxnNum, row["TxnNum"]);
+             if(dataCols.Contains("CarCode"))
+                 SetValue(ref _CarCode, row["CarCode"]);
+             if(dataCols.Contains("Driver"))
+                 SetValue(ref _Driver, row["Driver"]);
+             if(dataCols.Contains("DriverCode"))
+                 SetValue(ref _DriverCode, row["DriverCode"]);
+             if(dataCols.Contains("Inspector"))
+                 SetValue(ref _Inspector, row["Inspector"]);
+             if(dataCols.Contains("InspectorCode"))
+                 SetValue(ref _InspectorCode, row["InspectorCode"]);
+             if(dataCols.Contains("RecoMWSCode"))
+                 SetValue(ref _RecoMWSCode, row["RecoMWSCode"]);
+             if(dataCols.Contains("RecoWSCode"))
+                 SetValue(ref _RecoWSCode, row["RecoWSCode"]);
+             if(dataCols.Contains("RecoEmpyName"))
+                 SetValue(ref _RecoEmpyName, row["RecoEmpyName"]);
+             if(dataCols.Contains("RecoEmpyCode"))
+                 SetValue(ref _RecoEmpyCode, row["RecoEmpyCode"]);
+             if(dataCols.Contains("StratDate"))
+                 SetValue(ref _StratDate, row["StratDate"]);
+             if(dataCols.Contains("EndDate"))
+                 SetValue(ref _EndDate, row["EndDate"]);
+             if(dataCols.Contains("OperateType"))
+                 SetValue(ref _OperateType, row["OperateType"]);
+             if(dataCols.Contains("TotalCrateQty"))
+                 SetValue(ref _TotalCrateQty, row["TotalCrateQty"]);
+             if(dataCols.Contains("TotalSubWeight"))
+                 SetValue(ref _TotalSubWeight, row["TotalSubWeight"]);
+             if(dataCols.Contains("TotalTxnWeight"))
+                 SetValue(ref _TotalTxnWeight, row["TotalTxnWeight"]);
+             if(dataCols.Contains("CarDisId"))
+                 SetValue(ref _CarDisId, row["CarDisId"]);
+             if(dataCols.Contains("Status"))
+                 SetValue(ref _Status, row["Status"]);
+             if(dataCols.Contains("OutDate"))
+                 SetValue(ref _OutDate, row["OutDate"]);
+             if(dataCols.Contains("InDate"))
+                 SetValue(ref _InDate, row["InDate"]);
+             if(dataCols.Contains("DisStatus"))
+                 SetValue(ref _DisStatus, row["DisStatus"]);
          }
 
          public const string OPERATETYPE_ENUM_ToInventory = "I";//回收入库操作;

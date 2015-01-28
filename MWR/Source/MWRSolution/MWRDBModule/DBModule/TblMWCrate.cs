@@ -78,9 +78,13 @@ namespace YRKJ.MWR
 
          public override void SetValue(System.Data.DataRow row)
          {
-             SetValue(ref _CrateCode, row["CrateCode"]);
-             SetValue(ref _Desc, row["Desc"]);
-             SetValue(ref _Status, row["Status"]);
+             System.Data.DataColumnCollection dataCols = row.Table.Columns;
+             if(dataCols.Contains("CrateCode"))
+                 SetValue(ref _CrateCode, row["CrateCode"]);
+             if(dataCols.Contains("Desc"))
+                 SetValue(ref _Desc, row["Desc"]);
+             if(dataCols.Contains("Status"))
+                 SetValue(ref _Status, row["Status"]);
          }
 
         public const string STATUS_ENUM_Active = "A";// π”√÷–;

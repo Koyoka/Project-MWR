@@ -61,8 +61,11 @@ namespace YRKJ.MWR
 
          public override void SetValue(System.Data.DataRow row)
          {
-             SetValue(ref _CarCode, row["CarCode"]);
-             SetValue(ref _Desc, row["Desc"]);
+             System.Data.DataColumnCollection dataCols = row.Table.Columns;
+             if(dataCols.Contains("CarCode"))
+                 SetValue(ref _CarCode, row["CarCode"]);
+             if(dataCols.Contains("Desc"))
+                 SetValue(ref _Desc, row["Desc"]);
          }
 
 

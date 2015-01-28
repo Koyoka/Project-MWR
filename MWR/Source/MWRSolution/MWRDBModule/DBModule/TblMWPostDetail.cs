@@ -265,20 +265,35 @@ namespace YRKJ.MWR
 
          public override void SetValue(System.Data.DataRow row)
          {
-             SetValue(ref _PostDtlId, row["PostDtlId"]);
-             SetValue(ref _PostHeaderId, row["PostHeaderId"]);
-             SetValue(ref _CrateCode, row["CrateCode"]);
-             SetValue(ref _PostNum, row["PostNum"]);
-             SetValue(ref _DepotCode, row["DepotCode"]);
-             SetValue(ref _Vendor, row["Vendor"]);
-             SetValue(ref _VendorCode, row["VendorCode"]);
-             SetValue(ref _Waste, row["Waste"]);
-             SetValue(ref _WasteCode, row["WasteCode"]);
-             SetValue(ref _InvWeight, row["InvWeight"]);
-             SetValue(ref _PostWeight, row["PostWeight"]);
-             SetValue(ref _Status, row["Status"]);
-             SetValue(ref _InvRecordId, row["InvRecordId"]);
-             SetValue(ref _InvAuthId, row["InvAuthId"]);
+             System.Data.DataColumnCollection dataCols = row.Table.Columns;
+             if(dataCols.Contains("PostDtlId"))
+                 SetValue(ref _PostDtlId, row["PostDtlId"]);
+             if(dataCols.Contains("PostHeaderId"))
+                 SetValue(ref _PostHeaderId, row["PostHeaderId"]);
+             if(dataCols.Contains("CrateCode"))
+                 SetValue(ref _CrateCode, row["CrateCode"]);
+             if(dataCols.Contains("PostNum"))
+                 SetValue(ref _PostNum, row["PostNum"]);
+             if(dataCols.Contains("DepotCode"))
+                 SetValue(ref _DepotCode, row["DepotCode"]);
+             if(dataCols.Contains("Vendor"))
+                 SetValue(ref _Vendor, row["Vendor"]);
+             if(dataCols.Contains("VendorCode"))
+                 SetValue(ref _VendorCode, row["VendorCode"]);
+             if(dataCols.Contains("Waste"))
+                 SetValue(ref _Waste, row["Waste"]);
+             if(dataCols.Contains("WasteCode"))
+                 SetValue(ref _WasteCode, row["WasteCode"]);
+             if(dataCols.Contains("InvWeight"))
+                 SetValue(ref _InvWeight, row["InvWeight"]);
+             if(dataCols.Contains("PostWeight"))
+                 SetValue(ref _PostWeight, row["PostWeight"]);
+             if(dataCols.Contains("Status"))
+                 SetValue(ref _Status, row["Status"]);
+             if(dataCols.Contains("InvRecordId"))
+                 SetValue(ref _InvRecordId, row["InvRecordId"]);
+             if(dataCols.Contains("InvAuthId"))
+                 SetValue(ref _InvAuthId, row["InvAuthId"]);
          }
 
 

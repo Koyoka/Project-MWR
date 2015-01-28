@@ -129,12 +129,19 @@ namespace YRKJ.MWR
 
          public override void SetValue(System.Data.DataRow row)
          {
-             SetValue(ref _EmpyCode, row["EmpyCode"]);
-             SetValue(ref _EmpyName, row["EmpyName"]);
-             SetValue(ref _UserGroupId, row["UserGroupId"]);
-             SetValue(ref _EmpyType, row["EmpyType"]);
-             SetValue(ref _UserName, row["UserName"]);
-             SetValue(ref _Password, row["Password"]);
+             System.Data.DataColumnCollection dataCols = row.Table.Columns;
+             if(dataCols.Contains("EmpyCode"))
+                 SetValue(ref _EmpyCode, row["EmpyCode"]);
+             if(dataCols.Contains("EmpyName"))
+                 SetValue(ref _EmpyName, row["EmpyName"]);
+             if(dataCols.Contains("UserGroupId"))
+                 SetValue(ref _UserGroupId, row["UserGroupId"]);
+             if(dataCols.Contains("EmpyType"))
+                 SetValue(ref _EmpyType, row["EmpyType"]);
+             if(dataCols.Contains("UserName"))
+                 SetValue(ref _UserName, row["UserName"]);
+             if(dataCols.Contains("Password"))
+                 SetValue(ref _Password, row["Password"]);
          }
 
         public const string EMPYTYPE_ENUM_Driver = "D";//Ë¾»ú;

@@ -146,13 +146,21 @@ namespace YRKJ.MWR
 
          public override void SetValue(System.Data.DataRow row)
          {
-             SetValue(ref _ResdInvId, row["ResdInvId"]);
-             SetValue(ref _InvWeight, row["InvWeight"]);
-             SetValue(ref _EntryDate, row["EntryDate"]);
-             SetValue(ref _HandlingDate, row["HandlingDate"]);
-             SetValue(ref _RecoWSCode, row["RecoWSCode"]);
-             SetValue(ref _RecoEmpyCode, row["RecoEmpyCode"]);
-             SetValue(ref _HandlingType, row["HandlingType"]);
+             System.Data.DataColumnCollection dataCols = row.Table.Columns;
+             if(dataCols.Contains("ResdInvId"))
+                 SetValue(ref _ResdInvId, row["ResdInvId"]);
+             if(dataCols.Contains("InvWeight"))
+                 SetValue(ref _InvWeight, row["InvWeight"]);
+             if(dataCols.Contains("EntryDate"))
+                 SetValue(ref _EntryDate, row["EntryDate"]);
+             if(dataCols.Contains("HandlingDate"))
+                 SetValue(ref _HandlingDate, row["HandlingDate"]);
+             if(dataCols.Contains("RecoWSCode"))
+                 SetValue(ref _RecoWSCode, row["RecoWSCode"]);
+             if(dataCols.Contains("RecoEmpyCode"))
+                 SetValue(ref _RecoEmpyCode, row["RecoEmpyCode"]);
+             if(dataCols.Contains("HandlingType"))
+                 SetValue(ref _HandlingType, row["HandlingType"]);
          }
 
 

@@ -72,6 +72,11 @@ namespace YRKJ.MWR.Business.Sys
             return GetNextId("TxnLog");
         }
 
+        public static int GetInvAuthorizeNextId()
+        {
+            return GetNextId("InvAuthorize");
+        }
+
         public static string GetTxnNextNum(string TxnNumMask)
         {
             DataCtrlInfo dcf = new DataCtrlInfo(); ;

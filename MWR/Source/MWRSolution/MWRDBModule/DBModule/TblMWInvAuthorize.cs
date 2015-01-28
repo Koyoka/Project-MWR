@@ -282,23 +282,41 @@ namespace YRKJ.MWR
 
          public override void SetValue(System.Data.DataRow row)
          {
-             SetValue(ref _InvAuthId, row["InvAuthId"]);
-             SetValue(ref _TxnNum, row["TxnNum"]);
-             SetValue(ref _TxnDetailId, row["TxnDetailId"]);
-             SetValue(ref _EmpyCode, row["EmpyCode"]);
-             SetValue(ref _EmpyName, row["EmpyName"]);
-             SetValue(ref _WSCode, row["WSCode"]);
-             SetValue(ref _AuthEmpyCode, row["AuthEmpyCode"]);
-             SetValue(ref _AuthEmpyName, row["AuthEmpyName"]);
-             SetValue(ref _Remark, row["Remark"]);
-             SetValue(ref _SubWeight, row["SubWeight"]);
-             SetValue(ref _TxnWeight, row["TxnWeight"]);
-             SetValue(ref _DiffWeight, row["DiffWeight"]);
-             SetValue(ref _EntryDate, row["EntryDate"]);
-             SetValue(ref _CompDate, row["CompDate"]);
-             SetValue(ref _Status, row["Status"]);
+             System.Data.DataColumnCollection dataCols = row.Table.Columns;
+             if(dataCols.Contains("InvAuthId"))
+                 SetValue(ref _InvAuthId, row["InvAuthId"]);
+             if(dataCols.Contains("TxnNum"))
+                 SetValue(ref _TxnNum, row["TxnNum"]);
+             if(dataCols.Contains("TxnDetailId"))
+                 SetValue(ref _TxnDetailId, row["TxnDetailId"]);
+             if(dataCols.Contains("EmpyCode"))
+                 SetValue(ref _EmpyCode, row["EmpyCode"]);
+             if(dataCols.Contains("EmpyName"))
+                 SetValue(ref _EmpyName, row["EmpyName"]);
+             if(dataCols.Contains("WSCode"))
+                 SetValue(ref _WSCode, row["WSCode"]);
+             if(dataCols.Contains("AuthEmpyCode"))
+                 SetValue(ref _AuthEmpyCode, row["AuthEmpyCode"]);
+             if(dataCols.Contains("AuthEmpyName"))
+                 SetValue(ref _AuthEmpyName, row["AuthEmpyName"]);
+             if(dataCols.Contains("Remark"))
+                 SetValue(ref _Remark, row["Remark"]);
+             if(dataCols.Contains("SubWeight"))
+                 SetValue(ref _SubWeight, row["SubWeight"]);
+             if(dataCols.Contains("TxnWeight"))
+                 SetValue(ref _TxnWeight, row["TxnWeight"]);
+             if(dataCols.Contains("DiffWeight"))
+                 SetValue(ref _DiffWeight, row["DiffWeight"]);
+             if(dataCols.Contains("EntryDate"))
+                 SetValue(ref _EntryDate, row["EntryDate"]);
+             if(dataCols.Contains("CompDate"))
+                 SetValue(ref _CompDate, row["CompDate"]);
+             if(dataCols.Contains("Status"))
+                 SetValue(ref _Status, row["Status"]);
          }
 
+        public const string STATUS_ENUM_Precess = "P";//1.提交等待审核中;
+        public const string STATUS_ENUM_Complete = "C";//2.审核完成;
 
     }
 }

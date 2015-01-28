@@ -34,7 +34,7 @@
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label2 = new System.Windows.Forms.Label();
+            this.c_labRecoverTxnCount = new System.Windows.Forms.Label();
             this.c_btnMWPost = new System.Windows.Forms.Button();
             this.c_btnMWRecover = new System.Windows.Forms.Button();
             this.c_btnInvSearch = new System.Windows.Forms.Button();
@@ -64,7 +64,6 @@
             this.c_panForm.Name = "c_panForm";
             this.c_panForm.Size = new System.Drawing.Size(1008, 595);
             this.c_panForm.TabIndex = 2;
-            this.c_panForm.Resize += new System.EventHandler(this.c_panForm_Resize);
             // 
             // statusStrip1
             // 
@@ -95,7 +94,7 @@
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.label2);
+            this.panel1.Controls.Add(this.c_labRecoverTxnCount);
             this.panel1.Controls.Add(this.c_btnMWPost);
             this.panel1.Controls.Add(this.c_btnMWRecover);
             this.panel1.Controls.Add(this.c_btnInvSearch);
@@ -111,17 +110,17 @@
             this.panel1.Size = new System.Drawing.Size(1008, 113);
             this.panel1.TabIndex = 2;
             // 
-            // label2
+            // c_labRecoverTxnCount
             // 
-            this.label2.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Image = ((System.Drawing.Image)(resources.GetObject("label2.Image")));
-            this.label2.Location = new System.Drawing.Point(275, 31);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(37, 27);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "4";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.c_labRecoverTxnCount.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.c_labRecoverTxnCount.ForeColor = System.Drawing.Color.White;
+            this.c_labRecoverTxnCount.Image = ((System.Drawing.Image)(resources.GetObject("c_labRecoverTxnCount.Image")));
+            this.c_labRecoverTxnCount.Location = new System.Drawing.Point(275, 31);
+            this.c_labRecoverTxnCount.Name = "c_labRecoverTxnCount";
+            this.c_labRecoverTxnCount.Size = new System.Drawing.Size(37, 27);
+            this.c_labRecoverTxnCount.TabIndex = 3;
+            this.c_labRecoverTxnCount.Text = "0";
+            this.c_labRecoverTxnCount.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // c_btnMWPost
             // 
@@ -307,7 +306,7 @@
         private System.Windows.Forms.ToolStripPanel RightToolStripPanel;
         private System.Windows.Forms.ToolStripPanel LeftToolStripPanel;
         private System.Windows.Forms.ToolStripContentPanel ContentPanel;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label c_labRecoverTxnCount;
         private System.Windows.Forms.Label c_labBg3;
         private System.Windows.Forms.Label c_labBg1;
         private System.Windows.Forms.Label c_labBg2;

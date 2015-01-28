@@ -28,12 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMWRecover));
             this.c_grdMWRecover = new System.Windows.Forms.DataGridView();
             this.c_grdMWRecover_C_CarCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -50,6 +51,8 @@
             this.c_labHeaderCount = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
+            this.c_bgwGetRecoverTxnHeader = new System.ComponentModel.BackgroundWorker();
+            this.c_time = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.c_grdMWRecover)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -60,14 +63,14 @@
             this.c_grdMWRecover.AllowUserToDeleteRows = false;
             this.c_grdMWRecover.AllowUserToResizeColumns = false;
             this.c_grdMWRecover.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("微软雅黑", 11F);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.c_grdMWRecover.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle13.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle13.Font = new System.Drawing.Font("微软雅黑", 11F);
+            dataGridViewCellStyle13.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle13.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle13.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.c_grdMWRecover.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle13;
             this.c_grdMWRecover.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.c_grdMWRecover.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.c_grdMWRecover_C_CarCode,
@@ -115,8 +118,8 @@
             // 
             // c_grdMWRecover_C_OutDate
             // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.c_grdMWRecover_C_OutDate.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.c_grdMWRecover_C_OutDate.DefaultCellStyle = dataGridViewCellStyle14;
             this.c_grdMWRecover_C_OutDate.FillWeight = 150F;
             this.c_grdMWRecover_C_OutDate.HeaderText = "出车时间";
             this.c_grdMWRecover_C_OutDate.Name = "c_grdMWRecover_C_OutDate";
@@ -124,8 +127,8 @@
             // 
             // c_grdMWRecover_C_InDate
             // 
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.c_grdMWRecover_C_InDate.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.c_grdMWRecover_C_InDate.DefaultCellStyle = dataGridViewCellStyle15;
             this.c_grdMWRecover_C_InDate.FillWeight = 150F;
             this.c_grdMWRecover_C_InDate.HeaderText = "回车时间";
             this.c_grdMWRecover_C_InDate.Name = "c_grdMWRecover_C_InDate";
@@ -133,8 +136,8 @@
             // 
             // c_grdMWRecover_C_StratDate
             // 
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.c_grdMWRecover_C_StratDate.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.c_grdMWRecover_C_StratDate.DefaultCellStyle = dataGridViewCellStyle16;
             this.c_grdMWRecover_C_StratDate.FillWeight = 150F;
             this.c_grdMWRecover_C_StratDate.HeaderText = "校验时间";
             this.c_grdMWRecover_C_StratDate.Name = "c_grdMWRecover_C_StratDate";
@@ -149,8 +152,8 @@
             // 
             // c_grdMWRecover_C_TotleCount
             // 
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.c_grdMWRecover_C_TotleCount.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.c_grdMWRecover_C_TotleCount.DefaultCellStyle = dataGridViewCellStyle17;
             this.c_grdMWRecover_C_TotleCount.FillWeight = 80F;
             this.c_grdMWRecover_C_TotleCount.HeaderText = "总数量";
             this.c_grdMWRecover_C_TotleCount.Name = "c_grdMWRecover_C_TotleCount";
@@ -159,8 +162,8 @@
             // c_grdMWRecover_C_TotolWeight
             // 
             this.c_grdMWRecover_C_TotolWeight.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.c_grdMWRecover_C_TotolWeight.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.c_grdMWRecover_C_TotolWeight.DefaultCellStyle = dataGridViewCellStyle18;
             this.c_grdMWRecover_C_TotolWeight.FillWeight = 80F;
             this.c_grdMWRecover_C_TotolWeight.HeaderText = "总重量";
             this.c_grdMWRecover_C_TotolWeight.Name = "c_grdMWRecover_C_TotolWeight";
@@ -182,7 +185,7 @@
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.label2.Location = new System.Drawing.Point(807, 80);
+            this.label2.Location = new System.Drawing.Point(800, 80);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(159, 21);
             this.label2.TabIndex = 0;
@@ -195,9 +198,10 @@
             this.c_labHeaderCount.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.c_labHeaderCount.Location = new System.Drawing.Point(965, 80);
             this.c_labHeaderCount.Name = "c_labHeaderCount";
-            this.c_labHeaderCount.Size = new System.Drawing.Size(31, 21);
+            this.c_labHeaderCount.Size = new System.Drawing.Size(40, 20);
             this.c_labHeaderCount.TabIndex = 0;
             this.c_labHeaderCount.Text = "0";
+            this.c_labHeaderCount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // panel1
             // 
@@ -221,6 +225,15 @@
             this.label4.TabIndex = 0;
             this.label4.Text = "当前提交计划列表";
             // 
+            // c_bgwGetRecoverTxnHeader
+            // 
+            this.c_bgwGetRecoverTxnHeader.DoWork += new System.ComponentModel.DoWorkEventHandler(this.c_bgwGetRecoverTxnHeader_DoWork);
+            // 
+            // c_time
+            // 
+            this.c_time.Interval = 1000;
+            this.c_time.Tick += new System.EventHandler(this.c_time_Tick);
+            // 
             // FrmMWRecover
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -235,6 +248,7 @@
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "FrmMWRecover";
             this.Text = "FrmMWRecover";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmMWRecover_FormClosing);
             this.Load += new System.EventHandler(this.FrmMWRecover_Load);
             ((System.ComponentModel.ISupportInitialize)(this.c_grdMWRecover)).EndInit();
             this.panel1.ResumeLayout(false);
@@ -260,5 +274,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn c_grdMWRecover_C_Status;
         private System.Windows.Forms.DataGridViewTextBoxColumn c_grdMWRecover_C_TotleCount;
         private System.Windows.Forms.DataGridViewTextBoxColumn c_grdMWRecover_C_TotolWeight;
+        private System.ComponentModel.BackgroundWorker c_bgwGetRecoverTxnHeader;
+        private System.Windows.Forms.Timer c_time;
     }
 }

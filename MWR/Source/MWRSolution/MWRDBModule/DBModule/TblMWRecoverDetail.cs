@@ -231,18 +231,31 @@ namespace YRKJ.MWR
 
          public override void SetValue(System.Data.DataRow row)
          {
-             SetValue(ref _RecoDtlId, row["RecoDtlId"]);
-             SetValue(ref _RecoHeaderId, row["RecoHeaderId"]);
-             SetValue(ref _CrateCode, row["CrateCode"]);
-             SetValue(ref _RecoNum, row["RecoNum"]);
-             SetValue(ref _Vendor, row["Vendor"]);
-             SetValue(ref _VendorCode, row["VendorCode"]);
-             SetValue(ref _Waste, row["Waste"]);
-             SetValue(ref _WasteCode, row["WasteCode"]);
-             SetValue(ref _RecoWeight, row["RecoWeight"]);
-             SetValue(ref _RecoDate, row["RecoDate"]);
-             SetValue(ref _InvAuthId, row["InvAuthId"]);
-             SetValue(ref _Status, row["Status"]);
+             System.Data.DataColumnCollection dataCols = row.Table.Columns;
+             if(dataCols.Contains("RecoDtlId"))
+                 SetValue(ref _RecoDtlId, row["RecoDtlId"]);
+             if(dataCols.Contains("RecoHeaderId"))
+                 SetValue(ref _RecoHeaderId, row["RecoHeaderId"]);
+             if(dataCols.Contains("CrateCode"))
+                 SetValue(ref _CrateCode, row["CrateCode"]);
+             if(dataCols.Contains("RecoNum"))
+                 SetValue(ref _RecoNum, row["RecoNum"]);
+             if(dataCols.Contains("Vendor"))
+                 SetValue(ref _Vendor, row["Vendor"]);
+             if(dataCols.Contains("VendorCode"))
+                 SetValue(ref _VendorCode, row["VendorCode"]);
+             if(dataCols.Contains("Waste"))
+                 SetValue(ref _Waste, row["Waste"]);
+             if(dataCols.Contains("WasteCode"))
+                 SetValue(ref _WasteCode, row["WasteCode"]);
+             if(dataCols.Contains("RecoWeight"))
+                 SetValue(ref _RecoWeight, row["RecoWeight"]);
+             if(dataCols.Contains("RecoDate"))
+                 SetValue(ref _RecoDate, row["RecoDate"]);
+             if(dataCols.Contains("InvAuthId"))
+                 SetValue(ref _InvAuthId, row["InvAuthId"]);
+             if(dataCols.Contains("Status"))
+                 SetValue(ref _Status, row["Status"]);
          }
 
 

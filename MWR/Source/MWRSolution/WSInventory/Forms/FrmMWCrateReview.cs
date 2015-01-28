@@ -8,6 +8,8 @@ using System.Text;
 using System.Windows.Forms;
 using YRKJ.MWR.WinBase.WinAppBase;
 using ComLib.Log;
+using YRKJ.MWR.Business.WS;
+using YRKJ.MWR.WSInventory.Business.Sys;
 
 namespace YRKJ.MWR.WSInventory.Forms
 {
@@ -15,6 +17,9 @@ namespace YRKJ.MWR.WSInventory.Forms
     {
         private const string ClassName = "YRKJ.MWR.WSInventory.Forms.FrmMWCrateReview";
         private FormMng _frmMng = null;
+
+        private string _depotCode = "";
+        private TblMWTxnDetail _txnDetail = null;
 
         public FrmMWCrateReview()
         {
@@ -28,6 +33,13 @@ namespace YRKJ.MWR.WSInventory.Forms
             this.ShowInTaskbar = false;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
+        }
+
+        public FrmMWCrateReview(TblMWTxnDetail txnDetail, string depotCode)
+            :this()
+        {
+            _txnDetail = txnDetail;
+            _depotCode = depotCode;
         } 
 
         #region Event
@@ -72,7 +84,24 @@ namespace YRKJ.MWR.WSInventory.Forms
             try
             {
                 this.Cursor = Cursors.WaitCursor;
+                string errMsg = "";
+                string empyCode = SysInfo.GetInstance().Employ.EmpyCode;
+                string empyName = SysInfo.GetInstance().Employ.EmpyName;
+                string wscode = SysInfo.GetInstance().Config.WSCode;
 
+                if (!TxnMng.AuthorizeCrareToInventory(_txnDetail.TxnDetailId,
+                    empyCode, wscode, _depotCode, ref errMsg))
+                {
+                    MsgBox.Error(errMsg);
+                    return;
+                }
+                #region update current form txndetail data
+                _txnDetail.EmpyCode = SysInfo.GetInstance().Employ.EmpyCode;
+                _txnDetail.EmpyName = SysInfo.GetInstance().Employ.EmpyName;
+                _txnDetail.WSCode = SysInfo.GetInstance().Config.WSCode;
+                _txnDetail.Status = TblMWTxnDetail.STATUS_ENUM_Complete;
+                #endregion
+                this.DialogResult = System.Windows.Forms.DialogResult.OK;
                 this.Close();
             }
             catch (Exception ex)

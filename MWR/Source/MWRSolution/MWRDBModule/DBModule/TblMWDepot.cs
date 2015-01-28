@@ -78,9 +78,13 @@ namespace YRKJ.MWR
 
          public override void SetValue(System.Data.DataRow row)
          {
-             SetValue(ref _DeptCode, row["DeptCode"]);
-             SetValue(ref _Total, row["Total"]);
-             SetValue(ref _Desc, row["Desc"]);
+             System.Data.DataColumnCollection dataCols = row.Table.Columns;
+             if(dataCols.Contains("DeptCode"))
+                 SetValue(ref _DeptCode, row["DeptCode"]);
+             if(dataCols.Contains("Total"))
+                 SetValue(ref _Total, row["Total"]);
+             if(dataCols.Contains("Desc"))
+                 SetValue(ref _Desc, row["Desc"]);
          }
 
 

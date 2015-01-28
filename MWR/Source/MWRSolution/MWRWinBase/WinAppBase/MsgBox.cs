@@ -23,6 +23,16 @@ namespace YRKJ.MWR.WinBase.WinAppBase
             MessageBox.Show(msg);
         }
 
+        public static bool Confirm(string title,string msg)
+        {
+            if (MessageBox.Show(msg, title, MessageBoxButtons.OKCancel)
+            ==
+            DialogResult.OK)
+                return true;
+            else
+                return false;
+        }
+
 
     }
 }

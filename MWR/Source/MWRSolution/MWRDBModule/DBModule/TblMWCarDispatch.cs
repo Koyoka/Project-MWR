@@ -197,16 +197,27 @@ namespace YRKJ.MWR
 
          public override void SetValue(System.Data.DataRow row)
          {
-             SetValue(ref _CarDisId, row["CarDisId"]);
-             SetValue(ref _CarCode, row["CarCode"]);
-             SetValue(ref _Driver, row["Driver"]);
-             SetValue(ref _DriverCode, row["DriverCode"]);
-             SetValue(ref _Inspector, row["Inspector"]);
-             SetValue(ref _InspectorCode, row["InspectorCode"]);
-             SetValue(ref _RecoMWSCode, row["RecoMWSCode"]);
-             SetValue(ref _OutDate, row["OutDate"]);
-             SetValue(ref _InDate, row["InDate"]);
-             SetValue(ref _Status, row["Status"]);
+             System.Data.DataColumnCollection dataCols = row.Table.Columns;
+             if(dataCols.Contains("CarDisId"))
+                 SetValue(ref _CarDisId, row["CarDisId"]);
+             if(dataCols.Contains("CarCode"))
+                 SetValue(ref _CarCode, row["CarCode"]);
+             if(dataCols.Contains("Driver"))
+                 SetValue(ref _Driver, row["Driver"]);
+             if(dataCols.Contains("DriverCode"))
+                 SetValue(ref _DriverCode, row["DriverCode"]);
+             if(dataCols.Contains("Inspector"))
+                 SetValue(ref _Inspector, row["Inspector"]);
+             if(dataCols.Contains("InspectorCode"))
+                 SetValue(ref _InspectorCode, row["InspectorCode"]);
+             if(dataCols.Contains("RecoMWSCode"))
+                 SetValue(ref _RecoMWSCode, row["RecoMWSCode"]);
+             if(dataCols.Contains("OutDate"))
+                 SetValue(ref _OutDate, row["OutDate"]);
+             if(dataCols.Contains("InDate"))
+                 SetValue(ref _InDate, row["InDate"]);
+             if(dataCols.Contains("Status"))
+                 SetValue(ref _Status, row["Status"]);
          }
 
         public const string STATUS_ENUM_ShiftStrat = "S";//班次开始了;

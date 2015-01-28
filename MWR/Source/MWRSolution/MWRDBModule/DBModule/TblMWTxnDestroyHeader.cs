@@ -214,17 +214,29 @@ namespace YRKJ.MWR
 
          public override void SetValue(System.Data.DataRow row)
          {
-             SetValue(ref _DestHeaderId, row["DestHeaderId"]);
-             SetValue(ref _TxnNum, row["TxnNum"]);
-             SetValue(ref _StratDate, row["StratDate"]);
-             SetValue(ref _EndDate, row["EndDate"]);
-             SetValue(ref _DestWSCode, row["DestWSCode"]);
-             SetValue(ref _DestEmpyName, row["DestEmpyName"]);
-             SetValue(ref _DestEmpyCode, row["DestEmpyCode"]);
-             SetValue(ref _TotalCrateQty, row["TotalCrateQty"]);
-             SetValue(ref _TotalSubWeight, row["TotalSubWeight"]);
-             SetValue(ref _TotalTxnWeight, row["TotalTxnWeight"]);
-             SetValue(ref _Status, row["Status"]);
+             System.Data.DataColumnCollection dataCols = row.Table.Columns;
+             if(dataCols.Contains("DestHeaderId"))
+                 SetValue(ref _DestHeaderId, row["DestHeaderId"]);
+             if(dataCols.Contains("TxnNum"))
+                 SetValue(ref _TxnNum, row["TxnNum"]);
+             if(dataCols.Contains("StratDate"))
+                 SetValue(ref _StratDate, row["StratDate"]);
+             if(dataCols.Contains("EndDate"))
+                 SetValue(ref _EndDate, row["EndDate"]);
+             if(dataCols.Contains("DestWSCode"))
+                 SetValue(ref _DestWSCode, row["DestWSCode"]);
+             if(dataCols.Contains("DestEmpyName"))
+                 SetValue(ref _DestEmpyName, row["DestEmpyName"]);
+             if(dataCols.Contains("DestEmpyCode"))
+                 SetValue(ref _DestEmpyCode, row["DestEmpyCode"]);
+             if(dataCols.Contains("TotalCrateQty"))
+                 SetValue(ref _TotalCrateQty, row["TotalCrateQty"]);
+             if(dataCols.Contains("TotalSubWeight"))
+                 SetValue(ref _TotalSubWeight, row["TotalSubWeight"]);
+             if(dataCols.Contains("TotalTxnWeight"))
+                 SetValue(ref _TotalTxnWeight, row["TotalTxnWeight"]);
+             if(dataCols.Contains("Status"))
+                 SetValue(ref _Status, row["Status"]);
          }
 
 

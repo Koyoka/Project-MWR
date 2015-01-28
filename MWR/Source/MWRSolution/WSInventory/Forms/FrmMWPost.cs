@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using YRKJ.MWR.WinBase.WinAppBase;
 using YRKJ.MWR.WinBase.WinUtility;
 using ComLib.Log;
+using YRKJ.MWR.WSInventory.Business.Sys;
 
 namespace YRKJ.MWR.WSInventory.Forms
 {
@@ -42,7 +43,15 @@ namespace YRKJ.MWR.WSInventory.Forms
             {
                 this.Cursor = Cursors.WaitCursor;
                 //WinFn.SafeFocusAndSelectAll(textBox1);
+                if (!InitFrm())
+                {
+                    return;
+                }
 
+                if (!InitCtrls())
+                {
+                    return;
+                }
             }
             catch (Exception ex)
             {
@@ -80,6 +89,11 @@ namespace YRKJ.MWR.WSInventory.Forms
 
         private bool InitFrm()
         {
+            YRKJ.MWR.WinBase.WinUtility.BroadcastMng.GetInstance().Listen(SysInfo.Broadcast_RecoverTxnCount, (x) =>
+            {
+                this.c_labTxnCount.Text = x.Data.ToString();
+            });
+
             if (!LoadData())
                 return false;
 

@@ -231,18 +231,31 @@ namespace YRKJ.MWR
 
          public override void SetValue(System.Data.DataRow row)
          {
-             SetValue(ref _PostHeaderId, row["PostHeaderId"]);
-             SetValue(ref _TxnNum, row["TxnNum"]);
-             SetValue(ref _PostWSCode, row["PostWSCode"]);
-             SetValue(ref _PostEmpyName, row["PostEmpyName"]);
-             SetValue(ref _PostEmpyCode, row["PostEmpyCode"]);
-             SetValue(ref _StratDate, row["StratDate"]);
-             SetValue(ref _EndDate, row["EndDate"]);
-             SetValue(ref _PostType, row["PostType"]);
-             SetValue(ref _TotalCrateQty, row["TotalCrateQty"]);
-             SetValue(ref _TotalSubWeight, row["TotalSubWeight"]);
-             SetValue(ref _TotalTxnWeight, row["TotalTxnWeight"]);
-             SetValue(ref _Status, row["Status"]);
+             System.Data.DataColumnCollection dataCols = row.Table.Columns;
+             if(dataCols.Contains("PostHeaderId"))
+                 SetValue(ref _PostHeaderId, row["PostHeaderId"]);
+             if(dataCols.Contains("TxnNum"))
+                 SetValue(ref _TxnNum, row["TxnNum"]);
+             if(dataCols.Contains("PostWSCode"))
+                 SetValue(ref _PostWSCode, row["PostWSCode"]);
+             if(dataCols.Contains("PostEmpyName"))
+                 SetValue(ref _PostEmpyName, row["PostEmpyName"]);
+             if(dataCols.Contains("PostEmpyCode"))
+                 SetValue(ref _PostEmpyCode, row["PostEmpyCode"]);
+             if(dataCols.Contains("StratDate"))
+                 SetValue(ref _StratDate, row["StratDate"]);
+             if(dataCols.Contains("EndDate"))
+                 SetValue(ref _EndDate, row["EndDate"]);
+             if(dataCols.Contains("PostType"))
+                 SetValue(ref _PostType, row["PostType"]);
+             if(dataCols.Contains("TotalCrateQty"))
+                 SetValue(ref _TotalCrateQty, row["TotalCrateQty"]);
+             if(dataCols.Contains("TotalSubWeight"))
+                 SetValue(ref _TotalSubWeight, row["TotalSubWeight"]);
+             if(dataCols.Contains("TotalTxnWeight"))
+                 SetValue(ref _TotalTxnWeight, row["TotalTxnWeight"]);
+             if(dataCols.Contains("Status"))
+                 SetValue(ref _Status, row["Status"]);
          }
 
 

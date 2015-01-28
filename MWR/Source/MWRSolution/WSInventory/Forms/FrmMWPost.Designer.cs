@@ -29,16 +29,16 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMWPost));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle26 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle27 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle28 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle29 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle30 = new System.Windows.Forms.DataGridViewCellStyle();
             this.c_btnStratPost = new System.Windows.Forms.Button();
             this.c_btnStratCheckPost = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
+            this.c_labTxnCount = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.c_grdMWPost = new System.Windows.Forms.DataGridView();
@@ -110,23 +110,24 @@
             this.label1.TabIndex = 28;
             this.label1.Text = "当前出库计划列表";
             // 
-            // label13
+            // c_labTxnCount
             // 
-            this.label13.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label13.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.label13.Location = new System.Drawing.Point(965, 80);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(31, 21);
-            this.label13.TabIndex = 29;
-            this.label13.Text = "12";
+            this.c_labTxnCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.c_labTxnCount.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.c_labTxnCount.Location = new System.Drawing.Point(956, 80);
+            this.c_labTxnCount.Name = "c_labTxnCount";
+            this.c_labTxnCount.Size = new System.Drawing.Size(40, 20);
+            this.c_labTxnCount.TabIndex = 29;
+            this.c_labTxnCount.Text = "0";
+            this.c_labTxnCount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label14
             // 
             this.label14.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label14.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.label14.Location = new System.Drawing.Point(807, 80);
+            this.label14.Location = new System.Drawing.Point(821, 80);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(159, 21);
+            this.label14.Size = new System.Drawing.Size(129, 21);
             this.label14.TabIndex = 30;
             this.label14.Text = "计划数：";
             this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -149,14 +150,14 @@
             this.c_grdMWPost.AllowUserToDeleteRows = false;
             this.c_grdMWPost.AllowUserToResizeColumns = false;
             this.c_grdMWPost.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("微软雅黑", 11F);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.c_grdMWPost.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle25.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle25.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle25.Font = new System.Drawing.Font("微软雅黑", 11F);
+            dataGridViewCellStyle25.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle25.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle25.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle25.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.c_grdMWPost.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle25;
             this.c_grdMWPost.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.c_grdMWPost.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.c_grdMWPost_C_CarCode,
@@ -204,8 +205,8 @@
             // 
             // c_grdMWPost_C_OutDate
             // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.c_grdMWPost_C_OutDate.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle26.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.c_grdMWPost_C_OutDate.DefaultCellStyle = dataGridViewCellStyle26;
             this.c_grdMWPost_C_OutDate.FillWeight = 150F;
             this.c_grdMWPost_C_OutDate.HeaderText = "出车时间";
             this.c_grdMWPost_C_OutDate.Name = "c_grdMWPost_C_OutDate";
@@ -213,8 +214,8 @@
             // 
             // c_grdMWPost_C_InDate
             // 
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.c_grdMWPost_C_InDate.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle27.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.c_grdMWPost_C_InDate.DefaultCellStyle = dataGridViewCellStyle27;
             this.c_grdMWPost_C_InDate.FillWeight = 150F;
             this.c_grdMWPost_C_InDate.HeaderText = "回车时间";
             this.c_grdMWPost_C_InDate.Name = "c_grdMWPost_C_InDate";
@@ -222,8 +223,8 @@
             // 
             // c_grdMWPost_C_StratDate
             // 
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.c_grdMWPost_C_StratDate.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle28.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.c_grdMWPost_C_StratDate.DefaultCellStyle = dataGridViewCellStyle28;
             this.c_grdMWPost_C_StratDate.FillWeight = 150F;
             this.c_grdMWPost_C_StratDate.HeaderText = "校验时间";
             this.c_grdMWPost_C_StratDate.Name = "c_grdMWPost_C_StratDate";
@@ -238,8 +239,8 @@
             // 
             // c_grdMWPost_C_TotleCount
             // 
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.c_grdMWPost_C_TotleCount.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle29.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.c_grdMWPost_C_TotleCount.DefaultCellStyle = dataGridViewCellStyle29;
             this.c_grdMWPost_C_TotleCount.FillWeight = 80F;
             this.c_grdMWPost_C_TotleCount.HeaderText = "总数量";
             this.c_grdMWPost_C_TotleCount.Name = "c_grdMWPost_C_TotleCount";
@@ -248,8 +249,8 @@
             // c_grdMWPost_C_TotolWeight
             // 
             this.c_grdMWPost_C_TotolWeight.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.c_grdMWPost_C_TotolWeight.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle30.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.c_grdMWPost_C_TotolWeight.DefaultCellStyle = dataGridViewCellStyle30;
             this.c_grdMWPost_C_TotolWeight.FillWeight = 80F;
             this.c_grdMWPost_C_TotolWeight.HeaderText = "总重量";
             this.c_grdMWPost_C_TotolWeight.Name = "c_grdMWPost_C_TotolWeight";
@@ -441,7 +442,7 @@
             this.ClientSize = new System.Drawing.Size(1008, 542);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.label13);
+            this.Controls.Add(this.c_labTxnCount);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.c_btnStratCheckPost);
@@ -465,7 +466,7 @@
         private System.Windows.Forms.Button c_btnStratPost;
         private System.Windows.Forms.Button c_btnStratCheckPost;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label c_labTxnCount;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.DataGridView c_grdMWPost;

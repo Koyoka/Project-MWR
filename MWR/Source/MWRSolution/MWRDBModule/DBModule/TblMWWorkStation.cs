@@ -112,11 +112,17 @@ namespace YRKJ.MWR
 
          public override void SetValue(System.Data.DataRow row)
          {
-             SetValue(ref _WSCode, row["WSCode"]);
-             SetValue(ref _Desc, row["Desc"]);
-             SetValue(ref _WSType, row["WSType"]);
-             SetValue(ref _AccessKey, row["AccessKey"]);
-             SetValue(ref _SecretKey, row["SecretKey"]);
+             System.Data.DataColumnCollection dataCols = row.Table.Columns;
+             if(dataCols.Contains("WSCode"))
+                 SetValue(ref _WSCode, row["WSCode"]);
+             if(dataCols.Contains("Desc"))
+                 SetValue(ref _Desc, row["Desc"]);
+             if(dataCols.Contains("WSType"))
+                 SetValue(ref _WSType, row["WSType"]);
+             if(dataCols.Contains("AccessKey"))
+                 SetValue(ref _AccessKey, row["AccessKey"]);
+             if(dataCols.Contains("SecretKey"))
+                 SetValue(ref _SecretKey, row["SecretKey"]);
          }
 
         public const string WSTYPE_ENUM_InvWorkStation = "I";//出入库工作站;

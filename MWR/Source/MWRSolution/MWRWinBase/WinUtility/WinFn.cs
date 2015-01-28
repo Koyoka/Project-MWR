@@ -96,6 +96,16 @@ namespace YRKJ.MWR.WinBase.WinUtility
             }
         }
 
+        public static void ReadBingdingText(Control ctrl)
+        {
+            if(ctrl.DataBindings["Text"] != null)
+                ctrl.DataBindings["Text"].ReadValue();
+        }
+        public static void ReadBingdingEnabled(Control ctrl)
+        {
+            if (ctrl.DataBindings["Enabled"] != null)
+                ctrl.DataBindings["Enabled"].ReadValue();
+        }
         #endregion
     }
 }

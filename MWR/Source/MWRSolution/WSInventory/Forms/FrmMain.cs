@@ -8,6 +8,8 @@ using System.Text;
 using System.Windows.Forms;
 using YRKJ.MWR.WinBase.WinAppBase;
 using ComLib.Log;
+using YRKJ.MWR.WSInventory.Business.Sys;
+using YRKJ.MWR.WinBase.WinUtility;
 
 namespace YRKJ.MWR.WSInventory.Forms
 {
@@ -32,6 +34,8 @@ namespace YRKJ.MWR.WSInventory.Forms
             this.WindowState = FormWindowState.Maximized;
             this.StartPosition = FormStartPosition.CenterScreen;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+
+            c_labRecoverTxnCount.Visible = false;
             //this.MaximizeBox = false;
             //this.MinimizeBox = false;
         }
@@ -142,29 +146,34 @@ namespace YRKJ.MWR.WSInventory.Forms
             }
         }
 
-        private void c_panForm_Resize(object sender, EventArgs e)
-        {
-            try
-            {
-                this.Cursor = Cursors.WaitCursor;
+        //private void c_panForm_Resize(object sender, EventArgs e)
+        //{
+        //    try
+        //    {
+        //        this.Cursor = Cursors.WaitCursor;
 
-                if (_curForm == null)
-                {
-                    return;
-                }
-                this.c_panForm.Controls.Clear();
-                resizeMdiForm(_curForm);
-            }
-            catch (Exception ex)
-            {
-                LogMng.GetLog().PrintError(ClassName, "c_panForm_Resize", ex);
-                MsgBox.Error(ex);
-            }
-            finally
-            {
-                this.Cursor = Cursors.Default;
-            }
-        }
+        //        if (_curForm == null)
+        //        {
+        //            return;
+        //        }
+
+        //        //foreach (Form f in this.c_panForm.Controls)
+        //        //{
+        //        //    f.Hide();
+        //        //}
+        //        //this.c_panForm.Controls.Clear();
+        //        //resizeMdiForm(_curForm);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        LogMng.GetLog().PrintError(ClassName, "c_panForm_Resize", ex);
+        //        MsgBox.Error(ex);
+        //    }
+        //    finally
+        //    {
+        //        this.Cursor = Cursors.Default;
+        //    }
+        //}
 
         #endregion
 
@@ -177,6 +186,12 @@ namespace YRKJ.MWR.WSInventory.Forms
 
                 if (!LoadData())
                     return false;
+
+                BroadcastMng.GetInstance().Listen(SysInfo.Broadcast_RecoverTxnCount, (x) =>
+                {
+                    this.c_labRecoverTxnCount.Visible = x.Message == 0 ? false : true;
+                    this.c_labRecoverTxnCount.Text = x.Data.ToString();
+                });
 
                 _tabBgCtrl = new Control[] { c_labBg1, c_labBg2, c_labBg3 };
 
@@ -199,7 +214,6 @@ namespace YRKJ.MWR.WSInventory.Forms
         {
             try
             {
-
                
                 
             }
@@ -367,50 +381,50 @@ namespace YRKJ.MWR.WSInventory.Forms
             #endregion
 
             #region has clear all because resize mdi control
-            foreach (Form f in _childForms)
-            {
+            //foreach (Form f in _childForms)
+            //{
 
-                if (tabToggle == TabToggleEnum.RECOVER
-                    && f is FrmMWRecover)
-                {
-                    _curForm = f;
-                    resizeMdiForm(f);
-                    (f as FrmMWRecover).ControlActivity();
-                    return;
-                }
-                else if (tabToggle == TabToggleEnum.POST
-                   && f is FrmMWPost)
-                {
-                    _curForm = f;
-                    resizeMdiForm(f);
-                    (f as FrmMWPost).ControlActivity();
-                    return;
-                }
-                else if (tabToggle == TabToggleEnum.SEARCH
-                    && f is FrmInventorySearch)
-                {
-                    _curForm = f;
-                    resizeMdiForm(f);
-                    (f as FrmInventorySearch).ControlActivity();
-                    return;
-                }
-                else if (tabToggle == TabToggleEnum.RECOVE_RDETAIL
-                    && f is FrmMWRecoverDetail)
-                {
-                    _curForm = f;
-                    resizeMdiForm(f);
-                    (f as FrmMWRecoverDetail).ControlActivity();
-                    return;
-                }
-                else if (tabToggle == TabToggleEnum.POST_DETAIL
-                   && f is FrmMWPostDetail)
-                {
-                    _curForm = f;
-                    resizeMdiForm(f);
-                    (f as FrmMWPostDetail).ControlActivity();
-                    return;
-                }
-            }
+            //    if (tabToggle == TabToggleEnum.RECOVER
+            //        && f is FrmMWRecover)
+            //    {
+            //        _curForm = f;
+            //        resizeMdiForm(f);
+            //        (f as FrmMWRecover).ControlActivity();
+            //        return;
+            //    }
+            //    else if (tabToggle == TabToggleEnum.POST
+            //       && f is FrmMWPost)
+            //    {
+            //        _curForm = f;
+            //        resizeMdiForm(f);
+            //        (f as FrmMWPost).ControlActivity();
+            //        return;
+            //    }
+            //    else if (tabToggle == TabToggleEnum.SEARCH
+            //        && f is FrmInventorySearch)
+            //    {
+            //        _curForm = f;
+            //        resizeMdiForm(f);
+            //        (f as FrmInventorySearch).ControlActivity();
+            //        return;
+            //    }
+            //    else if (tabToggle == TabToggleEnum.RECOVE_RDETAIL
+            //        && f is FrmMWRecoverDetail)
+            //    {
+            //        _curForm = f;
+            //        resizeMdiForm(f);
+            //        (f as FrmMWRecoverDetail).ControlActivity();
+            //        return;
+            //    }
+            //    else if (tabToggle == TabToggleEnum.POST_DETAIL
+            //       && f is FrmMWPostDetail)
+            //    {
+            //        _curForm = f;
+            //        resizeMdiForm(f);
+            //        (f as FrmMWPostDetail).ControlActivity();
+            //        return;
+            //    }
+            //}
             #endregion
 
             #region add new form to mdi control
@@ -443,26 +457,20 @@ namespace YRKJ.MWR.WSInventory.Forms
                             return;
                     }
                 }
-
+                
                 f.MdiParent = this;
-                f.WindowState = FormWindowState.Maximized;
+                f.WindowState = FormWindowState.Normal;
                 f.Parent = this.c_panForm;
                 f.FormBorderStyle = FormBorderStyle.None;
                 f.Show();
+                f.Dock = DockStyle.Fill;
+                f.BringToFront();
+                f.Focus();
                 _curForm = f;
                 _childForms.Add(f);
             }
 
             #endregion
-        }
-
-        private void resizeMdiForm(Form f)
-        {
-            f.MdiParent = this;
-            f.WindowState = FormWindowState.Maximized;
-            f.Parent = this.c_panForm;
-            f.FormBorderStyle = FormBorderStyle.None;
-            f.Show();
         }
 
         #endregion

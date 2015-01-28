@@ -37,7 +37,8 @@ namespace ComLib.db
         {
             if (dataVal == DBNull.Value)
                 return;
-            val = (int)dataVal;
+            val = ComFn.ObjectToInt(dataVal);
+            //val = (int)dataVal;
         }
         protected void SetValue(ref decimal val, object dataVal)
         {

@@ -316,23 +316,41 @@ namespace YRKJ.MWR
 
          public override void SetValue(System.Data.DataRow row)
          {
-             SetValue(ref _TxnDetailId, row["TxnDetailId"]);
-             SetValue(ref _TxnType, row["TxnType"]);
-             SetValue(ref _TxnNum, row["TxnNum"]);
-             SetValue(ref _WSCode, row["WSCode"]);
-             SetValue(ref _EmpyName, row["EmpyName"]);
-             SetValue(ref _EmpyCode, row["EmpyCode"]);
-             SetValue(ref _CrateCode, row["CrateCode"]);
-             SetValue(ref _Vendor, row["Vendor"]);
-             SetValue(ref _VendorCode, row["VendorCode"]);
-             SetValue(ref _Waste, row["Waste"]);
-             SetValue(ref _WasteCode, row["WasteCode"]);
-             SetValue(ref _SubWeight, row["SubWeight"]);
-             SetValue(ref _TxnWeight, row["TxnWeight"]);
-             SetValue(ref _EntryDate, row["EntryDate"]);
-             SetValue(ref _InvRecordId, row["InvRecordId"]);
-             SetValue(ref _InvAuthId, row["InvAuthId"]);
-             SetValue(ref _Status, row["Status"]);
+             System.Data.DataColumnCollection dataCols = row.Table.Columns;
+             if(dataCols.Contains("TxnDetailId"))
+                 SetValue(ref _TxnDetailId, row["TxnDetailId"]);
+             if(dataCols.Contains("TxnType"))
+                 SetValue(ref _TxnType, row["TxnType"]);
+             if(dataCols.Contains("TxnNum"))
+                 SetValue(ref _TxnNum, row["TxnNum"]);
+             if(dataCols.Contains("WSCode"))
+                 SetValue(ref _WSCode, row["WSCode"]);
+             if(dataCols.Contains("EmpyName"))
+                 SetValue(ref _EmpyName, row["EmpyName"]);
+             if(dataCols.Contains("EmpyCode"))
+                 SetValue(ref _EmpyCode, row["EmpyCode"]);
+             if(dataCols.Contains("CrateCode"))
+                 SetValue(ref _CrateCode, row["CrateCode"]);
+             if(dataCols.Contains("Vendor"))
+                 SetValue(ref _Vendor, row["Vendor"]);
+             if(dataCols.Contains("VendorCode"))
+                 SetValue(ref _VendorCode, row["VendorCode"]);
+             if(dataCols.Contains("Waste"))
+                 SetValue(ref _Waste, row["Waste"]);
+             if(dataCols.Contains("WasteCode"))
+                 SetValue(ref _WasteCode, row["WasteCode"]);
+             if(dataCols.Contains("SubWeight"))
+                 SetValue(ref _SubWeight, row["SubWeight"]);
+             if(dataCols.Contains("TxnWeight"))
+                 SetValue(ref _TxnWeight, row["TxnWeight"]);
+             if(dataCols.Contains("EntryDate"))
+                 SetValue(ref _EntryDate, row["EntryDate"]);
+             if(dataCols.Contains("InvRecordId"))
+                 SetValue(ref _InvRecordId, row["InvRecordId"]);
+             if(dataCols.Contains("InvAuthId"))
+                 SetValue(ref _InvAuthId, row["InvAuthId"]);
+             if(dataCols.Contains("Status"))
+                 SetValue(ref _Status, row["Status"]);
          }
 
         public const string TXNTYPE_ENUM_Recover = "R";//回收入库交易;

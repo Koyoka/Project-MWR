@@ -78,9 +78,13 @@ namespace YRKJ.MWR
 
          public override void SetValue(System.Data.DataRow row)
          {
-             SetValue(ref _InvAttachId, row["InvAttachId"]);
-             SetValue(ref _InvAuthId, row["InvAuthId"]);
-             SetValue(ref _Path, row["Path"]);
+             System.Data.DataColumnCollection dataCols = row.Table.Columns;
+             if(dataCols.Contains("InvAttachId"))
+                 SetValue(ref _InvAttachId, row["InvAttachId"]);
+             if(dataCols.Contains("InvAuthId"))
+                 SetValue(ref _InvAuthId, row["InvAuthId"]);
+             if(dataCols.Contains("Path"))
+                 SetValue(ref _Path, row["Path"]);
          }
 
 

@@ -245,7 +245,7 @@
             this.label3.BackColor = System.Drawing.Color.Black;
             this.label3.Font = new System.Drawing.Font("微软雅黑", 15F);
             this.label3.ForeColor = System.Drawing.Color.Lime;
-            this.label3.Location = new System.Drawing.Point(26, 53);
+            this.label3.Location = new System.Drawing.Point(3, 54);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(112, 27);
             this.label3.TabIndex = 0;
@@ -272,7 +272,7 @@
             this.c_labTxnWeight.Name = "c_labTxnWeight";
             this.c_labTxnWeight.Size = new System.Drawing.Size(192, 68);
             this.c_labTxnWeight.TabIndex = 0;
-            this.c_labTxnWeight.Text = "1.03";
+            this.c_labTxnWeight.Text = "0.00";
             this.c_labTxnWeight.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // FrmMWCrateView

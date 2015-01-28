@@ -62,6 +62,7 @@
     <Compile Include="WinAppBase\MsgBox.cs" />
     <Compile Include="WinAppBase\WinAppFn.cs" />
     <Compile Include="WinAppBase\WinAppStatic.cs" />
+    <Compile Include="WinUtility\BroadcastMng.cs" />
     <Compile Include="WinUtility\ScalesMng.cs" />
     <Compile Include="WinUtility\ScannerMng.cs" />
     <Compile Include="WinUtility\WinFn.cs" />

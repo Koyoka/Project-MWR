@@ -20,7 +20,8 @@ namespace YRKJ.MWR.WSInventory.Forms
         private FormMng _frmMng = null;
 
         //private string _crateCode = "";
-        private decimal _txnWeight = 0;
+        private string _unit = "kg";
+        private decimal _txnWeight = 1;
         private decimal _allowDiffWeight = 1;
         private string _depotCode = "";
         private TblMWTxnDetail _txnDetail = null;
@@ -67,7 +68,7 @@ namespace YRKJ.MWR.WSInventory.Forms
 
                 if (!_scalesMng.Open())
                 {
-                    MsgBox.Show("...");
+                    MsgBox.Show(LngRes.MSG_NoConnScales);
                 }
             }
             catch (Exception ex)
@@ -157,6 +158,32 @@ namespace YRKJ.MWR.WSInventory.Forms
             {
                 this.Cursor = Cursors.WaitCursor;
 
+                string errMsg = "";
+
+                decimal weight = _txnWeight;
+                if (!MsgBox.Confirm("警告", "当前称重[" + weight + " " + _unit + "],回收重量[" + _txnDetail.SubWeight + "]确定提交审核么？"))
+                {
+                    return;
+                }
+                
+                string empyCode = SysInfo.GetInstance().Employ.EmpyCode;
+                string wsCode = SysInfo.GetInstance().Config.WSCode;
+                int invAuthId = 0;
+                if (!TxnMng.ConfirmCrareToAuthorize(_txnDetail.TxnDetailId, _txnWeight, empyCode, wsCode,ref invAuthId, ref errMsg))
+                {
+                    return;
+                }
+
+                #region update current form txndetail data
+
+                _txnDetail.TxnWeight = weight;
+                _txnDetail.EmpyCode = SysInfo.GetInstance().Employ.EmpyCode;
+                _txnDetail.EmpyName = SysInfo.GetInstance().Employ.EmpyName;
+                _txnDetail.WSCode = SysInfo.GetInstance().Config.WSCode;
+                _txnDetail.Status = TblMWTxnDetail.STATUS_ENUM_Authorize;
+                _txnDetail.InvAuthId = invAuthId;
+                #endregion
+
                 this.Close();
             }
             catch (Exception ex)
@@ -229,17 +256,18 @@ namespace YRKJ.MWR.WSInventory.Forms
         {
             return true;
         }
+
        
         private void FrmMWCrateView_onScalesDataReceived(string status, string lable, decimal weight, string unit)
         {
             //ThreadSafe(() => {
                 _txnWeight = weight;
+                _unit = unit;
 
                 if (status.ToLower() == "us")
                     c_labScalesStatus.Text = "称重中.....";
                 else if (status.ToLower() == "st")
                     c_labScalesStatus.Text = "当前重量 " + unit;
-
                 c_labTxnWeight.Text = weight.ToString("f2") + " " + unit;
               
             //});
@@ -254,6 +282,7 @@ namespace YRKJ.MWR.WSInventory.Forms
         {
             public const string MSG_FormName = "周转箱称重";
             public const string MSG_DiffWeight = "提交重量与回收重量不符，请提交审核";
+            public const string MSG_NoConnScales = "电子秤未连接";
         }
 
         #endregion

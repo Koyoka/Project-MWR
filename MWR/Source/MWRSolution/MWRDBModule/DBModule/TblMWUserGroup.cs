@@ -61,8 +61,11 @@ namespace YRKJ.MWR
 
          public override void SetValue(System.Data.DataRow row)
          {
-             SetValue(ref _UserGroupId, row["UserGroupId"]);
-             SetValue(ref _GroupName, row["GroupName"]);
+             System.Data.DataColumnCollection dataCols = row.Table.Columns;
+             if(dataCols.Contains("UserGroupId"))
+                 SetValue(ref _UserGroupId, row["UserGroupId"]);
+             if(dataCols.Contains("GroupName"))
+                 SetValue(ref _GroupName, row["GroupName"]);
          }
 
 

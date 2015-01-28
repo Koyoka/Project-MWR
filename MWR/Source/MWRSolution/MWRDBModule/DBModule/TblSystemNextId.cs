@@ -112,11 +112,17 @@ namespace YRKJ.MWR
 
          public override void SetValue(System.Data.DataRow row)
          {
-             SetValue(ref _IdName, row["IdName"]);
-             SetValue(ref _MinValue, row["MinValue"]);
-             SetValue(ref _Increment, row["Increment"]);
-             SetValue(ref _MaxValue, row["MaxValue"]);
-             SetValue(ref _IdValue, row["IdValue"]);
+             System.Data.DataColumnCollection dataCols = row.Table.Columns;
+             if(dataCols.Contains("IdName"))
+                 SetValue(ref _IdName, row["IdName"]);
+             if(dataCols.Contains("MinValue"))
+                 SetValue(ref _MinValue, row["MinValue"]);
+             if(dataCols.Contains("Increment"))
+                 SetValue(ref _Increment, row["Increment"]);
+             if(dataCols.Contains("MaxValue"))
+                 SetValue(ref _MaxValue, row["MaxValue"]);
+             if(dataCols.Contains("IdValue"))
+                 SetValue(ref _IdValue, row["IdValue"]);
          }
 
 

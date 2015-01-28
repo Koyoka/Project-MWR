@@ -265,20 +265,35 @@ namespace YRKJ.MWR
 
          public override void SetValue(System.Data.DataRow row)
          {
-             SetValue(ref _InvRecordId, row["InvRecordId"]);
-             SetValue(ref _CrateCode, row["CrateCode"]);
-             SetValue(ref _DepotCode, row["DepotCode"]);
-             SetValue(ref _Vendor, row["Vendor"]);
-             SetValue(ref _VendorCode, row["VendorCode"]);
-             SetValue(ref _Waste, row["Waste"]);
-             SetValue(ref _WasteCode, row["WasteCode"]);
-             SetValue(ref _RecoWeight, row["RecoWeight"]);
-             SetValue(ref _InvWeight, row["InvWeight"]);
-             SetValue(ref _PostWeight, row["PostWeight"]);
-             SetValue(ref _DestWeight, row["DestWeight"]);
-             SetValue(ref _EntryDate, row["EntryDate"]);
-             SetValue(ref _Status, row["Status"]);
-             SetValue(ref _DailyClose, row["DailyClose"]);
+             System.Data.DataColumnCollection dataCols = row.Table.Columns;
+             if(dataCols.Contains("InvRecordId"))
+                 SetValue(ref _InvRecordId, row["InvRecordId"]);
+             if(dataCols.Contains("CrateCode"))
+                 SetValue(ref _CrateCode, row["CrateCode"]);
+             if(dataCols.Contains("DepotCode"))
+                 SetValue(ref _DepotCode, row["DepotCode"]);
+             if(dataCols.Contains("Vendor"))
+                 SetValue(ref _Vendor, row["Vendor"]);
+             if(dataCols.Contains("VendorCode"))
+                 SetValue(ref _VendorCode, row["VendorCode"]);
+             if(dataCols.Contains("Waste"))
+                 SetValue(ref _Waste, row["Waste"]);
+             if(dataCols.Contains("WasteCode"))
+                 SetValue(ref _WasteCode, row["WasteCode"]);
+             if(dataCols.Contains("RecoWeight"))
+                 SetValue(ref _RecoWeight, row["RecoWeight"]);
+             if(dataCols.Contains("InvWeight"))
+                 SetValue(ref _InvWeight, row["InvWeight"]);
+             if(dataCols.Contains("PostWeight"))
+                 SetValue(ref _PostWeight, row["PostWeight"]);
+             if(dataCols.Contains("DestWeight"))
+                 SetValue(ref _DestWeight, row["DestWeight"]);
+             if(dataCols.Contains("EntryDate"))
+                 SetValue(ref _EntryDate, row["EntryDate"]);
+             if(dataCols.Contains("Status"))
+                 SetValue(ref _Status, row["Status"]);
+             if(dataCols.Contains("DailyClose"))
+                 SetValue(ref _DailyClose, row["DailyClose"]);
          }
 
         public const string STATUS_ENUM_Recovered = "RED"; //1.ÒÑÈë¿â RED;
