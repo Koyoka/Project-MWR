@@ -169,7 +169,7 @@ namespace YRKJ.MWR.BackOffice.Business.Sys
                         }
                         else
                         {
-                            throw new Exception("ajax service function need return [boo]");
+                            throw new Exception("ajax service function need return [bool]");
                         }
                         
                     }

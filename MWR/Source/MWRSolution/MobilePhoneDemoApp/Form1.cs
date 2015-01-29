@@ -202,8 +202,8 @@ namespace MobilePhoneDemoApp
                 set { _carCode = value; }
             }
 
-            private List<TblMWTxnDetail> _txndetaillist = new List<TblMWTxnDetail>();
-            public List<TblMWTxnDetail> txndetaillist
+            private List<DemoData.DemoMWTxnDetail> _txndetaillist = new List<DemoData.DemoMWTxnDetail>();
+            public List<DemoData.DemoMWTxnDetail> txndetaillist
             {
                 get { return _txndetaillist; }
                 set { _txndetaillist = value; }

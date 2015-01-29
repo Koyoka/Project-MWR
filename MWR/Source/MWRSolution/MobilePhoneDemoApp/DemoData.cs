@@ -44,11 +44,20 @@ namespace MobilePhoneDemoApp
             get { return _vendorDataList; }
             set { _vendorDataList = value; }
         }
-        private List<TblMWTxnDetail> _txnDetailList = new List<TblMWTxnDetail>();
-        public List<TblMWTxnDetail> TxnDetailList
+        private List<DemoMWTxnDetail> _txnDetailList = new List<DemoMWTxnDetail>();
+        public List<DemoMWTxnDetail> TxnDetailList
         {
             get { return _txnDetailList; }
             set { _txnDetailList = value; }
+        }
+        public class DemoMWTxnDetail : TblMWTxnDetail
+        {
+            private string _unit = "";
+            public string Unit
+            {
+                get { return _unit; }
+                set { _unit = value; }
+            }
         }
 
 
@@ -63,7 +72,7 @@ namespace MobilePhoneDemoApp
             return _data;
         }
 
-        public void AddTxnData(TblMWTxnDetail txnData)
+        public void AddTxnData(DemoMWTxnDetail txnData)
         {
             _txnDetailList.Add(txnData);
         }

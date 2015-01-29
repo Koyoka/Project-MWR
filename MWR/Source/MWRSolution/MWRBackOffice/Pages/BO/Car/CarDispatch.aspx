@@ -262,6 +262,4 @@
 <%--<script type="text/javascript" src="/assets/plugins/data-tables/DT_bootstrap.js"></script>--%>
 <script src="/assets/scripts/table-managed.js"></script>
 
-
-
 </asp:Content>

@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\bocomm.js" />
+    <Content Include="Assets\boinvauthorize.js" />
     <Content Include="Assets\css\animate.css" />
     <Content Include="Assets\css\custom.css" />
     <Content Include="Assets\css\pages\about-us.css" />
@@ -237,6 +238,7 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Business\Sys\RedirectHelper.cs" />
+    <Compile Include="Business\Sys\SysParams.cs" />
     <Compile Include="Business\Sys\UrlParaCollection.cs" />
     <Compile Include="Business\Sys\UrlParaData.cs" />
     <Compile Include="Business\Sys\WebAppFn.cs" />

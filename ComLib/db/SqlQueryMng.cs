@@ -155,5 +155,33 @@ namespace ComLib.db
           
         }
 
+        public string getVewPageSql(string vewSql, int page, int pageSize)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("SELECT");
+            putSpace(sb);
+            sb.Append(QueryColumn.getSql());
+            putSpace(sb);
+            sb.Append("FROM");
+            putSpace(sb);
+            sb.Append("(");
+            putSpace(sb);
+            sb.Append(vewSql);
+            putSpace(sb);
+            sb.Append(") AS _TEP_TABLE_VEW");
+
+            string sqlcondition = Condition.getSql();
+            if (!string.IsNullOrEmpty(sqlcondition))
+            {
+                putSpace(sb);
+                sb.Append(sqlcondition);
+                buildParamsList.AddRange(Condition.getParams());
+            }
+            string sql = SqlCommonFn.FormatQueryPageSql(sb.ToString(), page, pageSize);
+            //string topSql = SqlCommonFn.FormatTopSqlString(sb.ToString(), QueryColumn.GetTopCount());
+            return SqlCommonFn.FormatQuerySql(sql);
+
+        }
+
     }
 }

@@ -11,7 +11,7 @@ namespace YRKJ.MWR.BackOffice.Pages.BO
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            
         }
     }
 }

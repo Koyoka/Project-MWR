@@ -38,11 +38,21 @@
                     </div>
                 </div>
                 <div class="portlet-body ">
+                <form data-wgt="mw-submit" 
+                    id="mwAuthList"
+                    data-wgt-submit-method="AjaxGetAuthorize" 
+                    data-wgt-submit-options-reload="true" 
+                    data-wgt-submit-options-block="true" 
+                   <%-- data-wgt-submit-options-recall="CommHelper.recallCarDispatch" --%>
+                    action="<% = WebAppFn.GetBoFullPageUrl(RedirectHelper.InvAuthorize) %>">
                     <!-- BEGIN FORM-->
                      <div class="table-responsive table-scrollable">
                         <table class="table table-hover">
                             <thead>
                                 <tr>
+                                    <th>
+                                        交易编号
+                                    </th>
                                     <th>
                                         货箱编号
                                     </th>
@@ -70,33 +80,45 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>
-                                        A00001
+                                <%
+                                    foreach (PageInvAuthorizeData item in PageInAuthorizeDataList)
+	                                {
+                                %>
+                                <tr class="auth<% = item.AuthId %>">
+                                    <td class="txnnum">
+                                    <% = item.TxnNum %>
+                                    </td>
+                                    <td class="cratecode">
+                                    <% = item.CrateCode %>
+                                    </td>
+                                    <td class="subwscode">
+                                    <% = item.SubWSCode %>
+                                    </td>
+                                    <td class="subempyname">
+                                    <% = item.SubEmpyName %>
+                                    </td>
+                                    <td class="subweight">
+                                    <% = item.SubWeight %>
+                                    </td>
+                                    <td class="txnweight">
+                                    <% = item.TxnWeight %>
+                                    </td>
+                                    <td class="entrydate">
+                                    <% = item.EntryDate %>
+                                    </td>
+                                    <td class="txntype">
+                                    <% = item.TxnType %>
                                     </td>
                                     <td>
-                                        WS001
-                                    </td>
-                                    <td>
-                                        张三
-                                    </td>
-                                    <td>
-                                        15kg
-                                    </td>
-                                    <td>
-                                        12kg
-                                    </td>
-                                    <td>
-                                        2015-01-15 15:30
-                                    </td>
-                                    <td>
-                                        入库提交
-                                    </td>
-                                    <td>
-                                        
-                                        <a href="#" data-target="#stack1"  data-toggle="modal" class="btn default btn-xs purple"><i class="fa fa-edit"></i> 审核</a>
+                                        <input class="diffweight" type="hidden" value="<% = item.DiffWeight %>" /> 
+                                        <a href="#" data-wgt="mw-showauthform" data-wgt-showauthformid="auth<% = item.AuthId %>" data-target="#stack1"  data-toggle="modal" class="btn default btn-xs purple"><i class="fa fa-edit"></i> 审核</a>
                                     </td>
                                 </tr>
+
+                                <%
+	                                }
+                                %>
+                                
                               
                             </tbody>
                         </table>
@@ -114,42 +136,47 @@
                                                 <div class="form-body">
                                                     <div class="form-group">
                                                         <label class="control-label">
-                                                            货箱编号</label>
-                                                        <input type="text" class="form-control" placeholder="Disabled" value="A00001" disabled="">
+                                                            交易编号</label>
+                                                        <input id="txnnum" type="text" class="form-control" placeholder="Disabled" value="A00001" disabled="">
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="control-label">
                                                             提交工作站</label>
-                                                        <input type="text" class="form-control" placeholder="Disabled" value="WS001" disabled="">
+                                                        <input id="subwscode" type="text" class="form-control" placeholder="Disabled" value="WS001" disabled="">
                                                     </div>
                                                     <div class="form-group ">
                                                         <label class="control-label">
                                                             操作员</label>
-                                                        <input type="text" class="form-control" placeholder="Disabled" value="张三" disabled="">
+                                                        <input id="subempyname" type="text" class="form-control" placeholder="Disabled" value="张三" disabled="">
                                                     </div>
                                                     <div class="form-group last">
                                                         <label class="control-label">
                                                             提交审核时间</label>
-                                                        <input type="text" class="form-control" placeholder="Disabled" value="张三" disabled="">
+                                                        <input id="entrydate" type="text" class="form-control" placeholder="Disabled" value="张三" disabled="">
                                                     </div>
                                                 </div>
 												</div>
                                                 <div class="col-md-6 form">
                                                     <div class="form-body">
+                                                        <div class="form-group">
+                                                            <label class="control-label">
+                                                                货箱编号</label>
+                                                            <input id="cratecode" type="text" class="form-control" placeholder="Disabled" value="A00001" disabled="">
+                                                        </div>
                                                         <div class="form-group ">
                                                             <label class="control-label">
-                                                                预计重量</label>
-                                                            <input type="text" class="form-control" placeholder="Disabled" value="12KG" disabled="">
+                                                                回收重量</label>
+                                                            <input id="subweight" type="text" class="form-control" placeholder="Disabled" value="12KG" disabled="">
                                                         </div>
                                                         <div class="form-group ">
                                                             <label class="control-label">
                                                                 实际重量</label>
-                                                            <input type="text" class="form-control" placeholder="Disabled" value="12KG" disabled="">
+                                                            <input id="txnweight" type="text" class="form-control" placeholder="Disabled" value="12KG" disabled="">
                                                         </div>
                                                         <div class="form-group last">
                                                             <label class="control-label">
                                                                 重量差值</label>
-                                                            <input type="text" class="form-control" placeholder="Disabled" value="12KG" disabled="">
+                                                            <input id="diffweight" type="text" class="form-control" placeholder="Disabled" value="12KG" disabled="">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -165,7 +192,7 @@
                                                         <div class="form-group last">
                                                             <label class="control-label">
                                                                 提交附件</label>
-                                                            <input type="text" class="form-control" placeholder="审核确认通过附件" value="" >
+                                                            <input type="file" class="form-control" placeholder="审核确认通过附件" value="" >
                                                         </div>
                                                     </div>
                                                 </div>
@@ -181,7 +208,7 @@
                     </div>
                     <uc1:UPage ID="c_UPage" runat="server" />
                   
-
+                </form>
                     <!-- END FORM-->
                 </div>
             </div>
@@ -191,4 +218,10 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="foot" runat="server">
 <script src="/assets/plugins/fullcalendar/fullcalendar/fullcalendar.min.js" type="text/javascript"></script>
 <script src="/assets/scripts/table-managed.js"></script>
+<script src="/assets/boinvauthorize.js"></script>
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        InvAuthHelper.init();
+    });
+</script>
 </asp:Content>

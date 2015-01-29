@@ -7,8 +7,45 @@ namespace YRKJ.MWR.Business
 {
     public class BizHelper
     {
+        #region biz utility
 
-        #region get status language 
+        public static decimal ConventToSysUnitWeight(decimal orgWeight,string orgUnit,string sysUnit)
+        {
+            decimal KgWeight = 0;
+            switch (sysUnit.ToLower())
+            { 
+                case "kg":
+                    KgWeight = orgWeight;
+                    break;
+                case "g":
+                    KgWeight = orgWeight * 1000;
+                    break;
+                default://"kg"
+                    KgWeight = orgWeight;
+                    break;
+            }
+
+            decimal weight = 0;
+            switch (sysUnit.ToLower())
+            {
+                case "kg":
+                    weight = KgWeight;
+                    break;
+                case "g":
+                    weight = KgWeight / 1000;
+                    break;
+                default://"kg"
+                    weight = KgWeight;
+                    break;
+            }
+
+            return weight;
+            
+        }
+
+        #endregion
+
+        #region get status language
         public static string GetTxnRecoverHeaderStatus(string s)
         {
             string defineStr = "";
@@ -50,6 +87,24 @@ namespace YRKJ.MWR.Business
             }
             return defineStr;
         }
+
+        public static string GetTxnDetailTxnType(string s)
+        {
+            string defineStr = "";
+            switch (s)
+            { 
+                case TblMWTxnDetail.TXNTYPE_ENUM_Recover:
+                    defineStr = LngRes.TxnType_Detail_Recover;
+                    break;
+                case TblMWTxnDetail.TXNTYPE_ENUM_Post:
+                    defineStr = LngRes.TxnType_Detial_Post;
+                    break;
+                case TblMWTxnDetail.TXNTYPE_ENUM_Destroy:
+                    defineStr = LngRes.TxnType_Detail_Destroy;
+                    break;
+            }
+            return defineStr;
+        }
         #endregion
 
         public class LngRes
@@ -64,6 +119,9 @@ namespace YRKJ.MWR.Business
             public const string Status_Detail_Process = "提交处理中";
             public const string Status_Detail_Wait = "审核完成";
 
+            public const string TxnType_Detail_Recover = "回收入库";
+            public const string TxnType_Detial_Post = "废物出库";
+            public const string TxnType_Detail_Destroy = "废物处置";
         }
 
     }

@@ -50,6 +50,7 @@
     <Compile Include="BO\MWRWorkflowMng.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sys\MWNextIdMng.cs" />
+    <Compile Include="Sys\MWParams.cs" />
     <Compile Include="WS\TxnMng.cs" />
   </ItemGroup>
   <ItemGroup>

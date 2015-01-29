@@ -7,7 +7,7 @@ namespace ComLib.db
 {
     public abstract class BaseDataModule
     {
-        private long _TEM_COLUMN_COUNT = 0;
+        protected long _TEM_COLUMN_COUNT = 0;
         public long TEM_COLUMN_COUNT
         {
             get
@@ -20,7 +20,12 @@ namespace ComLib.db
             }
             
         }
-
+        protected void SetValue(ref long val, object dataVal)
+        {
+            if (dataVal == DBNull.Value)
+                return;
+            val = (long)dataVal;
+        }
         protected void SetValue(ref string val,object dataVal)
         {
             if (dataVal == DBNull.Value)

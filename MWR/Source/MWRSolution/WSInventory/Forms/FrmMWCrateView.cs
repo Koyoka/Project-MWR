@@ -11,6 +11,7 @@ using ComLib.Log;
 using YRKJ.MWR.Business.WS;
 using YRKJ.MWR.WSInventory.Business.Sys;
 using YRKJ.MWR.WinBase.WinUtility;
+using YRKJ.MWR.Business;
 
 namespace YRKJ.MWR.WSInventory.Forms
 {
@@ -20,8 +21,8 @@ namespace YRKJ.MWR.WSInventory.Forms
         private FormMng _frmMng = null;
 
         //private string _crateCode = "";
-        private string _unit = "kg";
-        private decimal _txnWeight = 1;
+        private string _sysunit = "kg";
+        private decimal _txnWeight = 0;
         private decimal _allowDiffWeight = 1;
         private string _depotCode = "";
         private TblMWTxnDetail _txnDetail = null;
@@ -135,6 +136,7 @@ namespace YRKJ.MWR.WSInventory.Forms
                 _txnDetail.EmpyName = SysInfo.GetInstance().Employ.EmpyName;
                 _txnDetail.WSCode = SysInfo.GetInstance().Config.WSCode;
                 _txnDetail.Status = TblMWTxnDetail.STATUS_ENUM_Complete;
+                _txnDetail.EntryDate = ComLib.db.SqlDBMng.GetDBNow();
                 #endregion
 
                 this.DialogResult = System.Windows.Forms.DialogResult.OK;
@@ -161,7 +163,7 @@ namespace YRKJ.MWR.WSInventory.Forms
                 string errMsg = "";
 
                 decimal weight = _txnWeight;
-                if (!MsgBox.Confirm("警告", "当前称重[" + weight + " " + _unit + "],回收重量[" + _txnDetail.SubWeight + "]确定提交审核么？"))
+                if (!MsgBox.Confirm("警告", "当前称重[" + weight + " " + _sysunit + "],回收重量[" + _txnDetail.SubWeight + "]确定提交审核么？"))
                 {
                     return;
                 }
@@ -184,6 +186,7 @@ namespace YRKJ.MWR.WSInventory.Forms
                 _txnDetail.InvAuthId = invAuthId;
                 #endregion
 
+                this.DialogResult = System.Windows.Forms.DialogResult.Abort;
                 this.Close();
             }
             catch (Exception ex)
@@ -202,6 +205,7 @@ namespace YRKJ.MWR.WSInventory.Forms
             try
             {
                 this.Cursor = Cursors.WaitCursor;
+                this.DialogResult = System.Windows.Forms.DialogResult.Cancel;
                 this.Close();
 
             }
@@ -222,9 +226,6 @@ namespace YRKJ.MWR.WSInventory.Forms
 
         private bool InitFrm()
         {
-            if (!LoadData())
-                return false;
-
             _scalesMng = new ScalesMng(this);
             
             _scalesMng.onConnected = () => {
@@ -235,6 +236,9 @@ namespace YRKJ.MWR.WSInventory.Forms
             };
             _scalesMng.onScalesDataReceived = FrmMWCrateView_onScalesDataReceived;
 
+            if (!LoadData())
+                return false;
+            
             return true;
         }
 
@@ -248,12 +252,23 @@ namespace YRKJ.MWR.WSInventory.Forms
             this.c_labVendor.DataBindings.Add("Text", _txnDetail, TblMWTxnDetail.getVendorColumn().ColumnName);
             this.c_labWaster.DataBindings.Add("Text", _txnDetail, TblMWTxnDetail.getWasteColumn().ColumnName);
             this.c_labSubWeight.DataBindings.Add("Text", _txnDetail, TblMWTxnDetail.getSubWeightColumn().ColumnName);
-
+            this.c_labSubWeight.Text += " " + SysParams.GetInstance().GetSysWeightUnit();
+            this.c_labSysUnit.Text = SysParams.GetInstance().GetSysWeightUnit();
             return true;
         }
 
         private bool LoadData()
         {
+      
+            _sysunit = SysParams.GetInstance().GetSysWeightUnit();
+#if DEBUG
+            if (_scalesMng.IsOpen)
+                _allowDiffWeight = SysParams.GetInstance().GetAllowDiffWeight();
+            else
+                _allowDiffWeight = 100;
+#else
+             _allowDiffWeight = SysParams.GetInstance().GetAllowDiffWeight();
+#endif
             return true;
         }
 
@@ -261,14 +276,14 @@ namespace YRKJ.MWR.WSInventory.Forms
         private void FrmMWCrateView_onScalesDataReceived(string status, string lable, decimal weight, string unit)
         {
             //ThreadSafe(() => {
-                _txnWeight = weight;
-                _unit = unit;
+            _txnWeight = BizHelper.ConventToSysUnitWeight(weight, unit, SysParams.GetInstance().GetSysWeightUnit());
 
-                if (status.ToLower() == "us")
-                    c_labScalesStatus.Text = "称重中.....";
-                else if (status.ToLower() == "st")
-                    c_labScalesStatus.Text = "当前重量 " + unit;
-                c_labTxnWeight.Text = weight.ToString("f2") + " " + unit;
+
+            if (status.ToLower() == "us")
+                c_labScalesStatus.Text = "称重中.....";
+            else if (status.ToLower() == "st")
+                c_labScalesStatus.Text = "当前重量 " + _sysunit;
+            c_labTxnWeight.Text = weight.ToString("f2") + " " + _sysunit;
               
             //});
             

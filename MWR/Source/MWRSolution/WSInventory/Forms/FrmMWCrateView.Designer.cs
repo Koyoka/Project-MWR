@@ -45,7 +45,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.c_labScalesStatus = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.c_labSysUnit = new System.Windows.Forms.Label();
             this.c_labTxnWeight = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -218,7 +218,7 @@
             this.panel1.BackColor = System.Drawing.Color.Black;
             this.panel1.Controls.Add(this.c_labScalesStatus);
             this.panel1.Controls.Add(this.label3);
-            this.panel1.Controls.Add(this.label1);
+            this.panel1.Controls.Add(this.c_labSysUnit);
             this.panel1.Controls.Add(this.c_labTxnWeight);
             this.panel1.Location = new System.Drawing.Point(12, 305);
             this.panel1.Name = "panel1";
@@ -251,17 +251,17 @@
             this.label3.TabIndex = 0;
             this.label3.Text = "当前重量：";
             // 
-            // label1
+            // c_labSysUnit
             // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.Black;
-            this.label1.ForeColor = System.Drawing.Color.Lime;
-            this.label1.Location = new System.Drawing.Point(326, 61);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(25, 17);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "KG";
+            this.c_labSysUnit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.c_labSysUnit.AutoSize = true;
+            this.c_labSysUnit.BackColor = System.Drawing.Color.Black;
+            this.c_labSysUnit.ForeColor = System.Drawing.Color.Lime;
+            this.c_labSysUnit.Location = new System.Drawing.Point(326, 61);
+            this.c_labSysUnit.Name = "c_labSysUnit";
+            this.c_labSysUnit.Size = new System.Drawing.Size(25, 17);
+            this.c_labSysUnit.TabIndex = 0;
+            this.c_labSysUnit.Text = "KG";
             // 
             // c_labTxnWeight
             // 
@@ -302,7 +302,7 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label c_labSysUnit;
         private System.Windows.Forms.Label c_labTxnWeight;
         private System.Windows.Forms.Button c_btnCancel;
         private System.Windows.Forms.Button c_btnError;

@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ComLib.Log;
 using YRKJ.MWR.Business.BO;
+using YRKJ.MWR.Business;
 
 namespace YRKJ.MWR.BackOffice.Services
 {
@@ -201,7 +202,10 @@ namespace YRKJ.MWR.BackOffice.Services
                         dtl.VendorCode = WebAppFn.SafeJsonToString("VendorCode", jDtl);
                         dtl.Waste = WebAppFn.SafeJsonToString("Waste", jDtl);
                         dtl.WasteCode = WebAppFn.SafeJsonToString("WasteCode", jDtl);
-                        dtl.SubWeight = ComFn.StringToDecimal(WebAppFn.SafeJsonToString("SubWeight", jDtl));
+                        //dtl.SubWeight = ComFn.StringToDecimal(WebAppFn.SafeJsonToString("SubWeight", jDtl));
+                        decimal subWeight =  ComFn.StringToDecimal(WebAppFn.SafeJsonToString("SubWeight", jDtl));
+                        string subUnit = WebAppFn.SafeJsonToString("Unit", jDtl);
+                        dtl.SubWeight = BizHelper.ConventToSysUnitWeight(subWeight, subUnit, SysParams.GetInstance().GetSysWeightUnit());
                         //dtl.TxnWeight = WebAppFn.SafeJsonToString("TxnWeight", jDtl);
                         //dtl.EntryDate = WebAppFn.SafeJsonToString("EntryDate", jDtl);
                         //dtl.InvRecordId = WebAppFn.SafeJsonToString("InvRecordId", jDtl);

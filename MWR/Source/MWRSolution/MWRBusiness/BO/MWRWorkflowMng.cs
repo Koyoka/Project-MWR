@@ -289,6 +289,13 @@ namespace YRKJ.MWR.Business.BO
 
                     #region add detail
                     int dtlNextId = MWNextIdMng.GetTxnDetailNextId(txnDetailList.Count);
+                    int txnLogNextId = MWNextIdMng.GetTxnLogNextId(txnDetailList.Count);
+                    if (dtlNextId == 0
+                        && txnLogNextId == 0)
+                    {
+                        errMsg = ErrorMng.GetDBError(ClassName, "recoverToInventory", "Id增长列添加错误");
+                        return false;
+                    }
                     foreach (TblMWTxnDetail dtl in txnDetailList)
                     {
                         dtl.TxnDetailId = dtlNextId;
@@ -313,11 +320,37 @@ namespace YRKJ.MWR.Business.BO
                         {
                             return false;
                         }
+
+                        #region add txn log
+                        {
+                            TblMWTxnLog item = new TblMWTxnLog();
+                            item.TxnLogId = txnLogNextId;
+                            item.TxnNum = dtl.TxnNum;
+                            item.TxnDetailId = dtl.TxnDetailId;
+                            item.WSCode = mwsCode;
+                            item.EmpyName = inspector;
+                            item.EmpyCode = inspectorCode;
+                            item.OptType = TblMWTxnLog.OPTTYPE_ENUM_SubRecover;
+                            item.OptDate = now;
+                            item.TxnLogType = TblMWTxnLog.TXNLOGTYPE_ENUM_Recover;
+                            //item.InvRecordId = invRecordNextId;
+
+                            if (!TblMWTxnLogCtrl.Insert(dcf, item, ref updCount, ref errMsg))
+                            {
+                                return false;
+                            }
+                        }
+                        #endregion
+
                         dtlNextId++;
+                        txnLogNextId++;
                     }
                     #endregion
                 }
                 #endregion
+
+
+           
 
                 #region update cardisptch indate
                 {

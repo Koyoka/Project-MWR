@@ -102,6 +102,8 @@
     <Compile Include="DBModule\TblSysParameterCtrl.cs" />
     <Compile Include="DBModule\TblSystemNextId.cs" />
     <Compile Include="DBModule\TblSystemNextIdCtrl.cs" />
+    <Compile Include="DBModule\VewIvnAuthorizeWithTxnDetail.cs" />
+    <Compile Include="DBModule\VewIvnAuthorizeWithTxnDetailCtrl.cs" />
     <Compile Include="DBModule\VewTxnHeaderWithCarDispatch.cs" />
     <Compile Include="DBModule\VewTxnHeaderWithCarDispatchCtrl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

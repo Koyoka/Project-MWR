@@ -27,6 +27,10 @@ namespace YRKJ.MWR.WinBase.WinUtility
         string _unit = "";
 
         private bool _isOpen = false;
+        public bool IsOpen
+        {
+            get { return _isOpen; }
+        }
         private bool _isClose = false;
         private bool _isReceived = false;
 
@@ -37,6 +41,8 @@ namespace YRKJ.MWR.WinBase.WinUtility
         public ScalesOnConnected onConnected = null;
         public ScalesOnDisConected onDisConnected = null;
         public ScalesOnScalesDataReceived onScalesDataReceived = null;
+
+       
 
         public ScalesMng(Form form)
         {
@@ -99,14 +105,24 @@ namespace YRKJ.MWR.WinBase.WinUtility
         // 设备连接事件
         private void DeviceOnConnected()
         {
-            if (onConnected != null)
-                onConnected();
+            try
+            {
+                if (onConnected != null)
+                    onConnected();
+            }
+            catch(Exception ex)
+            {}
         }
         // 设备失联事件
         private void DeviceOnDisConnected()
         {
-            if (onDisConnected != null)
-                onDisConnected();
+            try
+            {
+                if (onDisConnected != null)
+                    onDisConnected();
+            }
+            catch (Exception ex)
+            { }
         }
 
        

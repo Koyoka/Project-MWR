@@ -89,8 +89,8 @@ namespace MobilePhoneDemoApp
 
                 #endregion
 
-                
-                TblMWTxnDetail txnDetail = new TblMWTxnDetail();
+
+                MobilePhoneDemoApp.DemoData.DemoMWTxnDetail txnDetail = new MobilePhoneDemoApp.DemoData.DemoMWTxnDetail();
                 txnDetail.CrateCode = _code;
                 txnDetail.Vendor = _vendor;
                 txnDetail.VendorCode = _vendorcode;
@@ -98,6 +98,7 @@ namespace MobilePhoneDemoApp
                 txnDetail.Waste = (c_cmbWaster.SelectedItem as TblMWWasteCategory).Waste;//c_cmbWaster.SelectedText;
                 txnDetail.WasteCode = (c_cmbWaster.SelectedItem as TblMWWasteCategory).WasteCode;//c_cmbWaster.SelectedValue+"";
                 txnDetail.EntryDate = SqlDBMng.GetDBNow();
+                txnDetail.Unit = "kg";
                 //DemoData.GetInstance().TxnDetailList.Add(txnDetail);
 
                 DemoData.GetInstance().TxnDetailList.Insert(0, txnDetail);

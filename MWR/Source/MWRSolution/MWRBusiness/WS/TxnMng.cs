@@ -466,7 +466,7 @@ namespace YRKJ.MWR.Business.WS
                 item.TxnDetailId = detail.TxnDetailId;
                 item.EmpyCode = empy.EmpyCode;
                 item.EmpyName = empy.EmpyName;
-                item.WSCode = detail.WSCode;
+                item.WSCode = wscode;
                 //item.AuthEmpyCode = detail.AuthEmpyCode;
                 //item.AuthEmpyName = detail.AuthEmpyName;
                 //item.Remark = detail.Remark;

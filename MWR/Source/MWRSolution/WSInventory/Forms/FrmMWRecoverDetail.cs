@@ -585,6 +585,10 @@ namespace YRKJ.MWR.WSInventory.Forms
                         return true;
                     }
                 }
+                else
+                {
+                    return true;
+                }
             }
             #endregion
 
@@ -602,6 +606,7 @@ namespace YRKJ.MWR.WSInventory.Forms
             #region update grid binding data
             curData.TxnWeight = txnDetail.TxnWeight;
             curData.AuthId = txnDetail.InvAuthId;
+            curData.EntryDate = ComLib.ComFn.DateTimeToString(txnDetail.EntryDate,BizBase.GetInstance().DateTimeFormatString);
             curData.Status = BizHelper.GetTxnDetailStatus(txnDetail.Status);
             #endregion
 
@@ -645,7 +650,7 @@ namespace YRKJ.MWR.WSInventory.Forms
                 DialogResult result = f.ShowDialog();
                 if (result == System.Windows.Forms.DialogResult.OK)
                 {
-                  //check this list last txndetail,and close this txn
+                    //check this list last txndetail,and close this txn
 
                     int count = 0;
                     if (!TxnMng.GetRecoverLeftDetailCount(_txnNum, ref count, ref errMsg))
@@ -667,6 +672,14 @@ namespace YRKJ.MWR.WSInventory.Forms
                         return true;
                     }
                 }
+                else if (result == System.Windows.Forms.DialogResult.Abort)
+                {
+                    // nothing
+                }
+                else if(result == System.Windows.Forms.DialogResult.Cancel)
+                {
+                    return true;
+                }
 
             }
             #endregion
@@ -685,6 +698,7 @@ namespace YRKJ.MWR.WSInventory.Forms
             #region update grid binding data
             curData.TxnWeight = txnDetail.TxnWeight;
             curData.AuthId = txnDetail.InvAuthId;
+            curData.EntryDate = ComLib.ComFn.DateTimeToString(txnDetail.EntryDate, BizBase.GetInstance().DateTimeFormatString);
             curData.Status = BizHelper.GetTxnDetailStatus(txnDetail.Status);
             #endregion
 

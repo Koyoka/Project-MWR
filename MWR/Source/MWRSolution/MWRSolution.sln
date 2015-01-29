@@ -20,6 +20,37 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FW2", "FW2\FW2.csproj", "{5FE6FE8A-055F-4151-951B-6D380C00CC8D}"
 EndProject
 Global
+	GlobalSection(SourceCodeControl) = preSolution
+		SccNumberOfProjects = 7
+		SccProjectUniqueName0 = MWRBackOffice\\MWRBackOffice.csproj
+		SccProjectName0 = \u0022$/MWR/Source/MWRSolution.root/MWRSolution/MWRBackOffice\u0022,\u0020JBAAAAAA
+		SccLocalPath0 = MWRBackOffice
+		SccProvider0 = MSSCCI:Microsoft\u0020Visual\u0020SourceSafe
+		SccProjectUniqueName1 = WSInventory\\WSInventory.csproj
+		SccProjectName1 = \u0022$/MWR/Source/MWRSolution.root/MWRSolution/WSInventory\u0022,\u0020PBAAAAAA
+		SccLocalPath1 = WSInventory
+		SccProvider1 = MSSCCI:Microsoft\u0020Visual\u0020SourceSafe
+		SccProjectUniqueName2 = WSDestory\\WSDestory.csproj
+		SccProjectName2 = \u0022$/MWR/Source/MWRSolution.root/MWRSolution/WSDestory\u0022,\u0020MBAAAAAA
+		SccLocalPath2 = WSDestory
+		SccProvider2 = MSSCCI:Microsoft\u0020Visual\u0020SourceSafe
+		SccProjectUniqueName3 = ..\\..\\..\\ComLib\\ComLib.csproj
+		SccProjectName3 = \u0022$/ComLib\u0022,\u0020PCAAAAAA
+		SccLocalPath3 = ..\\..\\..\\ComLib
+		SccProvider3 = MSSCCI:Microsoft\u0020Visual\u0020SourceSafe
+		SccProjectUniqueName4 = MWRDBModule\\MWRDBModule.csproj
+		SccProjectName4 = \u0022$/MWR/Source/MWRSolution.root/MWRSolution/MWRDBModule\u0022,\u0020UVAAAAAA
+		SccLocalPath4 = MWRDBModule
+		SccProvider4 = MSSCCI:Microsoft\u0020Visual\u0020SourceSafe
+		SccProjectUniqueName5 = MWRBusiness\\MWRBusiness.csproj
+		SccProjectName5 = \u0022$/MWR/Source/MWRSolution.root/MWRSolution/MWRBusiness\u0022,\u0020EYAAAAAA
+		SccLocalPath5 = MWRBusiness
+		SccProvider5 = MSSCCI:Microsoft\u0020Visual\u0020SourceSafe
+		SccProjectUniqueName6 = MWRWinBase\\MWRWinBase.csproj
+		SccProjectName6 = \u0022$/MWR/Source/MWRSolution.root/MWRSolution/MWRWinBase\u0022,\u0020QYAAAAAA
+		SccLocalPath6 = MWRWinBase
+		SccProvider6 = MSSCCI:Microsoft\u0020Visual\u0020SourceSafe
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms

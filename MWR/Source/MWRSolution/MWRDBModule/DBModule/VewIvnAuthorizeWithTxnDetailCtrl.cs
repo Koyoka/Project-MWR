@@ -5,22 +5,22 @@ using ComLib.db;
 
 namespace YRKJ.MWR
 {
-    public class VewTxnHeaderWithCarDispatchCtrl : BaseDataCtrl
+    public class VewIvnAuthorizeWithTxnDetailCtrl : BaseDataCtrl
     {
-        public static bool QueryPage(DataCtrlInfo dcf, SqlWhere sw, int page, int pageSize, ref List<VewTxnHeaderWithCarDispatch> itemList, ref string errMsg)
+        public static bool QueryPage(DataCtrlInfo dcf, SqlWhere sw, int page, int pageSize, ref List<VewIvnAuthorizeWithTxnDetail> itemList, ref string errMsg)
         {
             SqlQueryMng sqm = new SqlQueryMng();
             sqm.Condition.Where.AddWhere(sw);
             return QueryPage(dcf, sqm, page, pageSize, ref itemList, ref errMsg);
         }
  
-        public static bool QueryPage(DataCtrlInfo dcf, SqlQueryMng sqm, int page, int pageSize,ref List<VewTxnHeaderWithCarDispatch> itemList,ref string errMsg)
+        public static bool QueryPage(DataCtrlInfo dcf, SqlQueryMng sqm, int page, int pageSize,ref List<VewIvnAuthorizeWithTxnDetail> itemList,ref string errMsg)
         {
             try
             {
-                string sql = sqm.getVewPageSql(VewTxnHeaderWithCarDispatch.getSql(),page, pageSize);
+                string sql = sqm.getVewPageSql(VewIvnAuthorizeWithTxnDetail.getSql(),page, pageSize);
                 SqlCommonFn.DebugLog(sql);
-                itemList = SqlDBMng.getInstance().query(sql, new VewTxnHeaderWithCarDispatch(), sqm.getParamsArray());
+                itemList = SqlDBMng.getInstance().query(sql, new VewIvnAuthorizeWithTxnDetail(), sqm.getParamsArray());
                 if (itemList.Count != 0)
                 {
                     dcf.RowCount = itemList[0].TEM_COLUMN_COUNT;
@@ -36,7 +36,7 @@ namespace YRKJ.MWR
         }
 
          public static bool QueryMore(DataCtrlInfo dcf, SqlWhere sw,
-             ref List<VewTxnHeaderWithCarDispatch> itemList,ref string errMsg)
+             ref List<VewIvnAuthorizeWithTxnDetail> itemList,ref string errMsg)
          {
              SqlQueryMng sqm = new SqlQueryMng();
              sqm.Condition.Where.AddWhere(sw);
@@ -44,16 +44,16 @@ namespace YRKJ.MWR
          }
 
          public static bool QueryMore(DataCtrlInfo dcf,SqlQueryMng sqm,
-             ref List<VewTxnHeaderWithCarDispatch> itemList,ref string errMsg){
+             ref List<VewIvnAuthorizeWithTxnDetail> itemList,ref string errMsg){
                  if (itemList == null)
                  {
-                     itemList = new List<VewTxnHeaderWithCarDispatch>();
+                     itemList = new List<VewIvnAuthorizeWithTxnDetail>();
                  }
-                 itemList = new List<VewTxnHeaderWithCarDispatch>();
-                 string sql = sqm.getVewSql(VewTxnHeaderWithCarDispatch.getSql());
+                 itemList = new List<VewIvnAuthorizeWithTxnDetail>();
+                 string sql = sqm.getVewSql(VewIvnAuthorizeWithTxnDetail.getSql());
                 //System.out.println(sql);
                  try {
-                     itemList = SqlDBMng.getInstance().query(sql, new VewTxnHeaderWithCarDispatch(),sqm.getParamsArray());
+                     itemList = SqlDBMng.getInstance().query(sql, new VewIvnAuthorizeWithTxnDetail(),sqm.getParamsArray());
              
                  } catch (Exception e) {
                 
@@ -64,8 +64,8 @@ namespace YRKJ.MWR
                  return true;
          }
 
-         public static bool QueryOne(DataCtrlInfo dcf,SqlQueryMng sqm,ref VewTxnHeaderWithCarDispatch item,ref string errMsg){
-              List<VewTxnHeaderWithCarDispatch> itemList = new List<VewTxnHeaderWithCarDispatch>();
+         public static bool QueryOne(DataCtrlInfo dcf,SqlQueryMng sqm,ref VewIvnAuthorizeWithTxnDetail item,ref string errMsg){
+              List<VewIvnAuthorizeWithTxnDetail> itemList = new List<VewIvnAuthorizeWithTxnDetail>();
              if (!QueryMore(dcf, sqm, ref itemList, ref errMsg))
              {
                  return false;
@@ -82,8 +82,8 @@ namespace YRKJ.MWR
              return true;
          }
 
-         public static bool QueryOne(DataCtrlInfo dcf,SqlWhere sw,ref VewTxnHeaderWithCarDispatch item,ref string errMsg){
-             List<VewTxnHeaderWithCarDispatch> itemList = new List<VewTxnHeaderWithCarDispatch>();
+         public static bool QueryOne(DataCtrlInfo dcf,SqlWhere sw,ref VewIvnAuthorizeWithTxnDetail item,ref string errMsg){
+             List<VewIvnAuthorizeWithTxnDetail> itemList = new List<VewIvnAuthorizeWithTxnDetail>();
              if (!QueryMore(dcf, sw, ref itemList, ref errMsg))
              {
                  return false;

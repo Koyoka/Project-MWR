@@ -71,6 +71,10 @@ namespace YRKJ.MWR.Business.Sys
         {
             return GetNextId("TxnLog");
         }
+        public static int GetTxnLogNextId(int count)
+        {
+            return GetNextId(count,"TxnLog");
+        }
 
         public static int GetInvAuthorizeNextId()
         {

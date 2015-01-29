@@ -100,6 +100,7 @@ namespace YRKJ.MWR.WSInventory.Forms
                 _txnDetail.EmpyName = SysInfo.GetInstance().Employ.EmpyName;
                 _txnDetail.WSCode = SysInfo.GetInstance().Config.WSCode;
                 _txnDetail.Status = TblMWTxnDetail.STATUS_ENUM_Complete;
+                _txnDetail.EntryDate = ComLib.db.SqlDBMng.GetDBNow();
                 #endregion
                 this.DialogResult = System.Windows.Forms.DialogResult.OK;
                 this.Close();
@@ -120,7 +121,7 @@ namespace YRKJ.MWR.WSInventory.Forms
             try
             {
                 this.Cursor = Cursors.WaitCursor;
-
+                this.DialogResult = System.Windows.Forms.DialogResult.Cancel;
                 this.Close();
             }
             catch (Exception ex)

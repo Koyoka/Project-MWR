@@ -9,6 +9,7 @@ namespace YRKJ.MWR.Business
     {
         private const string defaultTxnNumMask = "##########";
 
+
         private string _txnNumMask = null;
         public string TxnNumMask
         {
@@ -16,6 +17,18 @@ namespace YRKJ.MWR.Business
 
                 return string.IsNullOrEmpty(_txnNumMask) ? defaultTxnNumMask : _txnNumMask;
             }
+        }
+
+        private string _decimalFormatString = "f2";
+        public string DecimalFormatString
+        {
+            get { return _decimalFormatString; }
+        }
+
+        private string _dateTimeFormatString = "yyyy-MM-dd HH:mm";
+        public string DateTimeFormatString
+        {
+            get { return _dateTimeFormatString; }
         }
 
 
