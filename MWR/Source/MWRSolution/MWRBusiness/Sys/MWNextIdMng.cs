@@ -67,6 +67,7 @@ namespace YRKJ.MWR.Business.Sys
         {
             return GetNextId("InventoryTrack");
         }
+        
         public static int GetTxnLogNextId()
         {
             return GetNextId("TxnLog");
@@ -79,6 +80,11 @@ namespace YRKJ.MWR.Business.Sys
         public static int GetInvAuthorizeNextId()
         {
             return GetNextId("InvAuthorize");
+        }
+
+        public static int GetInvAuthorizeAttachNextId(int count)
+        {
+            return GetNextId(count, "InvAuthorizeAttach");
         }
 
         public static string GetTxnNextNum(string TxnNumMask)

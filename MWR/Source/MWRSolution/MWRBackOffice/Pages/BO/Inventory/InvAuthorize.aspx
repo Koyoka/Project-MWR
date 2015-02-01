@@ -111,7 +111,10 @@
                                     </td>
                                     <td>
                                         <input class="diffweight" type="hidden" value="<% = item.DiffWeight %>" /> 
+                                        <a href="#<% = RedirectHelper.InvAuthorizeDetail %>?id=<% = item.AuthId %>" class="btn default btn-xs purple"><i class="fa fa-edit"></i> 审核</a>
+                                        <!--
                                         <a href="#" data-wgt="mw-showauthform" data-wgt-showauthformid="auth<% = item.AuthId %>" data-target="#stack1"  data-toggle="modal" class="btn default btn-xs purple"><i class="fa fa-edit"></i> 审核</a>
+                                        -->
                                     </td>
                                 </tr>
 

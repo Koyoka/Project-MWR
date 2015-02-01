@@ -28,6 +28,13 @@ namespace YRKJ.MWR.BackOffice.Services
         //private string _accessKey = "[ server access key ]";
         //private string _secretKey = "[ server secret key ]";
 
+        class JsonData
+        {
+            public string name = "";
+            public string value = "";
+            public string[] files = new string[] {"aaa"};
+        }
+
         private const string RequestMethod_RecoverInventorySubmit = "RecoverInventorySubmit";
 
         protected string OutputText = "";
@@ -41,12 +48,20 @@ namespace YRKJ.MWR.BackOffice.Services
                 {
                     if (!InitPage(ref errMsg))
                     {
+                        JsonData  jd = new JsonData();
+                        jd.name = "eleven";
+                        jd.value = "eleven";
+                        string s = JsonConvert.SerializeObject(jd);
+                        //Response.AddHeader("Content-Disposition", "attachment; filename=\"files.json\"");
+                        Response.ContentType = "application/octet-stream";
+                        Response.ClearContent();
+                        Response.Write(s);
                         // do error thing
                         //OutputText = errMsg + @"\r\n" + _value;
-                        StringBuilder sb = new StringBuilder();
-                        sb.AppendLine(errMsg);
-                        sb.AppendLine(_value);
-                        OutputText = sb.ToString();
+                        //StringBuilder sb = new StringBuilder();
+                        //sb.AppendLine(errMsg);
+                        //sb.AppendLine(_value);
+                        //OutputText = sb.ToString();
                     }
                 }
             }

@@ -53,9 +53,10 @@ var IndexHelper = function () {
             loadPage: function (page) {
                 //                e.preventDefault();
                 var pageContent = $('.page-content');
-                
 
-                var url = page + "?container=1"; // $(this.element).attr("href") + "?container=1";
+                var s = location.hash;
+                s = s.indexOf('?', 0);
+                var url = page + (s == -1 ? "?container=1" : "&container=1"); // $(this.element).attr("href") + "?container=1";
                 var menuContainer = jQuery('.page-sidebar ul');
 
                 var pageContentBody = $('.page-content .page-content-body');

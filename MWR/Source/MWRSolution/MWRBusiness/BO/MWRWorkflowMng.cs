@@ -381,6 +381,84 @@ namespace YRKJ.MWR.Business.BO
             return true;
         }
 
+        public static bool PassAuthorize(int invAuthId,string authEmpyCode, string remark, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+
+            SqlQueryMng sqm = new SqlQueryMng();
+            sqm.Condition.Where.AddCompareValue(TblMWEmploy.getEmpyCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, authEmpyCode);
+
+            TblMWEmploy empy = null;
+            if (!TblMWEmployCtrl.QueryOne(dcf, sqm, ref empy, ref errMsg))
+            {
+                return false;
+            }
+            if (empy == null)
+            {
+                errMsg = "没有找到当前编号的员工";
+                return false;
+            }
+
+            SqlUpdateColumn suc = new SqlUpdateColumn();
+            suc.Add(TblMWInvAuthorize.getRemarkColumn(), remark);
+            suc.Add(TblMWInvAuthorize.getStatusColumn(), TblMWInvAuthorize.STATUS_ENUM_Complete);
+            suc.Add(TblMWInvAuthorize.getCompDateColumn(), SqlDBMng.GetDBNow());
+            suc.Add(TblMWInvAuthorize.getAuthEmpyCodeColumn(), empy.EmpyCode);
+            suc.Add(TblMWInvAuthorize.getAuthEmpyNameColumn(), empy.EmpyName);
+            SqlWhere sw = new SqlWhere();
+            sw.AddCompareValue(TblMWInvAuthorize.getInvAuthIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, invAuthId);
+
+            int updCount = 0;
+            if (!TblMWInvAuthorizeCtrl.Update(dcf, suc, sw, ref updCount, ref errMsg))
+            {
+                return false;
+            }
+            return true;
+        }
+        public static bool AddAuthorizeAttach(int InvAuthId, List<string> filePaths, ref string errMsg)
+        {
+           
+
+            int invAttachNextId = 0;
+
+            invAttachNextId = MWNextIdMng.GetInvAuthorizeAttachNextId(filePaths.Count);
+            if (invAttachNextId == 0)
+            {
+                errMsg = "ID编号生成出错";
+                return false;
+            }
+            List<TblMWInvAuthorizeAttach> itemList = new List<TblMWInvAuthorizeAttach>();
+            foreach (string path in filePaths)
+            {
+                TblMWInvAuthorizeAttach item = new TblMWInvAuthorizeAttach();
+                item.InvAttachId = invAttachNextId;
+                item.InvAuthId = InvAuthId;
+                item.Path = path;
+                itemList.Add(item);
+                invAttachNextId++;
+            }
+
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            dcf.BeginTrans();
+
+            int updCount = 0;
+            foreach (TblMWInvAuthorizeAttach item in itemList)
+            {
+                if (!TblMWInvAuthorizeAttachCtrl.Insert(dcf, item, ref updCount, ref errMsg))
+                {
+                    return false;
+                }
+            }
+
+            int[] updCounts = null;
+            if (!dcf.Commit(ref updCounts, ref errMsg))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         #endregion
 
         #region end. car finish the workflow, complete shift, close cardispatch

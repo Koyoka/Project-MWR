@@ -30,29 +30,33 @@
                 var needblock = !(this.element.attr("data-wgt-submit-options-block") === "false");
                 var needreload = !(this.element.attr("data-wgt-submit-options-reload") === "false");
 
-                var wgtrecall = this.element.attr('data-wgt-submit-options-recall');
-                var recall;
-                if (!!wgtrecall) {
-                    var recallStr = wgtrecall.split(".");
-
-                    for (i = 0; i < recallStr.length; i++) {
-                        if (i == 0) {
-                            recall = window[recallStr[i]];
-                        } else {
-                            recall = recall[recallStr[i]];
-                        }
-                    }
+                var wgtsubstart = this.element.attr('data-wgt-submit-options-start');
+                var substart = _getwgtrecall(wgtsubstart);
+                if (substart) {
+                    if (!substart(this.element, data))
+                        return;
                 }
 
+
+                var wgtrecall = this.element.attr('data-wgt-submit-options-recall');
+                var recall = _getwgtrecall(wgtrecall);
+                //                if (!!wgtrecall) {
+                //                    var recallStr = wgtrecall.split(".");
+                //                    for (i = 0; i < recallStr.length; i++) {
+                //                        if (i == 0) {
+                //                            recall = window[recallStr[i]];
+                //                        } else {
+                //                            recall = recall[recallStr[i]];
+                //                        }
+                //                    }
+                //                }
                 var el = this.element;
                 var blockEl;
                 if (needblock)
                     blockEl = el.parent();
                 var loadBtn = this.element.find(".demo-loading-btn").length == 1 ? this.element.find(".demo-loading-btn") : false;
-                //                window.cursor = "hand"
-                
-                $.AjaxPJson(url, method, data, function (d) {
 
+                $.AjaxPJson(url, method, data, function (d) {
                     if (needreload) {
                         var defineEl = $(d).find("#" + el.attr("id"));
                         gl.wgt.scan(defineEl);
@@ -60,10 +64,8 @@
                     }
                     if (recall)
                         recall(el, d, data);
-
                 }, function (r) {
                     Modal.alert('[' + r + ']');
-
                 }, function () {
 
                     if (loadBtn)
@@ -75,10 +77,7 @@
                         loadBtn.button('reset');
                     if (blockEl)
                         App.unblockUI(blockEl);
-
                 });
-
-
             },
             initPageCtrl: function () {
                 var el = this.element;
@@ -125,12 +124,50 @@
     var _testFunc = function (s) {
         window.alert(12345 + " " + s)
     }
+    var _redirectPage = function (s) {
+        window.location.hash = s;
+    }
+    var _getwgtrecall = function (wgtrecall) {
+        var recall;
+        if (!!wgtrecall) {
+            var recallStr = wgtrecall.split(".");
 
-    var _recallCarDispatch = function (el, netData,locData) {
+            for (i = 0; i < recallStr.length; i++) {
+                if (i == 0) {
+                    recall = window[recallStr[i]];
+                } else {
+                    recall = recall[recallStr[i]];
+                }
+            }
+        }
+        return recall;
+    }
+    var _recallCarDispatch = function (el, netData, locData) {
         $("#mwFrmDispList").submit();
         if (!!locData.issubmit)
             Modal.alert('车辆调度已提交。'); //.on(function (e) {});
     }
+    var _subAuthorize = function (el, netData, locData) {
+        //        window.alert(netData.Value + " " + locData)
+        if (netData.Result == 1) {
+            Modal.alert(netData.Value);
+        } else {
+            Modal.alert(netData.Value).on(function (e) {
+                _redirectPage("Inventory/InvAuthorize.aspx");
+            });
+        }
+    }
+    var _validAuthorize = function (el, data) {
+        if (data.remark.trim().length == 0) {
+            Modal.alert("请填写说明。").on(function (e) {
+                el.find('input[name="remark"]').focus();
+            });
+           
+            return false;
+        }
+        return true;
+    }
+
 
     return {
         init: function () {
@@ -139,7 +176,9 @@
         },
 
         testFunc: _testFunc,
-        recallCarDispatch: _recallCarDispatch
+        recallCarDispatch: _recallCarDispatch,
+        subAuthorize: _subAuthorize,
+        validAuthorize: _validAuthorize
     };
 } ();
 

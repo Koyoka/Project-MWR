@@ -5,6 +5,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 <link rel="stylesheet" href="/assets/plugins/data-tables/DT_bootstrap.css"/>
+<link href="/assets/css/pages/profile.css" rel="stylesheet" type="text/css"/>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <!-- begin target bar -->
@@ -28,79 +29,82 @@
     </div>
     <!-- end target bar -->
     <div class="row">
-        <div class="col-md-3 col-md-12">
-            <div class="portlet box blue">
+        <div class="col-md-8 col-md-12">
+
+           <%-- <div class="portlet box blue">
                 <div class="portlet-title">
                     <div class="caption">
                         <i class="fa fa-cogs"></i>车辆调度
                     </div>
                 </div>
-                <div class="portlet-body form">
+                <div class="portlet-body form">--%>
                     <!-- BEGIN FORM-->
                    <form id="mwFrmCarDisp" 
                        data-wgt="mw-submit" 
                        data-wgt-submit-method="AjaxSubCarDispstch" 
                        data-wgt-submit-options-recall="CommHelper.recallCarDispatch"
                        action="<% = WebAppFn.GetBoFullPageUrl(RedirectHelper.CarDispatch) %>" class="">
-                    <div class="form-body">
-                        <div class="form-group">
-                            <label class="control-label">
-                                当前驻厂车辆</label>
-                            <select  name="carCode" class="form-control input-lg">
-                                <% 
-                                    if (PageCarDataList.Count == 0)
-                                    { 
-                                %>
-                                    <option  value="0">没有车辆可选...</option>
-                                <%        
-                                    }else if (PageCarDataList.Count != 1)
-                                  { 
-                                %>
-                                    <option value="0">选择车辆</option>
-                                <%        
-                                    }
-                                %>
-                                
-                                <% 
-                                    foreach (PageCarData item in PageCarDataList)
-                                    { 
-                                %> 
-                                    <option value="<% = item.CarCode %>"><% = item.CarCode%></option>
-                                <% 
-                                    }
-                                %>
-                              
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label">
-                                当前驻留司机</label>
-                            <select  name="driverCode" class="form-control input-lg">
-                                <% 
-                                    if (PageEmplDriverDataList.Count == 0)
-                                    { 
-                                %>
-                                    <option  value="0">没有司机可选...</option>
-                                <%        
-                                    }else if (PageEmplDriverDataList.Count != 1)
-                                    { 
-                                %>
-                                    <option  value="0">选择司机</option>
-                                <%        
-                                    }
-                                %>
-                                
-                                 <% 
-                                    foreach (PageEmplData item in PageEmplDriverDataList)
-                                    {
-                                 %>
-                                 <option value="<% = item.EmplCode %>"><% = item.EmplName%></option>
-                                 <%   
-                                    }
+                    <div class="row <%--form-body--%> form-group">
+                        <div class="col-md-6">
+                                <label class="control-label">
+                                    当前驻厂车辆</label>
+                                <select  name="carCode" class="form-control input-lg">
+                                    <% 
+                                        if (PageCarDataList.Count == 0)
+                                        { 
                                     %>
-                            </select>
+                                        <option  value="0">没有车辆可选...</option>
+                                    <%        
+                                        }else if (PageCarDataList.Count != 1)
+                                      { 
+                                    %>
+                                        <option value="0">选择车辆</option>
+                                    <%        
+                                        }
+                                    %>
+                                
+                                    <% 
+                                        foreach (PageCarData item in PageCarDataList)
+                                        { 
+                                    %> 
+                                        <option value="<% = item.CarCode %>"><% = item.CarCode%></option>
+                                    <% 
+                                        }
+                                    %>
+                              
+                                </select>
                         </div>
-                        <div class="form-group ">
+                        <div class="col-md-6">
+                                <label class="control-label">
+                                    当前驻留司机</label>
+                                <select  name="driverCode" class="form-control input-lg">
+                                    <% 
+                                        if (PageEmplDriverDataList.Count == 0)
+                                        { 
+                                    %>
+                                        <option  value="0">没有司机可选...</option>
+                                    <%        
+                                        }else if (PageEmplDriverDataList.Count != 1)
+                                        { 
+                                    %>
+                                        <option  value="0">选择司机</option>
+                                    <%        
+                                        }
+                                    %>
+                                
+                                     <% 
+                                        foreach (PageEmplData item in PageEmplDriverDataList)
+                                        {
+                                     %>
+                                     <option value="<% = item.EmplCode %>"><% = item.EmplName%></option>
+                                     <%   
+                                        }
+                                        %>
+                                </select>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-6">
                             <label class="control-label">
                                 当前驻留跟车员</label>
                             <select name="inspectorCode" class="form-control input-lg">
@@ -128,7 +132,7 @@
                                 %>
                             </select>
                         </div>
-                        <div class="form-group last">
+                        <div class="col-md-6">
                             <label class="control-label">
                                 当前可派发的终端</label>
                             <select name="mwsCode" class="form-control input-lg">
@@ -154,17 +158,72 @@
                                 %>
                             </select>
                         </div>
+
                     </div>
-                    <div class="form-actions right">
+                   <button type="submit" class="btn green btn-block margin-top-20">提交 <i class="m-icon-swapright m-icon-white"></i></button>
                         <input id="mwTxtIsSubmit" type="hidden" name="issubmit" value="YES" />
-                        <input type="submit" value="提交" data-loading-text="提交..." class="demo-loading-btn btn btn-primary green" />
-                    </div>
+                       <%-- <input type="submit" value="提交" data-loading-text="提交..." class="demo-loading-btn btn btn-primary green margin-top-20 btn-block" />--%>
+                    
                     </form>
                     <!-- END FORM-->
-                </div>
-            </div>
+               <%-- </div>
+            </div>--%>
+
+
         </div>
-        <div class="col-md-9 col-md-12">
+        <div class="col-md-4">
+			<div class="portlet sale-summary">
+				<div class="portlet-title">
+					<div class="caption">
+						车辆调度记录
+					</div>
+					<div class="tools">
+						<a class="reload" href="javascript:;"></a>
+					</div>
+				</div>
+				<div class="portlet-body">
+					<ul class="list-unstyled">
+						<li>
+							<span class="sale-info">
+								累计出勤次数 <i class="fa fa-img-up"></i>
+							</span>
+							<span class="sale-num">
+								23
+							</span>
+						</li>
+						<li>
+							<span class="sale-info">
+								今日出勤次数 <i class="fa fa-img-down"></i>
+							</span>
+							<span class="sale-num">
+								1
+							</span>
+						</li>
+						<li>
+							<span class="sale-info">
+								当前待发车辆
+							</span>
+							<span class="sale-num">
+								4
+							</span>
+						</li>
+						<li>
+							<span class="sale-info">
+								当前外出车辆
+							</span>
+							<span class="sale-num">
+								1
+							</span>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+    </div>
+    <div class="clearfix">
+    </div>
+    <div class="row">
+      <div class="col-md-12 col-md-12">
             <div class="portlet box blue">
                 <div class="portlet-title">
                     <div class="caption">
@@ -179,7 +238,7 @@
 						</div>--%>
                     </div>
                 </div>
-                <div class="portlet-body" >
+                <div class="portlet-body"  style="height:250px;" >
                 <form data-wgt="mw-submit" 
                     id="mwFrmDispList"
                     data-wgt-submit-method="AjaxGetCarDispstch" 
@@ -255,7 +314,6 @@
             </div>
         </div>
     </div>
-   
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="foot" runat="server">
 <script src="/assets/plugins/fullcalendar/fullcalendar/fullcalendar.min.js" type="text/javascript"></script>

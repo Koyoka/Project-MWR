@@ -321,6 +321,7 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="footscript" runat="server">
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="foot" runat="server">
+
 <script src="/assets/boindex.js"></script>
 <script type="text/javascript">
     jQuery(document).ready(function () {

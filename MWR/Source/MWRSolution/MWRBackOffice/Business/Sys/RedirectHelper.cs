@@ -9,7 +9,7 @@ namespace YRKJ.MWR.BackOffice.Business.Sys
     {
         public const string PAGE_ROOT = "";//@"Pages/BO/";
 
-        public const string SysError = PAGE_ROOT + "";
+        public const string SysError = "/Pages/BO/Error.aspx";
 
         #region Main page
         public const string BOIndex = "BOIndex.aspx";
@@ -25,7 +25,7 @@ namespace YRKJ.MWR.BackOffice.Business.Sys
 
         #region Inventory
         public const string InvAuthorize = "Inventory/InvAuthorize.aspx";
-
+        public const string InvAuthorizeDetail = "Inventory/InvAuthorizeDetail.aspx";
 
         #endregion
 
@@ -33,6 +33,7 @@ namespace YRKJ.MWR.BackOffice.Business.Sys
         {
             UrlParaCollection paraList = new UrlParaCollection();
             paraList.Add("Msg", errMsg);
+            paraList.Add("container", "1");
             Redirect( RedirectHelper.SysError, paraList);
         }
 
