@@ -23,6 +23,10 @@
             submit: function (e) {
                 e.preventDefault();
 
+                if (!!this.element.valid) {
+                    if (!this.element.valid())
+                        return;
+                }
                 var method = this.element.attr("data-wgt-submit-method");
                 var url = this.element.attr("action");
                 var data = this.element.serializeJson();
@@ -158,13 +162,14 @@
         }
     }
     var _validAuthorize = function (el, data) {
-        if (data.remark.trim().length == 0) {
-            Modal.alert("请填写说明。").on(function (e) {
-                el.find('input[name="remark"]').focus();
-            });
-           
-            return false;
-        }
+        //        if (data.remark.trim().length == 0) {
+        //            Modal.alert("请填写说明。").on(function (e) {
+        //                el.find('input[name="remark"]').focus();
+        //            });
+        //           
+        //            return false;
+        //        }
+//        return false;
         return true;
     }
 

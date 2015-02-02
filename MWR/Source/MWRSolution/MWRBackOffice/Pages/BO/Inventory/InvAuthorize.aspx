@@ -221,10 +221,5 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="foot" runat="server">
 <script src="/assets/plugins/fullcalendar/fullcalendar/fullcalendar.min.js" type="text/javascript"></script>
 <script src="/assets/scripts/table-managed.js"></script>
-<script src="/assets/boinvauthorize.js"></script>
-<script type="text/javascript">
-    jQuery(document).ready(function () {
-        InvAuthHelper.init();
-    });
-</script>
+
 </asp:Content>

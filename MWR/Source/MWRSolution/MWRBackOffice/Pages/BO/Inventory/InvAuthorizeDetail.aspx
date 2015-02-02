@@ -2,21 +2,7 @@
 <%@ Import Namespace="YRKJ.MWR.BackOffice.Business.Sys" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 <link href="/assets/plugins/jquery-file-upload/css/jquery.fileupload-ui.css" rel="stylesheet">
-<%--<link rel="stylesheet" href="http://ajax.useso.com/ajax/libs/jqueryui/1.8.13/themes/base/jquery-ui.css" id="theme" />--%>
-<%--<link rel="stylesheet" href="/Assets/cscripts/plugs/fileupload2.1/jquery.fileupload-ui.css" />
-<link rel="stylesheet" href="/Assets/cscripts/plugs/fileupload2.1/style.css" />--%>
 <link href="/assets/css/pages/profile.css" rel="stylesheet" type="text/css"/>
-<%--
-<style>
-    .fileupload-content .ui-progressbar-value {
-  background: url(/assets/images/pbar-ani.gif);
-}
-
-.fileupload-content .fileupload-progressbar {
-  width: 400px;
-  margin: 10px 0;
-}
-</style>--%>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
 <!-- begin target bar -->
@@ -43,6 +29,7 @@
 <div class="row">
 	<div class="col-md-8">
 		<div class="booking-search">
+
 			<form id="mwSubAuth" role="form"
                 data-wgt="mw-submit" 
                 data-wgt-submit-method="AjaxSubAuthorize" 
@@ -51,50 +38,59 @@
                 data-wgt-submit-options-recall="CommHelper.subAuthorize"
                 data-wgt-submit-options-start="CommHelper.validAuthorize"
                 action="<% = WebAppFn.GetBoFullPageUrl(RedirectHelper.InvAuthorizeDetail) %>" >
-				<div class="row form-group">
-					<div class="col-md-12">
-						<label class="control-label">审核意见</label>
-						<div class="input-icon">
-							<i class="fa fa-map-marker"></i>
-                            <input type="hidden" name="invAuthId" value="<% = PageAuthData.InvAuthId %>" />
+                <div class="form-body">                    <div class="alert alert-danger display-hide">
+					    <button class="close" data-close="alert"></button>
+					    表单未能提交，请检查输入项
+				    </div>
+				    <%--<div class="alert alert-success display-hide">
+					    <button class="close" data-close="alert"></button>
+					    Your form validation is successful!
+				    </div>--%>
+				    <div class="row form-group">
+					    <div class="col-md-12">
+						    <label class="control-label">审核意见</label>
+						    <div class="input-icon">
+							    <i class="fa fa-map-marker"></i>
+                                <input type="hidden" name="invAuthId" value="<% = PageAuthData.InvAuthId %>" />
                             
-							<input name="remark" maxlength="<% = YRKJ.MWR.TblMWInvAuthorize.getRemarkColumn().ColumnSize %>" class="form-control" type="text" placeholder="请输入货箱缺损说明...">
-						</div>
-					</div>
-				</div>
-				<div class="row form-group">
-					<div class="col-md-6">
-						<label class="control-label">交易编号:</label>
-						<div class="input-icon">
-							<i class="fa fa-calendar"></i>
-							<input  class="form-control" disabled="" size="16" type="text" value="<% = PageAuthData.TxnNum %>" />
-						</div>
-					</div>
-					<div class="col-md-6">
-						<label class="control-label">提交时间</label>
-						<div class="input-icon">
-							<i class="fa fa-calendar"></i>
-							<input class="form-control"  disabled="" size="16" type="text" value="<% = ComLib.ComFn.DateTimeToString(PageAuthData.EntryDate,YRKJ.MWR.Business.BizBase.GetInstance().DateTimeFormatString) %>" />
-						</div>
-					</div>
-				</div>
-				<div class="row form-group">
-					<div class="col-md-6">
-						<label class="control-label">提交工作站</label>
-						<div class="input-icon">
-							<i class="fa fa-user"></i>
-							<input class="form-control"  disabled="" size="16" type="text" value="<% = PageAuthData.WSCode %>" />
-						</div>
-					</div>
-					<div class="col-md-6">
-						<label class="control-list">提交操作员</label>
-						<div class="input-icon">
-							<i class="fa fa-user"></i>
-							<input class="form-control" size="16" disabled="" type="text" value="<% = PageAuthData.EmpyName %>" />
-						</div>
-					</div>
-				</div>
-				<button class="btn blue btn-block margin-top-20">审核通过 <i class="m-icon-swapright m-icon-white"></i></button>
+							    <input name="remark" maxlength="<% = YRKJ.MWR.TblMWInvAuthorize.getRemarkColumn().ColumnSize %>" class="form-control" type="text" placeholder="请输入货箱缺损说明...">
+						    </div>
+					    </div>
+				    </div>
+				    <div class="row form-group">
+					    <div class="col-md-6">
+						    <label class="control-label">交易编号:</label>
+						    <div class="input-icon">
+							    <i class="fa fa-calendar"></i>
+							    <input  class="form-control" disabled="" size="16" type="text" value="<% = PageAuthData.TxnNum %>" />
+						    </div>
+					    </div>
+					    <div class="col-md-6">
+						    <label class="control-label">提交时间</label>
+						    <div class="input-icon">
+							    <i class="fa fa-calendar"></i>
+							    <input class="form-control"  disabled="" size="16" type="text" value="<% = ComLib.ComFn.DateTimeToString(PageAuthData.EntryDate,YRKJ.MWR.Business.BizBase.GetInstance().DateTimeFormatString) %>" />
+						    </div>
+					    </div>
+				    </div>
+				    <div class="row form-group">
+					    <div class="col-md-6">
+						    <label class="control-label">提交工作站</label>
+						    <div class="input-icon">
+							    <i class="fa fa-user"></i>
+							    <input class="form-control"  disabled="" size="16" type="text" value="<% = PageAuthData.WSCode %>" />
+						    </div>
+					    </div>
+					    <div class="col-md-6">
+						    <label class="control-list">提交操作员</label>
+						    <div class="input-icon">
+							    <i class="fa fa-user"></i>
+							    <input class="form-control" size="16" disabled="" type="text" value="<% = PageAuthData.EmpyName %>" />
+						    </div>
+					    </div>
+				    </div>
+				    <button class="btn green btn-block margin-top-20">审核通过 <i class="m-icon-swapright m-icon-white"></i></button>
+                </div>
 			</form>
 		</div>
 	</div>
@@ -238,7 +234,6 @@
         </div>
     
 </div>
-
 
 <%--<script id="template-upload" type="text/x-jquery-tmpl">
     <tr class="template-upload{{if error}} ui-state-error{{/if}}">
@@ -431,94 +426,14 @@
 <script src="/assets/plugins/jquery-file-upload/js/jquery.fileupload-validate.js"></script>--%>
 <script src="/assets/plugins/jquery-file-upload/js/jquery.fileupload-ui.js"></script>
 
-<%--<script src="//ajax.useso.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>--%>
-<%--<script src="/assets/plugins/jquery.blockui.min.js" type="text/javascript"></script>
-<script src="/assets/plugins/jquery-file-upload/js/vendor/jquery.ui.widget.js"></script>--%>
-<%--<script src="//ajax.useso.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js"></script>--%>
-<%--<script src="/assets/plugins/jquery-file-upload/js/vendor/jquery.ui.widget.js"></script>--%>
-<%--<script src="/Assets/cscripts/plugs/fileupload2.1/jquery.tmpl.min.js"></script>
-<script src="/Assets/cscripts/plugs/fileupload2.1/jquery.iframe-transport.js"></script>
-<script src="/Assets/cscripts/plugs/fileupload2.1/jquery.fileupload.js"></script>
-<script src="/Assets/cscripts/plugs/fileupload2.1/jquery.fileupload-ui.js"></script>--%>
-
-
-<script>
-
-
-    $(function () {
-       
-//        $('#mwSubAuth input[name="remark"]').focus();
-        'use strict';
-        // Initialize the jQuery File Upload widget:
-        //            formData: { "action": "authoize", "txnNum": "0001", "crateCode": "hx001",'invauthid':'1' },
-        $('#fileupload').fileupload({
-            url: "/Services/FileUpload/MWFileUploadHandler.ashx",
-            autoUpload: false,
-//            progressall: function (e, data) {
-//                var progress = parseInt(data.loaded / data.total * 100, 10);
-//                $('.progress .progress-bar ').css("width", progress + "%");
-//            },
-//            progress: function (e, data) {
-//                if (data.context) {
-//                    data.context.find('.progress').show();
-//                    data.context.find('.progress .progress-bar').css(
-//                        'width',
-//                        parseInt(data.loaded / data.total * 100, 10) + "%"
-//                    );
-//                }
-//            },
-//            start: function () {
-//                $('.progress .progress-bar ').css("width", "0px");
-//                $(this).find('.fileupload-progressbar')
-//                    .progressbar('value', 0).fadeIn();
-//            }
-        });
-        var action = $('#fileupload form input[name="action"]').val();
-        var txnNum = $('#fileupload form input[name="txnNum"]').val();
-
-        getFileList(action, txnNum);
+<script type="text/javascript" src="/assets/plugins/jquery-validation/dist/jquery.validate.min.js"></script>
+<script type="text/javascript" src="/assets/plugins/jquery-validation/dist/additional-methods.min.js"></script><%--<script type="text/javascript" src="/assets/plugins/jquery-validation/localization/messages_zh.js"></script>--%>
+<script src="/assets/boinvauthorizedetail.js"></script>
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        InvAuthHelper.init();
     });
-
-    function getFileList(action, txnnum) {
-        // Load existing files:
-        $.getJSON("/Services/FileUpload/MWFileUploadHandler.ashx?action=" + action + "&txnnum=" + txnnum, function (data) {
-            var fu = $('#fileupload').data('blueimp-fileupload')
-            || $('#fileupload').data('fileupload'),
-            template,
-            deferred;
-            var files = data.files;
-
-            template = fu._renderDownload(files)[
-                        fu.options.prependFiles ? 'prependTo' : 'appendTo'
-                    ](fu.options.filesContainer);
-            fu._forceReflow(template);
-//            deferred = fu._addFinishedDeferreds();
-            fu._transition(template);
-            //.done(
-//                function () {
-                    //                    data.context = $(this);
-//                    fu._trigger('completed', e, data);
-//                    fu._trigger('finished', e, data);
-//                    deferred.resolve();
-//                }
-//            );
-
-            ////            $(this).data('blueimp-fileupload') ||
-            ////                        $(this).data('fileupload')
-
-            //            fu._adjustMaxNumberOfFiles(-files.length);
-            //            fu._renderDownload(files)
-            //            .appendTo($('#fileupload .files'))
-            //            .fadeIn(function () {
-            //                // Fix for IE7 and lower:
-            //                $(this).show();
-            //            });
-        });
-    }
-    $('#mwSubAuth input[name="remark"]').focus();
 </script>
-
-
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="footscript" runat="server">
 </asp:Content>
