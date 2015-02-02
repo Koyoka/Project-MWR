@@ -70,7 +70,19 @@ namespace YRKJ.MWR.Business.WS
 
             return true;
         }
-
+        public static bool GetRecoverDetail(string txnNum,
+            ref  List<TblMWTxnDetail> detailList,
+            ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            SqlQueryMng sqm = new SqlQueryMng();
+            sqm.Condition.Where.AddCompareValue(TblMWTxnDetail.getTxnNumColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, txnNum);
+            if (!TblMWTxnDetailCtrl.QueryMore(dcf, sqm, ref detailList, ref errMsg))
+            {
+                return false;
+            }
+            return true;
+        }
         public static bool GetRecoverLeftDetailCount(string txnNum,ref int count, ref string errMsg)
         {
             DataCtrlInfo dcf = new DataCtrlInfo();

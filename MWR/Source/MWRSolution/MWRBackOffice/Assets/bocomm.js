@@ -22,7 +22,7 @@
             },
             submit: function (e) {
                 e.preventDefault();
-
+                
                 if (!!this.element.valid) {
                     if (!this.element.valid())
                         return;
@@ -123,6 +123,19 @@
 
 
         });
+
+        gl.wgt.set('mw-reload', {
+            init: function () {
+                this.element.click(this.click.bind(this));
+            },
+            click: function (e) {
+                e.preventDefault();
+                var form = $("#"+this.element.attr('data-wgt-reload-formid'));
+                if (form.is("form")) {
+                    form.submit();
+                }
+            }
+        });
     }
 
     var _testFunc = function (s) {
@@ -169,7 +182,7 @@
         //           
         //            return false;
         //        }
-//        return false;
+        //        return false;
         return true;
     }
 

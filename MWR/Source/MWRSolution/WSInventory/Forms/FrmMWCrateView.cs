@@ -253,7 +253,9 @@ namespace YRKJ.MWR.WSInventory.Forms
             this.c_labWaster.DataBindings.Add("Text", _txnDetail, TblMWTxnDetail.getWasteColumn().ColumnName);
             this.c_labSubWeight.DataBindings.Add("Text", _txnDetail, TblMWTxnDetail.getSubWeightColumn().ColumnName);
             this.c_labSubWeight.Text += " " + SysParams.GetInstance().GetSysWeightUnit();
-            this.c_labSysUnit.Text = SysParams.GetInstance().GetSysWeightUnit();
+
+            SysHelper.SetCtrlUnitText(this.c_labSysUnit);
+
             return true;
         }
 

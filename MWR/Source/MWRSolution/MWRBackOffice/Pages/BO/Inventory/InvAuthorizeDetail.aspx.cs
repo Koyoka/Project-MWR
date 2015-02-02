@@ -32,7 +32,14 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Inventory
 
         public bool AjaxSubAuthorize(string invAuthId,string remark)
         {
-            string errMsg = "";
+           
+            TblMWEmploy empy = null;
+            if (!SessionHelper.GetSessionEmploy(ref empy))
+            {
+                ReturnAjaxError("用户数据超时，请重新登录");
+                return false;
+            }
+
             string authEmpyCode = "YG0008";
             int defineId = ComFn.StringToInt(invAuthId);
             if (defineId == 0)
@@ -40,6 +47,8 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Inventory
                 ReturnAjaxError("无效的审核编号ID");
                 return false;
             }
+
+            string errMsg = "";
             if (!MWRWorkflowMng.PassAuthorize(defineId, authEmpyCode, remark, ref errMsg))
             {
                 ReturnAjaxError(errMsg);

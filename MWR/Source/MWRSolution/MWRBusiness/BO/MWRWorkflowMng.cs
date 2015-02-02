@@ -399,20 +399,48 @@ namespace YRKJ.MWR.Business.BO
                 return false;
             }
 
-            SqlUpdateColumn suc = new SqlUpdateColumn();
-            suc.Add(TblMWInvAuthorize.getRemarkColumn(), remark);
-            suc.Add(TblMWInvAuthorize.getStatusColumn(), TblMWInvAuthorize.STATUS_ENUM_Complete);
-            suc.Add(TblMWInvAuthorize.getCompDateColumn(), SqlDBMng.GetDBNow());
-            suc.Add(TblMWInvAuthorize.getAuthEmpyCodeColumn(), empy.EmpyCode);
-            suc.Add(TblMWInvAuthorize.getAuthEmpyNameColumn(), empy.EmpyName);
-            SqlWhere sw = new SqlWhere();
-            sw.AddCompareValue(TblMWInvAuthorize.getInvAuthIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, invAuthId);
+            dcf.BeginTrans();
+            #region update current authorize
+            {
+                SqlUpdateColumn suc = new SqlUpdateColumn();
+                suc.Add(TblMWInvAuthorize.getRemarkColumn(), remark);
+                suc.Add(TblMWInvAuthorize.getStatusColumn(), TblMWInvAuthorize.STATUS_ENUM_Complete);
+                suc.Add(TblMWInvAuthorize.getCompDateColumn(), SqlDBMng.GetDBNow());
+                suc.Add(TblMWInvAuthorize.getAuthEmpyCodeColumn(), empy.EmpyCode);
+                suc.Add(TblMWInvAuthorize.getAuthEmpyNameColumn(), empy.EmpyName);
+                SqlWhere sw = new SqlWhere();
+                sw.AddCompareValue(TblMWInvAuthorize.getInvAuthIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, invAuthId);
 
-            int updCount = 0;
-            if (!TblMWInvAuthorizeCtrl.Update(dcf, suc, sw, ref updCount, ref errMsg))
+                int updCount = 0;
+                if (!TblMWInvAuthorizeCtrl.Update(dcf, suc, sw, ref updCount, ref errMsg))
+                {
+                    return false;
+                }
+            }
+            #endregion
+
+            #region update txndetail
+            {
+                SqlUpdateColumn suc = new SqlUpdateColumn();
+                suc.Add(TblMWTxnDetail.getStatusColumn(), TblMWTxnDetail.STATUS_ENUM_Wait);
+
+                SqlWhere sw = new SqlWhere();
+                sw.AddCompareValue(TblMWTxnDetail.getInvAuthIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, invAuthId);
+
+                int updCount = 0;
+                if (!TblMWTxnDetailCtrl.Update(dcf, suc, sw, ref updCount, ref errMsg))
+                {
+                    return false;
+                }
+            }
+            #endregion
+
+            int[] updCounts = null;
+            if (!dcf.Commit(ref updCounts, ref errMsg))
             {
                 return false;
             }
+
             return true;
         }
         public static bool AddAuthorizeAttach(int InvAuthId, List<string> filePaths, ref string errMsg)

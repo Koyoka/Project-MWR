@@ -58,7 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\bocomm.js" />
-    <Content Include="Assets\boinvauthorize.js" />
+    <Content Include="Assets\boinvauthorizedetail.js" />
     <Content Include="Assets\cscripts\ajaxfileupload.js" />
     <Content Include="Assets\cscripts\plugs\fileuploa9.9.2\jquery.fileupload-angular.js" />
     <Content Include="Assets\cscripts\plugs\fileuploa9.9.2\jquery.fileupload-audio.js" />
@@ -262,6 +262,7 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Business\Sys\RedirectHelper.cs" />
+    <Compile Include="Business\Sys\SessionHelper.cs" />
     <Compile Include="Business\Sys\SysParams.cs" />
     <Compile Include="Business\Sys\UrlParaCollection.cs" />
     <Compile Include="Business\Sys\UrlParaData.cs" />

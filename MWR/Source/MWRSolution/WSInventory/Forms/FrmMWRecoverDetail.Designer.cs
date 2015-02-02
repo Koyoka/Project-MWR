@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMWRecoverDetail));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -56,8 +57,8 @@
             this.c_btnRecover = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.c_txtCurCrateCode = new System.Windows.Forms.TextBox();
-            this.label21 = new System.Windows.Forms.Label();
-            this.label20 = new System.Windows.Forms.Label();
+            this.c_labUnit1 = new System.Windows.Forms.Label();
+            this.c_labUnit2 = new System.Windows.Forms.Label();
             this.c_labCurTxnWeight = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.c_labCurSubWeight = new System.Windows.Forms.Label();
@@ -86,12 +87,14 @@
             this.c_labSubTotalQty = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
-            this.label22 = new System.Windows.Forms.Label();
+            this.c_labUnit3 = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
             this.c_labTxnTotalWeigth = new System.Windows.Forms.Label();
-            this.label19 = new System.Windows.Forms.Label();
+            this.c_labUnit4 = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
             this.c_labTxnTotalQty = new System.Windows.Forms.Label();
+            this.c_bgwRefTxnDetail = new System.ComponentModel.BackgroundWorker();
+            this.c_time = new System.Windows.Forms.Timer(this.components);
             this.c_grpRecoInfo.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -348,8 +351,8 @@
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox2.Controls.Add(this.c_txtCurCrateCode);
-            this.groupBox2.Controls.Add(this.label21);
-            this.groupBox2.Controls.Add(this.label20);
+            this.groupBox2.Controls.Add(this.c_labUnit1);
+            this.groupBox2.Controls.Add(this.c_labUnit2);
             this.groupBox2.Controls.Add(this.c_labCurTxnWeight);
             this.groupBox2.Controls.Add(this.label6);
             this.groupBox2.Controls.Add(this.c_labCurSubWeight);
@@ -374,25 +377,25 @@
             this.c_txtCurCrateCode.Size = new System.Drawing.Size(132, 25);
             this.c_txtCurCrateCode.TabIndex = 17;
             // 
-            // label21
+            // c_labUnit1
             // 
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(139, 55);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(28, 20);
-            this.label21.TabIndex = 2;
-            this.label21.Text = "KG";
-            this.label21.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.c_labUnit1.AutoSize = true;
+            this.c_labUnit1.Location = new System.Drawing.Point(139, 55);
+            this.c_labUnit1.Name = "c_labUnit1";
+            this.c_labUnit1.Size = new System.Drawing.Size(28, 20);
+            this.c_labUnit1.TabIndex = 2;
+            this.c_labUnit1.Text = "KG";
+            this.c_labUnit1.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
-            // label20
+            // c_labUnit2
             // 
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(139, 84);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(28, 20);
-            this.label20.TabIndex = 1;
-            this.label20.Text = "KG";
-            this.label20.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.c_labUnit2.AutoSize = true;
+            this.c_labUnit2.Location = new System.Drawing.Point(139, 84);
+            this.c_labUnit2.Name = "c_labUnit2";
+            this.c_labUnit2.Size = new System.Drawing.Size(28, 20);
+            this.c_labUnit2.TabIndex = 1;
+            this.c_labUnit2.Text = "KG";
+            this.c_labUnit2.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // c_labCurTxnWeight
             // 
@@ -692,16 +695,16 @@
             this.label18.TabIndex = 1;
             this.label18.Text = "确认总数量：";
             // 
-            // label22
+            // c_labUnit3
             // 
-            this.label22.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(530, 483);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(25, 17);
-            this.label22.TabIndex = 1;
-            this.label22.Text = "KG";
-            this.label22.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.c_labUnit3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.c_labUnit3.AutoSize = true;
+            this.c_labUnit3.Location = new System.Drawing.Point(530, 483);
+            this.c_labUnit3.Name = "c_labUnit3";
+            this.c_labUnit3.Size = new System.Drawing.Size(25, 17);
+            this.c_labUnit3.TabIndex = 1;
+            this.c_labUnit3.Text = "KG";
+            this.c_labUnit3.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // label23
             // 
@@ -724,16 +727,16 @@
             this.c_labTxnTotalWeigth.Text = "000.00";
             this.c_labTxnTotalWeigth.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label19
+            // c_labUnit4
             // 
-            this.label19.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(665, 483);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(25, 17);
-            this.label19.TabIndex = 1;
-            this.label19.Text = "KG";
-            this.label19.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.c_labUnit4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.c_labUnit4.AutoSize = true;
+            this.c_labUnit4.Location = new System.Drawing.Point(665, 483);
+            this.c_labUnit4.Name = "c_labUnit4";
+            this.c_labUnit4.Size = new System.Drawing.Size(25, 17);
+            this.c_labUnit4.TabIndex = 1;
+            this.c_labUnit4.Text = "KG";
+            this.c_labUnit4.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // label24
             // 
@@ -756,6 +759,15 @@
             this.c_labTxnTotalQty.Text = "10";
             this.c_labTxnTotalQty.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // c_bgwRefTxnDetail
+            // 
+            this.c_bgwRefTxnDetail.DoWork += new System.ComponentModel.DoWorkEventHandler(this.c_bgwRefTxnDetail_DoWork);
+            // 
+            // c_time
+            // 
+            this.c_time.Interval = 2000;
+            this.c_time.Tick += new System.EventHandler(this.c_time_Tick);
+            // 
             // FrmMWRecoverDetail
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -770,8 +782,8 @@
             this.Controls.Add(this.label24);
             this.Controls.Add(this.label23);
             this.Controls.Add(this.label10);
-            this.Controls.Add(this.label19);
-            this.Controls.Add(this.label22);
+            this.Controls.Add(this.c_labUnit4);
+            this.Controls.Add(this.c_labUnit3);
             this.Controls.Add(this.c_labTxnTotalWeigth);
             this.Controls.Add(this.c_labSubTotalWeight);
             this.Controls.Add(this.groupBox2);
@@ -784,6 +796,7 @@
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "FrmMWRecoverDetail";
             this.Text = "FrmMWRecoverDetail";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmMWRecoverDetail_FormClosing);
             this.Load += new System.EventHandler(this.FrmMWRecoverDetail_Load);
             this.c_grpRecoInfo.ResumeLayout(false);
             this.c_grpRecoInfo.PerformLayout();
@@ -824,12 +837,12 @@
         private System.Windows.Forms.Label c_labSubTotalQty;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.Label label21;
-        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Label c_labUnit2;
+        private System.Windows.Forms.Label c_labUnit1;
+        private System.Windows.Forms.Label c_labUnit3;
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Label c_labTxnTotalWeigth;
-        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Label c_labUnit4;
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.Label c_labTxnTotalQty;
         private System.Windows.Forms.Label label26;
@@ -859,5 +872,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn c_grdMWTxnDetail_C_TxnWeight;
         private System.Windows.Forms.DataGridViewTextBoxColumn c_grdMWTxnDetail_C_EntryDate;
         private System.Windows.Forms.DataGridViewTextBoxColumn c_grdMWTxnDetail_C_Status;
+        private System.ComponentModel.BackgroundWorker c_bgwRefTxnDetail;
+        private System.Windows.Forms.Timer c_time;
     }
 }

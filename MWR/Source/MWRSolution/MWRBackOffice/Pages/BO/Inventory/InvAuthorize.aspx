@@ -33,8 +33,8 @@
                     <div class="caption">
                         <i class="fa fa-reorder"></i>货箱审核列表
                     </div>
-                    <div class="actions ">
-
+                    <div class="tools">
+                    <a data-wgt="mw-reload" data-wgt-reload-formid="mwAuthList" href="" class="reload"></a>
                     </div>
                 </div>
                 <div class="portlet-body ">

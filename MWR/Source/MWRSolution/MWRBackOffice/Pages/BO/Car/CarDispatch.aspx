@@ -160,7 +160,7 @@
                         </div>
 
                     </div>
-                   <button type="submit" class="btn green btn-block margin-top-20">提交 <i class="m-icon-swapright m-icon-white"></i></button>
+                   <button type="submit" class="btn blue btn-block margin-top-20">提交 <i class="m-icon-swapright m-icon-white"></i></button>
                         <input id="mwTxtIsSubmit" type="hidden" name="issubmit" value="YES" />
                        <%-- <input type="submit" value="提交" data-loading-text="提交..." class="demo-loading-btn btn btn-primary green margin-top-20 btn-block" />--%>
                     

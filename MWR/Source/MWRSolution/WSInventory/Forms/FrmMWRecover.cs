@@ -305,9 +305,9 @@ namespace YRKJ.MWR.WSInventory.Forms
                 item.Inspector = data.Inspector;
                 item.TotalCount = data.TotalCrateQty;
                 item.TotalWeight = data.TotalSubWeight;
-                item.OutDate = ComFn.DateTimeToString(data.OutDate, "yyyy-MM-dd HH:mm");
-                item.InDate = ComFn.DateTimeToString(data.InDate, "yyyy-MM-dd HH:mm");
-                item.StratDate = ComFn.DateTimeToString(data.StratDate, "yyyy-MM-dd HH:mm");
+                item.OutDate = ComFn.DateTimeToString(data.OutDate, BizBase.GetInstance().DateTimeFormatString);
+                item.InDate = ComFn.DateTimeToString(data.InDate, BizBase.GetInstance().DateTimeFormatString);
+                item.StratDate = ComFn.DateTimeToString(data.StratDate, BizBase.GetInstance().DateTimeFormatString);
                 item.Status = BizHelper.GetTxnRecoverHeaderStatus(data.Status);
                 _gridMWRecoverData.Add(item);
             }
