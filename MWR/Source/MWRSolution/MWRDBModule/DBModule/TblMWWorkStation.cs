@@ -123,6 +123,8 @@ namespace YRKJ.MWR
                  SetValue(ref _AccessKey, row["AccessKey"]);
              if(dataCols.Contains("SecretKey"))
                  SetValue(ref _SecretKey, row["SecretKey"]);
+             if(dataCols.Contains("TEM_COLUMN_COUNT"))
+                 SetValue(ref _TEM_COLUMN_COUNT, row["TEM_COLUMN_COUNT"]);
          }
 
         public const string WSTYPE_ENUM_InvWorkStation = "I";//出入库工作站;

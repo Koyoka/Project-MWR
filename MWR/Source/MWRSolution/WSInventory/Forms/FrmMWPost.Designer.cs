@@ -29,12 +29,11 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMWPost));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle26 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle27 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle28 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle29 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle30 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             this.c_btnStratPost = new System.Windows.Forms.Button();
             this.c_btnStratCheckPost = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -42,32 +41,31 @@
             this.label14 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.c_grdMWPost = new System.Windows.Forms.DataGridView();
-            this.c_grdMWPost_C_CarCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.c_grdMWPost_C_Driver = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.c_grdMWPost_C_Inspector = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.c_grdMWPost_C_OutDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.c_grdMWPost_C_InDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.c_grdMWPost_C_TxnNum = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.c_grdMWPost_C_WSCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.c_grdMWPost_C_EmpyName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.c_grdMWPost_C_StratDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.c_grdMWPost_C_Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.c_grdMWPost_C_TotleCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.c_grdMWPost_C_TotolWeight = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.c_grdMWPost_C_TotolSubWeight = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.c_grdMWPost_C_TotalTxnWeight = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.c_grdMWPost_C_Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label21 = new System.Windows.Forms.Label();
+            this.c_labUnit1 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
-            this.label20 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
+            this.c_labUnit2 = new System.Windows.Forms.Label();
+            this.c_labTotalQty = new System.Windows.Forms.Label();
+            this.c_labTxnWeight = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
+            this.c_labEmpyName = new System.Windows.Forms.Label();
+            this.c_labSubWeight = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
+            this.c_labStatus = new System.Windows.Forms.Label();
+            this.c_labTxnNum = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.c_btnCheck = new System.Windows.Forms.Button();
+            this.c_btnPost = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.c_grdMWPost)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -150,25 +148,24 @@
             this.c_grdMWPost.AllowUserToDeleteRows = false;
             this.c_grdMWPost.AllowUserToResizeColumns = false;
             this.c_grdMWPost.AllowUserToResizeRows = false;
-            dataGridViewCellStyle25.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle25.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle25.Font = new System.Drawing.Font("微软雅黑", 11F);
-            dataGridViewCellStyle25.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle25.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle25.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle25.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.c_grdMWPost.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle25;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("微软雅黑", 11F);
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.c_grdMWPost.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.c_grdMWPost.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.c_grdMWPost.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.c_grdMWPost_C_CarCode,
-            this.c_grdMWPost_C_Driver,
-            this.c_grdMWPost_C_Inspector,
-            this.c_grdMWPost_C_OutDate,
-            this.c_grdMWPost_C_InDate,
+            this.c_grdMWPost_C_TxnNum,
+            this.c_grdMWPost_C_WSCode,
+            this.c_grdMWPost_C_EmpyName,
             this.c_grdMWPost_C_StratDate,
-            this.c_grdMWPost_C_Status,
             this.c_grdMWPost_C_TotleCount,
-            this.c_grdMWPost_C_TotolWeight});
+            this.c_grdMWPost_C_TotolSubWeight,
+            this.c_grdMWPost_C_TotalTxnWeight,
+            this.c_grdMWPost_C_Status});
             this.c_grdMWPost.Dock = System.Windows.Forms.DockStyle.Fill;
             this.c_grdMWPost.Location = new System.Drawing.Point(0, 0);
             this.c_grdMWPost.MultiSelect = false;
@@ -183,97 +180,88 @@
             this.c_grdMWPost.Size = new System.Drawing.Size(984, 310);
             this.c_grdMWPost.TabIndex = 12;
             // 
-            // c_grdMWPost_C_CarCode
+            // c_grdMWPost_C_TxnNum
             // 
-            this.c_grdMWPost_C_CarCode.HeaderText = "车辆编号";
-            this.c_grdMWPost_C_CarCode.Name = "c_grdMWPost_C_CarCode";
-            this.c_grdMWPost_C_CarCode.Width = 101;
+            this.c_grdMWPost_C_TxnNum.HeaderText = "交易编号";
+            this.c_grdMWPost_C_TxnNum.Name = "c_grdMWPost_C_TxnNum";
+            this.c_grdMWPost_C_TxnNum.Width = 101;
             // 
-            // c_grdMWPost_C_Driver
+            // c_grdMWPost_C_WSCode
             // 
-            this.c_grdMWPost_C_Driver.FillWeight = 80F;
-            this.c_grdMWPost_C_Driver.HeaderText = "司机";
-            this.c_grdMWPost_C_Driver.Name = "c_grdMWPost_C_Driver";
-            this.c_grdMWPost_C_Driver.Width = 80;
+            this.c_grdMWPost_C_WSCode.FillWeight = 80F;
+            this.c_grdMWPost_C_WSCode.HeaderText = "工作站";
+            this.c_grdMWPost_C_WSCode.Name = "c_grdMWPost_C_WSCode";
+            this.c_grdMWPost_C_WSCode.Width = 80;
             // 
-            // c_grdMWPost_C_Inspector
+            // c_grdMWPost_C_EmpyName
             // 
-            this.c_grdMWPost_C_Inspector.FillWeight = 80F;
-            this.c_grdMWPost_C_Inspector.HeaderText = "跟车员";
-            this.c_grdMWPost_C_Inspector.Name = "c_grdMWPost_C_Inspector";
-            this.c_grdMWPost_C_Inspector.Width = 80;
-            // 
-            // c_grdMWPost_C_OutDate
-            // 
-            dataGridViewCellStyle26.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.c_grdMWPost_C_OutDate.DefaultCellStyle = dataGridViewCellStyle26;
-            this.c_grdMWPost_C_OutDate.FillWeight = 150F;
-            this.c_grdMWPost_C_OutDate.HeaderText = "出车时间";
-            this.c_grdMWPost_C_OutDate.Name = "c_grdMWPost_C_OutDate";
-            this.c_grdMWPost_C_OutDate.Width = 150;
-            // 
-            // c_grdMWPost_C_InDate
-            // 
-            dataGridViewCellStyle27.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.c_grdMWPost_C_InDate.DefaultCellStyle = dataGridViewCellStyle27;
-            this.c_grdMWPost_C_InDate.FillWeight = 150F;
-            this.c_grdMWPost_C_InDate.HeaderText = "回车时间";
-            this.c_grdMWPost_C_InDate.Name = "c_grdMWPost_C_InDate";
-            this.c_grdMWPost_C_InDate.Width = 150;
+            this.c_grdMWPost_C_EmpyName.FillWeight = 80F;
+            this.c_grdMWPost_C_EmpyName.HeaderText = "操作员";
+            this.c_grdMWPost_C_EmpyName.Name = "c_grdMWPost_C_EmpyName";
+            this.c_grdMWPost_C_EmpyName.Width = 80;
             // 
             // c_grdMWPost_C_StratDate
             // 
-            dataGridViewCellStyle28.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.c_grdMWPost_C_StratDate.DefaultCellStyle = dataGridViewCellStyle28;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.c_grdMWPost_C_StratDate.DefaultCellStyle = dataGridViewCellStyle7;
             this.c_grdMWPost_C_StratDate.FillWeight = 150F;
-            this.c_grdMWPost_C_StratDate.HeaderText = "校验时间";
+            this.c_grdMWPost_C_StratDate.HeaderText = "开始时间";
             this.c_grdMWPost_C_StratDate.Name = "c_grdMWPost_C_StratDate";
             this.c_grdMWPost_C_StratDate.Width = 150;
             // 
-            // c_grdMWPost_C_Status
-            // 
-            this.c_grdMWPost_C_Status.FillWeight = 110F;
-            this.c_grdMWPost_C_Status.HeaderText = "状态";
-            this.c_grdMWPost_C_Status.Name = "c_grdMWPost_C_Status";
-            this.c_grdMWPost_C_Status.Width = 110;
-            // 
             // c_grdMWPost_C_TotleCount
             // 
-            dataGridViewCellStyle29.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.c_grdMWPost_C_TotleCount.DefaultCellStyle = dataGridViewCellStyle29;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.c_grdMWPost_C_TotleCount.DefaultCellStyle = dataGridViewCellStyle8;
             this.c_grdMWPost_C_TotleCount.FillWeight = 80F;
             this.c_grdMWPost_C_TotleCount.HeaderText = "总数量";
             this.c_grdMWPost_C_TotleCount.Name = "c_grdMWPost_C_TotleCount";
             this.c_grdMWPost_C_TotleCount.Width = 80;
             // 
-            // c_grdMWPost_C_TotolWeight
+            // c_grdMWPost_C_TotolSubWeight
             // 
-            this.c_grdMWPost_C_TotolWeight.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle30.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.c_grdMWPost_C_TotolWeight.DefaultCellStyle = dataGridViewCellStyle30;
-            this.c_grdMWPost_C_TotolWeight.FillWeight = 80F;
-            this.c_grdMWPost_C_TotolWeight.HeaderText = "总重量";
-            this.c_grdMWPost_C_TotolWeight.Name = "c_grdMWPost_C_TotolWeight";
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.c_grdMWPost_C_TotolSubWeight.DefaultCellStyle = dataGridViewCellStyle9;
+            this.c_grdMWPost_C_TotolSubWeight.FillWeight = 150F;
+            this.c_grdMWPost_C_TotolSubWeight.HeaderText = "库存总重量";
+            this.c_grdMWPost_C_TotolSubWeight.Name = "c_grdMWPost_C_TotolSubWeight";
+            this.c_grdMWPost_C_TotolSubWeight.Width = 150;
+            // 
+            // c_grdMWPost_C_TotalTxnWeight
+            // 
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.c_grdMWPost_C_TotalTxnWeight.DefaultCellStyle = dataGridViewCellStyle10;
+            this.c_grdMWPost_C_TotalTxnWeight.FillWeight = 150F;
+            this.c_grdMWPost_C_TotalTxnWeight.HeaderText = "校验总重量";
+            this.c_grdMWPost_C_TotalTxnWeight.Name = "c_grdMWPost_C_TotalTxnWeight";
+            this.c_grdMWPost_C_TotalTxnWeight.Width = 150;
+            // 
+            // c_grdMWPost_C_Status
+            // 
+            this.c_grdMWPost_C_Status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.c_grdMWPost_C_Status.FillWeight = 110F;
+            this.c_grdMWPost_C_Status.HeaderText = "状态";
+            this.c_grdMWPost_C_Status.Name = "c_grdMWPost_C_Status";
             // 
             // groupBox2
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.groupBox2.Controls.Add(this.label21);
+            this.groupBox2.Controls.Add(this.c_labUnit1);
             this.groupBox2.Controls.Add(this.label16);
-            this.groupBox2.Controls.Add(this.label20);
-            this.groupBox2.Controls.Add(this.label15);
-            this.groupBox2.Controls.Add(this.label9);
+            this.groupBox2.Controls.Add(this.c_labUnit2);
+            this.groupBox2.Controls.Add(this.c_labTotalQty);
+            this.groupBox2.Controls.Add(this.c_labTxnWeight);
             this.groupBox2.Controls.Add(this.label12);
             this.groupBox2.Controls.Add(this.label6);
-            this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Controls.Add(this.label8);
+            this.groupBox2.Controls.Add(this.c_labEmpyName);
+            this.groupBox2.Controls.Add(this.c_labSubWeight);
             this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Controls.Add(this.label5);
-            this.groupBox2.Controls.Add(this.label11);
-            this.groupBox2.Controls.Add(this.label7);
+            this.groupBox2.Controls.Add(this.c_labStatus);
+            this.groupBox2.Controls.Add(this.c_labTxnNum);
             this.groupBox2.Controls.Add(this.label10);
             this.groupBox2.Controls.Add(this.label4);
-            this.groupBox2.Controls.Add(this.c_btnCheck);
+            this.groupBox2.Controls.Add(this.c_btnPost);
             this.groupBox2.Font = new System.Drawing.Font("微软雅黑", 10F);
             this.groupBox2.Location = new System.Drawing.Point(12, 420);
             this.groupBox2.Name = "groupBox2";
@@ -282,15 +270,15 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "当前出库计划";
             // 
-            // label21
+            // c_labUnit1
             // 
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(139, 55);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(28, 20);
-            this.label21.TabIndex = 2;
-            this.label21.Text = "KG";
-            this.label21.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.c_labUnit1.AutoSize = true;
+            this.c_labUnit1.Location = new System.Drawing.Point(139, 55);
+            this.c_labUnit1.Name = "c_labUnit1";
+            this.c_labUnit1.Size = new System.Drawing.Size(28, 20);
+            this.c_labUnit1.TabIndex = 2;
+            this.c_labUnit1.Text = "KG";
+            this.c_labUnit1.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // label16
             // 
@@ -302,33 +290,33 @@
             this.label16.Text = "箱";
             this.label16.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
-            // label20
+            // c_labUnit2
             // 
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(139, 84);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(28, 20);
-            this.label20.TabIndex = 1;
-            this.label20.Text = "KG";
-            this.label20.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.c_labUnit2.AutoSize = true;
+            this.c_labUnit2.Location = new System.Drawing.Point(139, 84);
+            this.c_labUnit2.Name = "c_labUnit2";
+            this.c_labUnit2.Size = new System.Drawing.Size(28, 20);
+            this.c_labUnit2.TabIndex = 1;
+            this.c_labUnit2.Text = "KG";
+            this.c_labUnit2.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
-            // label15
+            // c_labTotalQty
             // 
-            this.label15.Location = new System.Drawing.Point(275, 84);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(34, 21);
-            this.label15.TabIndex = 1;
-            this.label15.Text = "0";
-            this.label15.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.c_labTotalQty.Location = new System.Drawing.Point(275, 84);
+            this.c_labTotalQty.Name = "c_labTotalQty";
+            this.c_labTotalQty.Size = new System.Drawing.Size(34, 21);
+            this.c_labTotalQty.TabIndex = 1;
+            this.c_labTotalQty.Text = "0";
+            this.c_labTotalQty.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
-            // label9
+            // c_labTxnWeight
             // 
-            this.label9.Location = new System.Drawing.Point(85, 84);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(57, 21);
-            this.label9.TabIndex = 1;
-            this.label9.Text = "0";
-            this.label9.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.c_labTxnWeight.Location = new System.Drawing.Point(85, 84);
+            this.c_labTxnWeight.Name = "c_labTxnWeight";
+            this.c_labTxnWeight.Size = new System.Drawing.Size(57, 21);
+            this.c_labTxnWeight.TabIndex = 1;
+            this.c_labTxnWeight.Text = "0";
+            this.c_labTxnWeight.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // label12
             // 
@@ -348,23 +336,23 @@
             this.label6.TabIndex = 1;
             this.label6.Text = "出库重量：";
             // 
-            // label3
+            // c_labEmpyName
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(275, 55);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(37, 20);
-            this.label3.TabIndex = 1;
-            this.label3.Text = "张三";
+            this.c_labEmpyName.AutoSize = true;
+            this.c_labEmpyName.Location = new System.Drawing.Point(275, 55);
+            this.c_labEmpyName.Name = "c_labEmpyName";
+            this.c_labEmpyName.Size = new System.Drawing.Size(37, 20);
+            this.c_labEmpyName.TabIndex = 1;
+            this.c_labEmpyName.Text = "张三";
             // 
-            // label8
+            // c_labSubWeight
             // 
-            this.label8.Location = new System.Drawing.Point(85, 55);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(57, 21);
-            this.label8.TabIndex = 1;
-            this.label8.Text = "10";
-            this.label8.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.c_labSubWeight.Location = new System.Drawing.Point(85, 55);
+            this.c_labSubWeight.Name = "c_labSubWeight";
+            this.c_labSubWeight.Size = new System.Drawing.Size(57, 21);
+            this.c_labSubWeight.TabIndex = 1;
+            this.c_labSubWeight.Text = "10";
+            this.c_labSubWeight.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // label2
             // 
@@ -384,25 +372,25 @@
             this.label5.TabIndex = 1;
             this.label5.Text = "库存重量：";
             // 
-            // label11
+            // c_labStatus
             // 
-            this.label11.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label11.Font = new System.Drawing.Font("微软雅黑", 16F);
-            this.label11.ForeColor = System.Drawing.Color.Blue;
-            this.label11.Location = new System.Drawing.Point(431, 22);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(90, 27);
-            this.label11.TabIndex = 1;
-            this.label11.Text = "未确认";
+            this.c_labStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.c_labStatus.Font = new System.Drawing.Font("微软雅黑", 16F);
+            this.c_labStatus.ForeColor = System.Drawing.Color.Blue;
+            this.c_labStatus.Location = new System.Drawing.Point(431, 22);
+            this.c_labStatus.Name = "c_labStatus";
+            this.c_labStatus.Size = new System.Drawing.Size(90, 27);
+            this.c_labStatus.TabIndex = 1;
+            this.c_labStatus.Text = "未确认";
             // 
-            // label7
+            // c_labTxnNum
             // 
-            this.label7.Location = new System.Drawing.Point(86, 26);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(81, 21);
-            this.label7.TabIndex = 1;
-            this.label7.Text = "WF00001";
-            this.label7.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.c_labTxnNum.Location = new System.Drawing.Point(86, 26);
+            this.c_labTxnNum.Name = "c_labTxnNum";
+            this.c_labTxnNum.Size = new System.Drawing.Size(81, 21);
+            this.c_labTxnNum.TabIndex = 1;
+            this.c_labTxnNum.Text = "WF00001";
+            this.c_labTxnNum.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // label10
             // 
@@ -423,17 +411,17 @@
             this.label4.TabIndex = 1;
             this.label4.Text = "计划编号：";
             // 
-            // c_btnCheck
+            // c_btnPost
             // 
-            this.c_btnCheck.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.c_btnCheck.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.c_btnCheck.Location = new System.Drawing.Point(355, 55);
-            this.c_btnCheck.Name = "c_btnCheck";
-            this.c_btnCheck.Size = new System.Drawing.Size(166, 49);
-            this.c_btnCheck.TabIndex = 0;
-            this.c_btnCheck.Text = "审核出库计划";
-            this.c_btnCheck.UseVisualStyleBackColor = true;
-            this.c_btnCheck.Click += new System.EventHandler(this.c_btnCheck_Click);
+            this.c_btnPost.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.c_btnPost.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.c_btnPost.Location = new System.Drawing.Point(355, 55);
+            this.c_btnPost.Name = "c_btnPost";
+            this.c_btnPost.Size = new System.Drawing.Size(166, 49);
+            this.c_btnPost.TabIndex = 0;
+            this.c_btnPost.Text = "继续出库";
+            this.c_btnPost.UseVisualStyleBackColor = true;
+            this.c_btnPost.Click += new System.EventHandler(this.c_btnCheck_Click);
             // 
             // FrmMWPost
             // 
@@ -470,31 +458,32 @@
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.DataGridView c_grdMWPost;
-        private System.Windows.Forms.DataGridViewTextBoxColumn c_grdMWPost_C_CarCode;
-        private System.Windows.Forms.DataGridViewTextBoxColumn c_grdMWPost_C_Driver;
-        private System.Windows.Forms.DataGridViewTextBoxColumn c_grdMWPost_C_Inspector;
-        private System.Windows.Forms.DataGridViewTextBoxColumn c_grdMWPost_C_OutDate;
-        private System.Windows.Forms.DataGridViewTextBoxColumn c_grdMWPost_C_InDate;
-        private System.Windows.Forms.DataGridViewTextBoxColumn c_grdMWPost_C_StratDate;
-        private System.Windows.Forms.DataGridViewTextBoxColumn c_grdMWPost_C_Status;
-        private System.Windows.Forms.DataGridViewTextBoxColumn c_grdMWPost_C_TotleCount;
-        private System.Windows.Forms.DataGridViewTextBoxColumn c_grdMWPost_C_TotolWeight;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Label label21;
-        private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label c_labUnit1;
+        private System.Windows.Forms.Label c_labUnit2;
+        private System.Windows.Forms.Label c_labTxnWeight;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label c_labSubWeight;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label c_labStatus;
+        private System.Windows.Forms.Label c_labTxnNum;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Button c_btnCheck;
+        private System.Windows.Forms.Button c_btnPost;
         private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label c_labTotalQty;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label c_labEmpyName;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn c_grdMWPost_C_TxnNum;
+        private System.Windows.Forms.DataGridViewTextBoxColumn c_grdMWPost_C_WSCode;
+        private System.Windows.Forms.DataGridViewTextBoxColumn c_grdMWPost_C_EmpyName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn c_grdMWPost_C_StartDate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn c_grdMWPost_C_TotleQty;
+        private System.Windows.Forms.DataGridViewTextBoxColumn c_grdMWPost_C_TotolSubWeight;
+        private System.Windows.Forms.DataGridViewTextBoxColumn c_grdMWPost_C_TotalTxnWeight;
+        private System.Windows.Forms.DataGridViewTextBoxColumn c_grdMWPost_C_Status;
+        private System.Windows.Forms.DataGridViewTextBoxColumn c_grdMWPost_C_StratDate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn c_grdMWPost_C_TotleCount;
     }
 }

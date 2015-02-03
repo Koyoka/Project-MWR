@@ -8,8 +8,6 @@ namespace YRKJ.MWR.Business
     public class BizBase
     {
         private const string defaultTxnNumMask = "##########";
-
-
         private string _txnNumMask = null;
         public string TxnNumMask
         {

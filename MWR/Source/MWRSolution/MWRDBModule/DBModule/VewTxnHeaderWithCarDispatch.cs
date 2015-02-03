@@ -428,6 +428,8 @@ namespace YRKJ.MWR
                  SetValue(ref _InDate, row["InDate"]);
              if(dataCols.Contains("DisStatus"))
                  SetValue(ref _DisStatus, row["DisStatus"]);
+             if(dataCols.Contains("TEM_COLUMN_COUNT"))
+                 SetValue(ref _TEM_COLUMN_COUNT, row["TEM_COLUMN_COUNT"]);
          }
 
          public const string OPERATETYPE_ENUM_ToInventory = "I";//回收入库操作;

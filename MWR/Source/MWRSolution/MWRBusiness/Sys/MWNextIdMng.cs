@@ -12,7 +12,7 @@ namespace YRKJ.MWR.Business.Sys
     public class MWNextIdMng
     {
         public const string ClassName = "YRKJ.MWR.Business.Sys.MWNextIdMng";
-
+        public const string NextIdErrMsg = "系统忙，请稍候重试。";
 
         #region base data
         public static int GetCarDispatchNextId()
@@ -31,6 +31,19 @@ namespace YRKJ.MWR.Business.Sys
         #endregion
         
         #region txn
+        public static int GetTxnDetailNextId()
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo(); ;
+            string errMsg = "";
+            int nextId = 0;
+            if (!NextIdMng.GetNextId(dcf, "TxnDetail", ref nextId, ref errMsg))
+            {
+                LogMng.GetLog().PrintError(ClassName, "GetTxnDetailNextId", new Exception(errMsg));
+                return 0;
+            }
+
+            return nextId;
+        }
         public static int GetTxnDetailNextId(int count)
         {
             DataCtrlInfo dcf = new DataCtrlInfo(); ;
@@ -45,6 +58,19 @@ namespace YRKJ.MWR.Business.Sys
             return nextId;
         }
 
+        public static int GetTxnPostHeaderNextId()
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo(); ;
+            string errMsg = "";
+            int nextId = 0;
+            if (!NextIdMng.GetNextId(dcf, "TxnPostHeader", ref nextId, ref errMsg))
+            {
+                LogMng.GetLog().PrintError(ClassName, "GetTxnPostHeaderNextId", new Exception(errMsg));
+                return 0;
+            }
+
+            return nextId;
+        }
         public static int GetTxnRecoverHeaderNextId()
         {
             DataCtrlInfo dcf = new DataCtrlInfo(); ;

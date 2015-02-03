@@ -33,8 +33,6 @@
             this.c_txtCrateCode = new System.Windows.Forms.TextBox();
             this.c_labSubWeight = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.c_labEntryData = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
             this.c_labWaster = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.c_labVendor = new System.Windows.Forms.Label();
@@ -55,7 +53,7 @@
             // 
             this.c_btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.c_btnOk.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.c_btnOk.Location = new System.Drawing.Point(253, 230);
+            this.c_btnOk.Location = new System.Drawing.Point(253, 182);
             this.c_btnOk.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.c_btnOk.Name = "c_btnOk";
             this.c_btnOk.Size = new System.Drawing.Size(100, 50);
@@ -72,8 +70,6 @@
             this.groupBox1.Controls.Add(this.c_txtCrateCode);
             this.groupBox1.Controls.Add(this.c_labSubWeight);
             this.groupBox1.Controls.Add(this.label7);
-            this.groupBox1.Controls.Add(this.c_labEntryData);
-            this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.c_labWaster);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.c_labVendor);
@@ -84,7 +80,7 @@
             this.groupBox1.Controls.Add(this.c_btnOk);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(360, 287);
+            this.groupBox1.Size = new System.Drawing.Size(360, 239);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "当前货箱";
@@ -101,7 +97,7 @@
             // 
             this.c_labSubWeight.AutoSize = true;
             this.c_labSubWeight.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.c_labSubWeight.Location = new System.Drawing.Point(123, 182);
+            this.c_labSubWeight.Location = new System.Drawing.Point(123, 145);
             this.c_labSubWeight.Name = "c_labSubWeight";
             this.c_labSubWeight.Size = new System.Drawing.Size(50, 21);
             this.c_labSubWeight.TabIndex = 3;
@@ -111,31 +107,11 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.label7.Location = new System.Drawing.Point(27, 182);
+            this.label7.Location = new System.Drawing.Point(27, 145);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(90, 21);
             this.label7.TabIndex = 3;
-            this.label7.Text = "收集重量：";
-            // 
-            // c_labEntryData
-            // 
-            this.c_labEntryData.AutoSize = true;
-            this.c_labEntryData.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.c_labEntryData.Location = new System.Drawing.Point(123, 145);
-            this.c_labEntryData.Name = "c_labEntryData";
-            this.c_labEntryData.Size = new System.Drawing.Size(163, 21);
-            this.c_labEntryData.TabIndex = 3;
-            this.c_labEntryData.Text = "2015-01-01 12:00:00";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.label6.Location = new System.Drawing.Point(27, 145);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(90, 21);
-            this.label6.TabIndex = 3;
-            this.label6.Text = "收集时间：";
+            this.label7.Text = "提交重量：";
             // 
             // c_labWaster
             // 
@@ -191,7 +167,7 @@
             // 
             this.c_btnError.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.c_btnError.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.c_btnError.Location = new System.Drawing.Point(6, 230);
+            this.c_btnError.Location = new System.Drawing.Point(6, 182);
             this.c_btnError.Name = "c_btnError";
             this.c_btnError.Size = new System.Drawing.Size(100, 50);
             this.c_btnError.TabIndex = 2;
@@ -203,7 +179,7 @@
             // 
             this.c_btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.c_btnCancel.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.c_btnCancel.Location = new System.Drawing.Point(133, 230);
+            this.c_btnCancel.Location = new System.Drawing.Point(133, 182);
             this.c_btnCancel.Name = "c_btnCancel";
             this.c_btnCancel.Size = new System.Drawing.Size(100, 50);
             this.c_btnCancel.TabIndex = 1;
@@ -220,7 +196,7 @@
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.c_labSysUnit);
             this.panel1.Controls.Add(this.c_labTxnWeight);
-            this.panel1.Location = new System.Drawing.Point(12, 305);
+            this.panel1.Location = new System.Drawing.Point(12, 257);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(360, 95);
             this.panel1.TabIndex = 16;
@@ -279,7 +255,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(384, 412);
+            this.ClientSize = new System.Drawing.Size(384, 364);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.groupBox1);
             this.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -308,10 +284,8 @@
         private System.Windows.Forms.Button c_btnError;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label c_labSubWeight;
-        private System.Windows.Forms.Label c_labEntryData;
         private System.Windows.Forms.Label c_labWaster;
         private System.Windows.Forms.Label c_labVendor;
         private System.Windows.Forms.Label c_labScalesStatus;

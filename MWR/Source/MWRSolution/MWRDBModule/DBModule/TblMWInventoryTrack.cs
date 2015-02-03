@@ -389,6 +389,8 @@ namespace YRKJ.MWR
                  SetValue(ref _Status, row["Status"]);
              if(dataCols.Contains("InvAuthId"))
                  SetValue(ref _InvAuthId, row["InvAuthId"]);
+             if(dataCols.Contains("TEM_COLUMN_COUNT"))
+                 SetValue(ref _TEM_COLUMN_COUNT, row["TEM_COLUMN_COUNT"]);
          }
 
         public const string TXNTYPE_ENUM_Recover = "R";//回收入库交易;

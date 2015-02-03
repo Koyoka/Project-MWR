@@ -66,6 +66,8 @@ namespace YRKJ.MWR
                  SetValue(ref _WasteCode, row["WasteCode"]);
              if(dataCols.Contains("Waste"))
                  SetValue(ref _Waste, row["Waste"]);
+             if(dataCols.Contains("TEM_COLUMN_COUNT"))
+                 SetValue(ref _TEM_COLUMN_COUNT, row["TEM_COLUMN_COUNT"]);
          }
 
 

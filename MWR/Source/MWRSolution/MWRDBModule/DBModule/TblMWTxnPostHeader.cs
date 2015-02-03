@@ -25,7 +25,7 @@ namespace YRKJ.MWR
             new DataColumnInfo(false,true,false,false,"PostWSCode",SqlCommonFn.DataColumnType.STRING,20),
             new DataColumnInfo(false,true,false,false,"PostEmpyName",SqlCommonFn.DataColumnType.STRING,45),
             new DataColumnInfo(false,true,false,false,"PostEmpyCode",SqlCommonFn.DataColumnType.STRING,20),
-            new DataColumnInfo(false,true,false,false,"StratDate",SqlCommonFn.DataColumnType.DATETIME,0),
+            new DataColumnInfo(false,true,false,false,"StartDate",SqlCommonFn.DataColumnType.DATETIME,0),
             new DataColumnInfo(false,true,false,false,"EndDate",SqlCommonFn.DataColumnType.DATETIME,0),
             new DataColumnInfo(false,true,false,false,"PostType",SqlCommonFn.DataColumnType.STRING,2),
             new DataColumnInfo(false,true,false,false,"TotalCrateQty",SqlCommonFn.DataColumnType.INT,10),
@@ -54,7 +54,7 @@ namespace YRKJ.MWR
         {
             return Columns[4];
         }
-        public static DataColumnInfo getStratDateColumn()
+        public static DataColumnInfo getStartDateColumn()
         {
             return Columns[5];
         }
@@ -88,7 +88,7 @@ namespace YRKJ.MWR
         private string _PostWSCode = "";
         private string _PostEmpyName = "";
         private string _PostEmpyCode = "";
-        private DateTime _StratDate = DateTime.MinValue;
+        private DateTime _StartDate = DateTime.MinValue;
         private DateTime _EndDate = DateTime.MinValue;
         private string _PostType = "";
         private int _TotalCrateQty = 0;
@@ -151,15 +151,15 @@ namespace YRKJ.MWR
                 _PostEmpyCode = value;
             }
         }
-        public DateTime StratDate
+        public DateTime StartDate
         {
             get
             {
-                return _StratDate;
+                return _StartDate;
             }
             set
             {
-                _StratDate = value;
+                _StartDate = value;
             }
         }
         public DateTime EndDate
@@ -242,8 +242,8 @@ namespace YRKJ.MWR
                  SetValue(ref _PostEmpyName, row["PostEmpyName"]);
              if(dataCols.Contains("PostEmpyCode"))
                  SetValue(ref _PostEmpyCode, row["PostEmpyCode"]);
-             if(dataCols.Contains("StratDate"))
-                 SetValue(ref _StratDate, row["StratDate"]);
+             if(dataCols.Contains("StartDate"))
+                 SetValue(ref _StartDate, row["StartDate"]);
              if(dataCols.Contains("EndDate"))
                  SetValue(ref _EndDate, row["EndDate"]);
              if(dataCols.Contains("PostType"))
@@ -256,8 +256,16 @@ namespace YRKJ.MWR
                  SetValue(ref _TotalTxnWeight, row["TotalTxnWeight"]);
              if(dataCols.Contains("Status"))
                  SetValue(ref _Status, row["Status"]);
+             if(dataCols.Contains("TEM_COLUMN_COUNT"))
+                 SetValue(ref _TEM_COLUMN_COUNT, row["TEM_COLUMN_COUNT"]);
          }
 
+        public const string POSTTYPE_ENUM_Nomarl = "N";//1.正常-称重出库;
+        public const string POSTTYPE_ENUM_Special = "S";//2.特殊-直接出库;
+        public const string POSTTYPE_ENUM_Auto = "A";//3.自动-由处理工作站发起自动生成出库交易信息;
+        public const string STATUS_ENUM_Process = "P";//操作中;
+        public const string STATUS_ENUM_Complete = "C";//完成;
+        public const string STATUS_ENUM_Authorize = "A";//提交审核;
 
     }
 }

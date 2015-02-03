@@ -97,7 +97,7 @@ namespace YRKJ.MWR
                 item.PostWSCode,
                 item.PostEmpyName,
                 item.PostEmpyCode,
-                item.StratDate,
+                item.StartDate,
                 item.EndDate,
                 item.PostType,
                 item.TotalCrateQty,
@@ -115,7 +115,7 @@ namespace YRKJ.MWR
             string postWSCode,
             string postEmpyName,
             string postEmpyCode,
-            DateTime stratDate,
+            DateTime startDate,
             DateTime endDate,
             string postType,
             int totalCrateQty,
@@ -133,7 +133,7 @@ namespace YRKJ.MWR
             sum.Add(TblMWTxnPostHeader.getPostWSCodeColumn(), postWSCode);
             sum.Add(TblMWTxnPostHeader.getPostEmpyNameColumn(), postEmpyName);
             sum.Add(TblMWTxnPostHeader.getPostEmpyCodeColumn(), postEmpyCode);
-            sum.Add(TblMWTxnPostHeader.getStratDateColumn(), stratDate);
+            sum.Add(TblMWTxnPostHeader.getStartDateColumn(), startDate);
             sum.Add(TblMWTxnPostHeader.getEndDateColumn(), endDate);
             sum.Add(TblMWTxnPostHeader.getPostTypeColumn(), postType);
             sum.Add(TblMWTxnPostHeader.getTotalCrateQtyColumn(), totalCrateQty);
@@ -157,7 +157,7 @@ namespace YRKJ.MWR
             suc.Add(TblMWTxnPostHeader.getPostWSCodeColumn(), item.PostWSCode);
             suc.Add(TblMWTxnPostHeader.getPostEmpyNameColumn(), item.PostEmpyName);
             suc.Add(TblMWTxnPostHeader.getPostEmpyCodeColumn(), item.PostEmpyCode);
-            suc.Add(TblMWTxnPostHeader.getStratDateColumn(), item.StratDate);
+            suc.Add(TblMWTxnPostHeader.getStartDateColumn(), item.StartDate);
             suc.Add(TblMWTxnPostHeader.getEndDateColumn(), item.EndDate);
             suc.Add(TblMWTxnPostHeader.getPostTypeColumn(), item.PostType);
             suc.Add(TblMWTxnPostHeader.getTotalCrateQtyColumn(), item.TotalCrateQty);

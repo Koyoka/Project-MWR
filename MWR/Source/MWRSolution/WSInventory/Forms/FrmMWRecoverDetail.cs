@@ -22,8 +22,8 @@ namespace YRKJ.MWR.WSInventory.Forms
         private FormMng _frmMng = null;
         private FrmMain _frmMain = null;
         private ScannerMng _scannerMng = null;
-        private string _txnNum = "";
 
+        private string _txnNum = "";
         private VewTxnHeaderWithCarDispatch _header = null;
         private List<TblMWTxnDetail> _detailList = null;
         private FromCtrlBindingData _bindingData = new FromCtrlBindingData();
@@ -116,7 +116,7 @@ namespace YRKJ.MWR.WSInventory.Forms
 
                 string errMsg = "";
 
-                if (!TxnMng.EndConfirmTxn(_txnNum, ref errMsg))
+                if (!TxnMng.EndConfirmRecoverTxn(_txnNum, ref errMsg))
                 {
                     MsgBox.Error(errMsg);
                     return;
@@ -360,7 +360,7 @@ namespace YRKJ.MWR.WSInventory.Forms
                 ThreadSafe(() => {
                     string errMsg = "";
                     List<TblMWTxnDetail> dataList = null;
-                    if (!TxnMng.GetRecoverDetail(_txnNum, ref dataList, ref errMsg))
+                    if (!TxnMng.GetDetailList(_txnNum, ref dataList, ref errMsg))
                     {
                         return ;
                     }
@@ -513,7 +513,7 @@ namespace YRKJ.MWR.WSInventory.Forms
                 return false;
             }
 
-            CalculateLastWeigthAndCount();
+            CalculateLeftWeigthAndCount();
             foreach (TblMWTxnDetail data in _detailList)
             {
                 GridTxnDetailData item = 
@@ -523,7 +523,7 @@ namespace YRKJ.MWR.WSInventory.Forms
             return true;
         }
 
-        private void CalculateLastWeigthAndCount()
+        private void CalculateLeftWeigthAndCount()
         {
             int txnTotalQty = 0;
             decimal txnTotalWeight = 0; 
@@ -627,7 +627,7 @@ namespace YRKJ.MWR.WSInventory.Forms
                     }
                     if (count == 0)
                     {
-                        if (!TxnMng.EndConfirmTxn(_txnNum, ref errMsg))
+                        if (!TxnMng.EndConfirmRecoverTxn(_txnNum, ref errMsg))
                         {
                             return false;
                         }
@@ -674,7 +674,7 @@ namespace YRKJ.MWR.WSInventory.Forms
             #endregion
 
             #region set report data
-            CalculateLastWeigthAndCount();
+            CalculateLeftWeigthAndCount();
             #endregion
             #endregion
             return true;
@@ -700,7 +700,15 @@ namespace YRKJ.MWR.WSInventory.Forms
             #endregion
 
             #region open form 
-            using (FrmMWCrateView f = new FrmMWCrateView(txnDetail, _defaultDepot.DeptCode))
+            FrmMWCrateView.FormReturnData returnCrateViewData = null;
+            using (FrmMWCrateView f = new FrmMWCrateView(txnDetail.TxnDetailId, new FrmMWCrateView.FormViewData()
+            { 
+                CrateCode = txnDetail.CrateCode,
+                Vendor = txnDetail.Vendor,
+                Waste = txnDetail.Waste,
+                SubWeight = txnDetail.SubWeight,
+                DepotCode = _defaultDepot.DeptCode
+            }))
             {
                 DialogResult result = f.ShowDialog();
                 if (result == System.Windows.Forms.DialogResult.OK)
@@ -714,7 +722,7 @@ namespace YRKJ.MWR.WSInventory.Forms
                     }
                     if (count == 0)
                     {
-                        if (!TxnMng.EndConfirmTxn(_txnNum, ref errMsg))
+                        if (!TxnMng.EndConfirmRecoverTxn(_txnNum, ref errMsg))
                         {
                             return false;
                         }
@@ -735,7 +743,18 @@ namespace YRKJ.MWR.WSInventory.Forms
                 {
                     return true;
                 }
+                returnCrateViewData = f.GetScalesTxnWeight();
+                #region update current form txndetail data
 
+                txnDetail.TxnWeight = returnCrateViewData.TxnWeight;
+                txnDetail.InvAuthId = returnCrateViewData.InvAuthId;
+                txnDetail.Status = returnCrateViewData.TxnStatus;
+                txnDetail.EntryDate = returnCrateViewData.EntryDate;
+
+                txnDetail.EmpyCode = SysInfo.GetInstance().Employ.EmpyCode;
+                txnDetail.EmpyName = SysInfo.GetInstance().Employ.EmpyName;
+                txnDetail.WSCode = SysInfo.GetInstance().Config.WSCode;
+                #endregion
             }
             #endregion
 
@@ -751,10 +770,12 @@ namespace YRKJ.MWR.WSInventory.Forms
             }
 
             #region update grid binding data
-            curData.TxnWeight = txnDetail.TxnWeight;
-            curData.AuthId = txnDetail.InvAuthId;
+            curData.TxnWeight = returnCrateViewData.TxnWeight;
+            curData.AuthId = returnCrateViewData.InvAuthId;
+            curData.Status = BizHelper.GetTxnDetailStatus(returnCrateViewData.TxnStatus);
+
             curData.EntryDate = ComLib.ComFn.DateTimeToString(txnDetail.EntryDate, BizBase.GetInstance().DateTimeFormatString);
-            curData.Status = BizHelper.GetTxnDetailStatus(txnDetail.Status);
+            
             #endregion
 
             #region set current ctrl view
@@ -766,7 +787,7 @@ namespace YRKJ.MWR.WSInventory.Forms
             #endregion
 
             #region set report data
-            CalculateLastWeigthAndCount();
+            CalculateLeftWeigthAndCount();
             #endregion
             #endregion
             return true;

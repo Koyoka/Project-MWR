@@ -10,9 +10,10 @@ namespace YRKJ.MWR.WSInventory.Business.Sys
     {
         public static void SetCtrlUnitText(params Control[] ctrls)
         {
+            string unit = SysParams.GetInstance().GetSysWeightUnit();
             foreach (Control c in ctrls)
             {
-                c.Text = SysParams.GetInstance().GetSysWeightUnit();
+                c.Text = unit;
             }
         }
     }

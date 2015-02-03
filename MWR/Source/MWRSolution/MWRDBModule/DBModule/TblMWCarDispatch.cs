@@ -218,6 +218,8 @@ namespace YRKJ.MWR
                  SetValue(ref _InDate, row["InDate"]);
              if(dataCols.Contains("Status"))
                  SetValue(ref _Status, row["Status"]);
+             if(dataCols.Contains("TEM_COLUMN_COUNT"))
+                 SetValue(ref _TEM_COLUMN_COUNT, row["TEM_COLUMN_COUNT"]);
          }
 
         public const string STATUS_ENUM_ShiftStrat = "S";//班次开始了;

@@ -141,7 +141,7 @@ namespace YRKJ.MWR.WSInventory.Forms
                 
                 string wscode = SysInfo.GetInstance().Config.WSCode;
                 string empyCode = SysInfo.GetInstance().Employ.EmpyCode;
-                if(!TxnMng.BeginOperateTxn(data.TxnNum,wscode,empyCode,ref errMsg))
+                if(!TxnMng.BeginOperateRecoverTxn(data.TxnNum,wscode,empyCode,ref errMsg))
                 {
                     MsgBox.Show(errMsg);
                     return;
@@ -410,9 +410,7 @@ namespace YRKJ.MWR.WSInventory.Forms
         }
 
         #endregion
-
-
-
+        
         #region Form Data Property
 
         #endregion

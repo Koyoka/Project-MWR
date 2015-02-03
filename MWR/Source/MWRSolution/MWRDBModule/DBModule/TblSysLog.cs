@@ -104,6 +104,8 @@ namespace YRKJ.MWR
                  SetValue(ref _Remark, row["Remark"]);
              if(dataCols.Contains("LogDate"))
                  SetValue(ref _LogDate, row["LogDate"]);
+             if(dataCols.Contains("TEM_COLUMN_COUNT"))
+                 SetValue(ref _TEM_COLUMN_COUNT, row["TEM_COLUMN_COUNT"]);
          }
 
 

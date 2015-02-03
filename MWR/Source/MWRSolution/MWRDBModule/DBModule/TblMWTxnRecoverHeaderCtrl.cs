@@ -103,7 +103,7 @@ namespace YRKJ.MWR
                 item.RecoWSCode,
                 item.RecoEmpyName,
                 item.RecoEmpyCode,
-                item.StratDate,
+                item.StartDate,
                 item.EndDate,
                 item.OperateType,
                 item.TotalCrateQty,
@@ -128,7 +128,7 @@ namespace YRKJ.MWR
             string recoWSCode,
             string recoEmpyName,
             string recoEmpyCode,
-            DateTime stratDate,
+            DateTime startDate,
             DateTime endDate,
             string operateType,
             int totalCrateQty,
@@ -153,7 +153,7 @@ namespace YRKJ.MWR
             sum.Add(TblMWTxnRecoverHeader.getRecoWSCodeColumn(), recoWSCode);
             sum.Add(TblMWTxnRecoverHeader.getRecoEmpyNameColumn(), recoEmpyName);
             sum.Add(TblMWTxnRecoverHeader.getRecoEmpyCodeColumn(), recoEmpyCode);
-            sum.Add(TblMWTxnRecoverHeader.getStratDateColumn(), stratDate);
+            sum.Add(TblMWTxnRecoverHeader.getStartDateColumn(), startDate);
             sum.Add(TblMWTxnRecoverHeader.getEndDateColumn(), endDate);
             sum.Add(TblMWTxnRecoverHeader.getOperateTypeColumn(), operateType);
             sum.Add(TblMWTxnRecoverHeader.getTotalCrateQtyColumn(), totalCrateQty);
@@ -184,7 +184,7 @@ namespace YRKJ.MWR
             suc.Add(TblMWTxnRecoverHeader.getRecoWSCodeColumn(), item.RecoWSCode);
             suc.Add(TblMWTxnRecoverHeader.getRecoEmpyNameColumn(), item.RecoEmpyName);
             suc.Add(TblMWTxnRecoverHeader.getRecoEmpyCodeColumn(), item.RecoEmpyCode);
-            suc.Add(TblMWTxnRecoverHeader.getStratDateColumn(), item.StratDate);
+            suc.Add(TblMWTxnRecoverHeader.getStartDateColumn(), item.StartDate);
             suc.Add(TblMWTxnRecoverHeader.getEndDateColumn(), item.EndDate);
             suc.Add(TblMWTxnRecoverHeader.getOperateTypeColumn(), item.OperateType);
             suc.Add(TblMWTxnRecoverHeader.getTotalCrateQtyColumn(), item.TotalCrateQty);

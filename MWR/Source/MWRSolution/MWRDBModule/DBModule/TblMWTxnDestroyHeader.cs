@@ -22,7 +22,7 @@ namespace YRKJ.MWR
                 new DataColumnInfo[]{
             new DataColumnInfo(true,false,false,false,"DestHeaderId",SqlCommonFn.DataColumnType.INT,10),
             new DataColumnInfo(false,true,false,false,"TxnNum",SqlCommonFn.DataColumnType.STRING,20),
-            new DataColumnInfo(false,true,false,false,"StratDate",SqlCommonFn.DataColumnType.DATETIME,0),
+            new DataColumnInfo(false,true,false,false,"StartDate",SqlCommonFn.DataColumnType.DATETIME,0),
             new DataColumnInfo(false,true,false,false,"EndDate",SqlCommonFn.DataColumnType.DATETIME,0),
             new DataColumnInfo(false,true,false,false,"DestWSCode",SqlCommonFn.DataColumnType.STRING,20),
             new DataColumnInfo(false,true,false,false,"DestEmpyName",SqlCommonFn.DataColumnType.STRING,45),
@@ -41,7 +41,7 @@ namespace YRKJ.MWR
         {
             return Columns[1];
         }
-        public static DataColumnInfo getStratDateColumn()
+        public static DataColumnInfo getStartDateColumn()
         {
             return Columns[2];
         }
@@ -80,7 +80,7 @@ namespace YRKJ.MWR
 
         private int _DestHeaderId = 0;
         private string _TxnNum = "";
-        private DateTime _StratDate = DateTime.MinValue;
+        private DateTime _StartDate = DateTime.MinValue;
         private DateTime _EndDate = DateTime.MinValue;
         private string _DestWSCode = "";
         private string _DestEmpyName = "";
@@ -112,15 +112,15 @@ namespace YRKJ.MWR
                 _TxnNum = value;
             }
         }
-        public DateTime StratDate
+        public DateTime StartDate
         {
             get
             {
-                return _StratDate;
+                return _StartDate;
             }
             set
             {
-                _StratDate = value;
+                _StartDate = value;
             }
         }
         public DateTime EndDate
@@ -219,8 +219,8 @@ namespace YRKJ.MWR
                  SetValue(ref _DestHeaderId, row["DestHeaderId"]);
              if(dataCols.Contains("TxnNum"))
                  SetValue(ref _TxnNum, row["TxnNum"]);
-             if(dataCols.Contains("StratDate"))
-                 SetValue(ref _StratDate, row["StratDate"]);
+             if(dataCols.Contains("StartDate"))
+                 SetValue(ref _StartDate, row["StartDate"]);
              if(dataCols.Contains("EndDate"))
                  SetValue(ref _EndDate, row["EndDate"]);
              if(dataCols.Contains("DestWSCode"))
@@ -237,6 +237,8 @@ namespace YRKJ.MWR
                  SetValue(ref _TotalTxnWeight, row["TotalTxnWeight"]);
              if(dataCols.Contains("Status"))
                  SetValue(ref _Status, row["Status"]);
+             if(dataCols.Contains("TEM_COLUMN_COUNT"))
+                 SetValue(ref _TEM_COLUMN_COUNT, row["TEM_COLUMN_COUNT"]);
          }
 
 

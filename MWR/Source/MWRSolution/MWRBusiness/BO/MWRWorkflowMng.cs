@@ -349,9 +349,6 @@ namespace YRKJ.MWR.Business.BO
                 }
                 #endregion
 
-
-           
-
                 #region update cardisptch indate
                 {
                     int updCount = 0;

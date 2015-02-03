@@ -85,6 +85,8 @@ namespace YRKJ.MWR
                  SetValue(ref _Vendor, row["Vendor"]);
              if(dataCols.Contains("Address"))
                  SetValue(ref _Address, row["Address"]);
+             if(dataCols.Contains("TEM_COLUMN_COUNT"))
+                 SetValue(ref _TEM_COLUMN_COUNT, row["TEM_COLUMN_COUNT"]);
          }
 
 

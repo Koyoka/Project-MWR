@@ -94,7 +94,7 @@ namespace YRKJ.MWR
             return Insert(dcf,
                 item.DestHeaderId,
                 item.TxnNum,
-                item.StratDate,
+                item.StartDate,
                 item.EndDate,
                 item.DestWSCode,
                 item.DestEmpyName,
@@ -111,7 +111,7 @@ namespace YRKJ.MWR
         public static bool Insert(DataCtrlInfo dcf,
             int destHeaderId,
             string txnNum,
-            DateTime stratDate,
+            DateTime startDate,
             DateTime endDate,
             string destWSCode,
             string destEmpyName,
@@ -128,7 +128,7 @@ namespace YRKJ.MWR
             sum.setQueryTableName(TblMWTxnDestroyHeader.getFormatTableName());
             sum.Add(TblMWTxnDestroyHeader.getDestHeaderIdColumn(), destHeaderId);
             sum.Add(TblMWTxnDestroyHeader.getTxnNumColumn(), txnNum);
-            sum.Add(TblMWTxnDestroyHeader.getStratDateColumn(), stratDate);
+            sum.Add(TblMWTxnDestroyHeader.getStartDateColumn(), startDate);
             sum.Add(TblMWTxnDestroyHeader.getEndDateColumn(), endDate);
             sum.Add(TblMWTxnDestroyHeader.getDestWSCodeColumn(), destWSCode);
             sum.Add(TblMWTxnDestroyHeader.getDestEmpyNameColumn(), destEmpyName);
@@ -151,7 +151,7 @@ namespace YRKJ.MWR
             SqlUpdateColumn suc = new SqlUpdateColumn();
             suc.Add(TblMWTxnDestroyHeader.getDestHeaderIdColumn(), item.DestHeaderId);
             suc.Add(TblMWTxnDestroyHeader.getTxnNumColumn(), item.TxnNum);
-            suc.Add(TblMWTxnDestroyHeader.getStratDateColumn(), item.StratDate);
+            suc.Add(TblMWTxnDestroyHeader.getStartDateColumn(), item.StartDate);
             suc.Add(TblMWTxnDestroyHeader.getEndDateColumn(), item.EndDate);
             suc.Add(TblMWTxnDestroyHeader.getDestWSCodeColumn(), item.DestWSCode);
             suc.Add(TblMWTxnDestroyHeader.getDestEmpyNameColumn(), item.DestEmpyName);

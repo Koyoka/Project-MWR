@@ -294,14 +294,16 @@ namespace YRKJ.MWR
                  SetValue(ref _Status, row["Status"]);
              if(dataCols.Contains("DailyClose"))
                  SetValue(ref _DailyClose, row["DailyClose"]);
+             if(dataCols.Contains("TEM_COLUMN_COUNT"))
+                 SetValue(ref _TEM_COLUMN_COUNT, row["TEM_COLUMN_COUNT"]);
          }
 
         public const string STATUS_ENUM_Recovered = "RED"; //1.已入库 RED;
         public const string STATUS_ENUM_Posted = "PED"; //2.已出库PED;
         public const string STATUS_ENUM_Destroyed = "DED";//3.已销毁DED;
-        public const string STATUS_ENUM_Recovering = "RIN";//4.入库中RIN;
-        public const string STATUS_ENUM_Posting = "PIN";//5.出库中PIN;
-        public const string STATUS_ENUM_Destroying = "DIN";//6.销毁中DIN;
+        //public const string STATUS_ENUM_Recovering = "RIN";//4.入库中RIN;
+        //public const string STATUS_ENUM_Posting = "PIN";//5.出库中PIN;
+        //public const string STATUS_ENUM_Destroying = "DIN";//6.销毁中DIN;
 
     }
 }

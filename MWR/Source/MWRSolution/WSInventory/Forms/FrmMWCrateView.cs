@@ -19,14 +19,26 @@ namespace YRKJ.MWR.WSInventory.Forms
     {
         private const string ClassName = "YRKJ.MWR.WSDestory.Forms.FrmMWCrateDetail";
         private FormMng _frmMng = null;
+        private ScalesMng _scalesMng = null;
 
-        //private string _crateCode = "";
-        private string _sysunit = "kg";
         private decimal _txnWeight = 0;
         private decimal _allowDiffWeight = 1;
-        private string _depotCode = "";
-        private TblMWTxnDetail _txnDetail = null;
-        private ScalesMng _scalesMng = null;
+        
+        private FormViewData _formViewData = null;
+        private FormReturnData _formReturnData = new FormReturnData();
+
+        private EnumOptType _optType = EnumOptType.defalut;
+        public enum EnumOptType
+        { 
+            Recover,Post,defalut
+        }
+
+        //recover data
+        private int _txnDetailId = 0;
+
+        //post data
+        private int _invRecordId = 0;
+        private string _txnNum = "";
 
         public FrmMWCrateView()
         {
@@ -42,11 +54,22 @@ namespace YRKJ.MWR.WSInventory.Forms
             this.MinimizeBox = false;
         }
 
-        public FrmMWCrateView(TblMWTxnDetail txnDetail,string depotCode)
+        public FrmMWCrateView(int txnDetailId ,FormViewData viewData)
             :this()
         {
-            _txnDetail = txnDetail;
-            _depotCode = depotCode;
+            _formViewData = viewData;
+            _optType =  EnumOptType.Recover;
+            _txnDetailId = txnDetailId;
+        }
+
+        public FrmMWCrateView(int invRecordId, string txnNum, FormViewData viewData)
+            : this()
+        {
+            _formViewData = viewData;
+            _optType =  EnumOptType.Post;
+            _invRecordId = invRecordId;
+            _txnNum = txnNum;
+
         }
 
         #region Event
@@ -102,7 +125,6 @@ namespace YRKJ.MWR.WSInventory.Forms
                 this.Cursor = Cursors.Default;
             }
         }
-
         
         private void c_btnOk_Click(object sender, EventArgs e)
         {
@@ -112,31 +134,48 @@ namespace YRKJ.MWR.WSInventory.Forms
                 string errMsg = "";
                 string empyCode = SysInfo.GetInstance().Employ.EmpyCode;
                 string empyName = SysInfo.GetInstance().Employ.EmpyName;
-                string wscode = SysInfo.GetInstance().Config.WSCode;
+                string wsCode = SysInfo.GetInstance().Config.WSCode;
                 decimal weight = _txnWeight;
-                
-                if (Math.Abs(_txnDetail.SubWeight - weight) > _allowDiffWeight)
+
+                if (Math.Abs(_formViewData.SubWeight - weight) > _allowDiffWeight)
                 {
                     MsgBox.Error(LngRes.MSG_DiffWeight);
                     return;
                 }
 
-                if (!TxnMng.ConfirmCrateToInventory(_txnDetail.TxnDetailId,
-                    weight, empyCode, wscode, 
-                    _depotCode,
-                    ref errMsg))
+                #region recover to inventory
+                if (_optType == EnumOptType.Recover)
                 {
-                    MsgBox.Error(errMsg);
-                    return;
+                    if (!TxnMng.ConfirmCrateToInventory(_txnDetailId,
+                        weight, empyCode, wsCode,
+                        _formViewData.DepotCode,
+                        ref errMsg))
+                    {
+                        MsgBox.Error(errMsg);
+                        return;
+                    }
+                    #region update return data
+                    _formReturnData.TxnWeight = weight;
+                    _formReturnData.TxnStatus = TblMWTxnDetail.STATUS_ENUM_Complete;
+                    _formReturnData.EntryDate = ComLib.db.SqlDBMng.GetDBNow();
+                    #endregion
                 }
-                #region update current form txndetail data
+                #endregion
 
-                _txnDetail.TxnWeight = weight;
-                _txnDetail.EmpyCode = SysInfo.GetInstance().Employ.EmpyCode;
-                _txnDetail.EmpyName = SysInfo.GetInstance().Employ.EmpyName;
-                _txnDetail.WSCode = SysInfo.GetInstance().Config.WSCode;
-                _txnDetail.Status = TblMWTxnDetail.STATUS_ENUM_Complete;
-                _txnDetail.EntryDate = ComLib.db.SqlDBMng.GetDBNow();
+                #region inventory to post
+                if (_optType == EnumOptType.Post)
+                {
+                    if (!TxnMng.ConfirmInventoryToPost(_invRecordId, _txnNum, _txnWeight, wsCode, empyCode, ref errMsg))
+                    {
+                        MsgBox.Error(errMsg);
+                        return;
+                    }
+                    #region update return data
+                    _formReturnData.TxnWeight = weight;
+                    _formReturnData.TxnStatus = TblMWTxnDetail.STATUS_ENUM_Complete;
+                    _formReturnData.EntryDate = ComLib.db.SqlDBMng.GetDBNow();
+                    #endregion
+                }
                 #endregion
 
                 this.DialogResult = System.Windows.Forms.DialogResult.OK;
@@ -163,27 +202,50 @@ namespace YRKJ.MWR.WSInventory.Forms
                 string errMsg = "";
 
                 decimal weight = _txnWeight;
-                if (!MsgBox.Confirm("警告", "当前称重[" + weight + " " + _sysunit + "],回收重量[" + _txnDetail.SubWeight + "]确定提交审核么？"))
+                string unit = SysParams.GetInstance().GetSysWeightUnit();
+
+                if (!MsgBox.Confirm("警告", "当前称重[" + weight + " " + unit + "],实际重量[" + _formViewData.SubWeight + "]确定提交审核么？"))
                 {
                     return;
                 }
                 
                 string empyCode = SysInfo.GetInstance().Employ.EmpyCode;
                 string wsCode = SysInfo.GetInstance().Config.WSCode;
-                int invAuthId = 0;
-                if (!TxnMng.ConfirmCrareToAuthorize(_txnDetail.TxnDetailId, _txnWeight, empyCode, wsCode,ref invAuthId, ref errMsg))
+
+                #region recover to authorize
+                if (_optType == EnumOptType.Recover)
                 {
-                    return;
+                    int invAuthId = 0;
+                    if (!TxnMng.ConfirmCrareToAuthorize(_txnDetailId, _txnWeight, empyCode, wsCode, ref invAuthId, ref errMsg))
+                    {
+                        MsgBox.Error(errMsg);
+                        return;
+                    }
+
+                    #region update return data
+                    _formReturnData.TxnWeight = weight;
+                    _formReturnData.InvAuthId = invAuthId;
+                    _formReturnData.TxnStatus = TblMWTxnDetail.STATUS_ENUM_Authorize;
+                    #endregion
                 }
+                #endregion
 
-                #region update current form txndetail data
-
-                _txnDetail.TxnWeight = weight;
-                _txnDetail.EmpyCode = SysInfo.GetInstance().Employ.EmpyCode;
-                _txnDetail.EmpyName = SysInfo.GetInstance().Employ.EmpyName;
-                _txnDetail.WSCode = SysInfo.GetInstance().Config.WSCode;
-                _txnDetail.Status = TblMWTxnDetail.STATUS_ENUM_Authorize;
-                _txnDetail.InvAuthId = invAuthId;
+                #region post to authorize
+                if (_optType == EnumOptType.Post)
+                {
+                    int invAuthId = 0;
+                    if (!TxnMng.ConfirmInventoryToAuthorize(_invRecordId, _txnNum, _txnWeight, wsCode, empyCode,
+                        ref invAuthId, ref errMsg))
+                    {
+                        MsgBox.Error(errMsg);
+                        return;
+                    }
+                    #region update return data
+                    _formReturnData.TxnWeight = weight;
+                    _formReturnData.InvAuthId = invAuthId;
+                    _formReturnData.TxnStatus = TblMWTxnDetail.STATUS_ENUM_Authorize;
+                    #endregion
+                }
                 #endregion
 
                 this.DialogResult = System.Windows.Forms.DialogResult.Abort;
@@ -246,13 +308,15 @@ namespace YRKJ.MWR.WSInventory.Forms
         {
             c_labScalesStatus.Text = "请链接台秤";
 
-            this.c_txtCrateCode.Text = _txnDetail.CrateCode;
-
-            this.c_txtCrateCode.DataBindings.Add("Text", _txnDetail, TblMWTxnDetail.getCrateCodeColumn().ColumnName);
-            this.c_labVendor.DataBindings.Add("Text", _txnDetail, TblMWTxnDetail.getVendorColumn().ColumnName);
-            this.c_labWaster.DataBindings.Add("Text", _txnDetail, TblMWTxnDetail.getWasteColumn().ColumnName);
-            this.c_labSubWeight.DataBindings.Add("Text", _txnDetail, TblMWTxnDetail.getSubWeightColumn().ColumnName);
-            this.c_labSubWeight.Text += " " + SysParams.GetInstance().GetSysWeightUnit();
+            this.c_txtCrateCode.Text = _formViewData.CrateCode;
+            this.c_labVendor.Text = _formViewData.Vendor;
+            this.c_labWaster.Text = _formViewData.Waste;
+            this.c_labSubWeight.Text = _formViewData.SubWeight.ToString(BizBase.GetInstance().DecimalFormatString)+SysParams.GetInstance().GetSysWeightUnit();
+            //this.c_txtCrateCode.DataBindings.Add("Text", _txnDetail, TblMWTxnDetail.getCrateCodeColumn().ColumnName);
+            //this.c_labVendor.DataBindings.Add("Text", _txnDetail, TblMWTxnDetail.getVendorColumn().ColumnName);
+            //this.c_labWaster.DataBindings.Add("Text", _txnDetail, TblMWTxnDetail.getWasteColumn().ColumnName);
+            //this.c_labSubWeight.DataBindings.Add("Text", _txnDetail, TblMWTxnDetail.getSubWeightColumn().ColumnName);
+            //this.c_labSubWeight.Text += " " + SysParams.GetInstance().GetSysWeightUnit();
 
             SysHelper.SetCtrlUnitText(this.c_labSysUnit);
 
@@ -262,7 +326,6 @@ namespace YRKJ.MWR.WSInventory.Forms
         private bool LoadData()
         {
       
-            _sysunit = SysParams.GetInstance().GetSysWeightUnit();
 #if DEBUG
             if (_scalesMng.IsOpen)
                 _allowDiffWeight = SysParams.GetInstance().GetAllowDiffWeight();
@@ -279,18 +342,20 @@ namespace YRKJ.MWR.WSInventory.Forms
         {
             //ThreadSafe(() => {
             _txnWeight = BizHelper.ConventToSysUnitWeight(weight, unit, SysParams.GetInstance().GetSysWeightUnit());
-
-
             if (status.ToLower() == "us")
                 c_labScalesStatus.Text = "称重中.....";
             else if (status.ToLower() == "st")
-                c_labScalesStatus.Text = "当前重量 " + _sysunit;
-            c_labTxnWeight.Text = weight.ToString("f2") + " " + _sysunit;
+                c_labScalesStatus.Text = "当前重量 " + SysParams.GetInstance().GetSysWeightUnit();
+            c_labTxnWeight.Text = weight.ToString("f2") + " " + SysParams.GetInstance().GetSysWeightUnit();
               
             //});
             
         }
-
+        
+        public FormReturnData GetScalesTxnWeight()
+        {
+            return _formReturnData;
+        }
         #endregion
 
         #region Common
@@ -302,6 +367,22 @@ namespace YRKJ.MWR.WSInventory.Forms
             public const string MSG_NoConnScales = "电子秤未连接";
         }
 
+        public class FormViewData
+        {
+            
+            public string CrateCode { get; set; }
+            public string Vendor { get; set; }
+            public string Waste { get; set; }
+            public decimal SubWeight { get; set; }
+            public string DepotCode { get; set; }
+        }
+        public class FormReturnData
+        {
+            public decimal TxnWeight { get; set; }
+            public int InvAuthId { get; set; }
+            public string TxnStatus { get; set; }
+            public DateTime EntryDate { get; set; }
+        }
         #endregion
 
         #region Form Data Property

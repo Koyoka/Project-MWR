@@ -85,6 +85,34 @@ namespace ComLib.db
             buildSqlList.Add(defineUpdateParam);
 
         }
+        public void AddJoinSelf(DataColumnInfo column, Object val)
+        {
+            if (column.ColumnType == SqlCommonFn.DataColumnType.STRING)
+            {
+                throw new Exception(Error.ErrorMng.GetCodingError("", "AddJoinSelf", "AddJoinSelf method need use unstring column"));
+            }
+
+            switch (SqlCommonFn.CheckUpdateColumnValue(column, val))
+            {
+                case 1:
+                    hasErr = true;
+                    ErrMsg += "[" + column.ColumnName + "] value length failure ";
+                    return;
+                case 2:
+                    hasErr = true;
+                    ErrMsg += "[" + column.ColumnName + "] value can't NULL ";
+                    return;
+                default:
+                    break;
+            }
+            String defineUpdateParam =
+                   SqlCommonFn.FormatSqlColumnNameString(column.ColumnName) +
+                   " = " +
+                   SqlCommonFn.FormatSqlColumnNameString(column.ColumnName) + " + " +
+                   val;
+            //				SqlCommonFn.FormatSqlValueString(val);
+            buildSqlList.Add(defineUpdateParam);
+        }
 
         public string getSql(){
 		    if(hasErr){

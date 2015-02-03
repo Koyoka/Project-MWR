@@ -218,12 +218,15 @@ namespace YRKJ.MWR
                  SetValue(ref _TxnLogType, row["TxnLogType"]);
              if(dataCols.Contains("InvRecordId"))
                  SetValue(ref _InvRecordId, row["InvRecordId"]);
+             if(dataCols.Contains("TEM_COLUMN_COUNT"))
+                 SetValue(ref _TEM_COLUMN_COUNT, row["TEM_COLUMN_COUNT"]);
          }
 
-        public const string OPTTYPE_ENUM_SubInventory = "SI";//1.提交入库 SC  submit inventory;
-        public const string OPTTYPE_ENUM_SubAuthorize = "SA";//2.提交审核 SA submit authorize;
-        public const string OPTTYPE_ENUM_AuthorizeInventory = "AI";//3.确认审核并入库 AC authorize inventory;
+        public const string OPTTYPE_ENUM_SubInventory = "SI";//1.交易提交完成操作库存 SC  submit inventory;
+        public const string OPTTYPE_ENUM_SubAuthorize = "SA";//2.交易提交审核 SA submit authorize;
+        public const string OPTTYPE_ENUM_AuthorizeInventory = "AI";//3.确认审核并完成操作库存 AC authorize inventory;
         public const string OPTTYPE_ENUM_SubRecover = "SR";//4.车辆回场提交回收;
+        public const string OPTTYPE_ENUM_NewTxn = "NT";//新建交易;
         public const string TXNLOGTYPE_ENUM_Recover = "R";//回收入库交易;
         public const string TXNLOGTYPE_ENUM_Post = "P";//出库交易;
         public const string TXNLOGTYPE_ENUM_Destroy = "D";//处置销毁交易;

@@ -85,6 +85,8 @@ namespace YRKJ.MWR
                  SetValue(ref _ParameterValue, row["ParameterValue"]);
              if(dataCols.Contains("Remark"))
                  SetValue(ref _Remark, row["Remark"]);
+             if(dataCols.Contains("TEM_COLUMN_COUNT"))
+                 SetValue(ref _TEM_COLUMN_COUNT, row["TEM_COLUMN_COUNT"]);
          }
 
 

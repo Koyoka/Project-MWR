@@ -31,7 +31,7 @@ namespace YRKJ.MWR
             new DataColumnInfo(false,true,false,false,"RecoWSCode",SqlCommonFn.DataColumnType.STRING,20),
             new DataColumnInfo(false,true,false,false,"RecoEmpyName",SqlCommonFn.DataColumnType.STRING,45),
             new DataColumnInfo(false,true,false,false,"RecoEmpyCode",SqlCommonFn.DataColumnType.STRING,20),
-            new DataColumnInfo(false,true,false,false,"StratDate",SqlCommonFn.DataColumnType.DATETIME,0),
+            new DataColumnInfo(false,true,false,false,"StartDate",SqlCommonFn.DataColumnType.DATETIME,0),
             new DataColumnInfo(false,true,false,false,"EndDate",SqlCommonFn.DataColumnType.DATETIME,0),
             new DataColumnInfo(false,true,false,false,"OperateType",SqlCommonFn.DataColumnType.STRING,2),
             new DataColumnInfo(false,true,false,false,"TotalCrateQty",SqlCommonFn.DataColumnType.INT,10),
@@ -85,7 +85,7 @@ namespace YRKJ.MWR
         {
             return Columns[10];
         }
-        public static DataColumnInfo getStratDateColumn()
+        public static DataColumnInfo getStartDateColumn()
         {
             return Columns[11];
         }
@@ -129,7 +129,7 @@ namespace YRKJ.MWR
         private string _RecoWSCode = "";
         private string _RecoEmpyName = "";
         private string _RecoEmpyCode = "";
-        private DateTime _StratDate = DateTime.MinValue;
+        private DateTime _StartDate = DateTime.MinValue;
         private DateTime _EndDate = DateTime.MinValue;
         private string _OperateType = "";
         private int _TotalCrateQty = 0;
@@ -259,15 +259,15 @@ namespace YRKJ.MWR
                 _RecoEmpyCode = value;
             }
         }
-        public DateTime StratDate
+        public DateTime StartDate
         {
             get
             {
-                return _StratDate;
+                return _StartDate;
             }
             set
             {
-                _StratDate = value;
+                _StartDate = value;
             }
         }
         public DateTime EndDate
@@ -373,8 +373,8 @@ namespace YRKJ.MWR
                  SetValue(ref _RecoEmpyName, row["RecoEmpyName"]);
              if(dataCols.Contains("RecoEmpyCode"))
                  SetValue(ref _RecoEmpyCode, row["RecoEmpyCode"]);
-             if(dataCols.Contains("StratDate"))
-                 SetValue(ref _StratDate, row["StratDate"]);
+             if(dataCols.Contains("StartDate"))
+                 SetValue(ref _StartDate, row["StartDate"]);
              if(dataCols.Contains("EndDate"))
                  SetValue(ref _EndDate, row["EndDate"]);
              if(dataCols.Contains("OperateType"))
@@ -389,6 +389,8 @@ namespace YRKJ.MWR
                  SetValue(ref _CarDisId, row["CarDisId"]);
              if(dataCols.Contains("Status"))
                  SetValue(ref _Status, row["Status"]);
+             if(dataCols.Contains("TEM_COLUMN_COUNT"))
+                 SetValue(ref _TEM_COLUMN_COUNT, row["TEM_COLUMN_COUNT"]);
          }
 
         public const string OPERATETYPE_ENUM_ToInventory = "I";//回收入库操作;
