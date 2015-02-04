@@ -279,9 +279,9 @@ namespace YRKJ.MWR.WSInventory.Forms
             c_grdMWRecover_C_TotolWeight.DataPropertyName = "TotalWeight";
             c_grdMWRecover_C_OutDate.DataPropertyName = "OutDate";
             c_grdMWRecover_C_InDate.DataPropertyName = "InDate";
-            c_grdMWRecover_C_StratDate.DataPropertyName = "StratDate";
+            c_grdMWRecover_C_StartDate.DataPropertyName = "StartDate";
             c_grdMWRecover_C_Status.DataPropertyName = "Status";
-
+            
            
             c_grdMWRecover.DataSource = _gridMWRecoverData;
             c_labHeaderCount.Text = _gridMWRecoverData.Count + "";
@@ -307,7 +307,7 @@ namespace YRKJ.MWR.WSInventory.Forms
                 item.TotalWeight = data.TotalSubWeight;
                 item.OutDate = ComFn.DateTimeToString(data.OutDate, BizBase.GetInstance().DateTimeFormatString);
                 item.InDate = ComFn.DateTimeToString(data.InDate, BizBase.GetInstance().DateTimeFormatString);
-                item.StratDate = ComFn.DateTimeToString(data.StratDate, BizBase.GetInstance().DateTimeFormatString);
+                item.StartDate = ComFn.DateTimeToString(data.StratDate, BizBase.GetInstance().DateTimeFormatString);
                 item.Status = BizHelper.GetTxnRecoverHeaderStatus(data.Status);
                 _gridMWRecoverData.Add(item);
             }
@@ -381,7 +381,7 @@ namespace YRKJ.MWR.WSInventory.Forms
             }
 
             private string _stratDate = "";
-            public string StratDate
+            public string StartDate
             {
                 get { return _stratDate; }
                 set { _stratDate = value; }

@@ -24,7 +24,7 @@ namespace YRKJ.MWR.WSInventory.Forms
         private ScannerMng _scannerMng = null;
 
         private string _txnNum = "";
-        public enum PostTypeEnum { Nocare, Normal,Edit }
+        public enum PostTypeEnum { Nocare, New, Edit }
         private PostTypeEnum _postType = PostTypeEnum.Nocare;
 
         private BindingList<GridTxnDetailData> _gridTxnDetailData = new BindingList<GridTxnDetailData>();
@@ -41,24 +41,24 @@ namespace YRKJ.MWR.WSInventory.Forms
             this.StartPosition = FormStartPosition.CenterScreen;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 
-            _scannerMng = new ScannerMng(this, ClassName);
+            _scannerMng = new ScannerMng(this, ClassName, WinAppBase.CrateBarCodeMask);
             _scannerMng.CodeScanned += new ScannerMng.ScannedEventHandler(FrmMWPostDetail_CodeScanned);
 
             this.c_grdMWTxnDetail.AutoGenerateColumns = false;
 
         }
-         public FrmMWPostDetail(FrmMain f, PostTypeEnum postType)
+        public FrmMWPostDetail(FrmMain f, PostTypeEnum postType)
             : this()
         {
             _frmMain = f;
             _postType = postType;
         }
-         public FrmMWPostDetail(FrmMain f, string txnNum)
+        public FrmMWPostDetail(FrmMain f, string txnNum)
             : this()
         {
             _frmMain = f;
             _txnNum = txnNum;
-            _postType= PostTypeEnum.Edit;
+            _postType = PostTypeEnum.Edit;
         }
 
         #region Event
@@ -78,6 +78,8 @@ namespace YRKJ.MWR.WSInventory.Forms
                 {
                     return;
                 }
+
+                c_time.Start();
             }
             catch (Exception ex)
             {
@@ -90,6 +92,25 @@ namespace YRKJ.MWR.WSInventory.Forms
             }
         }
 
+        private void FrmMWPostDetail_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            try
+            {
+                this.Cursor = Cursors.WaitCursor;
+                c_time.Stop();
+            }
+            catch (Exception ex)
+            {
+                LogMng.GetLog().PrintError(ClassName, "FrmMWPostDetail_FormClosing", ex);
+                MsgBox.Error(ex);
+            }
+            finally
+            {
+                this.Cursor = Cursors.Default;
+            }
+            
+        }
+
         private void FrmMWPostDetail_CodeScanned(string code)
         {
             try
@@ -98,6 +119,26 @@ namespace YRKJ.MWR.WSInventory.Forms
 
                 string errMsg = "";
 
+                #region authorize txn detail
+                GridTxnDetailData[] datas = _gridTxnDetailData.Where(x => x.CrateCode.Equals(code)).ToArray();
+                if (datas.Length > 0)
+                {
+                    GridTxnDetailData curData = datas[0];
+                    if (curData.ORGData.Status.Equals(TblMWTxnDetail.STATUS_ENUM_Wait))
+                    {
+                        AuthPost(curData);
+                    }
+                    else if (curData.ORGData.Status.Equals(TblMWTxnDetail.STATUS_ENUM_Complete)
+                        || curData.ORGData.Status.Equals(TblMWTxnDetail.STATUS_ENUM_Authorize))
+                    {
+                        MsgBox.Show(LngRes.MSG_CurrentExistCrate);
+                    }
+
+                    return;
+                }
+                #endregion
+
+                #region add new txn detail
                 TblMWInventory inv = null;
                 if (!TxnMng.GetRecoveredInventory(code, ref inv, ref errMsg))
                 {
@@ -111,23 +152,65 @@ namespace YRKJ.MWR.WSInventory.Forms
                     return;
                 }
 
-                using (FrmMWCrateView f = new FrmMWCrateView(inv.InvRecordId, _txnNum, new FrmMWCrateView.FormViewData()
+                FrmMWCrateView frmMWCrateView = null;
+                FrmMWCrateView.FormViewData viewData = 
+                new FrmMWCrateView.FormViewData()
                 {
                     CrateCode = inv.CrateCode,
                     Vendor = inv.Vendor,
                     Waste = inv.Waste,
                     SubWeight = inv.InvWeight,
                     DepotCode = inv.DepotCode
-                }))
+                };
+
+                if (string.IsNullOrEmpty(_txnNum))
+                {
+                    frmMWCrateView = new FrmMWCrateView(inv.InvRecordId, viewData,
+                           (newTxnNum) => {
+                               _txnNum = newTxnNum;
+                               c_txtPostNum.Text = newTxnNum;
+                           });
+                }
+                else
+                {
+                    frmMWCrateView = new FrmMWCrateView(inv.InvRecordId,_txnNum, viewData);
+                }
+                using (FrmMWCrateView f = frmMWCrateView)
                 {
                     DialogResult result = f.ShowDialog();
                     if (result == System.Windows.Forms.DialogResult.OK)
                     { }
                     else if (result == System.Windows.Forms.DialogResult.Abort)
                     { }
-                    else 
-                    { }
+                    else
+                    {
+                        return;
+                    }
                 }
+                
+                //using (FrmMWCrateView f = new FrmMWCrateView(inv.InvRecordId, _txnNum, new FrmMWCrateView.FormViewData()
+                //{
+                //    CrateCode = inv.CrateCode,
+                //    Vendor = inv.Vendor,
+                //    Waste = inv.Waste,
+                //    SubWeight = inv.InvWeight,
+                //    DepotCode = inv.DepotCode
+                //}
+                //))
+                //{
+                    
+                //    DialogResult result = f.ShowDialog();
+
+                //    if (result == System.Windows.Forms.DialogResult.OK)
+                //    { }
+                //    else if (result == System.Windows.Forms.DialogResult.Abort)
+                //    { }
+                //    else 
+                //    {
+                //        return;
+                //    }
+                //}
+               
 
                 TblMWTxnDetail invTxnDetail = null;
                 if (!TxnMng.GetPostInventoryTxnDetail(inv.InvRecordId, _txnNum, ref invTxnDetail, ref errMsg))
@@ -143,6 +226,8 @@ namespace YRKJ.MWR.WSInventory.Forms
 
                 GridTxnDetailData item = GridTxnDetailData.ConventDBDataToFormData(invTxnDetail);
                 _gridTxnDetailData.Add(item);
+                CalculateTotalWeight();
+                #endregion
             }
             catch (Exception ex)
             {
@@ -181,6 +266,19 @@ namespace YRKJ.MWR.WSInventory.Forms
             {
                 this.Cursor = Cursors.WaitCursor;
 
+                if (_gridTxnDetailData.Count == 0)
+                {
+                    MsgBox.Show(LngRes.MSG_TxnDetailIsEmpty);
+                    return;
+                }
+
+                string errMsg = "";
+                if(!TxnMng.EndConfirmPostTxn(_txnNum,ref errMsg))
+                {
+                    MsgBox.Error(errMsg);
+                    return ;
+                }
+
                 this.Close();
                 _frmMain.ShowFrom(FrmMain.TabToggleEnum.POST);
             }
@@ -195,38 +293,19 @@ namespace YRKJ.MWR.WSInventory.Forms
             }
         }
 
-        //private void c_btnManually_Click(object sender, EventArgs e)
-        //{
-        //    try
-        //    {
-        //        this.Cursor = Cursors.WaitCursor;
-
-        //        using (FrmMWCrateView f = new FrmMWCrateView())
-        //        {
-        //            f.ShowDialog();
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        LogMng.GetLog().PrintError(ClassName, "c_btnManually_Click", ex);
-        //        MsgBox.Error(ex);
-        //    }
-        //    finally
-        //    {
-        //        this.Cursor = Cursors.Default;
-        //    }
-        //}
-
         private void c_btnCheck_Click(object sender, EventArgs e)
         {
             try
             {
                 this.Cursor = Cursors.WaitCursor;
 
-                using (FrmMWCrateReview f = new FrmMWCrateReview())
+                if (_bindingTxnDetailDataMng.Position == -1)
                 {
-                    f.ShowDialog();
+                    return;
                 }
+
+                GridTxnDetailData curData = _bindingTxnDetailDataMng.Current as GridTxnDetailData;
+                AuthPost(curData);
             }
             catch (Exception ex)
             {
@@ -238,6 +317,76 @@ namespace YRKJ.MWR.WSInventory.Forms
                 this.Cursor = Cursors.Default;
             }
         }
+
+        private void c_bgwPostDetail_DoWork(object sender, DoWorkEventArgs e)
+        {
+            try
+            {
+
+                GridTxnDetailData curData = null;
+                if (_bindingTxnDetailDataMng.Position != -1)
+                {
+                    curData = _bindingTxnDetailDataMng.Current as GridTxnDetailData;
+                }
+
+                ThreadSafe(() =>
+                {
+                    string errMsg = "";
+                    List<TblMWTxnDetail> dataList = null;
+                    if (!TxnMng.GetDetailList(_txnNum, ref dataList, ref errMsg))
+                    {
+                        return;
+                    }
+                    foreach (TblMWTxnDetail data in dataList)
+                    {
+                        
+                        GridTxnDetailData[] defineDatas = _gridTxnDetailData.Where(x => x.TxnDetailId == data.TxnDetailId).ToArray();
+                        GridTxnDetailData item = null;
+                        if (defineDatas.Length == 0)
+                        {
+                            item = GridTxnDetailData.ConventDBDataToFormData(data);
+                            _gridTxnDetailData.Add(item);
+                        }
+                        else
+                        {
+                            item = defineDatas[0];
+                            item.UpdataDBDataToFormData(data);
+                        }
+                    }
+                    c_grdMWTxnDetail.Refresh();
+                    WinFn.ReadBingdingText(c_labStatus);
+                    WinFn.ReadBingdingEnabled(c_btnCheck);
+
+                });
+
+            }
+            catch (Exception ex)
+            {
+                LogMng.GetLog().PrintError(ClassName, "c_bgwPostDetail_DoWork", ex);
+            }
+            finally
+            {
+            }
+        }
+
+        private void c_time_Tick(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!c_bgwPostDetail.IsBusy)
+                {
+                    c_bgwPostDetail.RunWorkerAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                LogMng.GetLog().PrintError(ClassName, "c_time_Tick", ex);
+            }
+            finally
+            {
+            }
+        }
+      
 
         #endregion
 
@@ -256,16 +405,18 @@ namespace YRKJ.MWR.WSInventory.Forms
 
         private bool InitCtrls()
         {
-
+            _bindingTxnDetailDataMng.PositionChanged += (sender, e) =>
+            {
+                c_grpCurrentData.Enabled = _bindingTxnDetailDataMng.Position == -1 ? false : true;
+            };
+            c_grpCurrentData.Enabled = _bindingTxnDetailDataMng.Position == -1 ? false : true;
 
             if (_postType == PostTypeEnum.Edit)
             {
-                c_labIsCheckPost.Visible = true;
                 c_labPostType.Text = LngRes.MSG_PostType_Edit;
             }
             else
             {
-                c_labIsCheckPost.Visible = false;
                 c_labPostType.Text = _postType == PostTypeEnum.Nocare ? LngRes.MSG_PostType_Nocare : LngRes.MSG_PostType_Normal;
             }
 
@@ -273,47 +424,49 @@ namespace YRKJ.MWR.WSInventory.Forms
 
             SysHelper.SetCtrlUnitText(c_labUnit1, c_labUnit2, c_labUnit3, c_labUnit4);
 
-            c_txtCrateCode.DataBindings.Add("Text", _gridTxnDetailData, "");
-            c_labStatus.DataBindings.Add("Text", _gridTxnDetailData, "");
-            c_labSubWeight.DataBindings.Add("Text", _gridTxnDetailData, "");
-            c_labTxnWeight.DataBindings.Add("Text", _gridTxnDetailData, "");
+            c_txtCrateCode.DataBindings.Add("Text", _gridTxnDetailData, "CrateCode");
+            c_labStatus.DataBindings.Add("Text", _gridTxnDetailData, "Status");
+            c_labSubWeight.DataBindings.Add("Text", _gridTxnDetailData, "SubWeight");
+            c_labTxnWeight.DataBindings.Add("Text", _gridTxnDetailData, "TxnWeight");
+            c_btnCheck.DataBindings.Add("Enabled", _gridTxnDetailData, "NeedAuthorize");//.Enabled
 
-
-            #region normal add new txndetail form initCtrls
-            if (_postType == PostTypeEnum.Normal)
-            { 
-                
+            #region add new txndetail form initCtrls
+            if (_postType == PostTypeEnum.New)
+            {
+                c_txtPostNum.Text = "新建订单";
             }
             #endregion
 
             #region edit txndetail form initCtrls
             if (_postType == PostTypeEnum.Edit)
             {
-                //c_grdMWTxnDetail_C_TxnDetailId.DataPropertyName = "TxnDetailId";
-                //c_grdMWTxnDetail_C_TxnType.DataPropertyName = "TxnType";
-                //c_grdMWTxnDetail_C_TxnNum.DataPropertyName = "TxnNum";
-                //c_grdMWTxnDetail_C_WSCode.DataPropertyName = "WSCode";
-                //c_grdMWTxnDetail_C_EmpyName.DataPropertyName = "EmpyName";
-                //c_grdMWTxnDetail_C_EmpyCode.DataPropertyName = "EmpyCode";
-                c_grdMWTxnDetail_C_CrateCode.DataPropertyName = "CrateCode";
-                c_grdMWTxnDetail_C_Vendor.DataPropertyName = "Vendor";
-                //c_grdMWTxnDetail_C_VendorCode.DataPropertyName = "VendorCode";
-                c_grdMWTxnDetail_C_Waste.DataPropertyName = "Waste";
-                //c_grdMWTxnDetail_C_WasteCode.DataPropertyName = "WasteCode";
-                c_grdMWTxnDetail_C_SubWeight.DataPropertyName = "SubWeight";
-                c_grdMWTxnDetail_C_TxnWeight.DataPropertyName = "TxnWeight";
-                c_grdMWTxnDetail_C_EntryDate.DataPropertyName = "EntryDate";
-                //c_grdMWTxnDetail_C_InvRecordId.DataPropertyName = "InvRecordId";
-                //c_grdMWTxnDetail_C_InvAuthId.DataPropertyName = "InvAuthId";
-                c_grdMWTxnDetail_C_Status.DataPropertyName = "Status";
-                //c_grdMWTxnDetail_C_TxnWeight
+               
 
-                c_grdMWTxnDetail.DataSource = _gridTxnDetailData;
-
-                CalculateTotalWeight();
+                
             }
             #endregion
 
+            //c_grdMWTxnDetail_C_TxnDetailId.DataPropertyName = "TxnDetailId";
+            //c_grdMWTxnDetail_C_TxnType.DataPropertyName = "TxnType";
+            //c_grdMWTxnDetail_C_TxnNum.DataPropertyName = "TxnNum";
+            //c_grdMWTxnDetail_C_WSCode.DataPropertyName = "WSCode";
+            //c_grdMWTxnDetail_C_EmpyName.DataPropertyName = "EmpyName";
+            //c_grdMWTxnDetail_C_EmpyCode.DataPropertyName = "EmpyCode";
+            c_grdMWTxnDetail_C_CrateCode.DataPropertyName = "CrateCode";
+            c_grdMWTxnDetail_C_Vendor.DataPropertyName = "Vendor";
+            //c_grdMWTxnDetail_C_VendorCode.DataPropertyName = "VendorCode";
+            c_grdMWTxnDetail_C_Waste.DataPropertyName = "Waste";
+            //c_grdMWTxnDetail_C_WasteCode.DataPropertyName = "WasteCode";
+            c_grdMWTxnDetail_C_SubWeight.DataPropertyName = "SubWeight";
+            c_grdMWTxnDetail_C_TxnWeight.DataPropertyName = "TxnWeight";
+            c_grdMWTxnDetail_C_EntryDate.DataPropertyName = "EntryDate";
+            //c_grdMWTxnDetail_C_InvRecordId.DataPropertyName = "InvRecordId";
+            //c_grdMWTxnDetail_C_InvAuthId.DataPropertyName = "InvAuthId";
+            c_grdMWTxnDetail_C_Status.DataPropertyName = "Status";
+            //c_grdMWTxnDetail_C_TxnWeight
+
+            c_grdMWTxnDetail.DataSource = _gridTxnDetailData;
+            CalculateTotalWeight();
             return true;
         }
 
@@ -324,18 +477,20 @@ namespace YRKJ.MWR.WSInventory.Forms
             string empyCode = SysInfo.GetInstance().Employ.EmpyCode;
 
             #region normal add new txndetail load data
-            if (_postType == PostTypeEnum.Normal)
+            if (_postType == PostTypeEnum.New)
             {
                 //_txnNum = MWNextIdMng
-                if (!TxnMng.BeginOperatePostTxn(wsCode, empyCode, ref _txnNum, ref errMsg))
-                {
-                    return false;
-                }
+                //string txnNum = "";
+                //if (!TxnMng.BeginOperatePostTxn(wsCode, empyCode, ref txnNum, ref errMsg))
+                //{
+                //    return false;
+                //}
+                //_txnNum = txnNum;
             }
             #endregion
 
             #region edit txndetail load data
-            if (_postType == PostTypeEnum.Normal)
+            if (_postType == PostTypeEnum.Edit)
             {
                 List<TblMWTxnDetail> detailList = null;
                 if (!TxnMng.GetDetailList(_txnNum, ref detailList, ref errMsg))
@@ -367,10 +522,66 @@ namespace YRKJ.MWR.WSInventory.Forms
                 totalTxnWeight += data.TxnWeight;
             }
 
-            c_labSubWeight.Text = totalSubWeight.ToString(BizBase.GetInstance().DecimalFormatString);
-            c_labTxnWeight.Text = totalTxnWeight.ToString(BizBase.GetInstance().DecimalFormatString);
+            c_labTotalSubWeight.Text = totalSubWeight.ToString(BizBase.GetInstance().DecimalFormatString);
+            c_labTotalTxnWeight.Text = totalTxnWeight.ToString(BizBase.GetInstance().DecimalFormatString);
+            c_labTotalQty.Text = _gridTxnDetailData.Count + "";
         }
 
+        private void AuthPost(GridTxnDetailData curData)
+        {
+            if (_bindingTxnDetailDataMng.Position == -1)
+            {
+                return;
+            }
+
+            if (!curData.ORGData.Status.Equals(TblMWTxnDetail.STATUS_ENUM_Wait))
+            {
+                MsgBox.Show(LngRes.MSG_NotCompleteAuthorize);
+                return;
+            }
+
+            for (int i = 0; i < _gridTxnDetailData.Count; i++)
+            {
+                if (_gridTxnDetailData[i].CrateCode.Equals(curData.CrateCode))
+                {
+                    c_grdMWTxnDetail.Rows[i].Selected = true;
+                    c_grdMWTxnDetail.CurrentCell = c_grdMWTxnDetail.Rows[i].Cells[0];
+                    break;
+                }
+            }
+
+            TblMWTxnDetail txnDetail = curData.ORGData;
+            using (FrmMWCrateReview f = new FrmMWCrateReview(txnDetail))
+            {
+                DialogResult result = f.ShowDialog();
+
+                if (result == System.Windows.Forms.DialogResult.OK)
+                {
+                    curData.UpdataDBDataToFormData(txnDetail);
+                    c_grdMWTxnDetail.Refresh();
+                    WinFn.ReadBingdingText(c_labStatus);
+                    WinFn.ReadBingdingEnabled(c_btnCheck);
+                }
+            }
+        }
+
+        private void ThreadSafe(MethodInvoker method)
+        {
+            //try
+            //{
+            if (this.InvokeRequired)
+            {
+                this.Invoke(method);
+            }
+            else
+            {
+                method();
+            }
+            //}
+            //catch (Exception ex)
+            //{ }
+        }
+        
         public void ControlActivity()
         {
             try
@@ -401,6 +612,9 @@ namespace YRKJ.MWR.WSInventory.Forms
             public const string MSG_PostType_Edit = "审核出库";
             public const string MSG_NoInventory = "警告！没有找到当前货箱的库存信息，请确认货箱来源。";
             public const string MSG_NoInventoryTxnDetail = "没有生成出库交易";
+            public const string MSG_CurrentExistCrate = "当前货箱已添加";
+            public const string MSG_NotCompleteAuthorize = "当前交易货箱未完成审核";
+            public const string MSG_TxnDetailIsEmpty = "提交失败，当前没有处理任何货箱";
         }
 
         private class GridTxnDetailData
@@ -511,7 +725,7 @@ namespace YRKJ.MWR.WSInventory.Forms
         }
 
         #endregion
-      
+
         #region Form Data Property
 
         #endregion

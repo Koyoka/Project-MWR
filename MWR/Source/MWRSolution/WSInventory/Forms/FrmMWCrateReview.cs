@@ -24,6 +24,12 @@ namespace YRKJ.MWR.WSInventory.Forms
         private TblMWTxnDetail _txnDetail = null;
         private VewIvnAuthorizeWithTxnDetail _invAuth = null;
 
+        private EnumOptType _optType = EnumOptType.defalut;
+        private enum EnumOptType
+        {
+            Recover, Post, defalut
+        }
+
         public FrmMWCrateReview()
         {
             InitializeComponent();
@@ -38,12 +44,20 @@ namespace YRKJ.MWR.WSInventory.Forms
             this.MinimizeBox = false;
         }
 
-        public FrmMWCrateReview(TblMWTxnDetail txnDetail, string depotCode)
+        public FrmMWCrateReview(TblMWTxnDetail recoverTxnDetail, string depotCode)
             :this()
         {
-            _txnDetail = txnDetail;
+            _txnDetail = recoverTxnDetail;
             _depotCode = depotCode;
-        } 
+            _optType = EnumOptType.Recover;
+        }
+        public FrmMWCrateReview(TblMWTxnDetail postTxnDetail)
+            : this()
+        {
+            _txnDetail = postTxnDetail;
+            _optType = EnumOptType.Post;
+        }
+
 
         #region Event
 
@@ -81,22 +95,40 @@ namespace YRKJ.MWR.WSInventory.Forms
                 this.Cursor = Cursors.WaitCursor;
                 string errMsg = "";
                 string empyCode = SysInfo.GetInstance().Employ.EmpyCode;
-                string empyName = SysInfo.GetInstance().Employ.EmpyName;
                 string wscode = SysInfo.GetInstance().Config.WSCode;
 
-                if (!TxnMng.AuthorizeCrareToInventory(_txnDetail.TxnDetailId,
-                    empyCode, wscode, _depotCode, ref errMsg))
+                #region post
+                if (_optType == EnumOptType.Post)
                 {
-                    MsgBox.Error(errMsg);
-                    return;
+                    if (!TxnMng.AuthorizeCrateToPost(_txnDetail.InvRecordId, _txnDetail.TxnNum, wscode, empyCode, ref errMsg))
+                    {
+                        MsgBox.Error(errMsg);
+                        return;
+                    }
                 }
-                #region update current form txndetail data
-                _txnDetail.EmpyCode = SysInfo.GetInstance().Employ.EmpyCode;
-                _txnDetail.EmpyName = SysInfo.GetInstance().Employ.EmpyName;
-                _txnDetail.WSCode = SysInfo.GetInstance().Config.WSCode;
-                _txnDetail.Status = TblMWTxnDetail.STATUS_ENUM_Complete;
-                _txnDetail.EntryDate = ComLib.db.SqlDBMng.GetDBNow();
                 #endregion
+
+                #region recover
+                if (_optType == EnumOptType.Recover)
+                {
+                    if (!TxnMng.AuthorizeCrareToInventory(_txnDetail.TxnDetailId,
+                        empyCode, wscode, _depotCode, ref errMsg))
+                    {
+                        MsgBox.Error(errMsg);
+                        return;
+                    }
+                   
+                }
+                #endregion
+
+                //#region update current form txndetail data
+                //_txnDetail.EmpyCode = SysInfo.GetInstance().Employ.EmpyCode;
+                //_txnDetail.EmpyName = SysInfo.GetInstance().Employ.EmpyName;
+                //_txnDetail.WSCode = SysInfo.GetInstance().Config.WSCode;
+                //_txnDetail.Status = TblMWTxnDetail.STATUS_ENUM_Complete;
+                //_txnDetail.EntryDate = ComLib.db.SqlDBMng.GetDBNow();
+                //#endregion
+
                 this.DialogResult = System.Windows.Forms.DialogResult.OK;
                 this.Close();
             }

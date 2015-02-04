@@ -52,18 +52,37 @@ namespace YRKJ.MWR.Business
             switch (s)
             { 
                 case TblMWTxnRecoverHeader.STATUS_ENUM_Process:
-                    defineStr = LngRes.Status_RHeader_Process;
+                    defineStr = LngRes.Status_TxnHeader_Process;
                     break;
                 case TblMWTxnRecoverHeader.STATUS_ENUM_Complete:
-                    defineStr = LngRes.Status_RHeader_Complete;
+                    defineStr = LngRes.Status_TxnHeader_Complete;
                     break;
                 case TblMWTxnRecoverHeader.STATUS_ENUM_Authorize:
-                    defineStr = LngRes.Status_RHeader_Authorize;
+                    defineStr = LngRes.Status_TxnHeader_Authorize;
                     break;
                 case TblMWTxnRecoverHeader.STATUS_ENUM_Send:
-                    defineStr = LngRes.Status_RHeader_Send;
+                    defineStr = LngRes.Status_TxnHeader_Send;
                     break;
             }
+            return defineStr;
+        }
+
+        public static string GetTxnPostHeaderStatus(string s)
+        {
+            string defineStr = "";
+            switch (s)
+            { 
+                case TblMWTxnPostHeader.STATUS_ENUM_Authorize:
+                    defineStr = LngRes.Status_TxnHeader_Authorize;
+                    break;
+                case TblMWTxnPostHeader.STATUS_ENUM_Complete:
+                    defineStr = LngRes.Status_TxnHeader_Complete;
+                    break;
+                case TblMWTxnPostHeader.STATUS_ENUM_Process:
+                    defineStr = LngRes.Status_TxnHeader_Process;
+                    break;
+            }
+
             return defineStr;
         }
 
@@ -109,10 +128,10 @@ namespace YRKJ.MWR.Business
 
         public class LngRes
         {
-            public const string Status_RHeader_Process = "处理中";
-            public const string Status_RHeader_Complete = "完成";
-            public const string Status_RHeader_Authorize = "审核中";
-            public const string Status_RHeader_Send = "新计划提交";
+            public const string Status_TxnHeader_Process = "处理中";
+            public const string Status_TxnHeader_Complete = "完成";
+            public const string Status_TxnHeader_Authorize = "审核中";
+            public const string Status_TxnHeader_Send = "新计划提交";
 
             public const string Status_Detail_Authorize = "审核中";
             public const string Status_Detail_Complete = "完成";

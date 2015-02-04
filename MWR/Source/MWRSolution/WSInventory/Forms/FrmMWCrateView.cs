@@ -25,22 +25,30 @@ namespace YRKJ.MWR.WSInventory.Forms
         private decimal _allowDiffWeight = 1;
         
         private FormViewData _formViewData = null;
-        private FormReturnData _formReturnData = new FormReturnData();
+        //private FormReturnData _formReturnData = new FormReturnData();
 
         private EnumOptType _optType = EnumOptType.defalut;
-        public enum EnumOptType
+        private enum EnumOptType
         { 
             Recover,Post,defalut
         }
 
         //recover data
         private int _txnDetailId = 0;
+        private DelegateConfirmRecover _confirmRecover = null;
+        private DelegateAuthorizeRecover _authorizeRecover = null;
 
         //post data
+        private DelegateConfirmPostNew _delegateConfirmPostNew = null;
+        //private DelegateAuthorizePostNew _delegateAuthorizePostNew = null;
+
+        //private DelegateConfirmPostEdit _delegateConfirmPostEdit = null;
+        //private DelegateAuthorizePostEdit _delegateAuthorizePostEdit = null;
+       
         private int _invRecordId = 0;
         private string _txnNum = "";
 
-        public FrmMWCrateView()
+        FrmMWCrateView()
         {
             InitializeComponent();
             
@@ -54,21 +62,43 @@ namespace YRKJ.MWR.WSInventory.Forms
             this.MinimizeBox = false;
         }
 
-        public FrmMWCrateView(int txnDetailId ,FormViewData viewData)
+        public FrmMWCrateView(int txnDetailId ,FormViewData viewData,
+            DelegateConfirmRecover confirmRecover, DelegateAuthorizeRecover authorizeRecover)
             :this()
         {
             _formViewData = viewData;
             _optType =  EnumOptType.Recover;
             _txnDetailId = txnDetailId;
+            _confirmRecover = confirmRecover;
+            _authorizeRecover = authorizeRecover;
         }
 
-        public FrmMWCrateView(int invRecordId, string txnNum, FormViewData viewData)
+        public FrmMWCrateView(int invRecordId,  FormViewData viewData,
+            DelegateConfirmPostNew delegateConfirmPostNew
+            //,DelegateAuthorizePostNew delegateAuthorizePostNew
+            )
             : this()
         {
             _formViewData = viewData;
             _optType =  EnumOptType.Post;
             _invRecordId = invRecordId;
+            _delegateConfirmPostNew = delegateConfirmPostNew;
+            //delegateAuthorizePostNew = _delegateAuthorizePostNew;
+
+        }
+
+        public FrmMWCrateView(int invRecordId, string txnNum, FormViewData viewData
+            //,DelegateConfirmPostEdit delegateConfirmPostEdit,
+            //DelegateAuthorizePostEdit delegateAuthorizePostEdit
+            )
+            : this()
+        {
+            _formViewData = viewData;
+            _optType = EnumOptType.Post;
+            _invRecordId = invRecordId;
             _txnNum = txnNum;
+            //_delegateConfirmPostEdit = delegateConfirmPostEdit;
+            //_delegateAuthorizePostEdit = delegateAuthorizePostEdit;
 
         }
 
@@ -131,18 +161,22 @@ namespace YRKJ.MWR.WSInventory.Forms
             try
             {
                 this.Cursor = Cursors.WaitCursor;
+
+#if DEBUG
+                _txnWeight = 1.23M;
+#endif
+
                 string errMsg = "";
                 string empyCode = SysInfo.GetInstance().Employ.EmpyCode;
                 string empyName = SysInfo.GetInstance().Employ.EmpyName;
                 string wsCode = SysInfo.GetInstance().Config.WSCode;
                 decimal weight = _txnWeight;
-
                 if (Math.Abs(_formViewData.SubWeight - weight) > _allowDiffWeight)
                 {
                     MsgBox.Error(LngRes.MSG_DiffWeight);
                     return;
                 }
-
+                  
                 #region recover to inventory
                 if (_optType == EnumOptType.Recover)
                 {
@@ -154,27 +188,37 @@ namespace YRKJ.MWR.WSInventory.Forms
                         MsgBox.Error(errMsg);
                         return;
                     }
-                    #region update return data
-                    _formReturnData.TxnWeight = weight;
-                    _formReturnData.TxnStatus = TblMWTxnDetail.STATUS_ENUM_Complete;
-                    _formReturnData.EntryDate = ComLib.db.SqlDBMng.GetDBNow();
-                    #endregion
+                   
+                    if (_confirmRecover != null)
+                        _confirmRecover(weight, TblMWTxnDetail.STATUS_ENUM_Complete, ComLib.db.SqlDBMng.GetDBNow());
+                  
                 }
                 #endregion
 
                 #region inventory to post
                 if (_optType == EnumOptType.Post)
                 {
-                    if (!TxnMng.ConfirmInventoryToPost(_invRecordId, _txnNum, _txnWeight, wsCode, empyCode, ref errMsg))
+                    if (string.IsNullOrEmpty(_txnNum))
                     {
-                        MsgBox.Error(errMsg);
-                        return;
+                        string newTxnNum = "";
+                        if (!TxnMng.ConfirmInventoryToPostNew(_invRecordId, weight, wsCode, empyCode, ref newTxnNum, ref errMsg))
+                        {
+                            MsgBox.Error(errMsg);
+                            return;
+                        }
+                        //_txnNum = newTxnNum;
+
+                        if (_delegateConfirmPostNew != null)
+                            _delegateConfirmPostNew(newTxnNum);
                     }
-                    #region update return data
-                    _formReturnData.TxnWeight = weight;
-                    _formReturnData.TxnStatus = TblMWTxnDetail.STATUS_ENUM_Complete;
-                    _formReturnData.EntryDate = ComLib.db.SqlDBMng.GetDBNow();
-                    #endregion
+                    else 
+                    {
+                        if (!TxnMng.ConfirmInventoryToPostEdit(_invRecordId, _txnNum, weight, wsCode, empyCode, ref errMsg))
+                        {
+                            MsgBox.Error(errMsg);
+                            return;
+                        }
+                    }
                 }
                 #endregion
 
@@ -198,35 +242,32 @@ namespace YRKJ.MWR.WSInventory.Forms
             try
             {
                 this.Cursor = Cursors.WaitCursor;
-
+#if DEBUG
+                _txnWeight = 1.23M;
+#endif
                 string errMsg = "";
-
                 decimal weight = _txnWeight;
                 string unit = SysParams.GetInstance().GetSysWeightUnit();
-
+                string empyCode = SysInfo.GetInstance().Employ.EmpyCode;
+                string wsCode = SysInfo.GetInstance().Config.WSCode;
                 if (!MsgBox.Confirm("警告", "当前称重[" + weight + " " + unit + "],实际重量[" + _formViewData.SubWeight + "]确定提交审核么？"))
                 {
                     return;
                 }
-                
-                string empyCode = SysInfo.GetInstance().Employ.EmpyCode;
-                string wsCode = SysInfo.GetInstance().Config.WSCode;
 
                 #region recover to authorize
                 if (_optType == EnumOptType.Recover)
                 {
                     int invAuthId = 0;
-                    if (!TxnMng.ConfirmCrareToAuthorize(_txnDetailId, _txnWeight, empyCode, wsCode, ref invAuthId, ref errMsg))
+                    if (!TxnMng.ConfirmCrareToAuthorize(_txnDetailId, weight, empyCode, wsCode, ref invAuthId, ref errMsg))
                     {
                         MsgBox.Error(errMsg);
                         return;
                     }
-
-                    #region update return data
-                    _formReturnData.TxnWeight = weight;
-                    _formReturnData.InvAuthId = invAuthId;
-                    _formReturnData.TxnStatus = TblMWTxnDetail.STATUS_ENUM_Authorize;
-                    #endregion
+                   
+                    if (_authorizeRecover != null)
+                        _authorizeRecover(invAuthId, weight, TblMWTxnDetail.STATUS_ENUM_Authorize);
+                    
                 }
                 #endregion
 
@@ -234,17 +275,31 @@ namespace YRKJ.MWR.WSInventory.Forms
                 if (_optType == EnumOptType.Post)
                 {
                     int invAuthId = 0;
-                    if (!TxnMng.ConfirmInventoryToAuthorize(_invRecordId, _txnNum, _txnWeight, wsCode, empyCode,
-                        ref invAuthId, ref errMsg))
+                    if (string.IsNullOrEmpty(_txnNum))
                     {
-                        MsgBox.Error(errMsg);
-                        return;
+                        string newTxnNum = "";
+                        if (!TxnMng.ConfirmInventoryToAuthorizeNew(_invRecordId, weight, wsCode, empyCode,
+                            ref invAuthId,
+                            ref newTxnNum,
+                            ref errMsg))
+                        {
+                            MsgBox.Error(errMsg);
+                            return;
+                        }
+
+                        if (_delegateConfirmPostNew != null)
+                            _delegateConfirmPostNew(newTxnNum);
                     }
-                    #region update return data
-                    _formReturnData.TxnWeight = weight;
-                    _formReturnData.InvAuthId = invAuthId;
-                    _formReturnData.TxnStatus = TblMWTxnDetail.STATUS_ENUM_Authorize;
-                    #endregion
+                    else
+                    {
+                        if (!TxnMng.ConfirmInventoryToAuthorizeEdit(_invRecordId, _txnNum, weight, wsCode, empyCode,
+                            ref invAuthId,
+                            ref errMsg))
+                        {
+                            MsgBox.Error(errMsg);
+                            return;
+                        }
+                    }
                 }
                 #endregion
 
@@ -352,10 +407,10 @@ namespace YRKJ.MWR.WSInventory.Forms
             
         }
         
-        public FormReturnData GetScalesTxnWeight()
-        {
-            return _formReturnData;
-        }
+        //public FormReturnData GetFormData()
+        //{
+        //    return _formReturnData;
+        //}
         #endregion
 
         #region Common
@@ -376,13 +431,25 @@ namespace YRKJ.MWR.WSInventory.Forms
             public decimal SubWeight { get; set; }
             public string DepotCode { get; set; }
         }
-        public class FormReturnData
-        {
-            public decimal TxnWeight { get; set; }
-            public int InvAuthId { get; set; }
-            public string TxnStatus { get; set; }
-            public DateTime EntryDate { get; set; }
-        }
+        //public class FormReturnData
+        //{
+        //    public string TxnNum { get; set; }
+        //    public decimal TxnWeight { get; set; }
+        //    public int InvAuthId { get; set; }
+        //    public string TxnStatus { get; set; }
+        //    public DateTime EntryDate { get; set; }
+        //}newTxnNum, weight, TblMWTxnDetail.STATUS_ENUM_Complete, ComLib.db.SqlDBMng.GetDBNow()
+
+        public delegate void DelegateConfirmRecover(decimal txnWeight,string txnStatus,DateTime entryDate);
+        public delegate void DelegateAuthorizeRecover(int invAuthId, decimal txnWeight, string txnStatus);
+
+        public delegate void DelegateConfirmPostNew(string newTxnNum);
+        //public delegate void DelegateConfirmPostEdit(decimal txnWeight, string txnStatus, DateTime entryDate);
+        //public delegate void DelegateConfirmPostNew(string newTxnNum, decimal txnWeight, string txnStatus, DateTime entryDate);
+        //public delegate void DelegateAuthorizePostNew(string newTxnNum, int invAuthId, decimal txnWeight, string txnStatus);
+       
+        //public delegate void DelegateConfirmPostEdit(decimal txnWeight, string txnStatus, DateTime entryDate);
+        //public delegate void DelegateAuthorizePostEdit(int invAuthId, decimal txnWeight, string txnStatus);
         #endregion
 
         #region Form Data Property

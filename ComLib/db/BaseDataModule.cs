@@ -36,7 +36,15 @@ namespace ComLib.db
         {
             if (dataVal == DBNull.Value)
                 return;
-            val = (bool)dataVal;
+            if (dataVal is UInt64)
+            {
+                val = (UInt64)dataVal == 1 ? true : false;
+            }
+            else
+            {
+                val = (int)dataVal == 1 ? true : false;
+            }
+            // (bool)dataVal;
         }
         protected void SetValue(ref int val, object dataVal)
         {

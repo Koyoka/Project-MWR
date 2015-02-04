@@ -22,7 +22,7 @@ namespace YRKJ.MWR.WSInventory.Forms
 
         private FrmMain _frmMain = null;
 
-        private BindingList<GridMWPostTxnData> _gridMWRecoverData = new BindingList<GridMWPostTxnData>();
+        private BindingList<GridMWPostTxnData> _gridMWPostTxnData = new BindingList<GridMWPostTxnData>();
         private BindingManagerBase _bindingPostDataMng = null;
 
 
@@ -70,8 +70,7 @@ namespace YRKJ.MWR.WSInventory.Forms
             }
         }
 
-
-        private void c_btnStratPost_Click(object sender, EventArgs e)
+        private void c_btnPost_Click(object sender, EventArgs e)
         {
             try
             {
@@ -80,7 +79,7 @@ namespace YRKJ.MWR.WSInventory.Forms
                 if (_frmMain != null)
                 {
                     _frmMain.ShowFrom(FrmMain.TabToggleEnum.POST_DETAIL,
-                        new FrmMWPostDetail(_frmMain, FrmMWPostDetail.PostTypeEnum.Nocare));
+                        new FrmMWPostDetail(_frmMain, FrmMWPostDetail.PostTypeEnum.New));
                 }
             }
             catch (Exception ex)
@@ -103,7 +102,7 @@ namespace YRKJ.MWR.WSInventory.Forms
                 if (_frmMain != null)
                 {
                     _frmMain.ShowFrom(FrmMain.TabToggleEnum.POST_DETAIL,
-                        new FrmMWPostDetail(_frmMain, FrmMWPostDetail.PostTypeEnum.Normal));
+                        new FrmMWPostDetail(_frmMain, FrmMWPostDetail.PostTypeEnum.New));
                 }
 
             }
@@ -124,9 +123,16 @@ namespace YRKJ.MWR.WSInventory.Forms
             {
                 this.Cursor = Cursors.WaitCursor;
 
+                
+                if(_bindingPostDataMng.Position == -1)
+                {
+                    return;
+                }
                 if (_frmMain != null)
                 {
-                    _frmMain.ShowFrom(FrmMain.TabToggleEnum.POST_DETAIL, new FrmMWPostDetail(_frmMain, "Eleven9000"));
+                    GridMWPostTxnData curData = _bindingPostDataMng.Current as GridMWPostTxnData;
+
+                    _frmMain.ShowFrom(FrmMain.TabToggleEnum.POST_DETAIL, new FrmMWPostDetail(_frmMain, curData.TxnNum));
                 }
             }
             catch (Exception ex)
@@ -147,7 +153,9 @@ namespace YRKJ.MWR.WSInventory.Forms
             {
                 this.Cursor = Cursors.WaitCursor;
                 //WinFn.SafeFocusAndSelectAll(textBox1);
-
+                //c_grpCurrentTxn.Enabled = _gridMWPostTxnData.Count == 0 ? false : true;
+                c_btnCheck.Enabled = _bindingPostDataMng.Position == -1 ? false : true;
+                reLoadData();
             }
             catch (Exception ex)
             {
@@ -170,29 +178,34 @@ namespace YRKJ.MWR.WSInventory.Forms
             //{
             //    this.c_labTxnCount.Text = x.Data.ToString();
             //});
-            _bindingPostDataMng = this.BindingContext[_gridMWRecoverData];
+            _bindingPostDataMng = this.BindingContext[_gridMWPostTxnData];
             if (!LoadData())
                 return false;
-
-
 
             return true;
         }
 
         private bool InitCtrls()
         {
+            _bindingPostDataMng.PositionChanged += (sender, e) =>
+            {
+                //c_grpCurrentTxn.Enabled = _bindingPostDataMng.Position == -1 ? false : true;
+                c_btnCheck.Enabled = _bindingPostDataMng.Position == -1 ? false : true;
+            };
+            //c_grpCurrentTxn.Enabled = _gridMWPostTxnData.Count == 0 ? false : true;
+            c_btnCheck.Enabled = _gridMWPostTxnData.Count == 0 ? false : true;
 
-            c_labTxnNum.DataBindings.Add("Text", _gridMWRecoverData, "TxnNum");
-            c_labEmpyName.DataBindings.Add("Text", _gridMWRecoverData, "PostEmpyName");
-            c_labStatus.DataBindings.Add("Text", _gridMWRecoverData, "Status");
-            c_labSubWeight.DataBindings.Add("Text", _gridMWRecoverData, "TotalSubWeight");
-            c_labTotalQty.DataBindings.Add("Text", _gridMWRecoverData, "TotalCrateQty");
-            c_labTxnWeight.DataBindings.Add("Text", _gridMWRecoverData, "TotalTxnWeight");
+            //c_txtTxnNum.DataBindings.Add("Text", _gridMWPostTxnData, "TxnNum");
+            //c_labEmpyName.DataBindings.Add("Text", _gridMWPostTxnData, "PostEmpyName");
+            //c_labStatus.DataBindings.Add("Text", _gridMWPostTxnData, "Status");
+            //c_labSubWeight.DataBindings.Add("Text", _gridMWPostTxnData, "TotalSubWeight");
+            //c_labTotalQty.DataBindings.Add("Text", _gridMWPostTxnData, "TotalCrateQty");
+            //c_labTxnWeight.DataBindings.Add("Text", _gridMWPostTxnData, "TotalTxnWeight");
             //c_btnPost.DataBindings.Add("Enabled", _gridMWRecoverData, "");
 
-            c_labTxnCount.Text = _gridMWRecoverData.Count+"";
+            c_labTxnCount.Text = _gridMWPostTxnData.Count+"";
 
-            SysHelper.SetCtrlUnitText(c_labUnit1, c_labUnit2);
+            //SysHelper.SetCtrlUnitText(c_labUnit1, c_labUnit2);
 
             c_grdMWPost_C_TxnNum.DataPropertyName = "TxnNum";
             c_grdMWPost_C_WSCode.DataPropertyName = "PostWSCode";
@@ -203,8 +216,10 @@ namespace YRKJ.MWR.WSInventory.Forms
             c_grdMWPost_C_TotalTxnWeight.DataPropertyName = "TotalTxnWeight";
             c_grdMWPost_C_Status.DataPropertyName = "Status";
 
-            c_grdMWPost.DataSource = _gridMWRecoverData;
+            c_grdMWPost.DataSource = _gridMWPostTxnData;
 
+            
+           
             return true;
         }
 
@@ -221,12 +236,18 @@ namespace YRKJ.MWR.WSInventory.Forms
             foreach (TblMWTxnPostHeader data in header)
             {
                 GridMWPostTxnData item = GridMWPostTxnData.ConventDBDataToFormData(data);
-                _gridMWRecoverData.Add(item);
+                _gridMWPostTxnData.Add(item);
             }
 
             return true;
         }
 
+        private bool reLoadData()
+        {
+            _gridMWPostTxnData.Clear();
+            return LoadData();
+        }
+       
         #endregion
 
         #region Common
@@ -267,12 +288,14 @@ namespace YRKJ.MWR.WSInventory.Forms
                 item.TotalCrateQty = data.TotalCrateQty;
                 item.TotalSubWeight = data.TotalSubWeight;
                 item.TotalTxnWeight = data.TotalTxnWeight;
-                item.Status = data.Status;
+                item.Status = BizHelper.GetTxnPostHeaderStatus(data.Status); 
                 
             }
         }
 
         #endregion
+
+     
 
         #region Form Data Property
 
