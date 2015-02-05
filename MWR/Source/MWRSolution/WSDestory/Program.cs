@@ -70,6 +70,7 @@ namespace YRKJ.MWR.WSDestory
                             return;
                         }
                     }
+                    YRKJ.MWR.WSDestory.Business.Sys.SysInfo.GetInstance().Config = configData;
                     SqlDBMng.setConnectionString(
                      SqlDBMng.GetConnStr(WinAppBase.DBName,
                      configData.DBServerName,

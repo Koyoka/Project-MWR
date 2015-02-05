@@ -68,8 +68,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Business\Sys\SysHelper.cs" />
     <Compile Include="Business\Sys\SysInfo.cs" />
     <Compile Include="Business\Sys\SysInfoMng.cs" />
+    <Compile Include="Business\Sys\SysParams.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -89,17 +91,17 @@
     <Compile Include="Forms\Dtl\FrmInventoryDtl.Designer.cs">
       <DependentUpon>FrmInventoryDtl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FrmMWDestoryDetail.cs">
+    <Compile Include="Forms\FrmMWDestroyDetail.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\FrmMWDestoryDetail.Designer.cs">
-      <DependentUpon>FrmMWDestoryDetail.cs</DependentUpon>
+    <Compile Include="Forms\FrmMWDestroyDetail.Designer.cs">
+      <DependentUpon>FrmMWDestroyDetail.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FrmMWDestoryRecover.cs">
+    <Compile Include="Forms\FrmMWDestroyRecover.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\FrmMWDestoryRecover.Designer.cs">
-      <DependentUpon>FrmMWDestoryRecover.cs</DependentUpon>
+    <Compile Include="Forms\FrmMWDestroyRecover.Designer.cs">
+      <DependentUpon>FrmMWDestroyRecover.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\FrmInventorySearch.cs">
       <SubType>Form</SubType>
@@ -119,17 +121,29 @@
     <Compile Include="Forms\FrmMain.Designer.cs">
       <DependentUpon>FrmMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FrmMWDestory.cs">
+    <Compile Include="Forms\FrmMWDestroy.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\FrmMWDestory.Designer.cs">
-      <DependentUpon>FrmMWDestory.cs</DependentUpon>
+    <Compile Include="Forms\FrmMWDestroy.Designer.cs">
+      <DependentUpon>FrmMWDestroy.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\FrmMWRecover.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\FrmMWRecover.Designer.cs">
       <DependentUpon>FrmMWRecover.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmMWDestroyRecoverDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmMWDestroyRecoverDetail.Designer.cs">
+      <DependentUpon>FrmMWDestroyRecoverDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmMWRecover_del.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmMWRecover_del.Designer.cs">
+      <DependentUpon>FrmMWRecover_del.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\FrmMWResidue.cs">
       <SubType>Form</SubType>
@@ -154,11 +168,11 @@
     <EmbeddedResource Include="Forms\Dtl\FrmInventoryDtl.resx">
       <DependentUpon>FrmInventoryDtl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FrmMWDestoryDetail.resx">
-      <DependentUpon>FrmMWDestoryDetail.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\FrmMWDestroyDetail.resx">
+      <DependentUpon>FrmMWDestroyDetail.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FrmMWDestoryRecover.resx">
-      <DependentUpon>FrmMWDestoryRecover.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\FrmMWDestroyRecover.resx">
+      <DependentUpon>FrmMWDestroyRecover.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmInventorySearch.resx">
       <DependentUpon>FrmInventorySearch.cs</DependentUpon>
@@ -169,11 +183,17 @@
     <EmbeddedResource Include="Forms\FrmMain.resx">
       <DependentUpon>FrmMain.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FrmMWDestory.resx">
-      <DependentUpon>FrmMWDestory.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\FrmMWDestroy.resx">
+      <DependentUpon>FrmMWDestroy.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmMWRecover.resx">
       <DependentUpon>FrmMWRecover.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmMWDestroyRecoverDetail.resx">
+      <DependentUpon>FrmMWDestroyRecoverDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmMWRecover_del.resx">
+      <DependentUpon>FrmMWRecover_del.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmMWResidue.resx">
       <DependentUpon>FrmMWResidue.cs</DependentUpon>

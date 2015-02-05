@@ -10,29 +10,28 @@ using YRKJ.MWR.WinBase.WinAppBase;
 using ComLib.Log;
 using YRKJ.MWR.WinBase.WinUtility;
 using YRKJ.MWR.Business.WS;
-using YRKJ.MWR.WSInventory.Business.Sys;
 using YRKJ.MWR.Business;
 using ComLib.Error;
+using YRKJ.MWR.WSDestory.Forms;
+using YRKJ.MWR.WSDestory.Business.Sys;
 
-namespace YRKJ.MWR.WSInventory.Forms
+namespace YRKJ.MWR.WSDestory.Forms
 {
-    public partial class FrmMWRecoverDetail : Form
+    public partial class FrmMWDestroyRecoverDetail : Form
     {
-        private const string ClassName = "YRKJ.MWR.WSDestory.Forms.FrmMWRecoverDetail";
+        private const string ClassName = "YRKJ.MWR.WSDestory.Forms.FrmMWDestroyRecoverDetail";
         private FormMng _frmMng = null;
         private FrmMain _frmMain = null;
         private ScannerMng _scannerMng = null;
 
         private string _txnNum = "";
         private VewTxnHeaderWithCarDispatch _header = null;
-        //private List<TblMWTxnDetail> _detailList = null;
         private FromCtrlBindingData _bindingData = new FromCtrlBindingData();
-        private TblMWDepot _defaultDepot = null;
 
         private BindingList<GridTxnDetailData> _gridTxnDetailData = new BindingList<GridTxnDetailData>();
         private BindingManagerBase _bindingTxnDetailDataMng = null;
        
-        FrmMWRecoverDetail()
+        FrmMWDestroyRecoverDetail()
         {
             InitializeComponent();
 
@@ -48,11 +47,11 @@ namespace YRKJ.MWR.WSInventory.Forms
           
         }
 
-        public FrmMWRecoverDetail(FrmMain f, string recoNum)
+        public FrmMWDestroyRecoverDetail(FrmMain f, string recoTxnNum)
             : this()
         {
             _frmMain = f;
-            _txnNum = recoNum;
+            _txnNum = recoTxnNum;
 
             _scannerMng = new ScannerMng(this, ClassName, WinAppBase.CrateBarCodeMask);
             _scannerMng.CodeScanned += new ScannerMng.ScannedEventHandler(FrmMWRecoverDetail_CodeScanned);
@@ -125,7 +124,7 @@ namespace YRKJ.MWR.WSInventory.Forms
                 this.Close();
                 if (_frmMain != null)
                 {
-                    _frmMain.ShowFrom(FrmMain.TabToggleEnum.RECOVER);
+                    _frmMain.ShowFrom(FrmMain.TabToggleEnum.DESTORY);
                 }
             }
             catch (Exception ex)
@@ -147,7 +146,7 @@ namespace YRKJ.MWR.WSInventory.Forms
                 this.Close();
                 if (_frmMain != null)
                 {
-                    _frmMain.ShowFrom(FrmMain.TabToggleEnum.RECOVER);
+                    _frmMain.ShowFrom(FrmMain.TabToggleEnum.DESTORY);
                 }
 
             }
@@ -162,36 +161,36 @@ namespace YRKJ.MWR.WSInventory.Forms
             }
         }
 
-        private void c_btnSelectDepot_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                this.Cursor = Cursors.WaitCursor;
+        //private void c_btnSelectDepot_Click(object sender, EventArgs e)
+        //{
+        //    try
+        //    {
+        //        this.Cursor = Cursors.WaitCursor;
 
-                //_detailList[0].Status = TblMWTxnDetail.STATUS_ENUM_Complete;
-                //this.CalculateLastWeigthAndCount();
-                //return;
-                using (Dtl.FrmDepotDtl f = new Dtl.FrmDepotDtl())
-                {
-                    if (f.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                    {
-                        _defaultDepot = f.GetSelectDepot();
-                        if (_defaultDepot != null)
-                            c_txtDepot.Text = _defaultDepot.Desc;
-                    }
-                }
+        //        //_detailList[0].Status = TblMWTxnDetail.STATUS_ENUM_Complete;
+        //        //this.CalculateLastWeigthAndCount();
+        //        //return;
+        //        using (Dtl.FrmDepotDtl f = new Dtl.FrmDepotDtl())
+        //        {
+        //            if (f.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+        //            {
+        //                _defaultDepot = f.GetSelectDepot();
+        //                if (_defaultDepot != null)
+        //                    c_txtDepot.Text = _defaultDepot.Desc;
+        //            }
+        //        }
                
-            }
-            catch (Exception ex)
-            {
-                LogMng.GetLog().PrintError(ClassName, "c_btnSelectDepot_Click", ex);
-                MsgBox.Error(ex);
-            }
-            finally
-            {
-                this.Cursor = Cursors.Default;
-            }
-        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        LogMng.GetLog().PrintError(ClassName, "c_btnSelectDepot_Click", ex);
+        //        MsgBox.Error(ex);
+        //    }
+        //    finally
+        //    {
+        //        this.Cursor = Cursors.Default;
+        //    }
+        //}
 
         private void FrmMWRecoverDetail_InvalidCodeScanned(string code)
         {
@@ -448,7 +447,6 @@ namespace YRKJ.MWR.WSInventory.Forms
             c_labIndate.Text = ComLib.ComFn.DateTimeToString(_header.InDate, "yyyy-MM-dd HH:mm");
             c_labHeaderStatus.Text = BizHelper.GetTxnRecoverHeaderStatus(_header.Status);
 
-            c_txtDepot.Text = _defaultDepot.Desc;
 
             c_labSubTotalQty.Text = _header.TotalCrateQty + "";
             c_labSubTotalWeight.Text = _header.TotalSubWeight + "";
@@ -494,23 +492,6 @@ namespace YRKJ.MWR.WSInventory.Forms
         {
             string errMsg = "";
 
-            
-            List<TblMWDepot> depotDataList = null;
-            if (!SysCacheData.GetInstance().GetDepotList(ref depotDataList, ref errMsg))
-            {
-                MsgBox.Error(errMsg);
-                return false;
-            }
-            if (depotDataList.Count != 0)
-            {
-                _defaultDepot = depotDataList[0];
-            }
-            if (_defaultDepot == null)
-            {
-                MsgBox.Error(LngRes.MSG_NoDepotData);
-                return false;
-            }
-
             List<TblMWTxnDetail> detailList = null;
             if (!TxnMng.GetRecoverHeaderAndDetail(_txnNum, ref _header, ref detailList, ref errMsg))
             {
@@ -522,7 +503,6 @@ namespace YRKJ.MWR.WSInventory.Forms
                 MsgBox.Error(LngRes.MSG_NoTxn);
                 return false;
             }
-
            
             foreach (TblMWTxnDetail data in detailList)
             {
@@ -609,11 +589,7 @@ namespace YRKJ.MWR.WSInventory.Forms
             ref string errMsg)
         {
             #region valid data
-            if (_defaultDepot == null)
-            {
-                errMsg = LngRes.MSG_NoSelectDepot;
-                return false;
-            }
+            
             if (txnDetail.ORGData.Status == TblMWTxnDetail.STATUS_ENUM_Complete)
             {
                 errMsg = LngRes.MSG_IsCompleteTxn;
@@ -623,38 +599,38 @@ namespace YRKJ.MWR.WSInventory.Forms
             #endregion
 
             #region open form
-            using (FrmMWCrateReview f = new FrmMWCrateReview(txnDetail.ORGData, _defaultDepot.DeptCode))
-            {
-                DialogResult result = f.ShowDialog();
-                if (result == System.Windows.Forms.DialogResult.OK)
-                {
-                    //check this list last txndetail,and close this txn
+            //using (FrmMWCrateReview f = new FrmMWCrateReview(txnDetail.ORGData, _defaultDepot.DeptCode))
+            //{
+            //    DialogResult result = f.ShowDialog();
+            //    if (result == System.Windows.Forms.DialogResult.OK)
+            //    {
+            //        //check this list last txndetail,and close this txn
 
-                    int count = 0;
-                    if (!TxnMng.GetRecoverLeftDetailCount(_txnNum, ref count, ref errMsg))
-                    {
-                        return false;
-                    }
-                    if (count == 0)
-                    {
-                        if (!TxnMng.EndConfirmRecoverTxn(_txnNum, ref errMsg))
-                        {
-                            return false;
-                        }
+            //        int count = 0;
+            //        if (!TxnMng.GetRecoverLeftDetailCount(_txnNum, ref count, ref errMsg))
+            //        {
+            //            return false;
+            //        }
+            //        if (count == 0)
+            //        {
+            //            if (!TxnMng.EndConfirmRecoverTxn(_txnNum, ref errMsg))
+            //            {
+            //                return false;
+            //            }
 
-                        this.Close();
-                        if (_frmMain != null)
-                        {
-                            _frmMain.ShowFrom(FrmMain.TabToggleEnum.RECOVER);
-                        }
-                        return true;
-                    }
-                }
-                else
-                {
-                    return true;
-                }
-            }
+            //            this.Close();
+            //            if (_frmMain != null)
+            //            {
+            //                _frmMain.ShowFrom(FrmMain.TabToggleEnum.DESTORY);
+            //            }
+            //            return true;
+            //        }
+            //    }
+            //    else
+            //    {
+            //        return true;
+            //    }
+            //}
             #endregion
 
             #region up return form data
@@ -698,11 +674,7 @@ namespace YRKJ.MWR.WSInventory.Forms
             ref string errMsg)
         {
             #region valid data
-            if (_defaultDepot == null)
-            {
-                errMsg = LngRes.MSG_NoSelectDepot;
-                return false;
-            }
+            
             if (txnDetail.ORGData.Status == TblMWTxnDetail.STATUS_ENUM_Complete)
             {
                 errMsg = LngRes.MSG_IsCompleteTxn;
@@ -716,62 +688,62 @@ namespace YRKJ.MWR.WSInventory.Forms
             #endregion
 
             #region open form 
-            FrmMWCrateView.FormViewData viewData = 
-            new FrmMWCrateView.FormViewData()
-            { 
-                CrateCode = txnDetail.CrateCode,
-                Vendor = txnDetail.Vendor,
-                Waste = txnDetail.Waste,
-                SubWeight = txnDetail.SubWeight,
-                DepotCode = _defaultDepot.DeptCode
-            };
-            using (FrmMWCrateView f = new FrmMWCrateView(txnDetail.ORGData.TxnDetailId, viewData
-                , (txnWeight, txnStatus, entryDate) => {
-                    txnDetail.ORGData.TxnWeight = txnWeight;
-                    txnDetail.ORGData.Status = txnStatus;
-                    txnDetail.ORGData.EntryDate = entryDate;
-                }
-                , (invAuthId, txnWeight, txnStatus) => {
-                    txnDetail.ORGData.TxnWeight = txnWeight;
-                    txnDetail.ORGData.InvAuthId = invAuthId;
-                    txnDetail.ORGData.Status = txnStatus;
-                }
-                ))
-            {
-                DialogResult result = f.ShowDialog();
-                if (result == System.Windows.Forms.DialogResult.OK)
-                {
-                    //check this list last txndetail,and close this txn
+            //FrmMWCrateView.FormViewData viewData = 
+            //new FrmMWCrateView.FormViewData()
+            //{ 
+            //    CrateCode = txnDetail.CrateCode,
+            //    Vendor = txnDetail.Vendor,
+            //    Waste = txnDetail.Waste,
+            //    SubWeight = txnDetail.SubWeight,
+            //    DepotCode = _defaultDepot.DeptCode
+            //};
+            //using (FrmMWCrateView f = new FrmMWCrateView(txnDetail.ORGData.TxnDetailId, viewData
+            //    , (txnWeight, txnStatus, entryDate) => {
+            //        txnDetail.ORGData.TxnWeight = txnWeight;
+            //        txnDetail.ORGData.Status = txnStatus;
+            //        txnDetail.ORGData.EntryDate = entryDate;
+            //    }
+            //    , (invAuthId, txnWeight, txnStatus) => {
+            //        txnDetail.ORGData.TxnWeight = txnWeight;
+            //        txnDetail.ORGData.InvAuthId = invAuthId;
+            //        txnDetail.ORGData.Status = txnStatus;
+            //    }
+            //    ))
+            //{
+            //    DialogResult result = f.ShowDialog();
+            //    if (result == System.Windows.Forms.DialogResult.OK)
+            //    {
+            //        //check this list last txndetail,and close this txn
 
-                    int count = 0;
-                    if (!TxnMng.GetRecoverLeftDetailCount(_txnNum, ref count, ref errMsg))
-                    {
-                        return false;
-                    }
-                    if (count == 0)
-                    {
-                        if (!TxnMng.EndConfirmRecoverTxn(_txnNum, ref errMsg))
-                        {
-                            return false;
-                        }
+            //        int count = 0;
+            //        if (!TxnMng.GetRecoverLeftDetailCount(_txnNum, ref count, ref errMsg))
+            //        {
+            //            return false;
+            //        }
+            //        if (count == 0)
+            //        {
+            //            if (!TxnMng.EndConfirmRecoverTxn(_txnNum, ref errMsg))
+            //            {
+            //                return false;
+            //            }
 
-                        this.Close();
-                        if (_frmMain != null)
-                        {
-                            _frmMain.ShowFrom(FrmMain.TabToggleEnum.RECOVER);
-                        }
-                        return true;
-                    }
-                }
-                else if (result == System.Windows.Forms.DialogResult.Abort)
-                {
-                    // nothing
-                }
-                else if(result == System.Windows.Forms.DialogResult.Cancel)
-                {
-                    return true;
-                }
-            }
+            //            this.Close();
+            //            if (_frmMain != null)
+            //            {
+            //                _frmMain.ShowFrom(FrmMain.TabToggleEnum.DESTORY);
+            //            }
+            //            return true;
+            //        }
+            //    }
+            //    else if (result == System.Windows.Forms.DialogResult.Abort)
+            //    {
+            //        // nothing
+            //    }
+            //    else if(result == System.Windows.Forms.DialogResult.Cancel)
+            //    {
+            //        return true;
+            //    }
+            //}
             #endregion
 
          

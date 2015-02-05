@@ -183,7 +183,6 @@ namespace YRKJ.MWR.WSInventory.Forms
         {
             try
             {
-
                 if (!LoadData())
                     return false;
 
@@ -448,7 +447,8 @@ namespace YRKJ.MWR.WSInventory.Forms
                             f = new FrmInventorySearch();
                             break;
                         case TabToggleEnum.RECOVE_RDETAIL:
-                            f = new FrmMWRecoverDetail();
+                            //f = new FrmMWRecoverDetail();
+                            return;
                             break;
                         case TabToggleEnum.POST_DETAIL:
                             f = new FrmMWPostDetail();

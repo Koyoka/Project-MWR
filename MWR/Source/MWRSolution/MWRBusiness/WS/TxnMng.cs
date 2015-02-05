@@ -49,8 +49,41 @@ namespace YRKJ.MWR.Business.WS
 
             return true;
         }
-        
-        
+
+
+        public static bool GetRecoverHeaderAndDetail(string txnNum,
+            ref VewTxnHeaderWithCarDispatch header,
+            ref List<TblMWTxnDetail> detailList,
+            ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+
+            {
+                SqlQueryMng sqm = new SqlQueryMng();
+                sqm.Condition.Where.AddCompareValue(VewTxnHeaderWithCarDispatch.getTxnNumColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, txnNum);
+                if (!VewTxnHeaderWithCarDispatchCtrl.QueryOne(dcf, sqm, ref header, ref errMsg))
+                {
+                    return false;
+                }
+                if (header == null)
+                {
+                    detailList = new List<TblMWTxnDetail>();
+                    //errMsg = "没有找到当前编号的回收计划单";
+                    return true;
+                }
+            }
+            {
+                SqlQueryMng sqm = new SqlQueryMng();
+                sqm.Condition.Where.AddCompareValue(TblMWTxnDetail.getTxnNumColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, txnNum);
+                if (!TblMWTxnDetailCtrl.QueryMore(dcf, sqm, ref detailList, ref errMsg))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+       
         #endregion
 
         #region recover txn list
@@ -83,39 +116,6 @@ namespace YRKJ.MWR.Business.WS
             return true;
         }
         
-        public static bool GetRecoverHeaderAndDetail(string txnNum, 
-            ref VewTxnHeaderWithCarDispatch header, 
-            ref List<TblMWTxnDetail> detailList, 
-            ref string errMsg)
-        {
-            DataCtrlInfo dcf = new DataCtrlInfo();
-
-            {
-                SqlQueryMng sqm = new SqlQueryMng();
-                sqm.Condition.Where.AddCompareValue(VewTxnHeaderWithCarDispatch.getTxnNumColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, txnNum);
-                if (!VewTxnHeaderWithCarDispatchCtrl.QueryOne(dcf, sqm, ref header, ref errMsg))
-                {
-                    return false;
-                }
-                if (header == null)
-                {
-                    detailList = new List<TblMWTxnDetail>();
-                    errMsg = "没有找到当前编号的回收计划单";
-                    return false;
-                }
-            }
-            {
-                SqlQueryMng sqm = new SqlQueryMng();
-                sqm.Condition.Where.AddCompareValue(TblMWTxnDetail.getTxnNumColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, txnNum);
-                if (!TblMWTxnDetailCtrl.QueryMore(dcf, sqm, ref detailList, ref errMsg))
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-       
         public static bool GetRecoverLeftDetailCount(string txnNum,ref int count, ref string errMsg)
         {
             DataCtrlInfo dcf = new DataCtrlInfo();
@@ -1964,6 +1964,379 @@ namespace YRKJ.MWR.Business.WS
 
         #endregion
 
+        #region destory txn list
+
+        #region get data
+        public static bool GetGetRecoverToDestroyTxnCount(string wscode, ref int count, ref string errMsg)
+        {
+
+            DataCtrlInfo dcf = new DataCtrlInfo();
+
+            SqlQueryMng sqm = new SqlQueryMng();
+            {
+                SqlWhere sw = new SqlWhere(SqlCommonFn.SqlWhereLinkType.OR);
+                sw.AddCompareValue(VewTxnHeaderWithCarDispatch.getRecoWSCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, wscode);
+                sw.AddCompareValue(VewTxnHeaderWithCarDispatch.getRecoWSCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, string.Empty);
+                sqm.Condition.Where.AddWhere(sw);
+            }
+            sqm.Condition.Where.AddCompareValue(VewTxnHeaderWithCarDispatch.getOperateTypeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals,
+                    VewTxnHeaderWithCarDispatch.OPERATETYPE_ENUM_ToDestroy);
+            sqm.Condition.Where.AddCompareValue(VewTxnHeaderWithCarDispatch.getStatusColumn(), SqlCommonFn.SqlWhereCompareEnum.UnEquals,
+                   VewTxnHeaderWithCarDispatch.STATUS_ENUM_Complete);
+
+            sqm.Condition.OrderBy.Add(VewTxnHeaderWithCarDispatch.getInDateColumn(), SqlCommonFn.SqlOrderByType.ASC);
+
+            sqm.QueryColumn.AddCount(VewTxnHeaderWithCarDispatch.getRecoHeaderIdColumn());
+
+            VewTxnHeaderWithCarDispatch item = null;
+            if (!VewTxnHeaderWithCarDispatchCtrl.QueryOne(dcf, sqm, ref item, ref errMsg))
+            {
+                return false;
+            }
+
+            if (item == null)
+            {
+                count = 0;
+                return true;
+            }
+            count = item.RecoHeaderId;
+
+            //if (!VewTxnHeaderWithCarDispatchCtrl.QueryMore(dcf, sqm, ref header, ref errMsg))
+            //{
+            //    header = new List<VewTxnHeaderWithCarDispatch>();
+            //    return false;
+            //}
+
+            return true;
+        }
+
+        public static bool GetRecoverToDestroyTxnList(string wscode, ref List<VewTxnHeaderWithCarDispatch> header, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+
+            SqlQueryMng sqm = new SqlQueryMng();
+            {
+                SqlWhere sw = new SqlWhere(SqlCommonFn.SqlWhereLinkType.OR);
+                sw.AddCompareValue(VewTxnHeaderWithCarDispatch.getRecoWSCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, wscode);
+                sw.AddCompareValue(VewTxnHeaderWithCarDispatch.getRecoWSCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, string.Empty);
+                sqm.Condition.Where.AddWhere(sw);
+            }
+            sqm.Condition.Where.AddCompareValue(VewTxnHeaderWithCarDispatch.getOperateTypeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals,
+                    VewTxnHeaderWithCarDispatch.OPERATETYPE_ENUM_ToDestroy);
+            sqm.Condition.Where.AddCompareValue(VewTxnHeaderWithCarDispatch.getStatusColumn(), SqlCommonFn.SqlWhereCompareEnum.UnEquals,
+                   VewTxnHeaderWithCarDispatch.STATUS_ENUM_Complete);
+
+            sqm.Condition.OrderBy.Add(VewTxnHeaderWithCarDispatch.getInDateColumn(), SqlCommonFn.SqlOrderByType.ASC);
+
+            if (!VewTxnHeaderWithCarDispatchCtrl.QueryMore(dcf, sqm, ref header, ref errMsg))
+            {
+                header = new List<VewTxnHeaderWithCarDispatch>();
+                return false;
+            }
+
+            return true;
+        }
+        
+        #endregion
+
+        #region workflow 1 recover to destroy
+
+        public static bool BeginConfirmRecoverToDestroy(string recoverTxnNum,string wsCode,string empyCode,ref string newDestroyTxnNum,ref string errMsg)
+        {
+
+            DataCtrlInfo dcf = new DataCtrlInfo();
+
+            TblMWEmploy empy = null;
+            TblMWWorkStation ws = null;
+            List<TblMWTxnDetail> recoverDetailList = null;
+            #region get & valid data
+            {
+                SqlQueryMng sqm = new SqlQueryMng();
+                sqm.Condition.Where.AddCompareValue(TblMWTxnDetail.getTxnNumColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, recoverTxnNum);
+
+                if (!TblMWTxnDetailCtrl.QueryMore(dcf, sqm, ref recoverDetailList, ref errMsg))
+                {
+                    return false;
+                }
+
+                if (recoverDetailList.Count == 0)
+                {
+                    errMsg = LngRes.MSG_Valid_DetailIsEmpty;
+                    return false;
+                }
+            }
+            {
+                SqlQueryMng sqm = new SqlQueryMng();
+                sqm.Condition.Where.AddCompareValue(TblMWEmploy.getEmpyCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, empyCode);
+                if (!TblMWEmployCtrl.QueryOne(dcf, sqm, ref empy, ref errMsg))
+                {
+                    return false;
+                }
+                if (empy == null)
+                {
+                    errMsg = LngRes.MSG_Valid_NoEmploy;
+                    return false;
+                }
+            }
+            {
+                SqlQueryMng sqm = new SqlQueryMng();
+                sqm.Condition.Where.AddCompareValue(TblMWWorkStation.getWSCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, wsCode);
+                if (!TblMWWorkStationCtrl.QueryOne(dcf, sqm, ref ws, ref errMsg))
+                {
+                    return false;
+                }
+                if (ws == null)
+                {
+                    errMsg = LngRes.MSG_Valid_NoWorkstation;
+                    return false;
+                }
+            }
+            #endregion
+
+            dcf.BeginTrans();
+
+            #region add data
+
+
+            DateTime now = SqlDBMng.GetDBNow();
+            int updCount = 0;
+
+            int invRecordNextId = 0;
+            int invTrackNextId = 0;
+            int txnLogNextId = 0;
+
+            string destroyTxnNum = "";
+            int destroyTxnHeaderNextId = 0;
+            int destroyTxnDetailNextId = 0;
+            #region get next id
+            int detailCount = recoverDetailList.Count;
+            invRecordNextId = MWNextIdMng.GetInventoryNextId(detailCount);
+            invTrackNextId = MWNextIdMng.GetInventoryTrackNextId(detailCount);
+            txnLogNextId = MWNextIdMng.GetTxnLogNextId(detailCount);
+
+            destroyTxnNum = MWNextIdMng.GetTxnNextNum(BizBase.GetInstance().TxnNumMask);
+            destroyTxnHeaderNextId = MWNextIdMng.GetTxnDestroyHeaderNextId();
+            destroyTxnDetailNextId = MWNextIdMng.GetTxnDetailNextId(detailCount);
+
+            bool validNextId = true;
+            validNextId = invRecordNextId != 0 && validNextId;
+            validNextId = invTrackNextId != 0 && validNextId;
+            validNextId = txnLogNextId != 0 && validNextId;
+
+            validNextId = !string.IsNullOrEmpty(destroyTxnNum) && validNextId;
+            validNextId = destroyTxnHeaderNextId != 0 && validNextId;
+            validNextId = destroyTxnDetailNextId != 0 && validNextId;
+
+            if (!validNextId)
+            {
+                errMsg = MWNextIdMng.NextIdErrMsg;
+                return false;
+            }
+            #endregion
+
+            //auto recover to inventory and post to destroy
+            decimal totalSubWeight = 0;
+            int totalQty = 0;
+            #region auto recover to inventory & create new destroy txn
+
+            foreach (TblMWTxnDetail data in recoverDetailList)
+            {
+
+                TblMWTxnDetail recoverDetail = data;
+                totalSubWeight += data.SubWeight;
+                totalQty++;
+
+                #region update recover txn detail
+                {
+                    SqlUpdateColumn suc = new SqlUpdateColumn();
+                    suc.Add(TblMWTxnDetail.getWSCodeColumn(), ws.WSCode);
+                    suc.Add(TblMWTxnDetail.getEmpyNameColumn(), empy.EmpyName);
+                    suc.Add(TblMWTxnDetail.getEmpyCodeColumn(), empy.EmpyCode);
+                    suc.Add(TblMWTxnDetail.getTxnWeightColumn(), recoverDetail.SubWeight);
+
+                    suc.Add(TblMWTxnDetail.getInvRecordIdColumn(), invRecordNextId);
+                    suc.Add(TblMWTxnDetail.getStatusColumn(), TblMWTxnDetail.STATUS_ENUM_Complete);
+
+                    SqlWhere sw = new SqlWhere();
+                    sw.AddCompareValue(TblMWTxnDetail.getTxnDetailIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, recoverDetail.TxnDetailId);
+
+                    if (!TblMWTxnDetailCtrl.Update(dcf, suc, sw, ref updCount, ref errMsg))
+                    {
+                        return false;
+                    }
+                }
+                #endregion
+
+                #region add new destroy txn detail
+                {
+                    TblMWTxnDetail destroyDetail = data;
+                    destroyDetail.TxnDetailId = destroyTxnDetailNextId;
+                    destroyDetail.TxnType = TblMWTxnDetail.TXNTYPE_ENUM_Destroy;
+                    destroyDetail.TxnNum = destroyTxnNum;
+                    destroyDetail.WSCode = ws.WSCode;
+                    destroyDetail.EmpyName = empy.EmpyName;
+                    destroyDetail.EmpyCode = empy.EmpyCode;
+                    //destroyDetail.CrateCode = inv.CrateCode;
+                    //destroyDetail.Vendor = inv.Vendor;
+                    //destroyDetail.VendorCode = inv.VendorCode;
+                    //destroyDetail.Waste = inv.Waste;
+                    //destroyDetail.WasteCode = inv.WasteCode;
+                    //destroyDetail.SubWeight = inv.SubWeight;
+                    destroyDetail.TxnWeight = 0;
+                    destroyDetail.EntryDate = now;
+                    destroyDetail.InvRecordId = invRecordNextId;
+                    //destroyDetail.InvAuthId = inv.InvAuthId;
+                    destroyDetail.Status = TblMWTxnDetail.STATUS_ENUM_Process;
+
+                    if (!TblMWTxnDetailCtrl.Insert(dcf, destroyDetail, ref updCount, ref errMsg))
+                    {
+                        return false;
+                    }
+                }
+                #endregion
+
+                #region auto add recover inventory to destroy
+                {
+                    TblMWInventory item = new TblMWInventory();
+                    item.InvRecordId = invRecordNextId;
+                    item.CrateCode = recoverDetail.CrateCode;
+                    item.DepotCode = ""; ;
+                    item.Vendor = recoverDetail.Vendor;
+                    item.VendorCode = recoverDetail.VendorCode;
+                    item.Waste = recoverDetail.Waste;
+                    item.WasteCode = recoverDetail.WasteCode;
+                    item.RecoWeight = recoverDetail.SubWeight;
+                    item.InvWeight = recoverDetail.SubWeight;
+                    item.PostWeight = recoverDetail.SubWeight;
+                    //item.DestWeight = detail.DestWeight;
+                    item.EntryDate = now;
+                    item.Status = TblMWInventory.STATUS_ENUM_Destroying;
+                    //item.DailyClose = detail.DailyClose;
+
+
+                    if (!TblMWInventoryCtrl.Insert(dcf, item, ref updCount, ref errMsg))
+                    {
+                        return false;
+                    }
+                }
+                #endregion
+
+                #region auto add recover inventory track
+                {
+                    TblMWInventoryTrack item = new TblMWInventoryTrack();
+                    item.InvTrackRecordId = invTrackNextId;
+
+                    item.InvRecordId = invRecordNextId;
+
+                    item.TxnNum = recoverDetail.TxnNum;
+                    item.TxnType = TblMWInventoryTrack.TXNTYPE_ENUM_Recover;//detail.TxnType;
+                    item.TxnDetailId = recoverDetail.TxnDetailId;
+                    item.CrateCode = recoverDetail.CrateCode;
+                    item.DepotCode = "";
+                    item.Vendor = recoverDetail.Vendor;
+                    item.VendorCode = recoverDetail.VendorCode;
+                    item.Waste = recoverDetail.Waste;
+                    item.WasteCode = recoverDetail.WasteCode;
+                    item.SubWeight = recoverDetail.SubWeight;
+                    item.TxnWeight = recoverDetail.SubWeight;
+                    item.WSCode = recoverDetail.WSCode;
+                    item.EmpyName = recoverDetail.EmpyName;
+                    item.EmpyCode = recoverDetail.EmpyCode;
+                    item.EntryDate = now;
+                    item.Status = TblMWInventoryTrack.STATUS_ENUM_Normal;
+                    //item.InvAuthId = detail.InvAuthId;
+
+                    if (!TblMWInventoryTrackCtrl.Insert(dcf, item, ref updCount, ref errMsg))
+                    {
+                        return false;
+                    }
+                }
+                #endregion
+
+                #region auto add recover txn log
+                {
+                    TblMWTxnLog item = new TblMWTxnLog();
+                    item.TxnLogId = txnLogNextId;
+
+                    item.TxnNum = recoverDetail.TxnNum;
+                    item.TxnDetailId = recoverDetail.TxnDetailId;
+                    item.WSCode = recoverDetail.WSCode;
+                    item.EmpyName = recoverDetail.EmpyName;
+                    item.EmpyCode = recoverDetail.EmpyCode;
+                    item.OptType = TblMWTxnLog.OPTTYPE_ENUM_SubComplete;
+                    item.OptDate = now;
+                    item.TxnLogType = TblMWTxnLog.TXNLOGTYPE_ENUM_Recover;
+
+                    item.InvRecordId = invRecordNextId;
+
+                    if (!TblMWTxnLogCtrl.Insert(dcf, item, ref updCount, ref errMsg))
+                    {
+                        return false;
+                    }
+                }
+                #endregion
+                invRecordNextId++;
+                invTrackNextId++;
+                txnLogNextId++;
+                destroyTxnDetailNextId++;
+            }
+
+            #region add new destroy txn header
+            {
+                TblMWTxnDestroyHeader item = new TblMWTxnDestroyHeader();
+                item.DestHeaderId = destroyTxnHeaderNextId;
+                item.TxnNum = destroyTxnNum;
+                item.DestType = TblMWTxnDestroyHeader.DESTTYPE_ENUM_RecoverDestroy;
+                item.StartDate = now;
+                //item.EndDate = inv.EndDate;
+                item.DestWSCode = ws.WSCode;
+                item.DestEmpyName = empy.EmpyName;
+                item.DestEmpyCode = empy.EmpyCode;
+                item.TotalCrateQty = totalQty;
+                item.TotalSubWeight = totalSubWeight;
+                item.TotalTxnWeight = 0;
+                item.Status = TblMWTxnDestroyHeader.STATUS_ENUM_Process;
+
+                if (!TblMWTxnDestroyHeaderCtrl.Insert(dcf, item, ref updCount, ref errMsg))
+                {
+                    return false;
+                }
+            }
+            #endregion
+
+            #region update recover txn header
+            {
+                SqlUpdateColumn suc = new SqlUpdateColumn();
+                suc.Add(TblMWTxnRecoverHeader.getStatusColumn(), TblMWTxnRecoverHeader.STATUS_ENUM_Complete);
+                suc.Add(TblMWTxnRecoverHeader.getEndDateColumn(), now);
+                SqlWhere sw = new SqlWhere();
+                sw.AddCompareValue(TblMWTxnRecoverHeader.getTxnNumColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, recoverTxnNum);
+                if (!TblMWTxnRecoverHeaderCtrl.Update(dcf, suc, sw, ref updCount, ref errMsg))
+                {
+                    return false;
+                }
+            }
+            #endregion
+
+
+            #endregion
+
+            #endregion
+
+            int[] updCounts = null;
+            if (!dcf.Commit(ref updCounts, ref errMsg))
+            {
+                return false;
+            }
+
+            newDestroyTxnNum = destroyTxnNum;
+            return true;
+        }
+
+        #endregion
+
+        #endregion
+
         #endregion
 
         public static bool TestUpdate()
@@ -2008,6 +2381,7 @@ namespace YRKJ.MWR.Business.WS
             public const string MSG_Valid_NoInvTxnHeader = "没有找到当前订单号的出库计划单";
             public const string MSG_Valid_NoInventory = "没有找到当前的库存信息";
             public const string MSG_Valid_ExistUnCompleteTxnDetail = "计划交易，有未审核完成货箱";
+            public const string MSG_Valid_DetailIsEmpty = "当前计划单中货箱数量为0";
 
             public const string MSG_Valid_NoDataUpdate = "数据没有被跟新，请稍后重试。";
         }

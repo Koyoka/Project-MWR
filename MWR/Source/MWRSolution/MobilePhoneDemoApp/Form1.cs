@@ -289,6 +289,85 @@ namespace MobilePhoneDemoApp
             }
         }
 
+        private void button3_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                this.Cursor = Cursors.WaitCursor;
+                string errMsg = "";
+                #region test
+                //{
+                //    DataCtrlInfo dcf = new DataCtrlInfo();
+                //    TblMWCarDispatch carDispatchInfo = new TblMWCarDispatch();
+                //    carDispatchInfo.CarDisId = 1;
+                //    //carDispatchInfo.InDate = DateTime.Now;
+                //    int updCount = 0;
+
+                //    SqlWhere sw = new SqlWhere();
+                //    sw.AddCompareValue(TblMWCarDispatch.getCarDisIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, carDispatchInfo.CarDisId);
+
+                //    SqlUpdateColumn suc = new SqlUpdateColumn();
+                //    //suc.Add(TblMWCarDispatch.getCarCodeColumn(),"asdf");
+                //    suc.Add(TblMWCarDispatch.getInDateColumn(),DateTime.Now);
+
+                //    if (!TblMWCarDispatchCtrl.Update(dcf, carDispatchInfo, suc, sw, ref updCount, ref errMsg))
+                //    {
+                //        MessageBox.Show(errMsg);
+                //        return ;
+                //    }
+                //}
+                //return;
+                #endregion
+                {
+                    string body = "";
+                    TxnData txnData = new TxnData();
+                    txnData.carcode = DemoData.GetInstance().CarCode;
+                    txnData.drvier = DemoData.GetInstance().Driver;
+                    txnData.drivercode = DemoData.GetInstance().DriverCode;
+                    txnData.inspector = DemoData.GetInstance().Inspector;
+                    txnData.inspectorcode = DemoData.GetInstance().InspectorCode;
+                    txnData.mwscode = DemoData.GetInstance().MWSCode;
+                    txnData.txndetaillist = DemoData.GetInstance().TxnDetailList;
+
+                    ResponseHttpValueJsonData jData = new ResponseHttpValueJsonData();
+                    jData.action = "RecoverDestroySubmit";
+                    jData.value = txnData;
+                    body = JsonConvert.SerializeObject(jData);
+
+                    string resData = "";
+
+                    if (!MWHttpSendHelper.RequestToJson(
+                        ComLib.AuthorizationHelper.S_ACCESS_KEY,
+                        ComLib.AuthorizationHelper.S_SECRET_KEY,
+                        body, "POST", @"http://localhost:15809/Services/MWRecoverServer.aspx", ref resData, ref errMsg))
+                    {
+                        MessageBox.Show(errMsg);
+                    }
+
+                    if (resData.ToLower().Equals("success"))
+                    {
+                        DemoData.GetInstance().TxnDetailList.Clear();
+                    }
+
+                    using (FrmText f = new FrmText(resData))
+                    {
+                        f.ShowDialog();
+                    }
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                LogMng.GetLog().PrintError(ClassName, "button2_Click", ex);
+                MsgBox.Error(ex);
+            }
+            finally
+            {
+                this.Cursor = Cursors.Default;
+            }
+        }
+
       
 
         #region Form Data Property

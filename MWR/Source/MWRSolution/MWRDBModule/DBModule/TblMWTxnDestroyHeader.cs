@@ -22,6 +22,7 @@ namespace YRKJ.MWR
                 new DataColumnInfo[]{
             new DataColumnInfo(true,false,false,false,"DestHeaderId",SqlCommonFn.DataColumnType.INT,10),
             new DataColumnInfo(false,true,false,false,"TxnNum",SqlCommonFn.DataColumnType.STRING,20),
+            new DataColumnInfo(false,true,false,false,"DestType",SqlCommonFn.DataColumnType.STRING,2),
             new DataColumnInfo(false,true,false,false,"StartDate",SqlCommonFn.DataColumnType.DATETIME,0),
             new DataColumnInfo(false,true,false,false,"EndDate",SqlCommonFn.DataColumnType.DATETIME,0),
             new DataColumnInfo(false,true,false,false,"DestWSCode",SqlCommonFn.DataColumnType.STRING,20),
@@ -41,45 +42,50 @@ namespace YRKJ.MWR
         {
             return Columns[1];
         }
-        public static DataColumnInfo getStartDateColumn()
+        public static DataColumnInfo getDestTypeColumn()
         {
             return Columns[2];
         }
-        public static DataColumnInfo getEndDateColumn()
+        public static DataColumnInfo getStartDateColumn()
         {
             return Columns[3];
         }
-        public static DataColumnInfo getDestWSCodeColumn()
+        public static DataColumnInfo getEndDateColumn()
         {
             return Columns[4];
         }
-        public static DataColumnInfo getDestEmpyNameColumn()
+        public static DataColumnInfo getDestWSCodeColumn()
         {
             return Columns[5];
         }
-        public static DataColumnInfo getDestEmpyCodeColumn()
+        public static DataColumnInfo getDestEmpyNameColumn()
         {
             return Columns[6];
         }
-        public static DataColumnInfo getTotalCrateQtyColumn()
+        public static DataColumnInfo getDestEmpyCodeColumn()
         {
             return Columns[7];
         }
-        public static DataColumnInfo getTotalSubWeightColumn()
+        public static DataColumnInfo getTotalCrateQtyColumn()
         {
             return Columns[8];
         }
-        public static DataColumnInfo getTotalTxnWeightColumn()
+        public static DataColumnInfo getTotalSubWeightColumn()
         {
             return Columns[9];
         }
-        public static DataColumnInfo getStatusColumn()
+        public static DataColumnInfo getTotalTxnWeightColumn()
         {
             return Columns[10];
+        }
+        public static DataColumnInfo getStatusColumn()
+        {
+            return Columns[11];
         }
 
         private int _DestHeaderId = 0;
         private string _TxnNum = "";
+        private string _DestType = "";
         private DateTime _StartDate = DateTime.MinValue;
         private DateTime _EndDate = DateTime.MinValue;
         private string _DestWSCode = "";
@@ -110,6 +116,17 @@ namespace YRKJ.MWR
             set
             {
                 _TxnNum = value;
+            }
+        }
+        public string DestType
+        {
+            get
+            {
+                return _DestType;
+            }
+            set
+            {
+                _DestType = value;
             }
         }
         public DateTime StartDate
@@ -219,6 +236,8 @@ namespace YRKJ.MWR
                  SetValue(ref _DestHeaderId, row["DestHeaderId"]);
              if(dataCols.Contains("TxnNum"))
                  SetValue(ref _TxnNum, row["TxnNum"]);
+             if(dataCols.Contains("DestType"))
+                 SetValue(ref _DestType, row["DestType"]);
              if(dataCols.Contains("StartDate"))
                  SetValue(ref _StartDate, row["StartDate"]);
              if(dataCols.Contains("EndDate"))
@@ -241,6 +260,11 @@ namespace YRKJ.MWR
                  SetValue(ref _TEM_COLUMN_COUNT, row["TEM_COLUMN_COUNT"]);
          }
 
+        public const string DESTTYPE_ENUM_RecoverDestroy = "RD";//1.回收处置 RD;
+        public const string DESTTYPE_ENUM_PostDestroy = "PD";//2.出库处置 PD;
+        public const string STATUS_ENUM_Process = "P";//操作中;
+        public const string STATUS_ENUM_Complete = "C";//完成;
+        public const string STATUS_ENUM_Authorize = "A";//提交审核;
 
     }
 }

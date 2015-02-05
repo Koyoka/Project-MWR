@@ -93,34 +93,6 @@ namespace YRKJ.MWR.WSInventory.Forms
             }
         }
 
-
-        public void ControlActivity()
-        {
-            try
-            {
-                this.Cursor = Cursors.WaitCursor;
-                
-                string errMsg = "";
-                //_bindingRecoverDataMng = this.BindingContext[_gridMWRecoverData];
-                //_gridMWRecoverData.Clear();
-                //if (!LoadData(ref errMsg))
-                //{
-                //    MsgBox.Error(errMsg);
-                //    return;
-                //}
-                
-            }
-            catch (Exception ex)
-            {
-                LogMng.GetLog().PrintError(ClassName, "ControlActivity", ex);
-                MsgBox.Error(ex);
-            }
-            finally
-            {
-                this.Cursor = Cursors.Default;
-            }
-        }
-
         private void c_btnStratRecover_Click(object sender, EventArgs e)
         {
             try
@@ -163,8 +135,6 @@ namespace YRKJ.MWR.WSInventory.Forms
                 this.Cursor = Cursors.Default;
             }
         }
-
-     
 
         private void c_bgwGetRecoverTxnHeader_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -251,7 +221,32 @@ namespace YRKJ.MWR.WSInventory.Forms
             }
         }
 
-        
+        public void ControlActivity()
+        {
+            try
+            {
+                this.Cursor = Cursors.WaitCursor;
+
+                string errMsg = "";
+                //_bindingRecoverDataMng = this.BindingContext[_gridMWRecoverData];
+                //_gridMWRecoverData.Clear();
+                //if (!LoadData(ref errMsg))
+                //{
+                //    MsgBox.Error(errMsg);
+                //    return;
+                //}
+
+            }
+            catch (Exception ex)
+            {
+                LogMng.GetLog().PrintError(ClassName, "ControlActivity", ex);
+                MsgBox.Error(ex);
+            }
+            finally
+            {
+                this.Cursor = Cursors.Default;
+            }
+        }
         #endregion
 
         #region Functions

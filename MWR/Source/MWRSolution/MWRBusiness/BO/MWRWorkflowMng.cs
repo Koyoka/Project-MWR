@@ -126,8 +126,264 @@ namespace YRKJ.MWR.Business.BO
         #endregion
 
         #region 2.1 send txnheader,car recover resposne inv workstation
+        public static bool RecoverToDestroy(string carCode,
+            string driverCode,
+            string inspectorCode,
+            string mwsCode,
+            List<TblMWTxnDetail> txnDetailList,
+            ref string errMsg)
+        { 
+            return CarInRecover(carCode, driverCode, inspectorCode, mwsCode, txnDetailList, TblMWTxnRecoverHeader.OPERATETYPE_ENUM_ToDestroy, ref errMsg);
+        }
+        public static bool RecoverToInventory(string carCode,
+            string driverCode,
+            string inspectorCode,
+            string mwsCode,
+            List<TblMWTxnDetail> txnDetailList,
+            ref string errMsg)
+        {
+            return CarInRecover(carCode, driverCode, inspectorCode, mwsCode, txnDetailList, TblMWTxnRecoverHeader.OPERATETYPE_ENUM_ToInventory, ref errMsg);
+        }
+        private static bool CarInRecover(string carCode,
+            string driverCode,
+            string inspectorCode,
+            string mwsCode,
+            List<TblMWTxnDetail> txnDetailList,
+            string OperateType,
+            ref string errMsg)
+        {
 
-        public static bool RecoverToInventory(
+            string driver = "";
+            string inspector = "";
+
+            decimal totalSubWeight = 0;
+            int totalCrateQty = 0;
+            TblMWCarDispatch carDispatchInfo = null;
+            #region get moblie workstation base data
+            {
+                DataCtrlInfo dcf = new DataCtrlInfo();
+                totalCrateQty = txnDetailList.Count;
+                foreach (TblMWTxnDetail dtl in txnDetailList)
+                {
+                    totalSubWeight += dtl.SubWeight;
+                }
+
+                #region CarDispatch
+                {
+                    SqlQueryMng sqm = new SqlQueryMng();
+                    sqm.Condition.Where.AddCompareValue(TblMWCarDispatch.getCarCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, carCode);
+                    sqm.Condition.Where.AddCompareValue(TblMWCarDispatch.getStatusColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, TblMWCarDispatch.STATUS_ENUM_ShiftStrat);
+                    //sqm.Condition.Where.AddCompareValue(TblMWCarDispatch.getInDateColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, DateTime.MinValue);
+                    sqm.Condition.Where.AddCompareValue(TblMWCarDispatch.getDriverCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, driverCode);
+                    sqm.Condition.Where.AddCompareValue(TblMWCarDispatch.getInspectorCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, inspectorCode);
+                    sqm.Condition.Where.AddCompareValue(TblMWCarDispatch.getRecoMWSCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, mwsCode);
+
+                    if (!TblMWCarDispatchCtrl.QueryOne(dcf, sqm, ref carDispatchInfo, ref errMsg))
+                    {
+                        return false;
+                    }
+                    if (carDispatchInfo == null)
+                    {
+                        errMsg = "没有找到当前车辆的出车记录,是否已被完成？";
+                        return false;
+                    }
+                    //if (carDispatchInfo.Status != TblMWCarDispatch.STATUS_ENUM_ShiftStrat)
+                    //{
+                    //    errMsg = "该回收计划已经被管理员关闭";
+                    //    return false;
+                    //}
+                    if (carDispatchInfo.InDate != DateTime.MinValue)
+                    {
+                        errMsg = "该回收计划已经提交";
+                        return false;
+                    }
+                }
+                #endregion
+
+                #region driver
+                {
+                    TblMWEmploy data = null;
+                    SqlQueryMng sqm = new SqlQueryMng();
+                    sqm.Condition.Where.AddCompareValue(TblMWEmploy.getEmpyCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, driverCode);
+                    if (!TblMWEmployCtrl.QueryOne(dcf, sqm, ref data, ref errMsg))
+                    {
+                        return false;
+                    }
+                    if (data == null)
+                    {
+                        errMsg = "没有当前编号的司机";
+                        return false;
+                    }
+                    driver = data.EmpyName;
+                }
+                #endregion
+
+                #region inspector
+                {
+                    TblMWEmploy data = null;
+                    SqlQueryMng sqm = new SqlQueryMng();
+                    sqm.Condition.Where.AddCompareValue(TblMWEmploy.getEmpyCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, inspectorCode);
+                    if (!TblMWEmployCtrl.QueryOne(dcf, sqm, ref data, ref errMsg))
+                    {
+                        return false;
+                    }
+                    if (data == null)
+                    {
+                        errMsg = "没有当前编号的跟车员";
+                        return false;
+                    }
+                    inspector = data.EmpyName;
+                }
+                #endregion
+            }
+            #endregion
+
+            #region add data
+            {
+                DataCtrlInfo dcf = new DataCtrlInfo();
+                dcf.BeginTrans();
+
+                DateTime now = SqlDBMng.GetDBNow();
+                #region add txn data
+                {
+
+                    string nextTxnNum = MWNextIdMng.GetTxnNextNum(BizBase.GetInstance().TxnNumMask);
+                    if (nextTxnNum == null)
+                    {
+                        errMsg = ErrorMng.GetDBError(ClassName, "recoverToInventory", "TxnNum增长列添加错误");
+                        return false;
+                    }
+
+                    #region add header
+                    int nextId = MWNextIdMng.GetTxnRecoverHeaderNextId();
+                    if (nextId == 0)
+                    {
+                        errMsg = ErrorMng.GetDBError(ClassName, "recoverToInventory", "Id增长列添加错误");
+                        return false;
+                    }
+                    TblMWTxnRecoverHeader header = new TblMWTxnRecoverHeader();
+                    header.RecoHeaderId = nextId;
+                    header.TxnNum = nextTxnNum;
+
+                    header.CarCode = carCode;
+                    header.Driver = driver;
+                    header.DriverCode = driverCode;
+                    header.Inspector = inspector;
+                    header.InspectorCode = inspectorCode;
+                    header.RecoMWSCode = mwsCode;
+
+
+                    //header.RecoWSCode = mwsCode;
+                    //header.RecoEmpyName = inspector;
+                    //header.RecoEmpyCode = inspectorCode;
+
+                    //header.StratDate = DateTime.MinValue;
+                    //header.EndDate = DateTime.MinValue;
+                    header.OperateType = OperateType;// TblMWTxnRecoverHeader.OPERATETYPE_ENUM_ToInventory;
+                    header.TotalCrateQty = totalCrateQty;
+                    header.TotalSubWeight = totalSubWeight;
+                    header.TotalTxnWeight = 0;
+                    header.CarDisId = carDispatchInfo.CarDisId;
+                    header.Status = TblMWTxnRecoverHeader.STATUS_ENUM_Send;
+
+                    int updCount = 0;
+                    if (!TblMWTxnRecoverHeaderCtrl.Insert(dcf, header, ref updCount, ref errMsg))
+                    {
+                        return false;
+                    }
+                    #endregion
+
+                    #region add detail
+                    int dtlNextId = MWNextIdMng.GetTxnDetailNextId(txnDetailList.Count);
+                    int txnLogNextId = MWNextIdMng.GetTxnLogNextId(txnDetailList.Count);
+                    if (dtlNextId == 0
+                        && txnLogNextId == 0)
+                    {
+                        errMsg = ErrorMng.GetDBError(ClassName, "recoverToInventory", "Id增长列添加错误");
+                        return false;
+                    }
+                    foreach (TblMWTxnDetail dtl in txnDetailList)
+                    {
+                        dtl.TxnDetailId = dtlNextId;
+                        dtl.TxnType = TblMWTxnDetail.TXNTYPE_ENUM_Recover;
+                        dtl.TxnNum = header.TxnNum;
+                        //dtl.WSCode = mwsCode;
+                        //dtl.EmpyName = inspector;
+                        //dtl.EmpyCode = inspectorCode;
+                        //dtl.CrateCode = "";
+                        //dtl.Vendor = "";
+                        //dtl.VendorCode = "";
+                        //dtl.Waste = "";
+                        //dtl.WasteCode = "";
+                        //dtl.SubWeight = "";
+                        //dtl.TxnWeight = dtl.SubWeight;
+                        //dtl.EntryDate = now;
+                        //dtl.InvRecordId = "";
+                        //dtl.InvAuthId = "";
+                        dtl.Status = TblMWTxnDetail.STATUS_ENUM_Process;
+
+                        if (!TblMWTxnDetailCtrl.Insert(dcf, dtl, ref updCount, ref errMsg))
+                        {
+                            return false;
+                        }
+
+                        #region add txn log
+                        {
+                            TblMWTxnLog item = new TblMWTxnLog();
+                            item.TxnLogId = txnLogNextId;
+                            item.TxnNum = dtl.TxnNum;
+                            item.TxnDetailId = dtl.TxnDetailId;
+                            item.WSCode = mwsCode;
+                            item.EmpyName = inspector;
+                            item.EmpyCode = inspectorCode;
+                            item.OptType = TblMWTxnLog.OPTTYPE_ENUM_SubRecover;
+                            item.OptDate = now;
+                            item.TxnLogType = TblMWTxnLog.TXNLOGTYPE_ENUM_Recover;
+                            //item.InvRecordId = invRecordNextId;
+
+                            if (!TblMWTxnLogCtrl.Insert(dcf, item, ref updCount, ref errMsg))
+                            {
+                                return false;
+                            }
+                        }
+                        #endregion
+
+                        dtlNextId++;
+                        txnLogNextId++;
+                    }
+                    #endregion
+                }
+                #endregion
+
+                #region update cardisptch indate
+                {
+                    int updCount = 0;
+
+                    SqlWhere sw = new SqlWhere();
+                    sw.AddCompareValue(TblMWCarDispatch.getCarDisIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, carDispatchInfo.CarDisId);
+
+                    SqlUpdateColumn suc = new SqlUpdateColumn();
+                    suc.Add(TblMWCarDispatch.getInDateColumn(), now);
+
+                    if (!TblMWCarDispatchCtrl.Update(dcf, carDispatchInfo, suc, sw, ref updCount, ref errMsg))
+                    {
+                        return false;
+                    }
+                }
+                #endregion
+
+                int[] updCounts = null;
+                if (!dcf.Commit(ref updCounts, ref errMsg))
+                {
+                    return false;
+                }
+
+            }
+            #endregion
+
+            return true;
+        }
+        static bool RecoverToInventory(string a,
             string carCode,
             string driverCode,
             string inspectorCode,
@@ -135,17 +391,6 @@ namespace YRKJ.MWR.Business.BO
             List<TblMWTxnDetail> txnDetailList,
             ref string errMsg)
         {
-
-            //if (txnDetailList == null)
-            //{
-            //    errMsg = "没有扫描的货箱数据";
-            //    return false;
-            //}
-            //if (txnDetailList.Count == 0)
-            //{
-            //    errMsg = "没有扫描的货箱数据";
-            //    return false;
-            //}
 
             string driver = "";
             string inspector = "";

@@ -8,6 +8,8 @@ using System.Text;
 using System.Windows.Forms;
 using YRKJ.MWR.WinBase.WinAppBase;
 using ComLib.Log;
+using YRKJ.MWR.WinBase.WinUtility;
+using YRKJ.MWR.WSDestory.Business.Sys;
 
 namespace YRKJ.MWR.WSDestory.Forms
 {
@@ -20,7 +22,7 @@ namespace YRKJ.MWR.WSDestory.Forms
         private List<Form> _childForms = new List<Form>();
         private Form _curForm = null;
 
-        public enum TabToggleEnum { DESTORY, RESIDUE, SEARCH, DESTORY_DETAIL, DESTORY_RECOVER }
+        public enum TabToggleEnum { DESTORY, RESIDUE, SEARCH, DESTORY_DETAIL, DESTORY_RECOVER, DESTORY_RECOVER_DETAIL }
 
         public FrmMain()
         {
@@ -141,31 +143,7 @@ namespace YRKJ.MWR.WSDestory.Forms
                 this.Cursor = Cursors.Default;
             }
         }
-
-        private void c_panForm_Resize(object sender, EventArgs e)
-        {
-            try
-            {
-                this.Cursor = Cursors.WaitCursor;
-
-                if (_curForm == null)
-                {
-                    return;
-                }
-                this.c_panForm.Controls.Clear();
-                resizeMdiForm(_curForm);
-            }
-            catch (Exception ex)
-            {
-                LogMng.GetLog().PrintError(ClassName, "c_panForm_Resize", ex);
-                MsgBox.Error(ex);
-            }
-            finally
-            {
-                this.Cursor = Cursors.Default;
-            }
-        }
-
+      
         #endregion
 
         #region Functions
@@ -177,6 +155,11 @@ namespace YRKJ.MWR.WSDestory.Forms
 
                 if (!LoadData())
                     return false;
+                BroadcastMng.GetInstance().Listen(SysInfo.Broadcast_RecoverTxnCount, (x) =>
+                {
+                    this.c_labRecoverTxnCount.Visible = x.Message == 0 ? false : true;
+                    this.c_labRecoverTxnCount.Text = x.Data.ToString();
+                });
 
                 _tabBgCtrl = new Control[] { c_labBg1, c_labBg2, c_labBg3 };
 
@@ -298,14 +281,19 @@ namespace YRKJ.MWR.WSDestory.Forms
             {
                 foreach (Form f in this.c_panForm.Controls)
                 {
-                    if (f is FrmMWDestoryDetail)
+                    if (f is FrmMWDestroyDetail)
                     {
                         ShowFrom(TabToggleEnum.DESTORY_DETAIL);
                         return;
                     }
-                    else if (f is FrmMWDestoryRecover)
+                    else if (f is FrmMWDestroyRecover)
                     {
                         ShowFrom(TabToggleEnum.DESTORY_RECOVER);
+                        return;
+                    }
+                    else if (f is FrmMWDestroyRecoverDetail)
+                    {
+                        ShowFrom(TabToggleEnum.DESTORY_RECOVER_DETAIL);
                         return;
                     }
                 }
@@ -328,7 +316,7 @@ namespace YRKJ.MWR.WSDestory.Forms
             foreach (Form f in this.c_panForm.Controls)
             {
                 if (tabToggle == TabToggleEnum.DESTORY
-                    && f is FrmMWDestory)
+                    && f is FrmMWDestroy)
                 {
                     _curForm = f;
                     f.BringToFront();
@@ -336,14 +324,14 @@ namespace YRKJ.MWR.WSDestory.Forms
                     return;
                 }
                 else if(tabToggle == TabToggleEnum.DESTORY_DETAIL
-                    && f is FrmMWDestoryDetail)
+                    && f is FrmMWDestroyDetail)
                 {
                     _curForm = f;
                     f.BringToFront();
                     return;
                 }
                 else if(tabToggle == TabToggleEnum.DESTORY_RECOVER
-                    && f is FrmMWDestoryRecover)
+                    && f is FrmMWDestroyRecover)
                 {
                     _curForm = f;
                     f.BringToFront();
@@ -351,6 +339,13 @@ namespace YRKJ.MWR.WSDestory.Forms
                 }
                 else if (tabToggle == TabToggleEnum.RESIDUE
                     && f is FrmMWResidue)
+                {
+                    _curForm = f;
+                    f.BringToFront();
+                    return;
+                }
+                else if (tabToggle == TabToggleEnum.DESTORY_RECOVER_DETAIL
+                    && f is FrmMWDestroyRecoverDetail)
                 {
                     _curForm = f;
                     f.BringToFront();
@@ -391,70 +386,70 @@ namespace YRKJ.MWR.WSDestory.Forms
             #endregion
 
             #region has clear all because resize mdi control
-            foreach (Form f in _childForms)
-            {
+            //foreach (Form f in _childForms)
+            //{
 
-                if (tabToggle == TabToggleEnum.DESTORY
-                    && f is FrmMWDestory)
-                {
-                    _curForm = f;
-                    resizeMdiForm(f);
-                    //(f as FrmMWRecover).ControlActivity();
-                    return;
-                }
-                else if(tabToggle == TabToggleEnum.DESTORY_DETAIL
-                    && f is FrmMWDestoryDetail)
-                {
-                    _curForm = f;
-                    resizeMdiForm(f);
-                    return;
-                }
-                else if (tabToggle == TabToggleEnum.DESTORY_RECOVER
-                     && f is FrmMWDestoryRecover)
-                {
-                    _curForm = f;
-                    resizeMdiForm(f);
-                    return;
-                }
-                else if (tabToggle == TabToggleEnum.RESIDUE
-                     && f is FrmMWResidue)
-                {
-                    _curForm = f;
-                    resizeMdiForm(f);
-                    return;
-                }
+            //    if (tabToggle == TabToggleEnum.DESTORY
+            //        && f is FrmMWDestory)
+            //    {
+            //        _curForm = f;
+            //        resizeMdiForm(f);
+            //        //(f as FrmMWRecover).ControlActivity();
+            //        return;
+            //    }
+            //    else if(tabToggle == TabToggleEnum.DESTORY_DETAIL
+            //        && f is FrmMWDestoryDetail)
+            //    {
+            //        _curForm = f;
+            //        resizeMdiForm(f);
+            //        return;
+            //    }
+            //    else if (tabToggle == TabToggleEnum.DESTORY_RECOVER
+            //         && f is FrmMWDestoryRecover)
+            //    {
+            //        _curForm = f;
+            //        resizeMdiForm(f);
+            //        return;
+            //    }
+            //    else if (tabToggle == TabToggleEnum.RESIDUE
+            //         && f is FrmMWResidue)
+            //    {
+            //        _curForm = f;
+            //        resizeMdiForm(f);
+            //        return;
+            //    }
 
-                //else if (tabToggle == TabToggleEnum.POST
-                //   && f is FrmMWPost)
-                //{
-                //    _curForm = f;
-                //    resizeMdiForm(f);
-                //    (f as FrmMWPost).ControlActivity();
-                //    return;
-                //}
-                //else if (tabToggle == TabToggleEnum.SEARCH
-                //    && f is FrmInventorySearch)
-                //{
-                //    _curForm = f;
-                //    resizeMdiForm(f);
-                //    (f as FrmInventorySearch).ControlActivity();
-                //    return;
-                //}
-                //else if (tabToggle == TabToggleEnum.RECOVE_RDETAIL
-                //    && f is FrmMWRecoverDetail)
-                //{
-                //    _curForm = f;
-                //    resizeMdiForm(f);
-                //    return;
-                //}
-                //else if (tabToggle == TabToggleEnum.POST_DETAIL
-                //   && f is FrmMWPostDetail)
-                //{
-                //    _curForm = f;
-                //    resizeMdiForm(f);
-                //    return;
-                //}
-            }
+            //    //else if (tabToggle == TabToggleEnum.POST
+            //    //   && f is FrmMWPost)
+            //    //{
+            //    //    _curForm = f;
+            //    //    resizeMdiForm(f);
+            //    //    (f as FrmMWPost).ControlActivity();
+            //    //    return;
+            //    //}
+            //    //else if (tabToggle == TabToggleEnum.SEARCH
+            //    //    && f is FrmInventorySearch)
+            //    //{
+            //    //    _curForm = f;
+            //    //    resizeMdiForm(f);
+            //    //    (f as FrmInventorySearch).ControlActivity();
+            //    //    return;
+            //    //}
+            //    //else if (tabToggle == TabToggleEnum.RECOVE_RDETAIL
+            //    //    && f is FrmMWRecoverDetail)
+            //    //{
+            //    //    _curForm = f;
+            //    //    resizeMdiForm(f);
+            //    //    return;
+            //    //}
+            //    //else if (tabToggle == TabToggleEnum.POST_DETAIL
+            //    //   && f is FrmMWPostDetail)
+            //    //{
+            //    //    _curForm = f;
+            //    //    resizeMdiForm(f);
+            //    //    return;
+            //    //}
+            //}
             #endregion
 
             #region add new form to mdi control
@@ -469,13 +464,14 @@ namespace YRKJ.MWR.WSDestory.Forms
                     switch (tabToggle)
                     {
                         case TabToggleEnum.DESTORY:
-                            f = new FrmMWDestory(this);
+                            f = new FrmMWDestroy(this);
                             break;
                         case TabToggleEnum.DESTORY_DETAIL:
-                            f = new FrmMWDestoryDetail();
+                            //f = new FrmMWDestoryDetail();
+                            return;
                             break;
                         case TabToggleEnum.DESTORY_RECOVER:
-                            f = new FrmMWDestoryRecover();
+                            f = new FrmMWDestroyRecover(this);
                             break;
                         case TabToggleEnum.RESIDUE:
                             f = new FrmMWResidue();
@@ -498,26 +494,20 @@ namespace YRKJ.MWR.WSDestory.Forms
                 }
 
                 f.MdiParent = this;
-                f.WindowState = FormWindowState.Maximized;
+                f.WindowState = FormWindowState.Normal;
                 f.Parent = this.c_panForm;
                 f.FormBorderStyle = FormBorderStyle.None;
                 f.Show();
+                f.Dock = DockStyle.Fill;
+                f.BringToFront();
+                f.Focus();
                 _curForm = f;
                 _childForms.Add(f);
             }
 
             #endregion
         }
-
-        private void resizeMdiForm(Form f)
-        {
-            f.MdiParent = this;
-            f.WindowState = FormWindowState.Maximized;
-            f.Parent = this.c_panForm;
-            f.FormBorderStyle = FormBorderStyle.None;
-            f.Show();
-        }
-
+      
         #endregion
 
         #region Common

@@ -11,23 +11,25 @@ using ComLib.Log;
 
 namespace YRKJ.MWR.WSDestory.Forms
 {
-    public partial class FrmMWDestory : Form
+    public partial class FrmMWDestroyDetail : Form
     {
-        private const string ClassName = "YRKJ.MWR.WSDestory.Forms.FrmMWDestory";
+        private const string ClassName = "YRKJ.MWR.WSDestory.Forms.FrmMWDestoryDetail";
         private FormMng _frmMng = null;
-
         private FrmMain _frmMain = null;
 
 
-        public FrmMWDestory()
+        FrmMWDestroyDetail()
         {
             InitializeComponent();
 
-            _frmMng = new FormMng(this, ClassName);
             this.Text = LngRes.MSG_FormName;
+
+            this.WindowState = FormWindowState.Maximized;
+            this.StartPosition = FormStartPosition.CenterScreen;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
         }
 
-        public FrmMWDestory(FrmMain f)
+        public FrmMWDestroyDetail(FrmMain f)
             : this()
         {
             _frmMain = f;
@@ -65,22 +67,22 @@ namespace YRKJ.MWR.WSDestory.Forms
 
         private class LngRes
         {
-            public const string MSG_FormName = "医疗废物处理";
+            public const string MSG_FormName = "医疗废物处置";
         }
 
         #endregion
 
-        private void c_btnDestInv_Click(object sender, EventArgs e)
+        private void c_btnDestDone_Click(object sender, EventArgs e)
         {
             try
             {
                 this.Cursor = Cursors.WaitCursor;
-                _frmMain.ShowFrom(FrmMain.TabToggleEnum.DESTORY_DETAIL, new FrmMWDestoryDetail(_frmMain));
-
+                _frmMain.ShowFrom(FrmMain.TabToggleEnum.DESTORY);
+                this.Close();
             }
             catch (Exception ex)
             {
-                LogMng.GetLog().PrintError(ClassName, "c_btnDestInv_Click", ex);
+                LogMng.GetLog().PrintError(ClassName, "c_btnDestDone_Click", ex);
                 MsgBox.Error(ex);
             }
             finally
@@ -89,18 +91,18 @@ namespace YRKJ.MWR.WSDestory.Forms
             }
         }
 
-        private void c_btnDestRecover_Click(object sender, EventArgs e)
+        private void c_btnStopDest_Click(object sender, EventArgs e)
         {
             try
             {
                 this.Cursor = Cursors.WaitCursor;
-
-                _frmMain.ShowFrom(FrmMain.TabToggleEnum.DESTORY_RECOVER, new FrmMWDestoryRecover(_frmMain));
-
+                _frmMain.ShowFrom(FrmMain.TabToggleEnum.DESTORY);
+                this.Close();
+                
             }
             catch (Exception ex)
             {
-                LogMng.GetLog().PrintError(ClassName, "c_btnDestRecover_Click", ex);
+                LogMng.GetLog().PrintError(ClassName, "c_btnStopDest_Click", ex);
                 MsgBox.Error(ex);
             }
             finally

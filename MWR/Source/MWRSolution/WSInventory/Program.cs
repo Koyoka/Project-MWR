@@ -84,6 +84,7 @@ namespace YRKJ.MWR.WSInventory
 
                 }
                 #endregion
+
                 #region user login
 
                 using (YRKJ.MWR.WSInventory.Forms.FrmLogin f = new Forms.FrmLogin())

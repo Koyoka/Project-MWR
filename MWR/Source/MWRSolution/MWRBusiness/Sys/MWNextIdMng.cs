@@ -84,14 +84,27 @@ namespace YRKJ.MWR.Business.Sys
 
             return nextId;
         }
+        public static int GetTxnDestroyHeaderNextId()
+        {
+            return GetNextId("TxnDestroyHeader");
+        }
 
         public static int GetInventoryNextId()
         {
             return GetNextId("Inventory");
         }
+        public static int GetInventoryNextId(int count)
+        {
+            return GetNextId(count,"Inventory");
+        }
+
         public static int GetInventoryTrackNextId()
         {
             return GetNextId("InventoryTrack");
+        }
+        public static int GetInventoryTrackNextId(int count)
+        {
+            return GetNextId(count,"InventoryTrack");
         }
         
         public static int GetTxnLogNextId()

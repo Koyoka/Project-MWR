@@ -9,15 +9,21 @@ using System.Windows.Forms;
 using YRKJ.MWR.WinBase.WinAppBase;
 using ComLib.Log;
 using YRKJ.MWR.WinBase.WinUtility;
+using YRKJ.MWR.Business.WS;
+using ComLib;
+using YRKJ.MWR.Business;
+using YRKJ.MWR.WSDestory.Business.Sys;
 
 namespace YRKJ.MWR.WSDestory.Forms
 {
     public partial class FrmMWRecover : Form
     {
-        private const string ClassName = "YRKJ.MWR.WSDestory.Forms.FrmMWRevocer";
+        private const string ClassName = "YRKJ.MWR.WSInventory.Forms.FrmMWRevocer";
         private FormMng _frmMng = null;
-
         private FrmMain _frmMain = null;
+
+        private BindingList<GridMWRecoverData> _gridMWRecoverData = new BindingList<GridMWRecoverData>();
+        private BindingManagerBase _bindingRecoverDataMng = null;
 
         public FrmMWRecover()
         {
@@ -33,7 +39,7 @@ namespace YRKJ.MWR.WSDestory.Forms
         {
             _frmMain = f;
         }
-
+      
         #region Event
 
         private void FrmMWRecover_Load(object sender, EventArgs e)
@@ -41,18 +47,19 @@ namespace YRKJ.MWR.WSDestory.Forms
             try
             {
                 this.Cursor = Cursors.WaitCursor;
+                string errMsg = "";
 
-                //WinFn.SafeFocusAndSelectAll(textBox1);
-
-                if (!InitFrm())
+                if (!InitFrm(ref errMsg))
                 {
                     return;
                 }
 
-                if (!InitCtrls())
+                if (!InitCtrls(ref errMsg))
                 {
                     return;
                 }
+
+                c_time.Start();
 
             }
             catch (Exception ex)
@@ -66,17 +73,17 @@ namespace YRKJ.MWR.WSDestory.Forms
             }
         }
 
-        public void ControlActivity()
+        private void FrmMWRecover_FormClosing(object sender, FormClosingEventArgs e)
         {
             try
             {
                 this.Cursor = Cursors.WaitCursor;
-                //WinFn.SafeFocusAndSelectAll(textBox1);
-
+                //MessageBox.Show("close");
+                c_time.Stop();
             }
             catch (Exception ex)
             {
-                LogMng.GetLog().PrintError(ClassName, "ControlActivity", ex);
+                LogMng.GetLog().PrintError(ClassName, "FrmMWRecover_FormClosing", ex);
                 MsgBox.Error(ex);
             }
             finally
@@ -90,23 +97,32 @@ namespace YRKJ.MWR.WSDestory.Forms
             try
             {
                 this.Cursor = Cursors.WaitCursor;
+                string errMsg = "";
+
+                if (_bindingRecoverDataMng.Position == -1)
+                {
+                    MsgBox.Show(LngRes.MSG_NoData);
+                    return;
+                }
+                GridMWRecoverData data = _bindingRecoverDataMng.Current as GridMWRecoverData;
+                if (data == null)
+                {
+                    return;
+                }
+                
+                string wscode = SysInfo.GetInstance().Config.WSCode;
+                string empyCode = SysInfo.GetInstance().Employ.EmpyCode;
+                if(!TxnMng.BeginOperateRecoverTxn(data.TxnNum,wscode,empyCode,ref errMsg))
+                {
+                    MsgBox.Show(errMsg);
+                    return;
+                }
+
                 if (_frmMain != null)
                 {
-                    //_frmMain.ShowFrom(FrmMain.TabToggleEnum.RECOVE_RDETAIL, new FrmMWRecoverDetail(_frmMain));
-                    //FrmMWRecoverDetail f = new FrmMWRecoverDetail();
-                    //this.Tag = f;
-                    //_frmMain.ShowInMdiForm(f);
+                    string defineRecoNum = data.TxnNum;
+                    //_frmMain.ShowFrom(FrmMain.TabToggleEnum.RECOVE_RDETAIL, new FrmMWRecoverDetail(_frmMain, defineRecoNum));
                 }
-               
-                //{
-                //    //f.ShowDialog();
-                //    f.MdiParent = this.MdiParent;
-                //    f.WindowState = FormWindowState.Maximized;
-                //    //f.Parent = this.Parent;
-                //    f.FormBorderStyle = FormBorderStyle.None;
-                //    f.Show();
-                //}
-
             }
             catch (Exception ex)
             {
@@ -118,21 +134,134 @@ namespace YRKJ.MWR.WSDestory.Forms
                 this.Cursor = Cursors.Default;
             }
         }
+
+        private void c_bgwGetRecoverTxnHeader_DoWork(object sender, DoWorkEventArgs e)
+        {
+            try
+            {
+                string errMsg = "";
+
+                GridMWRecoverData curData = null;
+
+                if (_bindingRecoverDataMng.Position != -1)
+                {
+                    curData = _bindingRecoverDataMng.Current as GridMWRecoverData;
+                }
+
+                ThreadSafe(() =>
+                {
+                    #region get new data
+                    _gridMWRecoverData.Clear();
+                    if (!LoadData(ref errMsg))
+                    {
+                        return;
+                    }
+                    #endregion
+
+                    #region update form view data
+                    c_labHeaderCount.Text = _gridMWRecoverData.Count + "";
+                    BroadcastMng.GetInstance().Send(SysInfo.Broadcast_RecoverTxnCount, new BroadcastMng.BroadcastMessage
+                    {
+                        Message = _gridMWRecoverData.Count,
+                        Data = _gridMWRecoverData.Count
+                    });
+                    #endregion
+
+                    #region set current row select
+                    if (curData != null)
+                    {
+                        bool hasBeenExist = false;
+                        for (int i = 0; i < _gridMWRecoverData.Count; i++)
+                        {
+                            if (_gridMWRecoverData[i].TxnNum.Equals(curData.TxnNum))
+                            {
+                                hasBeenExist = true;
+                                c_grdMWRecover.Rows[i].Selected = true;
+                                c_grdMWRecover.CurrentCell = c_grdMWRecover.Rows[i].Cells[0];
+                                break;
+                            }
+                        }
+                        if (!hasBeenExist)
+                        {
+                            _bindingRecoverDataMng.Position = 0;
+                        }
+                    }
+                    #endregion
+
+                });
+            }
+            catch (Exception ex)
+            {
+                LogMng.GetLog().PrintError(ClassName, "c_bgwGetRecoverTxnHeader_DoWork", ex);
+                MsgBox.Error(ex);
+            }
+            finally
+            {
+            }
+        }
+
+        private void c_time_Tick(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!c_bgwGetRecoverTxnHeader.IsBusy)
+                {
+                    c_bgwGetRecoverTxnHeader.RunWorkerAsync();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                LogMng.GetLog().PrintError(ClassName, "c_time_Tick", ex);
+                MsgBox.Error(ex);
+            }
+            finally
+            {
+            }
+        }
+
+        public void ControlActivity()
+        {
+            try
+            {
+                this.Cursor = Cursors.WaitCursor;
+
+                string errMsg = "";
+                //_bindingRecoverDataMng = this.BindingContext[_gridMWRecoverData];
+                //_gridMWRecoverData.Clear();
+                //if (!LoadData(ref errMsg))
+                //{
+                //    MsgBox.Error(errMsg);
+                //    return;
+                //}
+
+            }
+            catch (Exception ex)
+            {
+                LogMng.GetLog().PrintError(ClassName, "ControlActivity", ex);
+                MsgBox.Error(ex);
+            }
+            finally
+            {
+                this.Cursor = Cursors.Default;
+            }
+        }
         #endregion
 
         #region Functions
 
-        private bool InitFrm()
+        private bool InitFrm(ref string errMsg)
         {
-            if (!LoadData())
+            _bindingRecoverDataMng = this.BindingContext[_gridMWRecoverData];
+           
+            if (!LoadData(ref errMsg))
                 return false;
-
 
 
             return true;
         }
 
-        private bool InitCtrls()
+        private bool InitCtrls(ref string errMsg)
         {
             c_grdMWRecover_C_CarCode.DataPropertyName = "CarCode";
             c_grdMWRecover_C_Driver.DataPropertyName = "Driver";
@@ -141,32 +270,58 @@ namespace YRKJ.MWR.WSDestory.Forms
             c_grdMWRecover_C_TotolWeight.DataPropertyName = "TotalWeight";
             c_grdMWRecover_C_OutDate.DataPropertyName = "OutDate";
             c_grdMWRecover_C_InDate.DataPropertyName = "InDate";
-            c_grdMWRecover_C_StratDate.DataPropertyName = "StratDate";
+            c_grdMWRecover_C_StartDate.DataPropertyName = "StartDate";
             c_grdMWRecover_C_Status.DataPropertyName = "Status";
-
+            
+           
             c_grdMWRecover.DataSource = _gridMWRecoverData;
-
+            c_labHeaderCount.Text = _gridMWRecoverData.Count + "";
             return true;
         }
-        BindingList<GridMWRecoverData> _gridMWRecoverData = new BindingList<GridMWRecoverData>();
-        private bool LoadData()
+      
+        private bool LoadData(ref string errMsg)
         {
-
-            for (int i = 0; i < 4; i++)
+            string wscode = SysInfo.GetInstance().Config.WSCode;
+            List<VewTxnHeaderWithCarDispatch> headerList = null;
+            if (!TxnMng.GetRecoverToInvTxnList(wscode,ref headerList, ref errMsg))
+            {
+                return false;
+            }
+            foreach (VewTxnHeaderWithCarDispatch data in headerList)
             {
                 GridMWRecoverData item = new GridMWRecoverData();
-                item.CarCode = "A0000" + i;
-                item.Driver = "司机" + i;
-                item.Inspector = "跟车员";
-                item.OutDate = "2015-01-01 12:00:00";
-                item.InDate = "2015-01-01 12:00:00";
-                item.StratDate = "2015-01-01 12:00:00";
-                item.Status = "OK";
+                item.TxnNum = data.TxnNum;
+                item.CarCode = data.CarCode;
+                item.Driver = data.Driver;
+                item.Inspector = data.Inspector;
+                item.TotalCount = data.TotalCrateQty;
+                item.TotalWeight = data.TotalSubWeight;
+                item.OutDate = ComFn.DateTimeToString(data.OutDate, BizBase.GetInstance().DateTimeFormatString);
+                item.InDate = ComFn.DateTimeToString(data.InDate, BizBase.GetInstance().DateTimeFormatString);
+                item.StartDate = ComFn.DateTimeToString(data.StratDate, BizBase.GetInstance().DateTimeFormatString);
+                item.Status = BizHelper.GetTxnRecoverHeaderStatus(data.Status);
                 _gridMWRecoverData.Add(item);
             }
+            
             return true;
         }
 
+        private void ThreadSafe(MethodInvoker method)
+        {
+            //try
+            //{
+            if (this.InvokeRequired)
+            {
+                this.Invoke(method);
+            }
+            else
+            {
+                method();
+            }
+            //}
+            //catch (Exception ex)
+            //{ }
+        }
 
         #endregion
 
@@ -175,10 +330,12 @@ namespace YRKJ.MWR.WSDestory.Forms
         private class LngRes
         {
             public const string MSG_FormName = "入库计划";
+            public const string MSG_NoData = "没有选择任何数据";
         }
 
         private class GridMWRecoverData
         {
+            public string TxnNum = "";
             private string _carCode = "";
             public string CarCode
             {
@@ -215,7 +372,7 @@ namespace YRKJ.MWR.WSDestory.Forms
             }
 
             private string _stratDate = "";
-            public string StratDate
+            public string StartDate
             {
                 get { return _stratDate; }
                 set { _stratDate = value; }
@@ -235,8 +392,8 @@ namespace YRKJ.MWR.WSDestory.Forms
                 set { _totalCount = value; }
             }
 
-            private float _totalWeight = 0;
-            public float TotalWeight
+            private decimal _totalWeight = 0;
+            public decimal TotalWeight
             {
                 get { return _totalWeight; }
                 set { _totalWeight = value; }
@@ -244,7 +401,7 @@ namespace YRKJ.MWR.WSDestory.Forms
         }
 
         #endregion
-
+        
         #region Form Data Property
 
         #endregion

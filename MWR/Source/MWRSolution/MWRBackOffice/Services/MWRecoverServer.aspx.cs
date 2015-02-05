@@ -36,9 +36,11 @@ namespace YRKJ.MWR.BackOffice.Services
         }
 
         private const string RequestMethod_RecoverInventorySubmit = "RecoverInventorySubmit";
+        private const string RequestMethod_RecoverDestroySubmit = "RecoverDestroySubmit";
 
         protected string OutputText = "";
 
+        #region Events
         protected void Page_Load(object sender, EventArgs e)
         {
             try
@@ -48,7 +50,7 @@ namespace YRKJ.MWR.BackOffice.Services
                 {
                     if (!InitPage(ref errMsg))
                     {
-                        JsonData  jd = new JsonData();
+                        JsonData jd = new JsonData();
                         jd.name = "eleven";
                         jd.value = "eleven";
                         string s = JsonConvert.SerializeObject(jd);
@@ -73,16 +75,14 @@ namespace YRKJ.MWR.BackOffice.Services
             finally
             {
             }
-            
+
 
         }
-
-        #region Events
-
         #endregion
 
         #region Functions
 
+        #region page function
         private bool InitPage(ref string errMsg)
         {
             if (!LoadData(ref errMsg))
@@ -93,6 +93,10 @@ namespace YRKJ.MWR.BackOffice.Services
             if (_action.Equals(RequestMethod_RecoverInventorySubmit))
             {
                 return RecoverInventorySubmit(ref errMsg);
+            }
+            else if (_action.Equals(RequestMethod_RecoverDestroySubmit))
+            {
+                return RecoverDestroySubmit(ref errMsg);
             }
 
             return true;
@@ -179,16 +183,89 @@ namespace YRKJ.MWR.BackOffice.Services
             //OutputText = _action + " " + RequestMethod_RecoverInventorySubmit + " " + _action.Equals(RequestMethod_RecoverInventorySubmit);
             return true;
         }
+        #endregion
 
+        #region action function
+        public bool RecoverDestroySubmit(ref string errMsg)
+        {
+            JObject jValue = (JObject)_requestJO["value"];
+            try
+            {
+                #region set data
+                TblMWTxnRecoverHeader txnHeader = new TblMWTxnRecoverHeader();
+                txnHeader.CarCode = WebAppFn.SafeJsonToString("carcode", jValue);
+                txnHeader.Driver = WebAppFn.SafeJsonToString("drvier", jValue);//= DemoData.GetInstance().Driver;
+                txnHeader.DriverCode = WebAppFn.SafeJsonToString("drivercode", jValue); //DemoData.GetInstance().DriverCode;
+                txnHeader.Inspector = WebAppFn.SafeJsonToString("inspector", jValue); //DemoData.GetInstance().Inspector;
+                txnHeader.InspectorCode = WebAppFn.SafeJsonToString("inspectorcode", jValue); //DemoData.GetInstance().InspectorCode;
+                txnHeader.RecoMWSCode = WebAppFn.SafeJsonToString("mwscode", jValue); //DemoData.GetInstance().MWSCode;
+
+                List<TblMWTxnDetail> txnDetailList = new List<TblMWTxnDetail>();
+                {
+                    JArray jTxnDtlList = (JArray)jValue["txndetaillist"];
+
+                    for (int i = 0; i < jTxnDtlList.Count; i++)
+                    {
+                        JObject jDtl = (JObject)jTxnDtlList[i];
+                        TblMWTxnDetail dtl = new TblMWTxnDetail();
+                        //dtl.TxnDetailId = WebAppFn.SafeJsonToString("TxnDetailId", jDtl);
+                        //dtl.TxnType = WebAppFn.SafeJsonToString("TxnType", jDtl);
+                        //dtl.TxnNum = WebAppFn.SafeJsonToString("TxnNum", jDtl);
+                        //dtl.WSCode = WebAppFn.SafeJsonToString("WSCode", jDtl);
+                        //dtl.EmpyName = WebAppFn.SafeJsonToString("EmpyName", jDtl);
+                        //dtl.EmpyCode = WebAppFn.SafeJsonToString("EmpyCode", jDtl);
+                        dtl.CrateCode = WebAppFn.SafeJsonToString("CrateCode", jDtl);
+                        dtl.Vendor = WebAppFn.SafeJsonToString("Vendor", jDtl);
+                        dtl.VendorCode = WebAppFn.SafeJsonToString("VendorCode", jDtl);
+                        dtl.Waste = WebAppFn.SafeJsonToString("Waste", jDtl);
+                        dtl.WasteCode = WebAppFn.SafeJsonToString("WasteCode", jDtl);
+                        //dtl.SubWeight = ComFn.StringToDecimal(WebAppFn.SafeJsonToString("SubWeight", jDtl));
+                        decimal subWeight = ComFn.StringToDecimal(WebAppFn.SafeJsonToString("SubWeight", jDtl));
+                        string subUnit = WebAppFn.SafeJsonToString("Unit", jDtl);
+                        dtl.SubWeight = BizHelper.ConventToSysUnitWeight(subWeight, subUnit, SysParams.GetInstance().GetSysWeightUnit());
+                        //dtl.TxnWeight = WebAppFn.SafeJsonToString("TxnWeight", jDtl);
+                        //dtl.EntryDate = WebAppFn.SafeJsonToString("EntryDate", jDtl);
+                        //dtl.InvRecordId = WebAppFn.SafeJsonToString("InvRecordId", jDtl);
+                        //dtl.InvAuthId = WebAppFn.SafeJsonToString("InvAuthId", jDtl);
+                        //dtl.Status = WebAppFn.SafeJsonToString("Status", jDtl);
+
+                        txnDetailList.Add(dtl);
+                    }
+                }
+
+                if (!MWRWorkflowMng.RecoverToDestroy(
+                    txnHeader.CarCode,
+                    txnHeader.DriverCode,
+                    txnHeader.InspectorCode,
+                    txnHeader.RecoMWSCode,
+                    txnDetailList, ref errMsg))
+                {
+                    return false;
+                }
+
+                OutputText = "Success";
+
+
+                #endregion
+            }
+            catch (Exception ex)
+            {
+                errMsg = ex.Message;
+                LogMng.GetLog().PrintError(ClassName, "RecoverDestroySubmit", ex);
+                return false;
+            }
+            finally
+            {
+            }
+
+            return true;
+        }
         private bool RecoverInventorySubmit(ref string errMsg)
         {
-            
-            //OutputText = _action + " | " + _value;
 
             JObject jValue = (JObject)_requestJO["value"];
             try
             {
-
                 #region set data
                 TblMWTxnRecoverHeader txnHeader = new TblMWTxnRecoverHeader();
                 txnHeader.CarCode = WebAppFn.SafeJsonToString("carcode", jValue);
@@ -249,7 +326,7 @@ namespace YRKJ.MWR.BackOffice.Services
             catch (Exception ex)
             {
                 errMsg = ex.Message;
-                LogMng.GetLog().PrintError(ClassName, "EventName", ex);
+                LogMng.GetLog().PrintError(ClassName, "RecoverInventorySubmit", ex);
                 return false;
             }
             finally
@@ -259,6 +336,7 @@ namespace YRKJ.MWR.BackOffice.Services
             return true;
 
         }
+        #endregion
 
         #endregion
 
@@ -267,7 +345,7 @@ namespace YRKJ.MWR.BackOffice.Services
         #endregion
 
         #region Common
-        
+
 
         private class LngRes
         {
