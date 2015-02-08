@@ -41,6 +41,10 @@
     <ApplicationIcon>logo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ComLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\ComBIN\ComLib.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -192,10 +196,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\ComLib\ComLib.csproj">
-      <Project>{70D21FDA-A5E3-4629-907B-B94051A65093}</Project>
-      <Name>ComLib</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MWRBusiness\MWRBusiness.csproj">
       <Project>{C77051AD-CB44-445F-A914-2253F49D5EAA}</Project>
       <Name>MWRBusiness</Name>

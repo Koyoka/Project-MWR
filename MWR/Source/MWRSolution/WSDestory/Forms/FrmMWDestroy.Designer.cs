@@ -30,26 +30,24 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMWDestroy));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle26 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle27 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle28 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle29 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle30 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             this.c_btnDestRecover = new System.Windows.Forms.Button();
             this.c_btnDestInv = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.c_grdMWRecover = new System.Windows.Forms.DataGridView();
-            this.c_grdMWRecover_C_CarCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.c_grdMWRecover_C_Driver = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.c_grdMWRecover_C_Inspector = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.c_grdMWRecover_C_OutDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.c_grdMWRecover_C_InDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.c_grdMWRecover_C_StratDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.c_grdMWRecover_C_Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.c_grdMWRecover_C_TotleCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.c_grdMWRecover_C_TotolWeight = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.c_grdMWDestroy = new System.Windows.Forms.DataGridView();
+            this.c_grdMWDestroy_C_TxnNum = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.c_grdMWDestroy_C_WSCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.c_grdMWDestroy_C_EmpyName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.c_grdMWDestroy_C_StartDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.c_grdMWDestroy_C_TotleQty = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.c_grdMWDestroy_C_TotolSubWeight = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.c_grdMWDestroy_C_TotalTxnWeight = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.c_grdMWDestroy_C_Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label21 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
@@ -71,7 +69,7 @@
             this.c_bgwRecoverToDest = new System.ComponentModel.BackgroundWorker();
             this.c_time = new System.Windows.Forms.Timer(this.components);
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.c_grdMWRecover)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.c_grdMWDestroy)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -116,123 +114,114 @@
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.Controls.Add(this.c_grdMWRecover);
+            this.panel1.Controls.Add(this.c_grdMWDestroy);
             this.panel1.Font = new System.Drawing.Font("微软雅黑", 11F);
             this.panel1.Location = new System.Drawing.Point(12, 104);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(984, 225);
             this.panel1.TabIndex = 31;
             // 
-            // c_grdMWRecover
+            // c_grdMWDestroy
             // 
-            this.c_grdMWRecover.AllowUserToAddRows = false;
-            this.c_grdMWRecover.AllowUserToDeleteRows = false;
-            this.c_grdMWRecover.AllowUserToResizeColumns = false;
-            this.c_grdMWRecover.AllowUserToResizeRows = false;
-            dataGridViewCellStyle25.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle25.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle25.Font = new System.Drawing.Font("微软雅黑", 11F);
-            dataGridViewCellStyle25.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle25.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle25.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle25.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.c_grdMWRecover.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle25;
-            this.c_grdMWRecover.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.c_grdMWRecover.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.c_grdMWRecover_C_CarCode,
-            this.c_grdMWRecover_C_Driver,
-            this.c_grdMWRecover_C_Inspector,
-            this.c_grdMWRecover_C_OutDate,
-            this.c_grdMWRecover_C_InDate,
-            this.c_grdMWRecover_C_StratDate,
-            this.c_grdMWRecover_C_Status,
-            this.c_grdMWRecover_C_TotleCount,
-            this.c_grdMWRecover_C_TotolWeight});
-            this.c_grdMWRecover.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.c_grdMWRecover.Location = new System.Drawing.Point(0, 0);
-            this.c_grdMWRecover.MultiSelect = false;
-            this.c_grdMWRecover.Name = "c_grdMWRecover";
-            this.c_grdMWRecover.RowHeadersVisible = false;
-            this.c_grdMWRecover.RowTemplate.DefaultCellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.c_grdMWRecover.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.c_grdMWRecover.RowTemplate.Height = 60;
-            this.c_grdMWRecover.RowTemplate.ReadOnly = true;
-            this.c_grdMWRecover.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.c_grdMWRecover.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.c_grdMWRecover.Size = new System.Drawing.Size(984, 225);
-            this.c_grdMWRecover.TabIndex = 12;
+            this.c_grdMWDestroy.AllowUserToAddRows = false;
+            this.c_grdMWDestroy.AllowUserToDeleteRows = false;
+            this.c_grdMWDestroy.AllowUserToResizeColumns = false;
+            this.c_grdMWDestroy.AllowUserToResizeRows = false;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("微软雅黑", 11F);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.c_grdMWDestroy.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.c_grdMWDestroy.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.c_grdMWDestroy.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.c_grdMWDestroy_C_TxnNum,
+            this.c_grdMWDestroy_C_WSCode,
+            this.c_grdMWDestroy_C_EmpyName,
+            this.c_grdMWDestroy_C_StartDate,
+            this.c_grdMWDestroy_C_TotleQty,
+            this.c_grdMWDestroy_C_TotolSubWeight,
+            this.c_grdMWDestroy_C_TotalTxnWeight,
+            this.c_grdMWDestroy_C_Status});
+            this.c_grdMWDestroy.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.c_grdMWDestroy.Location = new System.Drawing.Point(0, 0);
+            this.c_grdMWDestroy.MultiSelect = false;
+            this.c_grdMWDestroy.Name = "c_grdMWDestroy";
+            this.c_grdMWDestroy.RowHeadersVisible = false;
+            this.c_grdMWDestroy.RowTemplate.DefaultCellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.c_grdMWDestroy.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.c_grdMWDestroy.RowTemplate.Height = 60;
+            this.c_grdMWDestroy.RowTemplate.ReadOnly = true;
+            this.c_grdMWDestroy.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.c_grdMWDestroy.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.c_grdMWDestroy.Size = new System.Drawing.Size(984, 225);
+            this.c_grdMWDestroy.TabIndex = 13;
             // 
-            // c_grdMWRecover_C_CarCode
+            // c_grdMWDestroy_C_TxnNum
             // 
-            this.c_grdMWRecover_C_CarCode.HeaderText = "车辆编号";
-            this.c_grdMWRecover_C_CarCode.Name = "c_grdMWRecover_C_CarCode";
-            this.c_grdMWRecover_C_CarCode.Width = 101;
+            this.c_grdMWDestroy_C_TxnNum.HeaderText = "交易编号";
+            this.c_grdMWDestroy_C_TxnNum.Name = "c_grdMWDestroy_C_TxnNum";
+            this.c_grdMWDestroy_C_TxnNum.Width = 101;
             // 
-            // c_grdMWRecover_C_Driver
+            // c_grdMWDestroy_C_WSCode
             // 
-            this.c_grdMWRecover_C_Driver.FillWeight = 80F;
-            this.c_grdMWRecover_C_Driver.HeaderText = "司机";
-            this.c_grdMWRecover_C_Driver.Name = "c_grdMWRecover_C_Driver";
-            this.c_grdMWRecover_C_Driver.Width = 80;
+            this.c_grdMWDestroy_C_WSCode.FillWeight = 80F;
+            this.c_grdMWDestroy_C_WSCode.HeaderText = "工作站";
+            this.c_grdMWDestroy_C_WSCode.Name = "c_grdMWDestroy_C_WSCode";
+            this.c_grdMWDestroy_C_WSCode.Visible = false;
+            this.c_grdMWDestroy_C_WSCode.Width = 80;
             // 
-            // c_grdMWRecover_C_Inspector
+            // c_grdMWDestroy_C_EmpyName
             // 
-            this.c_grdMWRecover_C_Inspector.FillWeight = 80F;
-            this.c_grdMWRecover_C_Inspector.HeaderText = "跟车员";
-            this.c_grdMWRecover_C_Inspector.Name = "c_grdMWRecover_C_Inspector";
-            this.c_grdMWRecover_C_Inspector.Width = 80;
+            this.c_grdMWDestroy_C_EmpyName.FillWeight = 80F;
+            this.c_grdMWDestroy_C_EmpyName.HeaderText = "操作员";
+            this.c_grdMWDestroy_C_EmpyName.Name = "c_grdMWDestroy_C_EmpyName";
+            this.c_grdMWDestroy_C_EmpyName.Width = 80;
             // 
-            // c_grdMWRecover_C_OutDate
+            // c_grdMWDestroy_C_StartDate
             // 
-            dataGridViewCellStyle26.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.c_grdMWRecover_C_OutDate.DefaultCellStyle = dataGridViewCellStyle26;
-            this.c_grdMWRecover_C_OutDate.FillWeight = 150F;
-            this.c_grdMWRecover_C_OutDate.HeaderText = "出车时间";
-            this.c_grdMWRecover_C_OutDate.Name = "c_grdMWRecover_C_OutDate";
-            this.c_grdMWRecover_C_OutDate.Width = 150;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.c_grdMWDestroy_C_StartDate.DefaultCellStyle = dataGridViewCellStyle2;
+            this.c_grdMWDestroy_C_StartDate.FillWeight = 150F;
+            this.c_grdMWDestroy_C_StartDate.HeaderText = "开始时间";
+            this.c_grdMWDestroy_C_StartDate.Name = "c_grdMWDestroy_C_StartDate";
+            this.c_grdMWDestroy_C_StartDate.Width = 150;
             // 
-            // c_grdMWRecover_C_InDate
+            // c_grdMWDestroy_C_TotleQty
             // 
-            dataGridViewCellStyle27.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.c_grdMWRecover_C_InDate.DefaultCellStyle = dataGridViewCellStyle27;
-            this.c_grdMWRecover_C_InDate.FillWeight = 150F;
-            this.c_grdMWRecover_C_InDate.HeaderText = "回车时间";
-            this.c_grdMWRecover_C_InDate.Name = "c_grdMWRecover_C_InDate";
-            this.c_grdMWRecover_C_InDate.Width = 150;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.c_grdMWDestroy_C_TotleQty.DefaultCellStyle = dataGridViewCellStyle3;
+            this.c_grdMWDestroy_C_TotleQty.FillWeight = 80F;
+            this.c_grdMWDestroy_C_TotleQty.HeaderText = "总数量";
+            this.c_grdMWDestroy_C_TotleQty.Name = "c_grdMWDestroy_C_TotleQty";
+            this.c_grdMWDestroy_C_TotleQty.Width = 80;
             // 
-            // c_grdMWRecover_C_StratDate
+            // c_grdMWDestroy_C_TotolSubWeight
             // 
-            dataGridViewCellStyle28.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.c_grdMWRecover_C_StratDate.DefaultCellStyle = dataGridViewCellStyle28;
-            this.c_grdMWRecover_C_StratDate.FillWeight = 150F;
-            this.c_grdMWRecover_C_StratDate.HeaderText = "校验时间";
-            this.c_grdMWRecover_C_StratDate.Name = "c_grdMWRecover_C_StratDate";
-            this.c_grdMWRecover_C_StratDate.Width = 150;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.c_grdMWDestroy_C_TotolSubWeight.DefaultCellStyle = dataGridViewCellStyle4;
+            this.c_grdMWDestroy_C_TotolSubWeight.FillWeight = 150F;
+            this.c_grdMWDestroy_C_TotolSubWeight.HeaderText = "库存总重量";
+            this.c_grdMWDestroy_C_TotolSubWeight.Name = "c_grdMWDestroy_C_TotolSubWeight";
+            this.c_grdMWDestroy_C_TotolSubWeight.Width = 150;
             // 
-            // c_grdMWRecover_C_Status
+            // c_grdMWDestroy_C_TotalTxnWeight
             // 
-            this.c_grdMWRecover_C_Status.FillWeight = 80F;
-            this.c_grdMWRecover_C_Status.HeaderText = "状态";
-            this.c_grdMWRecover_C_Status.Name = "c_grdMWRecover_C_Status";
-            this.c_grdMWRecover_C_Status.Width = 80;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.c_grdMWDestroy_C_TotalTxnWeight.DefaultCellStyle = dataGridViewCellStyle5;
+            this.c_grdMWDestroy_C_TotalTxnWeight.FillWeight = 150F;
+            this.c_grdMWDestroy_C_TotalTxnWeight.HeaderText = "校验总重量";
+            this.c_grdMWDestroy_C_TotalTxnWeight.Name = "c_grdMWDestroy_C_TotalTxnWeight";
+            this.c_grdMWDestroy_C_TotalTxnWeight.Width = 150;
             // 
-            // c_grdMWRecover_C_TotleCount
+            // c_grdMWDestroy_C_Status
             // 
-            dataGridViewCellStyle29.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.c_grdMWRecover_C_TotleCount.DefaultCellStyle = dataGridViewCellStyle29;
-            this.c_grdMWRecover_C_TotleCount.FillWeight = 80F;
-            this.c_grdMWRecover_C_TotleCount.HeaderText = "总数量";
-            this.c_grdMWRecover_C_TotleCount.Name = "c_grdMWRecover_C_TotleCount";
-            this.c_grdMWRecover_C_TotleCount.Width = 80;
-            // 
-            // c_grdMWRecover_C_TotolWeight
-            // 
-            this.c_grdMWRecover_C_TotolWeight.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle30.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.c_grdMWRecover_C_TotolWeight.DefaultCellStyle = dataGridViewCellStyle30;
-            this.c_grdMWRecover_C_TotolWeight.FillWeight = 80F;
-            this.c_grdMWRecover_C_TotolWeight.HeaderText = "总重量";
-            this.c_grdMWRecover_C_TotolWeight.Name = "c_grdMWRecover_C_TotolWeight";
+            this.c_grdMWDestroy_C_Status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.c_grdMWDestroy_C_Status.FillWeight = 110F;
+            this.c_grdMWDestroy_C_Status.HeaderText = "状态";
+            this.c_grdMWDestroy_C_Status.Name = "c_grdMWDestroy_C_Status";
             // 
             // groupBox2
             // 
@@ -412,6 +401,7 @@
             this.c_btnCheck.TabIndex = 0;
             this.c_btnCheck.Text = "审核处置计划";
             this.c_btnCheck.UseVisualStyleBackColor = true;
+            this.c_btnCheck.Click += new System.EventHandler(this.c_btnCheck_Click);
             // 
             // c_labRecoverTxnCount
             // 
@@ -435,7 +425,7 @@
             this.c_time.Interval = 2000;
             this.c_time.Tick += new System.EventHandler(this.c_time_Tick);
             // 
-            // FrmMWDestory
+            // FrmMWDestroy
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -448,12 +438,12 @@
             this.Controls.Add(this.c_btnDestInv);
             this.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.Name = "FrmMWDestory";
+            this.Name = "FrmMWDestroy";
             this.Text = "FrmMWDestory";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmMWDestory_FormClosing);
             this.Load += new System.EventHandler(this.FrmMWDestory_Load);
             this.panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.c_grdMWRecover)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.c_grdMWDestroy)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
@@ -467,16 +457,6 @@
         private System.Windows.Forms.Button c_btnDestInv;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.DataGridView c_grdMWRecover;
-        private System.Windows.Forms.DataGridViewTextBoxColumn c_grdMWRecover_C_CarCode;
-        private System.Windows.Forms.DataGridViewTextBoxColumn c_grdMWRecover_C_Driver;
-        private System.Windows.Forms.DataGridViewTextBoxColumn c_grdMWRecover_C_Inspector;
-        private System.Windows.Forms.DataGridViewTextBoxColumn c_grdMWRecover_C_OutDate;
-        private System.Windows.Forms.DataGridViewTextBoxColumn c_grdMWRecover_C_InDate;
-        private System.Windows.Forms.DataGridViewTextBoxColumn c_grdMWRecover_C_StratDate;
-        private System.Windows.Forms.DataGridViewTextBoxColumn c_grdMWRecover_C_Status;
-        private System.Windows.Forms.DataGridViewTextBoxColumn c_grdMWRecover_C_TotleCount;
-        private System.Windows.Forms.DataGridViewTextBoxColumn c_grdMWRecover_C_TotolWeight;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Label label16;
@@ -497,5 +477,14 @@
         private System.Windows.Forms.Label c_labRecoverTxnCount;
         private System.ComponentModel.BackgroundWorker c_bgwRecoverToDest;
         private System.Windows.Forms.Timer c_time;
+        private System.Windows.Forms.DataGridView c_grdMWDestroy;
+        private System.Windows.Forms.DataGridViewTextBoxColumn c_grdMWDestroy_C_TxnNum;
+        private System.Windows.Forms.DataGridViewTextBoxColumn c_grdMWDestroy_C_WSCode;
+        private System.Windows.Forms.DataGridViewTextBoxColumn c_grdMWDestroy_C_EmpyName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn c_grdMWDestroy_C_StartDate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn c_grdMWDestroy_C_TotleQty;
+        private System.Windows.Forms.DataGridViewTextBoxColumn c_grdMWDestroy_C_TotolSubWeight;
+        private System.Windows.Forms.DataGridViewTextBoxColumn c_grdMWDestroy_C_TotalTxnWeight;
+        private System.Windows.Forms.DataGridViewTextBoxColumn c_grdMWDestroy_C_Status;
     }
 }

@@ -47,11 +47,11 @@ namespace YRKJ.MWR.WSInventory.Forms
             this.c_grdMWTxnDetail.AutoGenerateColumns = false;
 
         }
-        public FrmMWPostDetail(FrmMain f, PostTypeEnum postType)
+        public FrmMWPostDetail(FrmMain f)
             : this()
         {
             _frmMain = f;
-            _postType = postType;
+            _postType = PostTypeEnum.New;
         }
         public FrmMWPostDetail(FrmMain f, string txnNum)
             : this()
@@ -213,7 +213,7 @@ namespace YRKJ.MWR.WSInventory.Forms
                
 
                 TblMWTxnDetail invTxnDetail = null;
-                if (!TxnMng.GetPostInventoryTxnDetail(inv.InvRecordId, _txnNum, ref invTxnDetail, ref errMsg))
+                if (!TxnMng.GetInventoryTxnDetail(inv.InvRecordId, _txnNum, ref invTxnDetail, ref errMsg))
                 {
                     MsgBox.Error(errMsg);
                     return;

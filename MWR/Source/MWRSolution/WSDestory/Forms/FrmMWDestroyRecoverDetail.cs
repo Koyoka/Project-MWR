@@ -44,7 +44,9 @@ namespace YRKJ.MWR.WSDestory.Forms
 
             this.c_grdMWTxnDetail.AutoGenerateColumns = false;
 
-          
+            _scannerMng = new ScannerMng(this, ClassName, WinAppBase.CrateBarCodeMask);
+            _scannerMng.CodeScanned += new ScannerMng.ScannedEventHandler(FrmMWRecoverDetail_CodeScanned);
+            _scannerMng.InvalidCodeScanned += new ScannerMng.ScannedEventHandler(FrmMWRecoverDetail_InvalidCodeScanned);
         }
 
         public FrmMWDestroyRecoverDetail(FrmMain f, string recoTxnNum)
@@ -53,9 +55,7 @@ namespace YRKJ.MWR.WSDestory.Forms
             _frmMain = f;
             _txnNum = recoTxnNum;
 
-            _scannerMng = new ScannerMng(this, ClassName, WinAppBase.CrateBarCodeMask);
-            _scannerMng.CodeScanned += new ScannerMng.ScannedEventHandler(FrmMWRecoverDetail_CodeScanned);
-            _scannerMng.InvalidCodeScanned += new ScannerMng.ScannedEventHandler(FrmMWRecoverDetail_InvalidCodeScanned);
+           
         }
 
         #region Event
@@ -463,24 +463,14 @@ namespace YRKJ.MWR.WSDestory.Forms
             c_btnCheck.DataBindings.Add("Enabled", _gridTxnDetailData, "NeedAuthorize");
             c_btnManually.DataBindings.Add("Enabled", _gridTxnDetailData, "CanConfirm");
 
-            //c_grdMWTxnDetail_C_TxnDetailId.DataPropertyName = "TxnDetailId";
-            //c_grdMWTxnDetail_C_TxnType.DataPropertyName = "TxnType";
-            //c_grdMWTxnDetail_C_TxnNum.DataPropertyName = "TxnNum";
-            //c_grdMWTxnDetail_C_WSCode.DataPropertyName = "WSCode";
-            //c_grdMWTxnDetail_C_EmpyName.DataPropertyName = "EmpyName";
-            //c_grdMWTxnDetail_C_EmpyCode.DataPropertyName = "EmpyCode";
+            
             c_grdMWTxnDetail_C_CrateCode.DataPropertyName = "CrateCode";
             c_grdMWTxnDetail_C_Vendor.DataPropertyName = "Vendor";
-            //c_grdMWTxnDetail_C_VendorCode.DataPropertyName = "VendorCode";
             c_grdMWTxnDetail_C_Waste.DataPropertyName = "Waste";
-            //c_grdMWTxnDetail_C_WasteCode.DataPropertyName = "WasteCode";
             c_grdMWTxnDetail_C_SubWeight.DataPropertyName = "SubWeight";
             c_grdMWTxnDetail_C_TxnWeight.DataPropertyName = "TxnWeight";
             c_grdMWTxnDetail_C_EntryDate.DataPropertyName = "EntryDate";
-            //c_grdMWTxnDetail_C_InvRecordId.DataPropertyName = "InvRecordId";
-            //c_grdMWTxnDetail_C_InvAuthId.DataPropertyName = "InvAuthId";
             c_grdMWTxnDetail_C_Status.DataPropertyName = "Status";
-            //c_grdMWTxnDetail_C_TxnWeight
 
             c_grdMWTxnDetail.DataSource = _gridTxnDetailData;
            

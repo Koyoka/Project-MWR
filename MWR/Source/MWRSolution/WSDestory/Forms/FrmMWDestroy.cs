@@ -11,6 +11,7 @@ using ComLib.Log;
 using YRKJ.MWR.WinBase.WinUtility;
 using YRKJ.MWR.WSDestory.Business.Sys;
 using YRKJ.MWR.Business.WS;
+using YRKJ.MWR.Business;
 
 namespace YRKJ.MWR.WSDestory.Forms
 {
@@ -18,9 +19,10 @@ namespace YRKJ.MWR.WSDestory.Forms
     {
         private const string ClassName = "YRKJ.MWR.WSDestory.Forms.FrmMWDestory";
         private FormMng _frmMng = null;
-
         private FrmMain _frmMain = null;
 
+        private BindingList<GridMWDestroyTxnData> _gridMWPostTxnData = new BindingList<GridMWDestroyTxnData>();
+        private BindingManagerBase _bindingDestroyDataMng = null;
 
         FrmMWDestroy()
         {
@@ -28,6 +30,7 @@ namespace YRKJ.MWR.WSDestory.Forms
 
             _frmMng = new FormMng(this, ClassName);
             this.Text = LngRes.MSG_FormName;
+            this.c_grdMWDestroy.AutoGenerateColumns = false;
         }
 
         public FrmMWDestroy(FrmMain f)
@@ -124,6 +127,31 @@ namespace YRKJ.MWR.WSDestory.Forms
             }
         }
 
+        private void c_btnCheck_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                this.Cursor = Cursors.WaitCursor;
+                if (_bindingDestroyDataMng.Position == -1)
+                {
+                    return;
+                }
+
+                GridMWDestroyTxnData curData = _bindingDestroyDataMng.Current as GridMWDestroyTxnData;
+
+                _frmMain.ShowFrom(FrmMain.TabToggleEnum.DESTORY_DETAIL, new FrmMWDestroyDetail(_frmMain, curData.TxnNum));
+            }
+            catch (Exception ex)
+            {
+                LogMng.GetLog().PrintError(ClassName, "c_btnCheck_Click", ex);
+                MsgBox.Error(ex);
+            }
+            finally
+            {
+                this.Cursor = Cursors.Default;
+            }
+        }
+
         private void c_bgwRecoverToDest_DoWork(object sender, DoWorkEventArgs e)
         {
             try
@@ -173,28 +201,71 @@ namespace YRKJ.MWR.WSDestory.Forms
             {
             }
         }
-        
+
+        public void ControlActivity()
+        {
+            try
+            {
+                this.Cursor = Cursors.WaitCursor;
+                _gridMWPostTxnData.Clear();
+                LoadData();
+            }
+            catch (Exception ex)
+            {
+                LogMng.GetLog().PrintError(ClassName, "ControlActivity", ex);
+                MsgBox.Error(ex);
+            }
+            finally
+            {
+                this.Cursor = Cursors.Default;
+            }
+        }
         #endregion
 
         #region Functions
 
         private bool InitFrm()
         {
+            _bindingDestroyDataMng = this.BindingContext[_gridMWPostTxnData];
             if (!LoadData())
                 return false;
-
-
 
             return true;
         }
 
         private bool InitCtrls()
         {
+
+            c_grdMWDestroy_C_TxnNum.DataPropertyName = "TxnNum";
+            //c_grdMWDestroy_C_WSCode.DataPropertyName = "PostWSCode";
+            c_grdMWDestroy_C_EmpyName.DataPropertyName = "DestEmpyName";
+            c_grdMWDestroy_C_StartDate.DataPropertyName = "StartDate";
+            c_grdMWDestroy_C_TotleQty.DataPropertyName = "TotalCrateQty";
+            c_grdMWDestroy_C_TotolSubWeight.DataPropertyName = "TotalSubWeight";
+            c_grdMWDestroy_C_TotalTxnWeight.DataPropertyName = "TotalTxnWeight";
+            c_grdMWDestroy_C_Status.DataPropertyName = "Status";
+
+            c_grdMWDestroy.DataSource = _gridMWPostTxnData;
+
             return true;
         }
 
         private bool LoadData()
         {
+            string errMsg = "";
+
+            string wscode = SysInfo.GetInstance().Config.WSCode;
+
+            List<TblMWTxnDestroyHeader> headerList = null;
+            if (!TxnMng.GetDestroyTxnHeaderList(wscode, ref headerList, ref errMsg))
+            {
+                MsgBox.Error(errMsg);
+                return false;
+            }
+            foreach (TblMWTxnDestroyHeader header in headerList)
+            {
+                _gridMWPostTxnData.Add(GridMWDestroyTxnData.ConventDBDataToFormData(header));
+            }
             return true;
         }
 
@@ -222,6 +293,46 @@ namespace YRKJ.MWR.WSDestory.Forms
         private class LngRes
         {
             public const string MSG_FormName = "医疗废物处理";
+        }
+
+        private class GridMWDestroyTxnData
+        {
+            public int DestHeaderId = 0;
+            public string DestType = "";
+            public string TxnNum { get; set; }
+            //public string PostWSCode { get; set; }
+            public string DestEmpyName { get; set; }
+            public string StartDate { get; set; }
+            public int TotalCrateQty { get; set; }
+            public decimal TotalSubWeight { get; set; }
+            public decimal TotalTxnWeight { get; set; }
+            public string Status { get; set; }
+
+            public static GridMWDestroyTxnData ConventDBDataToFormData(TblMWTxnDestroyHeader data)
+            {
+                GridMWDestroyTxnData item = new GridMWDestroyTxnData();
+                item.UpdateDBDataToFormData(data);
+                return item;
+            }
+
+            public void UpdateDBDataToFormData(TblMWTxnDestroyHeader data)
+            {
+                GridMWDestroyTxnData item = this;
+
+                item.DestHeaderId = data.DestHeaderId;
+                item.TxnNum = data.TxnNum;
+                item.DestType = data.DestType;
+                item.StartDate = ComLib.ComFn.DateTimeToString(data.StartDate, BizBase.GetInstance().DateTimeFormatString);
+                //item.EndDate = data.EndDate;
+                //item.DestWSCode = data.DestWSCode;
+                item.DestEmpyName = data.DestEmpyName;
+                //item.DestEmpyCode = data.DestEmpyCode;
+                item.TotalCrateQty = data.TotalCrateQty;
+                item.TotalSubWeight = data.TotalSubWeight;
+                item.TotalTxnWeight = data.TotalTxnWeight;
+                item.Status = BizHelper.GetTxnDetroyHeaderStatus(data.Status);
+
+            }
         }
 
         #endregion

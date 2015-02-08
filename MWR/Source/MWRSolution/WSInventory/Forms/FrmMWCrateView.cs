@@ -74,9 +74,7 @@ namespace YRKJ.MWR.WSInventory.Forms
         }
 
         public FrmMWCrateView(int invRecordId,  FormViewData viewData,
-            DelegateConfirmPostNew delegateConfirmPostNew
-            //,DelegateAuthorizePostNew delegateAuthorizePostNew
-            )
+            DelegateConfirmPostNew delegateConfirmPostNew)
             : this()
         {
             _formViewData = viewData;
@@ -87,10 +85,7 @@ namespace YRKJ.MWR.WSInventory.Forms
 
         }
 
-        public FrmMWCrateView(int invRecordId, string txnNum, FormViewData viewData
-            //,DelegateConfirmPostEdit delegateConfirmPostEdit,
-            //DelegateAuthorizePostEdit delegateAuthorizePostEdit
-            )
+        public FrmMWCrateView(int invRecordId, string txnNum, FormViewData viewData)
             : this()
         {
             _formViewData = viewData;
@@ -136,7 +131,6 @@ namespace YRKJ.MWR.WSInventory.Forms
             }
         }
 
-
         private void FrmMWCrateView_FormClosing(object sender, FormClosingEventArgs e)
         {
             try
@@ -154,6 +148,20 @@ namespace YRKJ.MWR.WSInventory.Forms
             {
                 this.Cursor = Cursors.Default;
             }
+        }
+
+        private void FrmMWCrateView_onScalesDataReceived(string status, string lable, decimal weight, string unit)
+        {
+            //ThreadSafe(() => {
+            _txnWeight = BizHelper.ConventToSysUnitWeight(weight, unit, SysParams.GetInstance().GetSysWeightUnit());
+            if (status.ToLower() == "us")
+                c_labScalesStatus.Text = "称重中.....";
+            else if (status.ToLower() == "st")
+                c_labScalesStatus.Text = "当前重量 " + SysParams.GetInstance().GetSysWeightUnit();
+            c_labTxnWeight.Text = weight.ToString("f2") + " " + SysParams.GetInstance().GetSysWeightUnit();
+
+            //});
+
         }
         
         private void c_btnOk_Click(object sender, EventArgs e)
@@ -181,7 +189,7 @@ namespace YRKJ.MWR.WSInventory.Forms
                 if (_optType == EnumOptType.Recover)
                 {
                     if (!TxnMng.ConfirmCrateToInventory(_txnDetailId,
-                        weight, empyCode, wsCode,
+                        weight, wsCode, empyCode, 
                         _formViewData.DepotCode,
                         ref errMsg))
                     {
@@ -259,7 +267,7 @@ namespace YRKJ.MWR.WSInventory.Forms
                 if (_optType == EnumOptType.Recover)
                 {
                     int invAuthId = 0;
-                    if (!TxnMng.ConfirmCrareToAuthorize(_txnDetailId, weight, empyCode, wsCode, ref invAuthId, ref errMsg))
+                    if (!TxnMng.ConfirmCrareToAuthorize(_txnDetailId, weight, wsCode, empyCode, ref invAuthId, ref errMsg))
                     {
                         MsgBox.Error(errMsg);
                         return;
@@ -278,7 +286,7 @@ namespace YRKJ.MWR.WSInventory.Forms
                     if (string.IsNullOrEmpty(_txnNum))
                     {
                         string newTxnNum = "";
-                        if (!TxnMng.ConfirmInventoryToAuthorizeNew(_invRecordId, weight, wsCode, empyCode,
+                        if (!TxnMng.ConfirmInventoryPostToAuthorizeNew(_invRecordId, weight, wsCode, empyCode,
                             ref invAuthId,
                             ref newTxnNum,
                             ref errMsg))
@@ -292,7 +300,7 @@ namespace YRKJ.MWR.WSInventory.Forms
                     }
                     else
                     {
-                        if (!TxnMng.ConfirmInventoryToAuthorizeEdit(_invRecordId, _txnNum, weight, wsCode, empyCode,
+                        if (!TxnMng.ConfirmInventoryPostToAuthorizeEdit(_invRecordId, _txnNum, weight, wsCode, empyCode,
                             ref invAuthId,
                             ref errMsg))
                         {
@@ -336,7 +344,7 @@ namespace YRKJ.MWR.WSInventory.Forms
                 this.Cursor = Cursors.Default;
             }
         }
-
+       
         #endregion
 
         #region Functions
@@ -391,26 +399,7 @@ namespace YRKJ.MWR.WSInventory.Forms
 #endif
             return true;
         }
-
-       
-        private void FrmMWCrateView_onScalesDataReceived(string status, string lable, decimal weight, string unit)
-        {
-            //ThreadSafe(() => {
-            _txnWeight = BizHelper.ConventToSysUnitWeight(weight, unit, SysParams.GetInstance().GetSysWeightUnit());
-            if (status.ToLower() == "us")
-                c_labScalesStatus.Text = "称重中.....";
-            else if (status.ToLower() == "st")
-                c_labScalesStatus.Text = "当前重量 " + SysParams.GetInstance().GetSysWeightUnit();
-            c_labTxnWeight.Text = weight.ToString("f2") + " " + SysParams.GetInstance().GetSysWeightUnit();
-              
-            //});
-            
-        }
         
-        //public FormReturnData GetFormData()
-        //{
-        //    return _formReturnData;
-        //}
         #endregion
 
         #region Common

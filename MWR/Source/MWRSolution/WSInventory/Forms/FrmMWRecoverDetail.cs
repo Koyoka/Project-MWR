@@ -25,7 +25,6 @@ namespace YRKJ.MWR.WSInventory.Forms
 
         private string _txnNum = "";
         private VewTxnHeaderWithCarDispatch _header = null;
-        //private List<TblMWTxnDetail> _detailList = null;
         private FromCtrlBindingData _bindingData = new FromCtrlBindingData();
         private TblMWDepot _defaultDepot = null;
 
@@ -42,10 +41,7 @@ namespace YRKJ.MWR.WSInventory.Forms
             this.WindowState = FormWindowState.Maximized;
             this.StartPosition = FormStartPosition.CenterScreen;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-
             this.c_grdMWTxnDetail.AutoGenerateColumns = false;
-
-          
         }
 
         public FrmMWRecoverDetail(FrmMain f, string recoNum)
@@ -359,14 +355,14 @@ namespace YRKJ.MWR.WSInventory.Forms
         {
             try
             {
-
+                string errMsg = "";
+                List<TblMWTxnDetail> dataList = null;
+                if (!TxnMng.GetDetailList(_txnNum, ref dataList, ref errMsg))
+                {
+                    return;
+                }
                 ThreadSafe(() => {
-                    string errMsg = "";
-                    List<TblMWTxnDetail> dataList = null;
-                    if (!TxnMng.GetDetailList(_txnNum, ref dataList, ref errMsg))
-                    {
-                        return ;
-                    }
+                   
                     foreach (TblMWTxnDetail data in dataList)
                     {
 
@@ -604,9 +600,7 @@ namespace YRKJ.MWR.WSInventory.Forms
         //    return true;
         //}
 
-        private bool AuthCrate(
-            GridTxnDetailData txnDetail,
-            ref string errMsg)
+        private bool AuthCrate(GridTxnDetailData txnDetail,ref string errMsg)
         {
             #region valid data
             if (_defaultDepot == null)
@@ -658,24 +652,8 @@ namespace YRKJ.MWR.WSInventory.Forms
             #endregion
 
             #region up return form data
-            //GridTxnDetailData curData = null;
-
-            //curData = _gridTxnDetailData.Where(x => x.TxnDetailId == txnDetail.TxnDetailId).First();
-
-            //if (curData == null)
-            //{
-            //    errMsg = LngRes.MSG_SysDataError;
-            //    return false;
-            //}
-
             #region update grid binding data
-            //curData.TxnWeight = txnDetail.TxnWeight;
-            //curData.AuthId = txnDetail.InvAuthId;
-            //curData.EntryDate = ComLib.ComFn.DateTimeToString(txnDetail.EntryDate,BizBase.GetInstance().DateTimeFormatString);
-            //curData.Status = BizHelper.GetTxnDetailStatus(txnDetail.Status);
-            //txnDetail.ORGData.EmpyCode = SysInfo.GetInstance().Employ.EmpyCode;
-            //txnDetail.ORGData.EmpyName = SysInfo.GetInstance().Employ.EmpyName;
-            //txnDetail.ORGData.WSCode = SysInfo.GetInstance().Config.WSCode;
+           
             txnDetail.ORGData.Status = TblMWTxnDetail.STATUS_ENUM_Complete;
             txnDetail.ORGData.EntryDate = ComLib.db.SqlDBMng.GetDBNow();
             txnDetail.UpdataDBDataToFormData(txnDetail.ORGData);
@@ -693,9 +671,8 @@ namespace YRKJ.MWR.WSInventory.Forms
             #endregion
             return true;
         }
-        private bool RecoverCrate(
-            GridTxnDetailData txnDetail,
-            ref string errMsg)
+        
+        private bool RecoverCrate(GridTxnDetailData txnDetail,ref string errMsg)
         {
             #region valid data
             if (_defaultDepot == null)
@@ -796,7 +773,6 @@ namespace YRKJ.MWR.WSInventory.Forms
 
             return true;
         }
-
        
         private void ThreadSafe(MethodInvoker method)
         {

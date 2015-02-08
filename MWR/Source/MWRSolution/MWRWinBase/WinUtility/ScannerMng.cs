@@ -26,7 +26,12 @@ namespace YRKJ.MWR.WinBase.WinUtility
         private DateTime _barCodeInputDate = DateTime.MinValue;
         private DateTime _stratTime = DateTime.MinValue;
         private System.Windows.Forms.Timer _timer;
-       
+
+        private string _currentBarCode = "";
+        public string CurrentBarCode
+        {
+            get { return _currentBarCode; }
+        }
 
         public delegate void ScannedEventHandler(string code);
         public event ScannedEventHandler CodeScanned = null;
@@ -60,7 +65,7 @@ namespace YRKJ.MWR.WinBase.WinUtility
        
 
         #region Events
-       
+      
         private void _timer_Tick(object sender, EventArgs e)
         {
             
@@ -102,6 +107,7 @@ namespace YRKJ.MWR.WinBase.WinUtility
                     else
                     {
                         _barCode = "";
+                        _currentBarCode = tempBarCode;
                         CodeScanned(tempBarCode);
                     }
                 }

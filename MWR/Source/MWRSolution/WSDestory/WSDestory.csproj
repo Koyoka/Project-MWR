@@ -17,6 +17,7 @@
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -29,7 +30,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -56,6 +56,10 @@
     <ApplicationIcon>logo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ComLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\ComBIN\ComLib.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -90,6 +94,18 @@
     </Compile>
     <Compile Include="Forms\Dtl\FrmInventoryDtl.Designer.cs">
       <DependentUpon>FrmInventoryDtl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmMWCrateReview.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmMWCrateReview.Designer.cs">
+      <DependentUpon>FrmMWCrateReview.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmMWCrateView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmMWCrateView.Designer.cs">
+      <DependentUpon>FrmMWCrateView.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\FrmMWDestroyDetail.cs">
       <SubType>Form</SubType>
@@ -168,6 +184,12 @@
     <EmbeddedResource Include="Forms\Dtl\FrmInventoryDtl.resx">
       <DependentUpon>FrmInventoryDtl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmMWCrateReview.resx">
+      <DependentUpon>FrmMWCrateReview.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmMWCrateView.resx">
+      <DependentUpon>FrmMWCrateView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmMWDestroyDetail.resx">
       <DependentUpon>FrmMWDestroyDetail.cs</DependentUpon>
     </EmbeddedResource>
@@ -222,10 +244,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\ComLib\ComLib.csproj">
-      <Project>{70D21FDA-A5E3-4629-907B-B94051A65093}</Project>
-      <Name>ComLib</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MWRBusiness\MWRBusiness.csproj">
       <Project>{C77051AD-CB44-445F-A914-2253F49D5EAA}</Project>
       <Name>MWRBusiness</Name>

@@ -19,14 +19,12 @@ namespace YRKJ.MWR.WSInventory.Forms
     {
         private const string ClassName = "YRKJ.MWR.WSInventory.Forms.FrmMWPost";
         private FormMng _frmMng = null;
-
         private FrmMain _frmMain = null;
 
         private BindingList<GridMWPostTxnData> _gridMWPostTxnData = new BindingList<GridMWPostTxnData>();
         private BindingManagerBase _bindingPostDataMng = null;
 
-
-        public FrmMWPost()
+        FrmMWPost()
         {
             InitializeComponent();
 
@@ -79,7 +77,7 @@ namespace YRKJ.MWR.WSInventory.Forms
                 if (_frmMain != null)
                 {
                     _frmMain.ShowFrom(FrmMain.TabToggleEnum.POST_DETAIL,
-                        new FrmMWPostDetail(_frmMain, FrmMWPostDetail.PostTypeEnum.New));
+                        new FrmMWPostDetail(_frmMain));
                 }
             }
             catch (Exception ex)
@@ -102,7 +100,7 @@ namespace YRKJ.MWR.WSInventory.Forms
                 if (_frmMain != null)
                 {
                     _frmMain.ShowFrom(FrmMain.TabToggleEnum.POST_DETAIL,
-                        new FrmMWPostDetail(_frmMain, FrmMWPostDetail.PostTypeEnum.New));
+                        new FrmMWPostDetail(_frmMain));
                 }
 
             }
@@ -294,8 +292,6 @@ namespace YRKJ.MWR.WSInventory.Forms
         }
 
         #endregion
-
-     
 
         #region Form Data Property
 

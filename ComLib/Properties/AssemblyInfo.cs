@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("ComLib")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("微软中国")]
+[assembly: AssemblyCompany("Eleven")]
 [assembly: AssemblyProduct("ComLib")]
-[assembly: AssemblyCopyright("版权所有 (C) 微软中国 2013")]
+[assembly: AssemblyCopyright("版权所有 (C) elevenrz@126.com")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

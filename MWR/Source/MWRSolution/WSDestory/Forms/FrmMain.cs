@@ -320,7 +320,7 @@ namespace YRKJ.MWR.WSDestory.Forms
                 {
                     _curForm = f;
                     f.BringToFront();
-                    //(f as FrmMWRecover).ControlActivity();
+                    (f as FrmMWDestroy).ControlActivity();
                     return;
                 }
                 else if(tabToggle == TabToggleEnum.DESTORY_DETAIL

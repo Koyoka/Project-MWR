@@ -58,7 +58,6 @@ namespace YRKJ.MWR.WSInventory.Forms
             _optType = EnumOptType.Post;
         }
 
-
         #region Event
 
         private void FrmMWCrateReview_Load(object sender, EventArgs e)
@@ -112,7 +111,7 @@ namespace YRKJ.MWR.WSInventory.Forms
                 if (_optType == EnumOptType.Recover)
                 {
                     if (!TxnMng.AuthorizeCrareToInventory(_txnDetail.TxnDetailId,
-                        empyCode, wscode, _depotCode, ref errMsg))
+                        wscode, empyCode, _depotCode, ref errMsg))
                     {
                         MsgBox.Error(errMsg);
                         return;

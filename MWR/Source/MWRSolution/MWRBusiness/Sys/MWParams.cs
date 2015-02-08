@@ -62,7 +62,7 @@ namespace YRKJ.MWR.Business.Sys
             }
             if (string.IsNullOrEmpty(defineVal))
             {
-                _allowDiffWeight = 1;
+                _allowDiffWeight = 0;
             }
             return _allowDiffWeight;
         }

@@ -66,12 +66,29 @@ namespace YRKJ.MWR.Business
             }
             return defineStr;
         }
-
         public static string GetTxnPostHeaderStatus(string s)
         {
             string defineStr = "";
             switch (s)
             { 
+                case TblMWTxnPostHeader.STATUS_ENUM_Authorize:
+                    defineStr = LngRes.Status_TxnHeader_Authorize;
+                    break;
+                case TblMWTxnPostHeader.STATUS_ENUM_Complete:
+                    defineStr = LngRes.Status_TxnHeader_Complete;
+                    break;
+                case TblMWTxnPostHeader.STATUS_ENUM_Process:
+                    defineStr = LngRes.Status_TxnHeader_Process;
+                    break;
+            }
+
+            return defineStr;
+        }
+        public static string GetTxnDetroyHeaderStatus(string s)
+        {
+            string defineStr = "";
+            switch (s)
+            {
                 case TblMWTxnPostHeader.STATUS_ENUM_Authorize:
                     defineStr = LngRes.Status_TxnHeader_Authorize;
                     break;
@@ -106,7 +123,6 @@ namespace YRKJ.MWR.Business
             }
             return defineStr;
         }
-
         public static string GetTxnDetailTxnType(string s)
         {
             string defineStr = "";

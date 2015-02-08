@@ -104,9 +104,22 @@ namespace YRKJ.MWR.WSDestory.Forms
                 }
 
                 GridMWRecoverData curData = _bindingRecoverDataMng.Current as GridMWRecoverData;
-                string txnNum = curData.TxnNum;
-                _frmMain.ShowFrom(FrmMain.TabToggleEnum.DESTORY_RECOVER_DETAIL, new FrmMWDestroyRecoverDetail(_frmMain, txnNum));
+
+                string errMsg = "";
+                string wsCode = SysInfo.GetInstance().Config.WSCode;
+                string empyCode = SysInfo.GetInstance().Employ.EmpyCode;
+                string newTxnNum = "";
+                if (!TxnMng.BeginConfirmRecoverToDestroy(curData.TxnNum, wsCode, empyCode, ref newTxnNum, ref errMsg))
+                {
+                    MsgBox.Error(errMsg);
+                }
+                _frmMain.ShowFrom(FrmMain.TabToggleEnum.DESTORY_DETAIL, new FrmMWDestroyDetail(_frmMain, newTxnNum));
                 this.Close();
+                //return;
+
+                //string txnNum = curData.TxnNum;
+                //_frmMain.ShowFrom(FrmMain.TabToggleEnum.DESTORY_RECOVER_DETAIL, new FrmMWDestroyRecoverDetail(_frmMain, txnNum));
+                //this.Close();
             }
             catch (Exception ex)
             {
