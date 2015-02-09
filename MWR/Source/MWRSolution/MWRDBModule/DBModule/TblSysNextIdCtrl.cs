@@ -6,23 +6,23 @@ using ComLib.db;
 
 namespace YRKJ.MWR
 {
-    public class TblSystemNextIdCtrl : BaseDataCtrl
+    public class TblSysNextIdCtrl : BaseDataCtrl
     {
-        public static bool QueryPage(DataCtrlInfo dcf, SqlWhere sw, int page, int pageSize, ref List<TblSystemNextId> itemList, ref string errMsg)
+        public static bool QueryPage(DataCtrlInfo dcf, SqlWhere sw, int page, int pageSize, ref List<TblSysNextId> itemList, ref string errMsg)
         {
             SqlQueryMng sqm = new SqlQueryMng();
             sqm.Condition.Where.AddWhere(sw);
             return QueryPage(dcf, sqm, page, pageSize, ref itemList, ref errMsg);
         }
  
-        public static bool QueryPage(DataCtrlInfo dcf, SqlQueryMng sqm, int page, int pageSize,ref List<TblSystemNextId> itemList,ref string errMsg)
+        public static bool QueryPage(DataCtrlInfo dcf, SqlQueryMng sqm, int page, int pageSize,ref List<TblSysNextId> itemList,ref string errMsg)
         {
             try
             {
-                sqm.setQueryTableName(TblSystemNextId.getFormatTableName());
+                sqm.setQueryTableName(TblSysNextId.getFormatTableName());
                 string sql = sqm.getPageSql(page, pageSize);
                 SqlCommonFn.DebugLog(sql);
-                itemList = SqlDBMng.getInstance().query(sql, new TblSystemNextId(), sqm.getParamsArray());
+                itemList = SqlDBMng.getInstance().query(sql, new TblSysNextId(), sqm.getParamsArray());
                 if (itemList.Count != 0)
                 {
                     dcf.RowCount = itemList[0].TEM_COLUMN_COUNT;
@@ -37,22 +37,22 @@ namespace YRKJ.MWR
             return true ;
         }
 
-        public static bool QueryMore(DataCtrlInfo dcf, SqlWhere sw,ref List<TblSystemNextId> itemList,ref string errMsg)
+        public static bool QueryMore(DataCtrlInfo dcf, SqlWhere sw,ref List<TblSysNextId> itemList,ref string errMsg)
         {
             SqlQueryMng sqm = new SqlQueryMng();
             sqm.Condition.Where.AddWhere(sw);
             return QueryMore(dcf, sqm,ref itemList,ref errMsg);
         }
 
-        public static bool QueryMore(DataCtrlInfo dcf, SqlQueryMng sqm,ref List<TblSystemNextId> itemList,ref string errMsg)
+        public static bool QueryMore(DataCtrlInfo dcf, SqlQueryMng sqm,ref List<TblSysNextId> itemList,ref string errMsg)
         {
           
             try
             {
-                sqm.setQueryTableName(TblSystemNextId.getFormatTableName());
+                sqm.setQueryTableName(TblSysNextId.getFormatTableName());
                 string sql = sqm.getSql();
                 SqlCommonFn.DebugLog(sql);
-                itemList = SqlDBMng.getInstance().query(sql, new TblSystemNextId(), sqm.getParamsArray());
+                itemList = SqlDBMng.getInstance().query(sql, new TblSysNextId(), sqm.getParamsArray());
             }
             catch (Exception e)
             {
@@ -62,9 +62,9 @@ namespace YRKJ.MWR
             return true;
         }
 
-        public static bool QueryOne(DataCtrlInfo dcf, SqlQueryMng sqm,ref TblSystemNextId item,ref string errMsg)
+        public static bool QueryOne(DataCtrlInfo dcf, SqlQueryMng sqm,ref TblSysNextId item,ref string errMsg)
         {
-            List<TblSystemNextId> itemList = null;
+            List<TblSysNextId> itemList = null;
             if (!QueryMore(dcf, sqm, ref itemList, ref errMsg))
             {
                 return false;
@@ -82,14 +82,14 @@ namespace YRKJ.MWR
             return true;
         }
 
-        public static bool QueryOne(DataCtrlInfo dcf, SqlWhere sw,ref TblSystemNextId item, ref string errMsg)
+        public static bool QueryOne(DataCtrlInfo dcf, SqlWhere sw,ref TblSysNextId item, ref string errMsg)
         {
             SqlQueryMng sqm = new SqlQueryMng();
             sqm.Condition.Where.AddWhere(sw);
             return QueryOne(dcf, sqm, ref item, ref errMsg);
         }
 
-        public static bool Insert(DataCtrlInfo dcf, TblSystemNextId item, ref int count,ref string errMsg)
+        public static bool Insert(DataCtrlInfo dcf, TblSysNextId item, ref int count,ref string errMsg)
         {
             return Insert(dcf,
                 item.IdName,
@@ -113,12 +113,12 @@ namespace YRKJ.MWR
                 )
         {
             SqlUpdateMng sum = new SqlUpdateMng();
-            sum.setQueryTableName(TblSystemNextId.getFormatTableName());
-            sum.Add(TblSystemNextId.getIdNameColumn(), idName);
-            sum.Add(TblSystemNextId.getMinValueColumn(), minValue);
-            sum.Add(TblSystemNextId.getIncrementColumn(), increment);
-            sum.Add(TblSystemNextId.getMaxValueColumn(), maxValue);
-            sum.Add(TblSystemNextId.getIdValueColumn(), idValue);
+            sum.setQueryTableName(TblSysNextId.getFormatTableName());
+            sum.Add(TblSysNextId.getIdNameColumn(), idName);
+            sum.Add(TblSysNextId.getMinValueColumn(), minValue);
+            sum.Add(TblSysNextId.getIncrementColumn(), increment);
+            sum.Add(TblSysNextId.getMaxValueColumn(), maxValue);
+            sum.Add(TblSysNextId.getIdValueColumn(), idValue);
             string sql = sum.getInsertSql();
             if (sql == null)
             {
@@ -128,18 +128,18 @@ namespace YRKJ.MWR
             return doUpdateCtrl(dcf, sql,ref _count,ref _errMsg);
         }
 
-        public static bool Update(DataCtrlInfo dcf, TblSystemNextId item, SqlWhere sw,ref int count,ref string errMsg)
+        public static bool Update(DataCtrlInfo dcf, TblSysNextId item, SqlWhere sw,ref int count,ref string errMsg)
         {
             SqlUpdateColumn suc = new SqlUpdateColumn();
-            suc.Add(TblSystemNextId.getIdNameColumn(), item.IdName);
-            suc.Add(TblSystemNextId.getMinValueColumn(), item.MinValue);
-            suc.Add(TblSystemNextId.getIncrementColumn(), item.Increment);
-            suc.Add(TblSystemNextId.getMaxValueColumn(), item.MaxValue);
-            suc.Add(TblSystemNextId.getIdValueColumn(), item.IdValue);
+            suc.Add(TblSysNextId.getIdNameColumn(), item.IdName);
+            suc.Add(TblSysNextId.getMinValueColumn(), item.MinValue);
+            suc.Add(TblSysNextId.getIncrementColumn(), item.Increment);
+            suc.Add(TblSysNextId.getMaxValueColumn(), item.MaxValue);
+            suc.Add(TblSysNextId.getIdValueColumn(), item.IdValue);
             return Update(dcf, suc, sw, ref count, ref errMsg);
         }
 
-        public static bool Update(DataCtrlInfo dcf, TblSystemNextId item, SqlUpdateColumn suc, SqlWhere sw,ref int count,ref string errMsg)
+        public static bool Update(DataCtrlInfo dcf, TblSysNextId item, SqlUpdateColumn suc, SqlWhere sw,ref int count,ref string errMsg)
         {
             if (suc.Columns != null)
                  SetUpdateColumnValue(suc, item);
@@ -149,7 +149,7 @@ namespace YRKJ.MWR
         public static bool Update(DataCtrlInfo dcf, SqlUpdateColumn suc, SqlWhere sw,ref int count,ref string errMsg)
         {
             SqlUpdateMng sum = new SqlUpdateMng();
-            sum.setQueryTableName(TblSystemNextId.getFormatTableName());
+            sum.setQueryTableName(TblSysNextId.getFormatTableName());
             string sql = sum.getUpdateSql(suc, sw);
             if (sql == null)
             {
@@ -162,7 +162,7 @@ namespace YRKJ.MWR
         public static bool Delete(DataCtrlInfo dcf, SqlWhere sw, ref int count, ref string errMsg)
         {
             SqlUpdateMng sum = new SqlUpdateMng();
-            sum.setQueryTableName(TblSystemNextId.getFormatTableName());
+            sum.setQueryTableName(TblSysNextId.getFormatTableName());
             string sql = sum.getDeleteSql(sw);
             return doUpdateCtrl(dcf, sql, ref count,ref errMsg);
         }

@@ -188,7 +188,7 @@ namespace YRKJ.MWR.BackOffice.Services.FileUpload
                 return false;
             }
 
-            string UploadFileRoot = StorageRoot + txnNum + "//";
+            string UploadFileRoot = StorageRoot + GetSaveDirectory(txnNum, crateCode);// txnNum + "//" + crateCode + "//";
             if (!Directory.Exists(UploadFileRoot))
             {
                 Directory.CreateDirectory(UploadFileRoot);
@@ -201,8 +201,9 @@ namespace YRKJ.MWR.BackOffice.Services.FileUpload
                 string fileName = GetAuthorizeFileName(txnNum, crateCode, file);
 
                 string fullName = FileSave(context, file, UploadFileRoot, fileName); // FileSave(context, file);
-                statuses.Add(new FilesStatus(fullName, file.ContentLength, txnNum));
-                filePaths.Add( "UploadFile//"+txnNum + "//" + fullName);
+                statuses.Add(new FilesStatus(fullName, file.ContentLength,  GetSaveDirectory(txnNum, crateCode)));
+                filePaths.Add("UploadFile//" + GetSaveDirectory(txnNum, crateCode) + fullName);
+                //GetSaveDirectory(txnNum, crateCode);
             }
            
             if (!MWRWorkflowMng.AddAuthorizeAttach(ComLib.ComFn.StringToInt(invauthid), filePaths, ref errMsg))
@@ -213,6 +214,10 @@ namespace YRKJ.MWR.BackOffice.Services.FileUpload
             return true;
         }
 
+        private string GetSaveDirectory(string txnNum,string crateCode)
+        {
+            return txnNum + "//" + crateCode + "//";
+        }
         private string GetAuthorizeFileName(string txnNum,string crateCode,HttpPostedFile file)
         {
             DateTime now = SqlDBMng.GetDBNow();
@@ -277,16 +282,30 @@ namespace YRKJ.MWR.BackOffice.Services.FileUpload
                 return;
             }
             string txnNum = context.Request.QueryString["txnnum"];
-            string UploadFileRoot = StorageRoot + txnNum + "//";
-            var files =
-                //new DirectoryInfo(StorageRoot)
-                new DirectoryInfo(UploadFileRoot)
-                    .GetFiles("*", SearchOption.TopDirectoryOnly)
-                    .Where(f => !f.Attributes.HasFlag(FileAttributes.Hidden))
-                    .Select(f => new FilesStatus(f,txnNum+@"//"))
-                    .ToArray();
+            string crateCode = context.Request.QueryString["crateCode"];
+            string UploadFileRoot = StorageRoot + txnNum + "//" + crateCode + "//";
 
-            string jsonObj = js.Serialize(Files.GetFiles(files));
+            string jsonObj = "";
+            if (!Directory.Exists(UploadFileRoot))
+            {
+                //string[] files = new string[] { };
+                Files f = new Files();
+                f.files = new string[] { };
+                jsonObj = js.Serialize(f);
+            }
+            else
+            {
+                var files =
+                    //new DirectoryInfo(StorageRoot)
+               new DirectoryInfo(UploadFileRoot)
+                   .GetFiles("*", SearchOption.TopDirectoryOnly)
+                   .Where(f => !f.Attributes.HasFlag(FileAttributes.Hidden))
+                   .Select(f => new FilesStatus(f, txnNum + @"//" + crateCode + "//"))
+                   .ToArray();
+
+                jsonObj = js.Serialize(Files.GetFiles(files));
+            }
+           
             context.Response.AddHeader("Content-Disposition", "inline; filename=\"files.json\"");
             context.Response.Write(jsonObj);
             context.Response.ContentType = "application/json";

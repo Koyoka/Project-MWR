@@ -520,6 +520,34 @@ namespace YRKJ.MWR.WSDestory.Forms
 
         #endregion
 
+        private void FrmMain_KeyDown(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                if (e.KeyData == (Keys.Shift | Keys.Control | Keys.Alt | Keys.D))
+                {
+                    
+                    if(MsgBox.Confirm("警告", "即将清空所有操作数据，确认继续操作？"))
+                    {
+                        string errMsg = "";
+                        if (!YRKJ.MWR.Business.Sys.MWSysTable.InitTxnTable(ref errMsg))
+                        {
+                            MsgBox.Error(errMsg);
+                        }
+                    }
+                   
+                }
+            }
+            catch (Exception ex)
+            {
+                LogMng.GetLog().PrintError(ClassName, "_form_KeyDown", ex);
+                MsgBox.Error(ex);
+            }
+            finally
+            {
+            }
+        }
+
         #region Form Data Property
 
         #endregion

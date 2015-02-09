@@ -387,6 +387,7 @@
             this.c_btnCheck.TabIndex = 0;
             this.c_btnCheck.Text = "审核确认";
             this.c_btnCheck.UseVisualStyleBackColor = true;
+            this.c_btnCheck.Click += new System.EventHandler(this.c_btnCheck_Click);
             // 
             // c_btnManually
             // 

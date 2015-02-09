@@ -148,6 +148,7 @@ namespace YRKJ.MWR.WSDestory.Forms
 
         private bool InitCtrls()
         {
+            c_btnStrat.Enabled = _gridMWRecoverData.Count == 0 ? false : true;
 
             c_grdMWRecover_C_CarCode.DataPropertyName = "CarCode";
             c_grdMWRecover_C_Driver.DataPropertyName = "Driver";

@@ -102,10 +102,10 @@
     <Compile Include="DBModule\TblMWWorkStationCtrl.cs" />
     <Compile Include="DBModule\TblSysLog.cs" />
     <Compile Include="DBModule\TblSysLogCtrl.cs" />
+    <Compile Include="DBModule\TblSysNextId.cs" />
+    <Compile Include="DBModule\TblSysNextIdCtrl.cs" />
     <Compile Include="DBModule\TblSysParameter.cs" />
     <Compile Include="DBModule\TblSysParameterCtrl.cs" />
-    <Compile Include="DBModule\TblSystemNextId.cs" />
-    <Compile Include="DBModule\TblSystemNextIdCtrl.cs" />
     <Compile Include="DBModule\VewIvnAuthorizeWithTxnDetail.cs" />
     <Compile Include="DBModule\VewIvnAuthorizeWithTxnDetailCtrl.cs" />
     <Compile Include="DBModule\VewTxnHeaderWithCarDispatch.cs" />

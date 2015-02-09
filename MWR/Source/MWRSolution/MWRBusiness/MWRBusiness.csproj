@@ -55,6 +55,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sys\MWNextIdMng.cs" />
     <Compile Include="Sys\MWParams.cs" />
+    <Compile Include="Sys\MWSysTable.cs" />
     <Compile Include="WS\TxnMng.cs" />
   </ItemGroup>
   <ItemGroup>

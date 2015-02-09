@@ -172,10 +172,6 @@ namespace YRKJ.MWR.WSInventory.Forms
 
         private bool InitFrm()
         {
-            //YRKJ.MWR.WinBase.WinUtility.BroadcastMng.GetInstance().Listen(SysInfo.Broadcast_RecoverTxnCount, (x) =>
-            //{
-            //    this.c_labTxnCount.Text = x.Data.ToString();
-            //});
             _bindingPostDataMng = this.BindingContext[_gridMWPostTxnData];
             if (!LoadData())
                 return false;

@@ -557,6 +557,8 @@ namespace YRKJ.MWR.WSInventory.Forms
 
                 if (result == System.Windows.Forms.DialogResult.OK)
                 {
+                    txnDetail.Status = TblMWTxnDetail.STATUS_ENUM_Complete;
+                    txnDetail.EntryDate = ComLib.db.SqlDBMng.GetDBNow();
                     curData.UpdataDBDataToFormData(txnDetail);
                     c_grdMWTxnDetail.Refresh();
                     WinFn.ReadBingdingText(c_labStatus);

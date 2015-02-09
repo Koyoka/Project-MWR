@@ -21,8 +21,6 @@ namespace YRKJ.MWR.Business.BO
             string MWSCode,
             ref string errMsg)
         {
-            
-
             DataCtrlInfo dcf = new DataCtrlInfo();
             string driver = "";
             string inspector = "";
@@ -192,11 +190,14 @@ namespace YRKJ.MWR.Business.BO
                     //    errMsg = "该回收计划已经被管理员关闭";
                     //    return false;
                     //}
+
+#if !DEBUG
                     if (carDispatchInfo.InDate != DateTime.MinValue)
                     {
                         errMsg = "该回收计划已经提交";
                         return false;
                     }
+#endif
                 }
                 #endregion
 

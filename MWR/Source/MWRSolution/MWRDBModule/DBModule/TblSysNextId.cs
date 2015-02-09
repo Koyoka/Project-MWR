@@ -6,11 +6,11 @@ using ComLib.db;
 namespace YRKJ.MWR
 {
 
-    public class TblSystemNextId : BaseDataModule
+    public class TblSysNextId : BaseDataModule
     {
 
-        private static string TableName = "SystemNextId";
-        public TblSystemNextId()
+        private static string TableName = "SysNextId";
+        public TblSysNextId()
         {
         }
         public static string getFormatTableName()

@@ -157,7 +157,7 @@ namespace YRKJ.MWR.WSDestory.Forms
                 }
 
                 if (OnOkClick != null)
-                    OnOkClick(weight);
+                    OnOkClick(_formViewData.CrateCode, weight);
 
                 this.DialogResult = System.Windows.Forms.DialogResult.OK;
 
@@ -193,7 +193,7 @@ namespace YRKJ.MWR.WSDestory.Forms
                 }
 
                 if (OnAuthorizeClick != null)
-                    OnAuthorizeClick(weight);
+                    OnAuthorizeClick(_formViewData.CrateCode,weight);
 
                 this.DialogResult = System.Windows.Forms.DialogResult.Abort;
                 this.Close();
@@ -323,8 +323,8 @@ namespace YRKJ.MWR.WSDestory.Forms
 
         //public delegate void DelegateConfirmDestroyNew(string newTxnNum);
 
-        public delegate void DelegateOnOkClick(decimal txnWeight);
-        public delegate void DelegateOnAuthorizeClick(decimal txnWeight);
+        public delegate void DelegateOnOkClick(string crateCode,decimal txnWeight);
+        public delegate void DelegateOnAuthorizeClick(string crateCode, decimal txnWeight);
         public delegate void DelegateOnCancelClick();
        
         #endregion

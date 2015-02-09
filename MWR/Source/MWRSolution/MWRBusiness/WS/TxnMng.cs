@@ -237,6 +237,10 @@ namespace YRKJ.MWR.Business.WS
             TblMWEmploy empy = null;
             TblMWWorkStation ws = null;
             #region valid data
+            if (!ValidWSAndEmploy(wsCode, empyCode, ref ws, ref empy, ref errMsg))
+            {
+                return false;
+            }
             {
                 SqlQueryMng sqm = new SqlQueryMng();
                 sqm.Condition.Where.AddCompareValue(TblMWTxnRecoverHeader.getTxnNumColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, txnNum);
@@ -250,10 +254,6 @@ namespace YRKJ.MWR.Business.WS
                     //process by this workstation
                     return true;
                 }
-            }
-            if (!ValidWSAndEmploy(wsCode, empyCode, ref ws, ref empy, ref errMsg))
-            {
-                return false;
             }
             #endregion
 
@@ -296,6 +296,10 @@ namespace YRKJ.MWR.Business.WS
             TblMWWorkStation ws = null;
             TblMWEmploy empy = null;
             #region get & valid data
+            if (!ValidWSAndEmploy(wsCode, empyCode, ref ws, ref empy, ref errMsg))
+            {
+                return false;
+            }
             {
                 if (!GetTxnDetail(txnDetailId, ref detail, ref errMsg))
                 {
@@ -333,10 +337,6 @@ namespace YRKJ.MWR.Business.WS
                 }
             }
 #endif
-            if (!ValidWSAndEmploy(wsCode, empyCode, ref ws, ref empy, ref errMsg))
-            {
-                return false;
-            }
             #endregion
 
             #region valid Biz
@@ -517,6 +517,10 @@ namespace YRKJ.MWR.Business.WS
             TblMWWorkStation ws = null;
             TblMWEmploy empy = null;
             #region get & valid data
+            if (!ValidWSAndEmploy(wsCode, empyCode, ref ws, ref empy, ref errMsg))
+            {
+                return false;
+            }
             {
                 if (!GetTxnDetail(txnDetailId, ref detail, ref errMsg))
                 {
@@ -554,10 +558,6 @@ namespace YRKJ.MWR.Business.WS
                 }
             }
 #endif
-            if (!ValidWSAndEmploy(wsCode, empyCode, ref ws, ref empy, ref errMsg))
-            {
-                return false;
-            }
             #endregion
             
             dcf.BeginTrans();
@@ -683,6 +683,10 @@ namespace YRKJ.MWR.Business.WS
             TblMWEmploy empy = null;
             int curTxnPresseAuthCount = 0;
             #region get & valid data
+            if (!ValidWSAndEmploy(wsCode, empyCode, ref ws, ref empy, ref errMsg))
+            {
+                return false;
+            }
             {
                 if (!GetTxnDetail(txnDetailId, ref detail, ref errMsg))
                 {
@@ -736,13 +740,7 @@ namespace YRKJ.MWR.Business.WS
                     errMsg = LngRes.MSG_Valid_TxnInAuthorize; 
                     return false;
                 }
-
             }
-            if (!ValidWSAndEmploy(wsCode, empyCode, ref ws, ref empy, ref errMsg))
-            {
-                return false;
-            }
-           
             #endregion
 
             dcf.BeginTrans();
@@ -1007,13 +1005,16 @@ namespace YRKJ.MWR.Business.WS
 
         private static bool ConfirmInventoryToPost(int invRecordId, string txnNum,decimal txnWeight, string wsCode, string empyCode,ref string newTxnNum, ref string errMsg)
         {
-
             DataCtrlInfo dcf = new DataCtrlInfo();
 
             TblMWInventory inv = null;
             TblMWEmploy empy = null;
             TblMWWorkStation ws = null;
             #region get & valid data
+            if (!ValidWSAndEmploy(wsCode, empyCode, ref ws, ref empy, ref errMsg))
+            {
+                return false;
+            }
             {
                 SqlQueryMng sqm = new SqlQueryMng();
                 sqm.Condition.Where.AddCompareValue(TblMWInventory.getInvRecordIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, invRecordId);
@@ -1026,10 +1027,6 @@ namespace YRKJ.MWR.Business.WS
                     errMsg = LngRes.MSG_Valid_NoInventory;
                     return false;
                 }
-            }
-            if (!ValidWSAndEmploy(wsCode, empyCode, ref ws, ref empy, ref errMsg))
-            {
-                return false;
             }
             #endregion
 
@@ -1277,6 +1274,10 @@ namespace YRKJ.MWR.Business.WS
             TblMWEmploy empy = null;
             TblMWWorkStation ws = null;
             #region get & valid data
+            if (!ValidWSAndEmploy(wsCode, empyCode, ref ws, ref empy, ref errMsg))
+            {
+                return false;
+            }
             {
                 SqlQueryMng sqm = new SqlQueryMng();
                 sqm.Condition.Where.AddCompareValue(TblMWInventory.getInvRecordIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, invRecordId);
@@ -1289,10 +1290,6 @@ namespace YRKJ.MWR.Business.WS
                     errMsg = LngRes.MSG_Valid_NoInventory;
                     return false;
                 }
-            }
-            if (!ValidWSAndEmploy(wsCode, empyCode, ref ws, ref empy, ref errMsg))
-            {
-                return false;
             }
             #endregion
 
@@ -1514,6 +1511,26 @@ namespace YRKJ.MWR.Business.WS
             TblMWTxnDetail detail = null;
             int curTxnPresseAuthCount = 0;
             #region valid data
+            if (!ValidWSAndEmploy(wsCode, empyCode, ref ws, ref empy, ref errMsg))
+            {
+                return false;
+            }
+            {
+                if (!GetInventoryTxnDetail(invRecordId, txnNum, ref detail, ref errMsg))
+                {
+                    return false;
+                }
+                if (detail == null)
+                {
+                    errMsg = LngRes.MSG_Valid_NoTxnDetail;
+                    return false;
+                }
+                if (detail.Status != TblMWTxnDetail.STATUS_ENUM_Wait)
+                {
+                    errMsg = LngRes.MSG_Valid_TxnUnAuthorizeWait;
+                    return false;
+                }
+            }
             {
                 List<TblMWInvAuthorize> itemList = null;
                 SqlQueryMng sqm = new SqlQueryMng();
@@ -1552,20 +1569,6 @@ namespace YRKJ.MWR.Business.WS
             }
             {
                 SqlQueryMng sqm = new SqlQueryMng();
-                sqm.Condition.Where.AddCompareValue(TblMWTxnDetail.getTxnNumColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, txnNum);
-                sqm.Condition.Where.AddCompareValue(TblMWTxnDetail.getInvRecordIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, invRecordId);
-                if (!TblMWTxnDetailCtrl.QueryOne(dcf, sqm, ref detail, ref errMsg))
-                {
-                    return false;
-                }
-                if (detail == null)
-                {
-                    errMsg = LngRes.MSG_Valid_NoTxnDetail;
-                    return false;
-                }
-            }
-            {
-                SqlQueryMng sqm = new SqlQueryMng();
                 sqm.Condition.Where.AddCompareValue(TblMWInventory.getInvRecordIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, invRecordId);
                 if (!TblMWInventoryCtrl.QueryOne(dcf, sqm, ref inv, ref errMsg))
                 {
@@ -1577,10 +1580,7 @@ namespace YRKJ.MWR.Business.WS
                     return false;
                 }
             }
-            if (!ValidWSAndEmploy(wsCode, empyCode, ref ws, ref empy, ref errMsg))
-            {
-                return false;
-            }
+            
             #endregion
 
             dcf.BeginTrans();
@@ -1765,7 +1765,7 @@ namespace YRKJ.MWR.Business.WS
 
         #endregion
 
-        #region destory txn list
+        #region destroy txn list
 
         #region get data
         public static bool GetGetRecoverToDestroyTxnCount(string wscode, ref int count, ref string errMsg)
@@ -1844,6 +1844,7 @@ namespace YRKJ.MWR.Business.WS
 
             SqlQueryMng sqm = new SqlQueryMng();
             sqm.Condition.Where.AddCompareValue(TblMWTxnDestroyHeader.getDestWSCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, wscode);
+            sqm.Condition.Where.AddCompareValue(TblMWTxnDestroyHeader.getStatusColumn(), SqlCommonFn.SqlWhereCompareEnum.UnEquals, TblMWTxnDestroyHeader.STATUS_ENUM_Complete);
 
             if (!TblMWTxnDestroyHeaderCtrl.QueryMore(dcf, sqm, ref headerList, ref errMsg))
             {
@@ -1872,20 +1873,7 @@ namespace YRKJ.MWR.Business.WS
 
             return true;
         }
-        //public static bool GetDestroyTxnDetailList(string txnNum,ref List<TblMWTxnDetail> detailList,ref string errMsg)
-        //{
-        //    DataCtrlInfo dcf = new DataCtrlInfo();
-
-        //    SqlQueryMng sqm = new SqlQueryMng();
-        //    sqm.Condition.Where.AddCompareValue(TblMWTxnDetail.getTxnNumColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, txnNum);
-
-        //    if (!TblMWTxnDetailCtrl.QueryMore(dcf, sqm, ref detailList, ref errMsg))
-        //    {
-        //        return false;
-        //    }
-
-        //    return true;
-        //}
+       
         #endregion
 
         #region destroy operate
@@ -1900,6 +1888,10 @@ namespace YRKJ.MWR.Business.WS
             TblMWWorkStation ws = null;
             List<TblMWTxnDetail> recoverDetailList = null;
             #region get & valid data
+            if (!ValidWSAndEmploy(wsCode, empyCode, ref ws, ref empy, ref errMsg))
+            {
+                return false;
+            }
             {
                 SqlQueryMng sqm = new SqlQueryMng();
                 sqm.Condition.Where.AddCompareValue(TblMWTxnDetail.getTxnNumColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, recoverTxnNum);
@@ -1914,10 +1906,6 @@ namespace YRKJ.MWR.Business.WS
                     errMsg = LngRes.MSG_Valid_DetailIsEmpty;
                     return false;
                 }
-            }
-            if (!ValidWSAndEmploy(wsCode, empyCode, ref ws, ref empy, ref errMsg))
-            {
-                return false;
             }
             #endregion
 
@@ -2169,6 +2157,10 @@ namespace YRKJ.MWR.Business.WS
             TblMWWorkStation ws = null;
             TblMWTxnDestroyHeader header = null;
             #region get & valid data
+            if (!ValidWSAndEmploy(wsCode, empyCode, ref ws, ref empy, ref errMsg))
+            {
+                return false;
+            }
             if (!GetTxnDetail(txnDetailId, ref detail, ref errMsg))
             {
                 return false;
@@ -2198,10 +2190,6 @@ namespace YRKJ.MWR.Business.WS
                 }
             }
            
-            if (!ValidWSAndEmploy(wsCode, empyCode, ref ws, ref empy, ref errMsg))
-            {
-                return false;
-            }
             #endregion
 
             #region valid Biz
@@ -2351,6 +2339,10 @@ namespace YRKJ.MWR.Business.WS
             TblMWWorkStation ws = null;
             TblMWTxnDestroyHeader header = null;
             #region get & valid data
+            if (!ValidWSAndEmploy(wsCode, empyCode, ref ws, ref empy, ref errMsg))
+            {
+                return false;
+            }
             if (!GetTxnDetail(txnDetailId, ref detail, ref errMsg))
             {
                 return false;
@@ -2379,10 +2371,6 @@ namespace YRKJ.MWR.Business.WS
                     return false;
                 }
             }
-            if (!ValidWSAndEmploy(wsCode, empyCode, ref ws, ref empy, ref errMsg))
-            {
-                return false;
-            }
             #endregion
 
             dcf.BeginTrans();
@@ -2392,16 +2380,44 @@ namespace YRKJ.MWR.Business.WS
             #region add data
 
             int txnLogNextId = 0;
+            int invAuthId = 0;
             #region nextId
             txnLogNextId = MWNextIdMng.GetTxnLogNextId();
-
+            invAuthId = MWNextIdMng.GetInvAuthorizeNextId();
             bool valid = true;
             valid = txnLogNextId != 0 && valid;
+            valid = invAuthId != 0 && valid;
 
             if (!valid)
             {
                 ErrorMng.GetDBError(ClassName, "ConfirmDestroyExistCrateToAuthorize", MWNextIdMng.NextIdErrMsg);
                 return false;
+            }
+            #endregion
+
+            #region add authorize data
+            {
+                TblMWInvAuthorize item = new TblMWInvAuthorize();
+                item.InvAuthId = invAuthId;
+                item.TxnNum = header.TxnNum;
+                item.TxnDetailId = detail.TxnDetailId;
+                item.EmpyCode = empy.EmpyCode;
+                item.EmpyName = empy.EmpyName;
+                item.WSCode = ws.WSCode;
+                //item.AuthEmpyCode = detail.AuthEmpyCode;
+                //item.AuthEmpyName = detail.AuthEmpyName;
+                //item.Remark = detail.Remark;
+                item.SubWeight = detail.SubWeight;
+                item.TxnWeight = txnWeight;
+                item.DiffWeight = item.SubWeight - txnWeight;
+                item.EntryDate = now;
+                //item.CompDate = detail.CompDate;
+                item.Status = TblMWInvAuthorize.STATUS_ENUM_Precess;
+
+                if (!TblMWInvAuthorizeCtrl.Insert(dcf, item, ref updCount, ref errMsg))
+                {
+                    return false;
+                }
             }
             #endregion
 
@@ -2423,6 +2439,7 @@ namespace YRKJ.MWR.Business.WS
             {
                 SqlUpdateColumn suc = new SqlUpdateColumn();
                 suc.Add(TblMWTxnDetail.getTxnWeightColumn(), txnWeight);
+                suc.Add(TblMWTxnDetail.getInvAuthIdColumn(), invAuthId);
                 suc.Add(TblMWTxnDetail.getStatusColumn(), TblMWTxnDetail.STATUS_ENUM_Authorize);
 
                 SqlWhere sw = new SqlWhere();
@@ -2506,6 +2523,10 @@ namespace YRKJ.MWR.Business.WS
             TblMWEmploy empy = null;
             TblMWWorkStation ws = null;
             #region get & valid data
+            if (!ValidWSAndEmploy(wsCode, empyCode, ref ws, ref empy, ref errMsg))
+            {
+                return false;
+            }
             {
                 SqlQueryMng sqm = new SqlQueryMng();
                 sqm.Condition.Where.AddCompareValue(TblMWInventory.getInvRecordIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, invRecordId);
@@ -2518,10 +2539,6 @@ namespace YRKJ.MWR.Business.WS
                     errMsg = LngRes.MSG_Valid_NoInventory;
                     return false;
                 }
-            }
-            if (!ValidWSAndEmploy(wsCode, empyCode, ref ws, ref empy, ref errMsg))
-            {
-                return false;
             }
             #endregion
 
@@ -2784,6 +2801,10 @@ namespace YRKJ.MWR.Business.WS
             TblMWEmploy empy = null;
             TblMWWorkStation ws = null;
             #region get & valid data
+            if (!ValidWSAndEmploy(wsCode, empyCode, ref ws, ref empy, ref errMsg))
+            {
+                return false;
+            }
             {
                 SqlQueryMng sqm = new SqlQueryMng();
                 sqm.Condition.Where.AddCompareValue(TblMWInventory.getInvRecordIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, invRecordId);
@@ -2796,10 +2817,6 @@ namespace YRKJ.MWR.Business.WS
                     errMsg = LngRes.MSG_Valid_NoInventory;
                     return false;
                 }
-            }
-            if (!ValidWSAndEmploy(wsCode, empyCode, ref ws, ref empy, ref errMsg))
-            {
-                return false;
             }
             #endregion
 
@@ -3046,6 +3063,39 @@ namespace YRKJ.MWR.Business.WS
             TblMWTxnDetail detail = null;
             int curTxnPresseAuthCount = 0;
             #region valid data
+            if (!ValidWSAndEmploy(wsCode, empyCode, ref ws, ref empy, ref errMsg))
+            {
+                return false;
+            }
+            {
+                if (!GetInventoryTxnDetail(invRecordId, txnNum, ref detail, ref errMsg))
+                {
+                    return false;
+                }
+                if (detail == null)
+                {
+                    errMsg = LngRes.MSG_Valid_NoTxnDetail;
+                    return false;
+                }
+                if (detail.Status != TblMWTxnDetail.STATUS_ENUM_Wait)
+                {
+                    errMsg = LngRes.MSG_Valid_TxnUnAuthorizeWait;
+                    return false;
+                }
+            }
+            {
+                SqlQueryMng sqm = new SqlQueryMng();
+                sqm.Condition.Where.AddCompareValue(TblMWInventory.getInvRecordIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, invRecordId);
+                if (!TblMWInventoryCtrl.QueryOne(dcf, sqm, ref inv, ref errMsg))
+                {
+                    return false;
+                }
+                if (inv == null)
+                {
+                    errMsg = LngRes.MSG_Valid_NoInventory;
+                    return false;
+                }
+            }
             {
                 List<TblMWInvAuthorize> itemList = null;
                 SqlQueryMng sqm = new SqlQueryMng();
@@ -3082,37 +3132,7 @@ namespace YRKJ.MWR.Business.WS
                     return false;
                 }
             }
-            {
-                SqlQueryMng sqm = new SqlQueryMng();
-                sqm.Condition.Where.AddCompareValue(TblMWTxnDetail.getTxnNumColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, txnNum);
-                sqm.Condition.Where.AddCompareValue(TblMWTxnDetail.getInvRecordIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, invRecordId);
-                if (!TblMWTxnDetailCtrl.QueryOne(dcf, sqm, ref detail, ref errMsg))
-                {
-                    return false;
-                }
-                if (detail == null)
-                {
-                    errMsg = LngRes.MSG_Valid_NoTxnDetail;
-                    return false;
-                }
-            }
-            {
-                SqlQueryMng sqm = new SqlQueryMng();
-                sqm.Condition.Where.AddCompareValue(TblMWInventory.getInvRecordIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, invRecordId);
-                if (!TblMWInventoryCtrl.QueryOne(dcf, sqm, ref inv, ref errMsg))
-                {
-                    return false;
-                }
-                if (inv == null)
-                {
-                    errMsg = LngRes.MSG_Valid_NoInventory;
-                    return false;
-                }
-            }
-            if (!ValidWSAndEmploy(wsCode, empyCode, ref ws, ref empy, ref errMsg))
-            {
-                return false;
-            }
+            
             #endregion
 
             dcf.BeginTrans();
@@ -3242,6 +3262,58 @@ namespace YRKJ.MWR.Business.WS
         }
 
         #endregion
+
+        public static bool EndConfirmDestroyTxn(string txnNum,ref string errMsg)
+        {
+
+            DataCtrlInfo dcf = new DataCtrlInfo();
+
+            #region check txn has been complete all txndetail
+            {
+                List<TblMWTxnDetail> detailList = null;
+
+                SqlQueryMng sqm = new SqlQueryMng();
+                sqm.Condition.Where.AddCompareValue(TblMWTxnDetail.getTxnNumColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, txnNum);
+                sqm.Condition.Where.AddCompareValue(TblMWTxnDetail.getStatusColumn(), SqlCommonFn.SqlWhereCompareEnum.UnEquals,
+                    TblMWTxnDetail.STATUS_ENUM_Complete);
+
+                if (!TblMWTxnDetailCtrl.QueryMore(dcf, sqm, ref detailList, ref errMsg))
+                {
+                    return false;
+                }
+                if (detailList.Count > 0)
+                {
+                    errMsg = LngRes.MSG_Valid_ExistUnCompleteTxnDetail;
+                    return false;
+                }
+            }
+            #endregion
+
+            #region update txn data
+            DateTime now = SqlDBMng.GetDBNow();
+
+            SqlUpdateColumn suc = new SqlUpdateColumn();
+
+            suc.Add(TblMWTxnDestroyHeader.getStatusColumn(), TblMWTxnDestroyHeader.STATUS_ENUM_Complete);
+            suc.Add(TblMWTxnDestroyHeader.getEndDateColumn(), now);
+
+            SqlWhere sw = new SqlWhere();
+            sw.AddCompareValue(TblMWTxnDestroyHeader.getTxnNumColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, txnNum);
+
+            int updCount = 0;
+            if (!TblMWTxnDestroyHeaderCtrl.Update(dcf, suc, sw, ref updCount, ref errMsg))
+            {
+                return false;
+            }
+            if (updCount == 0)
+            {
+                errMsg = LngRes.MSG_Valid_NoDataUpdate;
+                return false;
+            }
+            #endregion
+
+            return true;
+        }
         #endregion
 
         #endregion
@@ -3294,6 +3366,7 @@ namespace YRKJ.MWR.Business.WS
             public const string MSG_Valid_DetailIsEmpty = "当前计划单中货箱数量为0";
             public const string MSG_Valid_TxnDetailNotProcess = "当前货箱状态不能被提交";
             public const string MSG_Valid_NoDestTxnHeader = "没有找到当前流水号的处置计划单";
+            public const string MSG_Valid_TxnUnAuthorizeWait = "当前不是审核完成货箱";
 
             public const string MSG_Valid_NoDataUpdate = "数据没有被跟新，请稍后重试。";
         }

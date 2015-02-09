@@ -236,6 +236,11 @@ namespace YRKJ.MWR.WSDestory.Forms
         private bool InitCtrls()
         {
 
+            _bindingDestroyDataMng.PositionChanged += (sender, e) => {
+                c_btnCheck.Enabled = _bindingDestroyDataMng.Position == -1 ? false : true;
+            };
+            c_btnCheck.Enabled = _bindingDestroyDataMng.Position == -1 ? false : true;
+
             c_grdMWDestroy_C_TxnNum.DataPropertyName = "TxnNum";
             //c_grdMWDestroy_C_WSCode.DataPropertyName = "PostWSCode";
             c_grdMWDestroy_C_EmpyName.DataPropertyName = "DestEmpyName";

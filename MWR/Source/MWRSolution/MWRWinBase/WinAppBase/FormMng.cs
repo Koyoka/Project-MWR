@@ -79,8 +79,8 @@ namespace YRKJ.MWR.WinBase.WinAppBase
         }
 
         public void _form_KeyDown(object sender, KeyEventArgs e)
-        { 
-            
+        {
+
         }
 
         public void _form_Resize(object sender, EventArgs e)

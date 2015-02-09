@@ -15,7 +15,7 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Inventory
     {
         public const string ClassName = "YRKJ.MWR.BackOffice.Pages.BO.Inventory.InvAuthorize";
         //const int p = 10;
-        const int PageSize = 2;
+        const int PageSize = 10;
 
         
         #region Events

@@ -28,16 +28,18 @@
         });
         var action = $('#fileupload form input[name="action"]').val();
         var txnNum = $('#fileupload form input[name="txnNum"]').val();
-        _getFileList(action, txnNum);
+        var crateCode = $('#fileupload form input[name="crateCode"]').val();
+        _getFileList(action, txnNum, crateCode);
     };
-    function _getFileList(action, txnnum) {
+    function _getFileList(action, txnnum, crateCode) {
         // Load existing files:
-        $.getJSON("/Services/FileUpload/MWFileUploadHandler.ashx?action=" + action + "&txnnum=" + txnnum, function (data) {
+        $.getJSON("/Services/FileUpload/MWFileUploadHandler.ashx?action=" + action + "&txnnum=" + txnnum + "&crateCode=" + crateCode, function (data) {
             var fu = $('#fileupload').data('blueimp-fileupload')
             || $('#fileupload').data('fileupload'),
             template,
             deferred;
             var files = data.files;
+            
             template = fu._renderDownload(files)[
                         fu.options.prependFiles ? 'prependTo' : 'appendTo'
                     ](fu.options.filesContainer);
@@ -84,7 +86,7 @@
             }
         });
     }
-   
+
 
     return {
         init: function () {

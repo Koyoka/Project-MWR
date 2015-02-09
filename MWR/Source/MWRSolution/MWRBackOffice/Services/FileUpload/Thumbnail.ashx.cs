@@ -30,7 +30,12 @@ namespace YRKJ.MWR.BackOffice.Services.FileUpload
                 context.Response.WriteFile(context.Server.MapPath("/Assets/images/default_thumb.jpg"));
             
 		}
+        private string GetSaveDirectory(string txnNum, string crateCode)
+        {
+            return txnNum + "//" + crateCode + "//";
+        }
 
 		public bool IsReusable { get { return false; } }
 	}
+
 }
