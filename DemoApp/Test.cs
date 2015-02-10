@@ -19,7 +19,7 @@ namespace DemoApp
         }
         public static void do1(ref string errMsg)
         {
-            ComLib.Demo.foo();
+            //ComLib.Demo.foo();
         }
         //private static bool doSqlParams()
         //{

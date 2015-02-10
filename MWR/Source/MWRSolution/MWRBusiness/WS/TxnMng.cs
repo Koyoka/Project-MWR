@@ -426,7 +426,10 @@ namespace YRKJ.MWR.Business.WS
                 //item.PostWeight = detail.PostWeight;
                 //item.DestWeight = detail.DestWeight;
                 item.EntryDate = now;
-                item.Status = TblMWInventory.STATUS_ENUM_Recovered;
+
+                //item.Status = TblMWInventory.STATUS_ENUM_Recovered;
+                item.Status = TblMWInventory.STATUS_ENUM_Recovering;
+
                 //item.DailyClose = detail.DailyClose;
 
 
@@ -441,11 +444,9 @@ namespace YRKJ.MWR.Business.WS
             {
                 TblMWInventoryTrack item = new TblMWInventoryTrack();
                 item.InvTrackRecordId = invTrackNextId;
-
                 item.InvRecordId = invRecordNextId;
-
                 item.TxnNum = detail.TxnNum;
-                item.TxnType = TblMWInventoryTrack.TXNTYPE_ENUM_Recover;//detail.TxnType;
+                item.TxnType = TblMWInventoryTrack.TXNTYPE_ENUM_Recover;
                 item.TxnDetailId = detail.TxnDetailId;
                 item.CrateCode = detail.CrateCode;
                 item.DepotCode = depotCode;
@@ -455,9 +456,9 @@ namespace YRKJ.MWR.Business.WS
                 item.WasteCode = detail.WasteCode;
                 item.SubWeight = detail.SubWeight;
                 item.TxnWeight = txnWeight;
-                item.WSCode = ws.WSCode;// detail.WSCode;
-                item.EmpyName = empy.EmpyName;//detail.EmpyName;
-                item.EmpyCode = empy.EmpyCode;// detail.EmpyCode;
+                item.WSCode = ws.WSCode;
+                item.EmpyName = empy.EmpyName;
+                item.EmpyCode = empy.EmpyCode;
                 item.EntryDate = now;
                 item.Status = TblMWInventoryTrack.STATUS_ENUM_Normal;
                 item.InvAuthId = detail.InvAuthId;
@@ -837,7 +838,7 @@ namespace YRKJ.MWR.Business.WS
                 //item.PostWeight = detail.PostWeight;
                 //item.DestWeight = detail.DestWeight;
                 item.EntryDate = now;
-                item.Status = TblMWInventory.STATUS_ENUM_Recovered;
+                item.Status = TblMWInventory.STATUS_ENUM_Recovering;
                 //item.DailyClose = detail.DailyClose;
 
 
@@ -918,49 +919,74 @@ namespace YRKJ.MWR.Business.WS
         {
             DataCtrlInfo dcf = new DataCtrlInfo();
 
+            List<TblMWTxnDetail> detailList = null;
             #region check txn has been complete all txndetail
+            SqlQueryMng sqm = new SqlQueryMng();
+            sqm.Condition.Where.AddCompareValue(TblMWTxnDetail.getTxnNumColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, txnNum);
+            sqm.Condition.Where.AddCompareValue(TblMWTxnDetail.getStatusColumn(), SqlCommonFn.SqlWhereCompareEnum.UnEquals,
+                TblMWTxnDetail.STATUS_ENUM_Complete);
+            if (!TblMWTxnDetailCtrl.QueryMore(dcf, sqm, ref detailList, ref errMsg))
             {
-                List<TblMWTxnDetail> detailList = null;
+                return false;
+            }
+            if (detailList.Count > 0)
+            {
+                errMsg = LngRes.MSG_Valid_ExistUnCompleteTxnDetail;
+                return false;
+            }
 
-                SqlQueryMng sqm = new SqlQueryMng();
-                sqm.Condition.Where.AddCompareValue(TblMWTxnDetail.getTxnNumColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, txnNum);
-                sqm.Condition.Where.AddCompareValue(TblMWTxnDetail.getStatusColumn(), SqlCommonFn.SqlWhereCompareEnum.UnEquals,
-                    TblMWTxnDetail.STATUS_ENUM_Complete);
-
-                if (!TblMWTxnDetailCtrl.QueryMore(dcf, sqm, ref detailList, ref errMsg))
-                {
-                    return false;
-                }
-                if (detailList.Count > 0)
-                {
-                    errMsg = LngRes.MSG_Valid_ExistUnCompleteTxnDetail;
-                    return false;
-                }
+            if(!GetDetailList(txnNum,ref detailList,ref errMsg))
+            {
+                return false;
             }
             #endregion
 
-            #region update txn data
-            DateTime now = SqlDBMng.GetDBNow();
+            dcf.BeginTrans();
 
-            SqlUpdateColumn suc = new SqlUpdateColumn();
-            suc.Add(TblMWTxnRecoverHeader.getStatusColumn(), TblMWTxnRecoverHeader.STATUS_ENUM_Complete);
-            suc.Add(TblMWTxnRecoverHeader.getEndDateColumn(), now);
-
-            SqlWhere sw = new SqlWhere();
-            sw.AddCompareValue(TblMWTxnRecoverHeader.getTxnNumColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, txnNum);
-
+            #region update data
             int updCount = 0;
-            if (!TblMWTxnRecoverHeaderCtrl.Update(dcf, suc, sw, ref updCount, ref errMsg))
+            #region update txn data
             {
-                return false;
-            }
+                DateTime now = SqlDBMng.GetDBNow();
 
-            if (updCount == 0)
-            {
-                errMsg = LngRes.MSG_Valid_NoDataUpdate;
-                return false;
+                SqlUpdateColumn suc = new SqlUpdateColumn();
+                suc.Add(TblMWTxnRecoverHeader.getStatusColumn(), TblMWTxnRecoverHeader.STATUS_ENUM_Complete);
+                suc.Add(TblMWTxnRecoverHeader.getEndDateColumn(), now);
+
+                SqlWhere sw = new SqlWhere();
+                sw.AddCompareValue(TblMWTxnRecoverHeader.getTxnNumColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, txnNum);
+
+                if (!TblMWTxnRecoverHeaderCtrl.Update(dcf, suc, sw, ref updCount, ref errMsg))
+                {
+                    return false;
+                }
             }
             #endregion
+
+            #region update inventory to end
+            {
+                SqlUpdateColumn suc = new SqlUpdateColumn();
+                suc.Add(TblMWInventory.getStatusColumn(), TblMWInventory.STATUS_ENUM_Recovered);
+
+                SqlWhere sw = new SqlWhere(SqlCommonFn.SqlWhereLinkType.OR);
+                foreach (TblMWTxnDetail detail in detailList)
+                {
+                    sw.AddCompareValue(TblMWInventory.getInvRecordIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, detail.InvRecordId);
+                }
+
+                if (!TblMWInventoryCtrl.Update(dcf, suc, sw, ref updCount, ref errMsg))
+                {
+                    return false;
+                }
+            }
+            #endregion
+
+            #endregion
+            int[] updCounts = null;
+            if (!dcf.Commit(ref updCounts, ref errMsg))
+            {
+                return false;
+            }
 
             return true;
         }
@@ -1169,7 +1195,7 @@ namespace YRKJ.MWR.Business.WS
             {
                 SqlUpdateColumn suc = new SqlUpdateColumn();
                 suc.Add(TblMWInventory.getPostWeightColumn(), txnWeight);
-                suc.Add(TblMWInventory.getStatusColumn(), TblMWInventory.STATUS_ENUM_Posted);
+                suc.Add(TblMWInventory.getStatusColumn(), TblMWInventory.STATUS_ENUM_Posting);
                 SqlWhere sw = new SqlWhere();
                 sw.AddCompareValue(TblMWInventory.getInvRecordIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, inv.InvRecordId);
                 
@@ -1634,18 +1660,18 @@ namespace YRKJ.MWR.Business.WS
             }
             #endregion
 
-            #region inventory
-            {
-                SqlUpdateColumn suc = new SqlUpdateColumn();
-                suc.Add(TblMWInventory.getStatusColumn(), TblMWInventory.STATUS_ENUM_Posted);
-                SqlWhere sw = new SqlWhere();
-                sw.AddCompareValue(TblMWInventory.getInvRecordIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, inv.InvRecordId);
+            #region _del inventory
+            //{
+            //    SqlUpdateColumn suc = new SqlUpdateColumn();
+            //    suc.Add(TblMWInventory.getStatusColumn(), TblMWInventory.STATUS_ENUM_Posted);
+            //    SqlWhere sw = new SqlWhere();
+            //    sw.AddCompareValue(TblMWInventory.getInvRecordIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, inv.InvRecordId);
 
-                if (!TblMWInventoryCtrl.Update(dcf, suc, sw, ref updCount, ref errMsg))
-                {
-                    return false;
-                }
-            }
+            //    if (!TblMWInventoryCtrl.Update(dcf, suc, sw, ref updCount, ref errMsg))
+            //    {
+            //        return false;
+            //    }
+            //}
             #endregion
 
             #region inventory track
@@ -1714,49 +1740,81 @@ namespace YRKJ.MWR.Business.WS
         {
             DataCtrlInfo dcf = new DataCtrlInfo();
 
+            List<TblMWTxnDetail> detailList = null;
             #region check txn has been complete all txndetail
+            SqlQueryMng sqm = new SqlQueryMng();
+            sqm.Condition.Where.AddCompareValue(TblMWTxnDetail.getTxnNumColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, txnNum);
+            sqm.Condition.Where.AddCompareValue(TblMWTxnDetail.getStatusColumn(), SqlCommonFn.SqlWhereCompareEnum.UnEquals,
+                TblMWTxnDetail.STATUS_ENUM_Complete);
+
+            if (!TblMWTxnDetailCtrl.QueryMore(dcf, sqm, ref detailList, ref errMsg))
             {
-                List<TblMWTxnDetail> detailList = null;
+                return false;
+            }
+            if (detailList.Count > 0)
+            {
+                errMsg = LngRes.MSG_Valid_ExistUnCompleteTxnDetail;
+                return false;
+            }
 
-                SqlQueryMng sqm = new SqlQueryMng();
-                sqm.Condition.Where.AddCompareValue(TblMWTxnDetail.getTxnNumColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, txnNum);
-                sqm.Condition.Where.AddCompareValue(TblMWTxnDetail.getStatusColumn(), SqlCommonFn.SqlWhereCompareEnum.UnEquals,
-                    TblMWTxnDetail.STATUS_ENUM_Complete);
-
-                if (!TblMWTxnDetailCtrl.QueryMore(dcf, sqm, ref detailList, ref errMsg))
-                {
-                    return false;
-                }
-                if (detailList.Count > 0)
-                {
-                    errMsg = LngRes.MSG_Valid_ExistUnCompleteTxnDetail;
-                    return false;
-                }
+            if (!GetDetailList(txnNum, ref detailList, ref errMsg))
+            {
+                return false;
             }
             #endregion
+
+            dcf.BeginTrans();
+            #region update data
+            DateTime now = SqlDBMng.GetDBNow();
+            int updCount = 0;
 
             #region update txn data
-            DateTime now = SqlDBMng.GetDBNow();
-
-            SqlUpdateColumn suc = new SqlUpdateColumn();
-
-            suc.Add(TblMWTxnPostHeader.getStatusColumn(), TblMWTxnPostHeader.STATUS_ENUM_Complete);
-            suc.Add(TblMWTxnPostHeader.getEndDateColumn(), now);
-
-            SqlWhere sw = new SqlWhere();
-            sw.AddCompareValue(TblMWTxnPostHeader.getTxnNumColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, txnNum);
-
-            int updCount = 0;
-            if (!TblMWTxnPostHeaderCtrl.Update(dcf, suc, sw, ref updCount, ref errMsg))
             {
-                return false;
-            }
-            if (updCount == 0)
-            {
-                errMsg = LngRes.MSG_Valid_NoDataUpdate;
-                return false;
+                SqlUpdateColumn suc = new SqlUpdateColumn();
+
+                suc.Add(TblMWTxnPostHeader.getStatusColumn(), TblMWTxnPostHeader.STATUS_ENUM_Complete);
+                suc.Add(TblMWTxnPostHeader.getEndDateColumn(), now);
+
+                SqlWhere sw = new SqlWhere();
+                sw.AddCompareValue(TblMWTxnPostHeader.getTxnNumColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, txnNum);
+
+
+                if (!TblMWTxnPostHeaderCtrl.Update(dcf, suc, sw, ref updCount, ref errMsg))
+                {
+                    return false;
+                }
+                //if (updCount == 0)
+                //{
+                //    errMsg = LngRes.MSG_Valid_NoDataUpdate;
+                //    return false;
+                //}
             }
             #endregion
+
+            #region update inventory to end
+            {
+                SqlUpdateColumn suc = new SqlUpdateColumn();
+                suc.Add(TblMWInventory.getStatusColumn(), TblMWInventory.STATUS_ENUM_Posted);
+
+                SqlWhere sw = new SqlWhere(SqlCommonFn.SqlWhereLinkType.OR);
+                foreach (TblMWTxnDetail detail in detailList)
+                {
+                    sw.AddCompareValue(TblMWInventory.getInvRecordIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, detail.InvRecordId);
+                }
+                if (!TblMWInventoryCtrl.Update(dcf, suc, sw, ref updCount, ref errMsg))
+                {
+                    return false;
+                }
+            }
+            #endregion
+
+            #endregion
+
+            int[] updCounts = null;
+            if (!dcf.Commit(ref updCounts, ref errMsg))
+            {
+                return false;
+            }
 
             return true;
         }
@@ -2255,7 +2313,7 @@ namespace YRKJ.MWR.Business.WS
             {
                 SqlUpdateColumn suc = new SqlUpdateColumn();
                 suc.Add(TblMWInventory.getDestWeightColumn(), txnWeight);
-                suc.Add(TblMWInventory.getStatusColumn(), TblMWInventory.STATUS_ENUM_Destroyed);
+                suc.Add(TblMWInventory.getStatusColumn(), TblMWInventory.STATUS_ENUM_Destroying);
 
                 SqlWhere sw = new SqlWhere();
                 sw.AddCompareValue(TblMWInventory.getInvRecordIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, detail.InvRecordId);
@@ -2497,11 +2555,11 @@ namespace YRKJ.MWR.Business.WS
 
             return true;
         }
-
         public static bool ConfirmAuthorizeRecoverCrateToDestroy(int invRecordId, string txnNum, string wsCode, string empyCode, ref string errMsg)
         {
             return ConfirmAuthorizeCrateToDestroy(invRecordId, txnNum, wsCode, empyCode, ref errMsg);
         }
+        
         #endregion
 
         #region workflow 2 destroy crate
@@ -2707,7 +2765,7 @@ namespace YRKJ.MWR.Business.WS
                     suc.Add(TblMWInventory.getPostWeightColumn(), txnWeight);
                 }
                 suc.Add(TblMWInventory.getDestWeightColumn(), txnWeight);
-                suc.Add(TblMWInventory.getStatusColumn(), TblMWInventory.STATUS_ENUM_Destroyed);
+                suc.Add(TblMWInventory.getStatusColumn(), TblMWInventory.STATUS_ENUM_Destroying);
                 SqlWhere sw = new SqlWhere();
                 sw.AddCompareValue(TblMWInventory.getInvRecordIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, inv.InvRecordId);
 
@@ -3186,18 +3244,18 @@ namespace YRKJ.MWR.Business.WS
             }
             #endregion
 
-            #region update inventory
-            {
-                SqlUpdateColumn suc = new SqlUpdateColumn();
-                suc.Add(TblMWInventory.getStatusColumn(), TblMWInventory.STATUS_ENUM_Destroyed);
-                SqlWhere sw = new SqlWhere();
-                sw.AddCompareValue(TblMWInventory.getInvRecordIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, inv.InvRecordId);
+            #region _del update inventory
+            //{
+            //    SqlUpdateColumn suc = new SqlUpdateColumn();
+            //    suc.Add(TblMWInventory.getStatusColumn(), TblMWInventory.STATUS_ENUM_Destroyed);
+            //    SqlWhere sw = new SqlWhere();
+            //    sw.AddCompareValue(TblMWInventory.getInvRecordIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, inv.InvRecordId);
 
-                if (!TblMWInventoryCtrl.Update(dcf, suc, sw, ref updCount, ref errMsg))
-                {
-                    return false;
-                }
-            }
+            //    if (!TblMWInventoryCtrl.Update(dcf, suc, sw, ref updCount, ref errMsg))
+            //    {
+            //        return false;
+            //    }
+            //}
             #endregion
 
             #region add inventory track
@@ -3268,10 +3326,9 @@ namespace YRKJ.MWR.Business.WS
 
             DataCtrlInfo dcf = new DataCtrlInfo();
 
+            List<TblMWTxnDetail> detailList = null;
             #region check txn has been complete all txndetail
             {
-                List<TblMWTxnDetail> detailList = null;
-
                 SqlQueryMng sqm = new SqlQueryMng();
                 sqm.Condition.Where.AddCompareValue(TblMWTxnDetail.getTxnNumColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, txnNum);
                 sqm.Condition.Where.AddCompareValue(TblMWTxnDetail.getStatusColumn(), SqlCommonFn.SqlWhereCompareEnum.UnEquals,
@@ -3287,30 +3344,60 @@ namespace YRKJ.MWR.Business.WS
                     return false;
                 }
             }
+            if (!GetDetailList(txnNum, ref detailList, ref errMsg))
+            {
+                return false;
+            }
             #endregion
+
+            dcf.BeginTrans();
+
+            #region update data
+            DateTime now = SqlDBMng.GetDBNow();
+            int updCount = 0;
 
             #region update txn data
-            DateTime now = SqlDBMng.GetDBNow();
-
-            SqlUpdateColumn suc = new SqlUpdateColumn();
-
-            suc.Add(TblMWTxnDestroyHeader.getStatusColumn(), TblMWTxnDestroyHeader.STATUS_ENUM_Complete);
-            suc.Add(TblMWTxnDestroyHeader.getEndDateColumn(), now);
-
-            SqlWhere sw = new SqlWhere();
-            sw.AddCompareValue(TblMWTxnDestroyHeader.getTxnNumColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, txnNum);
-
-            int updCount = 0;
-            if (!TblMWTxnDestroyHeaderCtrl.Update(dcf, suc, sw, ref updCount, ref errMsg))
             {
-                return false;
-            }
-            if (updCount == 0)
-            {
-                errMsg = LngRes.MSG_Valid_NoDataUpdate;
-                return false;
+                SqlUpdateColumn suc = new SqlUpdateColumn();
+
+                suc.Add(TblMWTxnDestroyHeader.getStatusColumn(), TblMWTxnDestroyHeader.STATUS_ENUM_Complete);
+                suc.Add(TblMWTxnDestroyHeader.getEndDateColumn(), now);
+
+                SqlWhere sw = new SqlWhere();
+                sw.AddCompareValue(TblMWTxnDestroyHeader.getTxnNumColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, txnNum);
+
+                if (!TblMWTxnDestroyHeaderCtrl.Update(dcf, suc, sw, ref updCount, ref errMsg))
+                {
+                    return false;
+                }
             }
             #endregion
+
+            #region update inventory data
+            {
+                SqlUpdateColumn suc = new SqlUpdateColumn();
+                suc.Add(TblMWInventory.getStatusColumn(), TblMWInventory.STATUS_ENUM_Destroyed);
+
+                SqlWhere sw = new SqlWhere(SqlCommonFn.SqlWhereLinkType.OR);
+                foreach (TblMWTxnDetail detail in detailList)
+                {
+                    sw.AddCompareValue(TblMWInventory.getInvRecordIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, detail.InvRecordId);
+                }
+
+                if (!TblMWInventoryCtrl.Update(dcf, suc, sw, ref updCount, ref errMsg))
+                {
+                    return false;
+                }
+            }
+            #endregion
+
+            #endregion
+
+            int[] updCounts = null;
+            if (!dcf.Commit(ref updCounts, ref errMsg))
+            {
+                return false;
+            }
 
             return true;
         }

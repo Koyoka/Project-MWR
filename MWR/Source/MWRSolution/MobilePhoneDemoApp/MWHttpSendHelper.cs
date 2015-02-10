@@ -7,6 +7,7 @@ using System.IO;
 using System.Security.Cryptography;
 using ComLib;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace MobilePhoneDemoApp
 {
@@ -85,6 +86,31 @@ namespace MobilePhoneDemoApp
                 request = null;
                 return true;
             }
+        }
+
+        public static bool DoMWServerResponseData(string resData,ref string resultData,ref string errMsg)
+        {
+            try
+            {
+                JObject jo = (JObject)JsonConvert.DeserializeObject(resData);
+                bool Error = jo["Error"].ToString().ToLower().Equals("true");
+                string ErrMsg = jo["ErrMsg"].ToString();
+                string Result = jo["Result"].ToString();
+
+                if (Error)
+                {
+                    errMsg = ErrMsg;
+                    return false;
+                }
+                resultData = Result;
+
+            }
+            catch (Exception ex)
+            {
+                errMsg = ex.Message;
+                return false;
+            }
+            return true;
         }
     }
 }

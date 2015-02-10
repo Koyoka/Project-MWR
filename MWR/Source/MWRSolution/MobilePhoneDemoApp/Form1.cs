@@ -260,15 +260,22 @@ namespace MobilePhoneDemoApp
                     if (!MWHttpSendHelper.RequestToJson(
                         ComLib.AuthorizationHelper.S_ACCESS_KEY,
                         ComLib.AuthorizationHelper.S_SECRET_KEY,
-                        body, "POST", @"http://localhost:15809/Services/MWRecoverServer.aspx", ref resData, ref errMsg))
+                        body, "POST", @"http://localhost:15809/Services/MWMobileWSHandler.ashx", ref resData, ref errMsg))
                     {
                         MessageBox.Show(errMsg);
                     }
 
-                    if (resData.ToLower().Equals("success"))
+                    string resultData = "";
+                    if (!MWHttpSendHelper.DoMWServerResponseData(resData, ref resultData, ref errMsg))
                     {
-                        DemoData.GetInstance().TxnDetailList.Clear();
+                        MsgBox.Error(errMsg);
+                        return;
                     }
+                    MsgBox.Show(resultData);
+                    //if (resData.ToLower().Equals("success"))
+                    //{
+                    //    DemoData.GetInstance().TxnDetailList.Clear();
+                    //}
 
                     using (FrmText f = new FrmText(resData))
                     {
@@ -339,7 +346,7 @@ namespace MobilePhoneDemoApp
                     if (!MWHttpSendHelper.RequestToJson(
                         ComLib.AuthorizationHelper.S_ACCESS_KEY,
                         ComLib.AuthorizationHelper.S_SECRET_KEY,
-                        body, "POST", @"http://localhost:15809/Services/MWRecoverServer.aspx", ref resData, ref errMsg))
+                        body, "POST", @"http://localhost:15809/Services/MWMobileWSHandler.ashx", ref resData, ref errMsg))
                     {
                         MessageBox.Show(errMsg);
                     }

@@ -52,6 +52,7 @@
     <Compile Include="BizBase.cs" />
     <Compile Include="BizHelper.cs" />
     <Compile Include="BO\MWRWorkflowMng.cs" />
+    <Compile Include="BO\WSMng.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sys\MWNextIdMng.cs" />
     <Compile Include="Sys\MWParams.cs" />
@@ -66,10 +67,6 @@
     <ProjectReference Include="..\MWRDBModule\MWRDBModule.csproj">
       <Project>{5D8E6A3B-CF6A-45A2-8F5E-9CEE7993EBB4}</Project>
       <Name>MWRDBModule</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MWRWinBase\MWRWinBase.csproj">
-      <Project>{E3145096-4256-408E-AA4B-0B291E2D1F7B}</Project>
-      <Name>MWRWinBase</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

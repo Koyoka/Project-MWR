@@ -406,6 +406,9 @@
     <Compile Include="Services\FileUpload\Thumbnail.ashx.cs">
       <DependentUpon>Thumbnail.ashx</DependentUpon>
     </Compile>
+    <Compile Include="Services\MWMobileWSHandler.ashx.cs">
+      <DependentUpon>MWMobileWSHandler.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Services\MWRecoverServer.aspx.cs">
       <DependentUpon>MWRecoverServer.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -415,6 +418,9 @@
     </Compile>
     <Compile Include="Services\FileUpload\MWFileUploadHandler.ashx.cs">
       <DependentUpon>MWFileUploadHandler.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Services\QRCodeThumbnail.ashx.cs">
+      <DependentUpon>QRCodeThumbnail.ashx</DependentUpon>
     </Compile>
     <Compile Include="WebForm1.aspx.cs">
       <DependentUpon>WebForm1.aspx</DependentUpon>
@@ -460,6 +466,8 @@
     <Content Include="Pages\MasterPages\MWBOBlock.master" />
     <Content Include="Services\FileUpload\MWFileUploadHandler.ashx" />
     <Content Include="Services\FileUpload\Thumbnail.ashx" />
+    <Content Include="Services\MWMobileWSHandler.ashx" />
+    <Content Include="Services\QRCodeThumbnail.ashx" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
