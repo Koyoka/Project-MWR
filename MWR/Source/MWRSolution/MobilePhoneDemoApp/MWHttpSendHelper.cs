@@ -24,12 +24,13 @@ namespace MobilePhoneDemoApp
             Encoding encoding = Encoding.UTF8;
 
             string result = string.Empty;
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(fullUrl);
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(fullUrl+"?a=1");
             {
                 #region set request params
                 request.Method = reqMethod;
                 request.Date = DateTime.Now;
                 request.ContentType = "application/json";
+               
                 #endregion
 
                 #region set request body data
@@ -45,7 +46,8 @@ namespace MobilePhoneDemoApp
                 string encryptStr = "";
                 //if(true)
                 {
-                    encryptStr = AuthorizationHelper.EncryptWebBody(secretKey, reqMethod, contentType, request.Headers.Get("Date"), fullUrl, body, encoding);
+                    string url = request.RequestUri.AbsolutePath;
+                    encryptStr = AuthorizationHelper.EncryptWebBody(secretKey, reqMethod, contentType, request.Headers.Get("Date"), url, body, encoding);
                 }
                 //else
                 //{

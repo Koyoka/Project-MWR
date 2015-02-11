@@ -65,6 +65,7 @@ namespace YRKJ.MWR.BackOffice.Services
             catch (Exception ex)
             {
                 LogMng.GetLog().PrintError(ClassName, "ProcessRequest", ex);
+                WriteError(context, ex.Message);
             }
         }
 
@@ -120,6 +121,9 @@ namespace YRKJ.MWR.BackOffice.Services
                     if (!RecoverDestroySubmit(reqDataValue, ref errMsg))
                         return false;
                     break;
+                case "test":
+
+                    break;
                 default:
                     errMsg = "unvalid action params";
                     return false;
@@ -172,7 +176,7 @@ namespace YRKJ.MWR.BackOffice.Services
                 string reqMethod = context.Request.HttpMethod;
                 string contentType = context.Request.ContentType;
                 string date = context.Request.Headers.Get("Date");
-                string fullUrl = context.Request.Url.ToString();
+                string fullUrl = context.Request.Url.AbsolutePath;//.Url.ToString();
                 string encryptStr =
                     ComLib.AuthorizationHelper.EncryptWebBody(secretKey, reqMethod, contentType, date, fullUrl, requestData, Encoding.UTF8);
 
