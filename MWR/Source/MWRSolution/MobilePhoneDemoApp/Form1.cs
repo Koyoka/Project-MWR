@@ -140,8 +140,6 @@ namespace MobilePhoneDemoApp
 
         #endregion
 
-      
-
         private class ResponseHttpValueJsonData
         {
             private string _action = "";
