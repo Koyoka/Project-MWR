@@ -17,6 +17,14 @@ namespace YRKJ.MWR.Business
             }
         }
 
+        private const string defaultWSCodeMask = "MWS####";
+        private string _wsCodeMask = null;
+        public string WSCodeMask
+        {
+            get { return _wsCodeMask; }
+            set { _wsCodeMask = value; }
+        }
+
         private string _decimalFormatString = "f2";
         public string DecimalFormatString
         {

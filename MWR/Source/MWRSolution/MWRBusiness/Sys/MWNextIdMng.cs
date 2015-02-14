@@ -28,6 +28,38 @@ namespace YRKJ.MWR.Business.Sys
 
             return nextId;
         }
+
+        public static string getWSCode(string wsCodeMask)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo(); ;
+            string errMsg = "";
+            int nextId = 0;
+            if (!NextIdMng.GetNextId(dcf, "WSCode", ref nextId, ref errMsg))
+            {
+                LogMng.GetLog().PrintError(ClassName, "getWSCode", new Exception(errMsg));
+                return null;
+            }
+
+            if (nextId == 0)
+            {
+                LogMng.GetLog().PrintError(ClassName, "getWSCode", new Exception("获取WSCode出错"));
+                return null;
+            }
+            string defineNextNum = ComFn.GetMaskNumString(nextId, wsCodeMask);
+            return defineNextNum;
+            //string prefix = wsCodeMask.Replace("#", "");
+            //string num = wsCodeMask.TrimStart(prefix.ToCharArray());
+            //int len = num.Length;
+            //int nextIdLen = nextId.ToString().Length;
+            //if (nextIdLen > len)
+            //{
+            //    LogMng.GetLog().PrintError(ClassName, "getWSCode", new Exception("编号超出界限"));
+            //    return null;
+            //}
+            //defineNextNum = prefix + defineNextNum.PadLeft(len - nextIdLen, '0') + nextId;
+
+            //return defineNextNum;
+        }
         #endregion
         
         #region txn
@@ -145,18 +177,18 @@ namespace YRKJ.MWR.Business.Sys
             string defineNextNum = ComFn.GetMaskNumString(nextId,TxnNumMask);
             return defineNextNum;
 
-            string prefix = TxnNumMask.Replace("#", "");
-            string num = TxnNumMask.TrimStart(prefix.ToCharArray());
-            int len = num.Length;
-            int nextIdLen = nextId.ToString().Length;
-            if (nextIdLen > len)
-            {
-                LogMng.GetLog().PrintError(ClassName, "GetTxnNextNum", new Exception("编号超出界限"));
-                return null;
-            }
-            defineNextNum = prefix + defineNextNum.PadLeft(len - nextIdLen, '0') + nextId;
+            //string prefix = TxnNumMask.Replace("#", "");
+            //string num = TxnNumMask.TrimStart(prefix.ToCharArray());
+            //int len = num.Length;
+            //int nextIdLen = nextId.ToString().Length;
+            //if (nextIdLen > len)
+            //{
+            //    LogMng.GetLog().PrintError(ClassName, "GetTxnNextNum", new Exception("编号超出界限"));
+            //    return null;
+            //}
+            //defineNextNum = prefix + defineNextNum.PadLeft(len - nextIdLen, '0') + nextId;
 
-            return defineNextNum;
+            //return defineNextNum;
         }
 
        

@@ -295,6 +295,7 @@
                         class="title">系统管理 </span><span class="arrow "></span><span class="selected"></span>
                     </a>
                         <ul class="sub-menu">
+                            <li class=""><a href="#<% = RedirectHelper.WSManage %>">工作站管理</a> </li>
                             <li class=""><a href="javascript:void;">参数设置</a> </li>
                             <li class=""><a href="javascript:void;">权限管理</a> </li>
                             <li class=""><a href="javascript:void;">数据初始化</a> </li>

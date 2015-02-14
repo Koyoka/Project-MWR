@@ -29,6 +29,11 @@ namespace YRKJ.MWR.BackOffice.Business.Sys
 
         #endregion
 
+        #region System
+        public const string WSManage = "Sys/WSManage.aspx";
+
+        #endregion
+
         public static void GotoErrPage( string errMsg)
         {
             UrlParaCollection paraList = new UrlParaCollection();

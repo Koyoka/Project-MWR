@@ -130,6 +130,7 @@ namespace YRKJ.MWR
         public const string WSTYPE_ENUM_InvWorkStation = "I";//出入库工作站;
         public const string WSTYPE_ENUM_DesWorkStation = "D";//处置工作站;
         public const string WSTYPE_ENUM_MobWorkStation = "M";//手机终端;
+        public const string WSTYPE_ENUM_WaitWorkStation = "W";//等待验证的手机终端号;
 
     }
 }

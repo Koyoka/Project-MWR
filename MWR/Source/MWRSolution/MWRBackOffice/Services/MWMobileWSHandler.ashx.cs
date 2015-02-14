@@ -23,6 +23,8 @@ namespace YRKJ.MWR.BackOffice.Services
 
         private const string RequestMethod_RecoverInventorySubmit = "RecoverInventorySubmit";
         private const string RequestMethod_RecoverDestroySubmit = "RecoverDestroySubmit";
+        private const string RequestMethod_InitMWS = "InitMWSSubmit";
+
 
         #region main
         public void ProcessRequest(HttpContext context)
@@ -236,7 +238,7 @@ namespace YRKJ.MWR.BackOffice.Services
         #endregion
 
         #region External Interface
-        public bool RecoverDestroySubmit(JObject reqDataValue, ref string errMsg)
+        private bool RecoverDestroySubmit(JObject reqDataValue, ref string errMsg)
         {
             JObject jValue = reqDataValue;
             try
@@ -381,6 +383,26 @@ namespace YRKJ.MWR.BackOffice.Services
 
             return true;
 
+        }
+
+        private bool InitMWSSubmit(JObject reqDataValue, ref string errMsg)
+        {
+            try
+            {
+                string wsCode = WebAppFn.SafeJsonToString("wscode", reqDataValue);
+                if (string.IsNullOrEmpty(wsCode))
+                {
+                    errMsg = "上传参数错误";
+                    return false;
+                }
+                return WSMng.RegistMWSInitInformation(wsCode, ref errMsg);
+            }
+            catch (Exception ex)
+            {
+                errMsg = ex.Message;
+                LogMng.GetLog().PrintError(ClassName, "InitMWSSubmit", ex);
+                return false;
+            }
         }
         #endregion
 

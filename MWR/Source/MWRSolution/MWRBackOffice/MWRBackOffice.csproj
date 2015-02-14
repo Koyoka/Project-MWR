@@ -245,6 +245,7 @@
     <Content Include="Pages\BO\index.html" />
     <Content Include="Pages\BO\Inventory\InvAuthorize.aspx" />
     <Content Include="Pages\BO\Inventory\InvAuthorizeDetail.aspx" />
+    <Content Include="Pages\BO\Sys\WSManage.aspx" />
     <Content Include="Pages\BO\WebForm1.aspx" />
     <Content Include="Pages\Demo\AjaxFileUpload.aspx" />
     <Content Include="Pages\Demo\FileUpload2_1.aspx" />
@@ -278,21 +279,18 @@
     </Compile>
     <Compile Include="Pages\BO\Block\BlockSendCarDispatch.aspx.cs">
       <DependentUpon>BlockSendCarDispatch.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\BO\Block\BlockSendCarDispatch.aspx.designer.cs">
       <DependentUpon>BlockSendCarDispatch.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\BO\BOIndex.aspx.cs">
       <DependentUpon>BOIndex.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\BO\BOIndex.aspx.designer.cs">
       <DependentUpon>BOIndex.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\BO\BOMain.aspx.cs">
       <DependentUpon>BOMain.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\BO\BOMain.aspx.designer.cs">
       <DependentUpon>BOMain.aspx</DependentUpon>
@@ -306,28 +304,24 @@
     </Compile>
     <Compile Include="Pages\BO\Car\CarLocus.aspx.cs">
       <DependentUpon>CarLocus.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\BO\Car\CarLocus.aspx.designer.cs">
       <DependentUpon>CarLocus.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\BO\Car\CarRound.aspx.cs">
       <DependentUpon>CarRound.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\BO\Car\CarRound.aspx.designer.cs">
       <DependentUpon>CarRound.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\BO\Car\CarTrack.aspx.cs">
       <DependentUpon>CarTrack.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\BO\Car\CarTrack.aspx.designer.cs">
       <DependentUpon>CarTrack.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\BO\Error.aspx.cs">
       <DependentUpon>Error.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\BO\Error.aspx.designer.cs">
       <DependentUpon>Error.aspx</DependentUpon>
@@ -345,6 +339,13 @@
     </Compile>
     <Compile Include="Pages\BO\Inventory\InvAuthorizeDetail.aspx.designer.cs">
       <DependentUpon>InvAuthorizeDetail.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\BO\Sys\WSManage.aspx.cs">
+      <DependentUpon>WSManage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\BO\Sys\WSManage.aspx.designer.cs">
+      <DependentUpon>WSManage.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\BO\WebForm1.aspx.cs">
       <DependentUpon>WebForm1.aspx</DependentUpon>
@@ -444,7 +445,6 @@
     <Folder Include="Pages\BO\BaseData\" />
     <Folder Include="Pages\BO\DailyClose\" />
     <Folder Include="Pages\BO\Report\" />
-    <Folder Include="Pages\BO\System\" />
     <Folder Include="Setting\" />
     <Folder Include="UploadFile\" />
   </ItemGroup>
