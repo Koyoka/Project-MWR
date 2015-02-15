@@ -123,6 +123,10 @@ namespace YRKJ.MWR.BackOffice.Services
                     if (!RecoverDestroySubmit(reqDataValue, ref errMsg))
                         return false;
                     break;
+                case RequestMethod_InitMWS:
+                    if (!InitMWSSubmit(reqDataValue, ref errMsg))
+                        return false;
+                    break;
                 case "test":
 
                     break;
@@ -390,12 +394,15 @@ namespace YRKJ.MWR.BackOffice.Services
             try
             {
                 string wsCode = WebAppFn.SafeJsonToString("wscode", reqDataValue);
+                string ak = WebAppFn.SafeJsonToString("accessKey", reqDataValue);
+                string sk = WebAppFn.SafeJsonToString("secretKey", reqDataValue);
+                //secretKey
                 if (string.IsNullOrEmpty(wsCode))
                 {
                     errMsg = "上传参数错误";
                     return false;
                 }
-                return WSMng.RegistMWSInitInformation(wsCode, ref errMsg);
+                return WSMng.RegistMWSInitInformation(wsCode,ak,sk, ref errMsg);
             }
             catch (Exception ex)
             {

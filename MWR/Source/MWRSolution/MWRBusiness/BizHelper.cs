@@ -140,10 +140,40 @@ namespace YRKJ.MWR.Business
             }
             return defineStr;
         }
+
+        public static string GetWSType(string s)
+        {
+            string defineStr = "";
+
+            switch (s)
+            {
+                case TblMWWorkStation.WSTYPE_ENUM_DesWorkStation:
+                    defineStr = LngRes.WSType_Des;
+                    break;
+                case TblMWWorkStation.WSTYPE_ENUM_InvWorkStation:
+                    defineStr = LngRes.WSType_Inv;
+                    break;
+                case TblMWWorkStation.WSTYPE_ENUM_MobWorkStation:
+                    defineStr = LngRes.WSType_Mob;
+                    break;
+                case TblMWWorkStation.WSTYPE_ENUM_WaitWorkStation:
+                    defineStr = LngRes.WSType_Wait;
+                    break;
+
+
+            }
+
+            return defineStr;
+        }
         #endregion
 
         public class LngRes
         {
+            public const string WSType_Des = "处置工作站";
+            public const string WSType_Inv = "出入库工作站";
+            public const string WSType_Mob = "手机终端";
+            public const string WSType_Wait = "手机终端-等待初始化";
+
             public const string Status_TxnHeader_Process = "处理中";
             public const string Status_TxnHeader_Complete = "完成";
             public const string Status_TxnHeader_Authorize = "审核中";

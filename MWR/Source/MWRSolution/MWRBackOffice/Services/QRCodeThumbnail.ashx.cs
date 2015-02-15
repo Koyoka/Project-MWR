@@ -32,11 +32,9 @@ namespace YRKJ.MWR.BackOffice.Services
 
             using (System.IO.MemoryStream ms = new System.IO.MemoryStream())
             {
-
                 bit.Save(ms, System.Drawing.Imaging.ImageFormat.Gif);
                 context.Response.ContentType = "image/jpg";
                 context.Response.BinaryWrite(ms.ToArray());
-                
             }
         }
 

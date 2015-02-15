@@ -21,8 +21,7 @@ namespace YRKJ.MWR.Business
         private string _wsCodeMask = null;
         public string WSCodeMask
         {
-            get { return _wsCodeMask; }
-            set { _wsCodeMask = value; }
+            get { return string.IsNullOrEmpty(_wsCodeMask) ? defaultWSCodeMask : _wsCodeMask; }
         }
 
         private string _decimalFormatString = "f2";

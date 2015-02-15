@@ -121,6 +121,7 @@
     <Content Include="Assets\images\default_thumb.jpg" />
     <Content Include="Assets\images\logo.png" />
     <Content Include="Assets\images\pbar-ani.gif" />
+    <Content Include="Assets\images\sample_1.png" />
     <Content Include="Assets\img\ajax-loading.gif" />
     <Content Include="Assets\img\ajax-modal-loading.gif" />
     <Content Include="Assets\img\arrow-down.png" />
@@ -231,6 +232,7 @@
     <Content Include="Assets\scripts\ui-toastr.js" />
     <Content Include="Assets\scripts\ui-tree.js" />
     <Content Include="Assets\boindex.js" />
+    <Content Include="Assets\wsmanage.js" />
     <Content Include="Global.asax" />
     <Content Include="Lib\Newtonsoft.Json.Net20.dll" />
     <Content Include="Pages\BO\Block\BlockSendCarDispatch.aspx" />
@@ -279,18 +281,21 @@
     </Compile>
     <Compile Include="Pages\BO\Block\BlockSendCarDispatch.aspx.cs">
       <DependentUpon>BlockSendCarDispatch.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\BO\Block\BlockSendCarDispatch.aspx.designer.cs">
       <DependentUpon>BlockSendCarDispatch.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\BO\BOIndex.aspx.cs">
       <DependentUpon>BOIndex.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\BO\BOIndex.aspx.designer.cs">
       <DependentUpon>BOIndex.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\BO\BOMain.aspx.cs">
       <DependentUpon>BOMain.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\BO\BOMain.aspx.designer.cs">
       <DependentUpon>BOMain.aspx</DependentUpon>
@@ -304,24 +309,28 @@
     </Compile>
     <Compile Include="Pages\BO\Car\CarLocus.aspx.cs">
       <DependentUpon>CarLocus.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\BO\Car\CarLocus.aspx.designer.cs">
       <DependentUpon>CarLocus.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\BO\Car\CarRound.aspx.cs">
       <DependentUpon>CarRound.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\BO\Car\CarRound.aspx.designer.cs">
       <DependentUpon>CarRound.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\BO\Car\CarTrack.aspx.cs">
       <DependentUpon>CarTrack.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\BO\Car\CarTrack.aspx.designer.cs">
       <DependentUpon>CarTrack.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\BO\Error.aspx.cs">
       <DependentUpon>Error.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\BO\Error.aspx.designer.cs">
       <DependentUpon>Error.aspx</DependentUpon>
