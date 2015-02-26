@@ -11,6 +11,7 @@ using YRKJ.MWR.Business.BO;
 using System.Text;
 using Newtonsoft.Json;
 using YRKJ.MWR.Business.BaseData;
+using YRKJ.MWR.Business.Sys;
 
 namespace YRKJ.MWR.BackOffice.Services
 {
@@ -24,6 +25,7 @@ namespace YRKJ.MWR.BackOffice.Services
         private const string RequestMethod_RecoverInventorySubmit = "RecoverInventorySubmit";
         private const string RequestMethod_RecoverDestroySubmit = "RecoverDestroySubmit";
         private const string RequestMethod_InitMWS = "InitMWSSubmit";
+        private const string RequestMethod_StartCarRecoverShift = "StartCarRecoverShift";
 
 
         #region main
@@ -113,6 +115,7 @@ namespace YRKJ.MWR.BackOffice.Services
             #endregion
 
             #region handler response data
+            string result = "";
             switch (action)
             {
                 case RequestMethod_RecoverInventorySubmit:
@@ -124,8 +127,14 @@ namespace YRKJ.MWR.BackOffice.Services
                         return false;
                     break;
                 case RequestMethod_InitMWS:
-                    if (!InitMWSSubmit(reqDataValue, ref errMsg))
+                    if (!InitMWSSubmit(reqDataValue, ref result, ref errMsg))
                         return false;
+                    break;
+                case RequestMethod_StartCarRecoverShift:
+                    if (!StartCarRecoverShift(reqDataValue, ref result, ref errMsg))
+                    {
+                        return false;
+                    }
                     break;
                 case "test":
 
@@ -135,7 +144,7 @@ namespace YRKJ.MWR.BackOffice.Services
                     return false;
             }
             #endregion
-            WriteJson(context, "success");
+            WriteJson(context, string.IsNullOrEmpty(result) ? "success" : result);
             return true;
         }
 
@@ -389,11 +398,11 @@ namespace YRKJ.MWR.BackOffice.Services
 
         }
 
-        private bool InitMWSSubmit(JObject reqDataValue, ref string errMsg)
+        private bool InitMWSSubmit(JObject reqDataValue,ref string result, ref string errMsg)
         {
             try
             {
-                string wsCode = WebAppFn.SafeJsonToString("wscode", reqDataValue);
+                string wsCode = WebAppFn.SafeJsonToString("mwsCode", reqDataValue);
                 string ak = WebAppFn.SafeJsonToString("accessKey", reqDataValue);
                 string sk = WebAppFn.SafeJsonToString("secretKey", reqDataValue);
                 //secretKey
@@ -402,6 +411,14 @@ namespace YRKJ.MWR.BackOffice.Services
                     errMsg = "上传参数错误";
                     return false;
                 }
+                OutputData_InitMWSSubmit body = new OutputData_InitMWSSubmit();
+                body.WSCode = wsCode;
+                body.AssessKey = ak;
+                body.SecretKey = sk;
+                body.CrateMask = MWParams.GetCrateCodeMask();
+
+                result = JsonConvert.SerializeObject(body);
+
                 return WSMng.RegistMWSInitInformation(wsCode,ak,sk, ref errMsg);
             }
             catch (Exception ex)
@@ -410,6 +427,41 @@ namespace YRKJ.MWR.BackOffice.Services
                 LogMng.GetLog().PrintError(ClassName, "InitMWSSubmit", ex);
                 return false;
             }
+        }
+
+        private bool StartCarRecoverShift(JObject reqDataValue, ref string result, ref string errMsg)
+        {
+            string carCode, driverCode, inspectorCode, mwsCode;
+
+            try
+            {
+                carCode = WebAppFn.SafeJsonToString("carCode", reqDataValue);
+                driverCode = WebAppFn.SafeJsonToString("driverCode", reqDataValue);
+                inspectorCode = WebAppFn.SafeJsonToString("inspectorCode", reqDataValue);
+                mwsCode = WebAppFn.SafeJsonToString("mwsCode", reqDataValue);
+                TblMWCarDispatch carDispatch = null;
+                if (!MWRWorkflowMng.CarOutToRecover(carCode, driverCode, inspectorCode, mwsCode, ref carDispatch, ref errMsg))
+                {
+                    return false;
+                }
+                OutputData_StartCarRecoverShift body = new OutputData_StartCarRecoverShift();
+                body.WSCode = body.WSCode;
+                body.CarCode = carDispatch.CarCode;
+                body.Driver = carDispatch.Driver;
+                body.DriverCode = carDispatch.DriverCode;
+                body.Inspector = carDispatch.Inspector;
+                body.InspectorCode = carDispatch.InspectorCode;
+
+                result = JsonConvert.SerializeObject(body);
+            }
+            catch (Exception ex)
+            {
+                errMsg = ex.Message;
+                LogMng.GetLog().PrintError(ClassName, "StartCarRecoverShift", ex);
+                return false;
+            }
+
+            return true;
         }
         #endregion
 
@@ -444,6 +496,24 @@ namespace YRKJ.MWR.BackOffice.Services
                 data.Result = null;
                 return data;
             }
+        }
+
+        private class OutputData_InitMWSSubmit 
+        {
+            public string WSCode { get; set; }
+            public string CrateMask { get; set; }
+            public string AssessKey { get; set; }
+            public string SecretKey { get; set; }
+        }
+
+        private class OutputData_StartCarRecoverShift
+        {
+            public string WSCode { get; set; }
+            public string CarCode { get; set; }
+            public string Driver { get; set; }
+            public string DriverCode { get; set; }
+            public string Inspector { get; set; }
+            public string InspectorCode { get; set; }
         }
         #endregion
     }

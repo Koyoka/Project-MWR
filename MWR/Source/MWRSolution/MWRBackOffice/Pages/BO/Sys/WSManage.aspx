@@ -32,7 +32,7 @@
             <div class="portlet box green">
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class="fa fa-reorder"></i>货箱审核列表
+                        <i class="fa fa-reorder"></i>工作站列表
                     </div>
                     <div class="tools">
                     <a data-wgt="mw-reload" data-wgt-reload-formid="mwWSList" href="" class="reload"></a>

@@ -63,6 +63,7 @@
   <ItemGroup>
     <Content Include="Assets\bocomm.js" />
     <Content Include="Assets\boinvauthorizedetail.js" />
+    <Content Include="Assets\cardispatch.js" />
     <Content Include="Assets\cscripts\ajaxfileupload.js" />
     <Content Include="Assets\cscripts\plugs\fileuploa9.9.2\jquery.fileupload-angular.js" />
     <Content Include="Assets\cscripts\plugs\fileuploa9.9.2\jquery.fileupload-audio.js" />

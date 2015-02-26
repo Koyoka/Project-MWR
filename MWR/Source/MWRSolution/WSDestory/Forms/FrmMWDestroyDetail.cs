@@ -41,7 +41,9 @@ namespace YRKJ.MWR.WSDestory.Forms
 
             this.c_grdMWTxnDetail.AutoGenerateColumns = false;
 
-            _scannerMng = new ScannerMng(this, ClassName, WinAppBase.CrateBarCodeMask);
+            _scannerMng = new ScannerMng(this, ClassName, 
+                SysParams.GetInstance().GetCrateCodeMask());
+                //WinAppBase.CrateBarCodeMask);
             _scannerMng.CodeScanned += new ScannerMng.ScannedEventHandler(FrmMWDestroyDetail_CodeScanned);
             //_scannerMng.InvalidCodeScanned += new ScannerMng.ScannedEventHandler(FrmMWDestroyDetail_InvalidCodeScanned);
         }

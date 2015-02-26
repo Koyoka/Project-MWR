@@ -22,6 +22,11 @@ namespace YRKJ.MWR.WSDestory
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+           // //System.Diagnostics.Debug.Write(ComLib.ComFn.EncryptStringBy64("鄂州"));
+           // byte[] bits = System.Text.Encoding.Default.GetBytes("MWR-STARTSHIFT 鄂A00002 YG0002 YG0006");
+           //System.Diagnostics.Debug.Write(Convert.ToBase64String(bits));
+           // //System.Diagnostics.Debug.Write(ComLib.ComFn.DecryptStringBy64("TVdSLVNUQVJUU0hJRlQgtvVBMDAwMDIgWUcwMDAyIFlHMDAwNg=="));
+           // return;
             try
             {
                 string errMsg = "";
@@ -91,6 +96,8 @@ namespace YRKJ.MWR.WSDestory
                 }
 
                 #endregion
+
+                
             }
             catch (Exception ex)
             {

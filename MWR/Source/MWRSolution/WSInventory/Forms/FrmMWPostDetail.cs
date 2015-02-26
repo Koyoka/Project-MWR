@@ -41,7 +41,9 @@ namespace YRKJ.MWR.WSInventory.Forms
             this.StartPosition = FormStartPosition.CenterScreen;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 
-            _scannerMng = new ScannerMng(this, ClassName, WinAppBase.CrateBarCodeMask);
+            _scannerMng = new ScannerMng(this, ClassName, 
+                SysParams.GetInstance().GetCrateCodeMask());
+                //WinAppBase.CrateBarCodeMask);
             _scannerMng.CodeScanned += new ScannerMng.ScannedEventHandler(FrmMWPostDetail_CodeScanned);
 
             this.c_grdMWTxnDetail.AutoGenerateColumns = false;

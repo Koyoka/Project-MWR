@@ -69,6 +69,36 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Car
             return true;
         }
 
+        public bool AjaxStartShift(string carCode, string driverCode, string inspectorCode, string mwsCode, string issubmit)
+        {
+            if (carCode.Equals("0")
+                      || driverCode.Equals("0")
+                      || inspectorCode.Equals("0"))
+            {
+                ReturnAjaxError(LngRes.MSG_ValidData);
+                return false;
+            }
+
+            string errMsg = "";
+
+            bool hasBeenOut = false;
+            if (!MWRWorkflowMng.CheckCarOutToRecover(carCode, driverCode, inspectorCode, ref hasBeenOut, ref errMsg))
+            {
+                ReturnAjaxError(errMsg); 
+                return false;
+            }
+
+            if (hasBeenOut)
+            {
+                ReturnAjaxError(LngRes.MSG_ValidData);
+                return false;
+            }
+            string formatStr = "MWR-STARTSHIFT {0} {1} {2}";
+            string reEncryt = ComLib.ComFn.EncryptStringBy64(string.Format(formatStr, carCode, driverCode, inspectorCode));
+            ReturnAjaxJson(reEncryt);
+            return false;
+        }
+
         public bool AjaxSubCarDispstch(string carCode, string driverCode, string inspectorCode, string mwsCode, string issubmit)
         {
             string errMsg = "";
@@ -83,7 +113,8 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Car
                     return false;
                 }
 
-                if (!MWRWorkflowMng.CarOutToReover(
+                
+                if (!MWRWorkflowMng.CarOutToRecover(
                     carCode,
                     driverCode,
                     inspectorCode,

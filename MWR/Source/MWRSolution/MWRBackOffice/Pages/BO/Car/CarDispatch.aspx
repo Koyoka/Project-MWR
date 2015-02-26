@@ -44,7 +44,7 @@
                        data-wgt-submit-method="AjaxSubCarDispstch" 
                        data-wgt-submit-options-recall="CommHelper.recallCarDispatch"
                        action="<% = WebAppFn.GetBoFullPageUrl(RedirectHelper.CarDispatch) %>" class="">
-                    <div class="row <%--form-body--%> form-group">
+                    <div class="row form-group">
                         <div class="col-md-6">
                                 <label class="control-label">
                                     当前驻厂车辆</label>
@@ -160,7 +160,11 @@
                         </div>
 
                     </div>
-                   <button type="submit" class="btn blue btn-block margin-top-20">提交 <i class="m-icon-swapright m-icon-white"></i></button>
+                   <button type="button"
+                        data-wgt="mw-StartShift" 
+                        data-wgt-startshift-method="AjaxStartShift"  
+                        data-wgt-startshift-url="<% = WebAppFn.GetBoFullPageUrl(RedirectHelper.CarDispatch) %>"  
+                        class="btn blue btn-block margin-top-20">车辆派遣 <i class="m-icon-swapright m-icon-white"></i></button>
                         <input id="mwTxtIsSubmit" type="hidden" name="issubmit" value="YES" />
                        <%-- <input type="submit" value="提交" data-loading-text="提交..." class="demo-loading-btn btn btn-primary green margin-top-20 btn-block" />--%>
                     
@@ -314,10 +318,53 @@
             </div>
         </div>
     </div>
+
+                       
+    <div id="stack1" class="modal fade" tabindex="-1" data-width="400" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+					<h4 class="modal-title">车辆派遣</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-4">
+                            <div class="row">
+                            <center><h4>二维码图片</h4></center>
+                            </div>
+                            <div class="row">
+							    <img id="imgQRCode" style="margin:5px;" src="/Services/QRCodeThumbnail.ashx?content=eleven" />
+                            </div>
+						</div>
+                        <div class="col-md-8">
+								<h1>回收车辆派遣</h1>
+								<p>
+									派遣回收车辆任务，请打开手机终端扫描左边二维码接受派遣任务。
+								</p>
+								<center><img src="/assets/images/sample_1.png" /></center>
+						</div>
+
+					</div>
+               
+				</div>
+				<div class="modal-footer">
+					<button type="button" data-dismiss="modal" class="btn">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="foot" runat="server">
 <script src="/assets/plugins/fullcalendar/fullcalendar/fullcalendar.min.js" type="text/javascript"></script>
 <%--<script type="text/javascript" src="/assets/plugins/data-tables/DT_bootstrap.js"></script>--%>
 <script src="/assets/scripts/table-managed.js"></script>
-
+<script src="/assets/cardispatch.js"></script>
+ <script type="text/javascript">
+     jQuery(document).ready(function () {
+         CarDispatchHelper.init();
+     });
+</script>
 </asp:Content>

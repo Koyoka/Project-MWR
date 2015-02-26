@@ -13,12 +13,58 @@ namespace YRKJ.MWR.Business.BO
         public const string ClassName = "YRKJ.MWR.Business.BO.MWRWorkflowMng";
 
         #region 1.car out
+        public static bool CheckCarOutToRecover(string carCode, string driverCode, string inspectorCode,ref bool hasBeenOut, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            #region check async submit, use this employ
+            {
+                SqlQueryMng sqm = new SqlQueryMng();
+                sqm.Condition.Where.AddCompareValue(TblMWCarDispatch.getStatusColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, TblMWCarDispatch.STATUS_ENUM_ShiftStrat);
+                {
+                    SqlWhere sw = new SqlWhere(SqlCommonFn.SqlWhereLinkType.OR);
+                    sw.AddCompareValue(TblMWCarDispatch.getCarCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, carCode);
+                    sw.AddCompareValue(TblMWCarDispatch.getDriverCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, driverCode);
+                    sw.AddCompareValue(TblMWCarDispatch.getInspectorCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, inspectorCode);
+                    sqm.Condition.Where.AddWhere(sw);
+                }
+
+                List<TblMWCarDispatch> carDispDataList = null;
+                if (!TblMWCarDispatchCtrl.QueryMore(dcf, sqm, ref carDispDataList, ref errMsg))
+                {
+                    return false;
+                }
+
+                if (carDispDataList.Count > 0)
+                {
+                    hasBeenOut = true;
+                    //errMsg = "当前选择的[车辆][跟车员][司机][终端]已被其他人员派出，请重新选择";
+                    return false;
+                }
+                else
+                    hasBeenOut = false;
+
+            }
+            #endregion
+            return true;
+        }
+
         static object _lockCarOut = new object();
-        public static bool CarOutToReover(
+        public static bool CarOutToRecover(
+           string carCode,
+           string driverCode,
+           string inspectorCode,
+           string MWSCode,
+           ref string errMsg)
+        {
+            TblMWCarDispatch carDispatch = null;
+            return CarOutToRecover(carCode, driverCode, inspectorCode, MWSCode, ref carDispatch, ref errMsg);
+        }
+        public static bool CarOutToRecover(
             string carCode,
             string driverCode,
             string inspectorCode,
             string MWSCode,
+            ref TblMWCarDispatch carDispatch,
             ref string errMsg)
         {
             DataCtrlInfo dcf = new DataCtrlInfo();
@@ -116,6 +162,7 @@ namespace YRKJ.MWR.Business.BO
                     errMsg = ErrorMng.GetDBError(ClassName, "CarOutToReover", "数据未添加");
                     return false;
                 }
+                carDispatch = item;
                 #endregion
             }
 

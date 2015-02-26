@@ -16,6 +16,10 @@ namespace YRKJ.MWR.WSInventory.Business.Sys
         {
             return MWParams.GetAllowDiffWeight();
         }
+        public string GetCrateCodeMask()
+        {
+            return MWParams.GetCrateCodeMask();
+        }
 
         private static SysParams _sysParams = null;
         public static SysParams GetInstance()

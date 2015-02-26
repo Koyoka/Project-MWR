@@ -44,7 +44,7 @@ namespace YRKJ.MWR.Business.Sys
         {
              DataCtrlInfo dcf = new DataCtrlInfo();
 
-             if (!SysParams.GetInstance().SetValue(dcf, "AllowDiffWeight", _allowDiffWeight + "", ref errMsg))
+             if (!SysParams.GetInstance().SetValue(dcf, "AllowDiffWeight", value + "", ref errMsg))
             {
                 return false;
             }
@@ -69,5 +69,40 @@ namespace YRKJ.MWR.Business.Sys
 
         #endregion
 
+        #region CrateCodeMask
+        private const string _defaultCrateCodeMask = "HX###";
+        private static string _crateCodeMask = null;
+        public static bool SetCrateCodeMask(string value, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+
+            if (!SysParams.GetInstance().SetValue(dcf, "CrateCodeMask", value, ref errMsg))
+            {
+                return false;
+            }
+            _crateCodeMask = value;
+            return true;
+        }
+        public static string GetCrateCodeMask()
+        {
+            if (_crateCodeMask == null)
+            {
+                DataCtrlInfo dcf = new DataCtrlInfo();
+                _crateCodeMask = SysParams.GetInstance().GetValue(dcf, "CrateCodeMask");
+                
+            }
+
+            if (string.IsNullOrEmpty(_crateCodeMask))
+            {
+                string errMsg = "";
+                if (!SetCrateCodeMask(_defaultCrateCodeMask, ref errMsg))
+                {
+                    // nothing
+                }
+                _crateCodeMask = _defaultCrateCodeMask;
+            }
+            return _crateCodeMask;
+        }
+        #endregion
     }
 }

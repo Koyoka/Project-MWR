@@ -151,6 +151,17 @@ namespace ComLib
             //return "";
         }
 
+        public static string EncryptStringBy64ForASCII(string s)
+        {
+            byte[] bits = Encoding.ASCII.GetBytes(s);
+            return Convert.ToBase64String(bits);
+        }
+        public static string DecryptStringBy64ForASCII(string s)
+        {
+            byte[] bits = Convert.FromBase64String(s);
+            return Encoding.ASCII.GetString(bits);
+        }
+
         public static string EncryptStringBy64(string s)
         {
             byte[] bits = UTF8Encoding.Default.GetBytes(s);

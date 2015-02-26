@@ -10,6 +10,7 @@ using YRKJ.MWR.WinBase.WinAppBase;
 using YRKJ.MWR.WinBase.WinUtility;
 using ComLib.Log;
 using YRKJ.MWR;
+using YRKJ.MWR.Business.Sys;
 
 namespace MobilePhoneDemoApp
 {
@@ -31,7 +32,9 @@ namespace MobilePhoneDemoApp
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.ControlBox = false;
 
-            _scannerMng = new ScannerMng(this, ClassName, WinAppBase.CrateBarCodeMask);
+            _scannerMng = new ScannerMng(this, ClassName, 
+                MWParams.GetCrateCodeMask());
+                //WinAppBase.CrateBarCodeMask);
             _scannerMng.CodeScanned += new ScannerMng.ScannedEventHandler(FrmScanner_CodeScanned);
             _scannerMng.InvalidCodeScanned += new ScannerMng.ScannedEventHandler(FrmScanner_InvalidCodeScanned);
         } 

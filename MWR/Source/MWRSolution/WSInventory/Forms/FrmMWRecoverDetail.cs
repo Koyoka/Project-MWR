@@ -50,7 +50,9 @@ namespace YRKJ.MWR.WSInventory.Forms
             _frmMain = f;
             _txnNum = recoNum;
 
-            _scannerMng = new ScannerMng(this, ClassName, WinAppBase.CrateBarCodeMask);
+            _scannerMng = new ScannerMng(this, ClassName, 
+                SysParams.GetInstance().GetCrateCodeMask());
+                //WinAppBase.CrateBarCodeMask);
             _scannerMng.CodeScanned += new ScannerMng.ScannedEventHandler(FrmMWRecoverDetail_CodeScanned);
             _scannerMng.InvalidCodeScanned += new ScannerMng.ScannedEventHandler(FrmMWRecoverDetail_InvalidCodeScanned);
         }
