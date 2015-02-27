@@ -417,6 +417,19 @@ namespace YRKJ.MWR.BackOffice.Services
                 body.SecretKey = sk;
                 body.CrateMask = MWParams.GetCrateCodeMask();
 
+                List<TblMWVendor> defineVendorData = null;
+                List<TblMWWasteCategory> defineWasteData = null;
+                if (!BaseDataMng.GetVendorData(ref defineVendorData, ref errMsg))
+                {
+                    return false;
+                }
+                if (!BaseDataMng.GetWasteCategoryData(ref defineWasteData, ref errMsg))
+                {
+                    return false;
+                }
+                body.VendorList = defineVendorData;
+                body.WasteList = defineWasteData;
+
                 result = JsonConvert.SerializeObject(body);
 
                 return WSMng.RegistMWSInitInformation(wsCode,ak,sk, ref errMsg);
@@ -504,6 +517,9 @@ namespace YRKJ.MWR.BackOffice.Services
             public string CrateMask { get; set; }
             public string AssessKey { get; set; }
             public string SecretKey { get; set; }
+
+            public List<TblMWVendor> VendorList { get; set; }
+            public List<TblMWWasteCategory> WasteList { get; set; }
         }
 
         private class OutputData_StartCarRecoverShift

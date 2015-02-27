@@ -74,6 +74,9 @@
                               
                                 </select>
                         </div>
+                    </div>
+                    <div class="row form-group">
+                    
                         <div class="col-md-6">
                                 <label class="control-label">
                                     当前驻留司机</label>
@@ -102,8 +105,6 @@
                                         %>
                                 </select>
                         </div>
-                    </div>
-                    <div class="row form-group">
                         <div class="col-md-6">
                             <label class="control-label">
                                 当前驻留跟车员</label>
@@ -132,7 +133,7 @@
                                 %>
                             </select>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6" style="display:none;">
                             <label class="control-label">
                                 当前可派发的终端</label>
                             <select name="mwsCode" class="form-control input-lg">
@@ -349,7 +350,8 @@
                
 				</div>
 				<div class="modal-footer">
-					<button type="button" data-dismiss="modal" class="btn">关闭</button>
+                <button type="button" data-dismiss="modal" class="btn red">关闭</button>
+					<button type="button" data-dismiss="modal" class="btn ok">确认</button>
 				</div>
 			</div>
 		</div>

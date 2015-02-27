@@ -271,7 +271,7 @@ namespace YRKJ.MWR.Business.BO
                    
                     if (item != null && item.TxnDetailId != 0)
                     {
-                        errMsg = "当前货箱中有未完成的计划交易，请验证。";
+                        errMsg = "当前货箱中有未完成的交易货箱，请验证货箱来源。";
                         return false;
                     }
                 }
@@ -299,7 +299,7 @@ namespace YRKJ.MWR.Business.BO
                     }
                     if (item != null && item.InvRecordId != 0)
                     {
-                        errMsg = "当前提交计划中有库存货箱，请验证。";
+                        errMsg = "当前提交计划中有库存货箱，请验证货箱来源。";
                         return false;
                     }
 

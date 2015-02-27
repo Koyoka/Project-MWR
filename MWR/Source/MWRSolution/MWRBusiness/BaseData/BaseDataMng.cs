@@ -11,6 +11,36 @@ namespace YRKJ.MWR.Business.BaseData
     {
         public const string ClassName = "YRKJ.MWR.Business.BaseData.BaseDataMng";
 
+        #region WasteCategory
+        public static bool GetWasteCategoryData(ref List<TblMWWasteCategory> dataList, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            SqlQueryMng sqm = new SqlQueryMng();
+            if (!TblMWWasteCategoryCtrl.QueryMore(dcf, sqm, ref dataList, ref errMsg))
+            {
+                return false;
+            }
+
+            return true;
+        }
+        #endregion
+
+        #region Vendor
+
+        public static bool GetVendorData(ref List<TblMWVendor> dataList, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            SqlQueryMng sqm = new SqlQueryMng();
+            if (!TblMWVendorCtrl.QueryMore(dcf, sqm, ref dataList, ref errMsg))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        #endregion
+
         #region Car
         public static bool GetNoOutCarDataList(ref List<TblMWCar> dataList,ref string errMsg)
         {
