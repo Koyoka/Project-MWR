@@ -165,6 +165,7 @@ namespace YRKJ.MWR.Business.WS
 #endif
             if (Math.Abs(subWeight - txnWeight) > diffWeight)
             {
+                errMsg = "重量不符";
                 return false;
             }
             return true;
@@ -2251,7 +2252,7 @@ namespace YRKJ.MWR.Business.WS
             #endregion
 
             #region valid Biz
-            if (!ValidCrateWeight(0m, txnWeight, ref errMsg))
+            if (!ValidCrateWeight(detail.SubWeight, txnWeight, ref errMsg))
             {
                 return false;
             }
