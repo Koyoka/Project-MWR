@@ -60,10 +60,15 @@ namespace YRKJ.MWR.Business.Sys
                 defineVal = SysParams.GetInstance().GetValue(dcf, "AllowDiffWeight");
                 _allowDiffWeight = ComLib.ComFn.StringToDecimal(defineVal);
             }
-            if (string.IsNullOrEmpty(defineVal))
-            {
-                _allowDiffWeight = 0;
-            }
+            //if (string.IsNullOrEmpty(defineVal))
+            //{
+            //    string errMsg = "";
+            //    if (!SetAllowDiffWeight(0m, ref errMsg))
+            //    {
+            //        // nothing
+            //    }
+            //    _allowDiffWeight = 0;
+            //}
             return _allowDiffWeight;
         }
 
