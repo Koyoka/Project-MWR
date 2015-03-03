@@ -155,13 +155,38 @@ namespace YRKJ.MWR.Business.WS
             }
             return true;
         }
-       
-        private static bool ValidCrateWeight(decimal subWeight, decimal txnWeight, ref string errMsg)
+
+        private enum ValidWeightType
+        { 
+            Recover,Post,Destroy
+        }
+        private static bool ValidCrateWeight(decimal subWeight, decimal txnWeight,ValidWeightType type, ref string errMsg)
         {
+            bool pDiffWeightAsIdentical = MWParams.GetAllowDiffWeightAsIdentical();
+            decimal defineDiffWeight = 0;
+            if (pDiffWeightAsIdentical)
+            {
+                defineDiffWeight = MWParams.GetAllowDiffWeight_All();
+            }
+            else {
+                if (type == ValidWeightType.Destroy)
+                {
+                    defineDiffWeight = MWParams.GetAllowDiffWeight_Destory();
+                }
+                else if (type == ValidWeightType.Post)
+                {
+                    defineDiffWeight = MWParams.GetAllowDiffWeight_Post();
+                }
+                else if (type == ValidWeightType.Recover)
+                {
+                    defineDiffWeight = MWParams.GetAllowDiffWeight_Recover();
+                }
+            }
+
 #if DEBUG
             decimal diffWeight = 100m;
 #else
-            decimal diffWeight = MWParams.GetAllowDiffWeight();
+            decimal diffWeight = defineDiffWeight;// MWParams.GetAllowDiffWeight();
 #endif
             if (Math.Abs(subWeight - txnWeight) > diffWeight)
             {
@@ -341,7 +366,7 @@ namespace YRKJ.MWR.Business.WS
             #endregion
 
             #region valid Biz
-            if (!ValidCrateWeight(detail.SubWeight,txnWeight,ref errMsg))
+            if (!ValidCrateWeight(detail.SubWeight,txnWeight, ValidWeightType.Recover,ref errMsg))
             {
                 return false;
             }
@@ -1058,7 +1083,7 @@ namespace YRKJ.MWR.Business.WS
             #endregion
 
             #region valid Biz
-            if (!ValidCrateWeight(inv.InvWeight, txnWeight, ref errMsg))
+            if (!ValidCrateWeight(inv.InvWeight, txnWeight,ValidWeightType.Post, ref errMsg))
             {
                 return false;
             }
@@ -2252,7 +2277,7 @@ namespace YRKJ.MWR.Business.WS
             #endregion
 
             #region valid Biz
-            if (!ValidCrateWeight(detail.SubWeight, txnWeight, ref errMsg))
+            if (!ValidCrateWeight(detail.SubWeight, txnWeight,  ValidWeightType.Destroy, ref errMsg))
             {
                 return false;
             }
@@ -2620,7 +2645,7 @@ namespace YRKJ.MWR.Business.WS
                 errMsg = LngRes.MSG_Valid_UnvalidInvDataToDestroy;
                 return false;
             }
-            if (!ValidCrateWeight(subTxnWeight, txnWeight, ref errMsg))
+            if (!ValidCrateWeight(subTxnWeight, txnWeight, ValidWeightType.Destroy, ref errMsg))
             {
                 return false;
             }

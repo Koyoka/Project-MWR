@@ -16,8 +16,12 @@ namespace ComLib.db.mysql
 
         public String EncryptString(String s)
         {
-            byte[] byteArray = System.Text.Encoding.UTF8.GetBytes(s);
-            return Convert.ToBase64String(byteArray);
+
+            return ComFn.EncryptDBPassword("pRKJMwrdbWORDTaBlE", s);
+
+
+            //byte[] byteArray = System.Text.Encoding.UTF8.GetBytes(s);
+            //return Convert.ToBase64String(byteArray);
             //return s;
             //try
             //{

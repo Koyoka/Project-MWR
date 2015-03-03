@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<function>
+  <!-- BO -->
+  <package tag="BackOffice" name="管理中心">
+    <item>
+      <tag>Main</tag>
+      <name>登录权限</name>
+    </item>
+    <item>
+      <tag>CarDisPatch</tag>
+      <name>回收车辆派遣</name>
+    </item>
+    <item>
+      <tag>Authorize</tag>
+      <name>问题货箱审核</name>
+    </item>
+  </package>
+  <!-- BO END -->
+
+  <!-- WSI -->
+  <package tag="Inventory" name="库存工作站">
+  <item>
+    <tag>Main</tag>
+    <name>使用权限</name>
+  </item>
+  </package>
+  <!-- WSI END -->
+
+  <!-- WSD -->
+  <package tag="Destroy" name="处置工作站">
+    <item>
+    <tag>Main</tag>
+    <name>使用权限</name>
+  </item>
+  </package>
+
+  <!-- WSD END -->
+</function>

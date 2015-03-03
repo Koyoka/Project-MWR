@@ -12,6 +12,7 @@ using YRKJ.MWR.Business.WS;
 using YRKJ.MWR.WSInventory.Business.Sys;
 using YRKJ.MWR.WinBase.WinUtility;
 using YRKJ.MWR.Business;
+using YRKJ.MWR.Business.Sys;
 
 namespace YRKJ.MWR.WSInventory.Forms
 {
@@ -40,10 +41,7 @@ namespace YRKJ.MWR.WSInventory.Forms
 
         //post data
         private DelegateConfirmPostNew _delegateConfirmPostNew = null;
-        //private DelegateAuthorizePostNew _delegateAuthorizePostNew = null;
-
-        //private DelegateConfirmPostEdit _delegateConfirmPostEdit = null;
-        //private DelegateAuthorizePostEdit _delegateAuthorizePostEdit = null;
+       
        
         private int _invRecordId = 0;
         private string _txnNum = "";
@@ -388,14 +386,30 @@ namespace YRKJ.MWR.WSInventory.Forms
 
         private bool LoadData()
         {
-      
+            bool pDiffWeightAsIdentical = MWParams.GetAllowDiffWeightAsIdentical();
+            decimal defineDiffWeight = 0;
+            if (pDiffWeightAsIdentical)
+            {
+                defineDiffWeight = MWParams.GetAllowDiffWeight_All();
+            }
+            else
+            {
+                if (_optType == EnumOptType.Post)
+                {
+                    defineDiffWeight = MWParams.GetAllowDiffWeight_Post();
+                }
+                else if (_optType == EnumOptType.Recover)
+                {
+                    defineDiffWeight = MWParams.GetAllowDiffWeight_Recover();
+                }
+            }
 #if DEBUG
             if (_scalesMng.IsOpen)
-                _allowDiffWeight = SysParams.GetInstance().GetAllowDiffWeight();
+                _allowDiffWeight = defineDiffWeight;//SysParams.GetInstance().GetAllowDiffWeight();
             else
                 _allowDiffWeight = 100;
 #else
-             _allowDiffWeight = SysParams.GetInstance().GetAllowDiffWeight();
+             _allowDiffWeight = defineDiffWeight;//SysParams.GetInstance().GetAllowDiffWeight();
 #endif
             return true;
         }

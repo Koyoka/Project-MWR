@@ -256,6 +256,7 @@
     <Content Include="Pages\UCtrl\UPage.ascx" />
     <Content Include="Services\config.html" />
     <Content Include="Services\MWRecoverServer.aspx" />
+    <Content Include="Setting\function.xml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -455,7 +456,6 @@
     <Folder Include="Pages\BO\BaseData\" />
     <Folder Include="Pages\BO\DailyClose\" />
     <Folder Include="Pages\BO\Report\" />
-    <Folder Include="Setting\" />
     <Folder Include="UploadFile\" />
   </ItemGroup>
   <ItemGroup>

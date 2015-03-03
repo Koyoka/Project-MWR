@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using YRKJ.MWR.Business.Permit;
 
 namespace YRKJ.MWR.BackOffice
 {
@@ -11,7 +12,15 @@ namespace YRKJ.MWR.BackOffice
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            string errMsg = "";
+            string path = ComLib.ComFn.GetAppExePath() + @"Setting\function.xml";
+            if (!PermitMng.InitSysFuncPermit(path, ref errMsg))
+            {
+                Response.Write(errMsg + "<p>" + path + "<p>");
+            }
+            else {
+                Response.Write("success" + "<p>");
+            }
         }
     }
 }

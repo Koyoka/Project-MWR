@@ -11,6 +11,8 @@ using ComLib.Log;
 using YRKJ.MWR.WSInventory.Business.Sys;
 using YRKJ.MWR.Business.BaseData;
 using ComLib.Error;
+using YRKJ.MWR.Business.Permit;
+using YRKJ.MWR.WinBase.WinUtility;
 
 namespace YRKJ.MWR.WSInventory.Forms
 {
@@ -43,10 +45,17 @@ namespace YRKJ.MWR.WSInventory.Forms
 
                 TblMWEmploy empy = null;
                 string code = c_txtUserId.Text.Trim();
+                string password = c_txtPassword.Text;
+                if(!PermitMng.WSILogin(code,password,ref errMsg))
+                {
+                    WinFn.SafeFocus(c_txtUserId);
+                    MsgBox.Error(errMsg);
+                    return;
+                }
+
                 if (!BaseDataMng.GetEmpyData(code, ref empy, ref errMsg))
                 {
                     MsgBox.Error(errMsg);
-                    return;
                 }
                 if(empy == null)
                 {

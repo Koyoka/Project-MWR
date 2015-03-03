@@ -39,19 +39,122 @@ namespace YRKJ.MWR.Business.Sys
         #endregion
 
         #region Allow Diff Weight
-        private static decimal _allowDiffWeight = -1;
-        public static bool SetAllowDiffWeight(decimal value,ref string errMsg)
-        {
-             DataCtrlInfo dcf = new DataCtrlInfo();
+       
 
-             if (!SysParams.GetInstance().SetValue(dcf, "AllowDiffWeight", value + "", ref errMsg))
+
+        #region recover
+        private static decimal _allowDiffWeight_recover = -1;
+        public static bool SetAllowDiffWeight_Recover(decimal value, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+
+            if (!SysParams.GetInstance().SetValue(dcf, "AllowDiffWeight_Recover", value + "", ref errMsg))
+            {
+                return false;
+            }
+            _allowDiffWeight_recover = value;
+            return true;
+        }
+        public static decimal GetAllowDiffWeight_Recover()
+        {
+            if (_allowDiffWeight_recover == -1)
+            {
+                DataCtrlInfo dcf = new DataCtrlInfo();
+                string defineVal = SysParams.GetInstance().GetValue(dcf, "AllowDiffWeight_Recover");
+                _allowDiffWeight_recover = ComLib.ComFn.StringToDecimal(defineVal);
+            }
+            return _allowDiffWeight_recover;
+        }
+        #endregion
+
+        #region post
+        private static decimal _allowDiffWeight_post = -1;
+        public static bool SetAllowDiffWeight_Post(decimal value, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+
+            if (!SysParams.GetInstance().SetValue(dcf, "AllowDiffWeight_Post", value + "", ref errMsg))
+            {
+                return false;
+            }
+            _allowDiffWeight_post = value;
+            return true;
+        }
+        public static decimal GetAllowDiffWeight_Post()
+        {
+            if (_allowDiffWeight_post == -1)
+            {
+                DataCtrlInfo dcf = new DataCtrlInfo();
+                string defineVal = SysParams.GetInstance().GetValue(dcf, "AllowDiffWeight_Post");
+                _allowDiffWeight_post = ComLib.ComFn.StringToDecimal(defineVal);
+            }
+            return _allowDiffWeight_post;
+        }
+        #endregion
+
+        #region destory
+        private static decimal _allowDiffWeight_destory = -1;
+        public static bool SetAllowDiffWeight_Destory(decimal value, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+
+            if (!SysParams.GetInstance().SetValue(dcf, "AllowDiffWeight_Destory", value + "", ref errMsg))
+            {
+                return false;
+            }
+            _allowDiffWeight_destory = value;
+            return true;
+        }
+        public static decimal GetAllowDiffWeight_Destory()
+        {
+            if (_allowDiffWeight_destory == -1)
+            {
+                DataCtrlInfo dcf = new DataCtrlInfo();
+                string defineVal = SysParams.GetInstance().GetValue(dcf, "AllowDiffWeight_Destory");
+                _allowDiffWeight_destory = ComLib.ComFn.StringToDecimal(defineVal);
+            }
+            return _allowDiffWeight_destory;
+        }
+        #endregion
+
+        #region Identical
+        private static int _allowDiffWeightAsIdentical = -1;
+        public static bool SetAllowDiffWeightAsIdentical(bool value, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            int defineSaveValue = value ? 1 : 0;
+            if (!SysParams.GetInstance().SetValue(dcf, "AllowDiffWeightAsIdentical", defineSaveValue + "", ref errMsg))
+            {
+                return false;
+            }
+            _allowDiffWeightAsIdentical = defineSaveValue;
+            return true;
+        }
+        public static bool GetAllowDiffWeightAsIdentical()
+        {
+            string defineVal = "";
+            if (_allowDiffWeightAsIdentical == -1)
+            {
+                DataCtrlInfo dcf = new DataCtrlInfo();
+                defineVal = SysParams.GetInstance().GetValue(dcf, "AllowDiffWeightAsIdentical");
+                _allowDiffWeightAsIdentical = ComLib.ComFn.StringToInt(defineVal);
+            }
+            return _allowDiffWeightAsIdentical == 0 ? false : true;
+        }
+
+        private static decimal _allowDiffWeight = -1;
+        public static bool SetAllowDiffWeight_All(decimal value, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+
+            if (!SysParams.GetInstance().SetValue(dcf, "AllowDiffWeight", value + "", ref errMsg))
             {
                 return false;
             }
             _allowDiffWeight = value;
             return true;
         }
-        public static decimal GetAllowDiffWeight()
+        public static decimal GetAllowDiffWeight_All()
         {
             string defineVal = "";
             if (_allowDiffWeight == -1)
@@ -60,18 +163,12 @@ namespace YRKJ.MWR.Business.Sys
                 defineVal = SysParams.GetInstance().GetValue(dcf, "AllowDiffWeight");
                 _allowDiffWeight = ComLib.ComFn.StringToDecimal(defineVal);
             }
-            //if (string.IsNullOrEmpty(defineVal))
-            //{
-            //    string errMsg = "";
-            //    if (!SetAllowDiffWeight(0m, ref errMsg))
-            //    {
-            //        // nothing
-            //    }
-            //    _allowDiffWeight = 0;
-            //}
             return _allowDiffWeight;
         }
 
+        #endregion
+
+       
         #endregion
 
         #region CrateCodeMask

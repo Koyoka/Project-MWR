@@ -12,10 +12,10 @@ namespace YRKJ.MWR.WSInventory.Business.Sys
         {
             return MWParams.GetWeightUnit();
         }
-        public decimal GetAllowDiffWeight()
-        {
-            return MWParams.GetAllowDiffWeight();
-        }
+        //public decimal GetAllowDiffWeight()
+        //{
+        //    return MWParams.GetAllowDiffWeight();
+        //}
         public string GetCrateCodeMask()
         {
             return MWParams.GetCrateCodeMask();

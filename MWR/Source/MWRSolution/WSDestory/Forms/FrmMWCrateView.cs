@@ -12,6 +12,7 @@ using YRKJ.MWR.Business.WS;
 using YRKJ.MWR.WinBase.WinUtility;
 using YRKJ.MWR.Business;
 using YRKJ.MWR.WSDestory.Business.Sys;
+using YRKJ.MWR.Business.Sys;
 
 namespace YRKJ.MWR.WSDestory.Forms
 {
@@ -274,14 +275,24 @@ namespace YRKJ.MWR.WSDestory.Forms
 
         private bool LoadData()
         {
-      
+
+            bool pDiffWeightAsIdentical = MWParams.GetAllowDiffWeightAsIdentical();
+            decimal defineDiffWeight = 0;
+            if (pDiffWeightAsIdentical)
+            {
+                defineDiffWeight = MWParams.GetAllowDiffWeight_All();
+            }
+            else {
+                defineDiffWeight = MWParams.GetAllowDiffWeight_Destory();
+            }
+
 #if DEBUG
             if (_scalesMng.IsOpen)
-                _allowDiffWeight = SysParams.GetInstance().GetAllowDiffWeight();
+                _allowDiffWeight = defineDiffWeight;//SysParams.GetInstance().GetAllowDiffWeight();
             else
                 _allowDiffWeight = 100;
 #else
-             _allowDiffWeight = SysParams.GetInstance().GetAllowDiffWeight();
+             _allowDiffWeight = defineDiffWeight;//SysParams.GetInstance().GetAllowDiffWeight();
 #endif
             return true;
         }
