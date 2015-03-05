@@ -70,6 +70,36 @@ namespace YRKJ.MWR.Business.BaseData
         }
         #endregion
 
+        #region FunctionGroup
+        public static bool GetFunctionGroup(int funcGrpId, ref TblMWFunctionGroup funcGrp, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            SqlQueryMng sqm = new SqlQueryMng();
+            sqm.Condition.Where.AddCompareValue(TblMWFunctionGroup.getFuncGroupIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, funcGrpId);
+
+            if (!TblMWFunctionGroupCtrl.QueryOne(dcf, sqm, ref funcGrp, ref errMsg))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public static bool GetFunctionGroupList(ref List<TblMWFunctionGroup> funcGrpList, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+
+            SqlQueryMng sqm = new SqlQueryMng();
+
+            if (!TblMWFunctionGroupCtrl.QueryMore(dcf, sqm, ref funcGrpList, ref errMsg))
+            {
+                return false;
+            }
+            return true;
+        }
+
+        #endregion
+
         #region Employ
         public static bool GetEmpyData(string code, ref TblMWEmploy empy, ref string errMsg)
         {
@@ -81,6 +111,42 @@ namespace YRKJ.MWR.Business.BaseData
             {
                 return false;
             }
+            return true;
+        }
+
+        public static bool GetEmpyDataList(ref List<TblMWEmploy> empyList, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+
+            SqlQueryMng sqm = new SqlQueryMng();
+            if (!TblMWEmployCtrl.QueryMore(dcf, sqm, ref empyList, ref errMsg))
+            { 
+                return false;
+            }
+            return true;
+        }
+
+        public static bool GetEmpyInFuncGroup(int functionGroupId, ref List<TblMWEmploy> empyList, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            SqlQueryMng sqm = new SqlQueryMng();
+            sqm.Condition.Where.AddCompareValue(TblMWEmploy.getFuncGroupIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, functionGroupId);
+            //{
+            //    SqlQueryMng subSqm = new SqlQueryMng();
+            //    subSqm.setQueryTableName(TblMWUserPermission.getFormatTableName());
+            //    subSqm.QueryColumn.Add(TblMWUserPermission.getUserGroupIdColumn());
+            //    subSqm.Condition.Where.AddCompareValue(
+            //        TblMWUserPermission.getFuncGroupIdColumn(), 
+            //        SqlCommonFn.SqlWhereCompareEnum.Equals, 
+            //        functionGroupId);
+            //    sqm.Condition.Where.AddInValues(TblMWEmploy.getUserGroupIdColumn(), subSqm);
+            //}
+
+            if (!TblMWEmployCtrl.QueryMore(dcf, sqm, ref empyList, ref errMsg))
+            {
+                return false;
+            }
+
             return true;
         }
 

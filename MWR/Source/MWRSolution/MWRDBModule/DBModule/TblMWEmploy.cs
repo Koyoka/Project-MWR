@@ -22,7 +22,7 @@ namespace YRKJ.MWR
                 new DataColumnInfo[]{
             new DataColumnInfo(true,false,false,false,"EmpyCode",SqlCommonFn.DataColumnType.STRING,20),
             new DataColumnInfo(false,true,false,false,"EmpyName",SqlCommonFn.DataColumnType.STRING,45),
-            new DataColumnInfo(false,true,false,false,"UserGroupId",SqlCommonFn.DataColumnType.INT,10),
+            new DataColumnInfo(false,true,false,false,"FuncGroupId",SqlCommonFn.DataColumnType.INT,10),
             new DataColumnInfo(false,true,false,false,"EmpyType",SqlCommonFn.DataColumnType.STRING,2),
             new DataColumnInfo(false,true,false,false,"UserName",SqlCommonFn.DataColumnType.STRING,45),
             new DataColumnInfo(false,true,false,true,"Password",SqlCommonFn.DataColumnType.STRING,45)
@@ -36,7 +36,7 @@ namespace YRKJ.MWR
         {
             return Columns[1];
         }
-        public static DataColumnInfo getUserGroupIdColumn()
+        public static DataColumnInfo getFuncGroupIdColumn()
         {
             return Columns[2];
         }
@@ -55,7 +55,7 @@ namespace YRKJ.MWR
 
         private string _EmpyCode = "";
         private string _EmpyName = "";
-        private int _UserGroupId = 0;
+        private int _FuncGroupId = 0;
         private string _EmpyType = "";
         private string _UserName = "";
         private string _Password = "";
@@ -82,15 +82,15 @@ namespace YRKJ.MWR
                 _EmpyName = value;
             }
         }
-        public int UserGroupId
+        public int FuncGroupId
         {
             get
             {
-                return _UserGroupId;
+                return _FuncGroupId;
             }
             set
             {
-                _UserGroupId = value;
+                _FuncGroupId = value;
             }
         }
         public string EmpyType
@@ -134,8 +134,8 @@ namespace YRKJ.MWR
                  SetValue(ref _EmpyCode, row["EmpyCode"]);
              if(dataCols.Contains("EmpyName"))
                  SetValue(ref _EmpyName, row["EmpyName"]);
-             if(dataCols.Contains("UserGroupId"))
-                 SetValue(ref _UserGroupId, row["UserGroupId"]);
+             if(dataCols.Contains("FuncGroupId"))
+                 SetValue(ref _FuncGroupId, row["FuncGroupId"]);
              if(dataCols.Contains("EmpyType"))
                  SetValue(ref _EmpyType, row["EmpyType"]);
              if(dataCols.Contains("UserName"))

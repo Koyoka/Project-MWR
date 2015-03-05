@@ -30,11 +30,37 @@ namespace YRKJ.MWR.Business.Permit
         {
             return "BackOffice" + tag;
         }
-
-        #endregion
-
-        public static bool GetEmployFunctionPremiess(string empyCode, ref List<VewEmployFunctionGroupDetail> funcs, ref string errMsg)
+        public static void GetSysDefaultFuncGroup(ref List<TblMWFunctionGroup> funcGrp)
         {
+            funcGrp = new List<TblMWFunctionGroup>();
+            funcGrp.Add(new TblMWFunctionGroup() {
+                FuncGroupId = ADMINISTRATOR_DEFAULT_GROUPID,
+                FuncGroupName = "Administrator"
+                
+            });
+            funcGrp.Add(new TblMWFunctionGroup()
+            {
+                FuncGroupId = BACKOFFICE_DEFAULT_GROUPDID,
+                FuncGroupName = "管理中心"
+
+            });
+            funcGrp.Add(new TblMWFunctionGroup()
+            {
+                FuncGroupId = INVENTORY_DEFAULT_GROUPID,
+                FuncGroupName = "库存工作站"
+
+            });
+            funcGrp.Add(new TblMWFunctionGroup()
+            {
+                FuncGroupId = DESTROY_DEFAULT_GROUPID,
+                FuncGroupName = "处置工作站"
+            });
+        }
+
+        public static bool GetEmployPremiessFunctionDetail(string empyCode, ref List<TblMWFunctionGroupDetail> funcs, ref string errMsg)
+        {
+            
+
             DataCtrlInfo dcf = new DataCtrlInfo();
             TblMWEmploy empy = null;
             #region valid data
@@ -50,8 +76,8 @@ namespace YRKJ.MWR.Business.Permit
             #endregion
 
             SqlQueryMng sqm = new SqlQueryMng();
-            sqm.Condition.Where.AddCompareValue(VewEmployFunctionGroupDetail.getUserGroupIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, empy.UserGroupId);
-            if (!VewEmployFunctionGroupDetailCtrl.QueryMore(dcf, sqm, ref funcs, ref errMsg))
+            sqm.Condition.Where.AddCompareValue(TblMWFunctionGroupDetail.getFuncGroupIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, empy.FuncGroupId);
+            if (!TblMWFunctionGroupDetailCtrl.QueryMore(dcf, sqm, ref funcs, ref errMsg))
             {
                 return false;
             }
@@ -76,11 +102,11 @@ namespace YRKJ.MWR.Business.Permit
             #endregion
 
             SqlQueryMng sqm = new SqlQueryMng();
-            sqm.Condition.Where.AddCompareValue(VewEmployFunctionGroupDetail.getUserGroupIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, empy.UserGroupId);
-            sqm.Condition.Where.AddCompareValue(VewEmployFunctionGroupDetail.getFuncTagColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, funcTag);
+            sqm.Condition.Where.AddCompareValue(TblMWFunctionGroupDetail.getFuncGroupIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, empy.FuncGroupId);
+            sqm.Condition.Where.AddCompareValue(TblMWFunctionGroupDetail.getFuncTagColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, funcTag);
 
-            VewEmployFunctionGroupDetail data = null;
-            if (!VewEmployFunctionGroupDetailCtrl.QueryOne(dcf,sqm,ref data,ref errMsg))
+            TblMWFunctionGroupDetail data = null;
+            if (!TblMWFunctionGroupDetailCtrl.QueryOne(dcf, sqm, ref data, ref errMsg))
             {
                 return false;
             }
@@ -91,6 +117,8 @@ namespace YRKJ.MWR.Business.Permit
             }
             return true;
         }
+
+        #endregion
 
         #region WS
         public static bool WSILogin(string empyCode, string password, ref string errMsg)
@@ -123,25 +151,25 @@ namespace YRKJ.MWR.Business.Permit
             #endregion
 
             //check system default premit administrator
-            if (empy.UserGroupId == ADMINISTRATOR_DEFAULT_GROUPID)
+            if (empy.FuncGroupId == ADMINISTRATOR_DEFAULT_GROUPID)
             {
                 return true;
             }
 
             //check system default premit wsi
-            if (empy.UserGroupId == INVENTORY_DEFAULT_GROUPID)
+            if (empy.FuncGroupId == INVENTORY_DEFAULT_GROUPID)
             {
                 return true;
             }
 
             string FUNC_NAME = GetWSIFuncTag("Main");
 
-            VewEmployFunctionGroupDetail funcDetail = null;
+            TblMWFunctionGroupDetail funcDetail = null;
             {
                 SqlQueryMng sqm = new SqlQueryMng();
-                sqm.Condition.Where.AddCompareValue(VewEmployFunctionGroupDetail.getUserGroupIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, empy.UserGroupId);
-                sqm.Condition.Where.AddCompareValue(VewEmployFunctionGroupDetail.getFuncTagColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, FUNC_NAME);
-                if(!VewEmployFunctionGroupDetailCtrl.QueryOne(dcf,sqm,ref funcDetail,ref errMsg))
+                sqm.Condition.Where.AddCompareValue(TblMWFunctionGroupDetail.getFuncGroupIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, empy.FuncGroupId);
+                sqm.Condition.Where.AddCompareValue(TblMWFunctionGroupDetail.getFuncTagColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, FUNC_NAME);
+                if (!TblMWFunctionGroupDetailCtrl.QueryOne(dcf, sqm, ref funcDetail, ref errMsg))
                 {
                     return false;
                 }
@@ -152,6 +180,7 @@ namespace YRKJ.MWR.Business.Permit
                     return false;
                 }
             }
+
 
             return true;
         }
@@ -185,25 +214,25 @@ namespace YRKJ.MWR.Business.Permit
             #endregion
                       
             //check system default premit administrator
-            if (empy.UserGroupId == ADMINISTRATOR_DEFAULT_GROUPID)
+            if (empy.FuncGroupId == ADMINISTRATOR_DEFAULT_GROUPID)
             {
                 return true;
             }
 
             //check system default premit wsi
-            if (empy.UserGroupId == DESTROY_DEFAULT_GROUPID)
+            if (empy.FuncGroupId == DESTROY_DEFAULT_GROUPID)
             {
                 return true;
             }
 
             string FUNC_NAME = GetWSDFuncTag("Main");
 
-            VewEmployFunctionGroupDetail funcDetail = null;
+            TblMWFunctionGroupDetail funcDetail = null;
             {
                 SqlQueryMng sqm = new SqlQueryMng();
-                sqm.Condition.Where.AddCompareValue(VewEmployFunctionGroupDetail.getUserGroupIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, empy.UserGroupId);
-                sqm.Condition.Where.AddCompareValue(VewEmployFunctionGroupDetail.getFuncTagColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, FUNC_NAME);
-                if (!VewEmployFunctionGroupDetailCtrl.QueryOne(dcf, sqm, ref funcDetail, ref errMsg))
+                sqm.Condition.Where.AddCompareValue(TblMWFunctionGroupDetail.getFuncGroupIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, empy.FuncGroupId);
+                sqm.Condition.Where.AddCompareValue(TblMWFunctionGroupDetail.getFuncTagColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, FUNC_NAME);
+                if (!TblMWFunctionGroupDetailCtrl.QueryOne(dcf, sqm, ref funcDetail, ref errMsg))
                 {
                     return false;
                 }
@@ -214,6 +243,7 @@ namespace YRKJ.MWR.Business.Permit
                     return false;
                 }
             }
+
 
             return true;
         }
@@ -251,25 +281,25 @@ namespace YRKJ.MWR.Business.Permit
             #endregion
 
             //check system default premit administrator
-            if (empy.UserGroupId == ADMINISTRATOR_DEFAULT_GROUPID)
+            if (empy.FuncGroupId == ADMINISTRATOR_DEFAULT_GROUPID)
             {
                 return true;
             }
 
             //check system default premit wsi
-            if (empy.UserGroupId == BACKOFFICE_DEFAULT_GROUPDID)
+            if (empy.FuncGroupId == BACKOFFICE_DEFAULT_GROUPDID)
             {
                 return true;
             }
 
             string FUNC_NAME = GetBOFuncTag("Main");
 
-            VewEmployFunctionGroupDetail funcDetail = null;
+            TblMWFunctionGroupDetail funcDetail = null;
             {
                 SqlQueryMng sqm = new SqlQueryMng();
-                sqm.Condition.Where.AddCompareValue(VewEmployFunctionGroupDetail.getUserGroupIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, empy.UserGroupId);
-                sqm.Condition.Where.AddCompareValue(VewEmployFunctionGroupDetail.getFuncTagColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, FUNC_NAME);
-                if (!VewEmployFunctionGroupDetailCtrl.QueryOne(dcf, sqm, ref funcDetail, ref errMsg))
+                sqm.Condition.Where.AddCompareValue(TblMWFunctionGroupDetail.getFuncGroupIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, empy.FuncGroupId);
+                sqm.Condition.Where.AddCompareValue(TblMWFunctionGroupDetail.getFuncTagColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, FUNC_NAME);
+                if (!TblMWFunctionGroupDetailCtrl.QueryOne(dcf, sqm, ref funcDetail, ref errMsg))
                 {
                     return false;
                 }
@@ -283,6 +313,70 @@ namespace YRKJ.MWR.Business.Permit
 
             return true;
         }
+
+        public static bool RemoveUserPermit(string empyCode, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+
+            TblMWEmploy empy = null;
+            #region valid data
+            if (!BaseDataMng.GetEmpyData(empyCode, ref empy, ref errMsg))
+            {
+                return false;
+            }
+            if (empy == null)
+            {
+                errMsg = LngRes.MSG_Valid_InValidEmpyCode;
+                return false;
+            }
+            #endregion
+
+            int updCount = 0;
+            SqlUpdateColumn suc = new SqlUpdateColumn();
+            suc.Add(TblMWEmploy.getFuncGroupIdColumn(), 0);
+            SqlWhere sw = new SqlWhere();
+            sw.AddCompareValue(TblMWEmploy.getEmpyCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, empy.EmpyCode);
+
+            if (!TblMWEmployCtrl.Update(dcf, suc, sw, ref updCount, ref errMsg))
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public static bool AddUserPermit(string empyCode, int funcGrpId, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+
+
+            TblMWEmploy empy = null;
+            #region valid data
+            if (!BaseDataMng.GetEmpyData(empyCode, ref empy, ref errMsg))
+            {
+                return false;
+            }
+            if (empy == null)
+            {
+                errMsg = LngRes.MSG_Valid_InValidEmpyCode;
+                return false;
+            }
+            #endregion
+
+            int updCount = 0;
+            SqlUpdateColumn suc = new SqlUpdateColumn();
+            suc.Add(TblMWEmploy.getFuncGroupIdColumn(), funcGrpId);
+            SqlWhere sw = new SqlWhere();
+            sw.AddCompareValue(TblMWEmploy.getEmpyCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, empy.EmpyCode);
+
+            if (!TblMWEmployCtrl.Update(dcf, suc, sw, ref updCount, ref errMsg))
+            {
+                return false;
+            }
+            return true;
+
+            return true;
+        }
+        
         #endregion
 
         #region Sys function

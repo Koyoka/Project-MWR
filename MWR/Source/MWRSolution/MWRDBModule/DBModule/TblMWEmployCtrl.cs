@@ -94,7 +94,7 @@ namespace YRKJ.MWR
             return Insert(dcf,
                 item.EmpyCode,
                 item.EmpyName,
-                item.UserGroupId,
+                item.FuncGroupId,
                 item.EmpyType,
                 item.UserName,
                 item.Password,
@@ -106,7 +106,7 @@ namespace YRKJ.MWR
         public static bool Insert(DataCtrlInfo dcf,
             string empyCode,
             string empyName,
-            int userGroupId,
+            int funcGroupId,
             string empyType,
             string userName,
             string password,
@@ -118,7 +118,7 @@ namespace YRKJ.MWR
             sum.setQueryTableName(TblMWEmploy.getFormatTableName());
             sum.Add(TblMWEmploy.getEmpyCodeColumn(), empyCode);
             sum.Add(TblMWEmploy.getEmpyNameColumn(), empyName);
-            sum.Add(TblMWEmploy.getUserGroupIdColumn(), userGroupId);
+            sum.Add(TblMWEmploy.getFuncGroupIdColumn(), funcGroupId);
             sum.Add(TblMWEmploy.getEmpyTypeColumn(), empyType);
             sum.Add(TblMWEmploy.getUserNameColumn(), userName);
             sum.Add(TblMWEmploy.getPasswordColumn(), password);
@@ -136,7 +136,7 @@ namespace YRKJ.MWR
             SqlUpdateColumn suc = new SqlUpdateColumn();
             suc.Add(TblMWEmploy.getEmpyCodeColumn(), item.EmpyCode);
             suc.Add(TblMWEmploy.getEmpyNameColumn(), item.EmpyName);
-            suc.Add(TblMWEmploy.getUserGroupIdColumn(), item.UserGroupId);
+            suc.Add(TblMWEmploy.getFuncGroupIdColumn(), item.FuncGroupId);
             suc.Add(TblMWEmploy.getEmpyTypeColumn(), item.EmpyType);
             suc.Add(TblMWEmploy.getUserNameColumn(), item.UserName);
             suc.Add(TblMWEmploy.getPasswordColumn(), item.Password);

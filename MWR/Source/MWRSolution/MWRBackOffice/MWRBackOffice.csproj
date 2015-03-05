@@ -233,6 +233,7 @@
     <Content Include="Assets\scripts\ui-toastr.js" />
     <Content Include="Assets\scripts\ui-tree.js" />
     <Content Include="Assets\boindex.js" />
+    <Content Include="Assets\userpermit.js" />
     <Content Include="Assets\wsmanage.js" />
     <Content Include="Global.asax" />
     <Content Include="Lib\Newtonsoft.Json.Net20.dll" />
@@ -248,6 +249,7 @@
     <Content Include="Pages\BO\index.html" />
     <Content Include="Pages\BO\Inventory\InvAuthorize.aspx" />
     <Content Include="Pages\BO\Inventory\InvAuthorizeDetail.aspx" />
+    <Content Include="Pages\BO\Sys\UserPermit.aspx" />
     <Content Include="Pages\BO\Sys\WSManage.aspx" />
     <Content Include="Pages\BO\WebForm1.aspx" />
     <Content Include="Pages\Demo\AjaxFileUpload.aspx" />
@@ -256,7 +258,9 @@
     <Content Include="Pages\UCtrl\UPage.ascx" />
     <Content Include="Services\config.html" />
     <Content Include="Services\MWRecoverServer.aspx" />
-    <Content Include="Setting\function.xml" />
+    <Content Include="Setting\function.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -350,6 +354,13 @@
     </Compile>
     <Compile Include="Pages\BO\Inventory\InvAuthorizeDetail.aspx.designer.cs">
       <DependentUpon>InvAuthorizeDetail.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\BO\Sys\UserPermit.aspx.cs">
+      <DependentUpon>UserPermit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\BO\Sys\UserPermit.aspx.designer.cs">
+      <DependentUpon>UserPermit.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\BO\Sys\WSManage.aspx.cs">
       <DependentUpon>WSManage.aspx</DependentUpon>
