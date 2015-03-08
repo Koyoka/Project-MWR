@@ -1,38 +1,171 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+﻿<!DOCTYPE html>
+<!-- 
+Template Name: Metronic - Responsive Admin Dashboard Template build with Twitter Bootstrap 3.0.3
+Version: 1.5.5
+Author: KeenThemes
+Website: http://www.keenthemes.com/
+Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes
+-->
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en" class="no-js">
+<!--<![endif]-->
+<!-- BEGIN HEAD -->
 <head>
-    <title></title>
+<meta charset="utf-8"/>
+<title>危险废物回收系统-管理中心</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="" name="description"/>
+<meta content="" name="author"/>
+<meta name="MobileOptimized" content="320">
+<!-- BEGIN GLOBAL MANDATORY STYLES -->
+<link href="/assets/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+<link href="/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+<link href="/assets/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css"/>
+<!-- END GLOBAL MANDATORY STYLES -->
+<!-- BEGIN PAGE LEVEL STYLES -->
+<link rel="stylesheet" type="text/css" href="/assets/plugins/select2/select2_metro.css"/>
+<!-- END PAGE LEVEL SCRIPTS -->
+<!-- BEGIN THEME STYLES -->
+<link href="/assets/css/style-metronic.css" rel="stylesheet" type="text/css"/>
+<link href="/assets/css/style.css" rel="stylesheet" type="text/css"/>
+<link href="/assets/css/style-responsive.css" rel="stylesheet" type="text/css"/>
+<link href="/assets/css/plugins.css" rel="stylesheet" type="text/css"/>
+<link href="/assets/css/themes/default.css" rel="stylesheet" type="text/css" id="style_color"/>
+<link href="/assets/css/pages/login-soft.css" rel="stylesheet" type="text/css"/>
+<link href="/assets/css/custom.css" rel="stylesheet" type="text/css"/>
+<!-- END THEME STYLES -->
+<link rel="shortcut icon" href="favicon.ico"/>
 </head>
-<body onload="">
-eleven<br />
-<a href="#0001">0001</a><br />
-<a href="#0002">0002</a><br />
-<a href="#0003">0003</a><br />
-<a href="#0004">0004</a><br />
+<!-- END HEAD -->
+<!-- BEGIN BODY -->
+<body class="login">
+<!-- BEGIN LOGO -->
+<div class="logo">
+	<img src="/assets/img/logo-big.png" alt=""/>
+</div>
+<!-- END LOGO -->
+<!-- BEGIN LOGIN -->
+<div class="content">
+	<!-- BEGIN LOGIN FORM -->
+	<form class="login-form" data-wgt="mw-submitService" action="BOUserLogin"
+        data-wgt-submit-options-reload="false" 
+        data-wgt-submit-options-block="true"
+        data-wgt-submit-options-recall="LoginHelper.recallLogin"> 
+		<h3 class="form-title">管理中心登录</h3>
+		<div class="alert alert-danger display-hide">
+			<button class="close" data-close="alert"></button>
+			<span>
+				 请输入员工编号和密码.
+			</span>
+		</div>
+		<div class="form-group">
+			<!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+			<label class="control-label visible-ie8 visible-ie9">员工编号</label>
+			<div class="input-icon">
+				<i class="fa fa-user"></i>
+				<input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="员工编号" name="empycode"/>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label visible-ie8 visible-ie9">密码</label>
+			<div class="input-icon">
+				<i class="fa fa-lock"></i>
+				<input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="密码" name="password"/>
+			</div>
+		</div>
+		<div class="form-actions">
+			<label class="checkbox">
+			<!--<input type="checkbox" name="remember" value="1"/> 记住密码 </label>-->
+			<button type="submit" class="btn blue pull-right">
+			登录 <i class="m-icon-swapright m-icon-white"></i>
+			</button>
+		</div>
+		<div class="forget-password">
+			<!--<h4>记住密码 ?</h4>
+			<p>
+				 no worries, click <a href="javascript:;" id="forget-password">here</a>
+				to reset your password.
+			</p>-->
+		</div>
+		<div class="create-account">
+			<!--<p>
+				 Don't have an account yet ?&nbsp; <a href="javascript:;" id="register-btn">Create an account</a>
+			</p>-->
+		</div>
+	</form>
+	
+</div>
+<!-- END LOGIN -->
+<!-- BEGIN COPYRIGHT -->
+<div class="copyright">
+	 2015 &copy; Mateware - 武汉友睿科技有限公司.
+</div>
 
-
-<span id="cc"></span>
+<div class="modal fade" id="portlet-config" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog  modal-sm">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+				<h4 class="modal-title">[Title]</h4>
+			</div>
+			<div class="modal-body">
+					[Message]
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn blue ok" data-dismiss="modal">[BtnOk]</button>
+				<button type="button" class="btn default cancel" data-dismiss="modal">[BtnCancel]</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<!-- END COPYRIGHT -->
+<!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
+<!-- BEGIN CORE PLUGINS -->
+<!--[if lt IE 9]>
+	<script src="/assets/plugins/respond.min.js"></script>
+	<script src="/assets/plugins/excanvas.min.js"></script> 
+	<![endif]-->
 <script src="/assets/plugins/jquery-1.10.2.min.js" type="text/javascript"></script>
+<script src="/assets/plugins/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
+<script src="/assets/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="/assets/plugins/bootstrap-hover-dropdown/twitter-bootstrap-hover-dropdown.min.js" type="text/javascript"></script>
+<script src="/assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+<script src="/assets/plugins/jquery.blockui.min.js" type="text/javascript"></script>
+<script src="/assets/plugins/jquery.cokie.min.js" type="text/javascript"></script>
+<script src="/assets/plugins/uniform/jquery.uniform.min.js" type="text/javascript"></script>
+<!-- END CORE PLUGINS -->
+<!-- BEGIN PAGE LEVEL PLUGINS -->
+<script src="/assets/plugins/jquery-validation/dist/jquery.validate.min.js" type="text/javascript"></script>
+<script src="/assets/plugins/backstretch/jquery.backstretch.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="/assets/plugins/select2/select2.min.js"></script>
+<!-- END PAGE LEVEL PLUGINS -->
+<!-- BEGIN PAGE LEVEL SCRIPTS -->
+<script src="/assets/scripts/app.js" type="text/javascript"></script>
+<script src="/assets/scripts/login-soft.js" type="text/javascript"></script>
 
+<script src="/assets/customer.js"></script>
+<script src="/assets/bocomm.js" type="text/javascript"></script>
+
+<script src="/assets/login.js"></script>
+
+<!-- END PAGE LEVEL SCRIPTS -->
 <script>
-
-    function getpageByHash() {
-        var page = false;
-        $("#cc").html($("#cc").html() + " " + location.hash);
-        if (location.hash && location.hash !== '#') {
-            window.alert(1)
-        }
-    }
-
     jQuery(document).ready(function () {
+        App.init();
+        Custom.init();
+        CommHelper.init();
+        Login.init();
+        LoginHelper.init();
 
-        $(window).on("hashchange", function () {
-            $("#cc").html(new Date() + " " + location.hash);
-        });
-
-        getpageByHash();
-        //$("#cc").html(new Date());
+        Custom.scan();
     });
-</script>
+	</script>
+<!-- END JAVASCRIPTS -->
 </body>
+<!-- END BODY -->
 </html>

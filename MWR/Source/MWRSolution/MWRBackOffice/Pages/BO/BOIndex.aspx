@@ -189,7 +189,10 @@
                 <li class="dropdown user"><a href="#" class="dropdown-toggle" data-toggle="dropdown"
                     data-hover="dropdown" data-close-others="true">
                     <img alt="" src="/assets/img/avatar1_small.jpg">
-                    <span class="username">Bob Nilson </span><i class="fa fa-angle-down"></i></a>
+                    <span class="username">
+                    <% = PageEmpyNameData%>
+                    
+                    </span><i class="fa fa-angle-down"></i></a>
                     <ul class="dropdown-menu">
                         <li><a href="extra_profile.html"><i class="fa fa-user"></i>My Profile</a> </li>
                         <li><a href="page_calendar.html"><i class="fa fa-calendar"></i>My Calendar</a> </li>

@@ -10,6 +10,8 @@ using YRKJ.MWR.WinBase.WinAppBase;
 using ComLib.Log;
 using YRKJ.MWR.Business.BaseData;
 using YRKJ.MWR.WSDestory.Business.Sys;
+using YRKJ.MWR.Business.Permit;
+using YRKJ.MWR.WinBase.WinUtility;
 
 namespace YRKJ.MWR.WSDestory.Forms
 {
@@ -42,6 +44,13 @@ namespace YRKJ.MWR.WSDestory.Forms
 
                 TblMWEmploy empy = null;
                 string code = c_txtUserId.Text.Trim();
+                string password = c_txtPassword.Text;
+                if (!PermitMng.WSILogin(code, password, ref errMsg))
+                {
+                    WinFn.SafeFocus(c_txtUserId);
+                    MsgBox.Error(errMsg);
+                    return;
+                }
                 if (!BaseDataMng.GetEmpyData(code, ref empy, ref errMsg))
                 {
                     MsgBox.Error(errMsg);

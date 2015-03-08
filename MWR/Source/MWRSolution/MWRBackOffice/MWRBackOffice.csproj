@@ -136,6 +136,10 @@
     <Content Include="Assets\img\bg-opacity.png" />
     <Content Include="Assets\img\bg-white-lock.png" />
     <Content Include="Assets\img\bg-white.png" />
+    <Content Include="Assets\img\bg\1.jpg" />
+    <Content Include="Assets\img\bg\2.jpg" />
+    <Content Include="Assets\img\bg\3.jpg" />
+    <Content Include="Assets\img\bg\4.jpg" />
     <Content Include="Assets\img\datatable-row-openclose.png" />
     <Content Include="Assets\img\del_menu-toggler.png" />
     <Content Include="Assets\img\hor-menu-red-arrow.png" />
@@ -192,6 +196,7 @@
     <Content Include="Assets\img\sidebar-toggler.png" />
     <Content Include="Assets\img\syncfusion-icons-white.png" />
     <Content Include="Assets\img\syncfusion-icons.png" />
+    <Content Include="Assets\login.js" />
     <Content Include="Assets\scripts\app.js" />
     <Content Include="Assets\scripts\calendar.js" />
     <Content Include="Assets\scripts\charts.js" />
@@ -438,6 +443,9 @@
     <Compile Include="Services\FileUpload\Thumbnail.ashx.cs">
       <DependentUpon>Thumbnail.ashx</DependentUpon>
     </Compile>
+    <Compile Include="Services\MWMainServiceHandler.ashx.cs">
+      <DependentUpon>MWMainServiceHandler.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Services\MWMobileWSHandler.ashx.cs">
       <DependentUpon>MWMobileWSHandler.ashx</DependentUpon>
     </Compile>
@@ -498,6 +506,8 @@
     <Content Include="Services\FileUpload\Thumbnail.ashx" />
     <Content Include="Services\MWMobileWSHandler.ashx" />
     <Content Include="Services\QRCodeThumbnail.ashx" />
+    <None Include="Assets\img\bg\Thumbs.db" />
+    <Content Include="Services\MWMainServiceHandler.ashx" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

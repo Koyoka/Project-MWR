@@ -44,6 +44,12 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Sys
         public bool AjaxAddNewFuncGroup(string functionGroupId, string funcGrpName)
         {
             string errMsg = "";
+            if (string.IsNullOrEmpty(funcGrpName))
+            {
+                ReturnAjaxError("请输入权限组名称.");
+                return false;
+            }
+
             if (!PermitMng.AddNewFunctionGroup(funcGrpName, ref errMsg))
             {
                 ReturnAjaxError(errMsg);

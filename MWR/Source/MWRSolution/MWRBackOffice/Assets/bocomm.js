@@ -22,7 +22,7 @@
             },
             submit: function (e) {
                 e.preventDefault();
-                
+
                 if (!!this.element.valid) {
                     if (!this.element.valid())
                         return;
@@ -96,6 +96,74 @@
             }
         });
 
+        gl.wgt.set('mw-submitService', {
+
+            init: function () {
+                if (this.element.context.tagName !== "FORM") {
+                    window.alert("[mw-submit] Must be wgt to [FORM]");
+                } else {
+                    //                    this.initPageCtrl();
+                    this.element.on("submit", this.submit.bind(this));
+                }
+            },
+            submit: function (e) {
+                e.preventDefault();
+               
+                if (!!this.element.valid) {
+                    if (!this.element.valid())
+                        return;
+                }
+                var method = this.element.attr("data-wgt-submit-method");
+                var url = "/Services/MWMainServiceHandler.ashx"; // this.element.attr("action");
+                //                this.element.attr("action", "");
+                var data = this.element.serializeJson();
+
+                data["action"] = this.element.attr("action");
+
+                var needblock = !(this.element.attr("data-wgt-submit-options-block") === "false");
+                var needreload = !(this.element.attr("data-wgt-submit-options-reload") === "false");
+
+                var wgtsubstart = this.element.attr('data-wgt-submit-options-start');
+                var substart = _getwgtrecall(wgtsubstart);
+                if (substart) {
+                    if (!substart(this.element, data))
+                        return;
+                }
+
+                var wgtrecall = this.element.attr('data-wgt-submit-options-recall');
+                var recall = _getwgtrecall(wgtrecall);
+
+                var el = this.element;
+                var blockEl;
+                if (needblock)
+                    blockEl = el.parent();
+                var loadBtn = this.element.find(".demo-loading-btn").length == 1 ? this.element.find(".demo-loading-btn") : false;
+
+                $.AjaxPSJson(url, method, data, function (d) {
+                    if (needreload) {
+                        var defineEl = $(d).find("#" + el.attr("id"));
+                        gl.wgt.scan(defineEl);
+                        el.replaceWith(defineEl)
+                    }
+                    if (recall)
+                        recall(el, d, data);
+                }, function (r) {
+                    Modal.alert('[' + r + ']');
+                }, function () {
+
+                    if (loadBtn)
+                        loadBtn.button('loading');
+                    if (blockEl)
+                        App.blockUI(blockEl);
+                }, function () {
+                    if (loadBtn)
+                        loadBtn.button('reset');
+                    if (blockEl)
+                        App.unblockUI(blockEl);
+                });
+            }
+        });
+
         gl.wgt.set('mw-submit-completecardispatch', {
             init: function () {
                 this.element.on("click", this.completeDispatch.bind(this));
@@ -130,7 +198,7 @@
             },
             click: function (e) {
                 e.preventDefault();
-                var form = $("#"+this.element.attr('data-wgt-reload-formid'));
+                var form = $("#" + this.element.attr('data-wgt-reload-formid'));
                 if (form.is("form")) {
                     form.submit();
                 }

@@ -1,4 +1,4 @@
-var Login = function () {
+﻿var Login = function () {
 
 	var handleLogin = function() {
 		$('.login-form').validate({
@@ -19,10 +19,10 @@ var Login = function () {
 
 	            messages: {
 	                username: {
-	                    required: "Username is required."
+	                    required: "用户编号不能为空."
 	                },
 	                password: {
-	                    required: "Password is required."
+	                    required: "密码不能为空."
 	                }
 	            },
 
@@ -42,11 +42,11 @@ var Login = function () {
 
 	            errorPlacement: function (error, element) {
 	                error.insertAfter(element.closest('.input-icon'));
-	            },
+	            }/*,
 
 	            submitHandler: function (form) {
 	                form.submit();
-	            }
+	            }*/
 	        });
 
 	        $('.login-form input').keypress(function (e) {
@@ -250,10 +250,10 @@ var Login = function () {
             handleRegister();        
 	       
 	       	$.backstretch([
-		        "assets/img/bg/1.jpg",
-		        "assets/img/bg/2.jpg",
-		        "assets/img/bg/3.jpg",
-		        "assets/img/bg/4.jpg"
+		        "/assets/img/bg/1.jpg",
+		        "/assets/img/bg/2.jpg",
+		        "/assets/img/bg/3.jpg",
+		        "/assets/img/bg/4.jpg"
 		        ], {
 		          fade: 1000,
 		          duration: 8000

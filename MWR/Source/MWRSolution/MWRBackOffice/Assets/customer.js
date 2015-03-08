@@ -225,6 +225,53 @@ var Custom = function () {
                             CF();
                     }
                 });
+            },
+            AjaxPSJson: function (URL, FUNC, JSONDATA, SCallFunc, ECallFunc, BF, CF) {
+               
+                $.ajax({
+                    cache: true,
+                    dataType: "json",
+                    type: "POST",
+                    url: URL,
+                    data: JSONDATA,
+                    async: false,
+                    error: function (data) {
+                        if (typeof data === "object") {
+                            if (data.Error == 0) {
+                                SCallFunc(data);
+                            }
+                            else {
+                                if (!!data.ErrMsg)
+                                    ECallFunc(data.ErrMsg);
+                                else
+                                    ECallFunc("服务器连接错误，请联系管理员");
+                            }
+                        } else {
+                            ECallFunc(data);
+                        }
+
+                    },
+                    success: function (data) {
+                        if (typeof data === "object") {
+                            if (data.Error == 0) {
+                                SCallFunc(data.Result);
+                            }
+                            else {
+                                ECallFunc(data.ErrMsg);
+                            }
+                        } else {
+                            SCallFunc(data);
+                        }
+                    },
+                    beforeSend: function () {
+                        if (BF)
+                            BF();
+                    },
+                    complete: function () {
+                        if (CF)
+                            CF();
+                    }
+                });
             }
 
         });

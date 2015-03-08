@@ -51,12 +51,31 @@ namespace YRKJ.MWR.BackOffice.Business.Sys
 
             return "";
         }
+        public static string SafeQueryString(HttpRequest r, string name)
+        {
+            
+            if (r.QueryString[name] != null)
+            {
+                return r.QueryString[name].ToString();
+            }
+
+            return "";
+        }
 
         public static string SafeFormString(string name)
         {
             if (HttpContext.Current.Request.Form[name] != null)
             {
                 return HttpContext.Current.Request.Form[name].ToString();
+            }
+
+            return "";
+        }
+        public static string SafeFormString(HttpRequest r,string name)
+        {
+            if (r.Form[name] != null)
+            {
+                return r.Form[name].ToString();
             }
 
             return "";

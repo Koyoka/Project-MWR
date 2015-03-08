@@ -12,20 +12,26 @@ namespace YRKJ.MWR.BackOffice.Business.Sys
 
         public static bool GetSessionEmploy(ref TblMWEmploy empy)
         {
-#if DEBUG
-            empy = new TblMWEmploy();
-            empy.EmpyCode = "YG0008";
-            empy.EmpyName = "李6-跟车";
-            return true;
-#else
+//#if DEBUG
+//            empy = new TblMWEmploy();
+//            empy.EmpyCode = "YG0008";
+//            empy.EmpyName = "李6-跟车";
+//            return true;
+//#else
             empy = HttpContext.Current.Session[session_key_employ] as TblMWEmploy;
             if (empy == null)
             {
                 return false;
             }
             return true;
-#endif
+//#endif
 
+        }
+
+        public static void SetSEssionEmploy(HttpContext context, TblMWEmploy empy)
+        {
+            context.Session[session_key_employ] = empy;
+            //HttpContext.Current.Session[session_key_employ] = empy;
         }
 
         public static bool CheckLogin()
