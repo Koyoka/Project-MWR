@@ -32,6 +32,7 @@ namespace YRKJ.MWR.BackOffice.Business.Sys
         #region System
         public const string WSManage = "Sys/WSManage.aspx";
         public const string UserPermit = "Sys/UserPermit.aspx";
+        public const string FuncGroupEdit = "Sys/FuncGroupEdit.aspx";
         #endregion
 
         public static void GotoErrPage( string errMsg)

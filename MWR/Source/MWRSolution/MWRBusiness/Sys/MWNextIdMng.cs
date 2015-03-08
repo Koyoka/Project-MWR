@@ -14,6 +14,37 @@ namespace YRKJ.MWR.Business.Sys
         public const string ClassName = "YRKJ.MWR.Business.Sys.MWNextIdMng";
         public const string NextIdErrMsg = "系统忙，请稍候重试。";
 
+        #region permit
+        public static int GetFunctionGroupNextId()
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo(); ;
+            string errMsg = "";
+            int nextId = 0;
+            if (!NextIdMng.GetNextId(dcf, "FunctionGroup", ref nextId, ref errMsg))
+            {
+                LogMng.GetLog().PrintError(ClassName, "GetFunctionGroupNextId", new Exception(errMsg));
+                return 0;
+            }
+
+            return nextId;
+        }
+
+        public static int GetFunctionGroupDetailNextId()
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo(); ;
+            string errMsg = "";
+            int nextId = 0;
+            if (!NextIdMng.GetNextId(dcf, "FunctionGroupDetail", ref nextId, ref errMsg))
+            {
+                LogMng.GetLog().PrintError(ClassName, "GetFunctionGroupDetailNextId", new Exception(errMsg));
+                return 0;
+            }
+
+            return nextId;
+        }
+
+        #endregion
+
         #region base data
         public static int GetCarDispatchNextId()
         {

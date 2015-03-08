@@ -1,14 +1,10 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Pages/MasterPages/MWBOEmpty.Master" AutoEventWireup="true" CodeBehind="UserPermit.aspx.cs" Inherits="YRKJ.MWR.BackOffice.Pages.BO.Sys.UserPermit" %>
 <%@ Import Namespace="YRKJ.MWR.BackOffice.Business.Sys" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-
 <link href="/assets/css/pages/profile.css" rel="stylesheet" type="text/css">
 <link href="/assets/css/pages/inbox.css" rel="stylesheet" type="text/css">
-
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
-
-
     <div class="row">
         <div class="col-md-12">
             <!-- BEGIN PAGE TITLE & BREADCRUMB-->
@@ -19,15 +15,12 @@
                 <li><i class="fa fa-home"></i><a href="#<% = RedirectHelper.BOMain %>">首页</a> <i
                     class="fa fa-angle-right"></i></li>
                 <li>权限管理</li>
-
-               
             </ul>
             <!-- END PAGE TITLE & BREADCRUMB-->
         </div>
     </div>
     <div class="clearfix">
     </div>
-
 <%--
     <div class="col-md-12">
 		<div class="add-portfolio">
@@ -40,11 +33,10 @@
 
     <div class="row">
         <div class="col-md-3  inbox">
-
             <ul class="inbox-nav margin-bottom-10 ">
 				<li class="compose-btn">
-					<a href="#" data-title="Compose" class="btn green">
-					<i class="fa fa-plus"></i> 权限组列表（点击添加） </a>
+					<a href="#<% = RedirectHelper.FuncGroupEdit %>" data-title="Compose" class="btn green">
+					<i class="fa fa-plus"></i> 权限组列表（点击管理） </a>
 				</li>
                 <%
                     int i = 0;
@@ -61,45 +53,11 @@
                 <%
 	}
                 %>
-				<%--<li class="">
-					<a class="btn" href="#" data-toggle="tab"  data-title="Sent">库存工作站</a><b></b>
-				</li>
-				<li class="">
-					<a class="btn" href="#" data-toggle="tab"  data-title="Draft">处置工作站</a><b></b>
-				</li>
-				<li class="">
-					<a class="btn" href="#" data-toggle="tab"  data-title="Trash">审核组</a><b></b>
-				</li>--%>
 			</ul>
-
-			<%--<ul class="ver-inline-menu tabbable margin-bottom-10">
-				<li class="active">
-					<a data-toggle="tab" href="#tab_1">
-					<i class="fa fa-briefcase"></i> General Questions </a>
-					<span class="after">
-					</span>
-				</li>
-				<li>
-					<a data-toggle="tab" href="#tab_2"><i class="fa fa-group"></i> Membership</a>
-				</li>
-				<li>
-					<a data-toggle="tab" href="#tab_3"><i class="fa fa-leaf"></i> Terms Of Service</a>
-				</li>
-				<li>
-					<a data-toggle="tab" href="#tab_1"><i class="fa fa-info-circle"></i> License Terms</a>
-				</li>
-				<li>
-					<a data-toggle="tab" href="#tab_2"><i class="fa fa-tint"></i> Payment Rules</a>
-				</li>
-				<li>
-					<a data-toggle="tab" href="#tab_3"><i class="fa fa-plus"></i> Other Questions</a>
-				</li>
-			</ul>--%>
 		</div>
 
 
         <div class="col-md-9">
-
         <form id="mwFrmUserFuncGrp" 
                        data-wgt="mw-submit" 
                        data-wgt-submit-method="AjaxRefUserPermitGroup" 
@@ -271,9 +229,6 @@
         </div>
 
     </div>
-
-
-
 
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="foot" runat="server">

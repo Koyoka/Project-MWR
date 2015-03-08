@@ -70,6 +70,65 @@ namespace YRKJ.MWR.Business.BaseData
         }
         #endregion
 
+        #region Function
+        public static bool GetFunctionList(string likeGroupTag,ref List<TblMWFunction> funcList, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            SqlQueryMng sqm = new SqlQueryMng();
+            sqm.Condition.Where.AddLikeValue(TblMWFunction.getFuncTagColumn(), SqlCommonFn.SqlWhereLikeEnum.BeforeLike, likeGroupTag);
+
+            if (!TblMWFunctionCtrl.QueryMore(dcf, sqm, ref funcList, ref errMsg))
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public static bool GetFunctionList(int funcGrpId, ref List<TblMWFunction> funcList, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+
+            SqlQueryMng sqm = new SqlQueryMng();
+            {
+                SqlQueryMng subSqm = new SqlQueryMng();
+                subSqm.setQueryTableName(TblMWFunctionGroupDetail.getFormatTableName());
+                subSqm.QueryColumn.Add(TblMWFunctionGroupDetail.getFuncTagColumn());
+                subSqm.Condition.Where.AddCompareValue(TblMWFunctionGroupDetail.getFuncGroupIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, funcGrpId);
+
+                sqm.Condition.Where.AddInValues(TblMWFunction.getFuncTagColumn(), subSqm);
+            }
+
+            if (!TblMWFunctionCtrl.QueryMore(dcf, sqm, ref funcList, ref errMsg))
+            {
+                return true;
+            }
+
+            return true;
+        }
+
+        public static bool GetUnInGroupFunctionList(int funcGrpId, ref List<TblMWFunction> funcList, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+
+            SqlQueryMng sqm = new SqlQueryMng();
+            {
+                SqlQueryMng subSqm = new SqlQueryMng();
+                subSqm.setQueryTableName(TblMWFunctionGroupDetail.getFormatTableName());
+                subSqm.QueryColumn.Add(TblMWFunctionGroupDetail.getFuncTagColumn());
+                subSqm.Condition.Where.AddCompareValue(TblMWFunctionGroupDetail.getFuncGroupIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, funcGrpId);
+
+                sqm.Condition.Where.AddNotInValues(TblMWFunction.getFuncTagColumn(), subSqm);
+            }
+
+            if (!TblMWFunctionCtrl.QueryMore(dcf, sqm, ref funcList, ref errMsg))
+            {
+                return true;
+            }
+            return true;
+        }
+
+        #endregion
+
         #region FunctionGroup
         public static bool GetFunctionGroup(int funcGrpId, ref TblMWFunctionGroup funcGrp, ref string errMsg)
         {

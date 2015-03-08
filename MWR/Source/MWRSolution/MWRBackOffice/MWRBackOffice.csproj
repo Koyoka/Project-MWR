@@ -118,6 +118,7 @@
     <Content Include="Assets\customer.js" />
     <Content Include="Assets\fonts\font.css" />
     <Content Include="Assets\fonts\fontawesome-webfont.svg" />
+    <Content Include="Assets\funcgroupedit.js" />
     <Content Include="Assets\html5.js" />
     <Content Include="Assets\images\default_thumb.jpg" />
     <Content Include="Assets\images\logo.png" />
@@ -249,6 +250,7 @@
     <Content Include="Pages\BO\index.html" />
     <Content Include="Pages\BO\Inventory\InvAuthorize.aspx" />
     <Content Include="Pages\BO\Inventory\InvAuthorizeDetail.aspx" />
+    <Content Include="Pages\BO\Sys\FuncGroupEdit.aspx" />
     <Content Include="Pages\BO\Sys\UserPermit.aspx" />
     <Content Include="Pages\BO\Sys\WSManage.aspx" />
     <Content Include="Pages\BO\WebForm1.aspx" />
@@ -354,6 +356,13 @@
     </Compile>
     <Compile Include="Pages\BO\Inventory\InvAuthorizeDetail.aspx.designer.cs">
       <DependentUpon>InvAuthorizeDetail.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\BO\Sys\FuncGroupEdit.aspx.cs">
+      <DependentUpon>FuncGroupEdit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\BO\Sys\FuncGroupEdit.aspx.designer.cs">
+      <DependentUpon>FuncGroupEdit.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\BO\Sys\UserPermit.aspx.cs">
       <DependentUpon>UserPermit.aspx</DependentUpon>

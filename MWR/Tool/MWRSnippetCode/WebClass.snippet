@@ -28,7 +28,8 @@
         {
             if (!IsPostBack)
             {
-                if(!InitPage())
+				string errMsg = "";
+                if(!InitPage(ref errMsg))
                 {
                     // do error thing
                 }
@@ -41,9 +42,9 @@ $selected$ $end$
 
 #region Functions
 
-private bool InitPage()
+private bool InitPage(ref string errMsg)
         {
-            if (!LoadData())
+            if (!LoadData(ref errMsg))
             {
                 return false;
             }
@@ -51,7 +52,7 @@ private bool InitPage()
             return true;
         }
 
-        private bool LoadData()
+        private bool LoadData(ref string errMsg)
         {
 
          return true;

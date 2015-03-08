@@ -6,6 +6,7 @@ using System.Xml;
 using System.Xml.Linq;
 using ComLib.db;
 using YRKJ.MWR.Business.BaseData;
+using YRKJ.MWR.Business.Sys;
 
 namespace YRKJ.MWR.Business.Permit
 {
@@ -18,6 +19,27 @@ namespace YRKJ.MWR.Business.Permit
         private const int INVENTORY_DEFAULT_GROUPID = -3;
         private const int DESTROY_DEFAULT_GROUPID = -4;
         #region Common
+        public static string GetFuncGroupPerfix(int id)
+        {
+            string s = "";
+            switch (id)
+            { 
+                case ADMINISTRATOR_DEFAULT_GROUPID:
+                    s = "";
+                    break;
+                case BACKOFFICE_DEFAULT_GROUPDID:
+                    s = "BackOffice-";
+                    break;
+                case INVENTORY_DEFAULT_GROUPID:
+                    s = "Inventory-";
+                    break;
+                case DESTROY_DEFAULT_GROUPID:
+                    s = "Destroy-";
+                    break;
+            }
+            return s;
+        }
+
         public static string GetWSIFuncTag(string tag)
         {
             return "Inventory-" + tag;
@@ -28,7 +50,7 @@ namespace YRKJ.MWR.Business.Permit
         }
         public static string GetBOFuncTag(string tag)
         {
-            return "BackOffice" + tag;
+            return "BackOffice-" + tag;
         }
         public static void GetSysDefaultFuncGroup(ref List<TblMWFunctionGroup> funcGrp)
         {
@@ -376,7 +398,91 @@ namespace YRKJ.MWR.Business.Permit
 
             return true;
         }
-        
+
+        public static bool AddNewFunctionGroup(string grpName,ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            int updCount = 0;
+
+            int funcGrpNextId = MWNextIdMng.GetFunctionGroupNextId();
+            if (funcGrpNextId == 0)
+            {
+                errMsg = "NextId生成失败,请重试";
+                return false;
+            }
+            if (!TblMWFunctionGroupCtrl.Insert(dcf, funcGrpNextId, grpName, ref updCount, ref errMsg))
+            {
+                return false;
+            }
+            return true;
+        }
+        public static bool RemoveFunctionGroup(int grpId, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            int updCount = 0;
+
+            dcf.BeginTrans();
+            {
+                SqlWhere sw = new SqlWhere();
+                sw.AddCompareValue(TblMWFunctionGroup.getFuncGroupIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, grpId);
+                if (!TblMWFunctionGroupCtrl.Delete(dcf, sw, ref updCount, ref errMsg))
+                {
+                    return false;
+                }
+            }
+            {
+                SqlWhere sw = new SqlWhere();
+                sw.AddCompareValue(TblMWFunctionGroupDetail.getFuncGroupIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, grpId);
+                if (!TblMWFunctionGroupDetailCtrl.Delete(dcf, sw, ref updCount, ref errMsg))
+                {
+                    return false;
+                }
+            }
+
+            int[] updCounts = null;
+            if (!dcf.Commit(ref updCounts, ref errMsg))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public static bool AddFunctionToGroup(int grpId, string funcTag, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            int updCount = 0;
+
+            int funcGrpDetailNextId = MWNextIdMng.GetFunctionGroupDetailNextId();
+            if (funcGrpDetailNextId == 0)
+            {
+                errMsg = "NextId生成失败,请重试";
+                return false;
+            }
+            if (!TblMWFunctionGroupDetailCtrl.Insert(dcf, funcGrpDetailNextId, grpId, funcTag, ref updCount, ref errMsg))
+            {
+                return false;
+            }
+
+            return true;
+        }
+        public static bool RemoveFunctionFromGroup(int grpId, string funcTag, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            int updCount = 0;
+
+            SqlWhere sw = new SqlWhere();
+            sw.AddCompareValue(TblMWFunctionGroupDetail.getFuncGroupIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, grpId);
+            sw.AddCompareValue(TblMWFunctionGroupDetail.getFuncTagColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, funcTag);
+
+            if (!TblMWFunctionGroupDetailCtrl.Delete(dcf, sw, ref updCount, ref errMsg))
+            {
+                return false;
+            }
+            return true;
+        }
+
+
         #endregion
 
         #region Sys function
