@@ -14,10 +14,10 @@ namespace YRKJ.MWR.Business.Permit
     {
         public const string ClassName = "YRKJ.MWR.Business.Permit.PermitMng";
 
-        private const int ADMINISTRATOR_DEFAULT_GROUPID = -1;
-        private const int BACKOFFICE_DEFAULT_GROUPDID = -2;
-        private const int INVENTORY_DEFAULT_GROUPID = -3;
-        private const int DESTROY_DEFAULT_GROUPID = -4;
+        public const int ADMINISTRATOR_DEFAULT_GROUPID = -1;
+        public const int BACKOFFICE_DEFAULT_GROUPDID = -2;
+        public const int INVENTORY_DEFAULT_GROUPID = -3;
+        public const int DESTROY_DEFAULT_GROUPID = -4;
         #region Common
         public static string GetFuncGroupPerfix(int id)
         {

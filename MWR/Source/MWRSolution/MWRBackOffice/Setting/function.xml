@@ -7,12 +7,42 @@
       <name>登录权限</name>
     </item>
     <item>
-      <tag>CarDisPatch</tag>
-      <name>回收车辆派遣</name>
+      <tag>CarDispatch</tag>
+      <name>车辆调度管理</name>
     </item>
     <item>
-      <tag>Authorize</tag>
+      <tag>CarLocus</tag>
+      <name>车辆历史轨迹</name>
+    </item>
+    <item>
+      <tag>CarRound</tag>
+      <name>地理围栏设置</name>
+    </item>
+    <item>
+      <tag>CarTrack</tag>
+      <name>车辆行驶跟踪</name>
+    </item>
+    
+    <item>
+      <tag>InvAuthorize</tag>
+      <name>查看审核列表</name>
+    </item>
+    <item>
+      <tag>InvAuthorizeDetail</tag>
       <name>问题货箱审核</name>
+    </item>
+
+    <item>
+      <tag>WSManage</tag>
+      <name>工作站管理</name>
+    </item>
+    <item>
+      <tag>UserPermit</tag>
+      <name>用户权限管理</name>
+    </item>
+    <item>
+      <tag>FuncGroupEdit</tag>
+      <name>权限组管理</name>
     </item>
   </package>
   <!-- BO END -->

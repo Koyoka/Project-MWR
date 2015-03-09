@@ -11,6 +11,10 @@ namespace YRKJ.MWR.BackOffice.Business.Sys
 
         public const string SysError = "/Pages/BO/Error.aspx";
 
+        #region Login
+        public const string Index = "Index.html";
+        #endregion
+
         #region Main page
         public const string BOIndex = "BOIndex.aspx";
         public const string BOMain = PAGE_ROOT + "BOMain.aspx";
@@ -34,11 +38,19 @@ namespace YRKJ.MWR.BackOffice.Business.Sys
         public const string UserPermit = "Sys/UserPermit.aspx";
         public const string FuncGroupEdit = "Sys/FuncGroupEdit.aspx";
         #endregion
-
-        public static void GotoErrPage( string errMsg)
+        public enum BackType { redirect, include };
+        public static void GotoLoginErrPage()
+        {
+            UrlParaCollection paraList = new UrlParaCollection();
+           
+            Redirect(WebAppFn.GetBoFullPageUrl("error.html"), paraList);
+        }
+        public static void GotoErrPage(string errMsg, string backPage, BackType type)
         {
             UrlParaCollection paraList = new UrlParaCollection();
             paraList.Add("Msg", errMsg);
+            paraList.Add("BP", backPage);
+            paraList.Add("BT",type+"");
             paraList.Add("container", "1");
             Redirect( RedirectHelper.SysError, paraList);
         }
@@ -66,5 +78,6 @@ namespace YRKJ.MWR.BackOffice.Business.Sys
 
             HttpContext.Current.Response.Redirect(url);
         }
+       
     }
 }

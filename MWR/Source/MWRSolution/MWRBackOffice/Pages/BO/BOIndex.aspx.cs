@@ -20,7 +20,7 @@ namespace YRKJ.MWR.BackOffice.Pages.BO
                 if (!InitPage(ref errMsg))
                 {
                     // do error thing
-                    RedirectHelper.GotoErrPage(errMsg);
+                    RedirectHelper.GotoLoginErrPage();
                 }
             }
         }
@@ -44,9 +44,8 @@ namespace YRKJ.MWR.BackOffice.Pages.BO
         private bool LoadData(ref string errMsg)
         {
             TblMWEmploy empy = null;
-            if (!SessionHelper.GetSessionEmploy(ref empy))
+            if (!SessionHelper.GetSessionEmploy(ref empy,ref errMsg))
             {
-                errMsg = "用户登录超时";
                 return false;
             }
             PageEmpyNameData = empy.EmpyName;

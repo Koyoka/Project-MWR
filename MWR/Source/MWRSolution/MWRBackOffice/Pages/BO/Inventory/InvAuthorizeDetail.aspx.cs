@@ -25,7 +25,7 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Inventory
                 {
                     PageAuthData = new VewIvnAuthorizeWithTxnDetail();
                     // do error thing
-                    RedirectHelper.GotoErrPage(errMsg);
+                    RedirectHelper.GotoErrPage(errMsg, RedirectHelper.BOMain, RedirectHelper.BackType.include);
                 }
             }
         }
@@ -34,13 +34,14 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Inventory
         {
            
             TblMWEmploy empy = null;
-            if (!SessionHelper.GetSessionEmploy(ref empy))
+            string errMsg = "";
+            if (!SessionHelper.GetSessionEmploy(ref empy,ref errMsg))
             {
-                ReturnAjaxError("用户数据超时，请重新登录");
+                ReturnAjaxError(errMsg);
                 return false;
             }
 
-            string authEmpyCode = "YG0008";
+            string authEmpyCode = empy.EmpyCode;
             int defineId = ComFn.StringToInt(invAuthId);
             if (defineId == 0)
             {
@@ -48,7 +49,6 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Inventory
                 return false;
             }
 
-            string errMsg = "";
             if (!MWRWorkflowMng.PassAuthorize(defineId, authEmpyCode, remark, ref errMsg))
             {
                 ReturnAjaxError(errMsg);

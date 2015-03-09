@@ -147,16 +147,32 @@ namespace YRKJ.MWR.BackOffice.Services
                 return false;
             }
 
-            //context.Session[];
             TblMWEmploy empy = null;
             if (!BaseDataMng.GetEmpyData(empyCode, ref empy, ref errMsg))
             {
                 return false;
             }
 
-            
-            SessionHelper.SetSEssionEmploy(context,empy);
-            
+            int funcGrpId = empy.FuncGroupId;
+            List<TblMWFunction> funcList = null;
+            if (funcGrpId < 0) // is default function group
+            {
+                string grpPreFix = PermitMng.GetFuncGroupPerfix(funcGrpId);
+                if (!BaseDataMng.GetFunctionList(grpPreFix, ref funcList, ref errMsg))
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                if (!BaseDataMng.GetFunctionList(funcGrpId, ref funcList, ref errMsg))
+                {
+                    return false;
+                }
+            }
+
+            SessionHelper.SetSessionEmploy(context,empy);
+            SessionHelper.SetSessionEmpyFunc(context, funcList);
             return true;
         }
 

@@ -7,6 +7,8 @@ namespace YRKJ.MWR.BackOffice
 {
     public class Class1
     {
+
+
     }
 
     

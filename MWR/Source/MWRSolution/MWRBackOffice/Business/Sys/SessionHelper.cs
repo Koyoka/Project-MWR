@@ -8,30 +8,54 @@ namespace YRKJ.MWR.BackOffice.Business.Sys
     public class SessionHelper
     {
         public const string session_key_employ = "myemploy";
+        public const string session_key_employFuncList = "myemployfunclist";
 
 
-        public static bool GetSessionEmploy(ref TblMWEmploy empy)
+        public static bool GetSessionEmploy(ref TblMWEmploy empy,ref string errMsg)
         {
-//#if DEBUG
-//            empy = new TblMWEmploy();
-//            empy.EmpyCode = "YG0008";
-//            empy.EmpyName = "李6-跟车";
-//            return true;
-//#else
+
+            if (HttpContext.Current.Session[session_key_employ] == null)
+            {
+                errMsg = "用户数据超时，请重新登录";
+                return false;
+            }
             empy = HttpContext.Current.Session[session_key_employ] as TblMWEmploy;
             if (empy == null)
             {
+                errMsg = "用户数据超时，请重新登录";
                 return false;
             }
             return true;
-//#endif
 
         }
-
-        public static void SetSEssionEmploy(HttpContext context, TblMWEmploy empy)
+        public static void SetSessionEmploy(HttpContext context, TblMWEmploy empy)
         {
             context.Session[session_key_employ] = empy;
-            //HttpContext.Current.Session[session_key_employ] = empy;
+        }
+
+        public static void GetSessionEmpyFunc(ref List<TblMWFunction> funcList)
+        {
+            if (HttpContext.Current.Session[session_key_employFuncList] == null)
+            {
+                funcList = new List<TblMWFunction>();
+                return;
+            }
+
+            funcList = HttpContext.Current.Session[session_key_employFuncList] as List<TblMWFunction>;
+            if (funcList == null)
+            {
+                funcList = new List<TblMWFunction>();
+            }
+        }
+        public static void SetSessionEmpyFunc(HttpContext context,List<TblMWFunction> funcList)
+        {
+            context.Session[session_key_employFuncList] = funcList;
+        }
+
+        public static void EmpyLogout()
+        {
+            HttpContext.Current.Session[session_key_employ] = null;
+            HttpContext.Current.Session[session_key_employ] = null;
         }
 
         public static bool CheckLogin()

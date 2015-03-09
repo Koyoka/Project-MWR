@@ -27,7 +27,7 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Inventory
                 if (!InitPage(ref errMsg))
                 {
                     // do error thing
-                    RedirectHelper.GotoErrPage(errMsg);
+                    RedirectHelper.GotoErrPage(errMsg, RedirectHelper.BOMain, RedirectHelper.BackType.include);
                 }
             }
         }

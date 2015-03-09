@@ -158,6 +158,7 @@
     <Content Include="Assets\img\logo.png" />
     <Content Include="Assets\img\menu-toggler.png" />
     <Content Include="Assets\img\overlay-icon.png" />
+    <Content Include="Assets\img\pages\earth.jpg" />
     <Content Include="Assets\img\photo1.jpg" />
     <Content Include="Assets\img\photo2.jpg" />
     <Content Include="Assets\img\portlet-collapse-icon-white.png" />
@@ -251,6 +252,7 @@
     <Content Include="Pages\BO\Car\CarRound.aspx" />
     <Content Include="Pages\BO\Car\CarTrack.aspx" />
     <Content Include="Pages\BO\Error.aspx" />
+    <Content Include="Pages\BO\Error.html" />
     <Content Include="Pages\BO\HTMLPage1.htm" />
     <Content Include="Pages\BO\index.html" />
     <Content Include="Pages\BO\Inventory\InvAuthorize.aspx" />
