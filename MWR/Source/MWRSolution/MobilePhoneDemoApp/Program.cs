@@ -94,6 +94,8 @@ namespace MobilePhoneDemoApp
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new Form2());
+            return;
             //Application.Run(new FrmScales());
             //return;
             //foo();

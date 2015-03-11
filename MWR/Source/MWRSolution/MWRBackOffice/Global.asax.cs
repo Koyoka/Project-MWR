@@ -47,8 +47,10 @@ namespace YRKJ.MWR.BackOffice
         }
         protected void Application_AcquireRequestState(object sender, EventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("Application_AcquireRequestState " + this.Request.Path);
-
+            //System.Diagnostics.Debug.WriteLine("Application_AcquireRequestState " + this.Request.Path);
+#if DEBUG
+            return;
+#endif
 
             string requestPath = this.Request.Path.ToUpper();
             //if(requestPath)

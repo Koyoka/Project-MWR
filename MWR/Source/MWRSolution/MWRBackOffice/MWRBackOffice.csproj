@@ -40,9 +40,24 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\ComBIN\ComLib.dll</HintPath>
     </Reference>
+    <Reference Include="LinqToExcel">
+      <HintPath>..\Lib\LinqToExcel.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\Lib\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\Lib\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Remotion">
+      <HintPath>..\Lib\Remotion.dll</HintPath>
+    </Reference>
+    <Reference Include="Remotion.Data.Linq">
+      <HintPath>..\Lib\Remotion.Data.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="Remotion.Interfaces">
+      <HintPath>..\Lib\Remotion.Interfaces.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -63,6 +78,7 @@
   <ItemGroup>
     <Content Include="Assets\bocomm.js" />
     <Content Include="Assets\boinvauthorizedetail.js" />
+    <Content Include="Assets\bosysinit.js" />
     <Content Include="Assets\cardispatch.js" />
     <Content Include="Assets\cscripts\ajaxfileupload.js" />
     <Content Include="Assets\cscripts\plugs\fileuploa9.9.2\jquery.fileupload-angular.js" />
@@ -258,6 +274,7 @@
     <Content Include="Pages\BO\Inventory\InvAuthorize.aspx" />
     <Content Include="Pages\BO\Inventory\InvAuthorizeDetail.aspx" />
     <Content Include="Pages\BO\Sys\FuncGroupEdit.aspx" />
+    <Content Include="Pages\BO\Sys\SysInit.aspx" />
     <Content Include="Pages\BO\Sys\UserPermit.aspx" />
     <Content Include="Pages\BO\Sys\WSManage.aspx" />
     <Content Include="Pages\BO\WebForm1.aspx" />
@@ -370,6 +387,13 @@
     </Compile>
     <Compile Include="Pages\BO\Sys\FuncGroupEdit.aspx.designer.cs">
       <DependentUpon>FuncGroupEdit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\BO\Sys\SysInit.aspx.cs">
+      <DependentUpon>SysInit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\BO\Sys\SysInit.aspx.designer.cs">
+      <DependentUpon>SysInit.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\BO\Sys\UserPermit.aspx.cs">
       <DependentUpon>UserPermit.aspx</DependentUpon>
@@ -486,7 +510,6 @@
     <Folder Include="Pages\BO\BaseData\" />
     <Folder Include="Pages\BO\DailyClose\" />
     <Folder Include="Pages\BO\Report\" />
-    <Folder Include="UploadFile\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Pages\MasterPages\MWBOEmpty.Master" />
@@ -510,6 +533,8 @@
     <Content Include="Services\QRCodeThumbnail.ashx" />
     <None Include="Assets\img\bg\Thumbs.db" />
     <Content Include="Services\MWMainServiceHandler.ashx" />
+    <None Include="Pages\BO\Sys\1.xlsx" />
+    <None Include="UploadFile\1.xlsx" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
