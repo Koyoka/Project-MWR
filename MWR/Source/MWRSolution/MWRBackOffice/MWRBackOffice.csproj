@@ -260,6 +260,7 @@
     <Content Include="Assets\wsmanage.js" />
     <Content Include="Global.asax" />
     <Content Include="Lib\Newtonsoft.Json.Net20.dll" />
+    <Content Include="Pages\BO\BaseData\BDEmploy.aspx" />
     <Content Include="Pages\BO\Block\BlockSendCarDispatch.aspx" />
     <Content Include="Pages\BO\BOIndex.aspx" />
     <Content Include="Pages\BO\BOMain.aspx" />
@@ -310,6 +311,13 @@
     <Compile Include="Class1.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\BO\BaseData\BDEmploy.aspx.cs">
+      <DependentUpon>BDEmploy.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\BO\BaseData\BDEmploy.aspx.designer.cs">
+      <DependentUpon>BDEmploy.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\BO\Block\BlockSendCarDispatch.aspx.cs">
       <DependentUpon>BlockSendCarDispatch.aspx</DependentUpon>
@@ -507,7 +515,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Pages\BO\BaseData\" />
     <Folder Include="Pages\BO\DailyClose\" />
     <Folder Include="Pages\BO\Report\" />
   </ItemGroup>

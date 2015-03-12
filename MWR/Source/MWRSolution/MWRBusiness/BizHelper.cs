@@ -159,8 +159,34 @@ namespace YRKJ.MWR.Business
                 case TblMWWorkStation.WSTYPE_ENUM_WaitWorkStation:
                     defineStr = LngRes.WSType_Wait;
                     break;
+                
 
+            }
 
+            return defineStr;
+        }
+
+        public static string GetEmpyType(string s)
+        {
+            string defineStr = "";
+
+            switch (s)
+            { 
+                case TblMWEmploy.EMPYTYPE_ENUM_Driver:
+                    defineStr = LngRes.Empy_Driver;
+                    break;
+                case TblMWEmploy.EMPYTYPE_ENUM_Inspector:
+                    defineStr = LngRes.Empy_Inspector;
+                    break;
+                case TblMWEmploy.EMPYTYPE_ENUM_Void:
+                    defineStr = LngRes.Empy_Void;
+                    break;
+                case TblMWEmploy.EMPYTYPE_ENUM_WorkStation:
+                    defineStr = LngRes.Empy_WS;
+                    break;
+                default:
+                    defineStr = LngRes.Empy_WS;
+                    break;
             }
 
             return defineStr;
@@ -169,6 +195,11 @@ namespace YRKJ.MWR.Business
 
         public class LngRes
         {
+            public const string Empy_Driver = "司机";
+            public const string Empy_Inspector = "跟车员";
+            public const string Empy_Void = "注销员工";
+            public const string Empy_WS = "一般员工";
+
             public const string WSType_Des = "处置工作站";
             public const string WSType_Inv = "出入库工作站";
             public const string WSType_Mob = "手机终端";

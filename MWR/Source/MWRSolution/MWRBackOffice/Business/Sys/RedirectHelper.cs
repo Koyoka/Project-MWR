@@ -33,6 +33,11 @@ namespace YRKJ.MWR.BackOffice.Business.Sys
 
         #endregion
 
+        #region BaseData
+        public const string BDEmploy = "BaseData/BDEmploy.aspx";
+
+        #endregion
+
         #region System
         public const string WSManage = "Sys/WSManage.aspx";
         public const string UserPermit = "Sys/UserPermit.aspx";

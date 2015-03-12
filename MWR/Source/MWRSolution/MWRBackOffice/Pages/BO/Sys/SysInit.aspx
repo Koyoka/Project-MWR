@@ -33,6 +33,12 @@
 
 <div class="row">
     <div class="table-toolbar col-md-12">
+        <div class="note note-danger">
+			<h3 class="block">警告！</h3>
+			<p>
+				当您点击导入按钮后，您所导入的数据将<strong style="font-size:18px;color:Red;" >[覆盖]</strong>之前已有的数据。请确认此操作！
+			</p>
+		</div>
         <div class="note note-success">
 			<p>
 					点击<strong style="font-size:18px;" >[上传模板]</strong>按钮选择模板文件上传，查看当前模板中的数据。然后点击<strong style="font-size:18px;" >[导入]</strong>按钮替换更新基础数据。<br />
@@ -53,6 +59,7 @@
 				<input id="fileupload" type="file" name="files[]" multiple="" />
 			</span>
 	    </div>
+       
 	    <div class="btn-group pull-right">
             <form role="form"
                 id="mwFrmImport" 
@@ -82,8 +89,20 @@
 			    </li>
 		    </ul>--%>
 	    </div>
+       
+         
     </div>       
-</div>     
+</div>    
+<div class="row  col-md-12">
+<div class="progress progress-striped active">
+			<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+				<span class="sr-only">
+					40% Complete (success)
+				</span>
+			</div>
+		</div>
+</div>
+ 
 <div id="mw-initData">
 <%
     if (PageInitGroupDataList.Count > 0)

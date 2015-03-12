@@ -160,6 +160,22 @@ namespace YRKJ.MWR.Business.BaseData
         #endregion
 
         #region Employ
+
+        public static bool GetEmpyWithFuncGroupDataList(int page, int pageSize, ref long pageCount, ref long rowCount, ref List<VewEmployWithFunctionGroup> empyList, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+
+            SqlQueryMng sqm = new SqlQueryMng();
+            if (!VewEmployWithFunctionGroupCtrl.QueryPage(dcf, sqm, page, pageSize, ref empyList, ref errMsg))
+            {
+                return false;
+            }
+
+            pageCount = dcf.PageCount;
+            rowCount = dcf.RowCount;
+            return true;
+        }
+
         public static bool GetEmpyData(string code, ref TblMWEmploy empy, ref string errMsg)
         {
             DataCtrlInfo dcf = new DataCtrlInfo();

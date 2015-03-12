@@ -8,6 +8,7 @@ using YRKJ.MWR.BackOffice.Business.Sys;
 using Newtonsoft.Json;
 using ComLib.db;
 using LinqToExcel;
+using YRKJ.MWR.Business.Sys;
 
 namespace YRKJ.MWR.BackOffice.Pages.BO.Sys
 {
@@ -17,6 +18,7 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Sys
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            string s = SqlCommonFn.EncryptString("1");
             if (!IsPostBack)
             {
                 string errMsg = "";
@@ -43,7 +45,89 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Sys
 
         public bool AjaxImportInitData(string fileName, string dataName)
         {
-            ReturnAjaxJson(fileName+" dataName:" + dataName);
+            List<TblMWEmploy>           empyList = new List<TblMWEmploy>();
+            List<TblMWVendor>           vendorList = new List<TblMWVendor>();
+            List<TblMWWasteCategory>    wasteList = new List<TblMWWasteCategory>();
+            List<TblMWCar>              carList = new List<TblMWCar>();
+            List<TblMWDepot>            depotList = new List<TblMWDepot>();
+            List<TblMWCrate>            crateList = new List<TblMWCrate>();
+
+            string errMsg = "";
+            if (!ReadInitDataExcel(fileName, ref errMsg))
+            {
+                ReturnAjaxError(errMsg);
+                return false;
+            }
+
+            foreach (var item in PageInitGroupDataList)
+            {
+                if (item.GroupName.Equals(dataName)
+                    || string.IsNullOrEmpty(dataName))
+                {
+                    foreach (var subItem in item.dataList)
+                    {
+                        switch (item.GroupName)
+                        {
+                            case EXCEL_WORKSHEET_EMPLOY:
+                                empyList.Add(new TblMWEmploy()
+                                {
+                                    EmpyCode = subItem.code,
+                                    EmpyName = subItem.desc1,
+                                    Password = subItem.desc2
+                                });
+                                break;
+                            case EXCEL_WORKSHEET_VENDOR:
+                                vendorList.Add(new TblMWVendor()
+                                {
+                                    VendorCode = subItem.code,
+                                    Vendor = subItem.desc1,
+                                    Address = subItem.desc2
+                                });
+                                break;
+                            case EXCEL_WORKSHEET_CAR:
+                                carList.Add(new TblMWCar()
+                                {
+                                    CarCode = subItem.code,
+                                    Desc = subItem.desc1
+                                });
+                                break;
+                            case EXCEL_WORKSHEET_WASTE:
+                                wasteList.Add(new TblMWWasteCategory()
+                                {
+                                    WasteCode = subItem.code,
+                                    Waste = subItem.desc1
+                                });
+                                break;
+                            case EXCEL_WORKSHEET_CRATE:
+                                crateList.Add(new TblMWCrate()
+                                {
+                                    CrateCode = subItem.code,
+                                    Desc = subItem.desc1
+                                });
+                                break;
+                            case EXCEL_WORKSHEET_DEPOT:
+                                depotList.Add(new TblMWDepot()
+                                {
+                                    DeptCode = subItem.code,
+                                    Desc = subItem.desc1
+                                });
+                                break;
+                        }
+                    }
+                }
+            }
+           
+            if (!MWSysTable.InitSysBaseData(empyList,
+            vendorList,
+            wasteList,
+            carList,
+            depotList,
+            crateList, ref errMsg))
+            {
+                ReturnAjaxError(errMsg);
+                return false;
+            }
+
             return false;
         }
 
@@ -63,11 +147,7 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Sys
 
         private bool LoadData(ref string errMsg)
         {
-
-            //if (!ReadInitDataExcel(ref errMsg))
-            //{
-            //    return false;
-            //}
+           
             var file = Request.Files["files[]"];
             if (file != null)
             {
@@ -99,19 +179,25 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Sys
             return true;
         }
 
-        
         private bool ReadInitDataExcel(string fileName,ref string errMsg)
         {
             try
             {
+                
+
                 string s = ComLib.ComFn.GetAppExePath() + @"\UploadFile\" + fileName;//\1.xlsx";
+                if (!System.IO.File.Exists(s))
+                {
+                    errMsg = "模板文件不知去向! :(..";
+                    return false;
+                }
                 var excelfile = new ExcelQueryFactory(s);
 
                 #region employ
                 {
-                    var tsheet = excelfile.Worksheet("员工信息");
+                    var tsheet = excelfile.Worksheet(EXCEL_WORKSHEET_EMPLOY);
                     PageInitGroupData groupData = new PageInitGroupData();
-                    groupData.GroupName = "员工信息";
+                    groupData.GroupName = EXCEL_WORKSHEET_EMPLOY;
                     groupData.title1 = "员工编号";
                     groupData.title2 = "员工姓名";
                     groupData.title3 = "密码";
@@ -134,9 +220,9 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Sys
 
                 #region vendor
                 {
-                    var tsheet = excelfile.Worksheet("医院信息");
+                    var tsheet = excelfile.Worksheet(EXCEL_WORKSHEET_VENDOR);
                     PageInitGroupData groupData = new PageInitGroupData();
-                    groupData.GroupName = "医院信息";
+                    groupData.GroupName = EXCEL_WORKSHEET_VENDOR;
                     groupData.title1 = "医院编号";
                     groupData.title2 = "医院名称";
                     groupData.title3 = "医院坐标";
@@ -160,9 +246,9 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Sys
 
                 #region wastercategory
                 {
-                    var tsheet = excelfile.Worksheet("废料类型");
+                    var tsheet = excelfile.Worksheet(EXCEL_WORKSHEET_WASTE);
                     PageInitGroupData groupData = new PageInitGroupData();
-                    groupData.GroupName = "废料类型";
+                    groupData.GroupName = EXCEL_WORKSHEET_WASTE;
                     groupData.title1 = "类型编号";
                     groupData.title2 = "类型名称";
                     groupData.title3 = "";
@@ -183,9 +269,9 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Sys
 
                 #region car
                 {
-                    var tsheet = excelfile.Worksheet("车辆信息");
+                    var tsheet = excelfile.Worksheet(EXCEL_WORKSHEET_CAR);
                     PageInitGroupData groupData = new PageInitGroupData();
-                    groupData.GroupName = "车辆信息";
+                    groupData.GroupName = EXCEL_WORKSHEET_CAR;
                     groupData.title1 = "车辆编号";
                     groupData.title2 = "车辆名称";
                     groupData.title3 = "";
@@ -207,9 +293,9 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Sys
 
                 #region depot
                 {
-                    var tsheet = excelfile.Worksheet("仓库信息");
+                    var tsheet = excelfile.Worksheet(EXCEL_WORKSHEET_DEPOT);
                     PageInitGroupData groupData = new PageInitGroupData();
-                    groupData.GroupName = "仓库信息";
+                    groupData.GroupName = EXCEL_WORKSHEET_DEPOT;
                     groupData.title1 = "仓库编号";
                     groupData.title2 = "仓库名称";
                     groupData.title3 = "";
@@ -231,9 +317,9 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Sys
 
                 #region crate
                 {
-                    var tsheet = excelfile.Worksheet("货箱信息");
+                    var tsheet = excelfile.Worksheet(EXCEL_WORKSHEET_CRATE);
                     PageInitGroupData groupData = new PageInitGroupData();
-                    groupData.GroupName = "货箱信息";
+                    groupData.GroupName = EXCEL_WORKSHEET_CRATE;
                     groupData.title1 = "货箱编号";
                     groupData.title2 = "货箱名称";
                     groupData.title3 = "";
@@ -265,6 +351,14 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Sys
         #endregion
 
         #region Common
+
+        const string EXCEL_WORKSHEET_EMPLOY = "员工信息";
+        const string EXCEL_WORKSHEET_VENDOR = "医院信息";
+        const string EXCEL_WORKSHEET_WASTE = "废料类型";
+        const string EXCEL_WORKSHEET_CAR = "车辆信息";
+        const string EXCEL_WORKSHEET_DEPOT = "仓库信息";
+        const string EXCEL_WORKSHEET_CRATE = "货箱信息";
+
         class Files
         {
             public bool error = false;
@@ -274,7 +368,6 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Sys
         {
             public string code { get; set; }
             public string desc1 { get; set; }
-
             public string desc2 { get; set; }
 
         }

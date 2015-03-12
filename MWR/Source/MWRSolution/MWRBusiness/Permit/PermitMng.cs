@@ -78,6 +78,26 @@ namespace YRKJ.MWR.Business.Permit
                 FuncGroupName = "处置工作站"
             });
         }
+        public static string GetSysDefaultFuncGroupName(int id)
+        {
+            string s = "";
+            switch (id)
+            { 
+                case ADMINISTRATOR_DEFAULT_GROUPID:
+                    s = "Administrator";
+                    break;
+                case BACKOFFICE_DEFAULT_GROUPDID:
+                    s = "管理中心";
+                    break;
+                case INVENTORY_DEFAULT_GROUPID:
+                    s = "库存工作站";
+                    break;
+                case DESTROY_DEFAULT_GROUPID:
+                    s = "处置工作站";
+                    break;
+            }
+            return s;
+        }
 
         public static bool GetEmployPremiessFunctionDetail(string empyCode, ref List<TblMWFunctionGroupDetail> funcs, ref string errMsg)
         {
@@ -160,11 +180,9 @@ namespace YRKJ.MWR.Business.Permit
             }
 
             string encrytPassword = "";
-#if DEBUG
-            encrytPassword = password;
-#else
+
             encrytPassword = SqlCommonFn.EncryptString(password);
-#endif
+
             if (empy.Password != encrytPassword)
             {
                 errMsg = LngRes.MSG_Valid_InValidEmpyPassword;
@@ -223,11 +241,9 @@ namespace YRKJ.MWR.Business.Permit
             }
             
             string encrytPassword = "";
-#if DEBUG
-            encrytPassword = password;
-#else
+
             encrytPassword = SqlCommonFn.EncryptString(password);
-#endif
+
             if (empy.Password != encrytPassword)
             {
                 errMsg = LngRes.MSG_Valid_InValidEmpyPassword;
@@ -290,11 +306,9 @@ namespace YRKJ.MWR.Business.Permit
             }
 
             string encrytPassword = "";
-#if DEBUG
-            encrytPassword = password;
-#else
+
             encrytPassword = SqlCommonFn.EncryptString(password);
-#endif
+
             if (empy.Password != encrytPassword)
             {
                 errMsg = LngRes.MSG_Valid_InValidEmpyPassword;

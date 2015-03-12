@@ -149,6 +149,7 @@ namespace YRKJ.MWR
         public const string EMPYTYPE_ENUM_Driver = "D";//司机;
         public const string EMPYTYPE_ENUM_Inspector = "I";//跟车员;
         public const string EMPYTYPE_ENUM_WorkStation = "S";//工作站操作员;
+        public const string EMPYTYPE_ENUM_Void = "V";//无效;
 
     }
 }
