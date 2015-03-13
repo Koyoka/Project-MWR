@@ -15,7 +15,7 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.BaseData
     {
         public const string ClassName = "YRKJ.MWR.BackOffice.Pages.BO.BaseData.BDEmploy";
 
-        private int pageSize = 10;
+        private int pageSize = 3;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -31,11 +31,24 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.BaseData
 
         #region Events
 
-        public bool AjaxGetEmpy(string page)
+        public bool AjaxGetEmpy(string empyCode,string empyName,string empyType,string page)
         {
             string errMsg = "";
             int CurrentPage = ComLib.ComFn.StringToInt(page);
             
+            if (!LoadData_EmpyData(CurrentPage, ref errMsg))
+            {
+                ReturnAjaxError(errMsg);
+                return false;
+            }
+            return true;
+        }
+
+        public bool AjaxGetEmpy(string page)
+        {
+            string errMsg = "";
+            int CurrentPage = ComLib.ComFn.StringToInt(page);
+
             if (!LoadData_EmpyData(CurrentPage, ref errMsg))
             {
                 ReturnAjaxError(errMsg);

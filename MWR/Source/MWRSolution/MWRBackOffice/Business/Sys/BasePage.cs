@@ -150,7 +150,22 @@ namespace YRKJ.MWR.BackOffice.Business.Sys
                         }
                     }
                     Type tp = this.GetType();
-                    System.Reflection.MethodInfo me = tp.GetMethod(methodName);
+
+                    
+                    System.Reflection.MethodInfo me ;//= tp.GetMethod(methodName);
+                    if (Param.Length == 0)
+                    {
+                        me = tp.GetMethod(methodName);
+                    }
+                    else {
+                        Type[] pType = new Type[Param.Length];
+                        for (int i = 0;i<pType.Length;i++)
+                        {
+                            pType[i] = typeof(String);
+                        }
+                        me = tp.GetMethod(methodName,pType);
+                    }
+
                     if (me != null)
                     {
                         _isPostBack = true;

@@ -76,6 +76,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\bobdemploy.js" />
     <Content Include="Assets\bocomm.js" />
     <Content Include="Assets\boinvauthorizedetail.js" />
     <Content Include="Assets\bosysinit.js" />
