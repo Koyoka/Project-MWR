@@ -1,9 +1,67 @@
 ﻿var BOBDEmploy = function () {
+
+
+    var initHelper = function () {
+        gl.wgt.set('mw-activeempy', {
+            init: function () {
+                this.element.on('click', this.onClick.bind(this));
+            },
+            onClick: function (e) {
+                e.preventDefault();
+                var code = this.element.attr('data-wgt-empycode');
+                $('#mw-opyType').val('active');
+                $('#mw-opyEmpyCode').val(code);
+                $('#mwFrmList').submit();
+            }
+        });
+
+        gl.wgt.set('mw-voidempy', {
+            init: function () {
+                this.element.on('click', this.onClick.bind(this));
+            },
+            onClick: function (e) {
+                e.preventDefault();
+                var code = this.element.attr('data-wgt-empycode');
+                $('#mw-opyType').val('void');
+                $('#mw-opyEmpyCode').val(code);
+                $('#mwFrmList').submit();
+            }
+        });
+
+        gl.wgt.set('mw-editempy', {
+            init: function () {
+                this.element.on('click', this.onClick.bind(this));
+            },
+            onClick: function (e) {
+                e.preventDefault();
+                window.alert(1)
+//                $('#mw-opyType').val('edit');
+//                $('#mwFrmList').submit();
+            }
+        });
+        gl.wgt.set('mw-newempy', {
+            init: function () {
+                this.element.on('click', this.onClick.bind(this));
+            },
+            onClick: function (e) {
+                e.preventDefault();
+                window.alert(2)
+//                $('#mw-opyType').val('new');
+//                $('#mwFrmList').submit();
+            }
+        });
+      
+    }
+
     var oTable;
+    var nEditing = null;
+
+
     var _subrecall = function (el, netData, locData) {
 
         _initOTable();
-    }
+        nEditing = null;
+    };
     var _initOTable = function () {
         oTable = $('#sample_editable_1').dataTable({
             "aLengthMenu": [
@@ -55,12 +113,13 @@
                 ]
         });
     };
-    
+
     return {
-   
-        //main function to initiate the module
         subrecall: _subrecall,
         init: function () {
+
+            initHelper();
+
             function restoreRow(oTable, nRow) {
                 var aData = oTable.fnGetData(nRow);
                 var jqTds = $('>td', nRow);
@@ -82,63 +141,72 @@
                 var aData = oTable.fnGetData(nRow);
                 var jqTds = $('>td', nRow);
 
-
                 jqTds[0].innerHTML = aData[0] + '<input name="empyCode" type="hidden" class="form-control input-small" value="' + aData[0] + '">';
-                jqTds[1].innerHTML = '<input name="empyName" type="text" class="form-control input-small" value="' + aData[1] + '">';
+                jqTds[1].innerHTML = '******<input name="password" type="hidden" class="form-control input-small" value="' + aData[1] + '">';
+                jqTds[2].innerHTML = '<input name="empyName" type="text" class="form-control input-small" value="' + aData[2] + '">';
 
                 var temp = $('select[name="mw-tempEmpyTpe"]');
-                jqTds[2].innerHTML = '<select name="empyTpe" class="form-control input-lg">' + temp.html() + '</select><input type="hidden" class="form-control input-small" value="' + aData[2] + '">'; //temp.html();// '<input type="text" class="form-control input-small" value="' + aData[2] + '">';
-                $("select option[text='" + aData[2] + "']", $(jqTds[2])).attr("selected", true);
+                jqTds[3].innerHTML = '<select name="empyTpe" class="form-control input-lg">' + temp.html() + '</select><input type="hidden" class="form-control input-small" value="' + aData[3] + '">'; //temp.html();// '<input type="text" class="form-control input-small" value="' + aData[2] + '">';
+                $("select option[text='" + aData[3] + "']", $(jqTds[3])).attr("selected", true);
 
                 //                jqTds[3].innerHTML = '<input type="text" class="form-control input-small" value="' + aData[3] + '">';
-                jqTds[4].innerHTML = '<a class="edit" data-mode="save" href="">保存</a> <a class="cancel"  href="">取消</a>';
+                jqTds[5].innerHTML = '<a class="edit" data-wgt="mw-editempy" data-mode="save" href="">保存</a> <a class="cancel"  href="">取消</a>';
 
-                $('input', jqTds[1]).focus();
+                $('input', jqTds[2]).focus();
+                gl.wgt.scan($(nRow));
             }
             function newRow(oTable, nRow) {
                 var aData = oTable.fnGetData(nRow);
                 var jqTds = $('>td', nRow);
                 jqTds[0].innerHTML = '<input name="empyCode" type="text" class="form-control input-small" value="' + aData[0] + '">';
-                jqTds[1].innerHTML = '<input name="empyName" type="text" class="form-control input-small" value="' + aData[1] + '">';
+                jqTds[1].innerHTML = '<input name="password" type="text" class="form-control input-small" value="' + aData[1] + '">';
+                jqTds[2].innerHTML = '<input name="empyName" type="text" class="form-control input-small" value="' + aData[2] + '">';
 
 
                 var temp = $('select[name="mw-tempEmpyTpe"]');
-                jqTds[2].innerHTML = '<select name="empyTpe" class="form-control input-lg">' + temp.html() + '</select><input type="hidden" class="form-control input-small" value="' + aData[2] + '">'; //temp.html();// '<input type="text" class="form-control input-small" value="' + aData[2] + '">';
-                $("select option[text='" + aData[2] + "']", $(jqTds[2])).attr("selected", true);
+                jqTds[3].innerHTML = '<select name="empyTpe" class="form-control input-lg">' + temp.html() + '</select><input type="hidden" class="form-control input-small" value="' + aData[3] + '">'; //temp.html();// '<input type="text" class="form-control input-small" value="' + aData[2] + '">';
+                $("select option[text='" + aData[3] + "']", $(jqTds[3])).attr("selected", true);
 
                 //                jqTds[3].innerHTML = '<input type="text" class="form-control input-small" value="' + aData[3] + '">';
-                jqTds[4].innerHTML = '<a class="edit" data-mode="save" href="">保存</a> <a class="cancel" data-mode="new" href="">取消</a>';
+                jqTds[5].innerHTML = '<a class="edit" data-wgt="mw-newempy" data-mode="save" href="">保存</a> <a class="cancel" data-mode="new" href="">取消</a>';
                 $('input', jqTds[0]).focus();
+                gl.wgt.scan($(nRow));
                 //                jqTds[5].innerHTML = '<a href="#"  class="btn default btn-xs red cancel" data-mode="new"><i class="fa fa-edit"></i> 注销</a>'; //'<a class="cancel" data-mode="new" href="">Cancel</a>';
             }
 
             function saveRow(oTable, nRow) {
+                var aData = oTable.fnGetData(nRow);
+
                 var jqInputs = $('input', nRow);
                 var jqSelect = $('select', nRow);
                 oTable.fnUpdate(jqInputs[0].value, nRow, 0, false);
                 oTable.fnUpdate(jqInputs[1].value, nRow, 1, false);
-
-                oTable.fnUpdate($(jqSelect[0]).find("option:selected").text(), nRow, 2, false);
+                oTable.fnUpdate(jqInputs[2].value, nRow, 2, false);
+                oTable.fnUpdate($(jqSelect[0]).find("option:selected").text(), nRow, 3, false);
 
                 //                oTable.fnUpdate(jqInputs[3].value, nRow, 3, false);
-                oTable.fnUpdate('<a class="edit" href="">编辑</a>', nRow, 4, false);
+                oTable.fnUpdate('<a class="edit" href="">编辑</a>', nRow, 5, false);
+
+                var dVoid = aData[6] == "" ? '<a href="#"  class="btn default btn-xs red cancel"><i class="fa fa-edit"></i> 注销</a>' : aData[6];
+                oTable.fnUpdate(dVoid, nRow, 6, false);
                 //                oTable.fnUpdate('<a class="delete" href="">Delete</a>', nRow, 5, false);
                 oTable.fnDraw();
+                
             }
 
-            function cancelEditRow(oTable, nRow) {
-                var jqInputs = $('input', nRow);
-                var jqSelect = $('select', nRow);
+            //            function cancelEditRow(oTable, nRow) {
+            //                var jqInputs = $('input', nRow);
+            //                var jqSelect = $('select', nRow);
 
-                oTable.fnUpdate(jqInputs[0].value, nRow, 0, false);
-                oTable.fnUpdate(jqInputs[1].value, nRow, 1, false);
+            //                oTable.fnUpdate(jqInputs[0].value, nRow, 0, false);
+            //                oTable.fnUpdate(jqInputs[1].value, nRow, 1, false);
+            //                oTable.fnUpdate(jqInputs[2].value, nRow, 2, false);
+            //                oTable.fnUpdate($(jqSelect[0]).find("option:selected").text(), nRow, 2, false);
 
-                oTable.fnUpdate($(jqSelect[0]).find("option:selected").text(), nRow, 2, false);
-
-                //                oTable.fnUpdate(jqInputs[3].value, nRow, 3, false);
-                oTable.fnUpdate('<a class="edit" href="">编辑</a>', nRow, 4, false);
-                oTable.fnDraw();
-            }
+            //                //                oTable.fnUpdate(jqInputs[3].value, nRow, 3, false);
+            //                oTable.fnUpdate('<a class="edit" href="">编辑</a>', nRow, 4, false);
+            //                oTable.fnDraw();
+            //            }
 
             _initOTable();
 
@@ -148,7 +216,7 @@
                 showSearchInput: false //hide search box with special css class
             }); // initialize select2 dropdown
 
-            var nEditing = null;
+
 
             $('#sample_editable_1_new').click(function (e) {
                 e.preventDefault();
@@ -164,7 +232,7 @@
 
                 }
 
-                var aiNew = oTable.fnAddData(['', '', '', '',
+                var aiNew = oTable.fnAddData(['', '', '', '', '',
                     '', ''
                 //                        '<a class="edit" href="">Edit</a>', 'data-mode="new"'//'<a class="cancel" data-mode="new" href="">Cancel</a>'
                 ]);
@@ -215,7 +283,8 @@
                     nEditing = nRow;
                 } else if (nEditing == nRow && $(this).attr('data-mode') == "save") {
                     /* Editing this row and want to save it */
-                    saveRow(oTable, nEditing);
+                    window.alert(3)
+//                    saveRow(oTable, nEditing);
                     nEditing = null;
                     alert("Updated! Do not forget to do some ajax to sync with backend :)");
                 } else {
@@ -225,7 +294,6 @@
                 }
             });
         }
-
     };
 
 } ();

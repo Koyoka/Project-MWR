@@ -188,6 +188,11 @@ namespace YRKJ.MWR.Business.Permit
                 errMsg = LngRes.MSG_Valid_InValidEmpyPassword;
                 return false;
             }
+            if (empy.Status == TblMWEmploy.STATUS_ENUM_Void)
+            {
+                errMsg = LngRes.MSG_Valid_EmpyVoid;
+                return false;
+            }
             #endregion
 
             //check system default premit administrator
@@ -247,6 +252,11 @@ namespace YRKJ.MWR.Business.Permit
             if (empy.Password != encrytPassword)
             {
                 errMsg = LngRes.MSG_Valid_InValidEmpyPassword;
+                return false;
+            }
+            if (empy.Status == TblMWEmploy.STATUS_ENUM_Void)
+            {
+                errMsg = LngRes.MSG_Valid_EmpyVoid;
                 return false;
             }
             #endregion
@@ -312,6 +322,11 @@ namespace YRKJ.MWR.Business.Permit
             if (empy.Password != encrytPassword)
             {
                 errMsg = LngRes.MSG_Valid_InValidEmpyPassword;
+                return false;
+            }
+            if (empy.Status == TblMWEmploy.STATUS_ENUM_Void)
+            {
+                errMsg = LngRes.MSG_Valid_EmpyVoid;
                 return false;
             }
             #endregion
@@ -496,6 +511,74 @@ namespace YRKJ.MWR.Business.Permit
             return true;
         }
 
+        public static bool ActiveEmploy(string empyCode, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+
+            int updCount = 0;
+            SqlUpdateColumn suc = new SqlUpdateColumn();
+            suc.Add(TblMWEmploy.getStatusColumn(), TblMWEmploy.STATUS_ENUM_Active);
+            SqlWhere sw = new SqlWhere();
+            sw.AddCompareValue(TblMWEmploy.getEmpyCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, empyCode);
+            if (!TblMWEmployCtrl.Update(dcf, suc, sw, ref updCount, ref errMsg))
+            {
+                return false;
+            }
+            return true;
+        }
+        public static bool VoidEmploy(string empyCode, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            int updCount = 0;
+
+            SqlUpdateColumn suc = new SqlUpdateColumn();
+            suc.Add(TblMWEmploy.getStatusColumn(), TblMWEmploy.STATUS_ENUM_Void);
+            SqlWhere sw = new SqlWhere();
+            sw.AddCompareValue(TblMWEmploy.getEmpyCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, empyCode);
+            if (!TblMWEmployCtrl.Update(dcf, suc, sw, ref updCount, ref errMsg))
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public static bool ChangeEmpyInfo(string empyCode, string empyName, string empyType, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            int updCount = 0;
+
+            SqlUpdateColumn suc = new SqlUpdateColumn();
+            suc.Add(TblMWEmploy.getEmpyNameColumn(), empyName);
+            suc.Add(TblMWEmploy.getEmpyTypeColumn(), empyType);
+            SqlWhere sw = new SqlWhere();
+            sw.AddCompareValue(TblMWEmploy.getEmpyCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, empyCode);
+
+            if (!TblMWEmployCtrl.Update(dcf, suc, sw, ref updCount, ref errMsg))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public static bool AddNewEmploy(TblMWEmploy empy, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            int updCount = 0;
+            if (!TblMWEmployCtrl.Insert(dcf, empy, ref updCount, ref errMsg))
+            {
+                return false;
+            }
+
+            if (updCount == 0)
+            {
+                errMsg = "用户添加失败";
+                return false;
+            }
+
+            return true;
+        }
+             
 
         #endregion
 
@@ -574,6 +657,7 @@ namespace YRKJ.MWR.Business.Permit
             public const string MSG_Valid_InValidEmpyCode = "当前用户编号无效";
             public const string MSG_Valid_InValidEmpyPassword = "无效的用户密码";
             public const string MSG_Valid_NoPremiess = "当前用户没有使用权限";
+            public const string MSG_Valid_EmpyVoid = "账户已被注销";
            
         }
         #endregion

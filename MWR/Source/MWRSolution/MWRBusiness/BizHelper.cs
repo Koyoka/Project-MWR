@@ -178,9 +178,9 @@ namespace YRKJ.MWR.Business
                 case TblMWEmploy.EMPYTYPE_ENUM_Inspector:
                     defineStr = LngRes.Empy_Inspector;
                     break;
-                case TblMWEmploy.EMPYTYPE_ENUM_Void:
-                    defineStr = LngRes.Empy_Void;
-                    break;
+                //case TblMWEmploy.EMPYTYPE_ENUM_Void:
+                //    defineStr = LngRes.Empy_Void;
+                //    break;
                 case TblMWEmploy.EMPYTYPE_ENUM_WorkStation:
                     defineStr = LngRes.Empy_WS;
                     break;

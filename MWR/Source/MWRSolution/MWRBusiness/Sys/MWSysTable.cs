@@ -70,11 +70,14 @@ namespace YRKJ.MWR.Business.Sys
                 foreach (var item in empyList)
                 {
                     // keep exist employ's funcgroup
+                    item.EmpyType = TblMWEmploy.EMPYTYPE_ENUM_WorkStation;
                     defineEmpyList.Find(x =>
                     {
                         if (x.EmpyCode.Equals(item.EmpyCode))
                         {
                             item.FuncGroupId = x.FuncGroupId;
+                            item.EmpyType = x.EmpyType;
+                            item.Status = x.Status;
                             return true;
                         }
                         return false;

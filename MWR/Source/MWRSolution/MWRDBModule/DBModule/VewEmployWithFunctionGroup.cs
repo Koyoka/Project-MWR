@@ -30,6 +30,7 @@ namespace YRKJ.MWR
              new DataColumnInfo(false,true,false,false,"EmpyType",SqlCommonFn.DataColumnType.STRING,2),
              new DataColumnInfo(false,true,false,false,"UserName",SqlCommonFn.DataColumnType.STRING,45),
              new DataColumnInfo(false,true,false,true,"Password",SqlCommonFn.DataColumnType.STRING,45),
+             new DataColumnInfo(false,true,false,false,"Status",SqlCommonFn.DataColumnType.STRING,2),
              new DataColumnInfo(false,true,false,false,"FuncGroupName",SqlCommonFn.DataColumnType.STRING,45)
          };
 
@@ -51,8 +52,11 @@ namespace YRKJ.MWR
          public static DataColumnInfo getPasswordColumn(){
              return Columns[5];
          }
-         public static DataColumnInfo getFuncGroupNameColumn(){
+         public static DataColumnInfo getStatusColumn(){
              return Columns[6];
+         }
+         public static DataColumnInfo getFuncGroupNameColumn(){
+             return Columns[7];
          }
         private string _EmpyCode = "";
         private string _EmpyName = "";
@@ -60,6 +64,7 @@ namespace YRKJ.MWR
         private string _EmpyType = "";
         private string _UserName = "";
         private string _Password = "";
+        private string _Status = "";
         private string _FuncGroupName = "";
 
         public string EmpyCode
@@ -128,6 +133,17 @@ namespace YRKJ.MWR
                 _Password = value;
             }
         }
+        public string Status
+        {
+            get
+            {
+                return _Status;
+            }
+            set
+            {
+                _Status = value;
+            }
+        }
         public string FuncGroupName
         {
             get
@@ -155,6 +171,8 @@ namespace YRKJ.MWR
                  SetValue(ref _UserName, row["UserName"]);
              if(dataCols.Contains("Password"))
                  SetValue(ref _Password, row["Password"]);
+             if(dataCols.Contains("Status"))
+                 SetValue(ref _Status, row["Status"]);
              if(dataCols.Contains("FuncGroupName"))
                  SetValue(ref _FuncGroupName, row["FuncGroupName"]);
              if(dataCols.Contains("TEM_COLUMN_COUNT"))
@@ -164,6 +182,7 @@ namespace YRKJ.MWR
          public const string EMPYTYPE_ENUM_Driver = "D";//司机;
          public const string EMPYTYPE_ENUM_Inspector = "I";//跟车员;
          public const string EMPYTYPE_ENUM_WorkStation = "S";//工作站操作员;
-         public const string EMPYTYPE_ENUM_Void = "V";//无效;
+         public const string STATUS_ENUM_Void = "V";//无效;
+         public const string STATUS_ENUM_Active = "A";//激活;
      }
 }

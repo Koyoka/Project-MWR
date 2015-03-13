@@ -8,6 +8,7 @@ using YRKJ.MWR.Business.BaseData;
 using YRKJ.MWR.Business;
 using YRKJ.MWR.Business.Permit;
 using YRKJ.MWR.BackOffice.Business.Sys;
+using ComLib.db;
 
 namespace YRKJ.MWR.BackOffice.Pages.BO.BaseData
 {
@@ -31,9 +32,43 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.BaseData
 
         #region Events
 
-        public bool AjaxGetEmpy(string empyCode,string empyName,string empyType,string page)
+        public bool AjaxSubEmpy(string empyCode,string password, string empyName, string empyType,
+            string opyEmpyCode, string opyType, string page)
         {
             string errMsg = "";
+
+            if (opyType.ToLower().Equals("new"))
+            {
+                TblMWEmploy empy = new TblMWEmploy();
+                empy.EmpyCode = empyCode;
+                empy.EmpyName = empyName;
+                empy.Password = password;
+                empy.EmpyType = empyType;
+                empy.Status = TblMWEmploy.STATUS_ENUM_Active;
+                if (!PermitMng.AddNewEmploy(empy, ref errMsg))
+                {
+                    ReturnAjaxError(errMsg);
+                    return false;
+                }
+            }
+            else if (opyType.ToLower().Equals("edit"))
+            {
+                if (!PermitMng.ChangeEmpyInfo(empyCode, empyName, empyType, ref errMsg))
+                {
+                    ReturnAjaxError(errMsg);
+                    return false;
+                }
+            }
+            else
+            {
+                if (!AjaxSubEmpy_OptEvent(opyEmpyCode, opyType, ref errMsg))
+                {
+                    ReturnAjaxError(errMsg);
+                    return false;
+                }
+            }
+            
+
             int CurrentPage = ComLib.ComFn.StringToInt(page);
             
             if (!LoadData_EmpyData(CurrentPage, ref errMsg))
@@ -44,15 +79,40 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.BaseData
             return true;
         }
 
-        public bool AjaxGetEmpy(string page)
+        public bool AjaxSubEmpy(string opyEmpyCode, string opyType, string page)
         {
             string errMsg = "";
+            if (!AjaxSubEmpy_OptEvent(opyEmpyCode,opyType,ref errMsg))
+            {
+                ReturnAjaxError(errMsg);
+                return false;
+            }
+
             int CurrentPage = ComLib.ComFn.StringToInt(page);
 
             if (!LoadData_EmpyData(CurrentPage, ref errMsg))
             {
                 ReturnAjaxError(errMsg);
                 return false;
+            }
+            return true;
+        }
+
+        public bool AjaxSubEmpy_OptEvent(string empyCode, string opyType, ref string errMsg)
+        {
+            if (opyType.ToLower().Equals("void"))
+            {
+                if (!PermitMng.VoidEmploy(empyCode, ref errMsg))
+                {
+                    return false;
+                }
+            }
+            else if (opyType.ToLower().Equals("active"))
+            {
+                if (!PermitMng.ActiveEmploy(empyCode, ref errMsg))
+                {
+                    return false;
+                }
             }
             return true;
         }
@@ -99,9 +159,10 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.BaseData
                 {
                     EmpyCode = item.EmpyCode,
                     EmpyName = item.EmpyName,
+                    EmpyPassword = SqlCommonFn.DecryptString(item.Password),
                     EmpyType = BizHelper.GetEmpyType(item.EmpyType),
                     FuncGroup = item.FuncGroupId < 0 ? PermitMng.GetSysDefaultFuncGroupName(item.FuncGroupId) : item.FuncGroupName,
-                    IsActive = item.EmpyType.Equals(TblMWEmploy.EMPYTYPE_ENUM_Void) ? false : true
+                    IsActive = item.Status.Equals(TblMWEmploy.STATUS_ENUM_Void) ? false : true
                 });
             }
 
@@ -124,6 +185,7 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.BaseData
         {
             public string EmpyCode { get; set; }
             public string EmpyName { get; set; }
+            public string EmpyPassword { get; set; }
             public string FuncGroup { get; set; }
             public string EmpyType { get; set; }
             public bool IsActive { get; set; }

@@ -142,7 +142,7 @@
 					</div>
                     <form data-wgt="mw-submit" 
                         id="mwFrmList"
-                        data-wgt-submit-method="AjaxGetEmpy" 
+                        data-wgt-submit-method="AjaxSubEmpy" 
                         <%--data-wgt-submit-options-reload="true" 
                         data-wgt-submit-options-block="true" --%>
                        data-wgt-submit-options-recall="BOBDEmploy.subrecall"
@@ -153,6 +153,9 @@
 
                         <th>
                             员工编号
+                        </th>
+                         <th>
+                            密码
                         </th>
                         <th>
                             员工姓名
@@ -182,6 +185,9 @@
                             <% = item.EmpyCode %>
                         </td>
                         <td>
+                           ******
+                        </td>
+                        <td>
                             <% = item.EmpyName %>
                         </td>
                         <td>
@@ -197,20 +203,21 @@
 							<%--<a class="delete" href="javascript:;">Delete</a>--%>
                              <% if (item.IsActive) %>
                             <% { %>
-                                <a href="#"  class="btn default btn-xs red cancel"><i class="fa fa-edit"></i> 注销</a>
+                                <a href="#" data-wgt="mw-voidempy" data-wgt-empycode="<% = item.EmpyCode %>" class="btn default btn-xs red cancel"><i class="fa fa-edit"></i> 注销</a>
                             <% } %>
                             <% if (!item.IsActive) %>
                             <% { %>
-                                <a href="#"  class="btn default btn-xs green cancel"><i class="fa fa-edit"></i> 激活</a>
+                                <a href="#" data-wgt="mw-activeempy" data-wgt-empycode="<% = item.EmpyCode %>"  class="btn default btn-xs green cancel"><i class="fa fa-edit"></i> 激活</a>
                             <% } %>
 						</td>
 					</tr>
                     <% 
                                     }
                             %>
-				
 					</tbody>
 					</table>
+                    <input id="mw-opyEmpyCode" type="hidden" name="opyEmpyCode" value="" />
+                    <input id="mw-opyType" type="hidden" name="opyType" value="" />
                     <uc1:UPage ID="c_UPage" runat="server" />
                     </form>
 				</div>
@@ -324,12 +331,16 @@
     });
 </script>
 
-<div id="mw-EmpyTpe-temp" >
+<div id="mw-EmpyTpe-temp" style="display:none;">
    <select  name="mw-tempEmpyTpe" class="form-control input-lg">
-        <option text="一般员工" value="0">一般员工</option>
-        <option text="司机"  value="1">司机</option>
-        <option  text="跟车员" value="2">跟车员</option>
+        <option text="一般员工" value="<% = YRKJ.MWR.TblMWEmploy.EMPYTYPE_ENUM_WorkStation%>">一般员工</option>
+        <option text="司机"  value="<% = YRKJ.MWR.TblMWEmploy.EMPYTYPE_ENUM_Driver%>">司机</option>
+        <option  text="跟车员" value="<% = YRKJ.MWR.TblMWEmploy.EMPYTYPE_ENUM_Inspector%>">跟车员</option>
     </select>
+
+    
+     
+      
 </div>
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="footscript" runat="server">

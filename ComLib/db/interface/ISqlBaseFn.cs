@@ -14,6 +14,10 @@ namespace ComLib.db.mysql
         public abstract string FormatSqlDateTimeString(DateTime val, SqlCommonFn.SqlWhereDateTimeFormatEnum dateFormat);
         public abstract string FormatSqlDateTimeColumnString(string columnName,SqlCommonFn.SqlWhereDateTimeFormatEnum dateFormat);
 
+        public String DecryptString(string s)
+        {
+            return ComFn.DecryptDBPassword("pRKJMwrdbWORDTaBlE", s);
+        }
         public String EncryptString(String s)
         {
 

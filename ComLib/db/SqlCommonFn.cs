@@ -73,6 +73,10 @@ namespace ComLib.db
             return sqlFnInstance;
         }
 
+        public static string DecryptString(string s)
+        {
+            return createSqlFnInstance().DecryptString(s);
+        }
         public static string EncryptString(string s)
         {
             return createSqlFnInstance().EncryptString(s);
