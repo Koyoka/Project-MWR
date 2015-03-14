@@ -121,5 +121,69 @@ namespace ComLib.db.mysql
 
             return defineFormatString;
         }
+
+        public override string FormatSqlValueString(Object val)
+        {
+            string formatString = "";
+            if (val is string)
+            {
+                formatString = "N'" + ReplaceSpecialChar(val.ToString()) + "'";
+            }
+            else if (val is bool)
+            {
+                formatString = ((bool)val ? 1 : 0) + "";
+            }
+            else if (val is DateTime)
+            {
+                formatString = "N'" + val + "'";
+            }
+            else
+            {
+                formatString = val + "";
+            }
+
+            return formatString;
+        }
+
+        public override string FormatSqlLikeEnumString(SqlCommonFn.SqlWhereLikeEnum likeType, string pval)
+        {
+            string val = ReplaceSpecialChar(pval);
+            string formatString = "";
+            if (likeType == SqlCommonFn.SqlWhereLikeEnum.BeforeLike)
+            {
+                formatString = " LIKE " + "N'" + val + "%'";
+            }
+            else if (likeType == SqlCommonFn.SqlWhereLikeEnum.AfterLike)
+            {
+                formatString = " LIKE " + "N'%" + val + "'";
+            }
+            else if (likeType == SqlCommonFn.SqlWhereLikeEnum.MidLike)
+            {
+                formatString = " LIKE " + "N'%" + val + "%'";
+            }
+            else if (likeType == SqlCommonFn.SqlWhereLikeEnum.LikeIt)
+            {
+                formatString = " LIKE " + "N'" + val + "'";
+            }
+            else
+            {
+                formatString = " LIKE " + "N'%" + val + "%'";
+            }
+
+            return formatString;
+        }
+
+        string[] sc = new string[] { @"\", "/", "\"","'", "|", "-", ";", "[","]" };
+        string[] rc = new string[] { "\\\\", @"\/", "\\\"", @"\'", @"\|", @"\-", @"\;", @"\[", @"\]" }; 
+        public  string ReplaceSpecialChar(string str)
+        {
+            
+            for (int i = 0; i < sc.Length; i++)
+            {
+                str = str.Replace(sc[i], rc[i]);
+            }
+
+            return str;
+        }
     }
 }

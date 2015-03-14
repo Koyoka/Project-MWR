@@ -114,5 +114,12 @@ namespace MobilePhoneDemoApp
 
             int a = 0;
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            string str = textBox1.Text;
+            textBox2.Text =  new ComLib.db.mysql.SqlMySqlFn().ReplaceSpecialChar(str);
+            return;
+        }
     }
 }

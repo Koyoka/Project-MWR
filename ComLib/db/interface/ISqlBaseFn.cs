@@ -22,45 +22,30 @@ namespace ComLib.db.mysql
         {
 
             return ComFn.EncryptDBPassword("pRKJMwrdbWORDTaBlE", s);
-
-
-            //byte[] byteArray = System.Text.Encoding.UTF8.GetBytes(s);
-            //return Convert.ToBase64String(byteArray);
-            //return s;
-            //try
-            //{
-            //    return Base64.encodeBase64String(s.getBytes("utf-8"));
-            //}
-            //catch (UnsupportedEncodingException e)
-            //{
-            //    // TODO Auto-generated catch block
-            //    e.printStackTrace();
-            //    return s;
-            //}
-
         }
 
-        public string FormatSqlValueString(Object val){
-		    string formatString = "";
-            if (val is string)
-            {
-                formatString = "N'" + val + "'";
-            }
-            else if (val is bool)
-            {
-                formatString = ((bool)val ? 1 : 0) + "";
-            }
-            else if (val is DateTime)
-            {
-                formatString = "N'" + val + "'";
-            }
-            else
-            {
-                formatString = val + "";
-            }
+        //public string FormatSqlValueString(Object val){
+        //    string formatString = "";
+        //    if (val is string)
+        //    {
+        //        formatString = "N'" + val + "'";
+        //    }
+        //    else if (val is bool)
+        //    {
+        //        formatString = ((bool)val ? 1 : 0) + "";
+        //    }
+        //    else if (val is DateTime)
+        //    {
+        //        formatString = "N'" + val + "'";
+        //    }
+        //    else
+        //    {
+        //        formatString = val + "";
+        //    }
     		
-		    return formatString;
-	    }
+        //    return formatString;
+        //}
+        public abstract string FormatSqlValueString(Object val);
 
         public string FormatSqlCompareEnumString(SqlCommonFn.SqlWhereCompareEnum compareType)
         {
@@ -98,33 +83,34 @@ namespace ComLib.db.mysql
             //		return formatString ;
         }
 
-        public string FormatSqlLikeEnumString(SqlCommonFn.SqlWhereLikeEnum likeType, string val)
-        {
+        public abstract string FormatSqlLikeEnumString(SqlCommonFn.SqlWhereLikeEnum likeType, string val);
+        //public string FormatSqlLikeEnumString(SqlCommonFn.SqlWhereLikeEnum likeType, string val)
+        //{
 
-            string formatString = "";
-            if (likeType == SqlCommonFn.SqlWhereLikeEnum.BeforeLike)
-            {
-                formatString = " LIKE " + "N'" + val + "%'";
-            }
-            else if (likeType == SqlCommonFn.SqlWhereLikeEnum.AfterLike)
-            {
-                formatString = " LIKE " + "N'%" + val + "'";
-            }
-            else if (likeType == SqlCommonFn.SqlWhereLikeEnum.MidLike)
-            {
-                formatString = " LIKE " + "N'%" + val + "%'";
-            }
-            else if (likeType == SqlCommonFn.SqlWhereLikeEnum.LikeIt)
-            {
-                formatString = " LIKE " + "N'" + val + "'";
-            }
-            else
-            {
-                formatString = " LIKE " + "N'%" + val + "%'";
-            }
+        //    string formatString = "";
+        //    if (likeType == SqlCommonFn.SqlWhereLikeEnum.BeforeLike)
+        //    {
+        //        formatString = " LIKE " + "N'" + val + "%'";
+        //    }
+        //    else if (likeType == SqlCommonFn.SqlWhereLikeEnum.AfterLike)
+        //    {
+        //        formatString = " LIKE " + "N'%" + val + "'";
+        //    }
+        //    else if (likeType == SqlCommonFn.SqlWhereLikeEnum.MidLike)
+        //    {
+        //        formatString = " LIKE " + "N'%" + val + "%'";
+        //    }
+        //    else if (likeType == SqlCommonFn.SqlWhereLikeEnum.LikeIt)
+        //    {
+        //        formatString = " LIKE " + "N'" + val + "'";
+        //    }
+        //    else
+        //    {
+        //        formatString = " LIKE " + "N'%" + val + "%'";
+        //    }
 
-            return formatString;
-        }
+        //    return formatString;
+        //}
 
         public string FormatSqlOrderByEnumString(SqlCommonFn.SqlOrderByType orderByType)
         {

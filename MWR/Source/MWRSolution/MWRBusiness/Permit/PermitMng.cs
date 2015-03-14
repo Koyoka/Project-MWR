@@ -542,14 +542,16 @@ namespace YRKJ.MWR.Business.Permit
             return true;
         }
 
-        public static bool ChangeEmpyInfo(string empyCode, string empyName, string empyType, ref string errMsg)
+        public static bool ChangeEmpyInfo(string empyCode,string password, string empyName, string empyType,int funcGroup, ref string errMsg)
         {
             DataCtrlInfo dcf = new DataCtrlInfo();
             int updCount = 0;
 
             SqlUpdateColumn suc = new SqlUpdateColumn();
+            suc.Add(TblMWEmploy.getPasswordColumn(), password);
             suc.Add(TblMWEmploy.getEmpyNameColumn(), empyName);
             suc.Add(TblMWEmploy.getEmpyTypeColumn(), empyType);
+            suc.Add(TblMWEmploy.getFuncGroupIdColumn(), funcGroup);
             SqlWhere sw = new SqlWhere();
             sw.AddCompareValue(TblMWEmploy.getEmpyCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, empyCode);
 
@@ -564,6 +566,20 @@ namespace YRKJ.MWR.Business.Permit
         public static bool AddNewEmploy(TblMWEmploy empy, ref string errMsg)
         {
             DataCtrlInfo dcf = new DataCtrlInfo();
+
+            TblMWEmploy defineEmpy = null;
+            SqlQueryMng sqm = new SqlQueryMng();
+            sqm.Condition.Where.AddCompareValue(TblMWEmploy.getEmpyCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, empy.EmpyCode);
+            if (!TblMWEmployCtrl.QueryOne(dcf, sqm, ref defineEmpy, ref errMsg))
+            {
+                return false;
+            }
+            if (defineEmpy != null)
+            {
+                errMsg = "已有当前编号员工";
+                return false;
+            }
+
             int updCount = 0;
             if (!TblMWEmployCtrl.Insert(dcf, empy, ref updCount, ref errMsg))
             {

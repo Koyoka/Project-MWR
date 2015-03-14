@@ -111,10 +111,7 @@
 						<i class="fa fa-edit"></i>员工列表
 					</div>
 					<div class="tools">
-						<a href="javascript:;" class="collapse"></a>
-						<a href="#portlet-config" data-toggle="modal" class="config"></a>
-						<a href="javascript:;" class="reload"></a>
-						<a href="javascript:;" class="remove"></a>
+						
 					</div>
 				</div>
 				<div class="portlet-body">
@@ -124,21 +121,7 @@
 							添加新员工 <i class="fa fa-plus"></i>
 							</button>
 						</div>
-						<div class="btn-group pull-right">
-							<button class="btn dropdown-toggle" data-toggle="dropdown">Tools <i class="fa fa-angle-down"></i>
-							</button>
-							<ul class="dropdown-menu pull-right">
-								<li>
-									<a href="#">Print</a>
-								</li>
-								<li>
-									<a href="#">Save as PDF</a>
-								</li>
-								<li>
-									<a href="#">Export to Excel</a>
-								</li>
-							</ul>
-						</div>
+						
 					</div>
                     <form data-wgt="mw-submit" 
                         id="mwFrmList"
@@ -185,7 +168,8 @@
                             <% = item.EmpyCode %>
                         </td>
                         <td>
-                           ******
+                            ******
+                           <input type="password" value="<% = item.EmpyPassword %>" style="border:0px;display:none;" />
                         </td>
                         <td>
                             <% = item.EmpyName %>
@@ -215,7 +199,108 @@
                                     }
                             %>
 					</tbody>
+                    <tfoot>
+                        <tr id="mw-rowedittemp" style="display:none;">
+                            <td>
+                                [Value]<input id="[empty]empyCode" type="hidden" class="form-control input-small" value="" />
+                            </td>
+                             <td>
+                                <input id="[empty]password" maxlength="25" type="text" class="form-control input-small" value="" />
+                            </td>
+                            <td>
+                                <input id="[empty]empyName" maxlength="25" type="text" class="form-control input-small" value="" />
+                            </td>
+                            <td>
+                                <select  id="[empty]empyType" class="form-control">
+                                    <option text="一般员工" value="<% = YRKJ.MWR.TblMWEmploy.EMPYTYPE_ENUM_WorkStation%>">一般员工</option>
+                                    <option text="司机"  value="<% = YRKJ.MWR.TblMWEmploy.EMPYTYPE_ENUM_Driver%>">司机</option>
+                                    <option  text="跟车员" value="<% = YRKJ.MWR.TblMWEmploy.EMPYTYPE_ENUM_Inspector%>">跟车员</option>
+                                </select>
+                               <%-- <input type="hidden" class="form-control input-small" value="" />--%>
+                            </td>
+                            <td>
+                                <select  id="[empty]empyFuncGroup" class="form-control ">
+                                    <%
+                                        foreach (var func in PageFuncGroupDataList)
+	{
+                                            
+                                    %>
+                                    <option text="<% = func.FuncGroupName %>" value="<% = func.FuncGroupId%>"><% = func.FuncGroupName %></option>
+                                    <%
+	}
+                                    %>
+                                </select>
+                            </td>
+						    <td>
+							     <a class="edit" data-mode="save" data-opt="edit" href="">保存</a> <a class="cancel"  href="">取消</a>
+						    </td>
+						    <td>
+							    [Value]
+						    </td>
+                        </tr>
+                        <tr id="mw-rownewtemp" style="display:none;">
+                            <td>
+                                <input id="[empty1]empyCode"  maxlength="10" type="text" class="form-control input-small" value="" />
+                            </td>
+                             <td>
+                                <input id="[empty1]password"  maxlength="25" type="text" class="form-control input-small" value="" />
+                            </td>
+                            <td>
+                                <input id="[empty1]empyName"  maxlength="25" type="text" class="form-control input-small" value="">
+                            </td>
+                            <td>
+                                <select  id="[empty1]empyType" class="form-control">
+                                    <option text="一般员工" value="<% = YRKJ.MWR.TblMWEmploy.EMPYTYPE_ENUM_WorkStation%>">一般员工</option>
+                                    <option text="司机"  value="<% = YRKJ.MWR.TblMWEmploy.EMPYTYPE_ENUM_Driver%>">司机</option>
+                                    <option  text="跟车员" value="<% = YRKJ.MWR.TblMWEmploy.EMPYTYPE_ENUM_Inspector%>">跟车员</option>
+                                </select>
+                            </td>
+                            <td>
+                                 <select  id="[empty1]empyFuncGroup" class="form-control ">
+                                    <%
+                                        foreach (var func in PageFuncGroupDataList)
+	{
+                                            
+                                    %>
+                                    <option text="<% = func.FuncGroupName %>" value="<% = func.FuncGroupId%>"><% = func.FuncGroupName %></option>
+                                    <%
+	}
+                                    %>
+                                </select>
+                            </td>
+						    <td>
+							     <a class="edit"  data-mode="save" data-opt="new" href="">保存</a> <a class="cancel" data-mode="new" href="">取消</a>
+						    </td>
+						    <td>
+							
+						    </td>
+                        </tr>
+                        <tr id="mw-rowdefaulttemp" style="display:none;">
+                            <td>
+                                [Value]
+                            </td>
+                             <td>
+                                [Value]
+                            </td>
+                            <td>
+                               [Value]
+                            </td>
+                            <td>
+                                [Value]
+                            </td>
+                            <td>
+                                [Value]
+                            </td>
+						    <td>
+							     <a class="edit"  data-mode="save" data-opt="new" href="">保存</a> <a class="cancel" data-mode="new" href="">取消</a>
+						    </td>
+						    <td>
+							
+						    </td>
+                        </tr>
+                    </tfoot>
 					</table>
+                    
                     <input id="mw-opyEmpyCode" type="hidden" name="opyEmpyCode" value="" />
                     <input id="mw-opyType" type="hidden" name="opyType" value="" />
                     <uc1:UPage ID="c_UPage" runat="server" />
@@ -228,97 +313,10 @@
 
     <div class="clearfix">
     </div>
-    <div class="row">
-      <div class="col-md-12 col-md-12">
-            <div class="portlet box blue">
-                <div class="portlet-title">
-                    <div class="caption">
-                        <i class="fa fa-reorder"></i>员工列表
-                    </div>
-                    <%-- <div class="actions ">
-                     2015年01月16日
-                       
-                    </div>--%>
-                </div>
-                <div class="portlet-body"  >
-                <form <%--data-wgt="mw-submit" --%>
-                    id="mwFrmList1"
-                    data-wgt-submit-method="AjaxGetEmpy" 
-                    <%--data-wgt-submit-options-reload="true" 
-                    data-wgt-submit-options-block="true" --%>
-                   <%-- data-wgt-submit-options-recall="CommHelper.recallCarDispatch" --%>
-                    action="<% = WebAppFn.GetBoFullPageUrl(RedirectHelper.BDEmploy) %>">
-                    <div class="table-responsive table-scrollable">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th>
-                                        员工编号
-                                    </th>
-                                    <th>
-                                        员工姓名
-                                    </th>
-                                     <th>
-                                        员工职责
-                                    </th>
-                                    <th>
-                                        所属权限组
-                                    </th>
-                                    <th>
-                                    编辑
-                                    </th>
-                                    <th>
-                                        
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <%
-                                    foreach (var item in PageEmployDataList)
-	{
-                                %>
-                                <tr>
-                                    <td>
-                                        <% = item.EmpyCode %>
-                                    </td>
-                                    <td>
-                                        <% = item.EmpyName %>
-                                    </td>
-                                    <td>
-                                        <% = item.EmpyType %>
-                                    </td>
-                                    <td>
-                                        <% = item.FuncGroup %>
-                                    </td>
-                                    
-                                    <td>
-                                        <a href="#"  class="btn default btn-xs blue"><i class="fa fa-edit"></i> 编辑</a>
-                                    </td>
-                                    <td>
-                                        <% if (item.IsActive) %>
-                                        <% { %>
-                                         <a href="#"  class="btn default btn-xs red"><i class="fa fa-edit"></i> 注销</a>
-                                        <% } %>
-                                        <% if (!item.IsActive) %>
-                                        <% { %>
-                                         <a href="#"  class="btn default btn-xs green"><i class="fa fa-edit"></i> 激活</a>
-                                        <% } %>
-                                    </td>
-                                </tr>
-                                <%
-	}
-                                %>
-                            </tbody>
-                        </table>
-                    </div>
-                    
-                </form>
-                </div>
-            </div>
-        </div>
-    </div>
+  
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="foot" runat="server">
+<script type="text/javascript" src="/assets/plugins/jquery-validation/dist/jquery.validate.min.js"></script>
 <script type="text/javascript" src="/assets/plugins/select2/select2.min.js"></script>
 <script type="text/javascript" src="/assets/plugins/data-tables/jquery.dataTables.js"></script>
 <script type="text/javascript" src="/assets/plugins/data-tables/DT_bootstrap.js"></script>

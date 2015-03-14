@@ -77,6 +77,7 @@ namespace YRKJ.MWR.Business.Sys
                         {
                             item.FuncGroupId = x.FuncGroupId;
                             item.EmpyType = x.EmpyType;
+                            item.Password = x.Password;
                             item.Status = x.Status;
                             return true;
                         }

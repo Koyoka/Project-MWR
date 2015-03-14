@@ -146,7 +146,8 @@ namespace YRKJ.MWR.BackOffice.Business.Sys
                         Param = new string[Request.Form.Count - 2];
                         for (int i = 0; i < Param.Length; i++)
                         {
-                            Param[i] = Request.Form[i];
+                            Param[i] = Request.Form[i];//.Replace("\\",@"\"); 
+                            //Param[i] = Request.Form[i];
                         }
                     }
                     Type tp = this.GetType();
