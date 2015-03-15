@@ -76,8 +76,13 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\bobdcrate.js" />
+    <Content Include="Assets\bobddepot.js" />
     <Content Include="Assets\bobdemploy.js" />
+    <Content Include="Assets\bobdvendor.js" />
+    <Content Include="Assets\bobdwaste.js" />
     <Content Include="Assets\bocomm.js" />
+    <Content Include="Assets\bodbcar.js" />
     <Content Include="Assets\boinvauthorizedetail.js" />
     <Content Include="Assets\bosysinit.js" />
     <Content Include="Assets\cardispatch.js" />
@@ -258,10 +263,16 @@
     <Content Include="Assets\scripts\ui-tree.js" />
     <Content Include="Assets\boindex.js" />
     <Content Include="Assets\userpermit.js" />
+    <Content Include="Assets\wgt-edittable.js" />
     <Content Include="Assets\wsmanage.js" />
     <Content Include="Global.asax" />
     <Content Include="Lib\Newtonsoft.Json.Net20.dll" />
+    <Content Include="Pages\BO\BaseData\BDCar.aspx" />
+    <Content Include="Pages\BO\BaseData\BDCrate.aspx" />
+    <Content Include="Pages\BO\BaseData\BDDepot.aspx" />
     <Content Include="Pages\BO\BaseData\BDEmploy.aspx" />
+    <Content Include="Pages\BO\BaseData\BDVendor.aspx" />
+    <Content Include="Pages\BO\BaseData\BDWaste.aspx" />
     <Content Include="Pages\BO\Block\BlockSendCarDispatch.aspx" />
     <Content Include="Pages\BO\BOIndex.aspx" />
     <Content Include="Pages\BO\BOMain.aspx" />
@@ -313,12 +324,47 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Pages\BO\BaseData\BDCar.aspx.cs">
+      <DependentUpon>BDCar.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\BO\BaseData\BDCar.aspx.designer.cs">
+      <DependentUpon>BDCar.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\BO\BaseData\BDCrate.aspx.cs">
+      <DependentUpon>BDCrate.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\BO\BaseData\BDCrate.aspx.designer.cs">
+      <DependentUpon>BDCrate.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\BO\BaseData\BDDepot.aspx.cs">
+      <DependentUpon>BDDepot.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\BO\BaseData\BDDepot.aspx.designer.cs">
+      <DependentUpon>BDDepot.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Pages\BO\BaseData\BDEmploy.aspx.cs">
       <DependentUpon>BDEmploy.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\BO\BaseData\BDEmploy.aspx.designer.cs">
       <DependentUpon>BDEmploy.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\BO\BaseData\BDVendor.aspx.cs">
+      <DependentUpon>BDVendor.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\BO\BaseData\BDVendor.aspx.designer.cs">
+      <DependentUpon>BDVendor.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\BO\BaseData\BDWaste.aspx.cs">
+      <DependentUpon>BDWaste.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\BO\BaseData\BDWaste.aspx.designer.cs">
+      <DependentUpon>BDWaste.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\BO\Block\BlockSendCarDispatch.aspx.cs">
       <DependentUpon>BlockSendCarDispatch.aspx</DependentUpon>

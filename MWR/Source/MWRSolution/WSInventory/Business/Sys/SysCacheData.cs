@@ -13,7 +13,7 @@ namespace YRKJ.MWR.WSInventory.Business.Sys
         {
             if (_depotList == null)
             {
-                if (!BaseDataMng.GetAllDepotList(ref _depotList, ref errMsg))
+                if (!BaseDataMng.GetDepotDataList(ref _depotList, ref errMsg))
                 {
                     return false;
                 }

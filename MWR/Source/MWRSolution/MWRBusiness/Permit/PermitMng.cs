@@ -511,91 +511,9 @@ namespace YRKJ.MWR.Business.Permit
             return true;
         }
 
-        public static bool ActiveEmploy(string empyCode, ref string errMsg)
-        {
-            DataCtrlInfo dcf = new DataCtrlInfo();
+      
 
-            int updCount = 0;
-            SqlUpdateColumn suc = new SqlUpdateColumn();
-            suc.Add(TblMWEmploy.getStatusColumn(), TblMWEmploy.STATUS_ENUM_Active);
-            SqlWhere sw = new SqlWhere();
-            sw.AddCompareValue(TblMWEmploy.getEmpyCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, empyCode);
-            if (!TblMWEmployCtrl.Update(dcf, suc, sw, ref updCount, ref errMsg))
-            {
-                return false;
-            }
-            return true;
-        }
-        public static bool VoidEmploy(string empyCode, ref string errMsg)
-        {
-            DataCtrlInfo dcf = new DataCtrlInfo();
-            int updCount = 0;
-
-            SqlUpdateColumn suc = new SqlUpdateColumn();
-            suc.Add(TblMWEmploy.getStatusColumn(), TblMWEmploy.STATUS_ENUM_Void);
-            SqlWhere sw = new SqlWhere();
-            sw.AddCompareValue(TblMWEmploy.getEmpyCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, empyCode);
-            if (!TblMWEmployCtrl.Update(dcf, suc, sw, ref updCount, ref errMsg))
-            {
-                return false;
-            }
-            return true;
-        }
-
-        public static bool ChangeEmpyInfo(string empyCode,string password, string empyName, string empyType,int funcGroup, ref string errMsg)
-        {
-            DataCtrlInfo dcf = new DataCtrlInfo();
-            int updCount = 0;
-
-            SqlUpdateColumn suc = new SqlUpdateColumn();
-            suc.Add(TblMWEmploy.getPasswordColumn(), password);
-            suc.Add(TblMWEmploy.getEmpyNameColumn(), empyName);
-            suc.Add(TblMWEmploy.getEmpyTypeColumn(), empyType);
-            suc.Add(TblMWEmploy.getFuncGroupIdColumn(), funcGroup);
-            SqlWhere sw = new SqlWhere();
-            sw.AddCompareValue(TblMWEmploy.getEmpyCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, empyCode);
-
-            if (!TblMWEmployCtrl.Update(dcf, suc, sw, ref updCount, ref errMsg))
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        public static bool AddNewEmploy(TblMWEmploy empy, ref string errMsg)
-        {
-            DataCtrlInfo dcf = new DataCtrlInfo();
-
-            TblMWEmploy defineEmpy = null;
-            SqlQueryMng sqm = new SqlQueryMng();
-            sqm.Condition.Where.AddCompareValue(TblMWEmploy.getEmpyCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, empy.EmpyCode);
-            if (!TblMWEmployCtrl.QueryOne(dcf, sqm, ref defineEmpy, ref errMsg))
-            {
-                return false;
-            }
-            if (defineEmpy != null)
-            {
-                errMsg = "已有当前编号员工";
-                return false;
-            }
-
-            int updCount = 0;
-            if (!TblMWEmployCtrl.Insert(dcf, empy, ref updCount, ref errMsg))
-            {
-                return false;
-            }
-
-            if (updCount == 0)
-            {
-                errMsg = "用户添加失败";
-                return false;
-            }
-
-            return true;
-        }
-             
-
+       
         #endregion
 
         #region Sys function

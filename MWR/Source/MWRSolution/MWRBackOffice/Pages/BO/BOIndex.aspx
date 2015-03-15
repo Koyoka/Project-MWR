@@ -142,12 +142,12 @@
                     </i><span class="title">基础档案管理 </span><span class="arrow "></span><span class="selected">
                     </span></a>
                         <ul class="sub-menu">
-                            <li class=""><a href="javascript:void;">员工档案</a> </li>
-                            <li class=""><a href="javascript:void;">车辆档案</a> </li>
-                            <li><a href="javascript:void;">货箱档案</a> </li>
-                            <li><a href="javascript:void;">仓库档案</a> </li>
-                            <li><a href="javascript:void;">医院档案</a> </li>
-                            <li><a href="javascript:void;">医疗废物档案</a> </li>
+                            <li class=""><a href="#<% = RedirectHelper.BDEmploy %>">员工档案</a> </li>
+                            <li class=""><a href="#<% = RedirectHelper.BDCar %>">车辆档案</a> </li>
+                            <li><a href="#<% = RedirectHelper.BDCrate %>">货箱档案</a> </li>
+                            <li><a href="#<% = RedirectHelper.BDDepot %>">仓库档案</a> </li>
+                            <li><a href="#<% = RedirectHelper.BDVendor %>">医院档案</a> </li>
+                            <li><a href="#<% = RedirectHelper.BDWaste %>">医疗废物档案</a> </li>
                         </ul>
                     </li>
                     <li id="MW_Sys" class="last "><a href="javascript:;"><i class="fa fa-cogs"></i><span

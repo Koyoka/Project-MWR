@@ -25,83 +25,8 @@
 		</ul>
 	</div>
 </div>
-
 <div class="clearfix">
 </div>
-<%--<div class="row">
-   
-		<div class="col-md-8">
-			<div class="booking-search">
-				<form action="#" role="form">
-					<div class="row form-group">
-						<div class="col-md-12">
-							<label class="control-label">员工编号</label>
-							<div class="input-icon">
-								<i class="fa fa-map-marker"></i>
-								<input class="form-control" type="text" placeholder="Canada, Malaysia, Russia ...">
-							</div>
-						</div>
-					</div>
-					<div class="row form-group">
-						<div class="col-md-6">
-							<label class="control-label">员工姓名:</label>
-							<div class="input-icon">
-								<i class="fa fa-calendar"></i>
-								<input class="form-control date-picker" size="16" type="text" value="12-02-2012" data-date="12-02-2012" data-date-format="dd-mm-yyyy" data-date-viewmode="years"/>
-							</div>
-						</div>
-						<div class="col-md-6">
-							<label class="control-label">登录密码:</label>
-							<div class="input-icon">
-								<i class="fa fa-calendar"></i>
-								<input class="form-control date-picker" size="16" type="text" value="12-02-2012" data-date="12-02-2012" data-date-format="dd-mm-yyyy" data-date-viewmode="years"/>
-							</div>
-						</div>
-					</div>
-					<div class="row form-group">
-						<div class="col-md-6">
-							<label class="control-list">员工类型:</label>
-                            
-							<div class="checkbox-list">
-								<div class="btn-group" data-toggle="buttons">
-									<label class="btn btn-default active">
-									<input type="radio" class="toggle"> 一般员工 </label>
-									<label class="btn btn-default">
-									<input type="radio" class="toggle"> 司机 </label>
-									<label class="btn btn-default">
-									<input type="radio" class="toggle"> 跟车员 </label>
-                                    <label class="btn btn-default">
-									<input type="radio" class="toggle"> 注销 </label>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-6">
-							<label class="control-label">权限管理:</label>
-							<div class="input-icon">
-								<a href="#">[点击]转到权限管理</a>
-							</div>
-						</div>
-					</div>
-					<button class="btn blue btn-block margin-top-20">提交 <i class="m-icon-swapright m-icon-white"></i></button>
-				</form>
-			</div>
-		</div>
-		<!--end booking-search-->
-		<div class="col-md-4">
-			
-		</div>
-		<!--end col-md-4-->
-	
-
-    
-    
-</div>
-<br />--%>
-    
-
-    
-    <div class="clearfix">
-    </div>
 	<div class="row">
 		<div class="col-md-12">
 			<!-- BEGIN EXAMPLE TABLE PORTLET-->
@@ -310,9 +235,8 @@
 			<!-- END EXAMPLE TABLE PORTLET-->
 		</div>
 	</div>
-
-    <div class="clearfix">
-    </div>
+<div class="clearfix">
+</div>
   
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="foot" runat="server">
@@ -324,22 +248,8 @@
 <script>
     jQuery(document).ready(function () {
         BOBDEmploy.init();
-        
-
     });
 </script>
-
-<div id="mw-EmpyTpe-temp" style="display:none;">
-   <select  name="mw-tempEmpyTpe" class="form-control input-lg">
-        <option text="一般员工" value="<% = YRKJ.MWR.TblMWEmploy.EMPYTYPE_ENUM_WorkStation%>">一般员工</option>
-        <option text="司机"  value="<% = YRKJ.MWR.TblMWEmploy.EMPYTYPE_ENUM_Driver%>">司机</option>
-        <option  text="跟车员" value="<% = YRKJ.MWR.TblMWEmploy.EMPYTYPE_ENUM_Inspector%>">跟车员</option>
-    </select>
-
-    
-     
-      
-</div>
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="footscript" runat="server">
 </asp:Content>

@@ -423,7 +423,7 @@ namespace YRKJ.MWR.BackOffice.Services
                 {
                     return false;
                 }
-                if (!BaseDataMng.GetWasteCategoryData(ref defineWasteData, ref errMsg))
+                if (!BaseDataMng.GetWasteCategoryDataList(ref defineWasteData, ref errMsg))
                 {
                     return false;
                 }

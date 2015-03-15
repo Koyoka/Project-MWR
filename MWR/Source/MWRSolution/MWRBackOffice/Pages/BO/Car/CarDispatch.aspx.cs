@@ -28,6 +28,7 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Car
                 if(!InitPage(ref errMsg))
                 {
                     // do error thing
+                    RedirectHelper.GotoErrPage(errMsg, RedirectHelper.BOMain, RedirectHelper.BackType.include);
                 }
             }
         }

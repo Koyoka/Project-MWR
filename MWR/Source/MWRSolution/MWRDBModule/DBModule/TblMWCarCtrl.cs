@@ -94,6 +94,7 @@ namespace YRKJ.MWR
             return Insert(dcf,
                 item.CarCode,
                 item.Desc,
+                item.Status,
                     ref count,
                     ref errMsg
                     );
@@ -102,6 +103,7 @@ namespace YRKJ.MWR
         public static bool Insert(DataCtrlInfo dcf,
             string carCode,
             string desc,
+            string status,
                 ref int _count,
                 ref string _errMsg
                 )
@@ -110,6 +112,7 @@ namespace YRKJ.MWR
             sum.setQueryTableName(TblMWCar.getFormatTableName());
             sum.Add(TblMWCar.getCarCodeColumn(), carCode);
             sum.Add(TblMWCar.getDescColumn(), desc);
+            sum.Add(TblMWCar.getStatusColumn(), status);
             string sql = sum.getInsertSql();
             if (sql == null)
             {
@@ -124,6 +127,7 @@ namespace YRKJ.MWR
             SqlUpdateColumn suc = new SqlUpdateColumn();
             suc.Add(TblMWCar.getCarCodeColumn(), item.CarCode);
             suc.Add(TblMWCar.getDescColumn(), item.Desc);
+            suc.Add(TblMWCar.getStatusColumn(), item.Status);
             return Update(dcf, suc, sw, ref count, ref errMsg);
         }
 

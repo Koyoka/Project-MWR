@@ -1,62 +1,13 @@
-﻿var BOBDEmploy = function () {
+﻿var BOBDWaste = function () {
     var initHelper = function () {
-        gl.wgt.set('mw-activeempy', {
-            init: function () {
-                this.element.on('click', this.onClick.bind(this));
-            },
-            onClick: function (e) {
-                e.preventDefault();
-                var code = this.element.attr('data-wgt-empycode');
-                $('#mw-opyType').val('active');
-                $('#mw-opyEmpyCode').val(code);
-                $('#mwFrmList').submit();
-            }
-        });
-
-        gl.wgt.set('mw-voidempy', {
-            init: function () {
-                this.element.on('click', this.onClick.bind(this));
-            },
-            onClick: function (e) {
-                e.preventDefault();
-                var code = this.element.attr('data-wgt-empycode');
-                $('#mw-opyType').val('void');
-                $('#mw-opyEmpyCode').val(code);
-                $('#mwFrmList').submit();
-            }
-        });
-
-        //        gl.wgt.set('mw-editempy', {
-        //            init: function () {
-        //                this.element.on('click', this.onClick.bind(this));
-        //            },
-        //            onClick: function (e) {
-        //                e.preventDefault();
-        //                window.alert(1)
-        //                                $('#mw-opyType').val('edit');
-        //                                $('#mwFrmList').submit();
-        //            }
-        //        });
-        //        gl.wgt.set('mw-newempy', {
-        //            init: function () {
-        //                this.element.on('click', this.onClick.bind(this));
-        //            },
-        //            onClick: function (e) {
-        //                e.preventDefault();
-        //                window.alert(2)
-        //                                $('#mw-opyType').val('new');
-        //                                $('#mwFrmList').submit();
-        //            }
-        //        });
 
     }
     var oTable;
     var nEditing = null;
 
     var _subrecall = function (el, netData, locData) {
-
         _initOTable();
-
+        
     };
     var _initOTable = function () {
         nEditing = null;
@@ -65,22 +16,12 @@
                     [5, 15, 20, -1],
                     [5, 15, 20, "All"] // change per page values here
                 ],
-            // set the initial value
-            //                "iDisplayLength": 5,
-            //                "aaSorting": [[0, "asc"]],
+
             "bInfo": false, //开关，是否显示表格的一些信息
             "bPaginate": false, //开关，是否显示分页器
-            //                "bSort": false, //开关，是否启用各列具有按列排序的功能
             "bLengthChange": false, //开关，是否显示每页大小的下拉框
             "bFilter": false, //开关，是否启用客户端过滤器
             "sPaginationType": "bootstrap",
-            //                "oLanguage": {
-            //                    "sLengthMenu": "_MENU_ records",
-            //                    "oPaginate": {
-            //                        "sPrevious": "Prev",
-            //                        "sNext": "Next"
-            //                    }
-            //                },
             "aoColumnDefs": [
                     {
                         'bSortable': false,
@@ -93,20 +34,8 @@
                     {
                         'bSortable': false,
                         'aTargets': [2]
-                    },
-                    {
-                        'bSortable': false,
-                        'aTargets': [3]
-                    },
-                    {
-                        'bSortable': false,
-                        'aTargets': [4]
                     }
-                    ,
-                    {
-                        'bSortable': false,
-                        'aTargets': [5]
-                    }
+
                 ]
         });
     };
@@ -129,9 +58,7 @@
                     } else {
                         oTable.fnUpdate(aData[i], nRow, i, false);
                     }
-
                 }
-
                 oTable.fnDraw();
             }
             function editRow(oTable, nRow) {
@@ -163,7 +90,6 @@
                 }
                 $('input', jqTds[1]).focus();
                 gl.wgt.scan($(nRow));
-               
             }
             function newRow(oTable, nRow) {
                 var aData = oTable.fnGetData(nRow);
@@ -224,17 +150,29 @@
                     oTable.fnUpdate(val, nRow, i, false);
                 }
                 oTable.fnDraw();
-            }
 
+                return;
+                var jqInputs = $('input', nRow);
+                var jqSelect = $('select', nRow);
+                oTable.fnUpdate(jqInputs[0].value, nRow, 0, false);
+                oTable.fnUpdate(jqInputs[1].value, nRow, 1, false);
+                oTable.fnUpdate(jqInputs[2].value, nRow, 2, false);
+                oTable.fnUpdate($(jqSelect[0]).find("option:selected").text(), nRow, 3, false);
+
+                oTable.fnUpdate('<a class="edit" href="">编辑</a>', nRow, 5, false);
+
+                var dVoid = aData[6] == "" ? '<a href="#"  class="btn default btn-xs red cancel"><i class="fa fa-edit"></i> 注销</a>' : aData[6];
+                oTable.fnUpdate(dVoid, nRow, 6, false);
+                oTable.fnDraw();
+
+            }
             _initOTable();
 
             jQuery('#sample_editable_1_wrapper .dataTables_filter input').addClass("form-control input-medium"); // modify table search input
             jQuery('#sample_editable_1_wrapper .dataTables_length select').addClass("form-control input-small"); // modify table per page dropdown
             jQuery('#sample_editable_1_wrapper .dataTables_length select').select2({
                 showSearchInput: false //hide search box with special css class
-            }); // initialize select2 dropdown
-
-
+            });
 
             $('#sample_editable_1_new').click(function (e) {
                 e.preventDefault();
@@ -248,22 +186,11 @@
                 }
                 var aiNew = oTable.fnAddData(['', '', '', '', '',
                     '', ''
-                //                        '<a class="edit" href="">Edit</a>', 'data-mode="new"'//'<a class="cancel" data-mode="new" href="">Cancel</a>'
                 ]);
                 var nRow = oTable.fnGetNodes(aiNew[0]);
                 newRow(oTable, nRow);
                 nEditing = nRow;
             });
-
-//            $('#sample_editable_1 a.delete').on('click', function (e) {
-//                e.preventDefault();
-//                if (confirm("Are you sure to delete this row ?") == false) {
-//                    return;
-//                }
-//                var nRow = $(this).parents('tr')[0];
-//                oTable.fnDeleteRow(nRow);
-//                alert("Deleted! Do not forget to do some ajax to sync with backend :)");
-//            });
 
             $('#sample_editable_1 a.cancel').live('click', function (e) {
                 e.preventDefault();
@@ -281,57 +208,32 @@
             $('#sample_editable_1 a.edit').live('click', function (e) {
                 e.preventDefault();
 
-                /* Get the row as a parent of the link that was clicked on */
                 var nRow = $(this).parents('tr')[0];
-
                 if (nEditing !== null && nEditing != nRow) {
-                    /* Currently editing - but not this row - restore the old before continuing to edit mode */
                     restoreRow(oTable, nEditing);
                     editRow(oTable, nRow);
                     nEditing = nRow;
                 } else if (nEditing == nRow && $(this).attr('data-mode') == "save") {
-                    /* Editing this row and want to save it */
                     var url, method, data;
-                    method = "AjaxEditEmpy";
-                    url = "/Pages/BO/BaseData/BDEmploy.aspx";
+                    method = "AjaxEditWaste";
+                    url = "/Pages/BO/BaseData/BDWaste.aspx";
                     data = {};
-                    //string empyCode,string password, string empyName, string empyType
-                    data["empyCode"] = $('#empyCode').val();
-                    data["password"] = $('#password').val();
-                    data["empyName"] = $('#empyName').val();
-                    data["empyType"] = $('#empyType').val();
-                    data["empyFuncGroup"] = $("#empyFuncGroup").val();
+                    data["wasteCode"] = $('#wasteCode').val();
+                    data["waste"] = $('#waste').val();
                     data["opyType"] = $(this).attr('data-opt');
-                    //                    window.alert(
-                    //                                         data["empyCode"] + " " + $('#empyCode').val() + " " +
-                    //                                         data["password"] + " " +
-                    //                                         data["empyName"] + " " +
-                    //                                         data["empyType"] + " " +
-                    //                                         data["opyType"] + " " +
-                    //                                         ""
-                    //                                         );
-                    if (data["empyCode"] == ""
-                    || data["password"] == ""
-                    || data["empyName"] == "") {
+
+                    if (data["wasteCode"] == ""
+                    || data["waste"] == "") {
                         Modal.alert("请填写信息")
                         return;
                     }
 
-
                     $.AjaxPJson(url, method, data, function (d) {
-                        $('#mw-opyType').val('');
-                        $('#mw-opyEmpyCode').val('');
                         $('#mwFrmList').submit();
                     }, function (r) {
                         Modal.alert('[' + r + ']');
                     });
-                    //                    window.alert(3)
-
-                    //                    saveRow(oTable, nEditing);
-                    //                    nEditing = null;
-                    //                    alert("Updated! Do not forget to do some ajax to sync with backend :)");
                 } else {
-                    /* No edit in progress - let's start one */
                     editRow(oTable, nRow);
                     nEditing = nRow;
                 }

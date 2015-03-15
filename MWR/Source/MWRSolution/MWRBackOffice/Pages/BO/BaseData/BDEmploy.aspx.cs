@@ -16,7 +16,7 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.BaseData
     {
         public const string ClassName = "YRKJ.MWR.BackOffice.Pages.BO.BaseData.BDEmploy";
 
-        private int pageSize = 10;
+        private int pageSize = 20;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -26,6 +26,7 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.BaseData
                 if (!InitPage(ref errMsg))
                 {
                     // do error thing
+                    RedirectHelper.GotoErrPage(errMsg, RedirectHelper.BOMain, RedirectHelper.BackType.include);
                 }
             }
         }
@@ -40,13 +41,13 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.BaseData
             if (opyType.ToLower().Equals("new"))
             {
                 TblMWEmploy empy = new TblMWEmploy();
-                empy.EmpyCode = empyCode;
-                empy.EmpyName = empyName;
+                empy.EmpyCode = empyCode.Trim();
+                empy.EmpyName = empyName.Trim();
                 empy.Password = password;
                 empy.EmpyType = empyType;
                 empy.FuncGroupId = ComLib.ComFn.StringToInt(empyFuncGroup);
                 empy.Status = TblMWEmploy.STATUS_ENUM_Active;
-                if (!PermitMng.AddNewEmploy(empy, ref errMsg))
+                if (!BaseDataMng.AddNewEmploy(empy, ref errMsg))
                 {
                     ReturnAjaxError(errMsg);
                     return false;
@@ -54,7 +55,7 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.BaseData
             }
             else if (opyType.ToLower().Equals("edit"))
             {
-                if (!PermitMng.ChangeEmpyInfo(empyCode,password, empyName, empyType, ComLib.ComFn.StringToInt(empyFuncGroup), ref errMsg))
+                if (!BaseDataMng.EditEmpyInfo(empyCode.Trim(), password, empyName.Trim(), empyType, ComLib.ComFn.StringToInt(empyFuncGroup), ref errMsg))
                 {
                     ReturnAjaxError(errMsg);
                     return false;
@@ -83,7 +84,7 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.BaseData
         public bool AjaxSubEmpy(string opyEmpyCode, string opyType, string page)
         {
             string errMsg = "";
-            if (!AjaxSubEmpy_OptEvent(opyEmpyCode,opyType,ref errMsg))
+            if (!AjaxSubEmpy_OptEvent(opyEmpyCode.Trim(), opyType, ref errMsg))
             {
                 ReturnAjaxError(errMsg);
                 return false;
@@ -108,14 +109,14 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.BaseData
         {
             if (opyType.ToLower().Equals("void"))
             {
-                if (!PermitMng.VoidEmploy(empyCode, ref errMsg))
+                if (!BaseDataMng.VoidEmploy(empyCode, ref errMsg))
                 {
                     return false;
                 }
             }
             else if (opyType.ToLower().Equals("active"))
             {
-                if (!PermitMng.ActiveEmploy(empyCode, ref errMsg))
+                if (!BaseDataMng.ActiveEmploy(empyCode, ref errMsg))
                 {
                     return false;
                 }
@@ -144,7 +145,7 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.BaseData
             {
                 return false;
             }
-            if (LoadData_FunctionGroup(ref errMsg))
+            if (!LoadData_FunctionGroup(ref errMsg))
             {
                 return false;
             }

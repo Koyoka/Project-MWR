@@ -11,8 +11,21 @@ namespace YRKJ.MWR.Business.BaseData
     {
         public const string ClassName = "YRKJ.MWR.Business.BaseData.BaseDataMng";
 
+        #region get data
         #region WasteCategory
-        public static bool GetWasteCategoryData(ref List<TblMWWasteCategory> dataList, ref string errMsg)
+        public static bool GetWasteCategoryDataList(int page, int pageSize, ref long pageCount, ref long rowCount, ref List<TblMWWasteCategory> dataList, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            SqlQueryMng sqm = new SqlQueryMng();
+            if (!TblMWWasteCategoryCtrl.QueryPage(dcf, sqm, page, pageSize, ref dataList, ref errMsg))
+            {
+                return false;
+            }
+            pageCount = dcf.PageCount;
+            rowCount = dcf.RowCount;
+            return true;
+        }
+        public static bool GetWasteCategoryDataList(ref List<TblMWWasteCategory> dataList, ref string errMsg)
         {
             DataCtrlInfo dcf = new DataCtrlInfo();
             SqlQueryMng sqm = new SqlQueryMng();
@@ -38,10 +51,37 @@ namespace YRKJ.MWR.Business.BaseData
 
             return true;
         }
+        public static bool GetVendorData(int page,int pageSize,ref long pageCount,ref long rowCount,ref List<TblMWVendor> dataList, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            SqlQueryMng sqm = new SqlQueryMng();
+            if (!TblMWVendorCtrl.QueryPage(dcf, sqm,page,pageSize, ref dataList, ref errMsg))
+            {
+                return false;
+            }
+            pageCount = dcf.PageCount;
+            rowCount = dcf.RowCount;
+
+            return true;
+        }
 
         #endregion
 
         #region Car
+        public static bool GetCarDatList(int page, int pageSize, ref long pageCount, ref long rowCount, ref List<TblMWCar> dataList, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            SqlQueryMng sqm = new SqlQueryMng();
+
+            if (!TblMWCarCtrl.QueryPage(dcf, sqm, page, pageSize, ref dataList, ref errMsg))
+            {
+                return false;
+            }
+            pageCount = dcf.PageCount;
+            rowCount = dcf.RowCount;
+            return true;
+        }
+
         public static bool GetNoOutCarDataList(ref List<TblMWCar> dataList,ref string errMsg)
         {
             dataList = new List<TblMWCar>();
@@ -50,6 +90,7 @@ namespace YRKJ.MWR.Business.BaseData
             
             SqlQueryMng sqm = new SqlQueryMng();
             SqlWhere sw = new SqlWhere();
+            sw.AddCompareValue(TblMWCar.getStatusColumn(), SqlCommonFn.SqlWhereCompareEnum.UnEquals, TblMWCar.STATUS_ENUM_Void);
             {
                 SqlQueryMng subSqm = new SqlQueryMng();
                 subSqm.setQueryTableName(TblMWCarDispatch.getFormatTableName());
@@ -319,8 +360,19 @@ namespace YRKJ.MWR.Business.BaseData
         #endregion
 
         #region Depot
-
-        public static bool GetAllDepotList(ref List<TblMWDepot> depotList, ref string errMsg)
+        public static bool GetDepotDataList(int page, int pageSize, ref long pageCount, ref long rowCount, ref List<TblMWDepot> dataList, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            SqlQueryMng sqm = new SqlQueryMng();
+            if (!TblMWDepotCtrl.QueryPage(dcf, sqm, page, pageSize, ref dataList, ref errMsg))
+            {
+                return false;
+            }
+            pageCount = dcf.PageCount;
+            rowCount = dcf.RowCount;
+            return true;
+        }
+        public static bool GetDepotDataList(ref List<TblMWDepot> depotList, ref string errMsg)
         {
             DataCtrlInfo dcf = new DataCtrlInfo();
             SqlQueryMng sqm = new SqlQueryMng();
@@ -398,6 +450,404 @@ namespace YRKJ.MWR.Business.BaseData
             return true;
         }
 
+        #endregion
+
+        #region Crate
+        public static bool GetCrateDataList(int page, int pageSize, ref long pageCount, ref long rowCount, ref List<TblMWCrate> dataList, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            SqlQueryMng sqm = new SqlQueryMng();
+            if (!TblMWCrateCtrl.QueryPage(dcf, sqm, page, pageSize, ref dataList, ref errMsg))
+            {
+                return false;
+            }
+            pageCount = dcf.PageCount;
+            rowCount = dcf.RowCount;
+            return true;
+        }
+
+        #endregion
+
+        #endregion
+
+        #region set data
+
+        #region Employ
+        public static bool EditEmpyInfo(string empyCode, string password, string empyName, string empyType, int funcGroup, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            int updCount = 0;
+
+            SqlUpdateColumn suc = new SqlUpdateColumn();
+            suc.Add(TblMWEmploy.getPasswordColumn(), password);
+            suc.Add(TblMWEmploy.getEmpyNameColumn(), empyName);
+            suc.Add(TblMWEmploy.getEmpyTypeColumn(), empyType);
+            suc.Add(TblMWEmploy.getFuncGroupIdColumn(), funcGroup);
+            SqlWhere sw = new SqlWhere();
+            sw.AddCompareValue(TblMWEmploy.getEmpyCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, empyCode);
+
+            if (!TblMWEmployCtrl.Update(dcf, suc, sw, ref updCount, ref errMsg))
+            {
+                return false;
+            }
+
+            return true;
+        }
+        public static bool AddNewEmploy(TblMWEmploy empy, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+
+            TblMWEmploy defineEmpy = null;
+            SqlQueryMng sqm = new SqlQueryMng();
+            sqm.Condition.Where.AddCompareValue(TblMWEmploy.getEmpyCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, empy.EmpyCode);
+            if (!TblMWEmployCtrl.QueryOne(dcf, sqm, ref defineEmpy, ref errMsg))
+            {
+                return false;
+            }
+            if (defineEmpy != null)
+            {
+                errMsg = "已有当前编号员工";
+                return false;
+            }
+
+            int updCount = 0;
+            if (!TblMWEmployCtrl.Insert(dcf, empy, ref updCount, ref errMsg))
+            {
+                return false;
+            }
+            if (updCount == 0)
+            {
+                errMsg = "用户添加失败";
+                return false;
+            }
+
+            return true;
+        }
+        public static bool ActiveEmploy(string empyCode, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+
+            int updCount = 0;
+            SqlUpdateColumn suc = new SqlUpdateColumn();
+            suc.Add(TblMWEmploy.getStatusColumn(), TblMWEmploy.STATUS_ENUM_Active);
+            SqlWhere sw = new SqlWhere();
+            sw.AddCompareValue(TblMWEmploy.getEmpyCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, empyCode);
+            if (!TblMWEmployCtrl.Update(dcf, suc, sw, ref updCount, ref errMsg))
+            {
+                return false;
+            }
+            return true;
+        }
+        public static bool VoidEmploy(string empyCode, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            int updCount = 0;
+
+            SqlUpdateColumn suc = new SqlUpdateColumn();
+            suc.Add(TblMWEmploy.getStatusColumn(), TblMWEmploy.STATUS_ENUM_Void);
+            SqlWhere sw = new SqlWhere();
+            sw.AddCompareValue(TblMWEmploy.getEmpyCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, empyCode);
+            if (!TblMWEmployCtrl.Update(dcf, suc, sw, ref updCount, ref errMsg))
+            {
+                return false;
+            }
+            return true;
+        }
+        #endregion
+
+        #region Car
+        public static bool EditCarInfo(string carCode, string desc, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            int updCount = 0;
+
+            SqlUpdateColumn suc = new SqlUpdateColumn();
+            suc.Add(TblMWCar.getDescColumn(), desc);
+
+            SqlWhere sw = new SqlWhere();
+            sw.AddCompareValue(TblMWCar.getCarCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, carCode);
+            if (!TblMWCarCtrl.Update(dcf, suc, sw,ref updCount, ref errMsg))
+            {
+                return false;
+            }
+
+            return true;
+        }
+        public static bool AddNewCar(TblMWCar car, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+
+            TblMWCar defineCar = null;
+            SqlQueryMng sqm = new SqlQueryMng();
+            sqm.Condition.Where.AddCompareValue(TblMWCar.getCarCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, car.CarCode);
+            if (!TblMWCarCtrl.QueryOne(dcf, sqm, ref defineCar, ref errMsg))
+            {
+                return false;
+            }
+            if (defineCar != null)
+            {
+                errMsg = "已有当前编号车辆";
+                return false;
+            }
+
+            int updCount = 0;
+            if (!TblMWCarCtrl.Insert(dcf, car, ref updCount, ref errMsg))
+            {
+                return false;
+            }
+            if (updCount == 0)
+            {
+                errMsg = "数据添加失败";
+                return false;
+            }
+            return true;
+        }
+        public static bool ActiveCar(string carCode, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            int updCount = 0;
+
+            SqlUpdateColumn suc = new SqlUpdateColumn();
+            suc.Add(TblMWCar.getStatusColumn(), TblMWCar.STATUS_ENUM_Active);
+            SqlWhere sw = new SqlWhere();
+            sw.AddCompareValue(TblMWCar.getCarCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, carCode);
+
+            if (!TblMWCarCtrl.Update(dcf, suc, sw,ref updCount, ref errMsg))
+            {
+                return false;
+            }
+            return true;
+        }
+        public static bool VoidCar(string carCode, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            int updCount = 0;
+
+            SqlUpdateColumn suc = new SqlUpdateColumn();
+            suc.Add(TblMWCar.getStatusColumn(), TblMWCar.STATUS_ENUM_Void);
+            SqlWhere sw = new SqlWhere();
+            sw.AddCompareValue(TblMWCar.getCarCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, carCode);
+
+            if (!TblMWCarCtrl.Update(dcf, suc, sw, ref updCount, ref errMsg))
+            {
+                return false;
+            }
+            return true;
+        }
+        #endregion
+
+        #region Vendor
+        public static bool EditVendorInfo(string vendorCode, string vendor, string address, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            int updCount = 0;
+
+            SqlUpdateColumn suc = new SqlUpdateColumn();
+            suc.Add(TblMWVendor.getVendorColumn(), vendor);
+            suc.Add(TblMWVendor.getAddressColumn(), address);
+
+            SqlWhere sw = new SqlWhere();
+            sw.AddCompareValue(TblMWVendor.getVendorCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, vendorCode);
+            if (!TblMWVendorCtrl.Update(dcf, suc, sw, ref updCount, ref errMsg))
+            {
+                return false;
+            }
+            return true;
+        }
+        public static bool AddNewVendor(TblMWVendor item, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+
+            TblMWVendor defineItem = null;
+            SqlQueryMng sqm = new SqlQueryMng();
+            sqm.Condition.Where.AddCompareValue(TblMWVendor.getVendorCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, item.VendorCode);
+            if (!TblMWVendorCtrl.QueryOne(dcf, sqm, ref defineItem, ref errMsg))
+            {
+                return false;
+            }
+            if (defineItem != null)
+            {
+                errMsg = LngRes.MSG_ExistCodeData;
+                return false;
+            }
+
+            int updCount = 0;
+            if (!TblMWVendorCtrl.Insert(dcf, item, ref updCount, ref errMsg))
+            {
+                return false;
+            }
+            return true;
+        }
+        #endregion
+
+        #region Waste
+        public static bool EditWasteInfo(string wasteCode, string waste, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            int updCount = 0;
+
+            SqlUpdateColumn suc = new SqlUpdateColumn();
+            suc.Add(TblMWWasteCategory.getWasteColumn(), waste);
+
+            SqlWhere sw = new SqlWhere();
+            sw.AddCompareValue(TblMWWasteCategory.getWasteCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, wasteCode);
+            if (!TblMWWasteCategoryCtrl.Update(dcf, suc, sw, ref updCount, ref errMsg))
+            {
+                return false;
+            }
+            return true;
+        }
+        public static bool AddNewWaste(TblMWWasteCategory item, ref string errMsg)
+        {
+
+            DataCtrlInfo dcf = new DataCtrlInfo();
+
+            TblMWWasteCategory defineItem = null;
+            SqlQueryMng sqm = new SqlQueryMng();
+            sqm.Condition.Where.AddCompareValue(TblMWWasteCategory.getWasteCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, item.WasteCode);
+            if (!TblMWWasteCategoryCtrl.QueryOne(dcf, sqm, ref defineItem, ref errMsg))
+            {
+                return false;
+            }
+            if (defineItem != null)
+            {
+                errMsg = LngRes.MSG_ExistCodeData;
+                return false;
+            }
+
+            int updCount = 0;
+            if(!TblMWWasteCategoryCtrl.Insert(dcf,item,ref updCount,ref errMsg))
+            {
+                return false;
+            }
+            return true;
+        }
+        #endregion
+
+        #region Crate
+        public static bool EditCrateInfo(string crateCode, string desc, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            int updCount = 0;
+
+            SqlUpdateColumn suc = new SqlUpdateColumn();
+            suc.Add(TblMWCrate.getDescColumn(), desc);
+
+            SqlWhere sw = new SqlWhere();
+            sw.AddCompareValue(TblMWCrate.getCrateCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, crateCode);
+            if (!TblMWCrateCtrl.Update(dcf, suc, sw, ref updCount, ref errMsg))
+            {
+                return false;
+            }
+            return true;
+        }
+        public static bool AddNewCrate(TblMWCrate item, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+
+            TblMWCrate defineItem = null;
+            SqlQueryMng sqm = new SqlQueryMng();
+            sqm.Condition.Where.AddCompareValue(TblMWCrate.getCrateCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, item.CrateCode);
+            if (!TblMWCrateCtrl.QueryOne(dcf, sqm, ref defineItem, ref errMsg))
+            {
+                return false;
+            }
+            if (defineItem != null)
+            {
+                errMsg = LngRes.MSG_ExistCodeData;
+                return false;
+            }
+
+            int updCount = 0;
+            if (!TblMWCrateCtrl.Insert(dcf, item, ref updCount, ref errMsg))
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public static bool ActiveCrate(string crateCode, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            int updCount = 0;
+
+            SqlUpdateColumn suc = new SqlUpdateColumn();
+            suc.Add(TblMWCrate.getStatusColumn(), TblMWCrate.STATUS_ENUM_Active);
+            SqlWhere sw = new SqlWhere();
+            sw.AddCompareValue(TblMWCrate.getCrateCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, crateCode);
+            if (!TblMWCrateCtrl.Update(dcf, suc, sw, ref updCount, ref errMsg))
+            {
+                return false;
+            }
+            return true;
+        }
+        public static bool VoidCrate(string crateCode, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            int updCount = 0;
+
+            SqlUpdateColumn suc = new SqlUpdateColumn();
+            suc.Add(TblMWCrate.getStatusColumn(), TblMWCrate.STATUS_ENUM_Void);
+            SqlWhere sw = new SqlWhere();
+            sw.AddCompareValue(TblMWCrate.getCrateCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, crateCode);
+            if (!TblMWCrateCtrl.Update(dcf, suc, sw, ref updCount, ref errMsg))
+            {
+                return false;
+            }
+            return true;
+        }
+        #endregion
+
+        #region Depot
+        public static bool EditDepotInfo(string depotCode, string desc, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+
+            int updCount = 0;
+            SqlUpdateColumn suc = new SqlUpdateColumn();
+            suc.Add(TblMWDepot.getDescColumn(), desc);
+            SqlWhere sw = new SqlWhere();
+            sw.AddCompareValue(TblMWDepot.getDeptCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, depotCode);
+            if (!TblMWDepotCtrl.Update(dcf, suc, sw, ref updCount, ref errMsg))
+            {
+                return false;
+            }
+            return true;
+        }
+        public static bool AddNewDepot(TblMWDepot item, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+
+            TblMWDepot defineItem = null;
+            SqlQueryMng sqm = new SqlQueryMng();
+            sqm.Condition.Where.AddCompareValue(TblMWDepot.getDeptCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, item.DeptCode);
+            if (!TblMWDepotCtrl.QueryOne(dcf, sqm, ref defineItem, ref errMsg))
+            {
+                return false;
+            }
+            if (defineItem != null)
+            {
+                errMsg = LngRes.MSG_ExistCodeData;
+                return false;
+            }
+
+            int updCount = 0;
+            if (!TblMWDepotCtrl.Insert(dcf, item, ref updCount, ref errMsg))
+            {
+                return false;
+            }
+            return true;
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Common
+        class LngRes
+        {
+            public const string MSG_ExistCodeData = "已有当前编号数据";
+        }
         #endregion
     }
 }
