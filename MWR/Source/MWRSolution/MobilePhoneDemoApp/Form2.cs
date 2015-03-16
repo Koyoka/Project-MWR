@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using LinqToExcel;
+using YRKJ.MWR;
+using YRKJ.MWR.Business.Report;
 
 namespace MobilePhoneDemoApp
 {
@@ -117,6 +119,24 @@ namespace MobilePhoneDemoApp
 
         private void button2_Click(object sender, EventArgs e)
         {
+            List<TblMWInventory> invDataList = null;
+            string errMsg = "";
+            if (!ReportDataMng.GetInventoryGroupByVendorAndWasteReportData(ref invDataList, ref errMsg))
+            {
+                
+            }
+
+            var q = from x in invDataList
+                    group x by x.VendorCode into g
+                    select g;
+            foreach (var item in q)
+            {
+                foreach (var subItem in item)
+                { 
+                    //subItem.
+                }
+            }
+
             string str = textBox1.Text;
             textBox2.Text =  new ComLib.db.mysql.SqlMySqlFn().ReplaceSpecialChar(str);
             return;

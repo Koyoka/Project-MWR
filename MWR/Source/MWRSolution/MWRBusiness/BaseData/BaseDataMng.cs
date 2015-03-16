@@ -39,7 +39,17 @@ namespace YRKJ.MWR.Business.BaseData
         #endregion
 
         #region Vendor
-
+        public static bool GetVendorData(string vendorCode,ref TblMWVendor data, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            SqlQueryMng sqm = new SqlQueryMng();
+            sqm.Condition.Where.AddCompareValue(TblMWVendor.getVendorCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, vendorCode);
+            if (!TblMWVendorCtrl.QueryOne(dcf,sqm, ref data, ref errMsg))
+            {
+                return false;
+            }
+            return true;
+        }
         public static bool GetVendorData(ref List<TblMWVendor> dataList, ref string errMsg)
         {
             DataCtrlInfo dcf = new DataCtrlInfo();

@@ -33,6 +33,7 @@ namespace ComLib.db
                 sb.Append(sqlwhere);
                 buildParamsList.AddRange(Where.getParams());
             }
+            sb.Append(GroupBy.getSql());
             sb.Append(OrderBy.getSql());
 
             return sb.ToString();

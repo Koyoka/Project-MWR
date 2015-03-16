@@ -286,6 +286,9 @@
     <Content Include="Pages\BO\index.html" />
     <Content Include="Pages\BO\Inventory\InvAuthorize.aspx" />
     <Content Include="Pages\BO\Inventory\InvAuthorizeDetail.aspx" />
+    <Content Include="Pages\BO\Report\IntegratedReport.aspx" />
+    <Content Include="Pages\BO\Report\VendorReport.aspx" />
+    <Content Include="Pages\BO\Report\WasteReport.aspx" />
     <Content Include="Pages\BO\Sys\FuncGroupEdit.aspx" />
     <Content Include="Pages\BO\Sys\SysInit.aspx" />
     <Content Include="Pages\BO\Sys\UserPermit.aspx" />
@@ -436,6 +439,27 @@
     <Compile Include="Pages\BO\Inventory\InvAuthorizeDetail.aspx.designer.cs">
       <DependentUpon>InvAuthorizeDetail.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Pages\BO\Report\IntegratedReport.aspx.cs">
+      <DependentUpon>IntegratedReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\BO\Report\IntegratedReport.aspx.designer.cs">
+      <DependentUpon>IntegratedReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\BO\Report\VendorReport.aspx.cs">
+      <DependentUpon>VendorReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\BO\Report\VendorReport.aspx.designer.cs">
+      <DependentUpon>VendorReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\BO\Report\WasteReport.aspx.cs">
+      <DependentUpon>WasteReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\BO\Report\WasteReport.aspx.designer.cs">
+      <DependentUpon>WasteReport.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Pages\BO\Sys\FuncGroupEdit.aspx.cs">
       <DependentUpon>FuncGroupEdit.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -563,7 +587,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Pages\BO\DailyClose\" />
-    <Folder Include="Pages\BO\Report\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Pages\MasterPages\MWBOEmpty.Master" />

@@ -94,7 +94,15 @@ namespace MobilePhoneDemoApp
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            #region
+            ComLib.db.SqlDBMng.initDBMng(ComLib.db.SqlDBMng.DBTypeEnum.MySQl);
 
+            ComLib.db.SqlDBMng.setConnectionString(
+                       ComLib.db.SqlDBMng.GetConnStr("MWRDATA",
+                       "127.0.0.1",
+                       "root",
+                       "-101868"));
+            #endregion
            
             Application.Run(new Form2());
             return;
@@ -139,15 +147,7 @@ namespace MobilePhoneDemoApp
             }
             //MessageBox.Show(args[0] + " " + args[1]);
             //return;
-            #region
-            ComLib.db.SqlDBMng.initDBMng(ComLib.db.SqlDBMng.DBTypeEnum.MySQl);
-
-            ComLib.db.SqlDBMng.setConnectionString(
-                       ComLib.db.SqlDBMng.GetConnStr("MWRDATA",
-                       "127.0.0.1",
-                       "root",
-                       "-101868"));
-            #endregion
+           
 
             using (FrmInitData f = new FrmInitData(args[0], args[1], args[2],args[3]))
             {

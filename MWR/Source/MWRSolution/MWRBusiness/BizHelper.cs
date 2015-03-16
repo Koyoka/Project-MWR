@@ -141,6 +141,34 @@ namespace YRKJ.MWR.Business
             return defineStr;
         }
 
+        public static string GetInventoryStatus(string s)
+        {
+            string defineStr = "";
+
+            switch (s)
+            { 
+                case TblMWInventory.STATUS_ENUM_Recovered:
+                    defineStr = LngRes.Status_Inventory_Destroyed;
+                    break;
+                case TblMWInventory.STATUS_ENUM_Posted:
+                    defineStr = LngRes.Status_Inventory_Posted;
+                    break;
+                case TblMWInventory.STATUS_ENUM_Destroyed:
+                    defineStr = LngRes.Status_Inventory_Destroyed;
+                    break;
+                case TblMWInventory.STATUS_ENUM_Recovering:
+                    defineStr = LngRes.Status_Inventory_Recovering;
+                    break;
+                case TblMWInventory.STATUS_ENUM_Posting:
+                    defineStr = LngRes.Status_Inventory_Posting;
+                    break;
+                case TblMWInventory.STATUS_ENUM_Destroying:
+                    defineStr = LngRes.Status_Inventory_Destroying;
+                    break;
+            }
+            return defineStr;
+        }
+
         public static string GetWSType(string s)
         {
             string defineStr = "";
@@ -195,6 +223,14 @@ namespace YRKJ.MWR.Business
 
         public class LngRes
         {
+            public const string Status_Inventory_Recovered = "已入库";
+            public const string Status_Inventory_Posted = "已出库";
+            public const string Status_Inventory_Destroyed = "已处置";
+            public const string Status_Inventory_Recovering = "入库中";
+            public const string Status_Inventory_Posting = "出库中";
+            public const string Status_Inventory_Destroying = "处置中";
+
+
             public const string Empy_Driver = "司机";
             public const string Empy_Inspector = "跟车员";
             public const string Empy_Void = "注销员工";
