@@ -79,20 +79,36 @@ var IndexHelper = function () {
                         url: url,
                         dataType: "html",
                         success: function (res) {
-                            App.unblockUI(pageContent);
-                            pageContentBody.html(res);
+                            pageContentBody.html("");
+                            var html = $(res);
+                            var link = html.find('link');
+                            var loadTime = 0;
+                            if (link.length != 0) {
+                                pageContentBody.append(link);
+                                loadTime = 400;
+                                var count = 0;
+                               
+                            }
+                          
+                            window.setTimeout(function () {
+                                pageContentBody.append(html.find('#mw-content-body'));
+                                App.fixContentHeight(); // fix content height
+                                App.initAjax(); // initialize core stuff
+                                gl.wgt.scan(pageContent);
+                                App.unblockUI(pageContent);
+                                //                            window.alert(pageContentBody.html())
+                            }, loadTime);
+                            //                            pageContentBody.html(res);
+                            //                            window.alert(pageContentBody.html())
 
-                            App.fixContentHeight(); // fix content height
-                            App.initAjax(); // initialize core stuff
-                            gl.wgt.scan(pageContent);
                         },
                         error: function (xhr, ajaxOptions, thrownError) {
                             pageContentBody.html('<h4>页面加载连接错误。</h4>');
                             App.unblockUI(pageContent);
                         },
-                        async: true
+                        async: false
                     });
-                }, 10);
+                }, 1);
             }
 
         });

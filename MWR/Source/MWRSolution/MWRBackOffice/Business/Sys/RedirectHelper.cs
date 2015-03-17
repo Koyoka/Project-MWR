@@ -33,6 +33,13 @@ namespace YRKJ.MWR.BackOffice.Business.Sys
 
         #endregion
 
+        #region Report
+
+        public const string IntegratedReport = "Report/IntegratedReport.aspx";
+        public const string VendorReport = "Report/VendorReport.aspx";
+        public const string WasteReport = "Report/WasteReport.aspx";
+        #endregion
+
         #region BaseData
         public const string BDEmploy = "BaseData/BDEmploy.aspx";
         public const string BDVendor = "BaseData/BDVendor.aspx";

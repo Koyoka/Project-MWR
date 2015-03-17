@@ -4,16 +4,16 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 <link rel="stylesheet" type="text/css" href="/assets/plugins/select2/select2_metro.css"/>
 <link rel="stylesheet" href="/assets/plugins/data-tables/DT_bootstrap.css"/>
+<link href="/assets/css/pages/profile.css" rel="stylesheet" type="text/css" />
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
 <div class="row">
 	<div class="col-md-12">
 		<h3 class="page-title">
-		医疗机构库存详情 <small>查看医疗机构库存详情</small>
+		医疗废品库存详情 <small>查看医疗废品库存详情</small>
 		</h3>
 		<ul class="page-breadcrumb breadcrumb">
 			<li class="btn-group">
-				
 			</li>
 			<li>
 				<i class="fa fa-home"></i>
@@ -22,22 +22,57 @@
 			</li>
 			<li>
 				<i class="fa fa-home"></i>
-                <a href="#<% = RedirectHelper.BOMain %>">综合报告</a>
+                <a href="#<% = RedirectHelper.IntegratedReport %>">综合报告</a>
                 <i class="fa fa-angle-right"></i>
 			</li>
             <li>
-				医疗机构库存详情
+				医疗废品库存详情
 			</li>
 		</ul>
 	</div>
 </div>
+
+<div class=" row portfolio-block note note-info">
+		<div class="col-md-3 ">
+			<div class="portfolio-text ">
+				<div class="portfolio-info">
+					<h4><% = PageWasteNameData%>-统计信息</h4>
+					<p>
+						<% = PageWasteNameData%>-重量信息
+					</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-8 portfolio-stat " >
+			<div class="portfolio-info">
+					回收总重量
+				<span>
+					<% = PageInventoryVendorReportData.RecoWeight%> KG
+				</span>
+			</div>
+			<div class="portfolio-info">
+					库存总重量
+				<span>
+					<% = PageInventoryVendorReportData.InvWeight%> KG
+				</span>
+			</div>
+			<div class="portfolio-info">
+					处置总重量
+				<span>
+					<% = PageInventoryVendorReportData.DestWeight%> KG
+				</span>
+			</div>
+		</div>
+	</div>
+
+
 <div class="row">
     <div class="col-md-12">
 	    <!-- BEGIN EXAMPLE TABLE PORTLET-->
 	    <div class="portlet box green">
 		    <div class="portlet-title">
 			    <div class="caption">
-				    <i class="fa fa-globe"></i>Responsive Table With Expandable details
+				    <i class="fa fa-globe"></i><% = PageWasteNameData%>-库存废品列表
 			    </div>
 			    <div class="tools">
 				    <a href="javascript:;" class="reload"></a>
@@ -49,109 +84,61 @@
 			    <thead>
 			    <tr>
 				    <th>
-					    Rendering engine
+					    货箱编号
 				    </th>
 				    <th>
-					    Browser
+					    仓库编号
 				    </th>
 				    <th>
-					    Platform(s)
+					    医疗机构
 				    </th>
 				    <th>
-					    Engine version
+					    回收重量
 				    </th>
 				    <th>
-					    CSS grade
+					    入库重量
+				    </th>
+                    <th>
+					    处置重量
+				    </th>
+                    <th>
+					    状态
 				    </th>
 			    </tr>
 			    </thead>
 			    <tbody>
+                    <%
+                        foreach (var item in PageInventoryDataList)
+	{
+                    %>
 			    <tr>
 				    <td>
-					    Trident
+					    <% = item.CrateCode %>
+                        <input class="mw-invRecodId" type="hidden" value="<% = item.InvRecordId %>" />
 				    </td>
 				    <td>
-					    Internet Explorer 4.0
+					    <% = item.DepotCode %>
 				    </td>
 				    <td>
-					    Win 95+
+					    <% = item.Vendor %>
 				    </td>
 				    <td>
-					    4
+					    <% = item.RecoWeight %>
 				    </td>
 				    <td>
-					    X
+					    <% = item.InvWeight %>
+				    </td>
+                    <td>
+					    <% = item.DestWeight %>
+				    </td>
+                    <td>
+					    <% = YRKJ.MWR.Business.BizHelper.GetInventoryStatus(item.Status)%>
 				    </td>
 			    </tr>
-			    <tr>
-				    <td>
-					    Trident
-				    </td>
-				    <td>
-					    Internet Explorer 5.0
-				    </td>
-				    <td>
-					    Win 95+
-				    </td>
-				    <td>
-					    5
-				    </td>
-				    <td>
-					    C
-				    </td>
-			    </tr>
-			    <tr>
-				    <td>
-					    Trident
-				    </td>
-				    <td>
-					    Internet Explorer 5.5
-				    </td>
-				    <td>
-					    Win 95+
-				    </td>
-				    <td>
-					    5.5
-				    </td>
-				    <td>
-					    A
-				    </td>
-			    </tr>
-			    <tr>
-				    <td>
-					    Trident
-				    </td>
-				    <td>
-					    Internet Explorer 6
-				    </td>
-				    <td>
-					    Win 98+
-				    </td>
-				    <td>
-					    6
-				    </td>
-				    <td>
-					    A
-				    </td>
-			    </tr>
-			    <tr>
-				    <td>
-					    Trident
-				    </td>
-				    <td>
-					    Internet Explorer 7
-				    </td>
-				    <td>
-					    Win XP SP2+
-				    </td>
-				    <td>
-					    7
-				    </td>
-				    <td>
-					    A
-				    </td>
-			    </tr>
-			    </tbody>
+                <%
+	}
+                    %>
+			        </tbody>
 			    </table>
 		    </div>
 	    </div>
@@ -164,11 +151,10 @@
 <script type="text/javascript" src="/assets/plugins/select2/select2.min.js"></script>
 <script type="text/javascript" src="/assets/plugins/data-tables/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="/assets/plugins/data-tables/DT_bootstrap.js"></script>
-<script src="/assets/scripts/table-advanced.js"></script>
+<script src="/assets/bovendorreport.js"></script>
 <script>
     jQuery(document).ready(function () {
-     
-        TableAdvanced.init();
+        VendorReport.init();
     });
 </script>
 </asp:Content>

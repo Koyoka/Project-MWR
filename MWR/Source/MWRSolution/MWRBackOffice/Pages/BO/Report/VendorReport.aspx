@@ -4,6 +4,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 <link rel="stylesheet" type="text/css" href="/assets/plugins/select2/select2_metro.css"/>
 <link rel="stylesheet" href="/assets/plugins/data-tables/DT_bootstrap.css"/>
+<link href="/assets/css/pages/profile.css" rel="stylesheet" type="text/css" />
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
 <div class="row">
@@ -22,7 +23,7 @@
 			</li>
 			<li>
 				<i class="fa fa-home"></i>
-                <a href="#<% = RedirectHelper.BOMain %>">综合报告</a>
+                <a href="#<% = RedirectHelper.IntegratedReport %>">综合报告</a>
                 <i class="fa fa-angle-right"></i>
 			</li>
             <li>
@@ -31,10 +32,42 @@
 		</ul>
 	</div>
 </div>
+<div class=" row portfolio-block note note-info">
+		<div class="col-md-3 ">
+			<div class="portfolio-text ">
+				<div class="portfolio-info">
+					<h4><% = PageVendorNameData %>-统计信息</h4>
+					<p>
+						<% = PageVendorNameData %>-重量信息
+					</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-8 portfolio-stat " >
+			<div class="portfolio-info">
+					回收总重量
+				<span>
+					<% = PageInventoryVendorReportData.RecoWeight%> KG
+				</span>
+			</div>
+			<div class="portfolio-info">
+					库存总重量
+				<span>
+					<% = PageInventoryVendorReportData.InvWeight%> KG
+				</span>
+			</div>
+			<div class="portfolio-info">
+					处置总重量
+				<span>
+					<% = PageInventoryVendorReportData.DestWeight%> KG
+				</span>
+			</div>
+		</div>
+	</div>
 <div class="row">
     <div class="col-md-12">
 	    <!-- BEGIN EXAMPLE TABLE PORTLET-->
-	    <div class="portlet box green">
+	    <div class="portlet box blue">
 		    <div class="portlet-title">
 			    <div class="caption">
 				    <i class="fa fa-globe"></i><% = PageVendorNameData %>-库存废品列表
@@ -76,10 +109,10 @@
                         foreach (var item in PageInventoryDataList)
 	{
                     %>
-                    
 			    <tr>
 				    <td>
 					    <% = item.CrateCode %>
+                        <input class="mw-invRecodId" type="hidden" value="<% = item.InvRecordId %>" />
 				    </td>
 				    <td>
 					    <% = item.DepotCode %>
@@ -184,11 +217,11 @@
 <script type="text/javascript" src="/assets/plugins/select2/select2.min.js"></script>
 <script type="text/javascript" src="/assets/plugins/data-tables/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="/assets/plugins/data-tables/DT_bootstrap.js"></script>
-<script src="/assets/scripts/table-advanced.js"></script>
+<script src="/assets/bovendorreport.js"></script>
 <script>
     jQuery(document).ready(function () {
 
-        TableAdvanced.init();
+        VendorReport.init();
     });
 </script>
 </asp:Content>

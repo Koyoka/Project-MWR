@@ -43,7 +43,7 @@
 			<p>
 					点击<strong style="font-size:18px;" >[上传模板]</strong>按钮选择模板文件上传，查看当前模板中的数据。然后点击<strong style="font-size:18px;" >[导入]</strong>按钮替换更新基础数据。<br />
                    
-			</p> 模板请于<a href="1.xlsx">这里</a>下载
+			</p> 模板请于<a href="<% = WebAppFn.GetBoFullPageUrl("Sys/1.xlsx") %>">这里</a>下载
 		</div>
 
 

@@ -125,6 +125,10 @@ namespace YRKJ.MWR.BackOffice.Business.Sys
         {
             AjaxResponseMng.ReturnAjaxResponse(this.Response, AjaxResponseMng.AJAXResultObj.EnumResult.Success, str);
         }
+        public void ReturnAjaxJsonObj(object obj)
+        {
+            AjaxResponseMng.ReturnAjaxResponse(this.Response, AjaxResponseMng.AJAXResultObj.EnumResult.Success, obj);
+        }
 
 
 
@@ -154,7 +158,9 @@ namespace YRKJ.MWR.BackOffice.Business.Sys
 
                     
                     System.Reflection.MethodInfo me ;//= tp.GetMethod(methodName);
-                    if (Param.Length == 0)
+                    if (Param == null) {
+                        me = tp.GetMethod(methodName);
+                    }else if (Param.Length == 0)
                     {
                         me = tp.GetMethod(methodName);
                     }

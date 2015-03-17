@@ -2,8 +2,8 @@
 <%@ Import Namespace="YRKJ.MWR" %>
 <%@ Import Namespace="YRKJ.MWR.BackOffice.Business.Sys" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-<link href="/assets/css/pages/pricing-tables.css" rel="stylesheet" type="text/css"/>
-<link href="/assets/css/pages/profile.css" rel="stylesheet" type="text/css">
+<link href="/assets/css/pages/pricing-tables.css" rel="stylesheet" type="text/css" />
+<link href="/assets/css/pages/profile.css" rel="stylesheet" type="text/css" />
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
 <div class="row">
@@ -128,10 +128,14 @@
 													 <% = item.RecoverWeight %>
 												</div>
 											</div>
-											<a href="#" class="btn blue">
+                                           
+										</div>
+                                        <div class="text-right">
+                                        
+											<a href="#<% = RedirectHelper.VendorReport+"?code="+item.Code %>" class="btn blue">
 											查看详情 <i class="m-icon-swapright m-icon-white"></i>
 											</a>
-										</div>
+                                        </div>
 									</div>
 								</div>
 								<div class="spance10 visible-xs">
@@ -358,10 +362,11 @@
 													 <% = item.RecoverWeight %>
 												</div>
 											</div>
-											<a href="#" class="btn green">
-											查看详情 <i class="m-icon-swapright m-icon-white"></i>
-											</a>
+											
 										</div>
+                                        <div class="text-right"><a href="#<% = RedirectHelper.WasteReport+"?code="+item.Code %>" class="btn green">
+											查看详情 <i class="m-icon-swapright m-icon-white"></i>
+											</a></div>
 									</div>
 								</div>
 								<div class="spance10 visible-xs">

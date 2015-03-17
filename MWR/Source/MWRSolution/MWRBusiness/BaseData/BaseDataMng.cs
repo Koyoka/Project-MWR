@@ -36,6 +36,17 @@ namespace YRKJ.MWR.Business.BaseData
 
             return true;
         }
+        public static bool GetWasteCategoryData(string wasteCode, ref TblMWWasteCategory data, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            SqlQueryMng sqm = new SqlQueryMng();
+            sqm.Condition.Where.AddCompareValue(TblMWWasteCategory.getWasteCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, wasteCode);
+            if (!TblMWWasteCategoryCtrl.QueryOne(dcf, sqm, ref data, ref errMsg))
+            {
+                return false;
+            }
+            return true;
+        }
         #endregion
 
         #region Vendor

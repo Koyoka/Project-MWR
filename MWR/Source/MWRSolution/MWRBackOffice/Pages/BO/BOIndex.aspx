@@ -129,7 +129,7 @@
                         <span class="title">统计查询 </span><span class="arrow "></span><span class="selected">
                         </span></a>
                         <ul class="sub-menu">
-                            <li><a href="javascript:void;">医疗机构产量查询</a> </li>
+                            <li><a href="#<% = RedirectHelper.IntegratedReport %>">综合报告</a> </li>
                             <li><a href="javascript:void;">运量查询</a> </li>
                             <li><a href="javascript:void;">库存量查询</a> </li>
                             <li><a href="javascript:void;">处置量查询</a> </li>

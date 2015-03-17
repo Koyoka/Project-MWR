@@ -168,6 +168,23 @@ namespace YRKJ.MWR.Business
             }
             return defineStr;
         }
+        public static string GetInventoryTrackTxnType(string s)
+        {
+            string defineStr = "";
+            switch (s)
+            { 
+                case TblMWInventoryTrack.TXNTYPE_ENUM_Destroy:
+                    defineStr = LngRes.TxnType_Detail_Destroy;
+                    break;
+                case TblMWInventoryTrack.TXNTYPE_ENUM_Post:
+                    defineStr = LngRes.TxnType_Detial_Post;
+                    break;
+                case TblMWInventoryTrack.TXNTYPE_ENUM_Recover:
+                    defineStr = LngRes.TxnType_Detail_Recover;
+                    break;
+            }
+            return defineStr;
+        }
 
         public static string GetWSType(string s)
         {

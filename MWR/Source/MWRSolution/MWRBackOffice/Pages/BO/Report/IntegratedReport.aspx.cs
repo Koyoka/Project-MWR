@@ -74,6 +74,7 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Report
                     {
                         return x.RecoWeight;
                     });
+                    data.Code = item.First().VendorCode;
                     data.Vendor = item.First().Vendor;
                     foreach (var subItem in item)
                     {
@@ -100,6 +101,7 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Report
                     {
                         return x.RecoWeight;
                     });
+                    data.Code = item.First().WasteCode;
                     data.Waste = item.First().Waste;
                     foreach (var subItem in item)
                     {
@@ -128,12 +130,14 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Report
         #region Common
         protected class PageVendorInfoData
         {
+            public string Code { get; set; }
             public string Vendor { get; set; }
             public decimal RecoverWeight { get; set; }
             public List<PageVendorIncludeWasteData> TopWasteDataList = new List<PageVendorIncludeWasteData>();
         }
         protected class PageVendorIncludeWasteData
         {
+            public string Code { get; set; }
             public string Waste { get; set; }
             public decimal RecoverWeight { get; set; }
             public List<PageVendorInfoData> TopVendorDataList = new List<PageVendorInfoData>();

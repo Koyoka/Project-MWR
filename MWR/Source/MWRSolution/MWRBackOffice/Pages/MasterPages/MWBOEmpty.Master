@@ -2,7 +2,10 @@
     Inherits="YRKJ.MWR.BackOffice.Pages.MasterPages.MWBOMain" %>
 <%@ Register src="~/Pages/UCtrl/UModal.ascx" tagname="UModal" tagprefix="uc1" %>
 <%@ Import Namespace="YRKJ.MWR.BackOffice.Business.Sys" %>
-
+<% if (IsContainerPage)
+   { %>
+   <div id="mw-content-root">
+<% }%>
 <% if (!IsContainerPage){ %>
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
@@ -46,30 +49,27 @@
 <!-- MWR STYLE -->
 
 <link rel="shortcut icon" href="favicon.ico">
-
-
-
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
 <body class="page-header-fixed page-footer-fixed1">
-
 <%  }%>
-
 <% if (!IsIndexPage && !IsContainerPage)
    { %>
 <div class="page-content-wrapper">
 <div class="page-content" style="">
 <uc1:UModal ID="UModal1" runat="server" /><%  }%>
+<% if (IsContainerPage)
+   { %>
+   <div id="mw-content-body">
+<% }%>
 <asp:ContentPlaceHolder ID="body" runat="server">
 </asp:ContentPlaceHolder>
-
 <% if (!IsIndexPage && !IsContainerPage)
    { %>
 </div>
 </div>
 <%  }%>
-
 <% if (!IsContainerPage){ %>
 
 <!--[if lt IE 9]>
@@ -143,3 +143,11 @@
 </script>
 </body></html>
 <%  }%>
+<% if (IsContainerPage)
+   { %>
+   </div>
+<% }%>
+<% if (IsContainerPage)
+   { %>
+   </div>
+<% }%>
