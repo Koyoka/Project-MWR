@@ -126,7 +126,7 @@
                         </ul>
                     </li>
                     <li id="MW_Report" class=" "><a href="javascript:;"><i class="fa fa-bar-chart-o"></i>
-                        <span class="title">统计查询 </span><span class="arrow "></span><span class="selected">
+                        <span class="title">统计报告 </span><span class="arrow "></span><span class="selected">
                         </span></a>
                         <ul class="sub-menu">
                             <li><a href="#<% = RedirectHelper.IntegratedReport %>">综合报告</a> </li>

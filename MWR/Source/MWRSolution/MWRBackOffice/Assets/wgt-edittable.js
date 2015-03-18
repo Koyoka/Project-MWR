@@ -11,8 +11,8 @@ var WGTEdtiTable = function () {
             onClick: function (e) {
                 e.preventDefault();
                 if (nEditing == null) { return; }
-                if ($(this).attr("data-mode") == "new") {
-                    var nRow = $(this).parents('tr')[0];
+                if ($(this.element).attr("data-mode") == "new") {
+                    var nRow = $(this.element).parents('tr')[0];
                     oTable.fnDeleteRow(nRow);
                     nEditing = null;
                 } else {
@@ -28,60 +28,57 @@ var WGTEdtiTable = function () {
             },
             onClick: function (e) {
                 e.preventDefault();
+//                window.alert(1);
+                //                return;
 
-                var nRow = $(this).parents('tr')[0];
+                var nRow = $(this.element).parents('tr')[0];
                 if (nEditing !== null && nEditing != nRow) {
                     restoreRow(oTable, nEditing);
                     editRow(oTable, nRow);
                     nEditing = nRow;
-                } else if (nEditing == nRow && $(this).attr('data-mode') == "save") {
+                } else if (nEditing == nRow && $(this.element).attr('data-mode') == "save") {
+                    //                    var url, method, data;
+                    //                    method = this.element.attr('data-wgt-edittable-method'); //"AjaxEditCar";
+                    //                    url = this.element.attr('data-wgt-edittable-url'); // "/Pages/BO/BaseData/BDCar.aspx";
+                    //                    data = {};
 
+                    //                    var tempForm = $("<form>");
+                    //                    tempForm.html($(nRow).html());
+                    //                    var tempInput = $('input,select', tempForm);
+                    //                    for (var i = 0; i < tempInput.length; i++) {
+                    //                        var name = tempInput.eq(i).attr('name')
+                    //                        if (!name) {
+                    //                            tempInput.eq(i).attr('name', tempInput.eq(i).attr('id'));
+                    //                        }
+                    //                    }
+                    $('form').setGroup($(this.element).attr('data-mode'));
+                    $('form').submit();
+                    //                    var jqTds = $('>td', nRow);
+                    //                    for (var i = 0, iLen = jqTds.length; i < iLen; i++) {
+                    //                        var td = $(jqTds[i]);
+                    //                        var input = $('input', td);
+                    //                        if (input.length > 0) {
+                    //                            data["carCode"]
+                    //                        } else if (true) {
 
+                    //                        }
+                    //                    }
 
+                    //                    data["carCode"] = $('#carCode').val();
+                    //                    data["desc"] = $('#desc').val();
+                    //                    data["opyType"] = $(this).attr('data-opt');
 
-                    var url, method, data;
-                    method = this.element.attr('data-wgt-edittable-method'); //"AjaxEditCar";
-                    url = this.element.attr('data-wgt-edittable-url'); // "/Pages/BO/BaseData/BDCar.aspx";
-                    data = {};
+                    //                    if (data["carCode"] == ""
+                    //                    || data["desc"] == "") {
+                    //                        Modal.alert("请填写信息")
+                    //                        return;
+                    //                    }
 
-                    var tempForm = $("<form>");
-                    tempForm.html($(nRow).html());
-                    var tempInput = $('input,select', tempForm);
-                    for (var i = 0; i < tempInput.length; i++) {
-
-                        var name = tempInput.eq(i).attr('name')
-                        if (!name) {
-                            tempInput.eq(i).attr('name', tempInput.eq(i).attr('id'));
-                        }
-                    }
-
-
-//                    var jqTds = $('>td', nRow);
-//                    for (var i = 0, iLen = jqTds.length; i < iLen; i++) {
-//                        var td = $(jqTds[i]);
-//                        var input = $('input', td);
-//                        if (input.length > 0) {
-//                            data["carCode"]
-//                        } else if (true) {
-
-//                        }
-//                    }
-
-//                    data["carCode"] = $('#carCode').val();
-//                    data["desc"] = $('#desc').val();
-//                    data["opyType"] = $(this).attr('data-opt');
-
-//                    if (data["carCode"] == ""
-//                    || data["desc"] == "") {
-//                        Modal.alert("请填写信息")
-//                        return;
-//                    }
-
-//                    $.AjaxPJson(url, method, data, function (d) {
-//                        $('#mwFrmList').submit();
-//                    }, function (r) {
-//                        Modal.alert('[' + r + ']');
-//                    });
+                    //                    $.AjaxPJson(url, method, data, function (d) {
+                    //                        $('#mwFrmList').submit();
+                    //                    }, function (r) {
+                    //                        Modal.alert('[' + r + ']');
+                    //                    });
                 } else {
                     editRow(oTable, nRow);
                     nEditing = nRow;
@@ -103,6 +100,7 @@ var WGTEdtiTable = function () {
             }
         }
         oTable.fnDraw();
+        gl.wgt.scan($(nRow));
     }
     function editRow(oTable, nRow) {
 
@@ -208,7 +206,46 @@ var WGTEdtiTable = function () {
         oTable.fnDraw();
 
     }
+    var _subrecall = function (el, netData, locData) {
 
+        _initOTable();
+
+    };
+
+    var _initOTable = function () {
+        nEditing = null;
+        oTable = $('#sample_editable_1').dataTable({
+            "aLengthMenu": [
+                    [5, 15, 20, -1],
+                    [5, 15, 20, "All"] // change per page values here
+                ],
+
+            "bInfo": false, //开关，是否显示表格的一些信息
+            "bPaginate": false, //开关，是否显示分页器
+            "bLengthChange": false, //开关，是否显示每页大小的下拉框
+            "bFilter": false, //开关，是否启用客户端过滤器
+            "sPaginationType": "bootstrap",
+            "aoColumnDefs": [
+                    {
+                        'bSortable': false,
+                        'aTargets': [0]
+                    },
+                    {
+                        'bSortable': false,
+                        'aTargets': [1]
+                    },
+                    {
+                        'bSortable': false,
+                        'aTargets': [2]
+                    },
+                    {
+                        'bSortable': false,
+                        'aTargets': [3]
+                    }
+
+                ]
+        });
+    };
     return {
         subrecall: _subrecall,
         init: function () {
@@ -226,8 +263,8 @@ var WGTEdtiTable = function () {
 
             $('#sample_editable_1_new').click(function (e) {
                 e.preventDefault();
-                window.alert("clcik c")
-                return;
+//                window.alert("clcik c")
+//                return;
                 if (nEditing !== null && nEditing != nRow) {
                     /* Currently editing - but not this row - restore the old before continuing to edit mode */
                     if ($(nEditing).find('.cancel').attr('data-mode') == "new") {
@@ -244,23 +281,23 @@ var WGTEdtiTable = function () {
                 nEditing = nRow;
             });
 
-            $('#sample_editable_1 a.cancel').on('click', function (e) {
-                e.preventDefault();
-                if (nEditing == null) { return; }
-                if ($(this).attr("data-mode") == "new") {
-                    var nRow = $(this).parents('tr')[0];
-                    oTable.fnDeleteRow(nRow);
-                    nEditing = null;
-                } else {
-                    restoreRow(oTable, nEditing);
-                    nEditing = null;
-                }
-            });
+            //            $('#sample_editable_1 a.cancel').on('click', function (e) {
+            //                e.preventDefault();
+            //                if (nEditing == null) { return; }
+            //                if ($(this).attr("data-mode") == "new") {
+            //                    var nRow = $(this).parents('tr')[0];
+            //                    oTable.fnDeleteRow(nRow);
+            //                    nEditing = null;
+            //                } else {
+            //                    restoreRow(oTable, nEditing);
+            //                    nEditing = null;
+            //                }
+            //            });
 
-            $('#sample_editable_1 a.edit').on('click', function (e) {
-                e.preventDefault();
+            //            $('#sample_editable_1 a.edit').on('click', function (e) {
+            //                e.preventDefault();
 
-            });
+            //            });
         }
     };
 

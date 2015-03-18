@@ -135,9 +135,34 @@ var Custom = function () {
 
     }
     var initjQueryPlus = function () {
+        $.fn.setGroup = function (s) {
+            if (s)
+                this.attr('submit-group', s);
+        };
+        $.fn.serializeGroupJson = function () {
+            var mw_group = this.attr('submit-group');
+            var serializeObj = {};
+            var $this = this;
+//            window.alert(mw_group)
+            $(this.serializeArray()).each(function () {
+//                window.alert($('[name="' + this.name + '"],[submit-group="' + mw_group + '"]', $this).length+" " + this.name);
+                //                var group = '';
+                if (!mw_group) {
+                    serializeObj[this.name] = this.value;
+                } else if ($('[name="' + this.name + '"]', $this).attr('submit-group') == mw_group) {
+                    serializeObj[this.name] = this.value;
+                } else if ($('[name="' + this.name + '"]', $this).attr('submit-group') == 'common') {
+                    serializeObj[this.name] = this.value;
+                }
+            });
+            this.attr('submit-group', '')
+            return serializeObj;
+        };
         $.fn.serializeJson = function () {
             var serializeObj = {};
+            var $this = this;
             $(this.serializeArray()).each(function () {
+                window.alert($('[name="' + this.name + '"]', $this).attr('name'))
                 serializeObj[this.name] = this.value;
             });
             return serializeObj;
@@ -202,7 +227,7 @@ var Custom = function () {
                         } else {
                             ECallFunc(data);
                         }
-                        
+
                     },
                     success: function (data) {
                         if (typeof data === "object") {
@@ -227,7 +252,7 @@ var Custom = function () {
                 });
             },
             AjaxPSJson: function (URL, FUNC, JSONDATA, SCallFunc, ECallFunc, BF, CF) {
-               
+
                 $.ajax({
                     cache: true,
                     dataType: "json",

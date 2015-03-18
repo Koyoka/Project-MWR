@@ -266,6 +266,7 @@
     <Content Include="Assets\userpermit.js" />
     <Content Include="Assets\wgt-edittable.js" />
     <Content Include="Assets\wsmanage.js" />
+    <Content Include="Assets\副本 bobdcrate.js" />
     <Content Include="Global.asax" />
     <Content Include="Lib\Newtonsoft.Json.Net20.dll" />
     <Content Include="Pages\BO\BaseData\BDCar.aspx" />
@@ -274,6 +275,7 @@
     <Content Include="Pages\BO\BaseData\BDEmploy.aspx" />
     <Content Include="Pages\BO\BaseData\BDVendor.aspx" />
     <Content Include="Pages\BO\BaseData\BDWaste.aspx" />
+    <Content Include="Pages\BO\BaseData\DemoBDCrate.aspx" />
     <Content Include="Pages\BO\Block\BlockSendCarDispatch.aspx" />
     <Content Include="Pages\BO\BOIndex.aspx" />
     <Content Include="Pages\BO\BOMain.aspx" />
@@ -288,6 +290,7 @@
     <Content Include="Pages\BO\Inventory\InvAuthorize.aspx" />
     <Content Include="Pages\BO\Inventory\InvAuthorizeDetail.aspx" />
     <Content Include="Pages\BO\Report\IntegratedReport.aspx" />
+    <Content Include="Pages\BO\Report\RecoverReport.aspx" />
     <Content Include="Pages\BO\Report\VendorReport.aspx" />
     <Content Include="Pages\BO\Report\WasteReport.aspx" />
     <Content Include="Pages\BO\Sys\FuncGroupEdit.aspx" />
@@ -299,6 +302,7 @@
     <Content Include="Pages\Demo\FileUpload2_1.aspx" />
     <Content Include="Pages\UCtrl\UModal.ascx" />
     <Content Include="Pages\UCtrl\UPage.ascx" />
+    <Content Include="Pages\UCtrl\UServicePage.ascx" />
     <Content Include="Services\config.html" />
     <Content Include="Services\MWRecoverServer.aspx" />
     <Content Include="Setting\function.xml">
@@ -369,6 +373,13 @@
     </Compile>
     <Compile Include="Pages\BO\BaseData\BDWaste.aspx.designer.cs">
       <DependentUpon>BDWaste.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\BO\BaseData\DemoBDCrate.aspx.cs">
+      <DependentUpon>DemoBDCrate.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\BO\BaseData\DemoBDCrate.aspx.designer.cs">
+      <DependentUpon>DemoBDCrate.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\BO\Block\BlockSendCarDispatch.aspx.cs">
       <DependentUpon>BlockSendCarDispatch.aspx</DependentUpon>
@@ -446,6 +457,13 @@
     </Compile>
     <Compile Include="Pages\BO\Report\IntegratedReport.aspx.designer.cs">
       <DependentUpon>IntegratedReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\BO\Report\RecoverReport.aspx.cs">
+      <DependentUpon>RecoverReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\BO\Report\RecoverReport.aspx.designer.cs">
+      <DependentUpon>RecoverReport.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\BO\Report\VendorReport.aspx.cs">
       <DependentUpon>VendorReport.aspx</DependentUpon>
@@ -545,6 +563,13 @@
     <Compile Include="Pages\UCtrl\UPage.ascx.designer.cs">
       <DependentUpon>UPage.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Pages\UCtrl\UServicePage.ascx.cs">
+      <DependentUpon>UServicePage.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\UCtrl\UServicePage.ascx.designer.cs">
+      <DependentUpon>UServicePage.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\FileUpload\Thumbnail.ashx.cs">
       <DependentUpon>Thumbnail.ashx</DependentUpon>
@@ -596,6 +621,7 @@
     <Content Include="Pages\MasterPages\MWBOMain.master" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\demobobdcrate.js" />
     <None Include="Assets\fonts\cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff" />
     <None Include="Assets\fonts\DXI1ORHCpsQm3Vp6mXoaTXhCUOGz7vYGh680lGh-uXM.woff" />
     <None Include="Assets\fonts\fontawesome-webfont.eot" />

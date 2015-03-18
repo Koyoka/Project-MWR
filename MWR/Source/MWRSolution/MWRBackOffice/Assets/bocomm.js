@@ -16,7 +16,9 @@
                 if (this.element.context.tagName !== "FORM") {
                     window.alert("[mw-submit] Must be wgt to [FORM]");
                 } else {
-                    this.initPageCtrl();
+                    var needpage = !(this.element.attr("data-wgt-submit-options-page") === "false");
+                    if (needpage)
+                        this.initPageCtrl();
                     this.element.on("submit", this.submit.bind(this))
                 }
             },
@@ -40,7 +42,6 @@
                     if (!substart(this.element, data))
                         return;
                 }
-
 
                 var wgtrecall = this.element.attr('data-wgt-submit-options-recall');
                 var recall = _getwgtrecall(wgtrecall);
@@ -108,7 +109,7 @@
             },
             submit: function (e) {
                 e.preventDefault();
-               
+
                 if (!!this.element.valid) {
                     if (!this.element.valid())
                         return;
@@ -202,6 +203,63 @@
                 if (form.is("form")) {
                     form.submit();
                 }
+            }
+        });
+
+        gl.wgt.set('mw-submit-page', {
+            _url: "",
+            _method: "",
+            init: function () {
+                this.initPageCtrl();
+
+            },
+            click: function (e) {
+                e.preventDefault();
+            },
+            initPageCtrl: function () {
+                _url = this.element.attr("data-wgt-submit-url");
+                _method = this.element.attr("data-wgt-submit-method");
+
+                var el = this.element;
+                var $this = this;
+                el.find('.dataTables_paginate .pagination a').on("click", function (e) {
+                    e.preventDefault();
+
+                    if ($(this).hasClass("disabled"))
+                        return;
+                    var curPage = $(this).attr("data-wgt-page");
+                    el.find(".mw_curpage").val(curPage)
+                    $this.getPageData(curPage);
+                });
+            },
+            getPageData: function (p) {
+                var data = {};
+                data["page"] = p;
+                var el = this.element;
+               
+                var blockEl = el.parent();
+                var wgtrecall = this.element.attr('data-wgt-submit-options-recall');
+                var recall = _getwgtrecall(wgtrecall);
+                $.AjaxPJson(_url, _method, data, function (d) {
+                    var defineEl = $(d).find("#" + el.attr("id"));
+                   
+                    gl.wgt.scan(defineEl);
+                    el.replaceWith(defineEl)
+                    if (recall)
+                        recall(el, d, data);
+                }, function (r) {
+                    Modal.alert('[' + r + ']');
+                }, function () {
+                    //                    if (loadBtn)
+                    //                        loadBtn.button('loading');
+                    //                    if (blockEl)
+                    App.blockUI(blockEl);
+                }, function () {
+                    //                    if (loadBtn)
+                    //                        loadBtn.button('reset');
+                    //                    if (blockEl)
+                    App.unblockUI(blockEl);
+                });
             }
         });
     }
