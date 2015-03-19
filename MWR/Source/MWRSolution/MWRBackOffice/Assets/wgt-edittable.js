@@ -4,6 +4,151 @@ var WGTEdtiTable = function () {
     var oTable;
     var nEditing = null;
     var initHelper = function () {
+
+        validFromGroup();
+
+
+        gl.wgt.set('mw-edittable', {
+            $this: null,
+            init: function () {
+                $this = this;
+                this.setBtnEvent(this.element);
+            },
+            setBtnEvent: function (el) {
+                $('a.cancel', el).on('click', this.onCancelClickEvent);
+                $('a.edit', el).on('click', this.onEditClickEvent);
+                $('.mw-creat', el).on('click', this.onCreateClickEvent);
+            },
+            onCancelClickEvent: function (e) {
+                e.preventDefault();
+                //                                window.alert('cancel event')
+                if (nEditing == null) { return; }
+                if ($(this).attr("data-mode") == "new") {
+                    var nRow = $(this).parents('tr')[0];
+                    oTable.fnDeleteRow(nRow);
+                    nEditing = null;
+                } else {
+                    $this.restoreRow(oTable, nEditing);
+                    nEditing = null;
+                }
+            },
+            onEditClickEvent: function (e) {
+                e.preventDefault();
+                //                                window.alert('edit event')
+                var nRow = $(this).parents('tr')[0];
+                if (nEditing !== null && nEditing != nRow) {
+                    $this.restoreRow(oTable, nEditing);
+                    $this.editRow(oTable, nRow);
+                    nEditing = nRow;
+                } else if (nEditing == nRow && $(this).attr('data-mode') == "save") {
+                    $this.element.setGroup('save');
+                    $this.element.submit();
+                } else {
+                    $this.editRow(oTable, nRow);
+                    nEditing = nRow;
+                }
+            },
+            onCreateClickEvent: function (e) {
+                //                window.alert('click event')
+                if (nEditing !== null && nEditing != nRow) {
+                    if ($(nEditing).find('.cancel').attr('data-mode') == "new") {
+                        window.alert("新数据未保存");
+                        return;
+                    }
+                    $this.restoreRow(oTable, nEditing);
+                }
+                var aiNew = oTable.fnAddData(['', '', '', '', '',
+                    '', ''
+                ]);
+                var nRow = oTable.fnGetNodes(aiNew[0]);
+                $this.newRow(oTable, nRow);
+                nEditing = nRow;
+            },
+            restoreRow: function (oTable, nRow) {
+                var aData = oTable.fnGetData(nRow);
+                var jqTds = $('>td', nRow);
+
+                for (var i = 0, iLen = jqTds.length; i < iLen; i++) {
+
+                    if ($(nRow).find('.cancel').attr('data-mode') == "new") {
+                        oTable.fnDeleteRow(nRow);
+                    } else {
+                        oTable.fnUpdate(aData[i], nRow, i, false);
+                    }
+                }
+                oTable.fnDraw();
+                gl.wgt.scan($this.element);
+                this.setBtnEvent(nRow);
+            },
+            newRow: function (oTable, nRow) {
+                var aData = oTable.fnGetData(nRow);
+                var temp = $('#mw-rownewtemp', this.element);
+                $(nRow).html(temp.html());
+                var reg = new RegExp("\\[([^\\[\\]]*?)\\]", 'igm');
+                var jqTds = $('>td', nRow);
+                for (var i = 0, iLen = jqTds.length; i < iLen; i++) {
+                    var td = $(jqTds[i]);
+
+                    var html = td.html().replace(reg, function (node, key) {
+                        return {
+                            Value: aData[i],
+                            empty1: ""
+                        }[key];
+                    });
+
+                    td.html(html);
+                    var data = aData[i];
+                    var input = $('input', td);
+                    var select = $("select", td);
+                    if (input.length > 0) {
+                        if (input.eq(0).val() == "") {
+                            input.val(data);
+                        }
+                        //                        input.val(data);
+                    }
+                    if (select.length > 0)
+                        $("option[text='" + data + "']", select).attr("selected", true);
+                }
+                $('input', jqTds[0]).focus();
+                gl.wgt.scan($this.element);
+                this.setBtnEvent(nRow);
+            },
+            editRow: function (oTable, nRow) {
+                var aData = oTable.fnGetData(nRow);
+                //                window.alert(aData)
+                var temp = $('#mw-rowedittemp', this.element);
+                $(nRow).html(temp.html());
+                var reg = new RegExp("\\[([^\\[\\]]*?)\\]", 'igm');
+                var jqTds = $('>td', nRow);
+                for (var i = 0, iLen = jqTds.length; i < iLen; i++) {
+                    var td = $(jqTds[i]);
+
+                    var tempInput = $('<div>').html(aData[i]).find('input')
+                    var data = tempInput.length == 0 ? aData[i] : tempInput.eq(0).val();
+                    var html = td.html().replace(reg, function (node, key) {
+                        return {
+                            Value: data,
+                            empty: ""
+                        }[key];
+                    });
+                    td.html(html);
+                    var input = $('input', td);
+                    var select = $("select", td);
+                    if (input.length > 0) {
+                        if (input.eq(0).val() == "") {
+                            input.val(data);
+                        }
+                    }
+                    if (select.length > 0)
+                        $("option[text='" + data + "']", select).attr("selected", true);
+                }
+                $('input', jqTds[1]).focus();
+                gl.wgt.scan($this.element);
+                this.setBtnEvent(nRow);
+            }
+
+        });
+
         gl.wgt.set('mw-edittable-cancel', {
             init: function () {
                 this.element.on('click', this.onClick.bind(this));
@@ -28,7 +173,7 @@ var WGTEdtiTable = function () {
             },
             onClick: function (e) {
                 e.preventDefault();
-//                window.alert(1);
+                //                window.alert(1);
                 //                return;
 
                 var nRow = $(this.element).parents('tr')[0];
@@ -86,7 +231,37 @@ var WGTEdtiTable = function () {
             }
         });
     }
-
+    function validFromGroup() {
+        if (!$.validator) {
+            return;
+        }
+        $.validator.prototype.checkForm = function () {
+            this.prepareForm();
+            var mw_group = $(this.currentForm).attr('submit-group');
+            for (var i = 0, elements = (this.currentElements = this.elements()); elements[i]; i++) {
+                if (mw_group) {
+                    var g = $(elements[i]).attr('submit-group')
+                    if (g == mw_group) {
+                        this.check(elements[i]);
+                    }
+                } else {
+                    this.check(elements[i]);
+                }
+            }
+            return this.valid();
+        }
+        $.validator.staticRules = function (element) {
+            var rules = {};
+            var validator = $.data(element.form, "validator");
+            if (!validator) {
+                return rules;
+            }
+            if (validator.settings.rules) {
+                rules = $.validator.normalizeRule(validator.settings.rules[element.name]) || {};
+            }
+            return rules;
+        };
+    };
     function restoreRow(oTable, nRow) {
         var aData = oTable.fnGetData(nRow);
         var jqTds = $('>td', nRow);
@@ -206,14 +381,16 @@ var WGTEdtiTable = function () {
         oTable.fnDraw();
 
     }
-    var _subrecall = function (el, netData, locData) {
-
-        _initOTable();
-
+    var _subrecall = function (ot) {
+        _initOTable(ot);
     };
-
-    var _initOTable = function () {
+    var codyOT = null;
+    var _initOTable = function (ot) {
         nEditing = null;
+        if (ot) {
+            oTable = ot;
+            return;
+        }
         oTable = $('#sample_editable_1').dataTable({
             "aLengthMenu": [
                     [5, 15, 20, -1],
@@ -248,38 +425,31 @@ var WGTEdtiTable = function () {
     };
     return {
         subrecall: _subrecall,
-        init: function () {
-
+        initOTable: _initOTable,
+        init: function (ot) {
             initHelper();
+            _initOTable(ot);
+            return;
 
-
-            _initOTable();
-
-            jQuery('#sample_editable_1_wrapper .dataTables_filter input').addClass("form-control input-medium"); // modify table search input
-            jQuery('#sample_editable_1_wrapper .dataTables_length select').addClass("form-control input-small"); // modify table per page dropdown
-            jQuery('#sample_editable_1_wrapper .dataTables_length select').select2({
-                showSearchInput: false //hide search box with special css class
-            });
-
-            $('#sample_editable_1_new').click(function (e) {
-                e.preventDefault();
-//                window.alert("clcik c")
-//                return;
-                if (nEditing !== null && nEditing != nRow) {
-                    /* Currently editing - but not this row - restore the old before continuing to edit mode */
-                    if ($(nEditing).find('.cancel').attr('data-mode') == "new") {
-                        window.alert("新数据未保存");
-                        return;
-                    }
-                    restoreRow(oTable, nEditing);
-                }
-                var aiNew = oTable.fnAddData(['', '', '', '', '',
-                    '', ''
-                ]);
-                var nRow = oTable.fnGetNodes(aiNew[0]);
-                newRow(oTable, nRow);
-                nEditing = nRow;
-            });
+            //            $('#sample_editable_1_new').click(function (e) {
+            //                e.preventDefault();
+            //                //                window.alert("clcik c")
+            //                //                return;
+            //                if (nEditing !== null && nEditing != nRow) {
+            //                    /* Currently editing - but not this row - restore the old before continuing to edit mode */
+            //                    if ($(nEditing).find('.cancel').attr('data-mode') == "new") {
+            //                        window.alert("新数据未保存");
+            //                        return;
+            //                    }
+            //                    restoreRow(oTable, nEditing);
+            //                }
+            //                var aiNew = oTable.fnAddData(['', '', '', '', '',
+            //                    '', ''
+            //                ]);
+            //                var nRow = oTable.fnGetNodes(aiNew[0]);
+            //                newRow(oTable, nRow);
+            //                nEditing = nRow;
+            //            });
 
             //            $('#sample_editable_1 a.cancel').on('click', function (e) {
             //                e.preventDefault();

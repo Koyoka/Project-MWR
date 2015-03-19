@@ -135,6 +135,9 @@ var Custom = function () {
 
     }
     var initjQueryPlus = function () {
+        $.fn.setGroupDebug = function () {
+            this.attr('submit-group-debug', true);
+        };
         $.fn.setGroup = function (s) {
             if (s)
                 this.attr('submit-group', s);
@@ -143,19 +146,40 @@ var Custom = function () {
             var mw_group = this.attr('submit-group');
             var serializeObj = {};
             var $this = this;
-//            window.alert(mw_group)
+            //            window.alert(mw_group)
             $(this.serializeArray()).each(function () {
-//                window.alert($('[name="' + this.name + '"],[submit-group="' + mw_group + '"]', $this).length+" " + this.name);
-                //                var group = '';
                 if (!mw_group) {
                     serializeObj[this.name] = this.value;
-                } else if ($('[name="' + this.name + '"]', $this).attr('submit-group') == mw_group) {
-                    serializeObj[this.name] = this.value;
+                    //                } else if ($('[name="' + this.name + '"]', $this).attr('submit-group') == mw_group) {
+                    //                } else if ($('[name="' + this.name + '"]', $this).attr('submit-group') == mw_group) {
+                    //                    serializeObj[this.name] = this.value;
                 } else if ($('[name="' + this.name + '"]', $this).attr('submit-group') == 'common') {
                     serializeObj[this.name] = this.value;
+                } else {
+                    var ctrl = $('[name="' + this.name + '"]', $this);
+                    for (i = 0; i < ctrl.length; i++) {
+                        var tempCtrl = ctrl.eq(i);
+                        var g = tempCtrl.attr('submit-group');
+                        if (g) {
+                            var gnames = g.split(/\s+/);
+                            for (ii = 0; ii < gnames.length; ii++) {
+                                if (gnames[ii] == mw_group) {
+                                    serializeObj[this.name] = this.value;
+                                    break;
+                                }
+                            }
+                        }
+
+                    }
                 }
+
             });
             this.attr('submit-group', '')
+            if (!!mw_group) {
+                serializeObj['group'] = mw_group;
+            }
+            if (this.attr('submit-group-debug'))
+                window.alert(JSON.stringify(serializeObj) + " Group[" + mw_group + "]");
             return serializeObj;
         };
         $.fn.serializeJson = function () {

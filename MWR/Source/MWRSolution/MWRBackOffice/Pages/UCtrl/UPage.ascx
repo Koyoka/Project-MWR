@@ -6,7 +6,7 @@
     </div>
     <div class="col-md-9 ">
         <div class="dataTables_paginate paging_bootstrap">
-            <input type="hidden" class="mw_curpage" name="page" value="<% = CurrentPage %>" />
+            <input type="hidden" class="mw_curpage" submit-group="common" name="page" value="<% = CurrentPage %>" />
             <ul class="pagination" style="visibility: visible;">
                                     
                 <li class="prev <% = DisPre %>">

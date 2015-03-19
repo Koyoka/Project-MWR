@@ -2,6 +2,94 @@
 
     var initHelper = function () {
 
+        gl.wgt.set('mw-submit-group', {
+            //            <form data-wgt="mw-submit" 
+            //                data-wgt-submit-method="" 
+            //                data-wgt-submit-options-reload="true" 
+            //                data-wgt-submit-options-block="true" 
+            //                data-wgt-submit-options-recall="CommHelper.recallCarDispatch" 
+            //                action="">
+            //                    <input type="submit" value="submit" />
+            //                </form>
+
+            init: function () {
+                if (this.element.context.tagName !== "FORM") {
+                    window.alert("[mw-submit] Must be wgt to [FORM]");
+                } else {
+                    var needpage = !(this.element.attr("data-wgt-submit-options-page") === "false");
+                    if (needpage)
+                        this.initPageCtrl();
+                    this.element.on("submit", this.submit.bind(this))
+                }
+            },
+            submit: function (e) {
+                e.preventDefault();
+
+                if (!!this.element.valid) {
+                    if (!this.element.valid())
+                        return;
+                }
+                var method = this.element.attr("data-wgt-submit-method");
+                var url = this.element.attr("action");
+                var data = this.element.serializeGroupJson();
+                //                return;
+                var needblock = !(this.element.attr("data-wgt-submit-options-block") === "false");
+                var needreload = !(this.element.attr("data-wgt-submit-options-reload") === "false");
+
+                var wgtsubstart = this.element.attr('data-wgt-submit-options-start');
+                var substart = _getwgtrecall(wgtsubstart);
+                if (substart) {
+                    if (!substart(this.element, data))
+                        return;
+                }
+
+                var wgtrecall = this.element.attr('data-wgt-submit-options-recall');
+                var recall = _getwgtrecall(wgtrecall);
+                var el = this.element;
+                var blockEl;
+                if (needblock)
+                    blockEl = el.parent();
+                var loadBtn = this.element.find(".demo-loading-btn").length == 1 ? this.element.find(".demo-loading-btn") : false;
+
+                $.AjaxPJson(url, method, data, function (d) {
+                    if (needreload) {
+                        var defineEl = $(d).find("#" + el.attr("id"));
+                        gl.wgt.scan(defineEl);
+                        el.replaceWith(defineEl);
+                        //                        el.html(defineEl.html());
+                        //                        gl.wgt.scan(el);
+                    }
+                    if (recall)
+                        recall(el, d, data);
+                }, function (r) {
+                    Modal.alert('[' + r + ']');
+                }, function () {
+
+                    if (loadBtn)
+                        loadBtn.button('loading');
+                    if (blockEl)
+                        App.blockUI(blockEl);
+                }, function () {
+                    if (loadBtn)
+                        loadBtn.button('reset');
+                    if (blockEl)
+                        App.unblockUI(blockEl);
+                });
+            },
+            initPageCtrl: function () {
+                var el = this.element;
+                el.find('.dataTables_paginate .pagination a').on("click", function (e) {
+                    e.preventDefault();
+                    if ($(this).hasClass("disabled"))
+                        return;
+                    var curPage = $(this).attr("data-wgt-page");
+                    el.find(".mw_curpage").val(curPage)
+                    el.setGroup('common');
+                    el.submit();
+                });
+            }
+        });
+
         gl.wgt.set('mw-submit', {
             //            <form data-wgt="mw-submit" 
             //                data-wgt-submit-method="" 
@@ -236,13 +324,13 @@
                 var data = {};
                 data["page"] = p;
                 var el = this.element;
-               
+
                 var blockEl = el.parent();
                 var wgtrecall = this.element.attr('data-wgt-submit-options-recall');
                 var recall = _getwgtrecall(wgtrecall);
                 $.AjaxPJson(_url, _method, data, function (d) {
                     var defineEl = $(d).find("#" + el.attr("id"));
-                   
+
                     gl.wgt.scan(defineEl);
                     el.replaceWith(defineEl)
                     if (recall)
