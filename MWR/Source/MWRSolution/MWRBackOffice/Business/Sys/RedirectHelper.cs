@@ -46,7 +46,7 @@ namespace YRKJ.MWR.BackOffice.Business.Sys
         public const string BDCar = "BaseData/BDCar.aspx";
         public const string BDWaste = "BaseData/BDWaste.aspx";
         public const string BDDepot = "BaseData/BDDepot.aspx";
-        public const string BDCrate = "BaseData/BDCrate.aspx";
+        public const string BDCrate = "BaseData/DemoBDCrate.aspx";//"BaseData/BDCrate.aspx";
 
         public const string DemoBDCrate = "BaseData/DemoBDCrate.aspx";
         #endregion

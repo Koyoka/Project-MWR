@@ -81,7 +81,7 @@
             data-wgt-submit-options-recall="FuncGroupEditHelper.removeFuncGroupRecall"
             action="<% = WebAppFn.GetBoFullPageUrl(RedirectHelper.FuncGroupEdit) %>" class="">
         <input id="functionGroupId" type="hidden" name="functionGroupId" value="<% = PageCurPermitGroupId %>" />
-        <input id="optFuncTag" type="hidden" name="optEmpyCode" value="" />
+        <input id="optFuncTag" type="hidden" name="optFuncTag" value="" />
         <input id="optType" type="hidden" name="optType" value="none" />
             <div class="portlet">
 				<div class="portlet-title line">

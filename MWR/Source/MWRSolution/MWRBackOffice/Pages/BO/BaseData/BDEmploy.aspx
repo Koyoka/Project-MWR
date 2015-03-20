@@ -29,6 +29,10 @@
 </div>
 	<div class="row">
 		<div class="col-md-12">
+         <div class="alert alert-danger display-hide">
+			<button class="close" data-close="alert"></button>
+			表单未能提交，请检查输入项
+		</div>
 			<!-- BEGIN EXAMPLE TABLE PORTLET-->
 			<div class="portlet box blue">
 				<div class="portlet-title">
@@ -40,21 +44,22 @@
 					</div>
 				</div>
 				<div class="portlet-body">
-					<div class="table-toolbar">
-						<div class="btn-group">
-							<button id="sample_editable_1_new" class="btn green">
-							添加新员工 <i class="fa fa-plus"></i>
-							</button>
-						</div>
-						
-					</div>
-                    <form data-wgt="mw-submit" 
+					
+                    <form data-wgt="mw-submit-group mw-edittable" 
                         id="mwFrmList"
                         data-wgt-submit-method="AjaxSubEmpy" 
                         <%--data-wgt-submit-options-reload="true" 
                         data-wgt-submit-options-block="true" --%>
                        data-wgt-submit-options-recall="BOBDEmploy.subrecall"
                         action="<% = WebAppFn.GetBoFullPageUrl(RedirectHelper.BDEmploy) %>">
+                        <div class="table-toolbar">
+					        <div class="btn-group">
+						        <button id="sample_editable_1_new" type="button" class="btn green mw-creat">
+						        添加新员工 <i class="fa fa-plus"></i>
+						        </button>
+					        </div>
+				        </div>
+
 					<table class="table table-striped table-hover table-bordered" id="sample_editable_1">
 					<thead>
 					<tr>
@@ -127,16 +132,16 @@
                     <tfoot>
                         <tr id="mw-rowedittemp" style="display:none;">
                             <td>
-                                [Value]<input id="[empty]empyCode" type="hidden" class="form-control input-small" value="" />
+                                [Value]<input id="[empty]empyCode" name="[empty]empyCode" submit-group="[empty]save" type="hidden" class="form-control input-small" value="" />
                             </td>
                              <td>
-                                <input id="[empty]password" maxlength="25" type="text" class="form-control input-small" value="" />
+                                <input id="[empty]password" name="[empty]password" submit-group="[empty]save" maxlength="25" type="text" class="form-control input-small" value="" />
                             </td>
                             <td>
-                                <input id="[empty]empyName" maxlength="25" type="text" class="form-control input-small" value="" />
+                                <input id="[empty]empyName" name="[empty]empyName" submit-group="[empty]save" maxlength="25" type="text" class="form-control input-small" value="" />
                             </td>
                             <td>
-                                <select  id="[empty]empyType" class="form-control">
+                                <select  id="[empty]empyType" name="[empty]empyType" submit-group="[empty]save" class="form-control">
                                     <option text="一般员工" value="<% = YRKJ.MWR.TblMWEmploy.EMPYTYPE_ENUM_WorkStation%>">一般员工</option>
                                     <option text="司机"  value="<% = YRKJ.MWR.TblMWEmploy.EMPYTYPE_ENUM_Driver%>">司机</option>
                                     <option  text="跟车员" value="<% = YRKJ.MWR.TblMWEmploy.EMPYTYPE_ENUM_Inspector%>">跟车员</option>
@@ -144,7 +149,7 @@
                                <%-- <input type="hidden" class="form-control input-small" value="" />--%>
                             </td>
                             <td>
-                                <select  id="[empty]empyFuncGroup" class="form-control ">
+                                <select  id="[empty]empyFuncGroup" name="[empty]empyFuncGroup" submit-group="[empty]save" class="form-control ">
                                     <%
                                         foreach (var func in PageFuncGroupDataList)
 	{
@@ -158,6 +163,7 @@
                             </td>
 						    <td>
 							     <a class="edit" data-mode="save" data-opt="edit" href="">保存</a> <a class="cancel"  href="">取消</a>
+                                 <input type="hidden" name="[empty]optType" submit-group="[empty]save" value="edit" />
 						    </td>
 						    <td>
 							    [Value]
@@ -165,23 +171,23 @@
                         </tr>
                         <tr id="mw-rownewtemp" style="display:none;">
                             <td>
-                                <input id="[empty1]empyCode"  maxlength="10" type="text" class="form-control input-small" value="" />
+                                <input id="[empty1]empyCode" name="[empty1]empyCode" submit-group="[empty1]save"  maxlength="10" type="text" class="form-control input-small" value="" />
                             </td>
                              <td>
-                                <input id="[empty1]password"  maxlength="25" type="text" class="form-control input-small" value="" />
+                                <input id="[empty1]password" name="[empty1]password" submit-group="[empty1]save"  maxlength="25" type="text" class="form-control input-small" value="" />
                             </td>
                             <td>
-                                <input id="[empty1]empyName"  maxlength="25" type="text" class="form-control input-small" value="">
+                                <input id="[empty1]empyName" name="[empty1]empyName" submit-group="[empty1]save"  maxlength="25" type="text" class="form-control input-small" value="">
                             </td>
                             <td>
-                                <select  id="[empty1]empyType" class="form-control">
+                                <select  id="[empty1]empyType" name="[empty1]empyType" submit-group="[empty1]save" class="form-control">
                                     <option text="一般员工" value="<% = YRKJ.MWR.TblMWEmploy.EMPYTYPE_ENUM_WorkStation%>">一般员工</option>
                                     <option text="司机"  value="<% = YRKJ.MWR.TblMWEmploy.EMPYTYPE_ENUM_Driver%>">司机</option>
                                     <option  text="跟车员" value="<% = YRKJ.MWR.TblMWEmploy.EMPYTYPE_ENUM_Inspector%>">跟车员</option>
                                 </select>
                             </td>
                             <td>
-                                 <select  id="[empty1]empyFuncGroup" class="form-control ">
+                                 <select  id="[empty1]empyFuncGroup" name="[empty1]empyFuncGroup" submit-group="[empty1]save" class="form-control ">
                                     <%
                                         foreach (var func in PageFuncGroupDataList)
 	{
@@ -195,6 +201,7 @@
                             </td>
 						    <td>
 							     <a class="edit"  data-mode="save" data-opt="new" href="">保存</a> <a class="cancel" data-mode="new" href="">取消</a>
+                                 <input type="hidden" name="[empty1]optType" submit-group="[empty1]save" value="new" />
 						    </td>
 						    <td>
 							
@@ -226,8 +233,8 @@
                     </tfoot>
 					</table>
                     
-                    <input id="mw-opyEmpyCode" type="hidden" name="opyEmpyCode" value="" />
-                    <input id="mw-opyType" type="hidden" name="opyType" value="" />
+                    <input id="mw-opyEmpyCode" submit-group="active" type="hidden" name="opyEmpyCode" value="" />
+                    <input id="mw-opyType" submit-group="active" type="hidden" name="opyType" value="" />
                     <uc1:UPage ID="c_UPage" runat="server" />
                     </form>
 				</div>
@@ -245,9 +252,11 @@
 <script type="text/javascript" src="/assets/plugins/data-tables/jquery.dataTables.js"></script>
 <script type="text/javascript" src="/assets/plugins/data-tables/DT_bootstrap.js"></script>
 <script src="/assets/bobdemploy.js"></script>
+<script src="/assets/wgt-edittable.js"></script>
 <script>
     jQuery(document).ready(function () {
         BOBDEmploy.init();
+        WGTEdtiTable.init(BOBDEmploy.initOTable());
     });
 </script>
 </asp:Content>

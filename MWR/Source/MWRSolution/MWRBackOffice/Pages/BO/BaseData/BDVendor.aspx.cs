@@ -27,22 +27,22 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.BaseData
         }
 
         #region Events
-        public bool AjaxEditVendor(string vendorCode, string vendor, string address, string opyType)
+        public bool AjaxSubVendor_save(string vendorCode, string vendor, string address, string optType, string page)
         {
             string errMsg = "";
-            if (opyType.ToLower().Equals("new"))
+            if (optType.ToLower().Equals("new"))
             {
                 TblMWVendor item = new TblMWVendor();
                 item.VendorCode = vendorCode.Trim();
                 item.Vendor = vendor.Trim();
                 item.Address = address.Trim();
-                if (!BaseDataMng.AddNewVendor(item,ref errMsg))
+                if (!BaseDataMng.AddNewVendor(item, ref errMsg))
                 {
                     ReturnAjaxError(errMsg);
                     return false;
                 }
             }
-            else if (opyType.ToLower().Equals("edit"))
+            else if (optType.ToLower().Equals("edit"))
             {
                 if (!BaseDataMng.EditVendorInfo(vendorCode.Trim(), vendor.Trim(), address.Trim(), ref errMsg))
                 {
@@ -51,12 +51,7 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.BaseData
                 }
             }
 
-            return false;
-        }
-        public bool AjaxSubVendor(string page)
-        {
             int curPage = ComLib.ComFn.StringToInt(page);
-            string errMsg = "";
             if (!LoadData_VenorData(curPage, ref errMsg))
             {
                 ReturnAjaxError(errMsg);
@@ -64,6 +59,19 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.BaseData
             }
             return true;
         }
+        public bool AjaxSubVendor_common(string page)
+        {
+            string errMsg = "";
+           
+            int curPage = ComLib.ComFn.StringToInt(page);
+            if (!LoadData_VenorData(curPage, ref errMsg))
+            {
+                ReturnAjaxError(errMsg);
+                return false;
+            }
+            return true;
+        }
+
         #endregion
 
         #region Functions

@@ -27,10 +27,10 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.BaseData
         }
 
         #region Events
-        public bool AjaxEditWaste(string wasteCode, string waste, string opyType)
+        public bool AjaxSubWaste_save(string wasteCode, string waste, string optType, string page)
         {
             string errMsg = "";
-            if (opyType.ToLower().Equals("new"))
+            if (optType.ToLower().Equals("new"))
             {
                 TblMWWasteCategory item = new TblMWWasteCategory();
                 item.WasteCode = wasteCode.Trim();
@@ -41,7 +41,7 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.BaseData
                     return false;
                 }
             }
-            else if (opyType.ToLower().Equals("edit"))
+            else if (optType.ToLower().Equals("edit"))
             {
                 if (!BaseDataMng.EditWasteInfo(wasteCode.Trim(), waste.Trim(), ref errMsg))
                 {
@@ -50,12 +50,20 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.BaseData
                 }
             }
 
-            return false;
-        }
-        public bool AjaxSubWaste(string page)
-        {
             int curPage = ComLib.ComFn.StringToInt(page);
+
+            if (!LoadData_WasteData(curPage, ref errMsg))
+            {
+                ReturnAjaxError(errMsg);
+                return false;
+            }
+            return true;
+        }
+        public bool AjaxSubWaste_common(string page)
+        {
             string errMsg = "";
+            int curPage = ComLib.ComFn.StringToInt(page);
+            
             if (!LoadData_WasteData(curPage, ref errMsg))
             {
                 ReturnAjaxError(errMsg);

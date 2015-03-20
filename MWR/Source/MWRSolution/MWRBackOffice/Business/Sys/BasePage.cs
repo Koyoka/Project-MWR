@@ -143,29 +143,30 @@ namespace YRKJ.MWR.BackOffice.Business.Sys
                 string methodName = Request.Form["_Method"];
                 try
                 {
-                    object[] Param = null;
-
-                    if (Request.Form.Count > 2)
-                    {
-                        Param = new string[Request.Form.Count - 2];
-                        for (int i = 0; i < Param.Length; i++)
-                        {
-                            Param[i] = Request.Form[i];//.Replace("\\",@"\"); 
-                            //Param[i] = Request.Form[i];
-                        }
-                    }
-                    Type tp = this.GetType();
-
                     
-                    System.Reflection.MethodInfo me ;//= tp.GetMethod(methodName);
-                    if (Param == null) {
-                        me = tp.GetMethod(methodName);
-                    }else if (Param.Length == 0)
+                    
+                    if (Request.Form.Count < 2)
+                    {
+                        throw new Exception("ajax service function need default params [_AjaxRequest] [_Method] ");
+                    }
+                    string methodGroup = "";
+                    if (Request.Form["_Group"] != null)
+                    {
+                        methodGroup = "_" + Request.Form["_Group"];
+                        methodName = methodName + methodGroup;
+                    }
+                    int paramCount = Request.Form.Count - (string.IsNullOrEmpty(methodGroup) ? 2 : 3);
+
+                    Type tp = this.GetType();
+                    System.Reflection.MethodInfo me ;
+                   
+                    if (paramCount == 0)
                     {
                         me = tp.GetMethod(methodName);
                     }
-                    else {
-                        Type[] pType = new Type[Param.Length];
+                    else 
+                    {
+                        Type[] pType = new Type[paramCount];
                         for (int i = 0;i<pType.Length;i++)
                         {
                             pType[i] = typeof(String);
@@ -173,33 +174,99 @@ namespace YRKJ.MWR.BackOffice.Business.Sys
                         me = tp.GetMethod(methodName,pType);
                     }
 
-                    if (me != null)
+                    string reqMethodParams = "";
+                    foreach (var pName in Request.Form.Keys)
                     {
-                        _isPostBack = true;
-                        object o = me.Invoke(this, Param);
-                        //return to continue write page code
-                        if (o is bool)
+                        if (pName.Equals("_AjaxRequest") || pName.Equals("_Method") || pName.Equals("_Group"))
                         {
-                            if (!(bool)o)
+                            continue;
+                        }
+                        reqMethodParams += "<span style=\"color:blue;\">string</span> " + pName + ",";
+                    }
+                    string reqMethod = "<span style=\"font-size:14px\"><span style=\"color:blue;\">public bool </span>" + methodName + "(" + reqMethodParams.TrimEnd(',') + ")</span>";
+
+                    if (me == null)
+                    {
+                        string err = "<br/>ajax service no method ";
+                        err += "<br/>";
+                        err += reqMethod;
+                        err += "<br/>";
+                        throw new Exception(err);
+                    }
+
+                    if (me.ReturnType != typeof(bool))
+                    {
+                        throw new Exception("ajax service need return [bool] <br/>" + reqMethod+"<br/>");
+                    }
+
+                    _isPostBack = true;
+                    object returnValue;
+                    if (paramCount == 0)
+                    {
+                        returnValue = me.Invoke(this, null);
+                    }
+                    else 
+                    {
+                        string setParamsErr = "";
+                        object[] Param = new object[paramCount];
+                        System.Reflection.ParameterInfo[] pInfos = me.GetParameters();
+
+                        string serviceMethodParams = "";
+                        foreach (var p in pInfos)
+                        {
+                            
+                            if (Request.Form[p.Name] == null)
                             {
-                                return true;
+                                serviceMethodParams += "<span style=\"color:blue;\">string</span> <span style=\"color:red;\">" + p.Name + "</span>,";
+                                setParamsErr += " [" + p.Name + "] ";
                             }
                             else
                             {
-                                return false;
+                                serviceMethodParams += "<span style=\"color:blue;\">string</span> " + p.Name + ",";
+                                Param[p.Position] =
+                                Request.Form[p.Name].ToString();
                             }
                         }
-                        else
+                        string serviceMethod = "<span style=\"font-size:14px\"><span style=\"color:blue;\">public bool </span>" + methodName + "(" + serviceMethodParams.TrimEnd(',') + ")</span>";
+                        if (!string.IsNullOrEmpty(setParamsErr))
                         {
-                            throw new Exception("ajax service function need return [bool]");
+                            string err = " ["+methodName + "] method Mismatch";
+                            err += "<br/>";
+                            err += "client request method:" + reqMethod;
+                            err += "<br/>";
+                            err += "server existed method:" + serviceMethod;
+                            err += "<br/>";
+                            err += "client request params don't include params:";
+                            err += "<br/>";
+                            err += setParamsErr;
+                            throw new Exception(err);
                         }
-                        
+
+                        returnValue = me.Invoke(this, Param);
+                    }
+                    //return to continue write page code
+                    //if (o is bool)
+                    //{
+                    if (!(bool)returnValue)
+                    {
+                        return true;
                     }
                     else
                     {
-                        ReturnAjaxError(ComLib.Error.ErrorMng.GetCodingError(ClassName, "", "not have method:(" + methodName + ")"));
-                        return true;
+                        return false;
                     }
+                    //}
+                    //else
+                    //{
+                    //    throw new Exception("ajax service function need return [bool]");
+                    //}
+                        
+                    //}
+                    //else
+                    //{
+                    //    ReturnAjaxError(ComLib.Error.ErrorMng.GetCodingError(ClassName, "", "not have method:(" + methodName + ")"));
+                    //    return true;
+                    //}
                 }
                 catch (Exception ex)
                 {

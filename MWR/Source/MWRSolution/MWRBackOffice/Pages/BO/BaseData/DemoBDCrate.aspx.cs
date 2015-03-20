@@ -27,29 +27,27 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.BaseData
         }
 
         #region Events
-        public bool AjaxSubCrate(string crateCode, string desc, string opyType,string page,string group)
+        public bool AjaxSubCrate_save(string crateCode, string desc, string optType,string page)
         {
             string errMsg = "";
-            if (group == "save")
+            
+            if (optType.ToLower().Equals("new"))
             {
-                if (opyType.ToLower().Equals("new"))
+                TblMWCrate item = new TblMWCrate();
+                item.CrateCode = crateCode.Trim();
+                item.Desc = desc.Trim();
+                if (!BaseDataMng.AddNewCrate(item, ref errMsg))
                 {
-                    TblMWCrate item = new TblMWCrate();
-                    item.CrateCode = crateCode.Trim();
-                    item.Desc = desc.Trim();
-                    if (!BaseDataMng.AddNewCrate(item, ref errMsg))
-                    {
-                        ReturnAjaxError(errMsg);
-                        return false;
-                    }
+                    ReturnAjaxError(errMsg);
+                    return false;
                 }
-                else if (opyType.ToLower().Equals("edit"))
+            }
+            else if (optType.ToLower().Equals("edit"))
+            {
+                if (!BaseDataMng.EditCrateInfo(crateCode.Trim(), desc.Trim(), ref errMsg))
                 {
-                    if (!BaseDataMng.EditCrateInfo(crateCode.Trim(), desc.Trim(), ref errMsg))
-                    {
-                        ReturnAjaxError(errMsg);
-                        return false;
-                    }
+                    ReturnAjaxError(errMsg);
+                    return false;
                 }
             }
             int curPage = ComLib.ComFn.StringToInt(page);
@@ -62,24 +60,22 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.BaseData
             return true;
         }
 
-        public bool AjaxSubCrate(string opyCode, string opyType,string page,string group)
+        public bool AjaxSubCrate_active(string opyCode, string opyType, string page)
         {
             string errMsg = "";
-            if(group == "active")
+          
+            if (opyType.ToLower().Equals("void"))
             {
-                if (opyType.ToLower().Equals("void"))
+                if (!BaseDataMng.VoidCrate(opyCode, ref errMsg))
                 {
-                    if (!BaseDataMng.VoidCrate(opyCode, ref errMsg))
-                    {
-                        return false;
-                    }
+                    return false;
                 }
-                else if (opyType.ToLower().Equals("active"))
+            }
+            else if (opyType.ToLower().Equals("active"))
+            {
+                if (!BaseDataMng.ActiveCrate(opyCode, ref errMsg))
                 {
-                    if (!BaseDataMng.ActiveCrate(opyCode, ref errMsg))
-                    {
-                        return false;
-                    }
+                    return false;
                 }
             }
 
@@ -92,7 +88,7 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.BaseData
             return true;
         }
 
-        public bool AjaxSubCrate(string page,string group)
+        public bool AjaxSubCrate_common(string page)
         {
             string errMsg = "";
             int curPage = ComLib.ComFn.StringToInt(page);
@@ -129,7 +125,7 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.BaseData
 
         private bool LoadData_CrateData(int page,ref string errMsg)
         {
-            int pageSize = 3;
+            int pageSize = 10;
             long pageCount = 0;
             long rowCount = 0;
             if (!BaseDataMng.GetCrateDataList(page, pageSize, ref pageCount, ref rowCount, ref PageCrateDataList, ref errMsg))

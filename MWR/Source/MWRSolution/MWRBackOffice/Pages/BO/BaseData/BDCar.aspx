@@ -30,6 +30,10 @@
 </div>
 <div class="row">
 	<div class="col-md-12">
+        <div class="alert alert-danger display-hide">
+			<button class="close" data-close="alert"></button>
+			表单未能提交，请检查输入项
+		</div>
 		<!-- BEGIN EXAMPLE TABLE PORTLET-->
 		<div class="portlet box blue">
 			<div class="portlet-title">
@@ -41,25 +45,28 @@
 				</div>
 			</div>
 			<div class="portlet-body">
-				<div class="table-toolbar">
-					<div class="btn-group">
-						<button id="sample_editable_1_new" class="btn green">
-						添加新车辆 <i class="fa fa-plus"></i>
-						</button>
-					</div>
-						
-				</div>
-                <form data-wgt="mw-submit" 
+				
+                <form data-wgt="mw-submit-group mw-edittable" 
                     id="mwFrmList"
                     data-wgt-submit-method="AjaxSubCar" 
                     <%--data-wgt-submit-options-reload="true" 
                     data-wgt-submit-options-block="true" --%>
                     data-wgt-submit-options-recall="BOBDCar.subrecall"
                     action="<% = WebAppFn.GetBoFullPageUrl(RedirectHelper.BDCar) %>">
+                    <div class="table-toolbar">
+					    <div class="btn-group">
+						    <button id="sample_editable_1_new" type="button" class="btn green mw-creat">
+						    添加新车辆 <i class="fa fa-plus"></i>
+						    </button>
+					    </div>
+						
+				    </div>
+
+                    <input id="mw-opyCode" submit-group="active" type="hidden" name="opyCode" value="" />
+                    <input id="mw-opyType" submit-group="active" type="hidden" name="opyType" value="" />
 				<table class="table table-striped table-hover table-bordered" id="sample_editable_1">
 				<thead>
 				<tr>
-
                     <th>
                         车辆编号
                     </th>
@@ -109,14 +116,15 @@
                     <tr id="mw-rowedittemp" style="display:none;">
                         <td>
                        
-                            [Value]<input id="[empty]carCode"  type="hidden" class="form-control input-small" value="" />
+                            [Value]<input id="[empty]carCode" name="[empty]carCode" submit-group="[empty]save" type="hidden" class="form-control input-small" value="" />
                         </td>
                             <td>
                           
-                            <input id="[empty]desc" maxlength="<% = TblMWCar.getDescColumn().ColumnSize %>" type="text" class="form-control input-small" value="" />
+                            <input id="[empty]desc" name="[empty]desc" submit-group="[empty]save" maxlength="<% = TblMWCar.getDescColumn().ColumnSize %>" type="text" class="form-control input-small" value="" />
                         </td>
 						<td>
 							<a class="edit" data-mode="save" data-opt="edit" href="">保存</a> <a class="cancel"  href="">取消</a>
+                            <input type="hidden" name="[empty]optType" submit-group="[empty]save" value="edit" />
 						</td>
 						<td>
 							[Value]
@@ -124,13 +132,14 @@
                     </tr>
                     <tr id="mw-rownewtemp" style="display:none;">
                         <td>
-                            <input id="[empty1]carCode"  maxlength=" <% = TblMWCar.getCarCodeColumn().ColumnSize %>" type="text" class="form-control input-small" value="" />
+                            <input id="[empty1]carCode" name="[empty1]carCode" submit-group="[empty1]save" maxlength=" <% = TblMWCar.getCarCodeColumn().ColumnSize %>" type="text" class="form-control input-small" value="" />
                         </td>
                         <td>
-                            <input id="[empty1]desc"  maxlength="<% = TblMWCar.getDescColumn().ColumnSize %>" type="text" class="form-control input-small" value="" />
+                            <input id="[empty1]desc" name="[empty1]desc" submit-group="[empty1]save" maxlength="<% = TblMWCar.getDescColumn().ColumnSize %>" type="text" class="form-control input-small" value="" />
                         </td>
 						<td>
 							    <a class="edit"  data-mode="save" data-opt="new" href="">保存</a> <a class="cancel" data-mode="new" href="">取消</a>
+                                <input type="hidden" name="[empty1]optType" submit-group="[empty1]save" value="new" />
 						</td>
 						<td>
 							
@@ -138,8 +147,7 @@
                     </tr>
                 </tfoot>
 				</table>
-                <input id="mw-opyCode" type="hidden" name="opyCode" value="" />
-                <input id="mw-opyType" type="hidden" name="opyType" value="" />
+                
                 <uc1:UPage ID="c_UPage" runat="server" />
                 </form>
 			</div>
@@ -153,9 +161,11 @@
 <script type="text/javascript" src="/assets/plugins/data-tables/jquery.dataTables.js"></script>
 <script type="text/javascript" src="/assets/plugins/data-tables/DT_bootstrap.js"></script>
 <script src="/assets/bodbcar.js"></script>
+<script src="/assets/wgt-edittable.js"></script>
 <script>
     jQuery(document).ready(function () {
         BOBDCar.init();
+        WGTEdtiTable.init(BOBDCar.initOTable());
     });
 </script>
 </asp:Content>

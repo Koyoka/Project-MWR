@@ -32,64 +32,9 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.BaseData
         }
 
         #region Events
-
-        public bool AjaxEditEmpy(string empyCode, string password, string empyName, string empyType, string empyFuncGroup, string opyType)
+        public bool AjaxSubEmpy_common(string page)
         {
             string errMsg = "";
-
-
-            if (opyType.ToLower().Equals("new"))
-            {
-                TblMWEmploy empy = new TblMWEmploy();
-                empy.EmpyCode = empyCode.Trim();
-                empy.EmpyName = empyName.Trim();
-                empy.Password = password;
-                empy.EmpyType = empyType;
-                empy.FuncGroupId = ComLib.ComFn.StringToInt(empyFuncGroup);
-                empy.Status = TblMWEmploy.STATUS_ENUM_Active;
-                if (!BaseDataMng.AddNewEmploy(empy, ref errMsg))
-                {
-                    ReturnAjaxError(errMsg);
-                    return false;
-                }
-            }
-            else if (opyType.ToLower().Equals("edit"))
-            {
-                if (!BaseDataMng.EditEmpyInfo(empyCode.Trim(), password, empyName.Trim(), empyType, ComLib.ComFn.StringToInt(empyFuncGroup), ref errMsg))
-                {
-                    ReturnAjaxError(errMsg);
-                    return false;
-                }
-            }
-            //else
-            //{
-            //    if (!AjaxSubEmpy_OptEvent(opyEmpyCode, opyType, ref errMsg))
-            //    {
-            //        ReturnAjaxError(errMsg);
-            //        return false;
-            //    }
-            //}
-            
-
-            //int CurrentPage = ComLib.ComFn.StringToInt(page);
-            
-            //if (!LoadData_EmpyData(CurrentPage, ref errMsg))
-            //{
-            //    ReturnAjaxError(errMsg);
-            //    return false;
-            //}
-            return false;
-        }
-
-        public bool AjaxSubEmpy(string opyEmpyCode, string opyType, string page)
-        {
-            string errMsg = "";
-            if (!AjaxSubEmpy_OptEvent(opyEmpyCode.Trim(), opyType, ref errMsg))
-            {
-                ReturnAjaxError(errMsg);
-                return false;
-            }
-
             int CurrentPage = ComLib.ComFn.StringToInt(page);
 
             if (!LoadData_EmpyData(CurrentPage, ref errMsg))
@@ -104,22 +49,74 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.BaseData
             }
             return true;
         }
-
-        public bool AjaxSubEmpy_OptEvent(string empyCode, string opyType, ref string errMsg)
+        public bool AjaxSubEmpy_active(string opyEmpyCode, string opyType, string page)
         {
+            string errMsg = "";
             if (opyType.ToLower().Equals("void"))
             {
-                if (!BaseDataMng.VoidEmploy(empyCode, ref errMsg))
+                if (!BaseDataMng.VoidEmploy(opyEmpyCode, ref errMsg))
                 {
                     return false;
                 }
             }
             else if (opyType.ToLower().Equals("active"))
             {
-                if (!BaseDataMng.ActiveEmploy(empyCode, ref errMsg))
+                if (!BaseDataMng.ActiveEmploy(opyEmpyCode, ref errMsg))
                 {
                     return false;
                 }
+            }
+
+            int CurrentPage = ComLib.ComFn.StringToInt(page);
+            if (!LoadData_EmpyData(CurrentPage, ref errMsg))
+            {
+                ReturnAjaxError(errMsg);
+                return false;
+            }
+            if (!LoadData_FunctionGroup(ref errMsg))
+            {
+                ReturnAjaxError(errMsg);
+                return false;
+            }
+            return true;
+        }
+        public bool AjaxSubEmpy_save(string empyCode, string password, string empyName, string empyType, string empyFuncGroup, string optType, string page)
+        {
+            string errMsg = "";
+            if (optType.ToLower().Equals("new"))
+            {
+                TblMWEmploy empy = new TblMWEmploy();
+                empy.EmpyCode = empyCode.Trim();
+                empy.EmpyName = empyName.Trim();
+                empy.Password = password;
+                empy.EmpyType = empyType;
+                empy.FuncGroupId = ComLib.ComFn.StringToInt(empyFuncGroup);
+                empy.Status = TblMWEmploy.STATUS_ENUM_Active;
+                if (!BaseDataMng.AddNewEmploy(empy, ref errMsg))
+                {
+                    ReturnAjaxError(errMsg);
+                    return false;
+                }
+            }
+            else if (optType.ToLower().Equals("edit"))
+            {
+                if (!BaseDataMng.EditEmpyInfo(empyCode.Trim(), password, empyName.Trim(), empyType, ComLib.ComFn.StringToInt(empyFuncGroup), ref errMsg))
+                {
+                    ReturnAjaxError(errMsg);
+                    return false;
+                }
+            }
+
+            int CurrentPage = ComLib.ComFn.StringToInt(page);
+            if (!LoadData_EmpyData(CurrentPage, ref errMsg))
+            {
+                ReturnAjaxError(errMsg);
+                return false;
+            }
+            if (!LoadData_FunctionGroup(ref errMsg))
+            {
+                ReturnAjaxError(errMsg);
+                return false;
             }
             return true;
         }

@@ -176,7 +176,7 @@ var Custom = function () {
             });
             this.attr('submit-group', '')
             if (!!mw_group) {
-                serializeObj['group'] = mw_group;
+                serializeObj['_Group'] = mw_group;
             }
             if (this.attr('submit-group-debug'))
                 window.alert(JSON.stringify(serializeObj) + " Group[" + mw_group + "]");
@@ -186,7 +186,7 @@ var Custom = function () {
             var serializeObj = {};
             var $this = this;
             $(this.serializeArray()).each(function () {
-                window.alert($('[name="' + this.name + '"]', $this).attr('name'))
+//                window.alert($('[name="' + this.name + '"]', $this).attr('name'))
                 serializeObj[this.name] = this.value;
             });
             return serializeObj;

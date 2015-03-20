@@ -141,5 +141,18 @@ namespace MobilePhoneDemoApp
             textBox2.Text =  new ComLib.db.mysql.SqlMySqlFn().ReplaceSpecialChar(str);
             return;
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            Type tp = this.GetType();
+            System.Reflection.MethodInfo me;
+            me = tp.GetMethod("Foo");
+        }
+
+        public bool Foo(string p1, int p2)
+        {
+            return true;
+            
+        }
     }
 }

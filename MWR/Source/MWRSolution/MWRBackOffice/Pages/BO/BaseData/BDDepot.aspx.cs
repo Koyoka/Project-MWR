@@ -27,10 +27,10 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.BaseData
         }
 
         #region Events
-        public bool AjaxEditDepot(string deptCode, string desc, string opyType)
+        public bool AjaxSubDepot_save(string deptCode, string desc, string optType, string page)
         {
             string errMsg = "";
-            if (opyType.ToLower().Equals("new"))
+            if (optType.ToLower().Equals("new"))
             {
                 TblMWDepot item = new TblMWDepot();
                 item.DeptCode = deptCode.Trim();
@@ -41,7 +41,7 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.BaseData
                     return false;
                 }
             }
-            else if (opyType.ToLower().Equals("edit"))
+            else if (optType.ToLower().Equals("edit"))
             {
                 if (!BaseDataMng.EditDepotInfo(deptCode.Trim(), desc.Trim(), ref errMsg))
                 {
@@ -50,12 +50,7 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.BaseData
                 }
             }
 
-            return false;
-        }
-        public bool AjaxSubDepot(string page)
-        {
             int curPage = ComLib.ComFn.StringToInt(page);
-            string errMsg = "";
             if (!LoadData_DepotData(curPage, ref errMsg))
             {
                 ReturnAjaxError(errMsg);
@@ -63,6 +58,19 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.BaseData
             }
             return true;
         }
+        public bool AjaxSubDepot_common(string page)
+        {
+            string errMsg = "";
+            int curPage = ComLib.ComFn.StringToInt(page);
+            if (!LoadData_DepotData(curPage, ref errMsg))
+            {
+                ReturnAjaxError(errMsg);
+                return false;
+            }
+            return true;
+        }
+
+        
         #endregion
 
         #region Functions

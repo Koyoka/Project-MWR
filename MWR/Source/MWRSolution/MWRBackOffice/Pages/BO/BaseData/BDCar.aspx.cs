@@ -27,10 +27,11 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.BaseData
         }
 
         #region Events
-        public bool AjaxEditCar(string carCode, string desc, string opyType)
+        public bool AjaxSubCar_save(string carCode, string desc, string optType, string page)
         {
             string errMsg = "";
-            if (opyType.ToLower().Equals("new"))
+
+            if (optType.ToLower().Equals("new"))
             {
                 TblMWCar item = new TblMWCar();
                 item.CarCode = carCode.Trim();
@@ -41,7 +42,7 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.BaseData
                     return false;
                 }
             }
-            else if (opyType.ToLower().Equals("edit"))
+            else if (optType.ToLower().Equals("edit"))
             {
                 if (!BaseDataMng.EditCarInfo(carCode.Trim(), desc.Trim(), ref errMsg))
                 {
@@ -50,12 +51,19 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.BaseData
                 }
             }
 
-            return false;
+            int curPage = ComLib.ComFn.StringToInt(page);
+            if (!LoadData_CarData(curPage, ref errMsg))
+            {
+                ReturnAjaxError(errMsg);
+                return false;
+            }
+            return true;
         }
-
-        public bool AjaxSubCar(string opyCode, string opyType,string page)
+       
+        public bool AjaxSubCar_active(string opyCode, string opyType, string page)
         {
             string errMsg = "";
+            
             if (opyType.ToLower().Equals("void"))
             {
                 if (!BaseDataMng.VoidCar(opyCode, ref errMsg))
@@ -70,7 +78,7 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.BaseData
                     return false;
                 }
             }
-
+            
             int curPage = ComLib.ComFn.StringToInt(page);
             if (!LoadData_CarData(curPage, ref errMsg))
             {
@@ -79,6 +87,18 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.BaseData
             }
             return true;
         }
+        public bool AjaxSubCar_common(string page)
+        {
+            string errMsg = "";
+            int curPage = ComLib.ComFn.StringToInt(page);
+            if (!LoadData_CarData(curPage, ref errMsg))
+            {
+                ReturnAjaxError(errMsg);
+                return false;
+            }
+            return true;
+        }
+        
         #endregion
 
         #region Functions

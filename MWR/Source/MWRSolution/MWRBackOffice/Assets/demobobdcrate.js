@@ -100,11 +100,9 @@ var BOBDCrate = function () {
             ignore: "",
             rules: {
                 crateCode: {
-                    minlength: 2,
                     required: true
                 },
                 desc: {
-                    minlength: 2,
                     required: true
                 }
             },

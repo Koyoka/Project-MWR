@@ -47,7 +47,7 @@
 				</div>
 			</div>
 			<div class="portlet-body">
-                <button id="test" type="button"></button>
+                
 
                  <form data-wgt="mw-submit-group mw-edittable" 
                     id="mwFrmList"
@@ -165,7 +165,7 @@
 <script type="text/javascript" src="/assets/plugins/data-tables/jquery.dataTables.js"></script>
 <script type="text/javascript" src="/assets/plugins/data-tables/DT_bootstrap.js"></script>
 <script src="/assets/demobobdcrate.js"></script>
-<script src="/assets/wgt-edittable.js?1"></script>
+<script src="/assets/wgt-edittable.js"></script>
 <script>
     jQuery(document).ready(function () {
         BOBDCrate.init();
