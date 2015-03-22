@@ -16,7 +16,7 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.BaseData
     {
         public const string ClassName = "YRKJ.MWR.BackOffice.Pages.BO.BaseData.BDEmploy";
 
-        private int pageSize = 20;
+        private int pageSize = 10;
 
         protected void Page_Load(object sender, EventArgs e)
         {
