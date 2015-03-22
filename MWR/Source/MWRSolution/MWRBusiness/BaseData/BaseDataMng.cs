@@ -223,11 +223,26 @@ namespace YRKJ.MWR.Business.BaseData
 
         #region Employ
 
-        public static bool GetEmpyWithFuncGroupDataList(int page, int pageSize, ref long pageCount, ref long rowCount, ref List<VewEmployWithFunctionGroup> empyList, ref string errMsg)
+        public static bool GetEmpyWithFuncGroupDataList(int page, int pageSize,string filter, ref long pageCount, ref long rowCount, ref List<VewEmployWithFunctionGroup> empyList, ref string errMsg)
         {
             DataCtrlInfo dcf = new DataCtrlInfo();
 
             SqlQueryMng sqm = new SqlQueryMng();
+            if (!string.IsNullOrEmpty(filter.Trim()))
+            {
+                SqlWhere sw = new SqlWhere(SqlCommonFn.SqlWhereLinkType.OR);
+                string[] filterGroup = filter.Trim().Split(' ');
+                foreach (var f in filterGroup)
+                {
+                    if (f.Trim() == "")
+                    {
+                        continue;
+                    }
+                    sw.AddLikeValue(TblMWEmploy.getEmpyCodeColumn(), SqlCommonFn.SqlWhereLikeEnum.MidLike, f.Trim());
+                    sw.AddLikeValue(TblMWEmploy.getEmpyNameColumn(), SqlCommonFn.SqlWhereLikeEnum.MidLike, f.Trim());
+                }
+                sqm.Condition.Where.AddWhere(sw);
+            }
             if (!VewEmployWithFunctionGroupCtrl.QueryPage(dcf, sqm, page, pageSize, ref empyList, ref errMsg))
             {
                 return false;

@@ -18,6 +18,17 @@ var WGTEdtiTable = function () {
                 $('a.cancel', el).on('click', this.onCancelClickEvent);
                 $('a.edit', el).on('click', this.onEditClickEvent);
                 $('.mw-creat', el).on('click', this.onCreateClickEvent);
+                $('.mw-btn-search', el).on('click', function (e) {
+                    e.preventDefault();
+                    el.find('.mw-txt-filterValue').val(el.find('.mw-txt-filterEdit').val());
+                    el.setGroup('search', false);
+                    el.submit();
+                });
+                $('.mw-btn-search-clear', el).on('click', function (e) {
+                    el.find('.mw-txt-filterValue').val('');
+                    el.setGroup('search', false);
+                    el.submit();
+                });
             },
             onCancelClickEvent: function (e) {
                 e.preventDefault();

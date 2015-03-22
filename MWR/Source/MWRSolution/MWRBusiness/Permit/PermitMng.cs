@@ -101,8 +101,6 @@ namespace YRKJ.MWR.Business.Permit
 
         public static bool GetEmployPremiessFunctionDetail(string empyCode, ref List<TblMWFunctionGroupDetail> funcs, ref string errMsg)
         {
-            
-
             DataCtrlInfo dcf = new DataCtrlInfo();
             TblMWEmploy empy = null;
             #region valid data
@@ -160,6 +158,45 @@ namespace YRKJ.MWR.Business.Permit
             return true;
         }
 
+        private static bool SysAdminPremit(string empyCode, string password, ref string errMsg)
+        {
+            string adminAccount = MWParams.GetAdministrator();
+            string adminPassword = MWParams.GetAdministratorPassword();
+            if (empyCode.Equals(adminAccount) && password.Equals(adminPassword))
+            {
+                DataCtrlInfo dcf = new DataCtrlInfo();
+                TblMWEmploy adminEmpy = null;
+                SqlQueryMng sqm = new SqlQueryMng();
+                sqm.Condition.Where.AddCompareValue(TblMWEmploy.getEmpyCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, empyCode);
+                if (!TblMWEmployCtrl.QueryOne(dcf, sqm,ref adminEmpy, ref errMsg))
+                {
+                    return false;
+                }
+
+                if (adminEmpy == null)
+                {
+                    int updCount = 0;
+                    adminEmpy = new TblMWEmploy();
+                    adminEmpy.EmpyCode = empyCode;
+                    adminEmpy.EmpyName = adminAccount;
+                    adminEmpy.EmpyType = TblMWEmploy.EMPYTYPE_ENUM_WorkStation;
+                    adminEmpy.Password = password;
+                    adminEmpy.Status = TblMWEmploy.STATUS_ENUM_Active;
+                    adminEmpy.UserName = adminAccount;
+                    adminEmpy.FuncGroupId = ADMINISTRATOR_DEFAULT_GROUPID;
+
+                    if (!TblMWEmployCtrl.Insert(dcf, adminEmpy, ref updCount, ref errMsg))
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
         #endregion
 
         #region WS
@@ -169,6 +206,11 @@ namespace YRKJ.MWR.Business.Permit
 
             TblMWEmploy empy = null;
             #region valid data
+            if (SysAdminPremit(empyCode, password, ref errMsg))
+            {
+                return true;
+            }
+
             if (!BaseDataMng.GetEmpyData(empyCode, ref empy, ref errMsg))
             {
                 return false;
@@ -235,6 +277,11 @@ namespace YRKJ.MWR.Business.Permit
 
             TblMWEmploy empy = null;
             #region valid data
+            if (SysAdminPremit(empyCode, password, ref errMsg))
+            {
+                return true;
+            }
+
             if (!BaseDataMng.GetEmpyData(empyCode, ref empy, ref errMsg))
             {
                 return false;
@@ -305,6 +352,11 @@ namespace YRKJ.MWR.Business.Permit
 
             TblMWEmploy empy = null;
             #region valid data
+            if (SysAdminPremit(empyCode,password,ref errMsg))
+            {
+                return true;
+            }
+
             if (!BaseDataMng.GetEmpyData(empyCode, ref empy, ref errMsg))
             {
                 return false;

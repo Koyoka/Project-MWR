@@ -32,12 +32,12 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.BaseData
         }
 
         #region Events
-        public bool AjaxSubEmpy_common(string page)
+        public bool AjaxSubEmpy_search(string filter)
         {
             string errMsg = "";
-            int CurrentPage = ComLib.ComFn.StringToInt(page);
+            int CurrentPage = 1;
 
-            if (!LoadData_EmpyData(CurrentPage, ref errMsg))
+            if (!LoadData_EmpyData(CurrentPage, filter.Trim(), ref errMsg))
             {
                 ReturnAjaxError(errMsg);
                 return false;
@@ -49,7 +49,24 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.BaseData
             }
             return true;
         }
-        public bool AjaxSubEmpy_active(string opyEmpyCode, string opyType, string page)
+        public bool AjaxSubEmpy_common(string filter,string page)
+        {
+            string errMsg = "";
+            int CurrentPage = ComLib.ComFn.StringToInt(page);
+
+            if (!LoadData_EmpyData(CurrentPage, filter.Trim(), ref errMsg))
+            {
+                ReturnAjaxError(errMsg);
+                return false;
+            }
+            if (!LoadData_FunctionGroup(ref errMsg))
+            {
+                ReturnAjaxError(errMsg);
+                return false;
+            }
+            return true;
+        }
+        public bool AjaxSubEmpy_active(string filter,string opyEmpyCode,string opyType,string page)
         {
             string errMsg = "";
             if (opyType.ToLower().Equals("void"))
@@ -68,7 +85,7 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.BaseData
             }
 
             int CurrentPage = ComLib.ComFn.StringToInt(page);
-            if (!LoadData_EmpyData(CurrentPage, ref errMsg))
+            if (!LoadData_EmpyData(CurrentPage, filter.Trim(), ref errMsg))
             {
                 ReturnAjaxError(errMsg);
                 return false;
@@ -80,7 +97,7 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.BaseData
             }
             return true;
         }
-        public bool AjaxSubEmpy_save(string empyCode, string password, string empyName, string empyType, string empyFuncGroup, string optType, string page)
+        public bool AjaxSubEmpy_save(string filter, string empyCode, string password, string empyName, string empyType, string empyFuncGroup, string optType, string page)
         {
             string errMsg = "";
             if (optType.ToLower().Equals("new"))
@@ -108,7 +125,7 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.BaseData
             }
 
             int CurrentPage = ComLib.ComFn.StringToInt(page);
-            if (!LoadData_EmpyData(CurrentPage, ref errMsg))
+            if (!LoadData_EmpyData(CurrentPage, filter.Trim(), ref errMsg))
             {
                 ReturnAjaxError(errMsg);
                 return false;
@@ -138,7 +155,7 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.BaseData
         private bool LoadData(ref string errMsg)
         {
             int page = 1;
-            if (!LoadData_EmpyData(page, ref errMsg))
+            if (!LoadData_EmpyData(page,"", ref errMsg))
             {
                 return false;
             }
@@ -168,12 +185,14 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.BaseData
             }
             return true;
         }
-        private bool LoadData_EmpyData(int page, ref string errMsg)
+        private bool LoadData_EmpyData(int page,string filter, ref string errMsg)
         {
+            PageFilterValue = filter;
+
             List<VewEmployWithFunctionGroup> empyList = null;
             long pageCount = 0;
             long rowCount = 0;
-            if (!BaseDataMng.GetEmpyWithFuncGroupDataList(page, pageSize, ref pageCount,ref rowCount, ref empyList, ref errMsg))
+            if (!BaseDataMng.GetEmpyWithFuncGroupDataList(page, pageSize, filter, ref pageCount, ref rowCount, ref empyList, ref errMsg))
             {
                 return false;
             }
@@ -198,6 +217,7 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.BaseData
         #endregion
 
         #region PageDatas
+        protected string PageFilterValue = "";
         protected List<PageEmployData> PageEmployDataList = new List<PageEmployData>();
         protected List<TblMWFunctionGroup> PageFuncGroupDataList = new List<TblMWFunctionGroup>();
         #endregion

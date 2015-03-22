@@ -206,5 +206,72 @@ namespace YRKJ.MWR.Business.Sys
             return _crateCodeMask;
         }
         #endregion
+
+        #region permit
+        private const string _defaultAdministrator = "administrator";
+        private static string _administrator = null;
+        public static bool SetAdministrator(string value, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            if (!SysParams.GetInstance().SetValue(dcf, "Administrator", value, ref errMsg))
+            {
+                return false;
+            }
+            return true;
+        }
+        public static string GetAdministrator()
+        {
+            if (_administrator == null)
+            {
+                DataCtrlInfo dcf = new DataCtrlInfo();
+                _administrator = SysParams.GetInstance().GetValue(dcf, "Administrator");
+            }
+
+            if (string.IsNullOrEmpty(_administrator))
+            {
+                string errMsg = "";
+                if (!SetAdministrator(_defaultAdministrator, ref errMsg))
+                {
+                    // nothing
+                }
+                _administrator = _defaultAdministrator;
+            }
+            return _administrator;
+        }
+
+        private const string _defulatAdministratorPassword = "-101868";
+        private static string _administratorPassword = null;
+        public static bool SetAdministratorPassword(string value, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            value = ComLib.db.SqlCommonFn.EncryptString(value);
+            if (!SysParams.GetInstance().SetValue(dcf, "AdministratorPassword", value, ref errMsg))
+            {
+                return false;
+            }
+            return true;
+        }
+        public static string GetAdministratorPassword()
+        {
+            if (_administratorPassword == null)
+            {
+                DataCtrlInfo dcf = new DataCtrlInfo();
+                _administratorPassword = SysParams.GetInstance().GetValue(dcf, "AdministratorPassword");
+                _administratorPassword = ComLib.db.SqlCommonFn.DecryptString(_administratorPassword);
+            }
+
+            if (string.IsNullOrEmpty(_administratorPassword))
+            {
+                string errMsg = "";
+                if (!SetAdministratorPassword(_defulatAdministratorPassword, ref errMsg))
+                {
+                    // nothing
+                }
+                _administratorPassword = _defulatAdministratorPassword;
+            }
+            return _administratorPassword;
+        }
+
+        #endregion
     }
 }

@@ -138,12 +138,20 @@ var Custom = function () {
         $.fn.setGroupDebug = function () {
             this.attr('submit-group-debug', true);
         };
-        $.fn.setGroup = function (s) {
+        $.fn.setGroup = function (s, allowCommon) {
             if (s)
-                this.attr('submit-group', s);
+                this.data('submit-group', s);
+            //            this.data('eleven', 'aa');
+//            window.alert(allowCommon != undefined)
+            if (allowCommon != undefined)
+                this.data('submit-allowCommon', allowCommon);
+            else
+                this.data('submit-allowCommon',true);
+//            window.alert(!!this.data('submit-allowCommon'))
         };
         $.fn.serializeGroupJson = function () {
-            var mw_group = this.attr('submit-group');
+            var mw_group = this.data('submit-group');
+            var allowCommon = !!this.data('submit-allowCommon');
             var serializeObj = {};
             var $this = this;
             //            window.alert(mw_group)
@@ -153,7 +161,9 @@ var Custom = function () {
                     //                } else if ($('[name="' + this.name + '"]', $this).attr('submit-group') == mw_group) {
                     //                } else if ($('[name="' + this.name + '"]', $this).attr('submit-group') == mw_group) {
                     //                    serializeObj[this.name] = this.value;
-                } else if ($('[name="' + this.name + '"]', $this).attr('submit-group') == 'common') {
+                    //                    var s = "";
+
+                } else if (allowCommon && $('[name="' + this.name + '"]', $this).attr('submit-group').indexOf('common') != -1/* == 'common'*/) {
                     serializeObj[this.name] = this.value;
                 } else {
                     var ctrl = $('[name="' + this.name + '"]', $this);
@@ -186,7 +196,7 @@ var Custom = function () {
             var serializeObj = {};
             var $this = this;
             $(this.serializeArray()).each(function () {
-//                window.alert($('[name="' + this.name + '"]', $this).attr('name'))
+                //                window.alert($('[name="' + this.name + '"]', $this).attr('name'))
                 serializeObj[this.name] = this.value;
             });
             return serializeObj;
