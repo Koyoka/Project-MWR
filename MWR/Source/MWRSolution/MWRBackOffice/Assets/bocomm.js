@@ -52,15 +52,17 @@
                 var loadBtn = this.element.find(".demo-loading-btn").length == 1 ? this.element.find(".demo-loading-btn") : false;
 
                 $.AjaxPJson(url, method, data, function (d) {
+                    var defineEl = null;
                     if (needreload) {
                         var defineEl = $(d).find("#" + el.attr("id"));
-                        gl.wgt.scan(defineEl);
                         el.replaceWith(defineEl);
-                        //                        el.html(defineEl.html());
-                        //                        gl.wgt.scan(el);
                     }
                     if (recall)
                         recall(el, d, data);
+                    if (defineEl) {
+                        gl.wgt.scan(defineEl);
+                    }
+
                 }, function (r) {
                     Modal.alert('[' + r + ']');
                 }, function () {

@@ -129,5 +129,39 @@ namespace YRKJ.MWR.Business.Report
             return true;
         }
         #endregion
+
+        #region TxnRecover
+        public static bool GetTxnRecoverReportData(ref TblMWTxnRecoverHeader recHeader, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            SqlQueryMng sqm = new SqlQueryMng();
+            sqm.QueryColumn.AddCount(TblMWTxnRecoverHeader.getRecoHeaderIdColumn());
+            sqm.QueryColumn.AddSum(TblMWTxnRecoverHeader.getTotalSubWeightColumn());
+            sqm.QueryColumn.AddSum(TblMWTxnRecoverHeader.getTotalTxnWeightColumn());
+            sqm.QueryColumn.AddSum(TblMWTxnRecoverHeader.getTotalCrateQtyColumn());
+            if (!TblMWTxnRecoverHeaderCtrl.QueryOne(dcf, sqm, ref recHeader, ref errMsg))
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public static bool GetTxnRecoverDataList(int page, int pageSize, ref long pageCount, ref long rowCount, ref List<TblMWTxnRecoverHeader> recHeaderList, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            SqlQueryMng sqm = new SqlQueryMng();
+            sqm.Condition.OrderBy.Add(TblMWTxnRecoverHeader.getStartDateColumn(), SqlCommonFn.SqlOrderByType.DESC);
+
+            if (!TblMWTxnRecoverHeaderCtrl.QueryPage(dcf, sqm, page, pageSize, ref recHeaderList, ref errMsg))
+            {
+                return false;
+            }
+
+            pageCount = dcf.PageCount;
+            rowCount = dcf.RowCount;
+
+            return true;
+        }
+        #endregion
     }
 }

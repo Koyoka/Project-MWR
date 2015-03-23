@@ -153,7 +153,7 @@
 <script>
     jQuery(document).ready(function () {
         BOBDVendor.init();
-        WGTEdtiTable.init(BOBDVendor.initOTable());
+        WGTEdtiTable.init();
     });
 </script>
 

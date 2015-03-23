@@ -271,7 +271,7 @@
 <script>
     jQuery(document).ready(function () {
         BOBDEmploy.init();
-        WGTEdtiTable.init(BOBDEmploy.initOTable());
+        WGTEdtiTable.init();
     });
 </script>
 </asp:Content>

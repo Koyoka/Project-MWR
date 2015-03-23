@@ -69,13 +69,11 @@
         });
     };
     var _subrecall = function (el, netData, locData) {
-        WGTEdtiTable.subrecall(_initOTable());
+        _initOTable();
         _initFrmValid();
-
     };
     var _initOTable = function () {
-       
-        return $('#sample_editable_1').dataTable({
+        var ot = $('#sample_editable_1').dataTable({
             "aLengthMenu": [
                     [5, 15, 20, -1],
                     [5, 15, 20, "All"] // change per page values here
@@ -106,14 +104,15 @@
 
                 ]
         });
+        $('#sample_editable_1').data('mw-oTable', ot);
     };
 
     return {
         subrecall: _subrecall,
-        initOTable: _initOTable,
         init: function () {
-            
+
             initHelper();
+            _initOTable();
             _initFrmValid();
             jQuery('#sample_editable_1_wrapper .dataTables_filter input').addClass("form-control input-medium"); // modify table search input
             jQuery('#sample_editable_1_wrapper .dataTables_length select').addClass("form-control input-small"); // modify table per page dropdown

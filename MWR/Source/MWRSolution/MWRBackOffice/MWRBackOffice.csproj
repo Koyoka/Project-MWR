@@ -265,6 +265,7 @@
     <Content Include="Assets\boindex.js" />
     <Content Include="Assets\userpermit.js" />
     <Content Include="Assets\wgt-edittable.js" />
+    <Content Include="Assets\wgt-expandTable.js" />
     <Content Include="Assets\wsmanage.js" />
     <Content Include="Assets\副本 bobdcrate.js" />
     <Content Include="Global.asax" />

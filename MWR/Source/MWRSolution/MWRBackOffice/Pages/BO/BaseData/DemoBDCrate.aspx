@@ -169,7 +169,7 @@
 <script>
     jQuery(document).ready(function () {
         BOBDCrate.init();
-        WGTEdtiTable.init(BOBDCrate.initOTable());
+        WGTEdtiTable.init();
 //        WGTEdtiTable.initOTable = {};
 //        $('#mwFrmList').setGroupDebug();
         $('#test').click(function (e) {

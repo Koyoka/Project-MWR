@@ -130,10 +130,10 @@
                         </span></a>
                         <ul class="sub-menu">
                             <li><a href="#<% = RedirectHelper.IntegratedReport %>">综合报告</a> </li>
-                            <li><a href="javascript:void;">运量查询</a> </li>
-                            <li><a href="javascript:void;">库存量查询</a> </li>
-                            <li><a href="javascript:void;">处置量查询</a> </li>
-                            <li><a href="javascript:void;">厂区产量查询</a> </li>
+                            <li><a href="javascript:void;">运量报告</a> </li>
+                            <li><a href="javascript:void;">库存量报告</a> </li>
+                            <li><a href="javascript:void;">处置量报告</a> </li>
+                            <li><a href="javascript:void;">厂区产量报告</a> </li>
                         </ul>
                     </li>
                     <li id="MW_DailyClose" class=" "><a href="javascript:;"><i class="fa fa-pencil-square-o">

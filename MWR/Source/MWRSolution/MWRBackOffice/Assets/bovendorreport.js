@@ -2,19 +2,19 @@
 
     var initTable1 = function() {
 
-        /* Formatting function for row details */
-        function fnFormatDetails ( oTable, nTr )
-        {
-            var aData = oTable.fnGetData( nTr );
-            var sOut = '<table>';
-            sOut += '<tr><td>Platform(s):</td><td>'+aData[2]+'</td></tr>';
-            sOut += '<tr><td>Engine version:</td><td>'+aData[3]+'</td></tr>';
-            sOut += '<tr><td>CSS grade:</td><td>'+aData[4]+'</td></tr>';
-            sOut += '<tr><td>Others:</td><td>Could provide a link here</td></tr>';
-            sOut += '</table>';
-             
-            return sOut;
-        }
+//        /* Formatting function for row details */
+//        function fnFormatDetails ( oTable, nTr )
+//        {
+//            var aData = oTable.fnGetData( nTr );
+//            var sOut = '<table>';
+//            sOut += '<tr><td>Platform(s):</td><td>'+aData[2]+'</td></tr>';
+//            sOut += '<tr><td>Engine version:</td><td>'+aData[3]+'</td></tr>';
+//            sOut += '<tr><td>CSS grade:</td><td>'+aData[4]+'</td></tr>';
+//            sOut += '<tr><td>Others:</td><td>Could provide a link here</td></tr>';
+//            sOut += '</table>';
+//             
+//            return sOut;
+//        }
 
         /*
          * Insert a 'details' column to the table
@@ -112,41 +112,41 @@
                 }, function (r) {
                     Modal.alert('[' + r + ']');
                 });
-                return;
-                /* Open this row */                
-                $(this).addClass("row-details-open").removeClass("row-details-close");
-                oTable.fnOpen( nTr, fnFormatDetails(oTable, nTr), 'details' );
+//                return;
+//                /* Open this row */                
+//                $(this).addClass("row-details-open").removeClass("row-details-close");
+//                oTable.fnOpen( nTr, fnFormatDetails(oTable, nTr), 'details' );
             }
         });
     }
 
-    var initTable2 = function() {
-        var oTable = $('#sample_2').dataTable( {           
-            "aoColumnDefs": [
-                { "aTargets": [ 0 ] }
-            ],
-            "aaSorting": [[1, 'asc']],
-             "aLengthMenu": [
-                [5, 15, 20, -1],
-                [5, 15, 20, "All"] // change per page values here
-            ],
-            // set the initial value
-            "iDisplayLength": 10,
-        });
+//    var initTable2 = function() {
+//        var oTable = $('#sample_2').dataTable( {           
+//            "aoColumnDefs": [
+//                { "aTargets": [ 0 ] }
+//            ],
+//            "aaSorting": [[1, 'asc']],
+//             "aLengthMenu": [
+//                [5, 15, 20, -1],
+//                [5, 15, 20, "All"] // change per page values here
+//            ],
+//            // set the initial value
+//            "iDisplayLength": 10,
+//        });
 
-        jQuery('#sample_2_wrapper .dataTables_filter input').addClass("form-control input-small"); // modify table search input
-        jQuery('#sample_2_wrapper .dataTables_length select').addClass("form-control input-small"); // modify table per page dropdown
-        jQuery('#sample_2_wrapper .dataTables_length select').select2(); // initialize select2 dropdown
+//        jQuery('#sample_2_wrapper .dataTables_filter input').addClass("form-control input-small"); // modify table search input
+//        jQuery('#sample_2_wrapper .dataTables_length select').addClass("form-control input-small"); // modify table per page dropdown
+//        jQuery('#sample_2_wrapper .dataTables_length select').select2(); // initialize select2 dropdown
 
-        $('#sample_2_column_toggler input[type="checkbox"]').change(function(){
-            /* Get the DataTables object again - this is not a recreation, just a get of the object */
-            var iCol = parseInt($(this).attr("data-column"));
-            var bVis = oTable.fnSettings().aoColumns[iCol].bVisible;
-           
+//        $('#sample_2_column_toggler input[type="checkbox"]').change(function(){
+//            /* Get the DataTables object again - this is not a recreation, just a get of the object */
+//            var iCol = parseInt($(this).attr("data-column"));
+//            var bVis = oTable.fnSettings().aoColumns[iCol].bVisible;
+//           
 
-            oTable.fnSetColumnVis(iCol, (bVis ? false : true));
-        });
-    }
+//            oTable.fnSetColumnVis(iCol, (bVis ? false : true));
+//        });
+//    }
 
     return {
 
@@ -158,7 +158,7 @@
             }
 
             initTable1();
-            initTable2();
+//            initTable2();
         }
 
     };

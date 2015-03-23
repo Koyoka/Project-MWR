@@ -165,7 +165,8 @@
 <script>
     jQuery(document).ready(function () {
         BOBDCar.init();
-        WGTEdtiTable.init(BOBDCar.initOTable());
+        WGTEdtiTable.init();
+//        WGTEdtiTable.init(BOBDCar.initOTable());
     });
 </script>
 </asp:Content>

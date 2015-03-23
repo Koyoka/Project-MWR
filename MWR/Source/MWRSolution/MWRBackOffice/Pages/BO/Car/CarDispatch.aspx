@@ -2,7 +2,6 @@
     AutoEventWireup="true" CodeBehind="CarDispatch.aspx.cs" Inherits="YRKJ.MWR.BackOffice.Pages.BO.Car.CarDispatch" %>
 <%@ Import Namespace="YRKJ.MWR.BackOffice.Business.Sys" %>
 <%@ Register src="../../UCtrl/UPage.ascx" tagname="UPage" tagprefix="uc1" %>
-
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 <link rel="stylesheet" href="/assets/plugins/data-tables/DT_bootstrap.css"/>
 <link href="/assets/css/pages/profile.css" rel="stylesheet" type="text/css"/>

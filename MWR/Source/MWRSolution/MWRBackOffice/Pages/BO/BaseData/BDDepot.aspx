@@ -144,7 +144,7 @@
 <script>
     jQuery(document).ready(function () {
         BOBDDepot.init();
-        WGTEdtiTable.init(BOBDDepot.initOTable());
+        WGTEdtiTable.init();
     });
 </script>
 </asp:Content>

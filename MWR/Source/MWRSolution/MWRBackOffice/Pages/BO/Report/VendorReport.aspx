@@ -72,10 +72,10 @@
 			    <div class="caption">
 				    <i class="fa fa-globe"></i><% = PageVendorNameData %>-库存废品列表
 			    </div>
-			    <div class="tools">
+			   <%-- <div class="tools">
 				    <a href="javascript:;" class="reload"></a>
 				    <a href="javascript:;" class="remove"></a>
-			    </div>
+			    </div>--%>
 		    </div>
 		    <div class="portlet-body">
 			    <table class="table table-striped table-bordered table-hover" id="sample_1">
@@ -211,7 +211,7 @@
 	    <!-- END EXAMPLE TABLE PORTLET-->
 	   
     </div>
-    </div>
+</div>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="foot" runat="server">
 <script type="text/javascript" src="/assets/plugins/select2/select2.min.js"></script>
@@ -220,7 +220,6 @@
 <script src="/assets/bovendorreport.js"></script>
 <script>
     jQuery(document).ready(function () {
-
         VendorReport.init();
     });
 </script>

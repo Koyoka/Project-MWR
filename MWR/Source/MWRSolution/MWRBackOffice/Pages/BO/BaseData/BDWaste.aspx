@@ -140,7 +140,7 @@
 <script>
     jQuery(document).ready(function () {
         BOBDWaste.init();
-        WGTEdtiTable.init(BOBDWaste.initOTable());
+        WGTEdtiTable.init();
     });
 </script>
 </asp:Content>
