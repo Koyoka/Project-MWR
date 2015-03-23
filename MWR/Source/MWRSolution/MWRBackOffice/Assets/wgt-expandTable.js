@@ -2,36 +2,32 @@
 
     var initHelper = function () {
         gl.wgt.set('mw-expandtable-ajaxchild', {
-            oTable:null,
+            _oTable: null,
+            $this: null,
+            _url: null,
+            _method: null,
             init: function () {
-
-                if (!jQuery().dataTable) {
+                if (this.element.find('.dataTables_empty').length > 0) {
                     return;
                 }
-//                oTable = this.element.data('mw-oTable');
-//                window.alert(oTable)
-//                if (!oTable) {
-//                    return;
-//                }
-                  
-//                   var oTable = $('#sample_1').dataTable( {
-//                             "bAutoWith": false,      
-//                            "bInfo": false, //开关，是否显示表格的一些信息
-//                            "bPaginate": false, //开关，是否显示分页器
-//                            "bLengthChange": false, //开关，是否显示每页大小的下拉框
-//                            "bFilter": false, //开关，是否启用客户端过滤器
-//                            "aaSorting": [[1, 'asc']],
-//                                "aLengthMenu": [
-//                                [5, 15, 20, -1],
-//                                [5, 15, 20, "All"] // change per page values here
-//                            ],
-//                            // set the initial value
-//                            "iDisplayLength": 10,
-//                        });
+                if (!jQuery().dataTable) {
+                    window.alert('please set datatable plugins');
+                    return;
+                }
+                $this = this;
+                this._oTable = this.element.data('mw-oTable');
+                if (!this._oTable) {
+                    window.alert('please set table data[$(table),data("mw-oTable",oTable)]');
+                    return;
+                }
+
+                this._url = this.element.attr('data-wgt-submit-url');
+                this._method = this.element.attr('data-wgt-submit-method');
+
 
                 var nCloneTh = document.createElement('th');
                 var nCloneTd = document.createElement('td');
-                $(nCloneTd).attr('width','20')
+                $(nCloneTd).attr('width', '20')
                 nCloneTd.innerHTML = '<span class="row-details row-details-close"></span>';
 
                 $('thead tr', this.element).each(function () {
@@ -41,25 +37,55 @@
                 $('tbody tr', this.element).each(function () {
                     this.insertBefore(nCloneTd.cloneNode(true), this.childNodes[0]);
                 });
-               
-       
-                //                jQuery('#sample_1_wrapper .dataTables_filter input').addClass("form-control input-small"); // modify table search input
-                //                jQuery('#sample_1_wrapper .dataTables_length select').addClass("form-control input-small"); // modify table per page dropdown
-                //                jQuery('#sample_1_wrapper .dataTables_length select').select2(); // initialize select2 dropdown
-                //         
 
                 this.element.on('click', ' tbody td .row-details', function () {
 
-                    if (!oTable) {
+                    if (!$this._oTable) {
                         return;
                     }
                     var nTr = $(this).parents('tr')[0];
-                    if (oTable.fnIsOpen(nTr)) {
+                    if ($this._oTable.fnIsOpen(nTr)) {
                         /* This row is already open - close it */
                         $(this).addClass("row-details-close").removeClass("row-details-open");
-                        oTable.fnClose(nTr);
+                        $this._oTable.fnClose(nTr);
                     } else {
-                        $($this).addClass("row-details-open").removeClass("row-details-close");
+
+                        var nRow = $(this).parents('tr')[0];
+                        var data = {};
+                        for (var i = 0; i < $('input[name]', $(nRow)).length; i++) {
+                            var name = $('input[name]', $(nRow)).eq(i).attr('name');
+                            var val = $('input[name]', $(nRow)).eq(i).val();
+                            data[name] = val;
+                        }
+                        //                        window.alert(JSON.stringify(data));
+                        //                        return;
+                        $me = this;
+                        //                        $($this).addClass("row-details-open").removeClass("row-details-close");
+                        $.AjaxPJson($this._url, $this._method, data, function (d) {
+                            if (!tmpl) {
+                                window.alert('please set teml.min.js plugins');
+                                return;
+                            }
+                            var func = tmpl('mw-table-template');
+                            if (!func) {
+                                window.alert('please set temp <script id="mw-table-template" type="text/x-tmpl">');
+                                return;
+                            }
+                            var result = func({
+                                data: d.Value
+                            });
+                            if (result instanceof $) {
+                                return;
+                            }
+
+                            var sOut = result;
+                            //                            window.alert(sOut + " " + $this._url + " " + $this._method)
+                            $($me).addClass("row-details-open").removeClass("row-details-close");
+                            $this._oTable.fnOpen(nTr, sOut, '');
+                            //                    App.unblockUI($(nTr));
+                        }, function (r) {
+                            Modal.alert('[' + r + ']');
+                        });
                     }
 
                 });

@@ -44,7 +44,6 @@
 					</div>
 				</div>
 				<div class="portlet-body">
-					
                     <form data-wgt="mw-submit-group mw-edittable" 
                         id="mwFrmList"
                         data-wgt-submit-method="AjaxSubEmpy" 
@@ -58,19 +57,16 @@
 						        添加新员工 <i class="fa fa-plus"></i>
 						        </button>
 					        </div>
-                            
-						        <div class="input-group btn-group pull-right col-md-3">
-                                    <span class="input-group-btn">
-										<button class="btn yellow mw-btn-search-clear" type="button">清空</button>
-									</span>
-									<input type="text"  class="form-control mw-txt-filterEdit"  value="<% = PageFilterValue %>" />
-                                    <input type="hidden" submit-group="common search" name="filter" class="form-control mw-txt-filterValue" value="<% = PageFilterValue %>" />
-									<span class="input-group-btn">
-										<button class="btn blue mw-btn-search"  type="button" >搜索</button>
-									</span>
-								</div>
-					        
-
+						    <div class="input-group btn-group pull-right col-md-3">
+                                <span class="input-group-btn">
+									<button class="btn yellow mw-btn-search-clear" type="button">清空</button>
+								</span>
+								<input type="text"  class="form-control mw-txt-filterEdit"  value="<% = PageFilterValue %>" />
+                                <input type="hidden" submit-group="common search" name="filter" class="form-control mw-txt-filterValue" value="<% = PageFilterValue %>" />
+								<span class="input-group-btn">
+									<button class="btn blue mw-btn-search"  type="button" >搜索</button>
+								</span>
+							</div>
 				        </div>
 
 					<table class="table table-striped table-hover table-bordered" id="sample_editable_1">

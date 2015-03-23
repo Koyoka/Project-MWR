@@ -193,57 +193,99 @@ namespace YRKJ.MWR.BackOffice.Business.Sys
                         err += "<br/>";
                         throw new Exception(err);
                     }
-
+                    //else
                     if (me.ReturnType != typeof(bool))
                     {
-                        throw new Exception("ajax service need return [bool] <br/>" + reqMethod+"<br/>");
+                        throw new Exception("ajax service need return [bool] <br/>" + reqMethod + "<br/>");
                     }
+
+                    object[] Param = null;
+                    {
+                        System.Reflection.ParameterInfo[] pInfos = me.GetParameters();
+                        if (pInfos != null && pInfos.Length != 0)
+                        {
+                            string serviceMethodParams = "";
+                            string setParamsErr = "";
+                            Param = new object[pInfos.Length];
+                            foreach (var p in pInfos)
+                            {
+                                if (Request.Form[p.Name] == null)
+                                {
+                                    serviceMethodParams += "<span style=\"color:blue;\">string</span> <span style=\"color:red;\">" + p.Name + "</span>,";
+                                    setParamsErr += " [" + p.Name + "] ";
+                                }
+                                else
+                                {
+                                    serviceMethodParams += "<span style=\"color:blue;\">string</span> " + p.Name + ",";
+                                    Param[p.Position] =
+                                    Request.Form[p.Name].ToString();
+                                }
+                            }
+
+                            string serviceMethod = "<span style=\"font-size:14px\"><span style=\"color:blue;\">public bool </span>" + methodName + "(" + serviceMethodParams.TrimEnd(',') + ")</span>";
+                            if (!string.IsNullOrEmpty(setParamsErr))
+                            {
+                                string err = " [" + methodName + "] method Mismatch";
+                                err += "<br/>";
+                                err += "client request method:<br/>" + reqMethod;
+                                err += "<br/>";
+                                err += "server existed method:<br/>" + serviceMethod;
+                                err += "<br/>";
+                                err += "client request params don't include params:";
+                                err += "<br/>";
+                                err += setParamsErr;
+                                throw new Exception(err);
+                            }
+                        }
+                    }
+
+                   
 
                     _isPostBack = true;
-                    object returnValue;
-                    if (paramCount == 0)
-                    {
-                        returnValue = me.Invoke(this, null);
-                    }
-                    else 
-                    {
-                        string setParamsErr = "";
-                        object[] Param = new object[paramCount];
-                        System.Reflection.ParameterInfo[] pInfos = me.GetParameters();
+                    object returnValue = me.Invoke(this, Param);
+                    //if (paramCount == 0)
+                    //{
+                    //    returnValue = me.Invoke(this, null);
+                    //}
+                    //else 
+                    //{
+                    //    //string setParamsErr = "";
+                    //    //object[] Param = new object[paramCount];
+                    //    //System.Reflection.ParameterInfo[] pInfos = me.GetParameters();
 
-                        string serviceMethodParams = "";
-                        foreach (var p in pInfos)
-                        {
+                    //    //string serviceMethodParams = "";
+                    //    //foreach (var p in pInfos)
+                    //    //{
                             
-                            if (Request.Form[p.Name] == null)
-                            {
-                                serviceMethodParams += "<span style=\"color:blue;\">string</span> <span style=\"color:red;\">" + p.Name + "</span>,";
-                                setParamsErr += " [" + p.Name + "] ";
-                            }
-                            else
-                            {
-                                serviceMethodParams += "<span style=\"color:blue;\">string</span> " + p.Name + ",";
-                                Param[p.Position] =
-                                Request.Form[p.Name].ToString();
-                            }
-                        }
-                        string serviceMethod = "<span style=\"font-size:14px\"><span style=\"color:blue;\">public bool </span>" + methodName + "(" + serviceMethodParams.TrimEnd(',') + ")</span>";
-                        if (!string.IsNullOrEmpty(setParamsErr))
-                        {
-                            string err = " ["+methodName + "] method Mismatch";
-                            err += "<br/>";
-                            err += "client request method:" + reqMethod;
-                            err += "<br/>";
-                            err += "server existed method:" + serviceMethod;
-                            err += "<br/>";
-                            err += "client request params don't include params:";
-                            err += "<br/>";
-                            err += setParamsErr;
-                            throw new Exception(err);
-                        }
+                    //    //    if (Request.Form[p.Name] == null)
+                    //    //    {
+                    //    //        serviceMethodParams += "<span style=\"color:blue;\">string</span> <span style=\"color:red;\">" + p.Name + "</span>,";
+                    //    //        setParamsErr += " [" + p.Name + "] ";
+                    //    //    }
+                    //    //    else
+                    //    //    {
+                    //    //        serviceMethodParams += "<span style=\"color:blue;\">string</span> " + p.Name + ",";
+                    //    //        Param[p.Position] =
+                    //    //        Request.Form[p.Name].ToString();
+                    //    //    }
+                    //    //}
+                    //    //string serviceMethod = "<span style=\"font-size:14px\"><span style=\"color:blue;\">public bool </span>" + methodName + "(" + serviceMethodParams.TrimEnd(',') + ")</span>";
+                    //    //if (!string.IsNullOrEmpty(setParamsErr))
+                    //    //{
+                    //    //    string err = " ["+methodName + "] method Mismatch";
+                    //    //    err += "<br/>";
+                    //    //    err += "client request method:" + reqMethod;
+                    //    //    err += "<br/>";
+                    //    //    err += "server existed method:" + serviceMethod;
+                    //    //    err += "<br/>";
+                    //    //    err += "client request params don't include params:";
+                    //    //    err += "<br/>";
+                    //    //    err += setParamsErr;
+                    //    //    throw new Exception(err);
+                    //    //}
 
-                        returnValue = me.Invoke(this, Param);
-                    }
+                    //    returnValue = me.Invoke(this, Param);
+                    //}
                     //return to continue write page code
                     //if (o is bool)
                     //{

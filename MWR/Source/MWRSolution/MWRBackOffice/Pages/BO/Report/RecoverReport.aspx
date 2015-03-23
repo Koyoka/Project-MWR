@@ -80,7 +80,30 @@
 			    </div>--%>
 		    </div>
 		    <div class="portlet-body">
-			    <table data-wgt="mw-expandtable-ajaxchild" class="table table-striped table-bordered table-hover" id="sample_1">
+                <form data-wgt="mw-submit-group" 
+                        id="mwFrmList"
+                        data-wgt-submit-method="AjaxSubTxn" 
+                        <%--data-wgt-submit-options-reload="true" 
+                        data-wgt-submit-options-block="true" --%>
+                        data-wgt-submit-options-recall="BORecoverReport.subrecall"
+                        action="<% = WebAppFn.GetBoFullPageUrl(RedirectHelper.RecoverReport) %>">
+                <div class="table-toolbar">
+					<div class="input-group btn-group pull-right col-md-3">
+                        <span class="input-group-btn">
+							<button class="btn yellow mw-btn-search-clear" type="button">清空</button>
+						</span>
+						<input type="text"  class="form-control mw-txt-filterEdit"  value="<% = PageFilterValue %>" />
+                        <input type="hidden" submit-group="common search" name="filter" class="form-control mw-txt-filterValue" value="<% = PageFilterValue %>" />
+						<span class="input-group-btn">
+							<button class="btn blue mw-btn-search"  type="button" >搜索</button>
+						</span>
+					</div>
+				</div>
+
+			    <table data-wgt="mw-expandtable-ajaxchild" 
+                    data-wgt-submit-url="<% = WebAppFn.GetBoFullPageUrl(RedirectHelper.RecoverReport) %>" 
+                    data-wgt-submit-method="AjaxExpandTable" 
+                    class="table table-striped table-bordered table-hover" id="sample_1">
 			    <thead>
 			    <tr>
 				    <th>
@@ -123,6 +146,7 @@
                 <tr>
                     <td>
                         <% = item.TxnNum %>
+                        <input type="hidden" name="txnNum" value="<% = item.TxnNum %>" />
                     </td>
                     <td>
                         <% = item.CarCode %>
@@ -134,10 +158,10 @@
                         <% = item.Inspector %>
                     </td>
                     <td>
-                        <% = item.TotalSubWeight %>
+                        <% = item.TotalSubWeight %> KG
                     </td>
                     <td>
-                        <% = item.TotalTxnWeight %>
+                        <% = item.TotalTxnWeight %> KG
                     </td>
                     <td>
                         <% = item.TotalCrateQty %>
@@ -158,7 +182,8 @@
 			    </tbody>
 			    </table>
 		    
-            <uc1:UPage ID="c_UPage" runat="server" />
+                <uc1:UPage ID="c_UPage" runat="server" />
+                </form>
             </div>
 	    </div>
 	    <!-- END EXAMPLE TABLE PORTLET-->
@@ -170,29 +195,60 @@
 <script type="text/javascript" src="/assets/plugins/select2/select2.min.js"></script>
 <script type="text/javascript" src="/assets/plugins/data-tables/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="/assets/plugins/data-tables/DT_bootstrap.js"></script>
+<script src="/assets/plugins/jquery-file-upload/js/vendor/tmpl.min.js"></script>
 <script src="/assets/wgt-expandTable.js"></script>
+<script src="/assets/borecoverreport.js"></script>
+
 <script>
     jQuery(document).ready(function () {
-        var oTable = $('#sample_1').dataTable( {
-            "aoColumnDefs": [
-                {"bSortable": false, "aTargets": [ 0 ] }
-            ],   
-            "bInfo": false, //开关，是否显示表格的一些信息
-            "bPaginate": false, //开关，是否显示分页器
-            "bLengthChange": false, //开关，是否显示每页大小的下拉框
-            "bFilter": false, //开关，是否启用客户端过滤器
-            "aaSorting": [[1, 'asc']],
-                "aLengthMenu": [
-                [5, 15, 20, -1],
-                [5, 15, 20, "All"] // change per page values here
-            ],
-            // set the initial value
-            "iDisplayLength": 10,
-        });
-        $('#sample_1').data('mw-oTable',oTable);
 
+        BORecoverReport.init();
         WGTExpandTable.init();
+
+        return;
+
+        //        var d = {};
+        //        d["title"] = "Eleven";
+        ////		
+        //       var func = tmpl('mw-table-template');
+        ////        window.alert(func)
+        //        var result = func({
+        //            dd: d
+        //        });
+        //        window.alert(result)
     });
+</script>
+ 
+<script id="mw-table-template" type="text/x-tmpl">
+<table  class="table table-hover">
+    <thead>
+    <tr>
+        <th>货箱编号</th>
+        <th>回收医院</th>
+        <th>废料类型</th>
+        <th>操作员</th>
+        <th>操作终端</th>
+        <th>操作时间</th>
+        <th>操作提交重量</th>
+        <th>操作实际重量</th>
+    </tr>
+    </thead>
+    <tbody>
+{% for (var i=0, d; d=o.data.detailList[i]; i++) { %}
+    <tr>
+        <td>{%=d.CrateCode%}</td>
+        <td>{%=d.Vendor %}</td>
+        <td>{%=d.Waste %}</td>
+        <td>{%=d.EmpyName %}</td>
+        <td>{%=d.WSCode %}</td>
+        <td>{%=d.EntryDate %}</td>
+        <td>{%=d.SubWeight %} KG</td>
+        <td>{%=d.TxnWeight %} KG</td>
+    </tr>
+{% } %}
+    </tbody>
+</table>
+
 </script>
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="footscript" runat="server">

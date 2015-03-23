@@ -78,7 +78,11 @@
 			    </div>--%>
 		    </div>
 		    <div class="portlet-body">
-			    <table class="table table-striped table-bordered table-hover" id="sample_1">
+			    <table 
+                    data-wgt="mw-expandtable-ajaxchild" 
+                    data-wgt-submit-url="<% = WebAppFn.GetBoFullPageUrl(RedirectHelper.VendorReport) %>" 
+                    data-wgt-submit-method="AjaxGetInvTrack" 
+                    class="table table-striped table-bordered table-hover" id="sample_1">
 			    <thead>
 			    <tr>
 				    <th>
@@ -112,7 +116,7 @@
 			    <tr>
 				    <td>
 					    <% = item.CrateCode %>
-                        <input class="mw-invRecodId" type="hidden" value="<% = item.InvRecordId %>" />
+                        <input class="mw-invRecodId" name="invRecordId" type="hidden" value="<% = item.InvRecordId %>" />
 				    </td>
 				    <td>
 					    <% = item.DepotCode %>
@@ -136,74 +140,6 @@
                 <%
 	}
                     %>
-			  <%--  <tr>
-				    <td>
-					    Trident
-				    </td>
-				    <td>
-					    Internet Explorer 5.0
-				    </td>
-				    <td>
-					    Win 95+
-				    </td>
-				    <td>
-					    5
-				    </td>
-				    <td>
-					    C
-				    </td>
-			    </tr>
-			    <tr>
-				    <td>
-					    Trident
-				    </td>
-				    <td>
-					    Internet Explorer 5.5
-				    </td>
-				    <td>
-					    Win 95+
-				    </td>
-				    <td>
-					    5.5
-				    </td>
-				    <td>
-					    A
-				    </td>
-			    </tr>
-			    <tr>
-				    <td>
-					    Trident
-				    </td>
-				    <td>
-					    Internet Explorer 6
-				    </td>
-				    <td>
-					    Win 98+
-				    </td>
-				    <td>
-					    6
-				    </td>
-				    <td>
-					    A
-				    </td>
-			    </tr>
-			    <tr>
-				    <td>
-					    Trident
-				    </td>
-				    <td>
-					    Internet Explorer 7
-				    </td>
-				    <td>
-					    Win XP SP2+
-				    </td>
-				    <td>
-					    7
-				    </td>
-				    <td>
-					    A
-				    </td>
-			    </tr>--%>
 			    </tbody>
 			    </table>
 		    </div>
@@ -217,12 +153,72 @@
 <script type="text/javascript" src="/assets/plugins/select2/select2.min.js"></script>
 <script type="text/javascript" src="/assets/plugins/data-tables/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="/assets/plugins/data-tables/DT_bootstrap.js"></script>
-<script src="/assets/bovendorreport.js"></script>
+<script src="/assets/plugins/jquery-file-upload/js/vendor/tmpl.min.js"></script>
+<script src="/assets/wgt-expandTable.js"></script>
+<%--<script src="/assets/bovendorreport.js"></script>--%>
 <script>
     jQuery(document).ready(function () {
-        VendorReport.init();
+        //        VendorReport.init();
+        var oTable = $('#sample_1').dataTable( {
+            "aoColumnDefs": [
+                {"bSortable": false, "aTargets": [ 0 ] }
+            ],
+            "bInfo": false, //开关，是否显示表格的一些信息
+            "bPaginate": false, //开关，是否显示分页器
+            "bLengthChange": false, //开关，是否显示每页大小的下拉框
+            "bFilter": false, //开关，是否启用客户端过滤器
+            "aaSorting": [[1, 'asc']],
+             "aLengthMenu": [
+                [5, 15, 20, -1],
+                [5, 15, 20, "All"] // change per page values here
+            ],
+            // set the initial value
+            "iDisplayLength": 10,
+        });
+        $('#sample_1').data('mw-oTable',oTable);
+        WGTExpandTable.init();
     });
 </script>
+
+<script id="mw-table-template" type="text/x-tmpl">
+
+<table  class="table table-hover">
+    <thead>
+    <tr>
+        <th>操作员</th>
+        <th>操作终端</th>
+        <th>操作类型</th>
+        <th>操作时间</th>
+        <th>操作提交重量</th>
+        <th>操作实际重量</th>
+        <th>实际重量差值</th>
+        <th>是否审核</th>
+    </tr>
+    </thead>
+    <tbody>
+{% for (var i=0, d; d=o.data[i]; i++) { %}
+    <tr>
+        <td>{%=d.EmpyName%}</td>
+        <td>{%=d.WSCode %}</td>
+        <td>{%=d.TxnType %}</td>
+        <td>{%=d.EntryDate %}</td>
+        <td>{%=d.SubWeight %} KG</td>
+        <td>{%=d.TxnWeight %} KG</td>
+        <td>{%=d.DiffWeight %} KG</td>
+        <td>
+            {% if (d.HasAuthorize) { %}
+            是
+            {% }else{ %}
+            否
+            {% } %}
+        </td>
+    </tr>
+{% } %}
+    </tbody>
+</table>
+
+</script>
+
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="footscript" runat="server">
 </asp:Content>

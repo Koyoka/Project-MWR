@@ -84,6 +84,7 @@
     <Content Include="Assets\bocomm.js" />
     <Content Include="Assets\bodbcar.js" />
     <Content Include="Assets\boinvauthorizedetail.js" />
+    <Content Include="Assets\borecoverreport.js" />
     <Content Include="Assets\bosysinit.js" />
     <Content Include="Assets\bovendorreport.js" />
     <Content Include="Assets\cardispatch.js" />

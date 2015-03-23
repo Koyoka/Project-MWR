@@ -163,7 +163,9 @@ var Custom = function () {
                     //                    serializeObj[this.name] = this.value;
                     //                    var s = "";
 
-                } else if (allowCommon && $('[name="' + this.name + '"]', $this).attr('submit-group').indexOf('common') != -1/* == 'common'*/) {
+                } else if (allowCommon &&
+                    $('[name="' + this.name + '"]', $this).attr('submit-group') != undefined 
+                    && $('[name="' + this.name + '"]', $this).attr('submit-group').indexOf('common') != -1/* == 'common'*/) {
                     serializeObj[this.name] = this.value;
                 } else {
                     var ctrl = $('[name="' + this.name + '"]', $this);

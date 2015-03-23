@@ -146,10 +146,30 @@ namespace YRKJ.MWR.Business.Report
             return true;
         }
 
-        public static bool GetTxnRecoverDataList(int page, int pageSize, ref long pageCount, ref long rowCount, ref List<TblMWTxnRecoverHeader> recHeaderList, ref string errMsg)
+        public static bool GetTxnRecoverDataList(string filter,int page, int pageSize, ref long pageCount, ref long rowCount, ref List<TblMWTxnRecoverHeader> recHeaderList, ref string errMsg)
         {
             DataCtrlInfo dcf = new DataCtrlInfo();
             SqlQueryMng sqm = new SqlQueryMng();
+            if (!string.IsNullOrEmpty(filter.Trim()))
+            {
+                SqlWhere sw = new SqlWhere(SqlCommonFn.SqlWhereLinkType.OR);
+                string[] filterGroup = filter.Trim().Split(' ');
+                foreach (var f in filterGroup)
+                {
+                    if (f.Trim() == "")
+                    {
+                        continue;
+                    }
+                    sw.AddLikeValue(TblMWTxnRecoverHeader.getTxnNumColumn(), SqlCommonFn.SqlWhereLikeEnum.MidLike, f.Trim());
+                    sw.AddLikeValue(TblMWTxnRecoverHeader.getCarCodeColumn(), SqlCommonFn.SqlWhereLikeEnum.MidLike, f.Trim());
+                    sw.AddLikeValue(TblMWTxnRecoverHeader.getDriverColumn(), SqlCommonFn.SqlWhereLikeEnum.MidLike, f.Trim());
+                    sw.AddLikeValue(TblMWTxnRecoverHeader.getDriverCodeColumn(), SqlCommonFn.SqlWhereLikeEnum.MidLike, f.Trim());
+                    sw.AddLikeValue(TblMWTxnRecoverHeader.getInspectorColumn(), SqlCommonFn.SqlWhereLikeEnum.MidLike, f.Trim());
+                    sw.AddLikeValue(TblMWTxnRecoverHeader.getInspectorCodeColumn(), SqlCommonFn.SqlWhereLikeEnum.MidLike, f.Trim());
+                }
+                sqm.Condition.Where.AddWhere(sw);
+            }
+
             sqm.Condition.OrderBy.Add(TblMWTxnRecoverHeader.getStartDateColumn(), SqlCommonFn.SqlOrderByType.DESC);
 
             if (!TblMWTxnRecoverHeaderCtrl.QueryPage(dcf, sqm, page, pageSize, ref recHeaderList, ref errMsg))

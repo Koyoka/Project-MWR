@@ -6,10 +6,11 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using YRKJ.MWR.BackOffice.Business.Sys;
 using YRKJ.MWR.Business.Report;
+using YRKJ.MWR.Business.WS;
 
 namespace YRKJ.MWR.BackOffice.Pages.BO.Report
 {
-    public partial class RecoverReport : System.Web.UI.Page
+    public partial class RecoverReport : BasePage
     {
         public const string ClassName = "YRKJ.MWR.BackOffice.Pages.BO.Report.RecoverReport";
 
@@ -27,7 +28,44 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Report
         }
 
         #region Events
-        
+        public bool AjaxSubTxn_search(string filter)
+        {
+            string errMsg = "";
+            if (!LoadData_RecoverDataList(1,filter.Trim(), ref errMsg))
+            {
+                ReturnAjaxError(errMsg);
+                return false;
+            }
+            return true;
+        }
+        public bool AjaxSubTxn_common(string filter, string page)
+        {
+            string errMsg = "";
+            int curPage = ComLib.ComFn.StringToInt(page);
+            if (!LoadData_RecoverDataList(curPage, filter.Trim(), ref errMsg))
+            {
+                ReturnAjaxError(errMsg);
+                return false;
+            }
+            return true;
+        }
+
+        public bool AjaxExpandTable(string txnNum)
+        {
+            string errMsg = "";
+            PageTxnExpandData expandData = new PageTxnExpandData();
+            List<TblMWTxnDetail> detailList = null;
+            if (!TxnMng.GetDetailList(txnNum, ref detailList, ref errMsg))
+            {
+                ReturnAjaxError(errMsg);
+                return false;
+            }
+            expandData.detailList = detailList;
+
+            ReturnAjaxJsonObj(expandData);
+
+            return false;
+        }
         #endregion
 
         #region Functions
@@ -54,18 +92,19 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Report
                 return false;
             }
 
-            if (!LoadData_RecoverDataList(1, ref errMsg))
+            if (!LoadData_RecoverDataList(1,"", ref errMsg))
             {
                 return false;
             }
             return true;
         }
-        private bool LoadData_RecoverDataList(int page, ref string errMsg)
+        private bool LoadData_RecoverDataList(int page,string filter, ref string errMsg)
         {
+            PageFilterValue = filter;
             int pageSize = 10;
             long pageCount = 0;
             long rowCount = 0;
-            if (!ReportDataMng.GetTxnRecoverDataList(page, pageSize, ref pageCount, ref rowCount, ref PageRecoverListData, ref errMsg))
+            if (!ReportDataMng.GetTxnRecoverDataList(filter,page, pageSize, ref pageCount, ref rowCount, ref PageRecoverListData, ref errMsg))
             {
                 return false;
             }
@@ -78,10 +117,14 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Report
         #region PageDatas
         protected TblMWTxnRecoverHeader PageRecoverReportData = new TblMWTxnRecoverHeader();
         protected List<TblMWTxnRecoverHeader> PageRecoverListData = new List<TblMWTxnRecoverHeader>();
+        protected string PageFilterValue = "";
         #endregion
 
         #region Common
-
+        class PageTxnExpandData
+        {
+            public List<TblMWTxnDetail> detailList { get; set; }
+        }
         #endregion
     }
 }
