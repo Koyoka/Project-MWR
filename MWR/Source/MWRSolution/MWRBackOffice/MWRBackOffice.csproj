@@ -83,7 +83,9 @@
     <Content Include="Assets\bobdwaste.js" />
     <Content Include="Assets\bocomm.js" />
     <Content Include="Assets\bodbcar.js" />
+    <Content Include="Assets\bodestroyreport.js" />
     <Content Include="Assets\boinvauthorizedetail.js" />
+    <Content Include="Assets\bopostreport.js" />
     <Content Include="Assets\borecoverreport.js" />
     <Content Include="Assets\bosysinit.js" />
     <Content Include="Assets\bovendorreport.js" />
@@ -269,6 +271,7 @@
     <Content Include="Assets\wgt-expandTable.js" />
     <Content Include="Assets\wsmanage.js" />
     <Content Include="Assets\副本 bobdcrate.js" />
+    <Content Include="Assets\bodestroylog.js" />
     <Content Include="Global.asax" />
     <Content Include="Lib\Newtonsoft.Json.Net20.dll" />
     <Content Include="Pages\BO\BaseData\BDCar.aspx" />
@@ -289,9 +292,13 @@
     <Content Include="Pages\BO\Error.html" />
     <Content Include="Pages\BO\HTMLPage1.htm" />
     <Content Include="Pages\BO\index.html" />
+    <Content Include="Pages\BO\Inventory\DestroyLog.aspx" />
     <Content Include="Pages\BO\Inventory\InvAuthorize.aspx" />
     <Content Include="Pages\BO\Inventory\InvAuthorizeDetail.aspx" />
+    <Content Include="Pages\BO\Inventory\InventoryLog.aspx" />
+    <Content Include="Pages\BO\Report\DestroyReport.aspx" />
     <Content Include="Pages\BO\Report\IntegratedReport.aspx" />
+    <Content Include="Pages\BO\Report\PostReport.aspx" />
     <Content Include="Pages\BO\Report\RecoverReport.aspx" />
     <Content Include="Pages\BO\Report\VendorReport.aspx" />
     <Content Include="Pages\BO\Report\WasteReport.aspx" />
@@ -439,6 +446,13 @@
     <Compile Include="Pages\BO\Error.aspx.designer.cs">
       <DependentUpon>Error.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Pages\BO\Inventory\DestroyLog.aspx.cs">
+      <DependentUpon>DestroyLog.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\BO\Inventory\DestroyLog.aspx.designer.cs">
+      <DependentUpon>DestroyLog.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Pages\BO\Inventory\InvAuthorize.aspx.cs">
       <DependentUpon>InvAuthorize.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -453,12 +467,33 @@
     <Compile Include="Pages\BO\Inventory\InvAuthorizeDetail.aspx.designer.cs">
       <DependentUpon>InvAuthorizeDetail.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Pages\BO\Inventory\InventoryLog.aspx.cs">
+      <DependentUpon>InventoryLog.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\BO\Inventory\InventoryLog.aspx.designer.cs">
+      <DependentUpon>InventoryLog.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\BO\Report\DestroyReport.aspx.cs">
+      <DependentUpon>DestroyReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\BO\Report\DestroyReport.aspx.designer.cs">
+      <DependentUpon>DestroyReport.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Pages\BO\Report\IntegratedReport.aspx.cs">
       <DependentUpon>IntegratedReport.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\BO\Report\IntegratedReport.aspx.designer.cs">
       <DependentUpon>IntegratedReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\BO\Report\PostReport.aspx.cs">
+      <DependentUpon>PostReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\BO\Report\PostReport.aspx.designer.cs">
+      <DependentUpon>PostReport.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\BO\Report\RecoverReport.aspx.cs">
       <DependentUpon>RecoverReport.aspx</DependentUpon>

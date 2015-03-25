@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Pages/MasterPages/MWBOEmpty.Master" AutoEventWireup="true" CodeBehind="RecoverReport.aspx.cs" Inherits="YRKJ.MWR.BackOffice.Pages.BO.Report.RecoverReport" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Pages/MasterPages/MWBOEmpty.Master" AutoEventWireup="true" CodeBehind="PostReport.aspx.cs" Inherits="YRKJ.MWR.BackOffice.Pages.BO.Report.PostReport" %>
 <%@ Import Namespace="YRKJ.MWR" %>
 <%@ Import Namespace="YRKJ.MWR.BackOffice.Business.Sys" %>
 <%@ Register src="../../UCtrl/UPage.ascx" tagname="UPage" tagprefix="uc1" %>
@@ -11,7 +11,7 @@
 <div class="row">
 	<div class="col-md-12">
 		<h3 class="page-title">
-		运量报告 <small>查看所有回收医疗废品交易详情</small>
+		出库报告 <small>查看所有废品出库交易详情</small>
 		</h3>
 		<ul class="page-breadcrumb breadcrumb">
 			<li class="btn-group">
@@ -23,56 +23,47 @@
 				<i class="fa fa-angle-right"></i>
 			</li>
             <li>
-				运量报告
+				出库报告
 			</li>
 		</ul>
 	</div>
 </div>
 <div class=" row portfolio-block note note-info">
-		<%--<div class="col-md-3 ">
-			<div class="portfolio-text ">
-				<div class="portfolio-info">
-					<h4></h4>
-					<p>
-						
-					</p>
-				</div>
-			</div>
-		</div>--%>
 		<div class="col-md-8 portfolio-stat " >
 			<div class="portfolio-info">
-					回收总重量
+					出库总重量
 				<span>
-					<% = PageRecoverReportData.TotalSubWeight%> KG
+					<% = PagePostReportData.TotalSubWeight%> KG
 				</span>
 			</div>
             <div class="portfolio-info">
-					提交总重量
+					实际总重量
 				<span>
-					<% = PageRecoverReportData.TotalTxnWeight%> KG
+					<% = PagePostReportData.TotalTxnWeight%> KG
 				</span>
 			</div>
 			<div class="portfolio-info">
-					回收总箱数
+					出库总箱数
 				<span>
-					<% = PageRecoverReportData.TotalCrateQty%> 箱
+					<% = PagePostReportData.TotalCrateQty%> 箱
 				</span>
 			</div>
 			<div class="portfolio-info">
-					派遣总车次
+					出库交易次数
 				<span>
-					<% = PageRecoverReportData.RecoHeaderId%> 次
+					<% = PagePostReportData.PostHeaderId%> 次
 				</span>
 			</div>
 		</div>
 </div>
+
 <div class="row">
     <div class="col-md-12">
 	    <!-- BEGIN EXAMPLE TABLE PORTLET-->
 	    <div class="portlet box blue">
 		    <div class="portlet-title">
 			    <div class="caption">
-				    <i class="fa fa-globe"></i>运量报告明细列表
+				    <i class="fa fa-globe"></i>处置报告明细列表
 			    </div>
 			   <%-- <div class="tools">
 				    <a href="javascript:;" class="reload"></a>
@@ -85,8 +76,8 @@
                         data-wgt-submit-method="AjaxSubTxn" 
                         <%--data-wgt-submit-options-reload="true" 
                         data-wgt-submit-options-block="true" --%>
-                        data-wgt-submit-options-recall="BORecoverReport.subrecall"
-                        action="<% = WebAppFn.GetBoFullPageUrl(RedirectHelper.RecoverReport) %>">
+                        data-wgt-submit-options-recall="BORPostReport.subrecall"
+                        action="<% = WebAppFn.GetBoFullPageUrl(RedirectHelper.PostReport) %>">
                 <div class="table-toolbar">
 					<div class="input-group btn-group pull-right col-md-3">
                         <span class="input-group-btn">
@@ -101,7 +92,7 @@
 				</div>
 
 			    <table data-wgt="mw-expandtable-ajaxchild" 
-                    data-wgt-submit-url="<% = WebAppFn.GetBoFullPageUrl(RedirectHelper.RecoverReport) %>" 
+                    data-wgt-submit-url="<% = WebAppFn.GetBoFullPageUrl(RedirectHelper.PostReport) %>" 
                     data-wgt-submit-method="AjaxExpandTable" 
                     class="table table-striped table-bordered table-hover" id="sample_1">
 			    <thead>
@@ -110,13 +101,10 @@
 					    交易编号
 				    </th>
 				    <th>
-					    车辆编号
+					    处置工作站
 				    </th>
 				    <th>
-					    司机
-				    </th>
-				    <th>
-					    跟车员
+					    处置操作员
 				    </th>
 				    <th>
 					    回收总重量
@@ -140,7 +128,7 @@
 			    </thead>
 			    <tbody>
                     <%
-                        foreach (var item in PageRecoverListData)
+                        foreach (var item in PagePostListData)
 	{
                     %>
                 <tr>
@@ -148,15 +136,12 @@
                         <% = item.TxnNum %>
                         <input type="hidden" name="txnNum" value="<% = item.TxnNum %>" />
                     </td>
-                    <td>
-                        <% = item.CarCode %>
-                    </td>
-                    <td>
-                        <% = item.Driver %>
-                    </td>
-                    <td>
-                        <% = item.Inspector %>
-                    </td>
+				    <td>
+                        <% = item.PostWSCode %>
+				    </td>
+				    <td>
+                        <% = item.PostEmpyName %>
+				    </td>
                     <td>
                         <% = item.TotalSubWeight %> KG
                     </td>
@@ -173,7 +158,7 @@
                         <% =  ComLib.ComFn.DateTimeToString(item.EndDate, YRKJ.MWR.Business.BizBase.GetInstance().DateTimeFormatString)%>
                     </td>
                     <td>
-                        <% = YRKJ.MWR.Business.BizHelper.GetTxnRecoverHeaderStatus(item.Status) %>
+                        <% = YRKJ.MWR.Business.BizHelper.GetTxnPostHeaderStatus(item.Status)%>
                     </td>
                 </tr>
                 <%
@@ -181,13 +166,10 @@
                     %>
 			    </tbody>
 			    </table>
-		    
                 <uc1:UPage ID="c_UPage" runat="server" />
                 </form>
             </div>
 	    </div>
-	    <!-- END EXAMPLE TABLE PORTLET-->
-	   
     </div>
 </div>
 </asp:Content>
@@ -197,14 +179,13 @@
 <script type="text/javascript" src="/assets/plugins/data-tables/DT_bootstrap.js"></script>
 <script src="/assets/plugins/jquery-file-upload/js/vendor/tmpl.min.js"></script>
 <script src="/assets/wgt-expandTable.js"></script>
-<script src="/assets/borecoverreport.js"></script>
+<script src="/assets/bopostreport.js"></script>
 <script>
     jQuery(document).ready(function () {
-        BORecoverReport.init();
+        BORPostReport.init();
         WGTExpandTable.init();
     });
 </script>
- 
 <script id="mw-table-template" type="text/x-tmpl">
 <table  class="table table-hover">
     <thead>
@@ -234,7 +215,6 @@
 {% } %}
     </tbody>
 </table>
-
 </script>
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="footscript" runat="server">

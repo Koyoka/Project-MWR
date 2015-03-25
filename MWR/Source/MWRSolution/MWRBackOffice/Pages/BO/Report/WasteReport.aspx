@@ -36,10 +36,10 @@
 		<div class="col-md-3 ">
 			<div class="portfolio-text ">
 				<div class="portfolio-info">
-					<h4><% = PageWasteNameData%>-统计信息</h4>
-					<p>
+					<h4><% = PageWasteNameData%></h4>
+					<%--<p>
 						<% = PageWasteNameData%>-重量信息
-					</p>
+					</p>--%>
 				</div>
 			</div>
 		</div>

@@ -178,7 +178,10 @@ namespace ComLib.db
 		    bool hasBeanAppend = false;
 		    StringBuilder sb = new StringBuilder();
 		    foreach(string s in buildSqlList){
-    			
+                if (string.IsNullOrEmpty(s)) 
+                {
+                    continue;
+                }
 			    if(hasBeanAppend){
                     sb.Append(_linkType == SqlCommonFn.SqlWhereLinkType.AND ? " AND " : " OR ");
                     

@@ -186,6 +186,21 @@ namespace YRKJ.MWR.Business
             return defineStr;
         }
 
+        public static string GetDestroyType(string s)
+        {
+            string defineStr = "";
+            switch (s)
+            {
+                case TblMWTxnDestroyHeader.DESTTYPE_ENUM_PostDestroy:
+                    defineStr = LngRes.DestType_PostDestroy;
+                    break;
+                case TblMWTxnDestroyHeader.DESTTYPE_ENUM_RecoverDestroy:
+                    defineStr = LngRes.DestType_RecoverDestroy;
+                    break;
+            }
+            return defineStr;
+        }
+
         public static string GetWSType(string s)
         {
             string defineStr = "";
@@ -236,10 +251,44 @@ namespace YRKJ.MWR.Business
 
             return defineStr;
         }
+
+        public static string GetTxnLogOptType(string s)
+        {
+            string defineStr = "";
+          
+            switch (s)
+            {
+                case TblMWTxnLog.OPTTYPE_ENUM_SubComplete:
+                    defineStr = LngRes.OPTTYPE_SubComplete;
+                    break;
+                case TblMWTxnLog.OPTTYPE_ENUM_SubAuthorize:
+                    defineStr = LngRes.OPTTYPE_SubAuthorize;
+                    break;
+                case TblMWTxnLog.OPTTYPE_ENUM_AuthorizeComplete:
+                    defineStr = LngRes.OPTTYPE_AuthorizeComplete;
+                    break;
+                case TblMWTxnLog.OPTTYPE_ENUM_SubRecover:
+                    defineStr = LngRes.OPTTYPE_SubRecover;
+                    break;
+                case TblMWTxnLog.OPTTYPE_ENUM_NewTxn:
+                    defineStr = LngRes.OPTTYPE_NewTxn;
+                    break;
+            }
+
+            return defineStr;
+
+        }
         #endregion
 
         public class LngRes
         {
+            public const string OPTTYPE_SubComplete = "提交完成";//1.交易提交完成操作库存 SC  submit inventory;
+            public const string OPTTYPE_SubAuthorize = "提交审核";//2.交易提交审核 SA submit authorize;
+            public const string OPTTYPE_AuthorizeComplete = "审核完成";//3.确认审核并完成操作库存 AC authorize inventory;
+            public const string OPTTYPE_SubRecover = "提交回收";//4.车辆回场提交回收;
+            public const string OPTTYPE_NewTxn = "新建交易";//新建交易;
+             
+
             public const string Status_Inventory_Recovered = "已入库";
             public const string Status_Inventory_Posted = "已出库";
             public const string Status_Inventory_Destroyed = "已处置";
@@ -247,6 +296,8 @@ namespace YRKJ.MWR.Business
             public const string Status_Inventory_Posting = "出库中";
             public const string Status_Inventory_Destroying = "处置中";
 
+            public const string DestType_PostDestroy = "库存出库处置";
+            public const string DestType_RecoverDestroy = "车辆回收处置";
 
             public const string Empy_Driver = "司机";
             public const string Empy_Inspector = "跟车员";

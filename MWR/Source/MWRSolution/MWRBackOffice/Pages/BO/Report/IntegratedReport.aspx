@@ -30,7 +30,7 @@
 </div>
 
 <div class=" row portfolio-block note note-info">
-		<div class="col-md-3 ">
+		<%--<div class="col-md-3 ">
 			<div class="portfolio-text ">
 				<div class="portfolio-info">
 					<h4>回收系统统计信息</h4>
@@ -39,7 +39,7 @@
 					</p>
 				</div>
 			</div>
-		</div>
+		</div>--%>
 		<div class="col-md-8 portfolio-stat " >
 			<div class="portfolio-info">
 					回收总重量

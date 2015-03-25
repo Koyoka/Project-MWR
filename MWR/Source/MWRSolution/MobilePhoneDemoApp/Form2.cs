@@ -154,5 +154,12 @@ namespace MobilePhoneDemoApp
             return true;
             
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            string s = textBox1.Text;
+            System.Text.RegularExpressions.Regex reg = new System.Text.RegularExpressions.Regex(@"^(>|=|<)\d+(\.\d+)?$");
+            textBox2.Text = reg.IsMatch(s).ToString();
+        }
     }
 }

@@ -128,9 +128,121 @@ namespace YRKJ.MWR.Business.Report
             }
             return true;
         }
+
+        public static bool GetDestroyInventoryTrack(string filter,int page,int pageSize,ref long pageCount,ref long rowCount,ref List<TblMWInventoryTrack> dataList, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            SqlQueryMng sqm = new SqlQueryMng();
+            sqm.Condition.Where.AddCompareValue(TblMWInventoryTrack.getTxnTypeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, TblMWInventoryTrack.TXNTYPE_ENUM_Destroy);
+            if (!string.IsNullOrEmpty(filter.Trim()))
+            {
+                SqlWhere sw = new SqlWhere(SqlCommonFn.SqlWhereLinkType.OR);
+                string[] filterGroup = filter.Trim().Split(' ');
+                foreach (var f in filterGroup)
+                {
+                    string defineF = f.Trim();
+                    if (defineF == "")
+                    {
+                        continue;
+                    }
+
+                    if (defineF.Length >= 2)
+                    {
+                        System.Text.RegularExpressions.Regex reg = new System.Text.RegularExpressions.Regex(@"^(>|=|<)\d+(\.\d+)?$");
+                        if(reg.IsMatch(defineF))
+                        {
+                            SqlWhere subSw = new SqlWhere(SqlCommonFn.SqlWhereLinkType.OR);
+                            string preFix = defineF.Substring(0, 1);
+                            decimal value = ComLib.ComFn.StringToDecimal(defineF.Substring(1, defineF.Length - 1));
+                            if (preFix.Equals("="))
+                            {
+                                subSw.AddCompareValue(TblMWInventoryTrack.getSubWeightColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, value);
+                                subSw.AddCompareValue(TblMWInventoryTrack.getTxnWeightColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, value);
+                            }
+                            else if (preFix.Equals(">"))
+                            {
+                                subSw.AddCompareValue(TblMWInventoryTrack.getSubWeightColumn(), SqlCommonFn.SqlWhereCompareEnum.MoreEquals, value);
+                                subSw.AddCompareValue(TblMWInventoryTrack.getTxnWeightColumn(), SqlCommonFn.SqlWhereCompareEnum.MoreEquals, value);
+                            }
+                            else if (preFix.Equals("<"))
+                            {
+                                subSw.AddCompareValue(TblMWInventoryTrack.getSubWeightColumn(), SqlCommonFn.SqlWhereCompareEnum.LessEquals, value);
+                                subSw.AddCompareValue(TblMWInventoryTrack.getTxnWeightColumn(), SqlCommonFn.SqlWhereCompareEnum.LessEquals, value);
+                            }
+                            sqm.Condition.Where.AddWhere(subSw);
+
+                            continue;
+                        }
+                    }
+                    sw.AddLikeValue(TblMWInventoryTrack.getTxnNumColumn(), SqlCommonFn.SqlWhereLikeEnum.MidLike, f.Trim());
+                    sw.AddLikeValue(TblMWInventoryTrack.getCrateCodeColumn(), SqlCommonFn.SqlWhereLikeEnum.MidLike, f.Trim());
+                    sw.AddLikeValue(TblMWInventoryTrack.getDepotCodeColumn(), SqlCommonFn.SqlWhereLikeEnum.MidLike, f.Trim());
+                    sw.AddLikeValue(TblMWInventoryTrack.getVendorColumn(), SqlCommonFn.SqlWhereLikeEnum.MidLike, f.Trim());
+                    sw.AddLikeValue(TblMWInventoryTrack.getWasteColumn(), SqlCommonFn.SqlWhereLikeEnum.MidLike, f.Trim());
+                    sw.AddLikeValue(TblMWInventoryTrack.getEmpyNameColumn(), SqlCommonFn.SqlWhereLikeEnum.MidLike, f.Trim());
+                    sw.AddLikeValue(TblMWInventoryTrack.getWSCodeColumn(), SqlCommonFn.SqlWhereLikeEnum.MidLike, f.Trim());
+
+                }
+                sqm.Condition.Where.AddWhere(sw);
+            }
+
+            if (!TblMWInventoryTrackCtrl.QueryPage(dcf, sqm,page,pageSize, ref dataList, ref errMsg))
+            {
+                return false;
+            }
+
+            pageCount = dcf.PageCount;
+            rowCount = dcf.RowCount;
+            return true;
+        }
+        public static bool GetRecoverInventoryTrack(int page, int pageSize, ref long pageCount, ref long rowCount, ref List<TblMWInventoryTrack> dataList, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            SqlQueryMng sqm = new SqlQueryMng();
+            sqm.Condition.Where.AddCompareValue(TblMWInventoryTrack.getTxnTypeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, TblMWInventoryTrack.TXNTYPE_ENUM_Recover);
+
+            if (!TblMWInventoryTrackCtrl.QueryPage(dcf, sqm, page, pageSize, ref dataList, ref errMsg))
+            {
+                return false;
+            }
+
+            pageCount = dcf.PageCount;
+            rowCount = dcf.RowCount;
+            return true;
+        }
+        public static bool GetPostInventoryTrack(int page, int pageSize, ref long pageCount, ref long rowCount, ref List<TblMWInventoryTrack> dataList, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            SqlQueryMng sqm = new SqlQueryMng();
+            sqm.Condition.Where.AddCompareValue(TblMWInventoryTrack.getTxnTypeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, TblMWInventoryTrack.TXNTYPE_ENUM_Post);
+
+            if (!TblMWInventoryTrackCtrl.QueryPage(dcf, sqm, page, pageSize, ref dataList, ref errMsg))
+            {
+                return false;
+            }
+
+            pageCount = dcf.PageCount;
+            rowCount = dcf.RowCount;
+            return true;
+        }
         #endregion
 
-        #region TxnRecover
+        #region Txn log
+        public static bool GetTxnLogList(int txnDetailId,ref List<TblMWTxnLog> dataList,ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+
+            SqlQueryMng sqm = new SqlQueryMng();
+            sqm.Condition.Where.AddCompareValue(TblMWTxnLog.getTxnDetailIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, txnDetailId);
+            if (!TblMWTxnLogCtrl.QueryMore(dcf, sqm, ref dataList, ref errMsg))
+            {
+                return false;
+            }
+            return true;
+        }
+
+        #endregion
+        #region Txn
         public static bool GetTxnRecoverReportData(ref TblMWTxnRecoverHeader recHeader, ref string errMsg)
         {
             DataCtrlInfo dcf = new DataCtrlInfo();
@@ -145,7 +257,6 @@ namespace YRKJ.MWR.Business.Report
             }
             return true;
         }
-
         public static bool GetTxnRecoverDataList(string filter,int page, int pageSize, ref long pageCount, ref long rowCount, ref List<TblMWTxnRecoverHeader> recHeaderList, ref string errMsg)
         {
             DataCtrlInfo dcf = new DataCtrlInfo();
@@ -182,6 +293,103 @@ namespace YRKJ.MWR.Business.Report
 
             return true;
         }
+
+        public static bool GetTxnDestroyReportData(ref TblMWTxnDestroyHeader desHeader, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            SqlQueryMng sqm = new SqlQueryMng();
+            sqm.QueryColumn.AddCount(TblMWTxnDestroyHeader.getDestHeaderIdColumn());
+            sqm.QueryColumn.AddSum(TblMWTxnDestroyHeader.getTotalSubWeightColumn());
+            sqm.QueryColumn.AddSum(TblMWTxnDestroyHeader.getTotalTxnWeightColumn());
+            sqm.QueryColumn.AddSum(TblMWTxnDestroyHeader.getTotalCrateQtyColumn());
+            if (!TblMWTxnDestroyHeaderCtrl.QueryOne(dcf, sqm, ref desHeader, ref errMsg))
+            {
+                return false;
+            }
+            return true;
+        }
+        public static bool GetTxnDestroyDataList(string filter, int page, int pageSize, ref long pageCount, ref long rowCount, ref List<TblMWTxnDestroyHeader> desHeaderList, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            SqlQueryMng sqm = new SqlQueryMng();
+            if (!string.IsNullOrEmpty(filter.Trim()))
+            {
+                SqlWhere sw = new SqlWhere(SqlCommonFn.SqlWhereLinkType.OR);
+                string[] filterGroup = filter.Trim().Split(' ');
+                foreach (var f in filterGroup)
+                {
+                    if (f.Trim() == "")
+                    {
+                        continue;
+                    }
+                    sw.AddLikeValue(TblMWTxnDestroyHeader.getTxnNumColumn(), SqlCommonFn.SqlWhereLikeEnum.MidLike, f.Trim());
+                    sw.AddLikeValue(TblMWTxnDestroyHeader.getDestEmpyCodeColumn(), SqlCommonFn.SqlWhereLikeEnum.MidLike, f.Trim());
+                    sw.AddLikeValue(TblMWTxnDestroyHeader.getDestEmpyNameColumn(), SqlCommonFn.SqlWhereLikeEnum.MidLike, f.Trim());
+                }
+                sqm.Condition.Where.AddWhere(sw);
+            }
+
+            sqm.Condition.OrderBy.Add(TblMWTxnDestroyHeader.getStartDateColumn(), SqlCommonFn.SqlOrderByType.DESC);
+
+            if (!TblMWTxnDestroyHeaderCtrl.QueryPage(dcf, sqm, page, pageSize, ref desHeaderList, ref errMsg))
+            {
+                return false;
+            }
+
+            pageCount = dcf.PageCount;
+            rowCount = dcf.RowCount;
+            return true;
+        }
+
+        public static bool GetTxnPostReportData(ref TblMWTxnPostHeader postHeader, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            SqlQueryMng sqm = new SqlQueryMng();
+
+            sqm.QueryColumn.AddCount(TblMWTxnPostHeader.getPostHeaderIdColumn());
+            sqm.QueryColumn.AddSum(TblMWTxnPostHeader.getTotalSubWeightColumn());
+            sqm.QueryColumn.AddSum(TblMWTxnPostHeader.getTotalTxnWeightColumn());
+            sqm.QueryColumn.AddSum(TblMWTxnPostHeader.getTotalCrateQtyColumn());
+            if (!TblMWTxnPostHeaderCtrl.QueryOne(dcf, sqm, ref postHeader, ref errMsg))
+            {
+                return false;
+            }
+            return true;
+        }
+        public static bool GetTxnPostDataList(string filter, int page, int pageSize, ref long pageCount, ref long rowCount, ref List<TblMWTxnPostHeader> postHeaderList, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            SqlQueryMng sqm = new SqlQueryMng();
+
+            if (!string.IsNullOrEmpty(filter.Trim()))
+            {
+                SqlWhere sw = new SqlWhere(SqlCommonFn.SqlWhereLinkType.OR);
+                string[] filterGroup = filter.Trim().Split(' ');
+                foreach (var f in filterGroup)
+                {
+                    if (f.Trim() == "")
+                    {
+                        continue;
+                    }
+                    sw.AddLikeValue(TblMWTxnPostHeader.getTxnNumColumn(), SqlCommonFn.SqlWhereLikeEnum.MidLike, f.Trim());
+                    sw.AddLikeValue(TblMWTxnPostHeader.getPostEmpyNameColumn(), SqlCommonFn.SqlWhereLikeEnum.MidLike, f.Trim());
+                    sw.AddLikeValue(TblMWTxnPostHeader.getPostWSCodeColumn(), SqlCommonFn.SqlWhereLikeEnum.MidLike, f.Trim());
+                }
+                sqm.Condition.Where.AddWhere(sw);
+            }
+
+            sqm.Condition.OrderBy.Add(TblMWTxnPostHeader.getStartDateColumn(), SqlCommonFn.SqlOrderByType.DESC);
+
+            if (!TblMWTxnPostHeaderCtrl.QueryPage(dcf, sqm, page, pageSize, ref postHeaderList, ref errMsg))
+            {
+                return false;
+            }
+
+            pageCount = dcf.PageCount;
+            rowCount = dcf.RowCount;
+            return true;
+        }
+
         #endregion
     }
 }
