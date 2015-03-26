@@ -306,6 +306,7 @@
     <Content Include="Pages\BO\Sys\SysInit.aspx" />
     <Content Include="Pages\BO\Sys\UserPermit.aspx" />
     <Content Include="Pages\BO\Sys\WSManage.aspx" />
+    <Content Include="Pages\BO\Txn\TxnDetail.aspx" />
     <Content Include="Pages\BO\WebForm1.aspx" />
     <Content Include="Pages\Demo\AjaxFileUpload.aspx" />
     <Content Include="Pages\Demo\FileUpload2_1.aspx" />
@@ -543,6 +544,13 @@
     </Compile>
     <Compile Include="Pages\BO\Sys\WSManage.aspx.designer.cs">
       <DependentUpon>WSManage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\BO\Txn\TxnDetail.aspx.cs">
+      <DependentUpon>TxnDetail.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\BO\Txn\TxnDetail.aspx.designer.cs">
+      <DependentUpon>TxnDetail.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\BO\WebForm1.aspx.cs">
       <DependentUpon>WebForm1.aspx</DependentUpon>

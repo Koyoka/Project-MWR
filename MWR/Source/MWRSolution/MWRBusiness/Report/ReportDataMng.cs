@@ -240,8 +240,43 @@ namespace YRKJ.MWR.Business.Report
             }
             return true;
         }
+        public static bool GetTxnType(string txnNum, ref string txnType, ref string errMsg)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("SELECT ");
 
+            sb.AppendLine(string.Format("(SELECT COUNT(*) FROM {0} WHERE TxnNum = '{1}'), ", TblMWTxnRecoverHeader.getFormatTableName(), txnNum));
+            sb.AppendLine(string.Format("(SELECT COUNT(*) FROM {0} WHERE TxnNum = '{1}'), ", TblMWTxnPostHeader.getFormatTableName(), txnNum));
+            sb.AppendLine(string.Format("(SELECT COUNT(*) FROM {0} WHERE TxnNum = '{1}') ", TblMWTxnDestroyHeader.getFormatTableName(), txnNum));
+            System.Data.DataSet ds = SqlDBMng.getInstance().query(sb.ToString(), null);
+            int trCount = (int)ds.Tables[0].Rows[0][0];
+            int tpCount = (int)ds.Tables[0].Rows[0][0];
+            int tdCount = (int)ds.Tables[0].Rows[0][0];
+
+
+            if (trCount != 0)
+            {
+                txnType = TblMWTxnDetail.TXNTYPE_ENUM_Recover;
+            }
+            else if (tpCount != 0)
+            {
+                txnType = TblMWTxnDetail.TXNTYPE_ENUM_Post;
+            }
+            else if (tdCount != 0)
+            {
+                txnType = TblMWTxnDetail.TXNTYPE_ENUM_Destroy;
+            }
+            else
+            {
+                errMsg = "无效的交易编号";
+                return false;
+            }
+
+
+            return true;
+        }
         #endregion
+
         #region Txn
         public static bool GetTxnRecoverReportData(ref TblMWTxnRecoverHeader recHeader, ref string errMsg)
         {
@@ -390,6 +425,39 @@ namespace YRKJ.MWR.Business.Report
             return true;
         }
 
+        public static bool GetTxnRecoverHeader(string txnNum, ref TblMWTxnRecoverHeader header, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            SqlQueryMng sqm = new SqlQueryMng();
+            sqm.Condition.Where.AddCompareValue(TblMWTxnRecoverHeader.getTxnNumColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, txnNum);
+            if (!TblMWTxnRecoverHeaderCtrl.QueryOne(dcf, sqm, ref header, ref errMsg))
+            {
+                return false;
+            }
+            return true;
+        }
+        public static bool GetTxnPostHeader(string txnNum, ref TblMWTxnPostHeader header, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            SqlQueryMng sqm = new SqlQueryMng();
+            sqm.Condition.Where.AddCompareValue(TblMWTxnPostHeader.getTxnNumColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, txnNum);
+            if (!TblMWTxnPostHeaderCtrl.QueryOne(dcf, sqm, ref header, ref errMsg))
+            {
+                return false;
+            }
+            return true;
+        }
+        public static bool GetTxnDestroyHeader(string txnNum, ref TblMWTxnDestroyHeader header, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            SqlQueryMng sqm = new SqlQueryMng();
+            sqm.Condition.Where.AddCompareValue(TblMWTxnDestroyHeader.getTxnNumColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, txnNum);
+            if (!TblMWTxnDestroyHeaderCtrl.QueryOne(dcf, sqm, ref header, ref errMsg))
+            {
+                return false;
+            }
+            return true;
+        }
         #endregion
     }
 }
