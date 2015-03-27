@@ -106,7 +106,7 @@
                     %>
                 <tr>
                     <td>
-					    <% = item.TxnNum %>
+					    <a href="#<% = RedirectHelper.TxnDetail%>?txnNum=<% = item.TxnNum %>"><% = item.TxnNum %></a>
                         <input type="hidden" name="txnDetailId" value="<% = item.TxnDetailId %>" />
 				    </td>
 				    <td>
@@ -137,7 +137,7 @@
 					    <% = ComLib.ComFn.DateTimeToString(item.EntryDate, YRKJ.MWR.Business.BizBase.GetInstance().DateTimeFormatString)  %>
 				    </td>
                     <td>
-					    <% = item.InvAuthId %>
+					    <% = item.InvAuthId!=0?"是":"否" %>
 				    </td>
                 </tr>
                 <%
@@ -151,7 +151,6 @@
 	    </div>
     </div>
 </div>
-
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="foot" runat="server">
 <script type="text/javascript" src="/assets/plugins/select2/select2.min.js"></script>

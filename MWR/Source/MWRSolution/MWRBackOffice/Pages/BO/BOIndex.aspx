@@ -121,8 +121,9 @@
                     </span></a>
                         <ul class="sub-menu">
                             <li id="MW_Inventory_Auth" class=""><a href="#<% = RedirectHelper.InvAuthorize %>">货损审核</a> </li>
-                            <li id="MW_Inventory_Log" class=""><a href="#<% = RedirectHelper.InventoryLog %>">出入库日志</a> </li>
-                            <li id="MW_Residue_Log" class=""><a href="#<% = RedirectHelper.DestroyLog %>">残渣处理日志</a> </li>
+                            <li id="MW_Recover_Log" class=""><a href="#<% = RedirectHelper.RecoverLog %>">回收入库日志</a> </li>
+                            <li id="MW_Post_Log" class=""><a href="#<% = RedirectHelper.PostLog %>">废品出库日志</a> </li>
+                            <li id="MW_Residue_Log" class=""><a href="#<% = RedirectHelper.DestroyLog %>">废品处理日志</a> </li>
                         </ul>
                     </li>
                     <li id="MW_Report" class=" "><a href="javascript:;"><i class="fa fa-bar-chart-o"></i>
@@ -136,8 +137,8 @@
                           <%--  <li><a href="javascript:void;">厂区产量报告</a> </li>--%>
                         </ul>
                     </li>
-                    <li id="MW_DailyClose" class=" "><a href="javascript:;"><i class="fa fa-pencil-square-o">
-                    </i><span class="title">结算上报</span> <span class="selected"></span></a></li>
+                  <%--  <li id="MW_DailyClose" class=" "><a href="javascript:;"><i class="fa fa-pencil-square-o">
+                    </i><span class="title">结算上报</span> <span class="selected"></span></a></li>--%>
                     <li id="MW_BaseData" class=" "><a href="javascript:;"><i class="fa fa-folder-open-o">
                     </i><span class="title">基础档案管理 </span><span class="arrow "></span><span class="selected">
                     </span></a>

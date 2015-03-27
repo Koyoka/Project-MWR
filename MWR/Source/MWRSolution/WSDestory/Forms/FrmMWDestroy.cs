@@ -335,7 +335,7 @@ namespace YRKJ.MWR.WSDestory.Forms
                 item.TotalCrateQty = data.TotalCrateQty;
                 item.TotalSubWeight = data.TotalSubWeight;
                 item.TotalTxnWeight = data.TotalTxnWeight;
-                item.Status = BizHelper.GetTxnDetroyHeaderStatus(data.Status);
+                item.Status = BizHelper.GetTxnDestroyHeaderStatus(data.Status);
 
             }
         }

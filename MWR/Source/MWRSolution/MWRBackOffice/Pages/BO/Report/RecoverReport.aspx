@@ -145,7 +145,7 @@
                     %>
                 <tr>
                     <td>
-                        <% = item.TxnNum %>
+                        <a href="#<% = RedirectHelper.TxnDetail%>?txnNum=<% = item.TxnNum %>"><% = item.TxnNum %></a>
                         <input type="hidden" name="txnNum" value="<% = item.TxnNum %>" />
                     </td>
                     <td>

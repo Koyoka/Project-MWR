@@ -296,6 +296,8 @@
     <Content Include="Pages\BO\Inventory\InvAuthorize.aspx" />
     <Content Include="Pages\BO\Inventory\InvAuthorizeDetail.aspx" />
     <Content Include="Pages\BO\Inventory\InventoryLog.aspx" />
+    <Content Include="Pages\BO\Inventory\PostLog.aspx" />
+    <Content Include="Pages\BO\Inventory\RecoverLog.aspx" />
     <Content Include="Pages\BO\Report\DestroyReport.aspx" />
     <Content Include="Pages\BO\Report\IntegratedReport.aspx" />
     <Content Include="Pages\BO\Report\PostReport.aspx" />
@@ -474,6 +476,20 @@
     </Compile>
     <Compile Include="Pages\BO\Inventory\InventoryLog.aspx.designer.cs">
       <DependentUpon>InventoryLog.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\BO\Inventory\PostLog.aspx.cs">
+      <DependentUpon>PostLog.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\BO\Inventory\PostLog.aspx.designer.cs">
+      <DependentUpon>PostLog.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\BO\Inventory\RecoverLog.aspx.cs">
+      <DependentUpon>RecoverLog.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\BO\Inventory\RecoverLog.aspx.designer.cs">
+      <DependentUpon>RecoverLog.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\BO\Report\DestroyReport.aspx.cs">
       <DependentUpon>DestroyReport.aspx</DependentUpon>

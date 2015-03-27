@@ -366,7 +366,7 @@ namespace YRKJ.MWR.Business.WS
             #endregion
 
             #region valid Biz
-            if (!ValidCrateWeight(detail.SubWeight,txnWeight, ValidWeightType.Recover,ref errMsg))
+            if (!ValidCrateWeight(detail.SubWeight, txnWeight, ValidWeightType.Recover, ref errMsg))
             {
                 return false;
             }
@@ -396,6 +396,22 @@ namespace YRKJ.MWR.Business.WS
             {
                 errMsg = MWNextIdMng.NextIdErrMsg;
                 return false;
+            }
+            #endregion
+
+            #region update txn header
+            {
+                string txnNum = detail.TxnNum;
+                SqlUpdateColumn suc = new SqlUpdateColumn();
+                suc.AddJoinSelf(TblMWTxnRecoverHeader.getTotalTxnWeightColumn(), txnWeight);
+
+                SqlWhere sw = new SqlWhere();
+                sw.AddCompareValue(TblMWTxnRecoverHeader.getTxnNumColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, txnNum);
+
+                if (!TblMWTxnRecoverHeaderCtrl.Update(dcf, suc, sw, ref updCount, ref errMsg))
+                {
+                    return false;
+                }
             }
             #endregion
 
@@ -803,6 +819,22 @@ namespace YRKJ.MWR.Business.WS
                 suc.Add(TblMWTxnRecoverHeader.getStatusColumn(), TblMWTxnRecoverHeader.STATUS_ENUM_Process);
                 SqlWhere sw = new SqlWhere();
                 sw.AddCompareValue(TblMWTxnRecoverHeader.getTxnNumColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, detail.TxnNum);
+
+                if (!TblMWTxnRecoverHeaderCtrl.Update(dcf, suc, sw, ref updCount, ref errMsg))
+                {
+                    return false;
+                }
+            }
+            #endregion
+
+            #region update txn header
+            {
+                string txnNum = detail.TxnNum;
+                SqlUpdateColumn suc = new SqlUpdateColumn();
+                suc.AddJoinSelf(TblMWTxnRecoverHeader.getTotalTxnWeightColumn(), detail.TxnWeight);
+
+                SqlWhere sw = new SqlWhere();
+                sw.AddCompareValue(TblMWTxnRecoverHeader.getTxnNumColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, txnNum);
 
                 if (!TblMWTxnRecoverHeaderCtrl.Update(dcf, suc, sw, ref updCount, ref errMsg))
                 {

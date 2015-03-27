@@ -32,6 +32,8 @@ namespace YRKJ.MWR.BackOffice.Business.Sys
         public const string InvAuthorizeDetail = "Inventory/InvAuthorizeDetail.aspx";
         public const string InventoryLog = "Inventory/InventoryLog.aspx";
         public const string DestroyLog = "Inventory/DestroyLog.aspx";
+        public const string PostLog = "Inventory/PostLog.aspx";
+        public const string RecoverLog = "Inventory/RecoverLog.aspx";
         #endregion
 
         #region Report
@@ -42,6 +44,11 @@ namespace YRKJ.MWR.BackOffice.Business.Sys
         public const string RecoverReport = "Report/RecoverReport.aspx";
         public const string DestroyReport = "Report/DestroyReport.aspx";
         public const string PostReport = "Report/PostReport.aspx";
+        #endregion
+
+        #region Txn
+        public const string TxnDetail = "Txn/TxnDetail.aspx";
+
         #endregion
 
         #region BaseData

@@ -145,7 +145,7 @@
                     %>
                 <tr>
                     <td>
-                        <% = item.TxnNum %>
+                        <a href="#<% = RedirectHelper.TxnDetail%>?txnNum=<% = item.TxnNum %>"><% = item.TxnNum %></a>
                         <input type="hidden" name="txnNum" value="<% = item.TxnNum %>" />
                     </td>
 				    <td>
@@ -173,7 +173,7 @@
                         <% =  ComLib.ComFn.DateTimeToString(item.EndDate, YRKJ.MWR.Business.BizBase.GetInstance().DateTimeFormatString)%>
                     </td>
                     <td>
-                        <% = YRKJ.MWR.Business.BizHelper.GetTxnDetroyHeaderStatus(item.Status)%>
+                        <% = YRKJ.MWR.Business.BizHelper.GetTxnDestroyHeaderStatus(item.Status)%>
                     </td>
                 </tr>
                 <%

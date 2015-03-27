@@ -12,9 +12,9 @@
 <div class="row">
 	<div class="col-md-12">
 		<h3 class="page-title">
-		出库报告 <small>查看所有废品出库交易详情</small>
+		交易详情 <%--<small>查看所有废品出库交易详情</small>--%>
 		</h3>
-		<ul class="page-breadcrumb breadcrumb">
+		<%--<ul class="page-breadcrumb breadcrumb">
 			<li class="btn-group">
 				
 			</li>
@@ -24,9 +24,9 @@
 				<i class="fa fa-angle-right"></i>
 			</li>
             <li>
-				出库报告
+				交易详情
 			</li>
-		</ul>
+		</ul>--%>
 	</div>
 </div>
 
@@ -37,14 +37,14 @@
 					</div>
 					<div class="col-xs-6">
 						<p>
-							#<% = PageTxnNumData%> / <% = PageTxnDateData%>
+							#<% = PageTxnNumData%> / <% =  PageTxnStartDateData %>
 							<span class="muted">
-								Consectetuer adipiscing elit
+                                 操作状态：<% = PageTxnStatusData%> 
 							</span>
 						</p>
 					</div>
 				</div>
-				<hr/>
+				<hr/><%--
 				<div class="row">
 					<div class="col-xs-4">
 						<h4>Client:</h4>
@@ -115,7 +115,7 @@
 							</li>
 						</ul>
 					</div>
-				</div>
+				</div>--%>
 				<div class="row">
 					<div class="col-xs-12">
 						<table class="table table-striped table-hover">
@@ -125,103 +125,53 @@
 								#
 							</th>
 							<th>
-								Item
+								货箱编号
 							</th>
 							<th class="hidden-480">
-								Description
+								来源医院
 							</th>
 							<th class="hidden-480">
-								Quantity
+								废品类型
 							</th>
 							<th class="hidden-480">
-								Unit Cost
+								提交重量
 							</th>
 							<th>
-								Total
+								实际重量
 							</th>
 						</tr>
 						</thead>
 						<tbody>
+                            <%
+                                int index = 0;
+                                foreach (var item in PageDetailDataList)
+	{
+        index++;
+                            %>
 						<tr>
 							<td>
-								1
+								<% = index %>
 							</td>
 							<td>
-								Hardware
+								<% = item.CrateCode %>
 							</td>
 							<td class="hidden-480">
-								Server hardware purchase
+								<% = item.Vendor %>
 							</td>
 							<td class="hidden-480">
-								32
+								<% = item.Waste %>
 							</td>
 							<td class="hidden-480">
-								$75
+								<% = item.SubWeight %>
 							</td>
 							<td>
-								$2152
+								<% = item.TxnWeight %>
 							</td>
 						</tr>
-						<tr>
-							<td>
-								2
-							</td>
-							<td>
-								Furniture
-							</td>
-							<td class="hidden-480">
-								Office furniture purchase
-							</td>
-							<td class="hidden-480">
-								15
-							</td>
-							<td class="hidden-480">
-								$169
-							</td>
-							<td>
-								$4169
-							</td>
-						</tr>
-						<tr>
-							<td>
-								3
-							</td>
-							<td>
-								Foods
-							</td>
-							<td class="hidden-480">
-								Company Anual Dinner Catering
-							</td>
-							<td class="hidden-480">
-								69
-							</td>
-							<td class="hidden-480">
-								$49
-							</td>
-							<td>
-								$1260
-							</td>
-						</tr>
-						<tr>
-							<td>
-								3
-							</td>
-							<td>
-								Software
-							</td>
-							<td class="hidden-480">
-								Payment for Jan 2013
-							</td>
-							<td class="hidden-480">
-								149
-							</td>
-							<td class="hidden-480">
-								$12
-							</td>
-							<td>
-								$866
-							</td>
-						</tr>
+                            <%
+	}
+                            %>
+					
 						</tbody>
 						</table>
 					</div>
@@ -230,34 +180,37 @@
 					<div class="col-xs-4">
 						<div class="well">
 							<address>
-							<strong>Loop, Inc.</strong><br/>
-							795 Park Ave, Suite 120<br/>
+							<strong>操作信息.</strong><br/>
+                            <% = PageTxnInfoData%>
+							<%--795 Park Ave, Suite 120<br/>
 							San Francisco, CA 94107<br/>
 							<abbr title="Phone">P:</abbr> (234) 145-1810 </address>
 							<address>
 							<strong>Full Name</strong><br/>
 							<a href="mailto:#">first.last@email.com</a>
-							</address>
+							</address>--%>
 						</div>
 					</div>
 					<div class="col-xs-8 invoice-block">
-						<ul class="list-unstyled amounts">
-							<li>
-								<strong>Sub - Total amount:</strong> $9265
+						<ul class="list-unstyled amounts" >
+                            <li>
+								<strong>操作总箱数:</strong> <span style="display:inline-block; width:60px;"><% = PageTotalQtyData %> 箱</span>
 							</li>
 							<li>
-								<strong>Discount:</strong> 12.9%
+								<strong>提交总重量:</strong> <span style="display:inline-block; width:60px;"><% = PageTotalSubWeightData%> KG</span>
 							</li>
 							<li>
-								<strong>VAT:</strong> -----
+								<strong>实际总总量:</strong> <span style="display:inline-block; width:60px;"><% = PageTotalTxnWeightData%> KG</span>
 							</li>
 							<li>
-								<strong>Grand Total:</strong> $12489
+								<strong>总重量差值:</strong> <span style="display:inline-block; width:60px;"><% = PageTotalDiffWeightData%> KG</span>
 							</li>
+							
 						</ul>
 						<br/>
-						<a class="btn btn-lg blue hidden-print" onclick="javascript:window.print();">Print <i class="fa fa-print"></i></a>
-						<a class="btn btn-lg green hidden-print">Submit Your Invoice <i class="fa fa-check"></i></a>
+						<a class="btn btn-lg blue hidden-print" onclick="javascript:window.print();">打印 <i class="fa fa-print"></i></a>
+                        <a class="btn btn-lg green hidden-print" onclick="history.back();">返回 <i class="fa fa-check"></i></a>
+						<%--<a class="btn btn-lg green hidden-print">Submit Your Invoice <i class="fa fa-check"></i></a>--%>
 					</div>
 				</div>
 			</div>

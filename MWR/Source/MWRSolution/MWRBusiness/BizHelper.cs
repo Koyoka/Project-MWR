@@ -84,7 +84,7 @@ namespace YRKJ.MWR.Business
 
             return defineStr;
         }
-        public static string GetTxnDetroyHeaderStatus(string s)
+        public static string GetTxnDestroyHeaderStatus(string s)
         {
             string defineStr = "";
             switch (s)

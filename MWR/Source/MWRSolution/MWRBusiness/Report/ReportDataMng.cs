@@ -134,6 +134,7 @@ namespace YRKJ.MWR.Business.Report
             DataCtrlInfo dcf = new DataCtrlInfo();
             SqlQueryMng sqm = new SqlQueryMng();
             sqm.Condition.Where.AddCompareValue(TblMWInventoryTrack.getTxnTypeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, TblMWInventoryTrack.TXNTYPE_ENUM_Destroy);
+            #region filter
             if (!string.IsNullOrEmpty(filter.Trim()))
             {
                 SqlWhere sw = new SqlWhere(SqlCommonFn.SqlWhereLinkType.OR);
@@ -185,7 +186,7 @@ namespace YRKJ.MWR.Business.Report
                 }
                 sqm.Condition.Where.AddWhere(sw);
             }
-
+            #endregion
             if (!TblMWInventoryTrackCtrl.QueryPage(dcf, sqm,page,pageSize, ref dataList, ref errMsg))
             {
                 return false;
@@ -195,12 +196,64 @@ namespace YRKJ.MWR.Business.Report
             rowCount = dcf.RowCount;
             return true;
         }
-        public static bool GetRecoverInventoryTrack(int page, int pageSize, ref long pageCount, ref long rowCount, ref List<TblMWInventoryTrack> dataList, ref string errMsg)
+        public static bool GetRecoverInventoryTrack(string filter,int page, int pageSize, ref long pageCount, ref long rowCount, ref List<TblMWInventoryTrack> dataList, ref string errMsg)
         {
             DataCtrlInfo dcf = new DataCtrlInfo();
             SqlQueryMng sqm = new SqlQueryMng();
             sqm.Condition.Where.AddCompareValue(TblMWInventoryTrack.getTxnTypeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, TblMWInventoryTrack.TXNTYPE_ENUM_Recover);
+            #region filter
+            if (!string.IsNullOrEmpty(filter.Trim()))
+            {
+                SqlWhere sw = new SqlWhere(SqlCommonFn.SqlWhereLinkType.OR);
+                string[] filterGroup = filter.Trim().Split(' ');
+                foreach (var f in filterGroup)
+                {
+                    string defineF = f.Trim();
+                    if (defineF == "")
+                    {
+                        continue;
+                    }
 
+                    if (defineF.Length >= 2)
+                    {
+                        System.Text.RegularExpressions.Regex reg = new System.Text.RegularExpressions.Regex(@"^(>|=|<)\d+(\.\d+)?$");
+                        if (reg.IsMatch(defineF))
+                        {
+                            SqlWhere subSw = new SqlWhere(SqlCommonFn.SqlWhereLinkType.OR);
+                            string preFix = defineF.Substring(0, 1);
+                            decimal value = ComLib.ComFn.StringToDecimal(defineF.Substring(1, defineF.Length - 1));
+                            if (preFix.Equals("="))
+                            {
+                                subSw.AddCompareValue(TblMWInventoryTrack.getSubWeightColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, value);
+                                subSw.AddCompareValue(TblMWInventoryTrack.getTxnWeightColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, value);
+                            }
+                            else if (preFix.Equals(">"))
+                            {
+                                subSw.AddCompareValue(TblMWInventoryTrack.getSubWeightColumn(), SqlCommonFn.SqlWhereCompareEnum.MoreEquals, value);
+                                subSw.AddCompareValue(TblMWInventoryTrack.getTxnWeightColumn(), SqlCommonFn.SqlWhereCompareEnum.MoreEquals, value);
+                            }
+                            else if (preFix.Equals("<"))
+                            {
+                                subSw.AddCompareValue(TblMWInventoryTrack.getSubWeightColumn(), SqlCommonFn.SqlWhereCompareEnum.LessEquals, value);
+                                subSw.AddCompareValue(TblMWInventoryTrack.getTxnWeightColumn(), SqlCommonFn.SqlWhereCompareEnum.LessEquals, value);
+                            }
+                            sqm.Condition.Where.AddWhere(subSw);
+
+                            continue;
+                        }
+                    }
+                    sw.AddLikeValue(TblMWInventoryTrack.getTxnNumColumn(), SqlCommonFn.SqlWhereLikeEnum.MidLike, f.Trim());
+                    sw.AddLikeValue(TblMWInventoryTrack.getCrateCodeColumn(), SqlCommonFn.SqlWhereLikeEnum.MidLike, f.Trim());
+                    sw.AddLikeValue(TblMWInventoryTrack.getDepotCodeColumn(), SqlCommonFn.SqlWhereLikeEnum.MidLike, f.Trim());
+                    sw.AddLikeValue(TblMWInventoryTrack.getVendorColumn(), SqlCommonFn.SqlWhereLikeEnum.MidLike, f.Trim());
+                    sw.AddLikeValue(TblMWInventoryTrack.getWasteColumn(), SqlCommonFn.SqlWhereLikeEnum.MidLike, f.Trim());
+                    sw.AddLikeValue(TblMWInventoryTrack.getEmpyNameColumn(), SqlCommonFn.SqlWhereLikeEnum.MidLike, f.Trim());
+                    sw.AddLikeValue(TblMWInventoryTrack.getWSCodeColumn(), SqlCommonFn.SqlWhereLikeEnum.MidLike, f.Trim());
+
+                }
+                sqm.Condition.Where.AddWhere(sw);
+            }
+            #endregion
             if (!TblMWInventoryTrackCtrl.QueryPage(dcf, sqm, page, pageSize, ref dataList, ref errMsg))
             {
                 return false;
@@ -210,12 +263,64 @@ namespace YRKJ.MWR.Business.Report
             rowCount = dcf.RowCount;
             return true;
         }
-        public static bool GetPostInventoryTrack(int page, int pageSize, ref long pageCount, ref long rowCount, ref List<TblMWInventoryTrack> dataList, ref string errMsg)
+        public static bool GetPostInventoryTrack(string filter,int page, int pageSize, ref long pageCount, ref long rowCount, ref List<TblMWInventoryTrack> dataList, ref string errMsg)
         {
             DataCtrlInfo dcf = new DataCtrlInfo();
             SqlQueryMng sqm = new SqlQueryMng();
             sqm.Condition.Where.AddCompareValue(TblMWInventoryTrack.getTxnTypeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, TblMWInventoryTrack.TXNTYPE_ENUM_Post);
+            #region filter
+            if (!string.IsNullOrEmpty(filter.Trim()))
+            {
+                SqlWhere sw = new SqlWhere(SqlCommonFn.SqlWhereLinkType.OR);
+                string[] filterGroup = filter.Trim().Split(' ');
+                foreach (var f in filterGroup)
+                {
+                    string defineF = f.Trim();
+                    if (defineF == "")
+                    {
+                        continue;
+                    }
 
+                    if (defineF.Length >= 2)
+                    {
+                        System.Text.RegularExpressions.Regex reg = new System.Text.RegularExpressions.Regex(@"^(>|=|<)\d+(\.\d+)?$");
+                        if (reg.IsMatch(defineF))
+                        {
+                            SqlWhere subSw = new SqlWhere(SqlCommonFn.SqlWhereLinkType.OR);
+                            string preFix = defineF.Substring(0, 1);
+                            decimal value = ComLib.ComFn.StringToDecimal(defineF.Substring(1, defineF.Length - 1));
+                            if (preFix.Equals("="))
+                            {
+                                subSw.AddCompareValue(TblMWInventoryTrack.getSubWeightColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, value);
+                                subSw.AddCompareValue(TblMWInventoryTrack.getTxnWeightColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, value);
+                            }
+                            else if (preFix.Equals(">"))
+                            {
+                                subSw.AddCompareValue(TblMWInventoryTrack.getSubWeightColumn(), SqlCommonFn.SqlWhereCompareEnum.MoreEquals, value);
+                                subSw.AddCompareValue(TblMWInventoryTrack.getTxnWeightColumn(), SqlCommonFn.SqlWhereCompareEnum.MoreEquals, value);
+                            }
+                            else if (preFix.Equals("<"))
+                            {
+                                subSw.AddCompareValue(TblMWInventoryTrack.getSubWeightColumn(), SqlCommonFn.SqlWhereCompareEnum.LessEquals, value);
+                                subSw.AddCompareValue(TblMWInventoryTrack.getTxnWeightColumn(), SqlCommonFn.SqlWhereCompareEnum.LessEquals, value);
+                            }
+                            sqm.Condition.Where.AddWhere(subSw);
+
+                            continue;
+                        }
+                    }
+                    sw.AddLikeValue(TblMWInventoryTrack.getTxnNumColumn(), SqlCommonFn.SqlWhereLikeEnum.MidLike, f.Trim());
+                    sw.AddLikeValue(TblMWInventoryTrack.getCrateCodeColumn(), SqlCommonFn.SqlWhereLikeEnum.MidLike, f.Trim());
+                    sw.AddLikeValue(TblMWInventoryTrack.getDepotCodeColumn(), SqlCommonFn.SqlWhereLikeEnum.MidLike, f.Trim());
+                    sw.AddLikeValue(TblMWInventoryTrack.getVendorColumn(), SqlCommonFn.SqlWhereLikeEnum.MidLike, f.Trim());
+                    sw.AddLikeValue(TblMWInventoryTrack.getWasteColumn(), SqlCommonFn.SqlWhereLikeEnum.MidLike, f.Trim());
+                    sw.AddLikeValue(TblMWInventoryTrack.getEmpyNameColumn(), SqlCommonFn.SqlWhereLikeEnum.MidLike, f.Trim());
+                    sw.AddLikeValue(TblMWInventoryTrack.getWSCodeColumn(), SqlCommonFn.SqlWhereLikeEnum.MidLike, f.Trim());
+
+                }
+                sqm.Condition.Where.AddWhere(sw);
+            }
+            #endregion
             if (!TblMWInventoryTrackCtrl.QueryPage(dcf, sqm, page, pageSize, ref dataList, ref errMsg))
             {
                 return false;
@@ -240,6 +345,10 @@ namespace YRKJ.MWR.Business.Report
             }
             return true;
         }
+        
+        #endregion
+
+        #region Txn
         public static bool GetTxnType(string txnNum, ref string txnType, ref string errMsg)
         {
             StringBuilder sb = new StringBuilder();
@@ -249,9 +358,9 @@ namespace YRKJ.MWR.Business.Report
             sb.AppendLine(string.Format("(SELECT COUNT(*) FROM {0} WHERE TxnNum = '{1}'), ", TblMWTxnPostHeader.getFormatTableName(), txnNum));
             sb.AppendLine(string.Format("(SELECT COUNT(*) FROM {0} WHERE TxnNum = '{1}') ", TblMWTxnDestroyHeader.getFormatTableName(), txnNum));
             System.Data.DataSet ds = SqlDBMng.getInstance().query(sb.ToString(), null);
-            int trCount = (int)ds.Tables[0].Rows[0][0];
-            int tpCount = (int)ds.Tables[0].Rows[0][0];
-            int tdCount = (int)ds.Tables[0].Rows[0][0];
+            int trCount = ComLib.ComFn.ObjectToInt(ds.Tables[0].Rows[0][0]);
+            int tpCount = ComLib.ComFn.ObjectToInt(ds.Tables[0].Rows[0][1]);
+            int tdCount = ComLib.ComFn.ObjectToInt(ds.Tables[0].Rows[0][2]);
 
 
             if (trCount != 0)
@@ -275,9 +384,7 @@ namespace YRKJ.MWR.Business.Report
 
             return true;
         }
-        #endregion
 
-        #region Txn
         public static bool GetTxnRecoverReportData(ref TblMWTxnRecoverHeader recHeader, ref string errMsg)
         {
             DataCtrlInfo dcf = new DataCtrlInfo();
