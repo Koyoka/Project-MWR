@@ -733,27 +733,45 @@ namespace YRKJ.MWR.Business.BO
         {
             DataCtrlInfo dcf = new DataCtrlInfo();
 
-            SqlQueryMng sqm = new SqlQueryMng();
-            sqm.Condition.Where.AddCompareValue(TblMWEmploy.getEmpyCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, authEmpyCode);
-
             TblMWEmploy empy = null;
-            if (!TblMWEmployCtrl.QueryOne(dcf, sqm, ref empy, ref errMsg))
             {
-                return false;
+                SqlQueryMng sqm = new SqlQueryMng();
+                sqm.Condition.Where.AddCompareValue(TblMWEmploy.getEmpyCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, authEmpyCode);
+
+
+                if (!TblMWEmployCtrl.QueryOne(dcf, sqm, ref empy, ref errMsg))
+                {
+                    return false;
+                }
+                if (empy == null)
+                {
+                    errMsg = "没有找到当前编号的员工";
+                    return false;
+                }
             }
-            if (empy == null)
+            TblMWTxnDetail detail = null;
             {
-                errMsg = "没有找到当前编号的员工";
-                return false;
+                SqlQueryMng sqm = new SqlQueryMng();
+                sqm.Condition.Where.AddCompareValue(TblMWTxnDetail.getInvAuthIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, invAuthId);
+                if (!TblMWTxnDetailCtrl.QueryOne(dcf, sqm, ref detail, ref errMsg))
+                {
+                    return false;
+                }
+                if (detail == null)
+                {
+                    errMsg = "没有审核的交易详情";
+                    return false;
+                }
             }
 
             dcf.BeginTrans();
+            DateTime now = SqlDBMng.GetDBNow();
             #region update current authorize
             {
                 SqlUpdateColumn suc = new SqlUpdateColumn();
                 suc.Add(TblMWInvAuthorize.getRemarkColumn(), remark);
                 suc.Add(TblMWInvAuthorize.getStatusColumn(), TblMWInvAuthorize.STATUS_ENUM_Complete);
-                suc.Add(TblMWInvAuthorize.getCompDateColumn(), SqlDBMng.GetDBNow());
+                suc.Add(TblMWInvAuthorize.getCompDateColumn(), now);
                 suc.Add(TblMWInvAuthorize.getAuthEmpyCodeColumn(), empy.EmpyCode);
                 suc.Add(TblMWInvAuthorize.getAuthEmpyNameColumn(), empy.EmpyName);
                 SqlWhere sw = new SqlWhere();
@@ -777,6 +795,30 @@ namespace YRKJ.MWR.Business.BO
 
                 int updCount = 0;
                 if (!TblMWTxnDetailCtrl.Update(dcf, suc, sw, ref updCount, ref errMsg))
+                {
+                    return false;
+                }
+            }
+            #endregion
+
+            #region add txn log
+            {
+                int txnLogNextId = MWNextIdMng.GetTxnLogNextId();
+                
+                TblMWTxnLog item = new TblMWTxnLog();
+                item.TxnLogId = txnLogNextId;
+                item.TxnNum = detail.TxnNum;
+                item.TxnDetailId = detail.TxnDetailId;
+                item.WSCode = "BO";
+                item.EmpyName = empy.EmpyName;
+                item.EmpyCode = empy.EmpyCode;
+                item.OptType = TblMWTxnLog.OPTTYPE_ENUM_AuthorizeDone;
+                item.OptDate = now;
+                item.TxnLogType = TblMWTxnLog.TXNLOGTYPE_ENUM_Post;
+                item.InvRecordId = detail.InvRecordId;
+
+                int updCount = 0;
+                if (!TblMWTxnLogCtrl.Insert(dcf, item, ref updCount, ref errMsg))
                 {
                     return false;
                 }

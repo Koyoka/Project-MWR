@@ -264,6 +264,9 @@ namespace YRKJ.MWR.Business
                 case TblMWTxnLog.OPTTYPE_ENUM_SubAuthorize:
                     defineStr = LngRes.OPTTYPE_SubAuthorize;
                     break;
+                case TblMWTxnLog.OPTTYPE_ENUM_AuthorizeDone:
+                    defineStr = LngRes.OPTTYPE_AuthorizeDone;
+                    break;
                 case TblMWTxnLog.OPTTYPE_ENUM_AuthorizeComplete:
                     defineStr = LngRes.OPTTYPE_AuthorizeComplete;
                     break;
@@ -284,6 +287,7 @@ namespace YRKJ.MWR.Business
         {
             public const string OPTTYPE_SubComplete = "提交完成";//1.交易提交完成操作库存 SC  submit inventory;
             public const string OPTTYPE_SubAuthorize = "提交审核";//2.交易提交审核 SA submit authorize;
+            public const string OPTTYPE_AuthorizeDone = "审核通过";//管理中心审核通过;
             public const string OPTTYPE_AuthorizeComplete = "审核完成";//3.确认审核并完成操作库存 AC authorize inventory;
             public const string OPTTYPE_SubRecover = "提交回收";//4.车辆回场提交回收;
             public const string OPTTYPE_NewTxn = "新建交易";//新建交易;

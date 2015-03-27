@@ -224,6 +224,7 @@ namespace YRKJ.MWR
 
         public const string OPTTYPE_ENUM_SubComplete = "SC";//1.交易提交完成操作库存 SC  submit inventory;
         public const string OPTTYPE_ENUM_SubAuthorize = "SA";//2.交易提交审核 SA submit authorize;
+        public const string OPTTYPE_ENUM_AuthorizeDone = "AD";//管理中心审核通过;
         public const string OPTTYPE_ENUM_AuthorizeComplete = "AC";//3.确认审核并完成操作库存 AC authorize inventory;
         public const string OPTTYPE_ENUM_SubRecover = "SR";//4.车辆回场提交回收;
         public const string OPTTYPE_ENUM_NewTxn = "NT";//新建交易;
