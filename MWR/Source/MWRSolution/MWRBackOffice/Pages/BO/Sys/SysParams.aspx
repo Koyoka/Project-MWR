@@ -256,103 +256,18 @@
 </div>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="foot" runat="server">
-
-<script type="text/javascript" src="/assets/plugins/select2/select2.min.js"></script>
-<script src="/assets/plugins/bootstrap-switch/static/js/bootstrap-switch.min.js" type="text/javascript"></script>
-
-<script type="text/javascript" src="/assets/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js"></script>
-<script>
-//    jQuery.fn.extend({
-//        serialize: function () {
-//            return jQuery.param(this.serializeArray());
-//        },
-//        serializeArray: function () {
-//            return this.map(function () {
-//                // Can add propHook for "elements" to filter or add form elements
-//                var elements = jQuery.prop(this, "elements");
-//                return elements ? jQuery.makeArray(elements) : this;
-//            })
-//		.filter(function () {
-//		    var type = this.type;
-//		    // Use .is(":disabled") so that fieldset[disabled] works
-//		    return this.name && !jQuery(this).is(":disabled") &&
-//				rsubmittable.test(this.nodeName) && !rsubmitterTypes.test(type) &&
-//				(this.checked || !rcheckableType.test(type));
-//		})
-//		.map(function (i, elem) {
-//		    var val = jQuery(this).val();
-
-//		    return val == null ?
-//				null :
-//				jQuery.isArray(val) ?
-//					jQuery.map(val, function (val) {
-//					    return { name: elem.name, value: val.replace(rCRLF, "\r\n") };
-//					}) :
-//					{ name: elem.name, value: val.replace(rCRLF, "\r\n") };
-//		}).get();
-//        }
-//    });
-   
-
+<script type="text/javascript" src="/assets/plugins/select2/select2.min.js"></script><script src="/assets/plugins/bootstrap-switch/static/js/bootstrap-switch.min.js" type="text/javascript"></script><script type="text/javascript" src="/assets/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js"></script><script>
     function subRecall(el, d, data) {
         Modal.alert('修改成功,请重启工作站才能应用参数。');
     }
     jQuery(document).ready(function () {
-        //       $("#mask_number").inputmask({
-        //            "mask": "9",
-        //            "repeat": 10,
-        //            "greedy": false
-        //        });]
-        //data-mask="mask_decime"
         $('#btnSub').click(function (e) {
-                        $('#mwFrm').submit();
-            //            window.alert($('input[name]', 'form').length);
-            //            var elements = jQuery.prop($('form'), "elements");
-            //            jQuery.fn.serializeArray.filter(function () {
-            //		        var type = this.type;
-            //		        // Use .is(":disabled") so that fieldset[disabled] works
-            //		        return this.name && !jQuery(this).is(":disabled") &&
-            //				    rsubmittable.test(this.nodeName) && !rsubmitterTypes.test(type) &&
-            //				    (this.checked || !manipulation_rcheckableType.test(type));
-            ////		    })
-           
-//            var json = $('form').cc();
-//            window.alert(JSON.stringify(json));
-//            return;
-            //            var jj = {};
-            //            jj['name'] = "eleven";
-            //            jj['value'] = "ok";
-            //            json.push(jj);
-            //            window.alert(JSON.stringify(json));
-//            var arry = new Array();
-//            for (var i = 0, item; i < $('input[name]', 'form').length; i++) {
-//                item = $('input[name]', 'form').eq(i);
-//                //                window.alert(item.val() + " " + item.attr('name'));
-//                var defineJson = {};
-//                defineJson['name'] = item.attr('name');
-//                defineJson['value'] = item.val();
-//                arry.push(defineJson);
-
-//            }
-//            window.alert(JSON.stringify(arry));
-//            var dj = $.extend(json, arry);
-//            window.alert(JSON.stringify(dj));
-            //            var ops = {
-            //                msg: "提示内容",
-            //                title: "消息",
-            //                btnok: "确定",
-            //                btncl: "取消"
-            //            };
-
-            //            $.extend(ops, options);
+            $('#mwFrm').submit()
         });
 
         $('[data-mask="mask_decime"]').inputmask('decimal', {
             rightAlignNumerics: false
         });
-        //        $("#mask_number").inputmask('decimal', {
-        //            rightAlignNumerics: false
-        //        });
     });
 </script>
 </asp:Content>
