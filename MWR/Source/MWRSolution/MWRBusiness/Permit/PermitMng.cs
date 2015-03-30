@@ -158,6 +158,30 @@ namespace YRKJ.MWR.Business.Permit
             return true;
         }
 
+        public static bool EditSysAdminPremit(string empyCode, string password, ref string errMsg)
+        {
+            string adminAccount = MWParams.GetAdministrator();
+            string adminPassword = MWParams.GetAdministratorPassword();
+            if (empyCode.Equals(adminAccount) && password.Equals(adminPassword))
+            {
+                if (!MWParams.SetAdministrator(empyCode, ref errMsg))
+                {
+                    return false;
+                }
+                if (!MWParams.SetAdministratorPassword(password, ref errMsg))
+                {
+                    return false;
+                }
+            }
+            else 
+            {
+                errMsg = "无效的超级管理员账号或密码";
+                return false;
+            }
+
+
+            return true;    
+        }
         private static bool SysAdminPremit(string empyCode, string password, ref string errMsg)
         {
             string adminAccount = MWParams.GetAdministrator();

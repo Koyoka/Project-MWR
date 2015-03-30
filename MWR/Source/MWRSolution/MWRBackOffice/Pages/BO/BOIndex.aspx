@@ -157,10 +157,10 @@
                         <ul class="sub-menu">
                             <li class=""><a href="#<% = RedirectHelper.WSManage %>">工作站管理</a> </li>
                             <li class=""><a href="#<% = RedirectHelper.UserPermit %>">权限管理</a> </li>
-                            <li class=""><a href="javascript:void;">参数设置</a> </li>
+                            <li class=""><a href="#<% = RedirectHelper.SysParams %>">参数设置</a> </li>
                            
                             <li class=""><a href="#<% = RedirectHelper.SysInit %>">数据初始化</a> </li>
-                            <li class=""><a href="#<% = RedirectHelper.SysInit %>">超级管理员</a> </li>
+                            <li class=""><a href="#<% = RedirectHelper.SysAdmin %>">超级管理员</a> </li>
                         </ul>
                     </li>
                 </ul>

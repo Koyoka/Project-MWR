@@ -67,6 +67,8 @@ namespace YRKJ.MWR.BackOffice.Business.Sys
         public const string UserPermit = "Sys/UserPermit.aspx";
         public const string FuncGroupEdit = "Sys/FuncGroupEdit.aspx";
         public const string SysInit = "Sys/SysInit.aspx";
+        public const string SysAdmin = "Sys/SysAdmin.aspx";
+        public const string SysParams = "Sys/SysParams.aspx";
         #endregion
         public enum BackType { redirect, include };
         public static void GotoLoginErrPage()

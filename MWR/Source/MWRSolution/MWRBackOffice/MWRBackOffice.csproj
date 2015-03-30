@@ -305,7 +305,9 @@
     <Content Include="Pages\BO\Report\VendorReport.aspx" />
     <Content Include="Pages\BO\Report\WasteReport.aspx" />
     <Content Include="Pages\BO\Sys\FuncGroupEdit.aspx" />
+    <Content Include="Pages\BO\Sys\SysAdmin.aspx" />
     <Content Include="Pages\BO\Sys\SysInit.aspx" />
+    <Content Include="Pages\BO\Sys\SysParams.aspx" />
     <Content Include="Pages\BO\Sys\UserPermit.aspx" />
     <Content Include="Pages\BO\Sys\WSManage.aspx" />
     <Content Include="Pages\BO\Txn\TxnDetail.aspx" />
@@ -540,12 +542,26 @@
     <Compile Include="Pages\BO\Sys\FuncGroupEdit.aspx.designer.cs">
       <DependentUpon>FuncGroupEdit.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Pages\BO\Sys\SysAdmin.aspx.cs">
+      <DependentUpon>SysAdmin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\BO\Sys\SysAdmin.aspx.designer.cs">
+      <DependentUpon>SysAdmin.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Pages\BO\Sys\SysInit.aspx.cs">
       <DependentUpon>SysInit.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\BO\Sys\SysInit.aspx.designer.cs">
       <DependentUpon>SysInit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\BO\Sys\SysParams.aspx.cs">
+      <DependentUpon>SysParams.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\BO\Sys\SysParams.aspx.designer.cs">
+      <DependentUpon>SysParams.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\BO\Sys\UserPermit.aspx.cs">
       <DependentUpon>UserPermit.aspx</DependentUpon>

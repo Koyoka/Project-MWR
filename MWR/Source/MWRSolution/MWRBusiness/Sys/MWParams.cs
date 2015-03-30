@@ -40,8 +40,6 @@ namespace YRKJ.MWR.Business.Sys
 
         #region Allow Diff Weight
        
-
-
         #region recover
         private static decimal _allowDiffWeight_recover = -1;
         public static bool SetAllowDiffWeight_Recover(decimal value, ref string errMsg)
@@ -207,6 +205,32 @@ namespace YRKJ.MWR.Business.Sys
         }
         #endregion
 
+        #region Function
+        private static int _isResidueFunction = -1;
+        public static bool SetIsResidueFunction(bool value,ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            int defineSaveValue = value ? 1 : 0;
+            if (!SysParams.GetInstance().SetValue(dcf, "IsResidueFunction", defineSaveValue + "", ref errMsg))
+            {
+                return false;
+            }
+            _isResidueFunction = defineSaveValue;
+            return true;
+        }
+        public static bool GetIsResidueFunction()
+        {
+            string defineVal = "";
+            if (_isResidueFunction == -1)
+            {
+                DataCtrlInfo dcf = new DataCtrlInfo();
+                defineVal = SysParams.GetInstance().GetValue(dcf, "IsResidueFunction");
+                _isResidueFunction = ComLib.ComFn.StringToInt(defineVal);
+            }
+            return _isResidueFunction == 0 ? false : true;
+        }
+        #endregion
+
         #region permit
         private const string _defaultAdministrator = "administrator";
         private static string _administrator = null;
@@ -217,6 +241,7 @@ namespace YRKJ.MWR.Business.Sys
             {
                 return false;
             }
+            _administrator = value;
             return true;
         }
         public static string GetAdministrator()
@@ -244,11 +269,12 @@ namespace YRKJ.MWR.Business.Sys
         public static bool SetAdministratorPassword(string value, ref string errMsg)
         {
             DataCtrlInfo dcf = new DataCtrlInfo();
-            value = ComLib.db.SqlCommonFn.EncryptString(value);
-            if (!SysParams.GetInstance().SetValue(dcf, "AdministratorPassword", value, ref errMsg))
+            //value = ComLib.db.SqlCommonFn.EncryptString(value);
+            if (!SysParams.GetInstance().SetValue(dcf, "AdministratorPassword", ComLib.db.SqlCommonFn.EncryptString(value), ref errMsg))
             {
                 return false;
             }
+            _administratorPassword = value;
             return true;
         }
         public static string GetAdministratorPassword()
@@ -272,6 +298,27 @@ namespace YRKJ.MWR.Business.Sys
             return _administratorPassword;
         }
 
+        //public static bool SetAdministratorAccountAndPassword(string account,string password,ref string errMsg)
+        //{
+        //    DataCtrlInfo dcf = new DataCtrlInfo();
+        //    dcf.BeginTrans();
+        //    if (!SysParams.GetInstance().SetValue(dcf, "Administrator", account, ref errMsg))
+        //    {
+        //        return false;
+        //    }
+        //    password = ComLib.db.SqlCommonFn.EncryptString(password);
+        //    if (!SysParams.GetInstance().SetValue(dcf, "AdministratorPassword", password, ref errMsg))
+        //    {
+        //        return false;
+        //    }
+
+        //    int[] updCounts = null;
+        //    if (dcf.Commit(ref updCounts, ref errMsg))
+        //    {
+        //        return false;
+        //    }
+        //    return false;
+        //}
         #endregion
     }
 }

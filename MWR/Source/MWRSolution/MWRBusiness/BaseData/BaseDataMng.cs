@@ -243,6 +243,8 @@ namespace YRKJ.MWR.Business.BaseData
                 }
                 sqm.Condition.Where.AddWhere(sw);
             }
+            string adminAccount = YRKJ.MWR.Business.Sys.MWParams.GetAdministrator();
+            sqm.Condition.Where.AddCompareValue(TblMWEmploy.getEmpyCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.UnEquals, adminAccount);
             if (!VewEmployWithFunctionGroupCtrl.QueryPage(dcf, sqm, page, pageSize, ref empyList, ref errMsg))
             {
                 return false;

@@ -18,7 +18,7 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Sys
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            string s = SqlCommonFn.EncryptString("1");
+            //string s = SqlCommonFn.EncryptString("1");
             if (!IsPostBack)
             {
                 string errMsg = "";
