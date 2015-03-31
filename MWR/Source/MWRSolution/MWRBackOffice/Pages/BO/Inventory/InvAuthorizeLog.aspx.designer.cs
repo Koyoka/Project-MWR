@@ -7,10 +7,10 @@
 // </自动生成>
 //------------------------------------------------------------------------------
 
-namespace YRKJ.MWR.BackOffice.Pages.BO.Report {
+namespace YRKJ.MWR.BackOffice.Pages.BO.Inventory {
     
     
-    public partial class WasteReport {
+    public partial class InvAuthorizeLog {
         
         /// <summary>
         /// c_UPage 控件。

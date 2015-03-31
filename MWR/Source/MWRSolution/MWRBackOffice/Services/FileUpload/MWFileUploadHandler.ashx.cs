@@ -105,7 +105,8 @@ namespace YRKJ.MWR.BackOffice.Services.FileUpload
             //string invauthid = context.Request.Form["invauthid"];
             
             string errMsg = "";
-            if (!BaseDataMng.DelAuthorizeAttach(fileNames, ref errMsg))
+
+            if (!MWRWorkflowMng.DelAuthorizeAttach(fileNames, ref errMsg))
             { 
                 
             }

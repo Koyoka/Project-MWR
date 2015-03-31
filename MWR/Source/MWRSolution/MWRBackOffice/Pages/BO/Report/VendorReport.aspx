@@ -1,6 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Pages/MasterPages/MWBOEmpty.Master" AutoEventWireup="true" CodeBehind="VendorReport.aspx.cs" Inherits="YRKJ.MWR.BackOffice.Pages.BO.Report.VendorReport" %>
 <%@ Import Namespace="YRKJ.MWR" %>
 <%@ Import Namespace="YRKJ.MWR.BackOffice.Business.Sys" %>
+<%@ Register src="../../UCtrl/UPage.ascx" tagname="UPage" tagprefix="uc1" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 <link rel="stylesheet" type="text/css" href="/assets/plugins/select2/select2_metro.css"/>
 <link rel="stylesheet" href="/assets/plugins/data-tables/DT_bootstrap.css"/>
@@ -78,6 +79,15 @@
 			    </div>--%>
 		    </div>
 		    <div class="portlet-body">
+
+                <form data-wgt="mw-submit-group" 
+                        id="mwFrmList"
+                        data-wgt-submit-method="AjaxSub" 
+                        <%--data-wgt-submit-options-reload="true" 
+                        data-wgt-submit-options-block="true" --%>
+                        data-wgt-submit-options-recall="subrecall"
+                        action="<% = WebAppFn.GetBoFullPageUrl(RedirectHelper.VendorReport) %>">
+                <input type="hidden" submit-group="common"  name="vendorCode" value="<% = PageVendorCodeData %>" />
 			    <table 
                     data-wgt="mw-expandtable-ajaxchild" 
                     data-wgt-submit-url="<% = WebAppFn.GetBoFullPageUrl(RedirectHelper.VendorReport) %>" 
@@ -142,6 +152,8 @@
                     %>
 			    </tbody>
 			    </table>
+                <uc1:UPage ID="c_UPage" runat="server" />
+                </form>
 		    </div>
 	    </div>
 	    <!-- END EXAMPLE TABLE PORTLET-->
@@ -159,6 +171,10 @@
 <script>
     jQuery(document).ready(function () {
         //        VendorReport.init();
+        initOTable();
+        WGTExpandTable.init();
+    });
+    function initOTable(){
         var oTable = $('#sample_1').dataTable( {
             "aoColumnDefs": [
                 {"bSortable": false, "aTargets": [ 0 ] }
@@ -176,8 +192,10 @@
             "iDisplayLength": 10,
         });
         $('#sample_1').data('mw-oTable',oTable);
-        WGTExpandTable.init();
-    });
+    }
+    function subrecall(el,d,data){
+        initOTable();
+    }
 </script>
 
 <script id="mw-table-template" type="text/x-tmpl">

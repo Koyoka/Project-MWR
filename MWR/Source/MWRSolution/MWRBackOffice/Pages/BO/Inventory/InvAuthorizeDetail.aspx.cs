@@ -8,6 +8,7 @@ using ComLib;
 using YRKJ.MWR.BackOffice.Business.Sys;
 using YRKJ.MWR.Business.BaseData;
 using YRKJ.MWR.Business.BO;
+using YRKJ.MWR.Business.Report;
 
 namespace YRKJ.MWR.BackOffice.Pages.BO.Inventory
 {
@@ -86,8 +87,8 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Inventory
                 errMsg = "无效的ID参数";
                 return false;
             }
-           
-            if (!BaseDataMng.GetAuthorize(invAuthId, ref PageAuthData, ref errMsg))
+
+            if (!ReportDataMng.GetAuthorize(invAuthId, ref PageAuthData, ref errMsg))
             {
                 return false;
             }

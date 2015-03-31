@@ -835,8 +835,6 @@ namespace YRKJ.MWR.Business.BO
         }
         public static bool AddAuthorizeAttach(int InvAuthId, List<string> filePaths, ref string errMsg)
         {
-           
-
             int invAttachNextId = 0;
 
             invAttachNextId = MWNextIdMng.GetInvAuthorizeAttachNextId(filePaths.Count);
@@ -863,6 +861,33 @@ namespace YRKJ.MWR.Business.BO
             foreach (TblMWInvAuthorizeAttach item in itemList)
             {
                 if (!TblMWInvAuthorizeAttachCtrl.Insert(dcf, item, ref updCount, ref errMsg))
+                {
+                    return false;
+                }
+            }
+
+            int[] updCounts = null;
+            if (!dcf.Commit(ref updCounts, ref errMsg))
+            {
+                return false;
+            }
+
+            return true;
+        }
+        public static bool DelAuthorizeAttach(List<string> fileNames, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+
+            dcf.BeginTrans();
+
+            foreach (string fileName in fileNames)
+            {
+                SqlWhere sw = new SqlWhere();
+                //sw.AddCompareValue(TblMWInvAuthorizeAttach.getInvAuthIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, invAuthId);
+                sw.AddLikeValue(TblMWInvAuthorizeAttach.getPathColumn(), SqlCommonFn.SqlWhereLikeEnum.AfterLike, fileName);
+
+                int updCount = 0;
+                if (!TblMWInvAuthorizeAttachCtrl.Delete(dcf, sw, ref updCount, ref errMsg))
                 {
                     return false;
                 }

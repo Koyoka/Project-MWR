@@ -29,6 +29,24 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Report
         }
 
         #region Events
+        public bool AjaxSub_common(string vendorCode, string page)
+        {
+            string errMsg = "";
+            int curPage = ComLib.ComFn.StringToInt(page);
+            //ReturnAjaxError(vendorCode + " " + page);
+            //return false;
+            if (!LoadData_Vendor(vendorCode, ref errMsg))
+            {
+                return false;
+            }
+            if (!LoadData_InventoryData(vendorCode, curPage, ref errMsg))
+            {
+                ReturnAjaxError(errMsg);
+                return false;
+            }
+            return true;
+        }
+
         public bool AjaxGetInvTrack(string invRecordId)
         {
             int defineId = ComLib.ComFn.StringToInt(invRecordId);
@@ -91,8 +109,26 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Report
 
             vendorCode = WebAppFn.SafeQueryString("code");
 
+            if (!LoadData_Vendor(vendorCode, ref errMsg))
+            {
+                return false;
+            }
+           
+           
+
+            if (!LoadData_InventoryData(vendorCode, 1, ref errMsg))
+            {
+                return false;
+            }
+          
+            return true;
+        }
+
+        private bool LoadData_Vendor(string vendorCode,ref string errMsg)
+        {
+
             TblMWVendor vendorData = null;
-            if (!BaseDataMng.GetVendorData(vendorCode,ref vendorData, ref errMsg))
+            if (!BaseDataMng.GetVendorData(vendorCode, ref vendorData, ref errMsg))
             {
                 return false;
             }
@@ -102,17 +138,12 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Report
                 return false;
             }
             PageVendorNameData = vendorData.Vendor;
+            PageVendorCodeData = vendorCode;
 
             if (!ReportDataMng.GetInventoryVendorWeightReportData(vendorCode, ref PageInventoryVendorReportData, ref errMsg))
             {
                 return false;
             }
-
-            if (!LoadData_InventoryData(vendorCode, 1, ref errMsg))
-            {
-                return false;
-            }
-          
             return true;
         }
 
@@ -125,6 +156,7 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Report
             {
                 return false;
             }
+            c_UPage.ShowPage(page, (int)pageCount);
             return true;
         }
 
@@ -132,6 +164,7 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Report
 
         #region PageDatas
         protected string PageVendorNameData = "";
+        protected string PageVendorCodeData = "";
         protected TblMWInventory PageInventoryVendorReportData = null;
         protected List<TblMWInventory> PageInventoryDataList = new List<TblMWInventory>();
         #endregion

@@ -281,10 +281,28 @@ namespace YRKJ.MWR.Business
             return defineStr;
 
         }
+
+        public static string GetAuthorizeStatus(string s)
+        {
+            string defineStr = "";
+            switch (s)
+            { 
+                case TblMWInvAuthorize.STATUS_ENUM_Complete:
+                    defineStr = LngRes.Status_Authorize_Complete;
+                    break;
+                case TblMWInvAuthorize.STATUS_ENUM_Precess:
+                    defineStr = LngRes.Statuc_Authorize_Precess;
+                    break;
+            }
+            return defineStr;
+        }
         #endregion
 
         public class LngRes
         {
+            public const string Status_Authorize_Complete = "审核完成";
+            public const string Statuc_Authorize_Precess = "等待审核";
+
             public const string OPTTYPE_SubComplete = "提交完成";//1.交易提交完成操作库存 SC  submit inventory;
             public const string OPTTYPE_SubAuthorize = "提交审核";//2.交易提交审核 SA submit authorize;
             public const string OPTTYPE_AuthorizeDone = "审核通过";//管理中心审核通过;

@@ -121,6 +121,7 @@
                     </span></a>
                         <ul class="sub-menu">
                             <li id="MW_Inventory_Auth" class=""><a href="#<% = RedirectHelper.InvAuthorize %>">货损审核</a> </li>
+                             <li id="MW_Inventory_Auth_Log" class=""><a href="#<% = RedirectHelper.InvAuthorizelog %>">审核日志</a> </li>
                             <li id="MW_Recover_Log" class=""><a href="#<% = RedirectHelper.RecoverLog %>">回收入库日志</a> </li>
                             <li id="MW_Post_Log" class=""><a href="#<% = RedirectHelper.PostLog %>">废品出库日志</a> </li>
                             <li id="MW_Residue_Log" class=""><a href="#<% = RedirectHelper.DestroyLog %>">废品处理日志</a> </li>

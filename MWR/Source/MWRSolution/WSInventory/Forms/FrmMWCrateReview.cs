@@ -12,6 +12,7 @@ using YRKJ.MWR.Business.WS;
 using YRKJ.MWR.WSInventory.Business.Sys;
 using YRKJ.MWR.Business.BaseData;
 using YRKJ.MWR.Business;
+using YRKJ.MWR.Business.Report;
 
 namespace YRKJ.MWR.WSInventory.Forms
 {
@@ -198,8 +199,8 @@ namespace YRKJ.MWR.WSInventory.Forms
         private bool LoadData()
         {
             string errMsg = "";
-            
-            if (!BaseDataMng.GetAuthorize(_txnDetail.InvAuthId, ref _invAuth, ref errMsg))
+
+            if (!ReportDataMng.GetAuthorize(_txnDetail.InvAuthId, ref _invAuth, ref errMsg))
             {
                 MsgBox.Error(errMsg);
                 return false;

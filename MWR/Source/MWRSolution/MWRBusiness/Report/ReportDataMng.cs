@@ -362,7 +362,6 @@ namespace YRKJ.MWR.Business.Report
             int tpCount = ComLib.ComFn.ObjectToInt(ds.Tables[0].Rows[0][1]);
             int tdCount = ComLib.ComFn.ObjectToInt(ds.Tables[0].Rows[0][2]);
 
-
             if (trCount != 0)
             {
                 txnType = TblMWTxnDetail.TXNTYPE_ENUM_Recover;
@@ -380,7 +379,6 @@ namespace YRKJ.MWR.Business.Report
                 errMsg = "无效的交易编号";
                 return false;
             }
-
 
             return true;
         }
@@ -565,6 +563,124 @@ namespace YRKJ.MWR.Business.Report
             }
             return true;
         }
+        #endregion
+
+        #region Authorize
+
+        public static bool GetProcessAuthorizeList(int page, int pageSize, ref long pageCount, ref long rowCount, ref List<VewIvnAuthorizeWithTxnDetail> dataList, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+
+            SqlQueryMng sqm = new SqlQueryMng();
+            sqm.Condition.Where.AddCompareValue(VewIvnAuthorizeWithTxnDetail.getStatusColumn(),
+                 SqlCommonFn.SqlWhereCompareEnum.Equals, VewIvnAuthorizeWithTxnDetail.STATUS_ENUM_Precess);
+            sqm.Condition.OrderBy.Add(VewIvnAuthorizeWithTxnDetail.getEntryDateColumn(), SqlCommonFn.SqlOrderByType.ASC);
+
+            if (!VewIvnAuthorizeWithTxnDetailCtrl.QueryPage(dcf, sqm, page, pageSize, ref dataList, ref errMsg))
+            {
+                return false;
+            }
+            pageCount = dcf.PageCount;
+            rowCount = dcf.RowCount;
+
+            return true;
+        }
+
+        public static bool GetAuthorize(int invAuthId, ref VewIvnAuthorizeWithTxnDetail item, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+
+            SqlQueryMng sqm = new SqlQueryMng();
+            sqm.Condition.Where.AddCompareValue(VewIvnAuthorizeWithTxnDetail.getInvAuthIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, invAuthId);
+
+            if (!VewIvnAuthorizeWithTxnDetailCtrl.QueryOne(dcf, sqm, ref item, ref errMsg))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public static bool GetAuthorizeDataList(string filter,int invAuthoId, int page, int pageSize, ref long pageCount, ref long rowCount, ref List<VewIvnAuthorizeWithTxnDetail> dataList, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            SqlQueryMng sqm = new SqlQueryMng();
+            if (invAuthoId != 0) 
+            {
+                sqm.Condition.Where.AddCompareValue(VewIvnAuthorizeWithTxnDetail.getInvAuthIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, invAuthoId);
+            }
+            #region filter
+            if (!string.IsNullOrEmpty(filter.Trim()))
+            {
+                SqlWhere sw = new SqlWhere(SqlCommonFn.SqlWhereLinkType.OR);
+                string[] filterGroup = filter.Trim().Split(' ');
+                foreach (var f in filterGroup)
+                {
+                    string defineF = f.Trim();
+                    if (defineF == "")
+                    {
+                        continue;
+                    }
+                    if (defineF.Length >= 2)
+                    {
+                        System.Text.RegularExpressions.Regex reg = new System.Text.RegularExpressions.Regex(@"^(>|=|<)\d+(\.\d+)?$");
+                        if (reg.IsMatch(defineF))
+                        {
+                            SqlWhere subSw = new SqlWhere(SqlCommonFn.SqlWhereLinkType.OR);
+                            string preFix = defineF.Substring(0, 1);
+                            decimal value = ComLib.ComFn.StringToDecimal(defineF.Substring(1, defineF.Length - 1));
+                            if (preFix.Equals("="))
+                            {
+                                subSw.AddCompareValue(VewIvnAuthorizeWithTxnDetail.getSubWeightColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, value);
+                                subSw.AddCompareValue(VewIvnAuthorizeWithTxnDetail.getTxnWeightColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, value);
+                            }
+                            else if (preFix.Equals(">"))
+                            {
+                                subSw.AddCompareValue(VewIvnAuthorizeWithTxnDetail.getSubWeightColumn(), SqlCommonFn.SqlWhereCompareEnum.MoreEquals, value);
+                                subSw.AddCompareValue(VewIvnAuthorizeWithTxnDetail.getTxnWeightColumn(), SqlCommonFn.SqlWhereCompareEnum.MoreEquals, value);
+                            }
+                            else if (preFix.Equals("<"))
+                            {
+                                subSw.AddCompareValue(VewIvnAuthorizeWithTxnDetail.getSubWeightColumn(), SqlCommonFn.SqlWhereCompareEnum.LessEquals, value);
+                                subSw.AddCompareValue(VewIvnAuthorizeWithTxnDetail.getTxnWeightColumn(), SqlCommonFn.SqlWhereCompareEnum.LessEquals, value);
+                            }
+                            sqm.Condition.Where.AddWhere(subSw);
+
+                            continue;
+                        }
+                    }
+                    sw.AddLikeValue(VewIvnAuthorizeWithTxnDetail.getTxnNumColumn(), SqlCommonFn.SqlWhereLikeEnum.MidLike, f.Trim());
+                    sw.AddLikeValue(VewIvnAuthorizeWithTxnDetail.getCrateCodeColumn(), SqlCommonFn.SqlWhereLikeEnum.MidLike, f.Trim());
+                    sw.AddLikeValue(VewIvnAuthorizeWithTxnDetail.getAuthEmpyNameColumn(), SqlCommonFn.SqlWhereLikeEnum.MidLike, f.Trim());
+                    sw.AddLikeValue(VewIvnAuthorizeWithTxnDetail.getEmpyNameColumn(), SqlCommonFn.SqlWhereLikeEnum.MidLike, f.Trim());
+                    sw.AddLikeValue(VewIvnAuthorizeWithTxnDetail.getWSCodeColumn(), SqlCommonFn.SqlWhereLikeEnum.MidLike, f.Trim());
+
+                }
+                sqm.Condition.Where.AddWhere(sw);
+            }
+            #endregion
+            sqm.Condition.OrderBy.Add(VewIvnAuthorizeWithTxnDetail.getEntryDateColumn(), SqlCommonFn.SqlOrderByType.DESC);
+            if (!VewIvnAuthorizeWithTxnDetailCtrl.QueryPage(dcf, sqm, page, pageSize, ref dataList, ref errMsg))
+            {
+                return false;
+            }
+            pageCount = dcf.PageCount;
+            rowCount = dcf.RowCount;
+            return true;
+        }
+
+        public static bool getAuthorizeAttachDataList(int invAuthId, ref List<TblMWInvAuthorizeAttach> dataList, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            SqlQueryMng sqm = new SqlQueryMng();
+            sqm.Condition.Where.AddCompareValue(TblMWInvAuthorizeAttach.getInvAuthIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, invAuthId);
+            if (!TblMWInvAuthorizeAttachCtrl.QueryMore(dcf, sqm, ref dataList, ref errMsg))
+            {
+                return false;
+            }
+            return true;
+        }
+       
         #endregion
     }
 }

@@ -34,6 +34,7 @@ namespace YRKJ.MWR.BackOffice.Business.Sys
         public const string DestroyLog = "Inventory/DestroyLog.aspx";
         public const string PostLog = "Inventory/PostLog.aspx";
         public const string RecoverLog = "Inventory/RecoverLog.aspx";
+        public const string InvAuthorizelog = "Inventory/InvAuthorizeLog.aspx";
         #endregion
 
         #region Report

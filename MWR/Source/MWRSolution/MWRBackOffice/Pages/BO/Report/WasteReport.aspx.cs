@@ -29,6 +29,22 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Report
         }
 
         #region Events
+        public bool AjaxSub_common(string wasteCode, string page)
+        {
+            string errMsg = "";
+            int curPage = ComLib.ComFn.StringToInt(page);
+            if (!LoadData_Waste(wasteCode, ref errMsg))
+            {
+                return false;
+            }
+            if (!LoadData_InventoryData(wasteCode, curPage, ref errMsg))
+            {
+                ReturnAjaxError(errMsg);
+                return false;
+            }
+            return true;
+        }
+
         public bool AjaxGetInvTrack(string invRecordId)
         {
             int defineId = ComLib.ComFn.StringToInt(invRecordId);
@@ -91,6 +107,19 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Report
 
             wasteCode = WebAppFn.SafeQueryString("code");
 
+            if (!LoadData_Waste(wasteCode, ref errMsg))
+            {
+                return false;
+            }
+
+            if (!LoadData_InventoryData(wasteCode, 1, ref errMsg))
+            {
+                return false;
+            }
+            return true;
+        }
+        private bool LoadData_Waste(string wasteCode,ref string errMsg)
+        {
             TblMWWasteCategory wasteData = null;
 
             if (!BaseDataMng.GetWasteCategoryData(wasteCode, ref wasteData, ref errMsg))
@@ -102,19 +131,16 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Report
                 errMsg = "无效的医院编号";
                 return false;
             }
+            PageWasteCodeData = wasteCode;
             PageWasteNameData = wasteData.Waste;
 
             if (!ReportDataMng.GetInventoryWasteWeightReportData(wasteCode, ref PageInventoryVendorReportData, ref errMsg))
             {
                 return false;
             }
-
-            if (!LoadData_InventoryData(wasteCode, 1, ref errMsg))
-            {
-                return false;
-            }
             return true;
         }
+
         private bool LoadData_InventoryData(string wasteCode, int page, ref string errMsg)
         {
             int pageSize = 10;
@@ -124,11 +150,13 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Report
             {
                 return false;
             }
+            c_UPage.ShowPage(page, (int)pageCount);
             return true;
         }
         #endregion
 
         #region PageDatas
+        protected string PageWasteCodeData = "";
         protected string PageWasteNameData = "";
         protected TblMWInventory PageInventoryVendorReportData = null;
         protected List<TblMWInventory> PageInventoryDataList = new List<TblMWInventory>();

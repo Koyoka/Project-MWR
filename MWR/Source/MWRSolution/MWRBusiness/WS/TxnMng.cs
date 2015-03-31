@@ -110,7 +110,7 @@ namespace YRKJ.MWR.Business.WS
         #endregion
 
         #region private 
-        private static bool GetTxnDetail(int txnDetailId, ref TblMWTxnDetail detail, ref string errMsg)
+        public static bool GetTxnDetail(int txnDetailId, ref TblMWTxnDetail detail, ref string errMsg)
         {
             DataCtrlInfo dcf = new DataCtrlInfo();
             SqlQueryMng sqm = new SqlQueryMng();

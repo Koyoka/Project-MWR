@@ -8,6 +8,7 @@ using YRKJ.MWR.BackOffice.Business.Sys;
 using YRKJ.MWR.Business.BaseData;
 using ComLib;
 using YRKJ.MWR.Business;
+using YRKJ.MWR.Business.Report;
 
 namespace YRKJ.MWR.BackOffice.Pages.BO.Inventory
 {
@@ -40,7 +41,7 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Inventory
             long rowCount = 0;
             List<VewIvnAuthorizeWithTxnDetail> dataList = null;
 
-            if (!BaseDataMng.GetProcessAuthorizeList(curPage, PageSize, ref pageCount, ref rowCount, ref dataList, ref errMsg))
+            if (!ReportDataMng.GetProcessAuthorizeList(curPage, PageSize, ref pageCount, ref rowCount, ref dataList, ref errMsg))
             {
                 ReturnAjaxError(errMsg);
                 return false;
@@ -88,8 +89,8 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Inventory
             long rowCount = 0;
 
             List<VewIvnAuthorizeWithTxnDetail> dataList = null;
-           
-            if (!BaseDataMng.GetProcessAuthorizeList(curPage, PageSize, ref pageCount, ref rowCount, ref dataList, ref errMsg))
+
+            if (!ReportDataMng.GetProcessAuthorizeList(curPage, PageSize, ref pageCount, ref rowCount, ref dataList, ref errMsg))
             {
                 return false;
             }

@@ -110,6 +110,7 @@ namespace YRKJ.MWR.Business.BaseData
             DataCtrlInfo dcf = new DataCtrlInfo();
             
             SqlQueryMng sqm = new SqlQueryMng();
+            sqm.Condition.Where.AddCompareValue(TblMWCar.getStatusColumn(), SqlCommonFn.SqlWhereCompareEnum.UnEquals, TblMWCar.STATUS_ENUM_Void);
             SqlWhere sw = new SqlWhere();
             sw.AddCompareValue(TblMWCar.getStatusColumn(), SqlCommonFn.SqlWhereCompareEnum.UnEquals, TblMWCar.STATUS_ENUM_Void);
             {
@@ -311,6 +312,7 @@ namespace YRKJ.MWR.Business.BaseData
             DataCtrlInfo dcf = new DataCtrlInfo();
 
             SqlQueryMng sqm = new SqlQueryMng();
+            sqm.Condition.Where.AddCompareValue(TblMWEmploy.getStatusColumn(), SqlCommonFn.SqlWhereCompareEnum.UnEquals, TblMWEmploy.STATUS_ENUM_Void);
             sqm.Condition.Where.AddCompareValue(TblMWEmploy.getEmpyTypeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, empyType);
             {
                 SqlQueryMng subSqm = new SqlQueryMng();
@@ -415,72 +417,6 @@ namespace YRKJ.MWR.Business.BaseData
             DataCtrlInfo dcf = new DataCtrlInfo();
             SqlQueryMng sqm = new SqlQueryMng();
             if (!TblMWDepotCtrl.QueryMore(dcf, sqm, ref depotList, ref errMsg))
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        #endregion
-
-        #region Authorize
-
-        public static bool GetProcessAuthorizeList(int page, int pageSize, ref long pageCount, ref long rowCount, ref List<VewIvnAuthorizeWithTxnDetail> dataList, ref string errMsg)
-        {
-            DataCtrlInfo dcf = new DataCtrlInfo();
-
-            SqlQueryMng sqm = new SqlQueryMng();
-            sqm.Condition.Where.AddCompareValue(VewIvnAuthorizeWithTxnDetail.getStatusColumn(),
-                 SqlCommonFn.SqlWhereCompareEnum.Equals, VewIvnAuthorizeWithTxnDetail.STATUS_ENUM_Precess);
-            sqm.Condition.OrderBy.Add(VewIvnAuthorizeWithTxnDetail.getEntryDateColumn(), SqlCommonFn.SqlOrderByType.ASC);
-
-            if (!VewIvnAuthorizeWithTxnDetailCtrl.QueryPage(dcf, sqm, page, pageSize, ref dataList, ref errMsg))
-            {
-                return false;
-            }
-            pageCount = dcf.PageCount;
-            rowCount = dcf.RowCount;
-
-            return true;
-        }
-
-        public static bool GetAuthorize(int invAuthId, ref VewIvnAuthorizeWithTxnDetail item, ref string errMsg)
-        {
-            DataCtrlInfo dcf = new DataCtrlInfo();
-
-            SqlQueryMng sqm = new SqlQueryMng();
-            sqm.Condition.Where.AddCompareValue(VewIvnAuthorizeWithTxnDetail.getInvAuthIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, invAuthId);
-
-            if (!VewIvnAuthorizeWithTxnDetailCtrl.QueryOne(dcf, sqm, ref item, ref errMsg))
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        public static bool DelAuthorizeAttach( List<string> fileNames,ref string errMsg)
-        {
-            DataCtrlInfo dcf = new DataCtrlInfo();
-
-            dcf.BeginTrans();
-
-            foreach (string fileName in fileNames)
-            {
-                SqlWhere sw = new SqlWhere();
-                //sw.AddCompareValue(TblMWInvAuthorizeAttach.getInvAuthIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, invAuthId);
-                sw.AddLikeValue(TblMWInvAuthorizeAttach.getPathColumn(), SqlCommonFn.SqlWhereLikeEnum.AfterLike, fileName);
-
-                int updCount = 0;
-                if (!TblMWInvAuthorizeAttachCtrl.Delete(dcf, sw, ref updCount, ref errMsg))
-                {
-                    return false;
-                }
-            }
-
-            int[] updCounts = null;
-            if (!dcf.Commit(ref updCounts, ref errMsg))
             {
                 return false;
             }

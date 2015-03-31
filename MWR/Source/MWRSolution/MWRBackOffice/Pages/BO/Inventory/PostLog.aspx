@@ -137,7 +137,12 @@
 					    <% = ComLib.ComFn.DateTimeToString(item.EntryDate, YRKJ.MWR.Business.BizBase.GetInstance().DateTimeFormatString)  %>
 				    </td>
                     <td>
-					    <% = item.InvAuthId!=0?"是":"否" %>
+					    <% if (item.InvAuthId != 0){  %>
+                        <a href="#<% = RedirectHelper.InvAuthorizelog %>?ID=<% = item.InvAuthId %>">查看审核</a>
+                        <% } %>
+                        <% if (item.InvAuthId == 0){  %>
+					       否
+                        <% } %>
 				    </td>
                 </tr>
                 <%

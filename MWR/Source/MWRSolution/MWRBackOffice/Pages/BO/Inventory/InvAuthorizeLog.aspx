@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Pages/MasterPages/MWBOEmpty.Master" AutoEventWireup="true" CodeBehind="RecoverLog.aspx.cs" Inherits="YRKJ.MWR.BackOffice.Pages.BO.Inventory.RecoverLog" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Pages/MasterPages/MWBOEmpty.Master" AutoEventWireup="true" CodeBehind="InvAuthorizeLog.aspx.cs" Inherits="YRKJ.MWR.BackOffice.Pages.BO.Inventory.InvAuthorizeLog" %>
 <%@ Import Namespace="YRKJ.MWR" %>
 <%@ Import Namespace="YRKJ.MWR.BackOffice.Business.Sys" %>
 <%@ Register src="../../UCtrl/UPage.ascx" tagname="UPage" tagprefix="uc1" %>
@@ -11,7 +11,7 @@
 <div class="row">
 	<div class="col-md-12">
 		<h3 class="page-title">
-		回收日志 <small>查看所有废品库存回收日志</small>
+		审核日志 <small>查看废品回收、出库、处置审核日志</small>
 		</h3>
 		<ul class="page-breadcrumb breadcrumb">
 			<li class="btn-group">
@@ -23,7 +23,7 @@
 				<i class="fa fa-angle-right"></i>
 			</li>
             <li>
-				回收日志
+				审核日志
 			</li>
 		</ul>
 	</div>
@@ -34,7 +34,7 @@
 	    <div class="portlet box blue">
 		    <div class="portlet-title">
 			    <div class="caption">
-				    <i class="fa fa-globe"></i>回收日志列表
+				    <i class="fa fa-globe"></i>出库日志列表
 			    </div>
 		    </div>
 		    <div class="portlet-body">
@@ -44,7 +44,7 @@
                         <%--data-wgt-submit-options-reload="true" 
                         data-wgt-submit-options-block="true" --%>
                         data-wgt-submit-options-recall="BODestroyLog.subrecall"
-                        action="<% = WebAppFn.GetBoFullPageUrl(RedirectHelper.RecoverLog) %>">
+                        action="<% = WebAppFn.GetBoFullPageUrl(RedirectHelper.InvAuthorizelog) %>">
                 <div class="table-toolbar">
 					<div class="input-group btn-group pull-right col-md-3">
                         <span class="input-group-btn">
@@ -59,31 +59,34 @@
 				</div>
 
 			    <table data-wgt="mw-expandtable-ajaxchild" 
-                    data-wgt-submit-url="<% = WebAppFn.GetBoFullPageUrl(RedirectHelper.RecoverLog) %>" 
+                    data-wgt-submit-url="<% = WebAppFn.GetBoFullPageUrl(RedirectHelper.InvAuthorizelog) %>" 
                     data-wgt-submit-method="AjaxExpandTable" 
                     class="table table-striped table-bordered table-hover" id="sample_1">
 			    <thead>
 			    <tr>
 				    <th>
-					    交易编号
+					    审核交易编号
+				    </th>
+                    <th>
+					    审核交易类型
+				    </th>
+                     <th>
+					    审核货箱编号
 				    </th>
 				    <th>
-					    货箱编号
+					    审核员工
 				    </th>
 				    <th>
-					    仓库编号
+					    提交员工
 				    </th>
                     <th>
-					    回收医院
+					    提交终端
 				    </th>
                     <th>
-					    废料类型
+					    提交时间
 				    </th>
                     <th>
-					    操作员工
-				    </th>
-                    <th>
-					    操作工作站
+					    完成审核时间
 				    </th>
 				    <th>
 					    提交重量
@@ -92,40 +95,42 @@
 					    实际重量
 				    </th>
                     <th>
-					    操作时间
-				    </th>
-                    <th>
-					    是否审核
+					    审核状态
 				    </th>
 			    </tr>
 			    </thead>
 			    <tbody>
                     <%
-                        foreach (var item in PageRecoverInvTrackDatalist)
+                        foreach (var item in PageInvAuthorizeDataList)
 	{
                     %>
                 <tr>
                     <td>
 					    <a href="#<% = RedirectHelper.TxnDetail%>?txnNum=<% = item.TxnNum %>"><% = item.TxnNum %></a>
+                        <input type="hidden" name="invAuthId" value="<% = item.InvAuthId %>" />
                         <input type="hidden" name="txnDetailId" value="<% = item.TxnDetailId %>" />
+                        <input type="hidden" id="remark_<% = item.InvAuthId %>" value="<% = item.Remark %>" />
+				    </td>
+                    <td>
+                        <% = YRKJ.MWR.Business.BizHelper.GetTxnDetailTxnType(item.TxnType)%>
 				    </td>
 				    <td>
 					    <% = item.CrateCode %>
 				    </td>
-				    <td>
-					    <% = item.DepotCode %>
-				    </td>
                     <td>
-					    <% = item.Vendor %>
-				    </td>
-                    <td>
-					    <% = item.Waste %>
+					    <% = item.AuthEmpyName %>
 				    </td>
                     <td>
 					    <% = item.EmpyName %>
 				    </td>
                     <td>
 					    <% = item.WSCode %>
+				    </td>
+                    <td>
+					     <% = ComLib.ComFn.DateTimeToString(item.EntryDate, YRKJ.MWR.Business.BizBase.GetInstance().DateTimeFormatString)  %>
+				    </td>
+                    <td>
+                        <% = ComLib.ComFn.DateTimeToString(item.CompDate, YRKJ.MWR.Business.BizBase.GetInstance().DateTimeFormatString)%>
 				    </td>
 				    <td>
 					    <% = item.SubWeight %> KG
@@ -134,17 +139,13 @@
 					    <% = item.TxnWeight %> KG
 				    </td>
                     <td>
-					    <% = ComLib.ComFn.DateTimeToString(item.EntryDate, YRKJ.MWR.Business.BizBase.GetInstance().DateTimeFormatString)  %>
+                        <% = YRKJ.MWR.Business.BizHelper.GetAuthorizeStatus(item.Status)%>
 				    </td>
-                    <td>
-                    <% if (item.InvAuthId != 0){  %>
-                        <a href="#<% = RedirectHelper.InvAuthorizelog %>?ID=<% = item.InvAuthId %>">查看审核</a>
-                    <% } %>
-                    <% if (item.InvAuthId == 0){  %>
-					   否
-                    <% } %>
-				    </td>
+                    
                 </tr>
+               <%-- <tr>
+                    <td colspan="12"> <% = item.Remark %></td>
+                </tr>--%>
                 <%
 	}
                     %>
@@ -169,29 +170,50 @@
         BODestroyLog.init();
         WGTExpandTable.init();
     });
+    var reg = /(\.|\/)(gif|jpe?g|png)/;
+    function text(s) {
+
+        var isImg = reg.test(s);
+        if (isImg) {
+            return "/"+s;
+        } else {
+            return "/Assets/images/default_thumb.jpg";
+        }
+
+    }
+    function getRemark(s) {
+        return $("#remark_" + s).val();
+    }
 </script>
 <script id="mw-table-template" type="text/x-tmpl">
 <table  class="table table-hover">
     <thead>
     <tr>
-        <th>操作工作站</th>
-        <th>操作员</th>
-        <th>操作类型</th>
-        <th>操作时间</th>
+        <th width="100">所属医院</th>
+        <th>废品类型</th>
     </tr>
     </thead>
     <tbody>
-{% for (var i=0, d; d=o.data[i]; i++) { %}
+{% var d =o.data; %}
     <tr>
-        <td>{%=d.WSCode%}</td>
-        <td>{%=d.EmpyName %}</td>
-        <td>{%=d.OptType %}</td>
-        <td>{%=d.OptDate %}</td>
+        <td>{%=d.Vendor%}</td>
+        <td>{%=d.Waste %}</td>
     </tr>
-{% } %}
+    <tr>
+        <td>审核意见</td>
+        <td>{%=getRemark(d.InvAuthId)%}</td>
+    </tr>
+    {% for (var i=0, f; f=d.AttachList[i]; i++) { %}
+    <tr>
+        <td>附件</td>
+        <td> <a href="/{%=f %}" target="_blank"> <img width="50" height=50 src="{%=text(f) %}"></a></td>
+    </tr>
+    {% } %}
+
     </tbody>
 </table>
 </script>
+
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="footscript" runat="server">
 </asp:Content>
