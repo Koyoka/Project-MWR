@@ -16,6 +16,43 @@ namespace YRKJ.MWR.Business.WS
 
         #region common
         #region public 
+        public static bool GetTodayIWSTxnDetail(ref List<TblMWTxnDetail> dataList, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+
+            DateTime today = SqlDBMng.GetDBNow();
+            SqlQueryMng sqm = new SqlQueryMng();
+            sqm.Condition.Where.AddDateTimeCompareValue(TblMWTxnDetail.getEntryDateColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, today, SqlCommonFn.SqlWhereDateTimeFormatEnum.YMD);
+
+            SqlWhere sw = new SqlWhere(SqlCommonFn.SqlWhereLinkType.OR);
+            sw.AddCompareValue(TblMWTxnDetail.getTxnTypeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, TblMWTxnDetail.TXNTYPE_ENUM_Recover);
+            sw.AddCompareValue(TblMWTxnDetail.getTxnTypeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, TblMWTxnDetail.TXNTYPE_ENUM_Post);
+            sqm.Condition.Where.AddWhere(sw);
+            sqm.Condition.OrderBy.Add(TblMWTxnDetail.getEntryDateColumn(), SqlCommonFn.SqlOrderByType.DESC);
+            if (!TblMWTxnDetailCtrl.QueryMore(dcf, sqm, ref dataList, ref errMsg))
+            {
+                return false;
+            }
+
+            return true;
+        }
+        public static bool GetTodayDWSTxnDetail(ref List<TblMWTxnDetail> dataList, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+
+            DateTime today = SqlDBMng.GetDBNow();
+            SqlQueryMng sqm = new SqlQueryMng();
+            sqm.Condition.Where.AddDateTimeCompareValue(TblMWTxnDetail.getEntryDateColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, today, SqlCommonFn.SqlWhereDateTimeFormatEnum.YMD);
+            sqm.Condition.Where.AddCompareValue(TblMWTxnDetail.getTxnTypeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, TblMWTxnDetail.TXNTYPE_ENUM_Destroy);
+            sqm.Condition.OrderBy.Add(TblMWTxnDetail.getEntryDateColumn(), SqlCommonFn.SqlOrderByType.DESC);
+
+            if (!TblMWTxnDetailCtrl.QueryMore(dcf, sqm, ref dataList, ref errMsg))
+            {
+                return false;
+            }
+            return true;
+        }
+
         public static bool GetDetailList(string txnNum,ref  List<TblMWTxnDetail> detailList,ref string errMsg)
         {
             DataCtrlInfo dcf = new DataCtrlInfo();

@@ -338,7 +338,7 @@ namespace YRKJ.MWR.Business
 
             public const string Status_Detail_Authorize = "审核中";
             public const string Status_Detail_Complete = "完成";
-            public const string Status_Detail_Process = "提交处理中";
+            public const string Status_Detail_Process = "处理中";
             public const string Status_Detail_Wait = "审核完成";
 
             public const string TxnType_Detail_Recover = "回收入库";

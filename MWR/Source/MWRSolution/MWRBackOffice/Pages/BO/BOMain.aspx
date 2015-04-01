@@ -15,7 +15,7 @@
                     </h3>
                     <ul class="page-breadcrumb breadcrumb">
                         <li class="btn-group">
-                            <button type="button" class="btn blue dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
+                            <%--<button type="button" class="btn blue dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
                                 data-delay="1000" data-close-others="true">
                                 <span>Actions </span><i class="fa fa-angle-down"></i>
                             </button>
@@ -25,7 +25,7 @@
                                 <li><a href="#">Something else here</a> </li>
                                 <li class="divider"></li>
                                 <li><a href="#">Separated link</a> </li>
-                            </ul>
+                            </ul>--%>
                         </li>
                         <li><i class="fa fa-home"></i><a href="#<% = RedirectHelper.BOMain %>">首页</a>
                             <!-- <i class="fa fa-angle-right"></i>-->
@@ -124,8 +124,7 @@
                                 <i class="fa fa-bell-o"></i>今日工作站处理记录
                             </div>
                             <div class="tools">
-                                <a href="" class="collapse"></a><a href="#portlet-config" data-toggle="modal" class="config">
-                                </a><a href="" class="reload"></a><a href="" class="remove"></a>
+                                <a href="" class="collapse"></a><%--<a href="" class="reload"></a>--%>
                             </div>
                         </div>
                         <div class="portlet-body">
@@ -139,29 +138,69 @@
                                     <div class="tab-pane active" id="tab_1_1">
                                         <div class="scroller" style="height: 430px;" data-always-visible="1" data-rail-visible="0">
                                             <ul class="feeds">
+                                                <%
+	foreach (var item in PageIWSTxnDetailDataList)
+	{
+                                                %>
                                                 <li>
                                                     <div class="col1">
                                                         <div class="cont">
                                                             <div class="cont-col1">
-                                                                <div class="label label-sm label-success">
+                                                                <%--<div class="label label-sm label-<% = item.TxnType == YRKJ.MWR.TblMWTxnDetail.TXNTYPE_ENUM_Recover?"success":"info" %>">
                                                                     <i class="fa fa-bell-o"></i>
-                                                                </div>
+                                                                </div>--%>
+                                                                 <%if(item.Status == YRKJ.MWR.TblMWTxnDetail.STATUS_ENUM_Complete){ %>
+                                                                <span class="label label-success">
+                                                                <% } %>
+                                                                <%if(item.Status == YRKJ.MWR.TblMWTxnDetail.STATUS_ENUM_Authorize){ %>
+                                                                <span class="label label-danger">
+                                                                <% } %>
+                                                                <%if(item.Status == YRKJ.MWR.TblMWTxnDetail.STATUS_ENUM_Process){ %>
+                                                                <span class="label label-default">
+                                                                <% } %>
+                                                                <%if(item.Status == YRKJ.MWR.TblMWTxnDetail.STATUS_ENUM_Wait){ %>
+                                                                <span class="label label-warning">
+                                                                <% } %>
+                                                                <% = YRKJ.MWR.Business.BizHelper.GetTxnDetailStatus(item.Status) %>
+									                            </span>
                                                             </div>
                                                             <div class="cont-col2">
                                                                 <div class="desc">
-                                                                    You have 4 pending tasks. <span class="label label-sm label-danger ">Take action <i
-                                                                        class="fa fa-share"></i></span>
+                                                                #<% = item.TxnNum %>
+                                                              
+                                                                <% = item.WSCode %>
+                                                                <% = item.CrateCode %>
+                                                                <% = item.Vendor %>
+                                                                <% = item.Waste %>
+                                                                <% = item.SubWeight %>KG
+                                                                <%if(item.TxnType == YRKJ.MWR.TblMWTxnDetail.TXNTYPE_ENUM_Recover){ %>
+                                                                <span class="label label-primary">
+                                                                <% } %>
+                                                                <%if(item.TxnType == YRKJ.MWR.TblMWTxnDetail.TXNTYPE_ENUM_Post){ %>
+                                                                <span class="label label-info">
+                                                                <% } %>
+                                                                <% = YRKJ.MWR.Business.BizHelper.GetTxnDetailTxnType(item.TxnType)%>
+                                                                </span>
+                                                                    <%--<span class="label label-sm label-danger ">Take action <i
+                                                                        class="fa fa-share"></i></span>--%>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col2">
                                                         <div class="date">
-                                                            Just now
+                                                            <%if(item.Status != YRKJ.MWR.TblMWTxnDetail.STATUS_ENUM_Process){ %>
+                                                            <% = item.TxnWeight %> KG 
+                                                            <% } %>
+                                                            <% = item.EntryDate.ToString("HH:mm") %>
                                                         </div>
                                                     </div>
                                                 </li>
-                                                <li><a href="#">
+                                                
+                                                <%
+	}
+                                                %>
+                                                <%--<li><a href="#">
                                                     <div class="col1">
                                                         <div class="cont">
                                                             <div class="cont-col1">
@@ -518,224 +557,67 @@
                                                             22 hours
                                                         </div>
                                                     </div>
-                                                </li>
+                                                </li>--%>
                                             </ul>
                                         </div>
                                     </div>
                                     <div class="tab-pane" id="tab_1_2">
                                         <div class="scroller" style="height: 430px;" data-always-visible="1" data-rail-visible1="1">
                                             <ul class="feeds">
-                                                <li><a href="#">
-                                                    <div class="col1">
-                                                        <div class="cont">
-                                                            <div class="cont-col1">
-                                                                <div class="label label-sm label-success">
-                                                                    <i class="fa fa-bell-o"></i>
-                                                                </div>
-                                                            </div>
-                                                            <div class="cont-col2">
-                                                                <div class="desc">
-                                                                    New user registered
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col2">
-                                                        <div class="date">
-                                                            Just now
-                                                        </div>
-                                                    </div>
-                                                </a></li>
-                                                <li><a href="#">
-                                                    <div class="col1">
-                                                        <div class="cont">
-                                                            <div class="cont-col1">
-                                                                <div class="label label-sm label-success">
-                                                                    <i class="fa fa-bell-o"></i>
-                                                                </div>
-                                                            </div>
-                                                            <div class="cont-col2">
-                                                                <div class="desc">
-                                                                    New order received
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col2">
-                                                        <div class="date">
-                                                            10 mins
-                                                        </div>
-                                                    </div>
-                                                </a></li>
+                                               <%
+                                                   foreach (var item in PageDWSTxnDetailDataList)
+	{
+                                                %>
                                                 <li>
                                                     <div class="col1">
                                                         <div class="cont">
                                                             <div class="cont-col1">
-                                                                <div class="label label-sm label-danger">
-                                                                    <i class="fa fa-bolt"></i>
-                                                                </div>
+                                                                <%--<div class="label label-sm label-<% = item.TxnType == YRKJ.MWR.TblMWTxnDetail.TXNTYPE_ENUM_Recover?"success":"info" %>">
+                                                                    <i class="fa fa-bell-o"></i>
+                                                                </div>--%>
+                                                                 <%if(item.Status == YRKJ.MWR.TblMWTxnDetail.STATUS_ENUM_Complete){ %>
+                                                                <span class="label label-success">
+                                                                <% } %>
+                                                                <%if(item.Status == YRKJ.MWR.TblMWTxnDetail.STATUS_ENUM_Authorize){ %>
+                                                                <span class="label label-danger">
+                                                                <% } %>
+                                                                <%if(item.Status == YRKJ.MWR.TblMWTxnDetail.STATUS_ENUM_Process){ %>
+                                                                <span class="label label-default">
+                                                                <% } %>
+                                                                <%if(item.Status == YRKJ.MWR.TblMWTxnDetail.STATUS_ENUM_Wait){ %>
+                                                                <span class="label label-warning">
+                                                                <% } %>
+                                                                <% = YRKJ.MWR.Business.BizHelper.GetTxnDetailStatus(item.Status) %>
+									                            </span>
                                                             </div>
                                                             <div class="cont-col2">
                                                                 <div class="desc">
-                                                                    Order #24DOP4 has been rejected. <span class="label label-sm label-danger ">Take action
-                                                                        <i class="fa fa-share"></i></span>
+                                                                #<% = item.TxnNum %>
+                                                                <% = item.WSCode %>
+                                                                <% = item.CrateCode %>
+                                                                <% = item.Vendor %>
+                                                                <% = item.Waste %>
+                                                                <% = item.SubWeight %>KG
+                                                               
+                                                                    <%--<span class="label label-sm label-danger ">Take action <i
+                                                                        class="fa fa-share"></i></span>--%>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col2">
                                                         <div class="date">
-                                                            24 mins
+                                                            <%if(item.Status != YRKJ.MWR.TblMWTxnDetail.STATUS_ENUM_Process){ %>
+                                                            <% = item.TxnWeight %> KG 
+                                                            <% } %>
+                                                            <% = item.EntryDate.ToString("HH:mm") %>
                                                         </div>
                                                     </div>
                                                 </li>
-                                                <li><a href="#">
-                                                    <div class="col1">
-                                                        <div class="cont">
-                                                            <div class="cont-col1">
-                                                                <div class="label label-sm label-success">
-                                                                    <i class="fa fa-bell-o"></i>
-                                                                </div>
-                                                            </div>
-                                                            <div class="cont-col2">
-                                                                <div class="desc">
-                                                                    New user registered
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col2">
-                                                        <div class="date">
-                                                            Just now
-                                                        </div>
-                                                    </div>
-                                                </a></li>
-                                                <li><a href="#">
-                                                    <div class="col1">
-                                                        <div class="cont">
-                                                            <div class="cont-col1">
-                                                                <div class="label label-sm label-success">
-                                                                    <i class="fa fa-bell-o"></i>
-                                                                </div>
-                                                            </div>
-                                                            <div class="cont-col2">
-                                                                <div class="desc">
-                                                                    New user registered
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col2">
-                                                        <div class="date">
-                                                            Just now
-                                                        </div>
-                                                    </div>
-                                                </a></li>
-                                                <li><a href="#">
-                                                    <div class="col1">
-                                                        <div class="cont">
-                                                            <div class="cont-col1">
-                                                                <div class="label label-sm label-success">
-                                                                    <i class="fa fa-bell-o"></i>
-                                                                </div>
-                                                            </div>
-                                                            <div class="cont-col2">
-                                                                <div class="desc">
-                                                                    New user registered
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col2">
-                                                        <div class="date">
-                                                            Just now
-                                                        </div>
-                                                    </div>
-                                                </a></li>
-                                                <li><a href="#">
-                                                    <div class="col1">
-                                                        <div class="cont">
-                                                            <div class="cont-col1">
-                                                                <div class="label label-sm label-success">
-                                                                    <i class="fa fa-bell-o"></i>
-                                                                </div>
-                                                            </div>
-                                                            <div class="cont-col2">
-                                                                <div class="desc">
-                                                                    New user registered
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col2">
-                                                        <div class="date">
-                                                            Just now
-                                                        </div>
-                                                    </div>
-                                                </a></li>
-                                                <li><a href="#">
-                                                    <div class="col1">
-                                                        <div class="cont">
-                                                            <div class="cont-col1">
-                                                                <div class="label label-sm label-success">
-                                                                    <i class="fa fa-bell-o"></i>
-                                                                </div>
-                                                            </div>
-                                                            <div class="cont-col2">
-                                                                <div class="desc">
-                                                                    New user registered
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col2">
-                                                        <div class="date">
-                                                            Just now
-                                                        </div>
-                                                    </div>
-                                                </a></li>
-                                                <li><a href="#">
-                                                    <div class="col1">
-                                                        <div class="cont">
-                                                            <div class="cont-col1">
-                                                                <div class="label label-sm label-success">
-                                                                    <i class="fa fa-bell-o"></i>
-                                                                </div>
-                                                            </div>
-                                                            <div class="cont-col2">
-                                                                <div class="desc">
-                                                                    New user registered
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col2">
-                                                        <div class="date">
-                                                            Just now
-                                                        </div>
-                                                    </div>
-                                                </a></li>
-                                                <li><a href="#">
-                                                    <div class="col1">
-                                                        <div class="cont">
-                                                            <div class="cont-col1">
-                                                                <div class="label label-sm label-success">
-                                                                    <i class="fa fa-bell-o"></i>
-                                                                </div>
-                                                            </div>
-                                                            <div class="cont-col2">
-                                                                <div class="desc">
-                                                                    New user registered
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col2">
-                                                        <div class="date">
-                                                            Just now
-                                                        </div>
-                                                    </div>
-                                                </a></li>
+                                                
+                                                <%
+	}
+                                                %>
                                             </ul>
                                         </div>
                                     </div>
@@ -748,7 +630,7 @@
                     <!-- END PORTLET-->
                 </div>
 
-                <div class="col-md-6 col-sm-6">
+              <%--  <div class="col-md-6 col-sm-6">
 				<!-- BEGIN PORTLET-->
 				    <div class="portlet box blue calendar">
 					    <div class="portlet-title">
@@ -762,7 +644,7 @@
 					    </div>
 				    </div>
 				<!-- END PORTLET-->
-			    </div>
+			    </div>--%>
             </div>
             <div class="clearfix">
             </div>

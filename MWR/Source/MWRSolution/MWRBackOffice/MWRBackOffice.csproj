@@ -315,6 +315,7 @@
     <Content Include="Pages\BO\WebForm1.aspx" />
     <Content Include="Pages\Demo\AjaxFileUpload.aspx" />
     <Content Include="Pages\Demo\FileUpload2_1.aspx" />
+    <Content Include="Pages\Demo\WebForm1.aspx" />
     <Content Include="Pages\UCtrl\UModal.ascx" />
     <Content Include="Pages\UCtrl\UPage.ascx" />
     <Content Include="Pages\UCtrl\UServicePage.ascx" />
@@ -612,6 +613,13 @@
     </Compile>
     <Compile Include="Pages\Demo\FileUpload2_1.aspx.designer.cs">
       <DependentUpon>FileUpload2_1.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Demo\WebForm1.aspx.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Demo\WebForm1.aspx.designer.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\MasterPages\MWBOBlock.master.cs">
       <DependentUpon>MWBOBlock.master</DependentUpon>

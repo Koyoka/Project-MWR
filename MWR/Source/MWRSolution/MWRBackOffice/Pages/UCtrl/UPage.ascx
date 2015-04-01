@@ -2,7 +2,7 @@
  <div class="row">
     <div class="col-md-3 ">
         <div class="dataTables_info" id="sample_2_info">
-        <% = CurrentPage+"" %>/<% = PageCount+""%> 页</div>
+        <% = CurrentPage+"" %>/<% = ShowPageCount + ""%> 页</div>
     </div>
     <div class="col-md-9 ">
         <div class="dataTables_paginate paging_bootstrap">
@@ -16,7 +16,7 @@
                 </li>
                 <%
                                         
-                    for (int i = 1; i <= PageCount; i++ )
+                    for (int i = 1 + fPage; i <= PageCount + fPage; i++)
                     {
                                             
                 %>
