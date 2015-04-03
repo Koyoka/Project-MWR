@@ -180,8 +180,18 @@
     function initBaiduMap() {
         map = new BMap.Map("allmap");
         map.enableScrollWheelZoom(true);
-//        map.centerAndZoom(new BMap.Point(117.35721, 39.263985), 15);
-        map.centerAndZoom('<% = YRKJ.MWR.Business.Sys.MWParams.GetDefaultMapCity() %>', 15);
+        //        map.centerAndZoom(new BMap.Point(117.35721, 39.263985), 15);
+        var ads = $('#address').val();
+        if (ads) {
+            var adsArray = ads.split(',');
+            if (adsArray.length == 2) {
+                map.centerAndZoom(new BMap.Point(parseFloat(adsArray[0]), parseFloat(adsArray[1])), 15);
+                setMapAddressLab(parseFloat(adsArray[0]), parseFloat(adsArray[1]));
+            } else {
+                map.centerAndZoom('<% = YRKJ.MWR.Business.Sys.MWParams.GetDefaultMapCity() %>', 15);
+            }
+        }else
+            map.centerAndZoom('<% = YRKJ.MWR.Business.Sys.MWParams.GetDefaultMapCity() %>', 15);
         map.addEventListener("click", showInfo);
     }
 
@@ -190,15 +200,16 @@
         WGTEdtiTable.init();
 
         $('#baidumap').on('shown', function () {
+            map = null;
             if (!map) {
                 initBaiduMap();
+                return;
             }
-         
+            return;
             var ads = $('#address').val();
             if (ads) {
                 var adsArray = ads.split(',');
                 if (adsArray.length == 2) {
-                    parseFloat(adsArray[0])
                     setMapAddressLab(parseFloat(adsArray[0]), parseFloat(adsArray[1]));
                 } else {
                     map.clearOverlays();
@@ -222,6 +233,7 @@
     function setMapAddressLab(lng,lat) {
         map.clearOverlays();
         var point = new BMap.Point(lng,lat);
+        map.centerAndZoom(point, 15);
         map.panTo(point); 
         var marker = new BMap.Marker(point);  // 创建标注
         map.addOverlay(marker);               // 将标注添加到地图中
