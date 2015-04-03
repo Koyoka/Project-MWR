@@ -320,5 +320,74 @@ namespace YRKJ.MWR.Business.Sys
         //    return false;
         //}
         #endregion
+
+        #region Map
+
+        private static string _baiduMapAK = null;
+        public static bool SetBaiduMapAK(string value, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            if (!SysParams.GetInstance().SetValue(dcf, "BaiduMapAK", value, ref errMsg))
+            {
+                return false;
+            }
+            _baiduMapAK = value;
+            return true;
+        }
+        public static string GetBaiduMapAK()
+        {
+            if (_baiduMapAK == null)
+            {
+                DataCtrlInfo dcf = new DataCtrlInfo();
+                _baiduMapAK = SysParams.GetInstance().GetValue(dcf, "BaiduMapAK");
+            }
+
+            if (string.IsNullOrEmpty(_baiduMapAK))
+            {
+                string errMsg = "";
+                if (!SetBaiduMapAK("PNeFvSRgLASOpDkAERaasxWv", ref errMsg))
+                {
+                    // nothing
+                }
+                _baiduMapAK = "PNeFvSRgLASOpDkAERaasxWv";
+            }
+
+            return _baiduMapAK;
+        }
+
+
+        private static string _defaultMapCityValue = "北京";
+        private static string _defaultMapCity = null;
+        public static bool SetDefaultMapCity(string value, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            if (!SysParams.GetInstance().SetValue(dcf, "DefaultMapCity", value , ref errMsg))
+            {
+                return false;
+            }
+            _defaultMapCity = value;
+            return true;
+        }
+        public static string GetDefaultMapCity()
+        {
+            if (_defaultMapCity == null)
+            {
+                DataCtrlInfo dcf = new DataCtrlInfo();
+                _defaultMapCity = SysParams.GetInstance().GetValue(dcf, "DefaultMapCity");
+
+            }
+
+            if (string.IsNullOrEmpty(_defaultMapCity))
+            {
+                string errMsg = "";
+                if (!SetDefaultMapCity(_defaultMapCityValue, ref errMsg))
+                {
+                    // nothing
+                }
+                _defaultMapCity = _defaultMapCityValue;
+            }
+            return _defaultMapCity;
+        }
+        #endregion
     }
 }

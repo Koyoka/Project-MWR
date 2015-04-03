@@ -4,8 +4,26 @@
 <%@ Register src="../../UCtrl/UPage.ascx" tagname="UPage" tagprefix="uc1" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 <link rel="stylesheet" href="/assets/plugins/data-tables/DT_bootstrap.css"/>
+<link href="/assets/plugins/bootstrap-modal/css/bootstrap-modal-bs3patch.css" rel="stylesheet" type="text/css"/>
+<link href="/assets/plugins/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet" type="text/css"/><style>
+    #allmap{width:100%;height:500px;}
+</style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
+<%--<a class="btn default" data-target="#baidumap" data-toggle="modal">View Demo</a>--%>
+<div id="baidumap" class="modal container fade" tabindex="-1" data-backdrop="static" data-keyboard="false" data-attention-animation="false">
+	<div class="modal-body"  >
+		<p>
+			请从地图中选取地点坐标！<input type="text" value="" readonly id="mwTxtVendorAddress" />
+		</p>
+        <div id="allmap" ></div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" data-dismiss="modal" class="btn btn-default">关闭</button>
+		<button id="btnOK" type="button" data-dismiss="modal" class="btn blue">确定</button>
+	</div>
+</div>
+
 <div class="row">
 	<div class="col-md-12">
 		<h3 class="page-title">
@@ -109,6 +127,7 @@
                             <input id="[empty]vendor" name="[empty]vendor" submit-group="[empty]save" maxlength="<% = TblMWVendor.getVendorColumn().ColumnSize %>" type="text" class="form-control input-small" value="" />
                         </td>
                         <td>
+                            <a class="btn default" data-target="#baidumap" data-toggle="modal">打开地图</a>
                             <input id="[empty]address" name="[empty]address" submit-group="[empty]save" maxlength="<% = TblMWVendor.getAddressColumn().ColumnSize %>" type="text" class="form-control input-small" value="" />
                         </td>
 						<td>
@@ -126,6 +145,7 @@
                             <input id="[empty1]vendor" name="[empty1]vendor" submit-group="[empty1]save"  maxlength="<% = TblMWVendor.getVendorColumn().ColumnSize %>" type="text" class="form-control input-small" value="" />
                         </td>
                         <td>
+                            <a class="btn default" data-target="#baidumap" data-toggle="modal">打开地图</a>
                             <input id="[empty1]address" name="[empty1]address" submit-group="[empty1]save"  maxlength="<% = TblMWVendor.getAddressColumn().ColumnSize %>" type="text" class="form-control input-small" value="">
                         </td>
 						<td>
@@ -150,11 +170,78 @@
 <script type="text/javascript" src="/assets/plugins/data-tables/DT_bootstrap.js"></script>
 <script src="/assets/bobdvendor.js"></script>
 <script src="/assets/wgt-edittable.js"></script>
+<script src="/assets/plugins/bootstrap-modal/js/bootstrap-modalmanager.js" type="text/javascript"></script>
+<script src="/assets/plugins/bootstrap-modal/js/bootstrap-modal.js" type="text/javascript"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=<% = YRKJ.MWR.Business.Sys.MWParams.GetBaiduMapAK() %>"></script>
+
 <script>
+
+    var map = null;
+    function initBaiduMap() {
+        map = new BMap.Map("allmap");
+        map.enableScrollWheelZoom(true);
+//        map.centerAndZoom(new BMap.Point(117.35721, 39.263985), 15);
+        map.centerAndZoom('<% = YRKJ.MWR.Business.Sys.MWParams.GetDefaultMapCity() %>', 15);
+        map.addEventListener("click", showInfo);
+    }
+
     jQuery(document).ready(function () {
         BOBDVendor.init();
         WGTEdtiTable.init();
+
+        $('#baidumap').on('shown', function () {
+            if (!map) {
+                initBaiduMap();
+            }
+         
+            var ads = $('#address').val();
+            if (ads) {
+                var adsArray = ads.split(',');
+                if (adsArray.length == 2) {
+                    parseFloat(adsArray[0])
+                    setMapAddressLab(parseFloat(adsArray[0]), parseFloat(adsArray[1]));
+                } else {
+                    map.clearOverlays();
+                    $('#mwTxtVendorAddress').val("");
+                }
+            } else {
+                map.clearOverlays();
+                $('#mwTxtVendorAddress').val("");
+            }
+        });
+        $('#btnOK').click(function () {
+            $('#address').val($('#mwTxtVendorAddress').val());
+        });
     });
+   
+   
+    function showInfo(e) {
+        setMapAddressLab(e.point.lng, e.point.lat)
+       
+    }
+    function setMapAddressLab(lng,lat) {
+        map.clearOverlays();
+        var point = new BMap.Point(lng,lat);
+        map.panTo(point); 
+        var marker = new BMap.Marker(point);  // 创建标注
+        map.addOverlay(marker);               // 将标注添加到地图中
+        marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
+        var opts = {
+            position: point,    // 指定文本标注所在的地理位置
+            offset: new BMap.Size(30, -40)    //设置文本偏移量
+        }
+        var label = new BMap.Label('当前坐标[' + lng + ',' + lat + '] ', opts);  // 创建文本标注对象
+        label.setStyle({
+            color: "black",
+            fontSize: "12px",
+            height: "20px",
+            lineHeight: "20px",
+            border: "none",
+            fontFamily: "微软雅黑"
+        });
+        map.addOverlay(label);
+        $('#mwTxtVendorAddress').val(lng + ',' + lat);
+    }
 </script>
 
 </asp:Content>

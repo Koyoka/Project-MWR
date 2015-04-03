@@ -69,6 +69,28 @@
 									</div>
 								</div>
 								<!--/span-->
+                                <div class="col-md-3">
+									<div class="form-group">
+										<label class="control-label">百度地图默认城市</label>
+										<input type="text" id="mapCity" name="mapCity" class="form-control" placeholder="请输入城市名称"  
+                                        maxlength="<% = YRKJ.MWR.TblSysParameter.getParameterValueColumn().ColumnSize %>"  
+                                        value="<% = MWParams.GetDefaultMapCity() %>" />
+										<span class="help-block">
+											BO系统打开地图时候，默认的起始城市位置
+										</span>
+									</div>
+								</div>
+                                 <div class="col-md-3">
+									<div class="form-group">
+										<label class="control-label">百度地图使用KEY</label>
+										<input type="text" id="baiduMapKey" name="baiduMapKey" class="form-control" placeholder="请输入城市名称"  
+                                        maxlength="<% = YRKJ.MWR.TblSysParameter.getParameterValueColumn().ColumnSize %>"  
+                                        value="<% = MWParams.GetBaiduMapAK() %>" />
+										<span class="help-block">
+											百度地图API<a href="http://lbsyun.baidu.com/apiconsole/key" target="_blank">申请</a>使用【服务器】类型key 
+										</span>
+									</div>
+								</div>
 							<%--	<div class="col-md-6">
 									<div class="form-group ">
 										<label class="control-label">系统使用单位</label>
@@ -245,7 +267,7 @@
 						</div>
 						<div class="form-actions right">
 							
-							<button type="button" id="btnSub" class="btn blue"><i class="fa fa-check"></i> Save</button>
+							<button type="button" id="btnSub" class="btn blue"><i class="fa fa-check"></i> 保存</button>
 						</div>
 					</form>
 					<!-- END FORM-->
