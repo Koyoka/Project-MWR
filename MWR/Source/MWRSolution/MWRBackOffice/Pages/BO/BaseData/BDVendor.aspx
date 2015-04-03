@@ -233,7 +233,7 @@
     function setMapAddressLab(lng,lat) {
         map.clearOverlays();
         var point = new BMap.Point(lng,lat);
-        map.centerAndZoom(point, 15);
+        map.centerAndZoom(point);
         map.panTo(point); 
         var marker = new BMap.Marker(point);  // 创建标注
         map.addOverlay(marker);               // 将标注添加到地图中
