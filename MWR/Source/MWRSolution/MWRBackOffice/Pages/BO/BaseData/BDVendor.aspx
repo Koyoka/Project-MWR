@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="/assets/plugins/data-tables/DT_bootstrap.css"/>
 <link href="/assets/plugins/bootstrap-modal/css/bootstrap-modal-bs3patch.css" rel="stylesheet" type="text/css"/>
 <link href="/assets/plugins/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet" type="text/css"/><style>
-    #allmap{width:100%;height:500px;}
+    #allmap11{width:100%;height:500px;}
 </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
@@ -16,7 +16,7 @@
 		<p>
 			请从地图中选取地点坐标！<input type="text" value="" readonly id="mwTxtVendorAddress" />
 		</p>
-        <div id="allmap" ></div>
+        <div id="allmap" style="width:100%;height:500px;">123123</div>
 	</div>
 	<div class="modal-footer">
 		<button type="button" data-dismiss="modal" class="btn btn-default">关闭</button>
@@ -172,7 +172,7 @@
 <script src="/assets/wgt-edittable.js"></script>
 <script src="/assets/plugins/bootstrap-modal/js/bootstrap-modalmanager.js" type="text/javascript"></script>
 <script src="/assets/plugins/bootstrap-modal/js/bootstrap-modal.js" type="text/javascript"></script>
-<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=<% = YRKJ.MWR.Business.Sys.MWParams.GetBaiduMapAK() %>"></script>
+
 
 <script>
 
@@ -185,6 +185,7 @@
         if (ads) {
             var adsArray = ads.split(',');
             if (adsArray.length == 2) {
+               
                 map.centerAndZoom(new BMap.Point(parseFloat(adsArray[0]), parseFloat(adsArray[1])), 15);
                 setMapAddressLab(parseFloat(adsArray[0]), parseFloat(adsArray[1]));
             } else {
@@ -198,7 +199,6 @@
     jQuery(document).ready(function () {
         BOBDVendor.init();
         WGTEdtiTable.init();
-
         $('#baidumap').on('shown', function () {
             map = null;
             if (!map) {
@@ -206,19 +206,19 @@
                 return;
             }
             return;
-            var ads = $('#address').val();
-            if (ads) {
-                var adsArray = ads.split(',');
-                if (adsArray.length == 2) {
-                    setMapAddressLab(parseFloat(adsArray[0]), parseFloat(adsArray[1]));
-                } else {
-                    map.clearOverlays();
-                    $('#mwTxtVendorAddress').val("");
-                }
-            } else {
-                map.clearOverlays();
-                $('#mwTxtVendorAddress').val("");
-            }
+//            var ads = $('#address').val();
+//            if (ads) {
+//                var adsArray = ads.split(',');
+//                if (adsArray.length == 2) {
+//                    setMapAddressLab(parseFloat(adsArray[0]), parseFloat(adsArray[1]));
+//                } else {
+//                    map.clearOverlays();
+//                    $('#mwTxtVendorAddress').val("");
+//                }
+//            } else {
+//                map.clearOverlays();
+//                $('#mwTxtVendorAddress').val("");
+//            }
         });
         $('#btnOK').click(function () {
             $('#address').val($('#mwTxtVendorAddress').val());

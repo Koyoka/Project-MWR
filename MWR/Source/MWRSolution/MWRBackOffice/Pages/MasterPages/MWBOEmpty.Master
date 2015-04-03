@@ -121,7 +121,7 @@
 
 <script src="/assets/customer.js"></script>
 <script src="/assets/bocomm.js" type="text/javascript"></script>
-
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=<% = YRKJ.MWR.Business.Sys.MWParams.GetBaiduMapAK() %>"></script>
 <script>
     jQuery(document).ready(function () {
         App.init();
