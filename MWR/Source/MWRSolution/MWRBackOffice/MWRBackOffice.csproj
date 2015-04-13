@@ -40,24 +40,29 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\ComBIN\ComLib.dll</HintPath>
     </Reference>
-    <Reference Include="LinqToExcel">
-      <HintPath>..\Lib\LinqToExcel.dll</HintPath>
+    <Reference Include="LinqToExcel, Version=1.10.1.0, Culture=neutral, PublicKeyToken=9c8ea65a58f03f1f, processorArchitecture=MSIL">
+      <HintPath>..\packages\LinqToExcel_x64.1.10.1\lib\LinqToExcel.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="log4net">
-      <HintPath>..\Lib\log4net.dll</HintPath>
+    <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\Lib\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Remotion">
-      <HintPath>..\Lib\Remotion.dll</HintPath>
+    <Reference Include="Remotion, Version=1.13.52.2, Culture=neutral, PublicKeyToken=0669cf0452175907, processorArchitecture=MSIL">
+      <HintPath>..\packages\LinqToExcel_x64.1.10.1\lib\Remotion.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Remotion.Data.Linq">
-      <HintPath>..\Lib\Remotion.Data.Linq.dll</HintPath>
+    <Reference Include="Remotion.Data.Linq, Version=1.13.52.2, Culture=neutral, PublicKeyToken=0669cf0452175907, processorArchitecture=MSIL">
+      <HintPath>..\packages\LinqToExcel_x64.1.10.1\lib\Remotion.Data.Linq.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Remotion.Interfaces">
-      <HintPath>..\Lib\Remotion.Interfaces.dll</HintPath>
+    <Reference Include="Remotion.Interfaces, Version=1.13.52.2, Culture=neutral, PublicKeyToken=0669cf0452175907, processorArchitecture=MSIL">
+      <HintPath>..\packages\LinqToExcel_x64.1.10.1\lib\Remotion.Interfaces.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -731,6 +736,7 @@
     <Content Include="Services\QRCodeThumbnail.ashx" />
     <None Include="Assets\img\bg\Thumbs.db" />
     <Content Include="Services\MWMainServiceHandler.ashx" />
+    <Content Include="packages.config" />
     <None Include="Pages\BO\Sys\1.xlsx" />
     <None Include="UploadFile\1.xlsx" />
   </ItemGroup>

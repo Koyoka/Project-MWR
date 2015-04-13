@@ -107,12 +107,6 @@
     <Content Include="Lib\ISSec.dll" />
     <Content Include="Lib\MySql.Data.dll" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MWR\Source\MWRSolution\FW2\FW2.csproj">
-      <Project>{5FE6FE8A-055F-4151-951B-6D380C00CC8D}</Project>
-      <Name>FW2</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

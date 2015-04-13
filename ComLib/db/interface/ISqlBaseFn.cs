@@ -13,15 +13,15 @@ namespace ComLib.db.mysql
         public abstract string FormatQueryPageSql(string sql, int page, int pageSize);
         public abstract string FormatSqlDateTimeString(DateTime val, SqlCommonFn.SqlWhereDateTimeFormatEnum dateFormat);
         public abstract string FormatSqlDateTimeColumnString(string columnName,SqlCommonFn.SqlWhereDateTimeFormatEnum dateFormat);
-
+        private const string key = "pMwrdbWORDTaBlE";
         public String DecryptString(string s)
         {
-            return ComFn.DecryptDBPassword("pRKJMwrdbWORDTaBlE", s);
+            return ComFn.DecryptDBPassword(key, s);
         }
         public String EncryptString(String s)
         {
 
-            return ComFn.EncryptDBPassword("pRKJMwrdbWORDTaBlE", s);
+            return ComFn.EncryptDBPassword(key, s);
         }
 
         //public string FormatSqlValueString(Object val){

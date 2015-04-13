@@ -78,13 +78,17 @@ namespace ComLib
         public static string EncryptDBPassword(string key,string text)
         {
             //加密方法 "pROFITEKdbpASSWORD"
-            return FW2.DllImport.ISSec.ISEncrypt(text, key);
+            //return FW2.DllImport.ISSec.EncryptPassword(text, key);
+            return AESEncrypt(key, text);
+            //return FW2.DllImport.ISSec.ISEncrypt(text, key);
         }
 
         public static string DecryptDBPassword(string key,string text)
         {
             //解密方法"pROFITEKdbpASSWORD"
-            return FW2.DllImport.ISSec.ISDecrypt(text, key);
+            return AESDecrypt(key, text);
+            //return FW2.DllImport.ISSec.DecryptPassword(text, key);
+            //return FW2.DllImport.ISSec.ISDecrypt(text, key);
         }
 
         #endregion
@@ -173,6 +177,108 @@ namespace ComLib
             return UTF8Encoding.Default.GetString(bits);
         }
 
+
+
+        public string RSAEncrypt(string publicKey, string s)
+        {
+            
+
+            string str2;
+            try
+            {
+                RSACryptoServiceProvider provider = new RSACryptoServiceProvider();
+
+                provider.FromXmlString(publicKey);
+                byte[] bytes = new UnicodeEncoding().GetBytes(s);
+                str2 = Convert.ToBase64String(provider.Encrypt(bytes, false));
+            }
+            catch (Exception exception)
+            {
+                throw exception;
+            }
+            return str2;
+        }
+        public string RSADecrypt(string privateKey, string s)
+        {
+            string str2;
+            try
+            {
+                RSACryptoServiceProvider provider = new RSACryptoServiceProvider();
+                provider.FromXmlString(privateKey);
+                byte[] rgb = Convert.FromBase64String(s);
+                byte[] buffer2 = provider.Decrypt(rgb, false);
+                str2 = new UnicodeEncoding().GetString(buffer2);
+            }
+            catch (Exception exception)
+            {
+                throw exception;
+            }
+            return str2;
+        }
+
+        private static string defaultAESKey = "12345678901234567890123456789012";
+        public static string AESEncrypt(string toEncrypt)
+        {
+            return AESEncrypt(defaultAESKey, toEncrypt);
+        }
+        public static string AESEncrypt(string key, string s)
+        {
+            int len = key.Length;
+            if (len < 32)
+            {
+                key = key.PadLeft(32, '0');
+            }
+            else if (len > 32) {
+                key = key.Substring(0, 32);
+            }
+            byte[] keyArray = UTF8Encoding.UTF8.GetBytes(key);
+            byte[] toEncryptArray = UTF8Encoding.UTF8.GetBytes(s);
+
+            RijndaelManaged rDel = new RijndaelManaged();
+            rDel.Key = keyArray;
+            rDel.Mode = CipherMode.ECB;
+            rDel.Padding = PaddingMode.PKCS7;
+
+            ICryptoTransform cTransform = rDel.CreateEncryptor();
+            byte[] resultArray = cTransform.TransformFinalBlock(toEncryptArray, 0, toEncryptArray.Length);
+
+            return Convert.ToBase64String(resultArray, 0, resultArray.Length);
+        }
+        public static string AESDecrypt(string toDecrypt)
+        {
+            return AESDecrypt(defaultAESKey,toDecrypt);
+        }
+        public static string AESDecrypt(string key,string toDecrypt)
+        {
+            int len = key.Length;
+            if (len < 32)
+            {
+                key = key.PadLeft(32, '0');
+            }
+            else if (len > 32)
+            {
+                key = key.Substring(0, 32);
+            }
+            try
+            {
+                byte[] keyArray = UTF8Encoding.UTF8.GetBytes(key);
+                byte[] toEncryptArray = Convert.FromBase64String(toDecrypt);
+
+                RijndaelManaged rDel = new RijndaelManaged();
+                rDel.Key = keyArray;
+                rDel.Mode = CipherMode.ECB;
+                rDel.Padding = PaddingMode.PKCS7;
+
+                ICryptoTransform cTransform = rDel.CreateDecryptor();
+                byte[] resultArray = cTransform.TransformFinalBlock(toEncryptArray, 0, toEncryptArray.Length);
+
+                return UTF8Encoding.UTF8.GetString(resultArray);
+            }
+            catch (Exception ex) 
+            {
+                return "";
+            }
+        }
         #endregion
 
         #region C# Data Convert

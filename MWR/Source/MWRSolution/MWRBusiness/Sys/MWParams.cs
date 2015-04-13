@@ -279,23 +279,24 @@ namespace YRKJ.MWR.Business.Sys
         }
         public static string GetAdministratorPassword()
         {
-            if (_administratorPassword == null)
-            {
+            //if (_administratorPassword == null)
+            //{
                 DataCtrlInfo dcf = new DataCtrlInfo();
-                _administratorPassword = SysParams.GetInstance().GetValue(dcf, "AdministratorPassword");
-                _administratorPassword = ComLib.db.SqlCommonFn.DecryptString(_administratorPassword);
-            }
+                string s = SysParams.GetInstance().GetValue(dcf, "AdministratorPassword");
+                s = ComLib.db.SqlCommonFn.DecryptString(s);
+            //    _administratorPassword = ComLib.db.SqlCommonFn.DecryptString(_administratorPassword);
+            //}
 
-            if (string.IsNullOrEmpty(_administratorPassword))
-            {
-                string errMsg = "";
-                if (!SetAdministratorPassword(_defulatAdministratorPassword, ref errMsg))
+                if (string.IsNullOrEmpty(s))
                 {
-                    // nothing
+                    string errMsg = "";
+                    if (!SetAdministratorPassword(_defulatAdministratorPassword, ref errMsg))
+                    {
+                        // nothing
+                    }
+                    s = _defulatAdministratorPassword;
                 }
-                _administratorPassword = _defulatAdministratorPassword;
-            }
-            return _administratorPassword;
+            return s;
         }
 
         //public static bool SetAdministratorAccountAndPassword(string account,string password,ref string errMsg)
