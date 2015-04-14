@@ -12,16 +12,20 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
 <%--<a class="btn default" data-target="#baidumap" data-toggle="modal">View Demo</a>--%>
 <div id="baidumap" class="modal container fade" tabindex="-1" data-backdrop="static" data-keyboard="false" data-attention-animation="false">
-	<div class="modal-body"  >
-		<p>
-			请从地图中选取地点坐标！<input type="text" value="" readonly id="mwTxtVendorAddress" />
-		</p>
-        <div id="allmap" style="width:100%;height:500px;">123123</div>
-	</div>
+ <%--   <div class="modal-dialog">
+			<div class="modal-content">--%>
+	            <div class="modal-body"  >
+		            <p>
+			            请从地图中选取地点坐标！<input type="text" value="" readonly id="mwTxtVendorAddress" />
+		            </p>
+                    <div id="allmap" style="width:100%;height:500px;">123123</div>
+	            </div>
 	<div class="modal-footer">
 		<button type="button" data-dismiss="modal" class="btn btn-default">关闭</button>
 		<button id="btnOK" type="button" data-dismiss="modal" class="btn blue">确定</button>
 	</div>
+   <%--     </div>
+		</div>--%>
 </div>
 
 <div class="row">
@@ -170,9 +174,8 @@
 <script type="text/javascript" src="/assets/plugins/data-tables/DT_bootstrap.js"></script>
 <script src="/assets/bobdvendor.js"></script>
 <script src="/assets/wgt-edittable.js"></script>
-<script src="/assets/plugins/bootstrap-modal/js/bootstrap-modalmanager.js" type="text/javascript"></script>
-<script src="/assets/plugins/bootstrap-modal/js/bootstrap-modal.js" type="text/javascript"></script>
-
+<%--<script src="/assets/plugins/bootstrap-modal/js/bootstrap-modalmanager.js" type="text/javascript"></script>
+<script src="/assets/plugins/bootstrap-modal/js/bootstrap-modal.js" type="text/javascript"></script>--%>
 
 <script>
 
@@ -200,25 +203,26 @@
         BOBDVendor.init();
         WGTEdtiTable.init();
         $('#baidumap').on('shown', function () {
+          
             map = null;
             if (!map) {
                 initBaiduMap();
                 return;
             }
             return;
-//            var ads = $('#address').val();
-//            if (ads) {
-//                var adsArray = ads.split(',');
-//                if (adsArray.length == 2) {
-//                    setMapAddressLab(parseFloat(adsArray[0]), parseFloat(adsArray[1]));
-//                } else {
-//                    map.clearOverlays();
-//                    $('#mwTxtVendorAddress').val("");
-//                }
-//            } else {
-//                map.clearOverlays();
-//                $('#mwTxtVendorAddress').val("");
-//            }
+            //            var ads = $('#address').val();
+            //            if (ads) {
+            //                var adsArray = ads.split(',');
+            //                if (adsArray.length == 2) {
+            //                    setMapAddressLab(parseFloat(adsArray[0]), parseFloat(adsArray[1]));
+            //                } else {
+            //                    map.clearOverlays();
+            //                    $('#mwTxtVendorAddress').val("");
+            //                }
+            //            } else {
+            //                map.clearOverlays();
+            //                $('#mwTxtVendorAddress').val("");
+            //            }
         });
         $('#btnOK').click(function () {
             $('#address').val($('#mwTxtVendorAddress').val());

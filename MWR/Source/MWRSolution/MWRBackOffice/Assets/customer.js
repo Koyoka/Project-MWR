@@ -98,7 +98,7 @@ var Custom = function () {
 
                 alr.html(html);
                 alr.modal({
-                    width: 500,
+//                    width: 500,
                     backdrop: 'static'
                 });
             }

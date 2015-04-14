@@ -122,7 +122,7 @@
 
     
                        
-    <div id="stack1" class="modal fade" tabindex="-1" data-width="400" aria-hidden="true" style="display: none;">
+    <div id="stack1" class="modal  fade" tabindex="-1" >
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -158,6 +158,7 @@
 		</div>
 	</div>
 
+   
 
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="foot" runat="server">
