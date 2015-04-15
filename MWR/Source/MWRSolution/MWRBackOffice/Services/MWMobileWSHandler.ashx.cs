@@ -26,6 +26,7 @@ namespace YRKJ.MWR.BackOffice.Services
         private const string RequestMethod_RecoverDestroySubmit = "RecoverDestroySubmit";
         private const string RequestMethod_InitMWS = "InitMWSSubmit";
         private const string RequestMethod_StartCarRecoverShift = "StartCarRecoverShift";
+        private const string RequestMehtod_AysnMoblieData = "AysnMoblieData";
 
 
         #region main
@@ -132,6 +133,12 @@ namespace YRKJ.MWR.BackOffice.Services
                     break;
                 case RequestMethod_StartCarRecoverShift:
                     if (!StartCarRecoverShift(reqDataValue, ref result, ref errMsg))
+                    {
+                        return false;
+                    }
+                    break;
+                case RequestMehtod_AysnMoblieData:
+                    if (!AysnMoblieData(reqDataValue, ref result, ref errMsg))
                     {
                         return false;
                     }
@@ -475,6 +482,50 @@ namespace YRKJ.MWR.BackOffice.Services
             }
 
             return true;
+        }
+
+        private bool AysnMoblieData(JObject reqDataValue, ref string result, ref string errMsg)
+        {
+            try
+            {
+                string wsCode = WebAppFn.SafeJsonToString("mwsCode", reqDataValue);
+                string ak = WebAppFn.SafeJsonToString("accessKey", reqDataValue);
+                string sk = WebAppFn.SafeJsonToString("secretKey", reqDataValue);
+                //secretKey
+                if (string.IsNullOrEmpty(wsCode))
+                {
+                    errMsg = "上传参数错误";
+                    return false;
+                }
+                OutputData_InitMWSSubmit body = new OutputData_InitMWSSubmit();
+                body.WSCode = wsCode;
+                body.AssessKey = ak;
+                body.SecretKey = sk;
+                body.CrateMask = MWParams.GetCrateCodeMask();
+
+                List<TblMWVendor> defineVendorData = null;
+                List<TblMWWasteCategory> defineWasteData = null;
+                if (!BaseDataMng.GetVendorData(ref defineVendorData, ref errMsg))
+                {
+                    return false;
+                }
+                if (!BaseDataMng.GetWasteCategoryDataList(ref defineWasteData, ref errMsg))
+                {
+                    return false;
+                }
+                body.VendorList = defineVendorData;
+                body.WasteList = defineWasteData;
+
+                result = JsonConvert.SerializeObject(body);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                errMsg = ex.Message;
+                LogMng.GetLog().PrintError(ClassName, "AysnMoblieData", ex);
+                return false;
+            }
         }
         #endregion
 
