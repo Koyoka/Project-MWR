@@ -357,29 +357,36 @@ namespace YRKJ.MWR.Business.Report
             sb.AppendLine(string.Format("(SELECT COUNT(*) FROM {0} WHERE TxnNum = '{1}'), ", TblMWTxnRecoverHeader.getFormatTableName(), txnNum));
             sb.AppendLine(string.Format("(SELECT COUNT(*) FROM {0} WHERE TxnNum = '{1}'), ", TblMWTxnPostHeader.getFormatTableName(), txnNum));
             sb.AppendLine(string.Format("(SELECT COUNT(*) FROM {0} WHERE TxnNum = '{1}') ", TblMWTxnDestroyHeader.getFormatTableName(), txnNum));
-            System.Data.DataSet ds = SqlDBMng.getInstance().query(sb.ToString(), null);
-            int trCount = ComLib.ComFn.ObjectToInt(ds.Tables[0].Rows[0][0]);
-            int tpCount = ComLib.ComFn.ObjectToInt(ds.Tables[0].Rows[0][1]);
-            int tdCount = ComLib.ComFn.ObjectToInt(ds.Tables[0].Rows[0][2]);
+            try
+            {
+                System.Data.DataSet ds = SqlDBMng.getInstance().query(sb.ToString(), null);
+                int trCount = ComLib.ComFn.ObjectToInt(ds.Tables[0].Rows[0][0]);
+                int tpCount = ComLib.ComFn.ObjectToInt(ds.Tables[0].Rows[0][1]);
+                int tdCount = ComLib.ComFn.ObjectToInt(ds.Tables[0].Rows[0][2]);
 
-            if (trCount != 0)
-            {
-                txnType = TblMWTxnDetail.TXNTYPE_ENUM_Recover;
+                if (trCount != 0)
+                {
+                    txnType = TblMWTxnDetail.TXNTYPE_ENUM_Recover;
+                }
+                else if (tpCount != 0)
+                {
+                    txnType = TblMWTxnDetail.TXNTYPE_ENUM_Post;
+                }
+                else if (tdCount != 0)
+                {
+                    txnType = TblMWTxnDetail.TXNTYPE_ENUM_Destroy;
+                }
+                else
+                {
+                    errMsg = "无效的交易编号";
+                    return false;
+                }
             }
-            else if (tpCount != 0)
+            catch (Exception ex)
             {
-                txnType = TblMWTxnDetail.TXNTYPE_ENUM_Post;
-            }
-            else if (tdCount != 0)
-            {
-                txnType = TblMWTxnDetail.TXNTYPE_ENUM_Destroy;
-            }
-            else
-            {
-                errMsg = "无效的交易编号";
+                errMsg = ex.Message;
                 return false;
             }
-
             return true;
         }
 
@@ -681,6 +688,95 @@ namespace YRKJ.MWR.Business.Report
             return true;
         }
        
+        #endregion
+
+        #region car
+        public static bool GetCarDispatchReport(ref int carDisWholeCount, ref int carDisTodayCount, ref int carDisNoOutCount, ref int carDisLeftCount, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("SELECT ");
+            #region carDis whole count
+            {
+                SqlQueryMng sqm = new SqlQueryMng();
+                sqm.setQueryTableName(TblMWCarDispatch.getFormatTableName());
+                SqlQueryColumn sqc = new SqlQueryColumn();
+                sqm.QueryColumn.AddCount(TblMWCarDispatch.getCarDisIdColumn());
+                string s = sqm.getInSql();
+                sb.AppendLine("(" + s + ") AS COL1,");
+                System.Diagnostics.Debug.WriteLine(s);
+            }
+            #endregion
+
+            #region carDis today count
+            {
+                DateTime now = SqlDBMng.GetDBNow();
+                SqlQueryMng sqm = new SqlQueryMng();
+                sqm.setQueryTableName(TblMWCarDispatch.getFormatTableName());
+                sqm.QueryColumn.AddCount(TblMWCarDispatch.getCarDisIdColumn());
+                sqm.Condition.Where.AddDateTimeCompareValue(TblMWCarDispatch.getOutDateColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, now, SqlCommonFn.SqlWhereDateTimeFormatEnum.YMD);
+                string s = sqm.getInSql();
+                sb.AppendLine("(" + s + ") AS COL2,");
+                System.Diagnostics.Debug.WriteLine(s);
+            }
+            #endregion
+
+            #region car no out count
+            {
+                SqlQueryMng sqm = new SqlQueryMng();
+                sqm.setQueryTableName(TblMWCar.getFormatTableName());
+                sqm.QueryColumn.AddCount(TblMWCar.getCarCodeColumn());
+                sqm.Condition.Where.AddCompareValue(TblMWCar.getStatusColumn(), SqlCommonFn.SqlWhereCompareEnum.UnEquals, TblMWCar.STATUS_ENUM_Void);
+                SqlWhere sw = new SqlWhere();
+                sw.AddCompareValue(TblMWCar.getStatusColumn(), SqlCommonFn.SqlWhereCompareEnum.UnEquals, TblMWCar.STATUS_ENUM_Void);
+                {
+                    SqlQueryMng subSqm = new SqlQueryMng();
+                    subSqm.setQueryTableName(TblMWCarDispatch.getFormatTableName());
+                    subSqm.QueryColumn.Add(TblMWCarDispatch.getCarCodeColumn());
+                    subSqm.Condition.Where.AddCompareValue(
+                        TblMWCarDispatch.getStatusColumn(),
+                        SqlCommonFn.SqlWhereCompareEnum.Equals,
+                        TblMWCarDispatch.STATUS_ENUM_ShiftStrat);
+
+                    sqm.Condition.Where.AddNotInValues(TblMWCar.getCarCodeColumn(), subSqm);
+                }
+
+                string s = sqm.getInSql();
+                sb.AppendLine("(" + s + ") AS COL3,");
+                System.Diagnostics.Debug.WriteLine(s);
+            }
+            #endregion
+
+            #region car count
+            {
+                SqlQueryMng sqm = new SqlQueryMng();
+                sqm.setQueryTableName(TblMWCar.getFormatTableName());
+                sqm.QueryColumn.AddCount(TblMWCar.getCarCodeColumn());
+                sqm.Condition.Where.AddCompareValue(TblMWCar.getStatusColumn(), SqlCommonFn.SqlWhereCompareEnum.UnEquals, TblMWCar.STATUS_ENUM_Void);
+                string s = sqm.getInSql();
+                sb.AppendLine("(" + s + ") AS COL4;");
+                System.Diagnostics.Debug.WriteLine(s);
+            }
+            #endregion
+
+            string sql = sb.ToString();
+            try
+            {
+                System.Data.DataSet ds = SqlDBMng.getInstance().query(sql, null);
+                carDisWholeCount = ComLib.ComFn.ObjectToInt(ds.Tables[0].Rows[0][0]);
+                carDisTodayCount = ComLib.ComFn.ObjectToInt(ds.Tables[0].Rows[0][1]);
+                carDisNoOutCount = ComLib.ComFn.ObjectToInt(ds.Tables[0].Rows[0][2]);
+                //int defineCarAllCount = ComLib.ComFn.ObjectToInt(ds.Tables[0].Rows[0][3]);
+                carDisNoOutCount = ComLib.ComFn.ObjectToInt(ds.Tables[0].Rows[0][2]);
+                carDisLeftCount = ComLib.ComFn.ObjectToInt(ds.Tables[0].Rows[0][3]) - carDisNoOutCount;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                errMsg = ex.Message;
+                return false;
+            }
+        }
         #endregion
     }
 }

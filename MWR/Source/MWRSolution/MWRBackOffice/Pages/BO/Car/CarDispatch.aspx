@@ -182,7 +182,7 @@
 						车辆调度记录
 					</div>
 					<div class="tools">
-						<a class="reload" href="javascript:;"></a>
+						<%--<a class="reload" href="javascript:;"></a>--%>
 					</div>
 				</div>
 				<div class="portlet-body">
@@ -191,8 +191,8 @@
 							<span class="sale-info">
 								累计出勤次数 <i class="fa fa-img-up"></i>
 							</span>
-							<span class="sale-num">
-								23
+							<span class="sale-num"> 
+								<% = PageCarDisWholeCount%>
 							</span>
 						</li>
 						<li>
@@ -200,7 +200,7 @@
 								今日出勤次数 <i class="fa fa-img-down"></i>
 							</span>
 							<span class="sale-num">
-								1
+								<% = PageCarDisTodayCount%>
 							</span>
 						</li>
 						<li>
@@ -208,7 +208,7 @@
 								当前待发车辆
 							</span>
 							<span class="sale-num">
-								4
+								<% = PageCarDisNoOutCount%>
 							</span>
 						</li>
 						<li>
@@ -216,7 +216,7 @@
 								当前外出车辆
 							</span>
 							<span class="sale-num">
-								1
+								<% = PageCarDisLeftCount%>
 							</span>
 						</li>
 					</ul>

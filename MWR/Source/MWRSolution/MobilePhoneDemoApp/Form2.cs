@@ -10,6 +10,7 @@ using LinqToExcel;
 using YRKJ.MWR;
 using YRKJ.MWR.Business.Report;
 using ComLib;
+using ComLib.db;
 
 namespace MobilePhoneDemoApp
 {
@@ -22,6 +23,65 @@ namespace MobilePhoneDemoApp
 
         private void button1_Click(object sender, EventArgs e)
         {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("SELECT ");
+            {
+                SqlQueryMng sqm = new SqlQueryMng();
+                sqm.setQueryTableName(TblMWCarDispatch.getFormatTableName());
+                SqlQueryColumn sqc = new SqlQueryColumn();
+                sqm.QueryColumn.AddCount(TblMWCarDispatch.getCarDisIdColumn());
+                string s = sqm.getInSql();
+                sb.AppendLine("(" + s + ") AS COL1,");
+                System.Diagnostics.Debug.WriteLine(s);
+            }
+
+            {
+                DateTime now = SqlDBMng.GetDBNow();
+                SqlQueryMng sqm = new SqlQueryMng();
+                sqm.setQueryTableName(TblMWCarDispatch.getFormatTableName());
+                sqm.QueryColumn.AddCount(TblMWCarDispatch.getCarDisIdColumn());
+                sqm.Condition.Where.AddDateTimeCompareValue(TblMWCarDispatch.getOutDateColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, now, SqlCommonFn.SqlWhereDateTimeFormatEnum.YMD);
+                string s = sqm.getInSql();
+                sb.AppendLine("(" + s + ") AS COL2,");
+                System.Diagnostics.Debug.WriteLine(s);
+            }
+
+            {
+                SqlQueryMng sqm = new SqlQueryMng();
+                sqm.setQueryTableName(TblMWCar.getFormatTableName());
+                sqm.QueryColumn.AddCount(TblMWCar.getCarCodeColumn());
+                sqm.Condition.Where.AddCompareValue(TblMWCar.getStatusColumn(), SqlCommonFn.SqlWhereCompareEnum.UnEquals, TblMWCar.STATUS_ENUM_Void);
+                SqlWhere sw = new SqlWhere();
+                sw.AddCompareValue(TblMWCar.getStatusColumn(), SqlCommonFn.SqlWhereCompareEnum.UnEquals, TblMWCar.STATUS_ENUM_Void);
+                {
+                    SqlQueryMng subSqm = new SqlQueryMng();
+                    subSqm.setQueryTableName(TblMWCarDispatch.getFormatTableName());
+                    subSqm.QueryColumn.Add(TblMWCarDispatch.getCarCodeColumn());
+                    subSqm.Condition.Where.AddCompareValue(
+                        TblMWCarDispatch.getStatusColumn(),
+                        SqlCommonFn.SqlWhereCompareEnum.Equals,
+                        TblMWCarDispatch.STATUS_ENUM_ShiftStrat);
+
+                    sqm.Condition.Where.AddNotInValues(TblMWCar.getCarCodeColumn(), subSqm);
+                }
+
+                string s = sqm.getInSql();
+                sb.AppendLine("(" + s + ") AS COL3,");
+                System.Diagnostics.Debug.WriteLine(s);
+            }
+
+            {
+                SqlQueryMng sqm = new SqlQueryMng();
+                sqm.setQueryTableName(TblMWCar.getFormatTableName());
+                sqm.QueryColumn.AddCount(TblMWCar.getCarCodeColumn());
+                string s = sqm.getInSql();
+                sb.AppendLine("(" + s + ") AS COL4;");
+                System.Diagnostics.Debug.WriteLine(s);
+            }
+
+            string sql = sb.ToString();
+            System.Diagnostics.Debug.WriteLine(sql);
+            return;
             //var excel = new ExcelQueryFactory("excelFileName");
             //var indianaCompanies = from c in excel.Worksheet<Company>()
             //                       where c.State == "IN"
@@ -67,7 +127,7 @@ namespace MobilePhoneDemoApp
                 foreach (var item in query)
                 {
                     System.Diagnostics.Debug.WriteLine(
-                        item["类型编号"] + " " + item["类型名称"] 
+                        item["类型编号"] + " " + item["类型名称"]
                         );
                 }
             }

@@ -8,6 +8,7 @@ using YRKJ.MWR.BackOffice.Business.Sys;
 using YRKJ.MWR.Business.BaseData;
 using YRKJ.MWR.Business.BO;
 using ComLib;
+using YRKJ.MWR.Business.Report;
 
 namespace YRKJ.MWR.BackOffice.Pages.BO.Car
 {
@@ -154,6 +155,13 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Car
         private bool LoadData(ref string errMsg)
         {
 
+          
+
+            if (!ReportDataMng.GetCarDispatchReport(ref PageCarDisWholeCount, ref PageCarDisTodayCount, ref PageCarDisNoOutCount, ref PageCarDisLeftCount, ref errMsg))
+            {
+                return false;
+            }
+
             if (!LoadEditCarDispatchData(ref errMsg))
             {
                 return false;
@@ -257,6 +265,11 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Car
         protected List<PageEmplData> PageEmplInspectorDataList = new List<PageEmplData>();
         protected List<PageCarInOutData> PageCarInOutDataList = new List<PageCarInOutData>();
         protected List<string> PageMobileWSDataList = new List<string>();
+
+        protected int PageCarDisWholeCount = 0;
+        protected int PageCarDisTodayCount = 0;
+        protected int PageCarDisNoOutCount = 0;
+        protected int PageCarDisLeftCount = 0;
 
         protected int CurrentPage = 0;
         #endregion
