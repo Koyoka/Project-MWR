@@ -27,12 +27,18 @@ namespace YRKJ.MWR.BackOffice
 
             #region database
             ComLib.db.SqlDBMng.initDBMng(ComLib.db.SqlDBMng.DBTypeEnum.MySQl);
-
+            string dbName = System.Configuration.ConfigurationManager.AppSettings["DBName"].ToString();
+            string dbService = System.Configuration.ConfigurationManager.AppSettings["DBService"].ToString();
+            string dbUser = System.Configuration.ConfigurationManager.AppSettings["DBUser"].ToString();
+            string dbPassword = System.Configuration.ConfigurationManager.AppSettings["DBPassword"].ToString();
+            string dbPort = System.Configuration.ConfigurationManager.AppSettings["DBPort"].ToString();
+            string dbKey = System.Configuration.ConfigurationManager.AppSettings["Key"].ToString();
+            dbPassword = ComLib.ComFn.DecryptDBPassword(dbKey, dbPassword);
             ComLib.db.SqlDBMng.setConnectionString(
-                       ComLib.db.SqlDBMng.GetConnStr("MWRDATA",
-                       "127.0.0.1",
-                       "root",
-                       "-101868"));
+                       ComLib.db.SqlDBMng.GetConnStr(dbName,
+                      dbService,
+                       dbUser,
+                       dbPassword, dbPort));
             #endregion
         }
 

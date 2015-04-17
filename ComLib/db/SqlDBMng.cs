@@ -20,10 +20,10 @@ namespace ComLib.db
         public static DBTypeEnum DBType = DBTypeEnum.MySQl;
         private static string _constr = "";
 
-        public static string GetConnStr(string dbname,string dbsource,string uid,string password)
+        public static string GetConnStr(string dbname,string dbsource,string uid,string password,string port)
         {
-            return string.Format("Database='{0}';Data Source='{1}';User Id='{2}';Password='{3}';charset='utf8'"
-                ,dbname,dbsource,uid,password);
+            return string.Format("Database='{0}';Port={4};Data Source='{1}';User Id='{2}';Password='{3}';charset='utf8'"
+                ,dbname,dbsource,uid,password,port);
 
         }
         public static void initDBMng(string connstr,DBTypeEnum type)
@@ -146,12 +146,12 @@ namespace ComLib.db
 
         }
 
-        public static bool DetectDBServer(string dbname, string server, string uid, string pwd,ref string errMsg)
+        public static bool DetectDBServer(string dbname, string server, string uid, string pwd,string port,ref string errMsg)
         {
             try
             {
                 DateTime d = DateTime.MinValue;
-                if (!GetDBNow(GetConnStr(dbname, server, uid, pwd), ref d, ref errMsg))
+                if (!GetDBNow(GetConnStr(dbname, server, uid, pwd, port), ref d, ref errMsg))
                 {
                     return false;
                 }
