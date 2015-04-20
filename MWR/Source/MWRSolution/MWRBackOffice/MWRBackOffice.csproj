@@ -278,8 +278,13 @@
     <Content Include="Assets\wsmanage.js" />
     <Content Include="Assets\副本 bobdcrate.js" />
     <Content Include="Assets\bodestroylog.js" />
+    <Content Include="Assets\bosetupindex.js" />
     <Content Include="Global.asax" />
     <Content Include="Lib\Newtonsoft.Json.Net20.dll" />
+    <Content Include="Pages\BOSetup\BOSetupIndex.aspx" />
+    <Content Include="Pages\BOSetup\SetupAdmin.aspx" />
+    <Content Include="Pages\BOSetup\SetupInitBaseData.aspx" />
+    <Content Include="Pages\BOSetup\SetupParams.aspx" />
     <Content Include="Pages\BO\BaseData\BDCar.aspx" />
     <Content Include="Pages\BO\BaseData\BDCrate.aspx" />
     <Content Include="Pages\BO\BaseData\BDDepot.aspx" />
@@ -354,6 +359,34 @@
     <Compile Include="Class1.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\BOSetup\BOSetupIndex.aspx.cs">
+      <DependentUpon>BOSetupIndex.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\BOSetup\BOSetupIndex.aspx.designer.cs">
+      <DependentUpon>BOSetupIndex.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\BOSetup\SetupAdmin.aspx.cs">
+      <DependentUpon>SetupAdmin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\BOSetup\SetupAdmin.aspx.designer.cs">
+      <DependentUpon>SetupAdmin.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\BOSetup\SetupInitBaseData.aspx.cs">
+      <DependentUpon>SetupInitBaseData.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\BOSetup\SetupInitBaseData.aspx.designer.cs">
+      <DependentUpon>SetupInitBaseData.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\BOSetup\SetupParams.aspx.cs">
+      <DependentUpon>SetupParams.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\BOSetup\SetupParams.aspx.designer.cs">
+      <DependentUpon>SetupParams.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\BO\BaseData\BDCar.aspx.cs">
       <DependentUpon>BDCar.aspx</DependentUpon>

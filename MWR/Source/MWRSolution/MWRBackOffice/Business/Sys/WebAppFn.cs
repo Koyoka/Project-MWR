@@ -10,6 +10,11 @@ namespace YRKJ.MWR.BackOffice.Business.Sys
         #region Url
         private static string _siteRoot = null;
 
+        public static string GetBoSetupFullPageUrl(string page)
+        {
+            return GetFullUrl(@"Pages/BOSetup/"+page);
+        }
+
         public static string GetBoFullPageUrl(string page)
         {
             return GetFullUrl(@"Pages/BO/"+page);

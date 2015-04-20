@@ -32,7 +32,8 @@ namespace YRKJ.MWR.BackOffice.Pages.MasterPages
         {
             string container = WebAppFn.SafeQueryString("container");
             IsContainerPage = string.IsNullOrEmpty(container) ? false : true;
-            IsIndexPage = WebAppFn.GetCurrentPageName().ToLower().Equals("boindex.aspx".ToLower()) ? true : false;
+            IsIndexPage = WebAppFn.GetCurrentPageName().ToLower().Equals("boindex.aspx".ToLower())
+                || WebAppFn.GetCurrentPageName().ToLower().Equals("bosetupindex.aspx".ToLower()) ? true : false;
         }
 
         private void LoadData()

@@ -11,6 +11,7 @@ namespace YRKJ.MWR.BackOffice.Business.Sys
 
         public const string SysError = "/Pages/BO/Error.aspx";
 
+        #region BO
         #region Login
         public const string Index = "Index.html";
         #endregion
@@ -61,6 +62,12 @@ namespace YRKJ.MWR.BackOffice.Business.Sys
         public const string BDCrate = "BaseData/DemoBDCrate.aspx";//"BaseData/BDCrate.aspx";
 
         public const string DemoBDCrate = "BaseData/DemoBDCrate.aspx";
+        #endregion
+        #endregion
+
+        #region BOSetup
+        public const string SetupAdmin = "SetupAdmin.aspx";
+
         #endregion
 
         #region System
