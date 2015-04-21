@@ -60,7 +60,7 @@
 <% if (!IsIndexPage && !IsContainerPage)
    { %>
 <div class="page-content-wrapper">
-<div class="page-content" style="">
+<div class="page-content" >
 <uc1:UModal ID="UModal1" runat="server" /><%  }%>
 <% if (IsContainerPage)
    { %>
