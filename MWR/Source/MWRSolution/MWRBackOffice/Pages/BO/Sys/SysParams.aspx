@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Pages/MasterPages/MWBOEmpty.Master" AutoEventWireup="true" CodeBehind="SysParams.aspx.cs" Inherits="YRKJ.MWR.BackOffice.Pages.BO.Sys.SysParams" %>
+﻿<%@ Page validateRequest="false" Title="" Language="C#" MasterPageFile="~/Pages/MasterPages/MWBOEmpty.Master" AutoEventWireup="true" CodeBehind="SysParams.aspx.cs" Inherits="YRKJ.MWR.BackOffice.Pages.BO.Sys.SysParams" %>
 <%@ Import Namespace="YRKJ.MWR.BackOffice.Business.Sys" %>
 <%@ Import Namespace="YRKJ.MWR.Business.Sys" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
@@ -91,35 +91,6 @@
 										</span>
 									</div>
 								</div>
-							<%--	<div class="col-md-6">
-									<div class="form-group ">
-										<label class="control-label">系统使用单位</label>
-										<%--<input type="text"  data-mask="mask_decime" class="form-control" placeholder="请输入系统使用单位" 
-                                        maxlength="<% = YRKJ.MWR.TblSysParameter.getParameterValueColumn().ColumnSize %>"  
-                                        value="<% = MWParams.GetWeightUnit() %>" />
-                                       div class="radio-list">
-											<label class="radio-inline">
-											<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked> 千克 [kg] </label>
-											<label class="radio-inline">
-											<input type="radio" name="optionsRadios" id="optionsRadios2" value="option2"> 克 [g] </label>
-                                            <label class="radio-inline">
-											<input type="radio" name="optionsRadios" id="Radio1" value="option2"> 吨 [t] </label>
-										</div>
-                                        <div class="clearfix">
-								            <div class="btn-group" data-toggle="buttons">
-									            <label class="btn blue">
-									            <input type="radio" class="toggle"> 千克 [kg] </label>
-									            <label class="btn blue">
-									            <input type="radio" class="toggle"> &nbsp;克 [g] </label>
-									            <label class="btn blue active">
-									            <input type="radio" class="toggle">  &nbsp;吨 [t] </label>
-								            </div>
-							            </div>
-										<span class="help-block">
-											系统使用重量单位
-										</span>
-									</div>
-								</div>--%>
 								<!--/span-->
 							</div>
 							<!--/row-->
@@ -147,42 +118,22 @@
 										</span>
 									</div>
 								</div>
-								<!--/span-->
-								<%--<div class="col-md-6">
-									<div class="form-group">
-										<label class="control-label">Date of Birth</label>
-										<input type="text" class="form-control" placeholder="dd/mm/yyyy">
-									</div>
-								</div>--%>
-								<!--/span-->
 							</div>
+
+                            <div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label class="control-label">车辆轨迹模块代码</label>
+                                        <textarea cols="3" id="carGPSMapCode" name="carGPSMapCode"  class="form-control" placeholder="请回收车辆跟踪模块代码" 
+                                        maxlength="<% = YRKJ.MWR.TblSysParameter.getParameterValueColumn().ColumnSize %>"><% =  HttpUtility.HtmlDecode(MWParams.GetCarGPSMapCode()) %></textarea>
+                                         <span class="help-block">
+											车辆跟踪模块代码
+									    </span>
+									</div>
+								</div>
+
+                            </div>
 							<!--/row-->
-						<%--	<div class="row">
-								<div class="col-md-6">
-									<div class="form-group">
-										<label class="control-label">Category</label>
-										<select class="select2_category form-control" data-placeholder="Choose a Category" tabindex="1">
-											<option value="Category 1">Category 1</option>
-											<option value="Category 2">Category 2</option>
-											<option value="Category 3">Category 5</option>
-											<option value="Category 4">Category 4</option>
-										</select>
-									</div>
-								</div>
-								<!--/span-->
-								<div class="col-md-6">
-									<div class="form-group">
-										<label class="control-label">Membership</label>
-										<div class="radio-list">
-											<label class="radio-inline">
-											<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked> Option 1 </label>
-											<label class="radio-inline">
-											<input type="radio" name="optionsRadios" id="optionsRadios2" value="option2"> Option 2 </label>
-										</div>
-									</div>
-								</div>
-								<!--/span-->
-							</div>--%>
 							<!--/row-->
 							<h3 class="form-section">工作站参数</h3>
 							<div class="row">

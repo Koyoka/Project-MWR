@@ -2,11 +2,11 @@
 var SetupIndexHelper = function () {
     var _stepArray = null;
     var _nextStep = function () {
-//        window.alert(_stepArray[0].toLowerCase());
-//        window.alert(window.location.hash);
+        //        window.alert(_stepArray[0].toLowerCase());
+        //        window.alert(window.location.hash);
 
         if (_stepArray != null) {
-            var s = "window.location.hash".toLowerCase();
+            var s = window.location.hash.toLowerCase();
             var curIndex = 0;
             for (i = 0; i < _stepArray.length; i++) {
                 if (_stepArray[i].toLowerCase() == s) {
@@ -27,8 +27,8 @@ var SetupIndexHelper = function () {
     }
     var initHelper = function () {
 
-        $('.disabled-link a').live('click',function (e) {
-            window.alert("请完成当前步骤");
+        $('.disabled-link a').live('click', function (e) {
+//            window.alert("请完成当前步骤");
             return false;
         });
 
@@ -62,6 +62,8 @@ var SetupIndexHelper = function () {
             },
             hashChangeEvent: function () {
                 $(window).on('hashchange', function () {
+                    //                    location.reload();
+                    //                    window.location.href = "";
                     var page = this.getPageByHash();
                     if (page) {
                         this.loadPage(page);
@@ -107,6 +109,7 @@ var SetupIndexHelper = function () {
                         dataType: "html",
                         success: function (res) {
                             pageContentBody.html("");
+//                            $.widget('blueimp.fileupload', {});
                             var html = $(res);
                             var link = html.find('link');
                             var loadTime = 0;

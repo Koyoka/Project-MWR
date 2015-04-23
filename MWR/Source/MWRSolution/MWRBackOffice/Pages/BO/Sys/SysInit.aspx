@@ -45,10 +45,7 @@
 			</p> 模板请于<a href="<% = WebAppFn.GetBoFullPageUrl("Sys/1.xlsx") %>">这里</a>下载
 		</div>
 
-
 	    <div class="btn-group">
-		   
-
             <span class="btn green fileinput-button">
                 <span>
 					上传模板
@@ -211,7 +208,7 @@
 <script type="text/javascript" src="/assets/plugins/data-tables/DT_bootstrap.js"></script>
 <script src="/assets/scripts/table-managed.js"></script>
 
-<script src="/assets/plugins/jquery-file-upload/js/jquery.fileupload.js"></script>
+<%--<script src="/assets/plugins/jquery-file-upload/js/jquery.fileupload.js"></script>--%>
 
 <script src="/assets/bosysinit.js"></script>
 <script>

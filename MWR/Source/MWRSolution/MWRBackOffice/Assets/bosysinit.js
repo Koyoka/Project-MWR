@@ -1,9 +1,15 @@
 ﻿var SysInitHelper = function () {
-    var initHelper = function () {
+    var initHelper = function (_url) {
         var ProEl = $('.progress .progress-bar');
         ProEl.hide();
         //        ProEl.css("width", progress + "%");
-        var URL = "/Pages/BO/Sys/SysInit.aspx";
+        var URL = _url ? _url : "/Pages/BO/Sys/SysInit.aspx";
+        //        window.alert($('#fileupload').change)
+//        $.blueimp.fileupload.prototype._initSpecialOptions();
+
+//        $('#fileupload').on('change', function (e) {
+//            window.alert(2);
+//        })
         $('#fileupload').fileupload({
             url: URL,
             autoUpload: true,
@@ -42,11 +48,7 @@
                         $('#mwFrmImport').submit();
                     }
                 });
-
-
-
             }
-
         });
 
         gl.wgt.set('mw-submitImportCurData', {
@@ -108,8 +110,8 @@
     }
 
     return {
-        init: function () {
-            initHelper();
+        init: function (_url) {
+            initHelper(_url);
         },
         recallImport: _recallImport
     };

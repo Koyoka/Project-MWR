@@ -71,13 +71,14 @@ namespace YRKJ.MWR.Business.Sys
                 {
                     // keep exist employ's funcgroup
                     item.EmpyType = TblMWEmploy.EMPYTYPE_ENUM_WorkStation;
+                    item.Status = TblMWCar.STATUS_ENUM_Active;
                     defineEmpyList.Find(x =>
                     {
                         if (x.EmpyCode.Equals(item.EmpyCode))
                         {
                             item.FuncGroupId = x.FuncGroupId;
                             item.EmpyType = x.EmpyType;
-                            item.Password = x.Password;
+                            item.Password = SqlCommonFn.DecryptString(x.Password);
                             item.Status = x.Status;
                             return true;
                         }
@@ -134,6 +135,7 @@ namespace YRKJ.MWR.Business.Sys
                 }
                 foreach (var item in carList)
                 {
+                    item.Status = TblMWCar.STATUS_ENUM_Active;
                     if (!TblMWCarCtrl.Insert(dcf, item, ref updCount, ref errMsg))
                     {
                         return false;
@@ -168,6 +170,7 @@ namespace YRKJ.MWR.Business.Sys
                 }
                 foreach (var item in crateList)
                 {
+                    item.Status = TblMWCar.STATUS_ENUM_Active;
                     if (!TblMWCrateCtrl.Insert(dcf, item, ref updCount, ref errMsg))
                     {
                         return false;

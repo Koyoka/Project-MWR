@@ -3,22 +3,15 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
 <div class="row">
-<iframe id="mw_iframGPS" 
-src="CarLocus.aspx"
- width="100%" ></iframe>
+
+<% = YRKJ.MWR.Business.Sys.MWParams.GetCarGPSMapCode()%>
  </div>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="foot" runat="server">
  <script>
-
-
      jQuery(document).ready(function () {
-       
-         window.alert($(document).height()-120)
          $('iframe').height($(document).height()-200);
-       
      });
- 
  </script>
 
 </asp:Content>

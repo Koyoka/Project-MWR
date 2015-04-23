@@ -390,5 +390,30 @@ namespace YRKJ.MWR.Business.Sys
             return _defaultMapCity;
         }
         #endregion
+
+        #region Car gps
+        private static string _carGPSMapCode = null;
+        public static bool SetCarGPSMapCode(string value, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            if (!SysParams.GetInstance().SetValue(dcf, "CarGPSMapCode", value, ref errMsg))
+            {
+                return false;
+            }
+            _carGPSMapCode = value;
+            return true;
+        }
+        public static string GetCarGPSMapCode()
+        {
+            if (_carGPSMapCode == null)
+            {
+                DataCtrlInfo dcf = new DataCtrlInfo();
+                _carGPSMapCode = SysParams.GetInstance().GetValue(dcf, "CarGPSMapCode");
+            }
+
+
+            return _carGPSMapCode;
+        }
+        #endregion
     }
 }

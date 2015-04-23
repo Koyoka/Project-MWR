@@ -418,13 +418,14 @@
 <script src="/assets/plugins/jquery-file-upload/js/vendor/load-image.min.js"></script>
 <script src="/assets/plugins/jquery-file-upload/js/vendor/canvas-to-blob.min.js"></script>
 <script src="/assets/plugins/jquery-file-upload/js/jquery.iframe-transport.js"></script>
-<script src="/assets/plugins/jquery-file-upload/js/jquery.fileupload.js"></script>
+<%--<script src="/assets/plugins/jquery-file-upload/js/jquery.fileupload.js"></script>--%>
 <script src="/assets/plugins/jquery-file-upload/js/jquery.fileupload-process.js"></script>
+<script src="/assets/plugins/jquery-file-upload/js/jquery.fileupload-ui.js"></script>
 <%--<script src="/assets/plugins/jquery-file-upload/js/jquery.fileupload-image.js"></script>
 <script src="/assets/plugins/jquery-file-upload/js/jquery.fileupload-audio.js"></script>
 <script src="/assets/plugins/jquery-file-upload/js/jquery.fileupload-video.js"></script>
 <script src="/assets/plugins/jquery-file-upload/js/jquery.fileupload-validate.js"></script>--%>
-<script src="/assets/plugins/jquery-file-upload/js/jquery.fileupload-ui.js"></script>
+<%--<script src="/assets/plugins/jquery-file-upload/js/jquery.fileupload-ui.js"></script>--%>
 
 <script type="text/javascript" src="/assets/plugins/jquery-validation/dist/jquery.validate.min.js"></script>
 <script type="text/javascript" src="/assets/plugins/jquery-validation/dist/additional-methods.min.js"></script><%--<script type="text/javascript" src="/assets/plugins/jquery-validation/localization/messages_zh.js"></script>--%>

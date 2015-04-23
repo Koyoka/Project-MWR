@@ -66,6 +66,7 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Sys
                 {
                     foreach (var subItem in item.dataList)
                     {
+                        #region set object
                         switch (item.GroupName)
                         {
                             case EXCEL_WORKSHEET_EMPLOY:
@@ -73,7 +74,8 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Sys
                                 {
                                     EmpyCode = subItem.code,
                                     EmpyName = subItem.desc1,
-                                    Password = subItem.desc2
+                                    Password = subItem.desc2,
+                                    Status = TblMWEmploy.STATUS_ENUM_Active
                                 });
                                 break;
                             case EXCEL_WORKSHEET_VENDOR:
@@ -88,7 +90,8 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Sys
                                 carList.Add(new TblMWCar()
                                 {
                                     CarCode = subItem.code,
-                                    Desc = subItem.desc1
+                                    Desc = subItem.desc1,
+                                    Status = TblMWCar.STATUS_ENUM_Active
                                 });
                                 break;
                             case EXCEL_WORKSHEET_WASTE:
@@ -102,7 +105,8 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Sys
                                 crateList.Add(new TblMWCrate()
                                 {
                                     CrateCode = subItem.code,
-                                    Desc = subItem.desc1
+                                    Desc = subItem.desc1,
+                                    Status = TblMWCrate.STATUS_ENUM_Active
                                 });
                                 break;
                             case EXCEL_WORKSHEET_DEPOT:
@@ -113,6 +117,7 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Sys
                                 });
                                 break;
                         }
+                        #endregion
                     }
                 }
             }

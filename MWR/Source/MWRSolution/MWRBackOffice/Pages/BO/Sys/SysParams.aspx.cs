@@ -27,7 +27,9 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Sys
         }
 
         #region Events
-        public bool AjaxFormSub(string crateCode, string mapCity, string baiduMapKey, string allowDiffWeightAsIdentical, string allowDiffWeight_All, string allowDiffWeight_Recover, string allowDiffWeight_Post, string allowDiffWeight_Destory, string isResidueFunction)
+        //public bool AjaxFormSub(string crateCode, string mapCity, string baiduMapKey, string allowDiffWeightAsIdentical, string allowDiffWeight_All, string allowDiffWeight_Recover, string allowDiffWeight_Post, string allowDiffWeight_Destory, string isResidueFunction)
+        
+        public bool AjaxFormSub(string crateCode,string mapCity,string baiduMapKey,string allowDiffWeightAsIdentical,string allowDiffWeight_All,string carGPSMapCode,string allowDiffWeight_Recover,string allowDiffWeight_Post,string allowDiffWeight_Destory,string isResidueFunction)
         {
             string errMsg = "";
             bool success = true;
@@ -36,6 +38,7 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Sys
             success = MWParams.SetBaiduMapAK(baiduMapKey, ref errMsg) && success;
             success = MWParams.SetAllowDiffWeightAsIdentical(!string.IsNullOrEmpty(allowDiffWeightAsIdentical), ref errMsg) && success;
             success = MWParams.SetAllowDiffWeight_All(ComLib.ComFn.StringToDecimal(allowDiffWeight_All), ref errMsg) && success;
+            success = MWParams.SetCarGPSMapCode(carGPSMapCode, ref errMsg) && success;
             success = MWParams.SetAllowDiffWeight_Recover(ComLib.ComFn.StringToDecimal(allowDiffWeight_Recover), ref errMsg) && success;
             success = MWParams.SetAllowDiffWeight_Post(ComLib.ComFn.StringToDecimal(allowDiffWeight_Post), ref errMsg) && success;
             success = MWParams.SetAllowDiffWeight_Destory(ComLib.ComFn.StringToDecimal(allowDiffWeight_Destory), ref errMsg) && success;
@@ -45,6 +48,7 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Sys
                 ReturnAjaxError(errMsg);
                 return false;
             }
+           
             return false;
         }
         #endregion

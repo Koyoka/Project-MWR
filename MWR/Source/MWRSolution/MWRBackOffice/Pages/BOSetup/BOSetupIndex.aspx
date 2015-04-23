@@ -29,7 +29,7 @@
                         </div>--%>
                         <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
                     </li>
-                   <li id="step1" class="start active"><a class="active" href="#SetupAdmin.aspx">
+                   <li id="step1" class="start "><a class="active" href="#SetupAdmin.aspx">
                         <i class="fa fa-home"></i><span class="title">1.配置超级管理员 </span><span class="selected"></span>
                     </a></li>
                     <li id="step2" class=" disabled-link"><a class="" href="#SetupParams.aspx">
@@ -38,7 +38,7 @@
                     <li id="step3" class=" disabled-link"><a class="active" href="#SetupInitBaseData.aspx">
                         <i class="fa fa-home"></i><span class="title">3.初始化基础数据 </span><span class="selected"></span>
                     </a></li>
-                    <li id="Li5" class="last disabled-link"><a class="active" href="#BOMain.aspx1">
+                    <li id="Li5" class="last disabled-link"><a class="active" href="#SetupComplete.aspx">
                         <i class="fa fa-home"></i><span class="title">完成 </span><span class=""></span>
                     </a></li>
 
@@ -59,6 +59,8 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="foot" runat="server">
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="footscript" runat="server">
+
+
 <script src="/assets/bosetupindex.js"></script>
 <script type="text/javascript">
     jQuery(document).ready(function () {

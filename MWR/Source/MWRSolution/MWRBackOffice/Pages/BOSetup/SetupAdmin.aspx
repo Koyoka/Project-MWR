@@ -132,6 +132,8 @@
         $('#btnReset').click(function (e) {
             $('input', '#mwFrm').val('');
         });
+
+        $('input').eq(0).focus();
     });
 </script>
 </asp:Content>
