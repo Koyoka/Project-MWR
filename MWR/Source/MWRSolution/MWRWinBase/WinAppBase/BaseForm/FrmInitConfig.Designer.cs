@@ -42,10 +42,12 @@
             this.c_btnCancel = new System.Windows.Forms.Button();
             this.c_btnDetectDB = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.c_txtWebService = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
             this.c_txtWSCode = new System.Windows.Forms.NumericUpDown();
+            this.label6 = new System.Windows.Forms.Label();
+            this.c_txtWebService = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.c_txtPort = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -81,22 +83,24 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(245)))), ((int)(((byte)(241)))));
             this.groupBox2.Controls.Add(this.c_btnDefaultPwd);
+            this.groupBox2.Controls.Add(this.c_txtPort);
             this.groupBox2.Controls.Add(this.c_txtPassword);
             this.groupBox2.Controls.Add(this.c_txtUserId);
             this.groupBox2.Controls.Add(this.c_txtService);
+            this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Font = new System.Drawing.Font("宋体", 1F);
             this.groupBox2.Location = new System.Drawing.Point(12, 62);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(525, 129);
+            this.groupBox2.Size = new System.Drawing.Size(525, 170);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             // 
             // c_btnDefaultPwd
             // 
-            this.c_btnDefaultPwd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.c_btnDefaultPwd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.c_btnDefaultPwd.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.c_btnDefaultPwd.Location = new System.Drawing.Point(352, 67);
             this.c_btnDefaultPwd.Name = "c_btnDefaultPwd";
@@ -165,7 +169,7 @@
             // 
             this.c_btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.c_btnOk.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.c_btnOk.Location = new System.Drawing.Point(429, 292);
+            this.c_btnOk.Location = new System.Drawing.Point(429, 331);
             this.c_btnOk.Name = "c_btnOk";
             this.c_btnOk.Size = new System.Drawing.Size(102, 43);
             this.c_btnOk.TabIndex = 3;
@@ -177,7 +181,7 @@
             // 
             this.c_btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.c_btnCancel.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.c_btnCancel.Location = new System.Drawing.Point(321, 292);
+            this.c_btnCancel.Location = new System.Drawing.Point(321, 331);
             this.c_btnCancel.Name = "c_btnCancel";
             this.c_btnCancel.Size = new System.Drawing.Size(102, 43);
             this.c_btnCancel.TabIndex = 4;
@@ -189,7 +193,7 @@
             // 
             this.c_btnDetectDB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.c_btnDetectDB.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.c_btnDetectDB.Location = new System.Drawing.Point(12, 292);
+            this.c_btnDetectDB.Location = new System.Drawing.Point(12, 331);
             this.c_btnDetectDB.Name = "c_btnDetectDB";
             this.c_btnDetectDB.Size = new System.Drawing.Size(102, 43);
             this.c_btnDetectDB.TabIndex = 5;
@@ -207,41 +211,11 @@
             this.groupBox3.Controls.Add(this.c_txtWebService);
             this.groupBox3.Controls.Add(this.label5);
             this.groupBox3.Font = new System.Drawing.Font("宋体", 1F);
-            this.groupBox3.Location = new System.Drawing.Point(12, 197);
+            this.groupBox3.Location = new System.Drawing.Point(12, 238);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(525, 87);
             this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.label5.Location = new System.Drawing.Point(30, 17);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(79, 20);
-            this.label5.TabIndex = 0;
-            this.label5.Text = "工作站编号";
-            // 
-            // c_txtWebService
-            // 
-            this.c_txtWebService.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.c_txtWebService.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.c_txtWebService.Location = new System.Drawing.Point(115, 51);
-            this.c_txtWebService.Name = "c_txtWebService";
-            this.c_txtWebService.Size = new System.Drawing.Size(404, 25);
-            this.c_txtWebService.TabIndex = 2;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.label6.Location = new System.Drawing.Point(15, 54);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(96, 20);
-            this.label6.TabIndex = 0;
-            this.label6.Text = "Web服务地址";
             // 
             // c_txtWSCode
             // 
@@ -267,12 +241,61 @@
             0,
             0});
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.label6.Location = new System.Drawing.Point(15, 54);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(96, 20);
+            this.label6.TabIndex = 0;
+            this.label6.Text = "Web服务地址";
+            // 
+            // c_txtWebService
+            // 
+            this.c_txtWebService.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.c_txtWebService.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.c_txtWebService.Location = new System.Drawing.Point(115, 51);
+            this.c_txtWebService.Name = "c_txtWebService";
+            this.c_txtWebService.Size = new System.Drawing.Size(404, 25);
+            this.c_txtWebService.TabIndex = 2;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.label5.Location = new System.Drawing.Point(30, 17);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(79, 20);
+            this.label5.TabIndex = 0;
+            this.label5.Text = "工作站编号";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.label7.Location = new System.Drawing.Point(72, 126);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(37, 20);
+            this.label7.TabIndex = 0;
+            this.label7.Text = "端口";
+            // 
+            // c_txtPort
+            // 
+            this.c_txtPort.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.c_txtPort.Location = new System.Drawing.Point(115, 123);
+            this.c_txtPort.Name = "c_txtPort";
+            this.c_txtPort.Size = new System.Drawing.Size(171, 25);
+            this.c_txtPort.TabIndex = 4;
+            this.c_txtPort.Text = "3306";
+            // 
             // FrmInitConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.ClientSize = new System.Drawing.Size(549, 345);
+            this.ClientSize = new System.Drawing.Size(549, 384);
             this.Controls.Add(this.c_btnDetectDB);
             this.Controls.Add(this.c_btnCancel);
             this.Controls.Add(this.c_btnOk);
@@ -313,5 +336,7 @@
         private System.Windows.Forms.TextBox c_txtWebService;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.NumericUpDown c_txtWSCode;
+        private System.Windows.Forms.TextBox c_txtPort;
+        private System.Windows.Forms.Label label7;
     }
 }

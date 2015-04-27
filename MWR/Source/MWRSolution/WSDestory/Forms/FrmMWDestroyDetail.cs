@@ -193,6 +193,9 @@ namespace YRKJ.MWR.WSDestory.Forms
             try
             {
                 this.Cursor = Cursors.WaitCursor;
+
+                //MessageBox.Show("code:"+code+"  weight:"+weight );
+                //return;
                 string errMsg = "";
                 string wsCode = SysInfo.GetInstance().Config.WSCode;
                 string empyCode = SysInfo.GetInstance().Employ.EmpyCode;

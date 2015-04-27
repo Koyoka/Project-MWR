@@ -59,7 +59,8 @@ namespace YRKJ.MWR.WSDestory
                         WinAppBase.DBName,
                          configData.DBServerName,
                          configData.DBUserName,
-                         configData.DBPassword, ref errMsg))
+                         configData.DBPassword,
+                         configData.DBPort, ref errMsg))
                     {
                         using (FrmInitConfig f = new FrmInitConfig())
                         {
@@ -80,7 +81,8 @@ namespace YRKJ.MWR.WSDestory
                      SqlDBMng.GetConnStr(WinAppBase.DBName,
                      configData.DBServerName,
                      configData.DBUserName,
-                     configData.DBPassword));
+                     configData.DBPassword,
+                     configData.DBPort));
 
                 }
                 #endregion

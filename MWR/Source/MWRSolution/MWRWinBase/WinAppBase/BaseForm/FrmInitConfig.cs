@@ -85,7 +85,7 @@ namespace YRKJ.MWR.WinBase.WinAppBase.BaseForm
                 AppConfig cfg = GetCfgDataFromControl();
 
                 #region valid db config
-                if (!ComLib.db.SqlDBMng.DetectDBServer(WinAppBase.DBName, cfg.DBServerName, cfg.DBUserName, cfg.DBPassword, ref errMsg))
+                if (!ComLib.db.SqlDBMng.DetectDBServer(WinAppBase.DBName, cfg.DBServerName, cfg.DBUserName, cfg.DBPassword,cfg.DBPort, ref errMsg))
                 {
                     MsgBox.Error(LngRes.MSG_DetectDBError);
                     WinFn.SafeFocusAndSelectAll(c_txtService);
@@ -133,7 +133,7 @@ namespace YRKJ.MWR.WinBase.WinAppBase.BaseForm
                 string errMsg = "";
 
                 AppConfig cfg = GetCfgDataFromControl();
-                if (!ComLib.db.SqlDBMng.DetectDBServer(WinAppBase.DBName, cfg.DBServerName, cfg.DBUserName, cfg.DBPassword, ref errMsg))
+                if (!ComLib.db.SqlDBMng.DetectDBServer(WinAppBase.DBName, cfg.DBServerName, cfg.DBUserName, cfg.DBPassword,cfg.DBPort, ref errMsg))
                 {
                     MsgBox.Error(LngRes.MSG_DetectDBError);
                     WinFn.SafeFocusAndSelectAll(c_txtService);
@@ -218,6 +218,7 @@ namespace YRKJ.MWR.WinBase.WinAppBase.BaseForm
             cfg.DBServerName = c_txtService.Text.Trim();
             cfg.DBUserName = c_txtUserId.Text.Trim();
             cfg.DBPassword = c_txtPassword.Text;
+            cfg.DBPort = c_txtPort.Text.Trim();
             return cfg;
         }
 

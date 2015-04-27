@@ -40,6 +40,7 @@ namespace YRKJ.MWR.WinBase.WinAppBase.Config
                 //data.DBDatabaseNumber = ComFn.SafeGetXmlNodeInnerText(doc, "Root/Database/DatabaseNumber");
                 data.DBUserName = ComFn.SafeGetXmlNodeInnerText(doc, "Root/Database/UserName");
                 data.DBPassword = ComFn.DecryptDBPassword(WinAppBase.DBKey,ComFn.SafeGetXmlNodeInnerText(doc, "Root/Database/Password"));
+                data.DBPort = ComFn.SafeGetXmlNodeInnerText(doc, "Root/Database/Port");
                 data.ServiceRoot = ComFn.SafeGetXmlNodeInnerText(doc, "Root/WebService/ServiceRoot");
 
                 data.WSCode = ComFn.SafeGetXmlNodeInnerText(doc, "Root/WorkStation/Code");
@@ -69,6 +70,7 @@ namespace YRKJ.MWR.WinBase.WinAppBase.Config
                 sb.Append("		<UserName>" + ComFn.GetSafeXml(data.DBUserName) + "</UserName>");
                 sb.Append("		<Password>" + ComFn.GetSafeXml(ComFn.EncryptDBPassword(WinAppBase.DBKey,data.DBPassword)) + "</Password>");
                 //sb.Append("		<SQLDatabaseFolder>" + ComFn.GetSafeXml("") + "</SQLDatabaseFolder>");
+                sb.Append("		<Port>" + ComFn.GetSafeXml(data.DBPort) + "</Port>");
                 sb.Append("	</Database>");
                 #endregion
                 sb.Append(" <WebService>");

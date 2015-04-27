@@ -122,6 +122,15 @@ namespace YRKJ.MWR.WSDestory.Forms
             }
         }
 
+        private void FrmMWCrateView_onScalesDataReceived2(string status, string lable, decimal weight, string unit) 
+        {
+            _txnWeight = BizHelper.ConventToSysUnitWeight(weight, unit, SysParams.GetInstance().GetSysWeightUnit());
+            if (!confirmScaleWieght(_txnWeight))
+            {
+                return;
+            }
+            this.Close();
+        }
         private void FrmMWCrateView_onScalesDataReceived(string status, string lable, decimal weight, string unit)
         {
             //ThreadSafe(() => {
@@ -136,6 +145,23 @@ namespace YRKJ.MWR.WSDestory.Forms
 
         }
 
+        private bool confirmScaleWieght(decimal weight)
+        {
+            string empyCode = SysInfo.GetInstance().Employ.EmpyCode;
+            string empyName = SysInfo.GetInstance().Employ.EmpyName;
+            string wsCode = SysInfo.GetInstance().Config.WSCode;
+         
+            if (Math.Abs(_formViewData.SubWeight - weight) > _allowDiffWeight)
+            {
+                MsgBox.Error(LngRes.MSG_DiffWeight);
+                return false;
+            }
+
+            if (OnOkClick != null)
+                OnOkClick(_formViewData.CrateCode, weight);
+
+            return true;
+        }
         private void c_btnOk_Click(object sender, EventArgs e)
         {
             try
@@ -143,22 +169,26 @@ namespace YRKJ.MWR.WSDestory.Forms
                 this.Cursor = Cursors.WaitCursor;
 
 #if DEBUG
-                _txnWeight = 1.23M;
+                //_txnWeight = 1.23M;
 #endif
-
-                string errMsg = "";
-                string empyCode = SysInfo.GetInstance().Employ.EmpyCode;
-                string empyName = SysInfo.GetInstance().Employ.EmpyName;
-                string wsCode = SysInfo.GetInstance().Config.WSCode;
                 decimal weight = _txnWeight;
-                if (Math.Abs(_formViewData.SubWeight - weight) > _allowDiffWeight)
+                if (!confirmScaleWieght(weight))
                 {
-                    MsgBox.Error(LngRes.MSG_DiffWeight);
                     return;
                 }
 
-                if (OnOkClick != null)
-                    OnOkClick(_formViewData.CrateCode, weight);
+                //string empyCode = SysInfo.GetInstance().Employ.EmpyCode;
+                //string empyName = SysInfo.GetInstance().Employ.EmpyName;
+                //string wsCode = SysInfo.GetInstance().Config.WSCode;
+               
+                //if (Math.Abs(_formViewData.SubWeight - weight) > _allowDiffWeight)
+                //{
+                //    MsgBox.Error(LngRes.MSG_DiffWeight);
+                //    return;
+                //}
+
+                //if (OnOkClick != null)
+                //    OnOkClick(_formViewData.CrateCode, weight);
 
                 this.DialogResult = System.Windows.Forms.DialogResult.OK;
 
@@ -180,9 +210,9 @@ namespace YRKJ.MWR.WSDestory.Forms
             try
             {
                 this.Cursor = Cursors.WaitCursor;
-#if DEBUG
-                _txnWeight = 1.23M;
-#endif
+//#if DEBUG
+//                _txnWeight = 1.23M;
+//#endif
                 string errMsg = "";
                 decimal weight = _txnWeight;
                 string unit = SysParams.GetInstance().GetSysWeightUnit();
@@ -247,7 +277,7 @@ namespace YRKJ.MWR.WSDestory.Forms
                 c_labScalesStatus.Text = "请链接台秤";
             };
             _scalesMng.onScalesDataReceived = FrmMWCrateView_onScalesDataReceived;
-
+            _scalesMng.onScalesDataReceivedAuto = FrmMWCrateView_onScalesDataReceived2;
             if (!LoadData())
                 return false;
             
@@ -286,14 +316,14 @@ namespace YRKJ.MWR.WSDestory.Forms
                 defineDiffWeight = MWParams.GetAllowDiffWeight_Destory();
             }
 
-#if DEBUG
-            if (_scalesMng.IsOpen)
-                _allowDiffWeight = defineDiffWeight;//SysParams.GetInstance().GetAllowDiffWeight();
-            else
-                _allowDiffWeight = 100;
-#else
+//#if DEBUG
+//            if (_scalesMng.IsOpen)
+//                _allowDiffWeight = defineDiffWeight;//SysParams.GetInstance().GetAllowDiffWeight();
+//            else
+//                _allowDiffWeight = 100;
+//#else
              _allowDiffWeight = defineDiffWeight;//SysParams.GetInstance().GetAllowDiffWeight();
-#endif
+//#endif
             return true;
         }
 

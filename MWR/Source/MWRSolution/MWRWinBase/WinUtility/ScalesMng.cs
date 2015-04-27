@@ -37,12 +37,12 @@ namespace YRKJ.MWR.WinBase.WinUtility
         public delegate void ScalesOnConnected();
         public delegate void ScalesOnDisConected();
         public delegate void ScalesOnScalesDataReceived(string status,string lable,decimal weight,string unit);
+        public delegate void ScalesOnScalesDataReceivedAuto(string status, string lable, decimal weight, string unit);
 
         public ScalesOnConnected onConnected = null;
         public ScalesOnDisConected onDisConnected = null;
         public ScalesOnScalesDataReceived onScalesDataReceived = null;
-
-       
+        public ScalesOnScalesDataReceivedAuto onScalesDataReceivedAuto = null;
 
         public ScalesMng(Form form)
         {
@@ -63,15 +63,24 @@ namespace YRKJ.MWR.WinBase.WinUtility
             {
                 if (onScalesDataReceived != null && _isReceived)
                     onScalesDataReceived(_scalesStatus, _label, _weight, _unit);
+
+                
             };
 
+            _form.FormClosing += new FormClosingEventHandler((x,y) => {
+                _time.Stop();
+            });
+            _time.Start();
         }
         
         public bool Open()
         {
-            _isOpen = Device.Connect();
-            if (_isOpen)
-                _time.Start();
+            _stratScale = false;
+            _stCount = 0;
+            if (!_isOpen)
+                _isOpen = Device.Connect();
+           
+          
             return _isOpen;
         }
 
@@ -79,23 +88,26 @@ namespace YRKJ.MWR.WinBase.WinUtility
         {
             //lock (_closeLock)
             {
-                if (_isOpen)
-                    _time.Stop();
+                //if (_isOpen)
+                //    _time.Stop();
 
-                _isClose = true;
-                _form = null;
+                //_isClose = true;
+                //_form = null;
 
                 
-                onConnected = null;
-                onDisConnected = null;
-                onScalesDataReceived = null;
+                //onConnected = null;
+                //onDisConnected = null;
+                //onScalesDataReceived = null;
 
-                Device.OnConnected -= DeviceOnConnected;
-                Device.OnDisConnected -= DeviceOnDisConnected;
-                Device.DataReceived -= DeviceDataReceived;
+                //Device.OnConnected -= DeviceOnConnected;
+                //Device.OnDisConnected -= DeviceOnDisConnected;
+                //Device.DataReceived -= DeviceDataReceived;
 
                 if (_isOpen)
+                {
+                    _isOpen = false;
                     Device.Disconnect();
+                }
 
                 //System.Diagnostics.Debug.WriteLine("Close--------[" + _isClose + "] e");
             }
@@ -125,7 +137,11 @@ namespace YRKJ.MWR.WinBase.WinUtility
             { }
         }
 
-       
+        private const string US = "US";
+        private const string ST = "ST";
+        private bool _stratScale = false;
+        private int _stCount = 0;
+        private const int _completeSTCount = 5;
         // 数据接收事件
         private void DeviceDataReceived(byte[] data)
         {
@@ -151,10 +167,41 @@ namespace YRKJ.MWR.WinBase.WinUtility
             _label = defineDatas[1];
             _value = defineDatas[2];
             _weight = ComLib.ComFn.StringToDecimal(trimVals[0]);
-            _unit = trimVals[1];
+            _unit = trimVals[1].TrimEnd('\r','\n','\0');
             _isReceived = true;
             #endregion
 
+            if (_scalesStatus.ToUpper() == US)
+            {
+                _stratScale = true;
+            }
+
+            if (_stratScale && _scalesStatus.ToUpper() == ST)
+            {
+                _stCount++;
+            }
+
+            if (_stratScale && _stCount >= _completeSTCount)
+            {
+                if (_weight == 0)
+                {
+                    _stratScale = false;
+                    _stCount = 0;
+                }
+                else
+                {
+                    ThreadSafe(() =>
+                    {
+
+                        if (onScalesDataReceivedAuto != null)
+                        {
+                            Close();
+                            onScalesDataReceivedAuto(_scalesStatus, _label, _weight, _unit);
+                        }
+
+                    });
+                }
+            }
             //if (onScalesDataReceived != null)
             //{
             //    //onScalesDataReceived(_scalesStatus, _label, _weight, _unit);
@@ -188,8 +235,12 @@ namespace YRKJ.MWR.WinBase.WinUtility
         }
         #endregion
         //private object _closeLock = new object();
-        //private void ThreadSafe(MethodInvoker method)
-        //{
+        private void ThreadSafe(MethodInvoker method)
+        {
+             if (InvokeRequired)
+                 _form.Invoke(method);
+             else
+                 method();
         //    //lock (_closeLock)
         //    {
         //        System.Diagnostics.Debug.WriteLine("ThreadSafe--------[" + _isClose + "] b " + (method != null));
@@ -215,6 +266,6 @@ namespace YRKJ.MWR.WinBase.WinUtility
 
                 
         //    }
-        //}
+        }
     }
 }

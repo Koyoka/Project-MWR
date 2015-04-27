@@ -18,7 +18,7 @@ namespace MobilePhoneDemoApp
                        ComLib.db.SqlDBMng.GetConnStr("MWRDATA",
                        "127.0.0.1",
                        "root",
-                       "-101868"));
+                       "-101868","3306"));
             #endregion
 
             DataCtrlInfo dcf = new ComLib.db.DataCtrlInfo();
@@ -95,7 +95,8 @@ namespace MobilePhoneDemoApp
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-         
+            Application.Run(new Form3());
+            return;
             #region
             ComLib.db.SqlDBMng.initDBMng(ComLib.db.SqlDBMng.DBTypeEnum.MySQl);
 
@@ -103,7 +104,7 @@ namespace MobilePhoneDemoApp
                        ComLib.db.SqlDBMng.GetConnStr("MWRDATA",
                        "127.0.0.1",
                        "root",
-                       "-101868"));
+                       "-101868","3306"));
             #endregion
            
             Application.Run(new Form2());

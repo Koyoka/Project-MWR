@@ -9,7 +9,7 @@ namespace YRKJ.MWR.WinBase.WinAppBase
     {
            
         public const string DBKey = "pMwrdbWORD";
-        public const string DefaultEPassword = "{n~zRggiQJGJnXW~zmdazmx_LtqMMjdovu@qMtfQmP";
+        public const string DefaultEPassword = "/94dTLB68wkUqTRJasVIdg==";
         public const string DBName = "MWRDATA";
         //public const string BarCodeMask = "HX#####";
 

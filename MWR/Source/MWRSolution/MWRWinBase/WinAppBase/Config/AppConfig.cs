@@ -66,6 +66,12 @@ namespace YRKJ.MWR.WinBase.WinAppBase.Config
             }
         }
 
+        private string _dBPort = "";
+        public string DBPort
+        {
+            get { return _dBPort; }
+            set { _dBPort = value; }
+        }
         //private string _dBDatabaseNumber = "";
         //public string DBDatabaseNumber
         //{
