@@ -114,6 +114,9 @@
 					    处置重量
 				    </th>
                     <th>
+                        入库时间
+                    </th>
+                    <th>
 					    状态
 				    </th>
 			    </tr>
@@ -141,8 +144,11 @@
 					    <% = item.InvWeight %>
 				    </td>
                     <td>
-					    <% = item.DestWeight %>
+					    <% = item.DestWeight %> 
 				    </td>
+                    <td>
+                        <% =  ComLib.ComFn.DateTimeToString(item.EntryDate, YRKJ.MWR.Business.BizBase.GetInstance().DateTimeFormatString)%>
+                    </td>
                     <td>
 					    <% = YRKJ.MWR.Business.BizHelper.GetInventoryStatus(item.Status)%>
 				    </td>
@@ -183,7 +189,7 @@
             "bPaginate": false, //开关，是否显示分页器
             "bLengthChange": false, //开关，是否显示每页大小的下拉框
             "bFilter": false, //开关，是否启用客户端过滤器
-            "aaSorting": [[1, 'asc']],
+            "aaSorting": [[6, 'desc']],
              "aLengthMenu": [
                 [5, 15, 20, -1],
                 [5, 15, 20, "All"] // change per page values here

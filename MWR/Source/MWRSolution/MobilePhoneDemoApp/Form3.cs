@@ -42,7 +42,7 @@ namespace MobilePhoneDemoApp
 
             //if (!LoadData())
             //    return false;
-            _scalesMng.Open();
+            _scalesMng.Strat();
             return true;
         }
 
@@ -60,7 +60,7 @@ namespace MobilePhoneDemoApp
             MessageBox.Show("complete");
         }
 
-        private void FrmMWCrateView_onScalesDataReceived(string status, string lable, decimal weight, string unit)
+        private void FrmMWCrateView_onScalesDataReceived(string status, string lable, decimal weight, string unit,bool isCom)
         {
             string s = "status:[{0}] lable:[{1}] weight:[{2}] unit:[{3}] ";
             StringBuilder sb = new StringBuilder();
@@ -81,7 +81,7 @@ namespace MobilePhoneDemoApp
 
         private void button1_Click(object sender, EventArgs e)
         {
-            _scalesMng.Open();
+            _scalesMng.Strat();
         }
 
     }

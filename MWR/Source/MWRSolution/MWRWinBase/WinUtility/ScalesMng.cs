@@ -36,7 +36,7 @@ namespace YRKJ.MWR.WinBase.WinUtility
 
         public delegate void ScalesOnConnected();
         public delegate void ScalesOnDisConected();
-        public delegate void ScalesOnScalesDataReceived(string status,string lable,decimal weight,string unit);
+        public delegate void ScalesOnScalesDataReceived(string status,string lable,decimal weight,string unit,bool isComplete);
         public delegate void ScalesOnScalesDataReceivedAuto(string status, string lable, decimal weight, string unit);
 
         public ScalesOnConnected onConnected = null;
@@ -62,7 +62,7 @@ namespace YRKJ.MWR.WinBase.WinUtility
             _time.Tick += (x, y) =>
             {
                 if (onScalesDataReceived != null && _isReceived)
-                    onScalesDataReceived(_scalesStatus, _label, _weight, _unit);
+                    onScalesDataReceived(_scalesStatus, _label, _weight, _unit, _complete);
 
                 
             };
@@ -72,9 +72,11 @@ namespace YRKJ.MWR.WinBase.WinUtility
             });
             _time.Start();
         }
-        
-        public bool Open()
+
+       
+        public bool Strat()
         {
+            _complete = false;
             _stratScale = false;
             _stCount = 0;
             if (!_isOpen)
@@ -102,7 +104,7 @@ namespace YRKJ.MWR.WinBase.WinUtility
                 //Device.OnConnected -= DeviceOnConnected;
                 //Device.OnDisConnected -= DeviceOnDisConnected;
                 //Device.DataReceived -= DeviceDataReceived;
-
+                _complete = true;
                 if (_isOpen)
                 {
                     _isOpen = false;
@@ -139,6 +141,7 @@ namespace YRKJ.MWR.WinBase.WinUtility
 
         private const string US = "US";
         private const string ST = "ST";
+        private bool _complete = false;
         private bool _stratScale = false;
         private int _stCount = 0;
         private const int _completeSTCount = 5;
@@ -175,6 +178,10 @@ namespace YRKJ.MWR.WinBase.WinUtility
             {
                 _stratScale = true;
             }
+            else if (_scalesStatus.ToUpper() == ST && _weight != 0)
+            {
+                _stratScale = true;
+            }
 
             if (_stratScale && _scalesStatus.ToUpper() == ST)
             {
@@ -195,6 +202,7 @@ namespace YRKJ.MWR.WinBase.WinUtility
 
                         if (onScalesDataReceivedAuto != null)
                         {
+                          
                             Close();
                             onScalesDataReceivedAuto(_scalesStatus, _label, _weight, _unit);
                         }

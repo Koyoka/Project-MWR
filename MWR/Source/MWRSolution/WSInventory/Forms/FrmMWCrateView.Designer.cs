@@ -58,7 +58,7 @@
             this.c_btnOk.Name = "c_btnOk";
             this.c_btnOk.Size = new System.Drawing.Size(100, 50);
             this.c_btnOk.TabIndex = 0;
-            this.c_btnOk.Text = "确认";
+            this.c_btnOk.Text = "重称";
             this.c_btnOk.UseVisualStyleBackColor = true;
             this.c_btnOk.Click += new System.EventHandler(this.c_btnOk_Click);
             // 

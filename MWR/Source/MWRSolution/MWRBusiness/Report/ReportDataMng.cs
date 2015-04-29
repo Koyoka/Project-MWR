@@ -134,6 +134,7 @@ namespace YRKJ.MWR.Business.Report
             DataCtrlInfo dcf = new DataCtrlInfo();
             SqlQueryMng sqm = new SqlQueryMng();
             sqm.Condition.Where.AddCompareValue(TblMWInventoryTrack.getTxnTypeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, TblMWInventoryTrack.TXNTYPE_ENUM_Destroy);
+            sqm.Condition.OrderBy.Add(TblMWInventoryTrack.getEntryDateColumn(), SqlCommonFn.SqlOrderByType.DESC);
             #region filter
             if (!string.IsNullOrEmpty(filter.Trim()))
             {
@@ -201,6 +202,7 @@ namespace YRKJ.MWR.Business.Report
             DataCtrlInfo dcf = new DataCtrlInfo();
             SqlQueryMng sqm = new SqlQueryMng();
             sqm.Condition.Where.AddCompareValue(TblMWInventoryTrack.getTxnTypeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, TblMWInventoryTrack.TXNTYPE_ENUM_Recover);
+            sqm.Condition.OrderBy.Add(TblMWInventoryTrack.getEntryDateColumn(), SqlCommonFn.SqlOrderByType.DESC);
             #region filter
             if (!string.IsNullOrEmpty(filter.Trim()))
             {
@@ -268,6 +270,7 @@ namespace YRKJ.MWR.Business.Report
             DataCtrlInfo dcf = new DataCtrlInfo();
             SqlQueryMng sqm = new SqlQueryMng();
             sqm.Condition.Where.AddCompareValue(TblMWInventoryTrack.getTxnTypeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, TblMWInventoryTrack.TXNTYPE_ENUM_Post);
+            sqm.Condition.OrderBy.Add(TblMWInventoryTrack.getEntryDateColumn(), SqlCommonFn.SqlOrderByType.DESC);
             #region filter
             if (!string.IsNullOrEmpty(filter.Trim()))
             {

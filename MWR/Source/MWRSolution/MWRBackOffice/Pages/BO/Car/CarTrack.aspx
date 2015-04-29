@@ -2,9 +2,16 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
-car 4
+<div class="row">
+
+<% = YRKJ.MWR.Business.Sys.MWParams.GetCarGPSMapCode()%>
+ </div>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="foot" runat="server">
-   
+    <script>
+        jQuery(document).ready(function () {
+            $('iframe').height($(document).height() - 200);
+        });
+ </script>
 
 </asp:Content>

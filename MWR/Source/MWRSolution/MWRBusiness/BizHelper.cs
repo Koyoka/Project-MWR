@@ -103,6 +103,21 @@ namespace YRKJ.MWR.Business
             return defineStr;
         }
 
+        public static string GetTxnRecoverHeaderOptType(string s)
+        {
+            string defineStr = "";
+            switch (s)
+            { 
+                case TblMWTxnRecoverHeader.OPERATETYPE_ENUM_ToDestroy:
+                    defineStr = LngRes.OptType_ToDestroy;
+                    break;
+                case TblMWTxnRecoverHeader.OPERATETYPE_ENUM_ToInventory:
+                    defineStr = LngRes.OptType_ToInventory;
+                    break;
+            }
+            return defineStr;
+        }
+
         public static string GetTxnDetailStatus(string s)
         { 
             string defineStr = "";
@@ -335,6 +350,9 @@ namespace YRKJ.MWR.Business
             public const string Status_TxnHeader_Complete = "完成";
             public const string Status_TxnHeader_Authorize = "审核中";
             public const string Status_TxnHeader_Send = "新计划提交";
+
+            public const string OptType_ToDestroy = "提交处置";
+            public const string OptType_ToInventory = "提交入库";
 
             public const string Status_Detail_Authorize = "审核中";
             public const string Status_Detail_Complete = "完成";

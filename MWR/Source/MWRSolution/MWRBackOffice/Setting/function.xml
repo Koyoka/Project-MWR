@@ -6,23 +6,27 @@
       <tag>Main</tag>
       <name>登录权限</name>
     </item>
+    
+    <!--车辆管理-->
     <item>
       <tag>CarDispatch</tag>
       <name>车辆调度管理</name>
     </item>
-    <item>
+    <!--<item>
       <tag>CarLocus</tag>
       <name>车辆历史轨迹</name>
     </item>
     <item>
       <tag>CarRound</tag>
       <name>地理围栏设置</name>
-    </item>
+    </item>-->
     <item>
       <tag>CarTrack</tag>
       <name>车辆行驶跟踪</name>
     </item>
+    <!--车辆管理结束-->
     
+    <!--库存管理-->
     <item>
       <tag>InvAuthorize</tag>
       <name>查看审核列表</name>
@@ -31,7 +35,68 @@
       <tag>InvAuthorizeDetail</tag>
       <name>问题货箱审核</name>
     </item>
-
+    <item>
+      <tag>InvAuthorizeLog</tag>
+      <name>审核日志</name>
+    </item>
+    <item>
+      <tag>RecoverLog</tag>
+      <name>回收入库日志</name>
+    </item>
+    <item>
+      <tag>PostLog</tag>
+      <name>废品出库日志</name>
+    </item>
+    <item>
+      <tag>DestroyLog</tag>
+      <name>废品处理日志</name>
+    </item>
+    <!--库存管理结束-->
+    <!--统计报告-->
+    <item>
+      <tag>IntegratedReport</tag>
+      <name>综合报告</name>
+    </item>
+    <item>
+      <tag>RecoverReport</tag>
+      <name>运量报告</name>
+    </item>
+    <item>
+      <tag>PostReport</tag>
+      <name>出库报告</name>
+    </item>
+    <item>
+      <tag>DestroyReport</tag>
+      <name>处置报告</name>
+    </item>
+    <!--统计报告结束-->
+    <!--基础档案管理-->
+    <item>
+      <tag>BDEmploy</tag>
+      <name>员工档案</name>
+    </item>
+    <item>
+      <tag>BDCar</tag>
+      <name>车辆档案</name>
+    </item>
+    <item>
+      <tag>DemoBDCrate</tag>
+      <name>货箱档案</name>
+    </item>
+    <item>
+      <tag>BDDepot</tag>
+      <name>仓库档案</name>
+    </item>
+    <item>
+      <tag>BDVendor</tag>
+      <name>医院档案</name>
+    </item>
+    <item>
+      <tag>BDWaste</tag>
+      <name>医疗废物档案</name>
+    </item>
+    <!--基础档案管理结束-->
+    <!--系统管理-->
     <item>
       <tag>WSManage</tag>
       <name>工作站管理</name>
@@ -41,9 +106,18 @@
       <name>用户权限管理</name>
     </item>
     <item>
+      <tag>SysParams</tag>
+      <name>参数设置</name>
+    </item>
+    <item>
+      <tag>SysInit</tag>
+      <name>数据初始化</name>
+    </item>
+    <item>
       <tag>FuncGroupEdit</tag>
       <name>权限组管理</name>
     </item>
+    <!--系统管理结束-->
   </package>
   <!-- BO END -->
 

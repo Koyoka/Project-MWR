@@ -47,7 +47,7 @@
             "bPaginate": false, //开关，是否显示分页器
             "bLengthChange": false, //开关，是否显示每页大小的下拉框
             "bFilter": false, //开关，是否启用客户端过滤器
-            "aaSorting": [[1, 'asc']],
+            "aaSorting": [[0, 'desc']],
                 "aLengthMenu": [
                 [5, 15, 20, -1],
                 [5, 15, 20, "All"] // change per page values here

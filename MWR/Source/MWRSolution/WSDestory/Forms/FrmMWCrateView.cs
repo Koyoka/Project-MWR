@@ -124,21 +124,27 @@ namespace YRKJ.MWR.WSDestory.Forms
 
         private void FrmMWCrateView_onScalesDataReceived2(string status, string lable, decimal weight, string unit) 
         {
+            c_labScalesStatus.Text = "称重关闭 ";
             _txnWeight = BizHelper.ConventToSysUnitWeight(weight, unit, SysParams.GetInstance().GetSysWeightUnit());
             if (!confirmScaleWieght(_txnWeight))
             {
                 return;
             }
+            this.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.Close();
         }
-        private void FrmMWCrateView_onScalesDataReceived(string status, string lable, decimal weight, string unit)
+        private void FrmMWCrateView_onScalesDataReceived(string status, string lable, decimal weight, string unit, bool isComplete)
         {
             //ThreadSafe(() => {
-            _txnWeight = BizHelper.ConventToSysUnitWeight(weight, unit, SysParams.GetInstance().GetSysWeightUnit());
-            if (status.ToLower() == "us")
+            //_txnWeight = BizHelper.ConventToSysUnitWeight(weight, unit, SysParams.GetInstance().GetSysWeightUnit());
+            if (isComplete)
+            {
+                c_labScalesStatus.Text = "称重关闭";
+            }
+            else// if (status.ToLower() == "us")
                 c_labScalesStatus.Text = "称重中.....";
-            else if (status.ToLower() == "st")
-                c_labScalesStatus.Text = "当前重量 " + SysParams.GetInstance().GetSysWeightUnit();
+            //else if (status.ToLower() == "st")
+            //    c_labScalesStatus.Text = "当前重量 ";
             c_labTxnWeight.Text = weight.ToString("f2") + " " + SysParams.GetInstance().GetSysWeightUnit();
 
             //});
@@ -167,15 +173,16 @@ namespace YRKJ.MWR.WSDestory.Forms
             try
             {
                 this.Cursor = Cursors.WaitCursor;
-
+                _scalesMng.Strat();
 #if DEBUG
                 //_txnWeight = 1.23M;
 #endif
-                decimal weight = _txnWeight;
-                if (!confirmScaleWieght(weight))
-                {
-                    return;
-                }
+                //decimal weight = _txnWeight;
+                //if (!confirmScaleWieght(weight))
+                //{
+                //    _scalesMng.Strat();
+                //    return;
+                //}
 
                 //string empyCode = SysInfo.GetInstance().Employ.EmpyCode;
                 //string empyName = SysInfo.GetInstance().Employ.EmpyName;
@@ -190,9 +197,9 @@ namespace YRKJ.MWR.WSDestory.Forms
                 //if (OnOkClick != null)
                 //    OnOkClick(_formViewData.CrateCode, weight);
 
-                this.DialogResult = System.Windows.Forms.DialogResult.OK;
+                //this.DialogResult = System.Windows.Forms.DialogResult.OK;
 
-                this.Close();
+                //this.Close();
             }
             catch (Exception ex)
             {
@@ -295,7 +302,7 @@ namespace YRKJ.MWR.WSDestory.Forms
 
             SysHelper.SetCtrlUnitText(this.c_labSysUnit);
 
-            if (!_scalesMng.Open())
+            if (!_scalesMng.Strat())
             {
                 MsgBox.Show(LngRes.MSG_NoConnScales);
             }

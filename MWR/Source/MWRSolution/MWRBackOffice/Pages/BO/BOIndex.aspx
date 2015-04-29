@@ -110,10 +110,10 @@
                                 车辆调度管理</a> </li>
                             <li id="MW_Car_Track" class=""><a href="#<% = RedirectHelper.CarTrack %>">
                                 车辆行驶跟踪</a> </li>
-                            <li id="MW_Car_Locus" class=""><a href="#<% = RedirectHelper.CarLocus %>">
+                           <%-- <li id="MW_Car_Locus" class=""><a href="#<% = RedirectHelper.CarLocus %>">
                                 车辆历史轨迹</a> </li>
                             <li id="MW_Car_Round" class=""><a href="#<% = RedirectHelper.CarRound %>">
-                                地理围栏设置</a> </li>
+                                地理围栏设置</a> </li>--%>
                         </ul>
                     </li>
                     <li id="MW_Inventory" class=""><a href="javascript:void;"><i class="fa fa-shopping-cart">

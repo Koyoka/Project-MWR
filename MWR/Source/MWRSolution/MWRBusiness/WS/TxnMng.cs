@@ -1047,7 +1047,13 @@ namespace YRKJ.MWR.Business.WS
                 SqlUpdateColumn suc = new SqlUpdateColumn();
                 suc.Add(TblMWTxnRecoverHeader.getStatusColumn(), TblMWTxnRecoverHeader.STATUS_ENUM_Complete);
                 suc.Add(TblMWTxnRecoverHeader.getEndDateColumn(), now);
-
+                decimal totalTxnWeight = 0;
+                foreach (var item in detailList)
+                {
+                    totalTxnWeight += item.TxnWeight;
+                }
+                suc.Add(TblMWTxnRecoverHeader.getTotalTxnWeightColumn(), totalTxnWeight);
+                
                 SqlWhere sw = new SqlWhere();
                 sw.AddCompareValue(TblMWTxnRecoverHeader.getTxnNumColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, txnNum);
 
@@ -2274,6 +2280,8 @@ namespace YRKJ.MWR.Business.WS
             {
                 SqlUpdateColumn suc = new SqlUpdateColumn();
                 suc.Add(TblMWTxnRecoverHeader.getStatusColumn(), TblMWTxnRecoverHeader.STATUS_ENUM_Complete);
+                suc.Add(TblMWTxnRecoverHeader.getTotalTxnWeightColumn(), totalSubWeight);
+                suc.Add(TblMWTxnRecoverHeader.getStartDateColumn(), now);
                 suc.Add(TblMWTxnRecoverHeader.getEndDateColumn(), now);
                 SqlWhere sw = new SqlWhere();
                 sw.AddCompareValue(TblMWTxnRecoverHeader.getTxnNumColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, recoverTxnNum);

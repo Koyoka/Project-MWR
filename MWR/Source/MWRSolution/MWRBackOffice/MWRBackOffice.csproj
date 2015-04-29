@@ -303,6 +303,7 @@
     <Content Include="Pages\BO\Car\CarTrack.aspx" />
     <Content Include="Pages\BO\Error.aspx" />
     <Content Include="Pages\BO\Error.html" />
+    <Content Include="Pages\BO\func.aspx" />
     <Content Include="Pages\BO\HTMLPage1.htm" />
     <Content Include="Pages\BO\index.html" />
     <Content Include="Pages\BO\Inventory\DestroyLog.aspx" />
@@ -503,6 +504,13 @@
     </Compile>
     <Compile Include="Pages\BO\Error.aspx.designer.cs">
       <DependentUpon>Error.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\BO\func.aspx.cs">
+      <DependentUpon>func.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\BO\func.aspx.designer.cs">
+      <DependentUpon>func.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\BO\Inventory\DestroyLog.aspx.cs">
       <DependentUpon>DestroyLog.aspx</DependentUpon>

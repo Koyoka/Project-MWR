@@ -128,6 +128,9 @@
 					    回收总箱数
 				    </th>
                     <th>
+					    处理类型
+				    </th>
+                    <th>
 					    处理开始时间
 				    </th>
                     <th>
@@ -165,6 +168,9 @@
                     </td>
                     <td>
                         <% = item.TotalCrateQty %>
+                    </td>
+                    <td>
+                     <% = YRKJ.MWR.Business.BizHelper.GetTxnRecoverHeaderOptType(item.OperateType)%>
                     </td>
                     <td>
                         <% =  ComLib.ComFn.DateTimeToString(item.StartDate, YRKJ.MWR.Business.BizBase.GetInstance().DateTimeFormatString)%>

@@ -19,15 +19,15 @@ namespace YRKJ.MWR.BackOffice
             http://121.199.17.68:8081
             您的appkey为：9de1313e6fa0fb5e7617f3030789a914
              */
-            string errMsg = "";
-            string path = ComLib.ComFn.GetAppExePath() + @"Setting\function.xml";
-            if (!PermitMng.InitSysFuncPermit(path, ref errMsg))
-            {
-                Response.Write(errMsg + "<p>" + path + "<p>");
-            }
-            else {
-                Response.Write("success" + "<p>");
-            }
+            //string errMsg = "";
+            //string path = ComLib.ComFn.GetAppExePath() + @"Setting\function.xml";
+            //if (!PermitMng.InitSysFuncPermit(path, ref errMsg))
+            //{
+            //    Response.Write(errMsg + "<p>" + path + "<p>");
+            //}
+            //else {
+            //    Response.Write("success" + "<p>");
+            //}
         }
     }
 }

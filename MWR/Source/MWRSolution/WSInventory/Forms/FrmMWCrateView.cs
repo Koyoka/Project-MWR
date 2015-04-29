@@ -113,7 +113,7 @@ namespace YRKJ.MWR.WSInventory.Forms
                     return;
                 }
 
-                if (!_scalesMng.Open())
+                if (!_scalesMng.Strat())
                 {
                     MsgBox.Show(LngRes.MSG_NoConnScales);
                 }
@@ -148,30 +148,113 @@ namespace YRKJ.MWR.WSInventory.Forms
             }
         }
 
-        private void FrmMWCrateView_onScalesDataReceived(string status, string lable, decimal weight, string unit)
+        private void FrmMWCrateView_onScalesDataReceived2(string status, string lable, decimal weight, string unit)
+        {
+           
+            _txnWeight = BizHelper.ConventToSysUnitWeight(weight, unit, SysParams.GetInstance().GetSysWeightUnit());
+            if (!confirmScaleWieght(_txnWeight))
+            {
+                return;
+            }
+            
+            this.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.Close();
+        }
+
+        private void FrmMWCrateView_onScalesDataReceived(string status, string lable, decimal weight, string unit,bool isComplete)
         {
             //ThreadSafe(() => {
-            _txnWeight = BizHelper.ConventToSysUnitWeight(weight, unit, SysParams.GetInstance().GetSysWeightUnit());
-            if (status.ToLower() == "us")
+            //_txnWeight = BizHelper.ConventToSysUnitWeight(weight, unit, SysParams.GetInstance().GetSysWeightUnit());
+            if (isComplete)
+            {
+                c_labScalesStatus.Text = "称重关闭";
+            }
+            else //if (status.ToLower() == "us")
                 c_labScalesStatus.Text = "称重中.....";
-            else if (status.ToLower() == "st")
-                c_labScalesStatus.Text = "当前重量 " + SysParams.GetInstance().GetSysWeightUnit();
+            //else if (status.ToLower() == "st")
+            //    c_labScalesStatus.Text = "当前重量 ";
             c_labTxnWeight.Text = weight.ToString("f2") + " " + SysParams.GetInstance().GetSysWeightUnit();
 
             //});
 
         }
-        
+
+        private bool confirmScaleWieght(decimal weight)
+        {
+            string errMsg = "";
+            string empyCode = SysInfo.GetInstance().Employ.EmpyCode;
+            string empyName = SysInfo.GetInstance().Employ.EmpyName;
+            string wsCode = SysInfo.GetInstance().Config.WSCode;
+            //decimal weight = _txnWeight;
+            if (Math.Abs(_formViewData.SubWeight - weight) > _allowDiffWeight)
+            {
+                MsgBox.Error(LngRes.MSG_DiffWeight);
+                return false;
+            }
+
+            #region recover to inventory
+            if (_optType == EnumOptType.Recover)
+            {
+                if (!TxnMng.ConfirmCrateToInventory(_txnDetailId,
+                    weight, wsCode, empyCode,
+                    _formViewData.DepotCode,
+                    ref errMsg))
+                {
+                    MsgBox.Error(errMsg);
+                    return false;
+                }
+
+                if (_confirmRecover != null)
+                    _confirmRecover(weight, TblMWTxnDetail.STATUS_ENUM_Complete, ComLib.db.SqlDBMng.GetDBNow());
+
+            }
+            #endregion
+
+            #region inventory to post
+            if (_optType == EnumOptType.Post)
+            {
+                if (string.IsNullOrEmpty(_txnNum))
+                {
+                    string newTxnNum = "";
+                    if (!TxnMng.ConfirmInventoryToPostNew(_invRecordId, weight, wsCode, empyCode, ref newTxnNum, ref errMsg))
+                    {
+                        MsgBox.Error(errMsg);
+                        return false;
+                    }
+                    //_txnNum = newTxnNum;
+
+                    if (_delegateConfirmPostNew != null)
+                        _delegateConfirmPostNew(newTxnNum);
+                }
+                else
+                {
+                    if (!TxnMng.ConfirmInventoryToPostEdit(_invRecordId, _txnNum, weight, wsCode, empyCode, ref errMsg))
+                    {
+                        MsgBox.Error(errMsg);
+                        return false;
+                    }
+                }
+            }
+            #endregion
+            return true;
+        }
+
         private void c_btnOk_Click(object sender, EventArgs e)
         {
             try
             {
                 this.Cursor = Cursors.WaitCursor;
-
-#if DEBUG
-                _txnWeight = 1.23M;
-#endif
-
+                _scalesMng.Strat();
+//#if DEBUG
+//                _txnWeight = 1.23M;
+//#endif
+                //if (!confirmScaleWieght(_txnWeight))
+                //{
+                //    _scalesMng.Strat();
+                //    return;
+                //}
+                #region _del
+                /*
                 string errMsg = "";
                 string empyCode = SysInfo.GetInstance().Employ.EmpyCode;
                 string empyName = SysInfo.GetInstance().Employ.EmpyName;
@@ -227,10 +310,11 @@ namespace YRKJ.MWR.WSInventory.Forms
                     }
                 }
                 #endregion
+                */
+                #endregion
+                //this.DialogResult = System.Windows.Forms.DialogResult.OK;
 
-                this.DialogResult = System.Windows.Forms.DialogResult.OK;
-
-                this.Close();
+                //this.Close();
             }
             catch (Exception ex)
             {
@@ -248,9 +332,9 @@ namespace YRKJ.MWR.WSInventory.Forms
             try
             {
                 this.Cursor = Cursors.WaitCursor;
-#if DEBUG
-                _txnWeight = 1.23M;
-#endif
+//#if DEBUG
+//                _txnWeight = 1.23M;
+//#endif
                 string errMsg = "";
                 decimal weight = _txnWeight;
                 string unit = SysParams.GetInstance().GetSysWeightUnit();
@@ -358,6 +442,7 @@ namespace YRKJ.MWR.WSInventory.Forms
                 c_labScalesStatus.Text = "请链接台秤";
             };
             _scalesMng.onScalesDataReceived = FrmMWCrateView_onScalesDataReceived;
+            _scalesMng.onScalesDataReceivedAuto = FrmMWCrateView_onScalesDataReceived2;
 
             if (!LoadData())
                 return false;
@@ -403,14 +488,14 @@ namespace YRKJ.MWR.WSInventory.Forms
                     defineDiffWeight = MWParams.GetAllowDiffWeight_Recover();
                 }
             }
-#if DEBUG
-            if (_scalesMng.IsOpen)
-                _allowDiffWeight = defineDiffWeight;//SysParams.GetInstance().GetAllowDiffWeight();
-            else
-                _allowDiffWeight = 100;
-#else
+//#if DEBUG
+//            if (_scalesMng.IsOpen)
+//                _allowDiffWeight = defineDiffWeight;//SysParams.GetInstance().GetAllowDiffWeight();
+//            else
+//                _allowDiffWeight = 100;
+//#else
              _allowDiffWeight = defineDiffWeight;//SysParams.GetInstance().GetAllowDiffWeight();
-#endif
+//#endif
             return true;
         }
         
