@@ -144,9 +144,7 @@ namespace YRKJ.MWR.Business.WS
 
             return true;
         }
-        #endregion
 
-        #region private 
         public static bool GetTxnDetail(int txnDetailId, ref TblMWTxnDetail detail, ref string errMsg)
         {
             DataCtrlInfo dcf = new DataCtrlInfo();
@@ -161,6 +159,31 @@ namespace YRKJ.MWR.Business.WS
             return true;
         }
        
+        #endregion
+
+        #region private 
+
+        private static bool ValidCrateCode(string createCode,ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+
+            SqlQueryMng sqm = new SqlQueryMng();
+            sqm.Condition.Where.AddCompareValue(TblMWCrate.getCrateCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, createCode);
+
+            TblMWCrate item = null;
+            if (!TblMWCrateCtrl.QueryOne(dcf, sqm, ref item, ref errMsg))
+            {
+                return false;
+            }
+            if (item == null)
+            {
+                errMsg = LngRes.MSG_Valid_UnvalidCrateCode;
+                return false;
+            }
+
+            return true;
+        }
+        
         private static bool ValidWSAndEmploy(string wsCode, string empyCode, ref TblMWWorkStation ws, ref TblMWEmploy empy, ref string errMsg)
         {
             DataCtrlInfo dcf = new DataCtrlInfo();
@@ -3543,6 +3566,7 @@ namespace YRKJ.MWR.Business.WS
 
         class LngRes
         {
+            public const string MSG_Valid_UnvalidCrateCode = "无效的货箱编号！请检查货箱来院。";
             public const string MSG_Valid_UnvalidInvDataToDestroy = "警告！当前货箱没有入库或出库信息。请检查货箱来源！";
             public const string MSG_Valid_CrateIsInvData = "警告！当前货箱为库存数据，没有任何出库销毁记录。请检查货箱来源！";
             public const string MSG_Valid_NoTxnDetail = "没有找到当前ID的货箱交易详情";

@@ -20,15 +20,30 @@ namespace MobilePhoneDemoApp
                        "root",
                        "-101868","3306"));
             #endregion
-
-            DataCtrlInfo dcf = new ComLib.db.DataCtrlInfo();
-
-            SqlQueryMng sqm = new SqlQueryMng();
-            List<TblMWTxnDetail> itemList = new List<TblMWTxnDetail>();
             string errMsg = "";
-            TblMWTxnDetailCtrl.QueryMore(dcf, sqm, ref itemList, ref errMsg);
+            DataCtrlInfo dcf = new ComLib.db.DataCtrlInfo();
+            List<string> crateCodes = new List<string>();
+            crateCodes.Add("xxx");
+            SqlQueryMng sqm = new SqlQueryMng();
+            sqm.QueryColumn.AddCount(TblMWCrate.getCrateCodeColumn());
+            sqm.Condition.Where.AddInValues(TblMWCrate.getCrateCodeColumn(), crateCodes.ToArray());
 
-            int a = 0;
+            TblMWCrate item = null;
+            if (!TblMWCrateCtrl.QueryOne(dcf, sqm, ref item, ref errMsg))
+            {
+                
+            }
+            if (item == null)
+            {
+                
+            }
+
+            //SqlQueryMng sqm = new SqlQueryMng();
+            //List<TblMWTxnDetail> itemList = new List<TblMWTxnDetail>();
+            //string errMsg = "";
+            //TblMWTxnDetailCtrl.QueryMore(dcf, sqm, ref itemList, ref errMsg);
+
+            //int a = 0;
         }
 
         class C
@@ -94,7 +109,7 @@ namespace MobilePhoneDemoApp
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
+            foo();
             Application.Run(new Form3());
             return;
             #region

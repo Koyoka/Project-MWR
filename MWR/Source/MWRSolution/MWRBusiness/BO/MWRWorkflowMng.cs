@@ -206,12 +206,48 @@ namespace YRKJ.MWR.Business.BO
             TblMWCarDispatch carDispatchInfo = null;
             #region valid & get moblie workstation base data
             {
+                if (txnDetailList.Count == 0)
+                {
+                    errMsg = "没有数据，请添加数据后再次提交。";
+                    return false;
+                }
+
                 DataCtrlInfo dcf = new DataCtrlInfo();
                 totalCrateQty = txnDetailList.Count;
+                List<string> crateCodes = new List<string>();
                 foreach (TblMWTxnDetail dtl in txnDetailList)
                 {
                     totalSubWeight += dtl.SubWeight;
+                    crateCodes.Add(dtl.CrateCode);
                 }
+
+                #region valid crateCode
+                {
+                    
+                    SqlQueryMng sqm = new SqlQueryMng();
+                    sqm.QueryColumn.AddCount(TblMWCrate.getCrateCodeColumn());
+                    sqm.Condition.Where.AddInValues(TblMWCrate.getCrateCodeColumn(), crateCodes.ToArray());
+
+                    TblMWCrate item = null;
+                    if (!TblMWCrateCtrl.QueryOne(dcf, sqm, ref item, ref errMsg))
+                    {
+                        return false;
+                    }
+                    if (item == null)
+                    {
+                        return false;
+                    }
+
+                    int defineCount = ComLib.ComFn.StringToInt(item.CrateCode);
+                    if (defineCount != txnDetailList.Count)
+                    {
+                        errMsg = "提交货箱中，有无效货箱编号。请检查再次提交！";
+                        return false;
+                    }
+
+                    
+                }
+                #endregion
 
                 #region CarDispatch
                 {
@@ -268,7 +304,7 @@ namespace YRKJ.MWR.Business.BO
                     {
                         return false;
                     }
-                   
+
                     if (item != null && item.TxnDetailId != 0)
                     {
                         errMsg = "当前货箱中有未完成的交易货箱，请验证货箱来源。";
@@ -904,7 +940,7 @@ namespace YRKJ.MWR.Business.BO
 
         #endregion
 
-        #region end. car finish the workflow, complete shift, close cardispatch
+        #region end. car complete the workflow, complete shift, close cardispatch
 
         public static bool CloseCarDispatch(int disId,ref string errMsg)
         {
