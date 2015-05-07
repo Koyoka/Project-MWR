@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using ComLib.db;
-using ComLib.Log;
 using YRKJ.MWR.WinBase.WinAppBase;
+using ComLib.Log;
 using YRKJ.MWR.WinBase.WinAppBase.Config;
 using YRKJ.MWR.WinBase.WinAppBase.BaseForm;
 
-namespace YRKJ.MWR.WSDestory
+namespace MWRSyncMng
 {
     static class Program
     {
@@ -18,11 +18,9 @@ namespace YRKJ.MWR.WSDestory
         [STAThread]
         static void Main()
         {
-
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-         
             try
             {
                 string errMsg = "";
@@ -58,7 +56,7 @@ namespace YRKJ.MWR.WSDestory
                          configData.DBPassword,
                          configData.DBPort, ref errMsg))
                     {
-                        using (FrmInitConfig f = new FrmInitConfig())
+                        using (FrmInitDBConfig f = new FrmInitDBConfig())
                         {
                             if (f.ShowDialog() != DialogResult.OK)
                             {
@@ -72,7 +70,6 @@ namespace YRKJ.MWR.WSDestory
                             return;
                         }
                     }
-                    YRKJ.MWR.WSDestory.Business.Sys.SysInfo.GetInstance().Config = configData;
                     SqlDBMng.setConnectionString(
                      SqlDBMng.GetConnStr(WinAppBase.DBName,
                      configData.DBServerName,
@@ -83,27 +80,15 @@ namespace YRKJ.MWR.WSDestory
                 }
                 #endregion
 
-                #region user login
-
-                using (YRKJ.MWR.WSDestory.Forms.FrmLogin f = new Forms.FrmLogin())
-                {
-                    if (f.ShowDialog() != DialogResult.OK)
-                    {
-                        return;
-                    }
-                }
-
-                #endregion
-
-                
             }
             catch (Exception ex)
             {
                 MsgBox.Error("系统错误/r/n" + ex.Message);
                 return;
             }
-            Application.Run(new Forms.FrmMain());
 
+
+            Application.Run(new FrmMain());
         }
     }
 }

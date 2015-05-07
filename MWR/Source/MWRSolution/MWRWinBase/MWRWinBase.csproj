@@ -59,6 +59,12 @@
     <Compile Include="WinAppBase\BaseForm\FrmInitConfig.Designer.cs">
       <DependentUpon>FrmInitConfig.cs</DependentUpon>
     </Compile>
+    <Compile Include="WinAppBase\BaseForm\FrmInitDBConfig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinAppBase\BaseForm\FrmInitDBConfig.Designer.cs">
+      <DependentUpon>FrmInitDBConfig.cs</DependentUpon>
+    </Compile>
     <Compile Include="WinAppBase\Config\AppConfig.cs" />
     <Compile Include="WinAppBase\Config\ConfigMng.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -74,6 +80,9 @@
   <ItemGroup>
     <EmbeddedResource Include="WinAppBase\BaseForm\FrmInitConfig.resx">
       <DependentUpon>FrmInitConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinAppBase\BaseForm\FrmInitDBConfig.resx">
+      <DependentUpon>FrmInitDBConfig.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

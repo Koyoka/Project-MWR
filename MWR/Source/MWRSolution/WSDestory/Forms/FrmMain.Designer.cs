@@ -30,9 +30,9 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
             this.c_panForm = new System.Windows.Forms.Panel();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.c_sspMain = new System.Windows.Forms.StatusStrip();
+            this.c_sspMain_L_txtEmpy = new System.Windows.Forms.ToolStripStatusLabel();
+            this.c_sspMain_R_txtTime = new System.Windows.Forms.ToolStripStatusLabel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.c_labRecoverTxnCount = new System.Windows.Forms.Label();
             this.c_btnMWPost = new System.Windows.Forms.Button();
@@ -49,7 +49,7 @@
             this.RightToolStripPanel = new System.Windows.Forms.ToolStripPanel();
             this.LeftToolStripPanel = new System.Windows.Forms.ToolStripPanel();
             this.ContentPanel = new System.Windows.Forms.ToolStripContentPanel();
-            this.statusStrip1.SuspendLayout();
+            this.c_sspMain.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -65,32 +65,32 @@
             this.c_panForm.Size = new System.Drawing.Size(1008, 595);
             this.c_panForm.TabIndex = 2;
             // 
-            // statusStrip1
+            // c_sspMain
             // 
-            this.statusStrip1.Font = new System.Drawing.Font("微软雅黑", 11F);
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1,
-            this.toolStripStatusLabel2});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 705);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1008, 25);
-            this.statusStrip1.TabIndex = 3;
-            this.statusStrip1.Text = "statusStrip1";
+            this.c_sspMain.Font = new System.Drawing.Font("微软雅黑", 11F);
+            this.c_sspMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.c_sspMain_L_txtEmpy,
+            this.c_sspMain_R_txtTime});
+            this.c_sspMain.Location = new System.Drawing.Point(0, 705);
+            this.c_sspMain.Name = "c_sspMain";
+            this.c_sspMain.Size = new System.Drawing.Size(1008, 25);
+            this.c_sspMain.TabIndex = 3;
+            this.c_sspMain.Text = "statusStrip1";
             // 
-            // toolStripStatusLabel1
+            // c_sspMain_L_txtEmpy
             // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(789, 20);
-            this.toolStripStatusLabel1.Spring = true;
-            this.toolStripStatusLabel1.Text = "登陆员工:xxx";
-            this.toolStripStatusLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.c_sspMain_L_txtEmpy.Name = "c_sspMain_L_txtEmpy";
+            this.c_sspMain_L_txtEmpy.Size = new System.Drawing.Size(758, 20);
+            this.c_sspMain_L_txtEmpy.Spring = true;
+            this.c_sspMain_L_txtEmpy.Text = "登陆员工:xxx";
+            this.c_sspMain_L_txtEmpy.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // toolStripStatusLabel2
+            // c_sspMain_R_txtTime
             // 
-            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(204, 20);
-            this.toolStripStatusLabel2.Text = "时间：2015-01-01 12:00:00";
-            this.toolStripStatusLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.c_sspMain_R_txtTime.Name = "c_sspMain_R_txtTime";
+            this.c_sspMain_R_txtTime.Size = new System.Drawing.Size(204, 20);
+            this.c_sspMain_R_txtTime.Text = "时间：2015-01-01 12:00:00";
+            this.c_sspMain_R_txtTime.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // panel1
             // 
@@ -272,7 +272,7 @@
             this.ClientSize = new System.Drawing.Size(1008, 730);
             this.Controls.Add(this.c_panForm);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.statusStrip1);
+            this.Controls.Add(this.c_sspMain);
             this.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.IsMdiContainer = true;
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -280,8 +280,8 @@
             this.Text = "FrmMain";
             this.Load += new System.EventHandler(this.FrmMain_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FrmMain_KeyDown);
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
+            this.c_sspMain.ResumeLayout(false);
+            this.c_sspMain.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -293,9 +293,9 @@
         #endregion
 
         private System.Windows.Forms.Panel c_panForm;
-        private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
+        private System.Windows.Forms.StatusStrip c_sspMain;
+        private System.Windows.Forms.ToolStripStatusLabel c_sspMain_L_txtEmpy;
+        private System.Windows.Forms.ToolStripStatusLabel c_sspMain_R_txtTime;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button c_btnInvSearch;
         private System.Windows.Forms.Button c_btnMWPost;

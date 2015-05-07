@@ -213,7 +213,8 @@ namespace YRKJ.MWR.WSInventory.Forms
         {
             try
             {
-               
+                c_sspMain_R_txtTime.Text = DateTime.Now.ToLongDateString() + " " + DateTime.Now.ToLongTimeString();
+                c_sspMain_L_txtEmpy.Text = SysInfo.GetInstance().Employ.EmpyName;
                 
             }
             catch (Exception ex)

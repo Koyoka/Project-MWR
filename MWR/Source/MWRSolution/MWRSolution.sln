@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobilePhoneDemoApp", "Mobil
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FW2", "FW2\FW2.csproj", "{5FE6FE8A-055F-4151-951B-6D380C00CC8D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MWRSyncMng", "MWRSyncMng\MWRSyncMng.csproj", "{3882635D-AF98-4F6F-95DD-40E3FF9D5FCA}"
+EndProject
 Global
 	GlobalSection(SourceCodeControl) = preSolution
 		SccNumberOfProjects = 7
@@ -150,6 +152,16 @@ Global
 		{5FE6FE8A-055F-4151-951B-6D380C00CC8D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{5FE6FE8A-055F-4151-951B-6D380C00CC8D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{5FE6FE8A-055F-4151-951B-6D380C00CC8D}.Release|x86.ActiveCfg = Release|Any CPU
+		{3882635D-AF98-4F6F-95DD-40E3FF9D5FCA}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{3882635D-AF98-4F6F-95DD-40E3FF9D5FCA}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{3882635D-AF98-4F6F-95DD-40E3FF9D5FCA}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{3882635D-AF98-4F6F-95DD-40E3FF9D5FCA}.Debug|x86.ActiveCfg = Debug|x86
+		{3882635D-AF98-4F6F-95DD-40E3FF9D5FCA}.Debug|x86.Build.0 = Debug|x86
+		{3882635D-AF98-4F6F-95DD-40E3FF9D5FCA}.Release|Any CPU.ActiveCfg = Release|x86
+		{3882635D-AF98-4F6F-95DD-40E3FF9D5FCA}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{3882635D-AF98-4F6F-95DD-40E3FF9D5FCA}.Release|Mixed Platforms.Build.0 = Release|x86
+		{3882635D-AF98-4F6F-95DD-40E3FF9D5FCA}.Release|x86.ActiveCfg = Release|x86
+		{3882635D-AF98-4F6F-95DD-40E3FF9D5FCA}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
