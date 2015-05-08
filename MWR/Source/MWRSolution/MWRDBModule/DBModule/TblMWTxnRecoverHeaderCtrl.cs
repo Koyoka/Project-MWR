@@ -105,6 +105,7 @@ namespace YRKJ.MWR
                 item.RecoEmpyCode,
                 item.StartDate,
                 item.EndDate,
+                item.EntryDate,
                 item.OperateType,
                 item.TotalCrateQty,
                 item.TotalSubWeight,
@@ -130,6 +131,7 @@ namespace YRKJ.MWR
             string recoEmpyCode,
             DateTime startDate,
             DateTime endDate,
+            DateTime entryDate,
             string operateType,
             int totalCrateQty,
             decimal totalSubWeight,
@@ -155,6 +157,7 @@ namespace YRKJ.MWR
             sum.Add(TblMWTxnRecoverHeader.getRecoEmpyCodeColumn(), recoEmpyCode);
             sum.Add(TblMWTxnRecoverHeader.getStartDateColumn(), startDate);
             sum.Add(TblMWTxnRecoverHeader.getEndDateColumn(), endDate);
+            sum.Add(TblMWTxnRecoverHeader.getEntryDateColumn(), entryDate);
             sum.Add(TblMWTxnRecoverHeader.getOperateTypeColumn(), operateType);
             sum.Add(TblMWTxnRecoverHeader.getTotalCrateQtyColumn(), totalCrateQty);
             sum.Add(TblMWTxnRecoverHeader.getTotalSubWeightColumn(), totalSubWeight);
@@ -186,6 +189,7 @@ namespace YRKJ.MWR
             suc.Add(TblMWTxnRecoverHeader.getRecoEmpyCodeColumn(), item.RecoEmpyCode);
             suc.Add(TblMWTxnRecoverHeader.getStartDateColumn(), item.StartDate);
             suc.Add(TblMWTxnRecoverHeader.getEndDateColumn(), item.EndDate);
+            suc.Add(TblMWTxnRecoverHeader.getEntryDateColumn(), item.EntryDate);
             suc.Add(TblMWTxnRecoverHeader.getOperateTypeColumn(), item.OperateType);
             suc.Add(TblMWTxnRecoverHeader.getTotalCrateQtyColumn(), item.TotalCrateQty);
             suc.Add(TblMWTxnRecoverHeader.getTotalSubWeightColumn(), item.TotalSubWeight);

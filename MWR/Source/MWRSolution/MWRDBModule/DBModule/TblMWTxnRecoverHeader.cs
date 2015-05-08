@@ -33,6 +33,7 @@ namespace YRKJ.MWR
             new DataColumnInfo(false,true,false,false,"RecoEmpyCode",SqlCommonFn.DataColumnType.STRING,20),
             new DataColumnInfo(false,true,false,false,"StartDate",SqlCommonFn.DataColumnType.DATETIME,0),
             new DataColumnInfo(false,true,false,false,"EndDate",SqlCommonFn.DataColumnType.DATETIME,0),
+            new DataColumnInfo(false,true,false,false,"EntryDate",SqlCommonFn.DataColumnType.DATETIME,0),
             new DataColumnInfo(false,true,false,false,"OperateType",SqlCommonFn.DataColumnType.STRING,2),
             new DataColumnInfo(false,true,false,false,"TotalCrateQty",SqlCommonFn.DataColumnType.INT,10),
             new DataColumnInfo(false,true,false,false,"TotalSubWeight",SqlCommonFn.DataColumnType.DECIMAL,10),
@@ -93,29 +94,33 @@ namespace YRKJ.MWR
         {
             return Columns[12];
         }
-        public static DataColumnInfo getOperateTypeColumn()
+        public static DataColumnInfo getEntryDateColumn()
         {
             return Columns[13];
         }
-        public static DataColumnInfo getTotalCrateQtyColumn()
+        public static DataColumnInfo getOperateTypeColumn()
         {
             return Columns[14];
         }
-        public static DataColumnInfo getTotalSubWeightColumn()
+        public static DataColumnInfo getTotalCrateQtyColumn()
         {
             return Columns[15];
         }
-        public static DataColumnInfo getTotalTxnWeightColumn()
+        public static DataColumnInfo getTotalSubWeightColumn()
         {
             return Columns[16];
         }
-        public static DataColumnInfo getCarDisIdColumn()
+        public static DataColumnInfo getTotalTxnWeightColumn()
         {
             return Columns[17];
         }
-        public static DataColumnInfo getStatusColumn()
+        public static DataColumnInfo getCarDisIdColumn()
         {
             return Columns[18];
+        }
+        public static DataColumnInfo getStatusColumn()
+        {
+            return Columns[19];
         }
 
         private int _RecoHeaderId = 0;
@@ -131,6 +136,7 @@ namespace YRKJ.MWR
         private string _RecoEmpyCode = "";
         private DateTime _StartDate = DateTime.MinValue;
         private DateTime _EndDate = DateTime.MinValue;
+        private DateTime _EntryDate = DateTime.MinValue;
         private string _OperateType = "";
         private int _TotalCrateQty = 0;
         private decimal _TotalSubWeight = 0;
@@ -281,6 +287,17 @@ namespace YRKJ.MWR
                 _EndDate = value;
             }
         }
+        public DateTime EntryDate
+        {
+            get
+            {
+                return _EntryDate;
+            }
+            set
+            {
+                _EntryDate = value;
+            }
+        }
         public string OperateType
         {
             get
@@ -377,6 +394,8 @@ namespace YRKJ.MWR
                  SetValue(ref _StartDate, row["StartDate"]);
              if(dataCols.Contains("EndDate"))
                  SetValue(ref _EndDate, row["EndDate"]);
+             if(dataCols.Contains("EntryDate"))
+                 SetValue(ref _EntryDate, row["EntryDate"]);
              if(dataCols.Contains("OperateType"))
                  SetValue(ref _OperateType, row["OperateType"]);
              if(dataCols.Contains("TotalCrateQty"))

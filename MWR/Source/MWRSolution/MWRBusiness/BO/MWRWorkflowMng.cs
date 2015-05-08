@@ -421,6 +421,7 @@ namespace YRKJ.MWR.Business.BO
 
                     //header.StratDate = DateTime.MinValue;
                     //header.EndDate = DateTime.MinValue;
+                    header.EntryDate = now;
                     header.OperateType = OperateType;// TblMWTxnRecoverHeader.OPERATETYPE_ENUM_ToInventory;
                     header.TotalCrateQty = totalCrateQty;
                     header.TotalSubWeight = totalSubWeight;

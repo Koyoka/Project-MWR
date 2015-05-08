@@ -80,6 +80,8 @@
     <Compile Include="DBModule\TblMWRecoverDetailCtrl.cs" />
     <Compile Include="DBModule\TblMWResidueInventory.cs" />
     <Compile Include="DBModule\TblMWResidueInventoryCtrl.cs" />
+    <Compile Include="DBModule\TblMWSynclog.cs" />
+    <Compile Include="DBModule\TblMWSynclogCtrl.cs" />
     <Compile Include="DBModule\TblMWTxnDestroyHeader.cs" />
     <Compile Include="DBModule\TblMWTxnDestroyHeaderCtrl.cs" />
     <Compile Include="DBModule\TblMWTxnDetail.cs" />

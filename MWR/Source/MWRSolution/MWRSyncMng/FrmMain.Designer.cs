@@ -29,17 +29,20 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.服务ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.启动BToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.停止SToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.c_mnuServiceStrat = new System.Windows.Forms.ToolStripMenuItem();
+            this.c_mnuStop = new System.Windows.Forms.ToolStripMenuItem();
             this.配置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.参数PToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.c_mnuPSetting = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.c_sspMain_R_txtStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.c_txtMain = new System.Windows.Forms.TextBox();
             this.c_back = new System.ComponentModel.BackgroundWorker();
             this.c_time = new System.Windows.Forms.Timer(this.components);
-            this.c_sspMain_R_txtStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.c_sspMain_L_txtRunTime = new System.Windows.Forms.ToolStripStatusLabel();
+            this.c_notifyIconMain = new System.Windows.Forms.NotifyIcon(this.components);
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -58,47 +61,59 @@
             // 服务ToolStripMenuItem
             // 
             this.服务ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.启动BToolStripMenuItem,
-            this.停止SToolStripMenuItem});
+            this.c_mnuServiceStrat,
+            this.c_mnuStop});
             this.服务ToolStripMenuItem.Name = "服务ToolStripMenuItem";
             this.服务ToolStripMenuItem.Size = new System.Drawing.Size(59, 21);
             this.服务ToolStripMenuItem.Text = "服务(&S)";
             // 
-            // 启动BToolStripMenuItem
+            // c_mnuServiceStrat
             // 
-            this.启动BToolStripMenuItem.Name = "启动BToolStripMenuItem";
-            this.启动BToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
-            this.启动BToolStripMenuItem.Text = "启动(&B)";
+            this.c_mnuServiceStrat.Name = "c_mnuServiceStrat";
+            this.c_mnuServiceStrat.Size = new System.Drawing.Size(152, 22);
+            this.c_mnuServiceStrat.Text = "启动(&B)";
+            this.c_mnuServiceStrat.Click += new System.EventHandler(this.c_mnuServiceStrat_Click);
             // 
-            // 停止SToolStripMenuItem
+            // c_mnuStop
             // 
-            this.停止SToolStripMenuItem.Name = "停止SToolStripMenuItem";
-            this.停止SToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
-            this.停止SToolStripMenuItem.Text = "停止(&S)";
+            this.c_mnuStop.Name = "c_mnuStop";
+            this.c_mnuStop.Size = new System.Drawing.Size(152, 22);
+            this.c_mnuStop.Text = "停止(&S)";
+            this.c_mnuStop.Click += new System.EventHandler(this.c_mnuStop_Click);
             // 
             // 配置ToolStripMenuItem
             // 
             this.配置ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.参数PToolStripMenuItem});
+            this.c_mnuPSetting});
             this.配置ToolStripMenuItem.Name = "配置ToolStripMenuItem";
             this.配置ToolStripMenuItem.Size = new System.Drawing.Size(60, 21);
             this.配置ToolStripMenuItem.Text = "配置(&C)";
             // 
-            // 参数PToolStripMenuItem
+            // c_mnuPSetting
             // 
-            this.参数PToolStripMenuItem.Name = "参数PToolStripMenuItem";
-            this.参数PToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
-            this.参数PToolStripMenuItem.Text = "参数(&P)";
+            this.c_mnuPSetting.Name = "c_mnuPSetting";
+            this.c_mnuPSetting.Size = new System.Drawing.Size(152, 22);
+            this.c_mnuPSetting.Text = "参数(&P)";
+            this.c_mnuPSetting.Click += new System.EventHandler(this.c_mnuPSetting_Click);
             // 
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.c_sspMain_L_txtRunTime,
             this.c_sspMain_R_txtStatus});
             this.statusStrip1.Location = new System.Drawing.Point(0, 347);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(546, 22);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
+            // 
+            // c_sspMain_R_txtStatus
+            // 
+            this.c_sspMain_R_txtStatus.Name = "c_sspMain_R_txtStatus";
+            this.c_sspMain_R_txtStatus.Size = new System.Drawing.Size(475, 17);
+            this.c_sspMain_R_txtStatus.Spring = true;
+            this.c_sspMain_R_txtStatus.Text = "状态";
+            this.c_sspMain_R_txtStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // c_txtMain
             // 
@@ -120,13 +135,19 @@
             // 
             this.c_time.Tick += new System.EventHandler(this.c_time_Tick);
             // 
-            // c_sspMain_R_txtStatus
+            // c_sspMain_L_txtRunTime
             // 
-            this.c_sspMain_R_txtStatus.Name = "c_sspMain_R_txtStatus";
-            this.c_sspMain_R_txtStatus.Size = new System.Drawing.Size(500, 17);
-            this.c_sspMain_R_txtStatus.Spring = true;
-            this.c_sspMain_R_txtStatus.Text = "状态";
-            this.c_sspMain_R_txtStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.c_sspMain_L_txtRunTime.Name = "c_sspMain_L_txtRunTime";
+            this.c_sspMain_L_txtRunTime.Size = new System.Drawing.Size(56, 17);
+            this.c_sspMain_L_txtRunTime.Text = "运行时间";
+            // 
+            // c_notifyIconMain
+            // 
+            this.c_notifyIconMain.BalloonTipText = "危废同步服务Text";
+            this.c_notifyIconMain.Icon = ((System.Drawing.Icon)(resources.GetObject("c_notifyIconMain.Icon")));
+            this.c_notifyIconMain.Text = "危废同步服务";
+            this.c_notifyIconMain.Visible = true;
+            this.c_notifyIconMain.Click += new System.EventHandler(this.c_notifyIconMain_Click);
             // 
             // FrmMain
             // 
@@ -136,9 +157,13 @@
             this.Controls.Add(this.c_txtMain);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "FrmMain";
-            this.Text = "FrmMain";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "危废数据同步服务";
+            this.Load += new System.EventHandler(this.FrmMain_Load);
+            this.Resize += new System.EventHandler(this.FrmMain_Resize);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
@@ -152,14 +177,16 @@
 
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem 服务ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 启动BToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 停止SToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem c_mnuServiceStrat;
+        private System.Windows.Forms.ToolStripMenuItem c_mnuStop;
         private System.Windows.Forms.ToolStripMenuItem 配置ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 参数PToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem c_mnuPSetting;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.TextBox c_txtMain;
         private System.ComponentModel.BackgroundWorker c_back;
         private System.Windows.Forms.Timer c_time;
         private System.Windows.Forms.ToolStripStatusLabel c_sspMain_R_txtStatus;
+        private System.Windows.Forms.ToolStripStatusLabel c_sspMain_L_txtRunTime;
+        private System.Windows.Forms.NotifyIcon c_notifyIconMain;
     }
 }
