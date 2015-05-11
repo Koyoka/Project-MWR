@@ -28,6 +28,16 @@ namespace ComLib.db
             
             buildSqlList.Add(defineQueryColumnStr);
         }
+        public void Add(string columnName, string asName)
+        {
+            string defineQueryColumnStr = "";
+            defineQueryColumnStr =
+                    columnName +
+                    (string.IsNullOrEmpty(asName.Trim())
+                    ? "" : " AS " + asName);
+
+            buildSqlList.Add(defineQueryColumnStr);
+        }
 
         public void AddCount(DataColumnInfo column)
         {

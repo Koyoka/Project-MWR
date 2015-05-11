@@ -88,6 +88,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MWRBusiness\MWRBusiness.csproj">
+      <Project>{C77051AD-CB44-445F-A914-2253F49D5EAA}</Project>
+      <Name>MWRBusiness</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MWRDBModule\MWRDBModule.csproj">
       <Project>{5D8E6A3B-CF6A-45A2-8F5E-9CEE7993EBB4}</Project>
       <Name>MWRDBModule</Name>

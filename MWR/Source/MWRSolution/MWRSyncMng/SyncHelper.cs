@@ -6,6 +6,7 @@ using System.Net;
 using System.IO;
 using ComLib.db;
 using YRKJ.MWR;
+using YRKJ.MWR.Business.Sys;
 
 namespace MWRSyncMng
 {
@@ -17,7 +18,7 @@ namespace MWRSyncMng
         public void Stop()
         { }
 
-        private static bool GetSyncData(ref string errMsg)
+        public static bool GetSyncData(ref SyncReportData data, ref string errMsg)
         {
             DataCtrlInfo dcf = new DataCtrlInfo();
 
@@ -29,8 +30,9 @@ namespace MWRSyncMng
                 TblMWSynclog item = null;
 
                 SqlQueryMng sqm = new SqlQueryMng();
+                sqm.Condition.Where.AddCompareValue(TblMWSynclog.getStatusColumn(), SqlCommonFn.SqlWhereCompareEnum.UnEquals, TblMWSynclog.STATUS_ENUM_Complete);
                 sqm.QueryColumn.AddTop(1);
-                sqm.Condition.OrderBy.Add(TblMWSynclog.getSyncDateTimeColumn(), SqlCommonFn.SqlOrderByType.DESC);
+                sqm.Condition.OrderBy.Add(TblMWSynclog.getSyncDateTimeColumn(), SqlCommonFn.SqlOrderByType.ASC);
                 if (!TblMWSynclogCtrl.QueryOne(dcf, sqm, ref item, ref errMsg))
                 {
                     return false;
@@ -40,49 +42,9 @@ namespace MWRSyncMng
                     lastSyncTime = item.SyncDateTime;
                 }
             }
-            //if (lastSyncTime == DateTime.MinValue)
-            //{
-            //    TblMWTxnRecoverHeader item = null;
-            //    SqlQueryMng sqm = new SqlQueryMng();
-            //    sqm.QueryColumn.AddTop(1);
-            //    sqm.Condition.OrderBy.Add(TblMWTxnRecoverHeader.getEntryDateColumn(), SqlCommonFn.SqlOrderByType.DESC);
-
-            //    if (!TblMWTxnRecoverHeaderCtrl.QueryOne(dcf, sqm, ref item, ref errMsg))
-            //    {
-            //        return false;
-            //    }
-
-            //    if (item != null)
-            //    {
-            //        lastSyncTime = item.EntryDate;
-            //    }
-            //    else
-            //    {
-            //        lastSyncTime = DateTime.MinValue;
-            //    }
-            //}
             #endregion
 
-            #region get need sync time
-            //{
-            //    TimeSpan ts = now - lastSyncTime;
-            //    if (ts.Days == 0)
-            //    {
-            //        //is today
-            //        return true;
-            //    }
-
-            //    List<DateTime> needSyncDay = new List<DateTime>();
-            //    for (int i = 1; i <= ts.Days; i++)
-            //    {
-            //        DateTime defineTime = DateTime.MinValue;
-            //        defineTime = lastSyncTime.AddDays(i);
-            //        needSyncDay.Add(defineTime);
-            //    }
-
-            //}
-            #endregion
-
+            SyncReportData reportData = new SyncReportData();
             #region get sync data
             //运量
             {
@@ -91,11 +53,99 @@ namespace MWRSyncMng
                 sqm.QueryColumn.AddSum(TblMWTxnRecoverHeader.getTotalSubWeightColumn());
                 sqm.QueryColumn.AddSum(TblMWTxnRecoverHeader.getTotalTxnWeightColumn());
                 sqm.QueryColumn.AddSum(TblMWTxnRecoverHeader.getTotalCrateQtyColumn());
+                string formatColname = SqlCommonFn.FormatSqlDateTimeColumnString2(TblMWTxnRecoverHeader.getEntryDateColumn(), SqlCommonFn.SqlWhereDateTimeFormatEnum.YMD);
+                sqm.QueryColumn.Add(formatColname, "Date2");
                 sqm.Condition.Where.AddDateTimeCompareValue(TblMWTxnRecoverHeader.getEntryDateColumn(), SqlCommonFn.SqlWhereCompareEnum.MoreEquals, syncDate, SqlCommonFn.SqlWhereDateTimeFormatEnum.YMD);
-                sqm.Condition.GroupBy.Add(TblMWTxnRecoverHeader.getEntryDateColumn());
+                sqm.Condition.GroupBy.Add("Date2");
 
+                List<TblMWTxnRecoverHeader> itemList = null;
+                if (!TblMWTxnRecoverHeaderCtrl.QueryMore(dcf, sqm, ref itemList, ref errMsg))
+                {
+                    return false;
+                }
+                //itemList[0].GetValue("");
+                reportData.ReportInCarAndSubWeight = itemList;
+                object d = itemList[0].GetValue("Date2");
+            }
+
+            //回收总量，出库总量，处置总量
+            {
+                DateTime syncDate = lastSyncTime;
+                SqlQueryMng sqm = new SqlQueryMng();
+                sqm.QueryColumn.Add(TblMWInventory.getRecoWeightColumn());
+                sqm.QueryColumn.Add(TblMWInventory.getInvWeightColumn());
+                sqm.QueryColumn.Add(TblMWInventory.getPostWeightColumn());
+                sqm.QueryColumn.Add(TblMWInventory.getDestWeightColumn());
+                //sqm.QueryColumn.Add(TblMWInventory.getEntryDateColumn());
+                string formatColname = SqlCommonFn.FormatSqlDateTimeColumnString2(TblMWTxnRecoverHeader.getEntryDateColumn(), SqlCommonFn.SqlWhereDateTimeFormatEnum.YMD);
+                sqm.QueryColumn.Add(formatColname, "Date2");
+                sqm.Condition.Where.AddDateTimeCompareValue(TblMWInventory.getEntryDateColumn(), SqlCommonFn.SqlWhereCompareEnum.MoreEquals, syncDate, SqlCommonFn.SqlWhereDateTimeFormatEnum.YMD);
+                sqm.Condition.GroupBy.Add("Date2");
+                //sqm.Condition.GroupBy.Add(TblMWInventory.getEntryDateColumn());
+
+                List<TblMWInventory> itemList = null;
+                if (!TblMWInventoryCtrl.QueryMore(dcf, sqm, ref itemList, ref errMsg))
+                {
+                    return false;
+                }
+
+                reportData.ReportInventoryWeigth = itemList;
             }
             #endregion
+
+            #region set sync plan
+            {
+                //List<DateTime> needSyncDateList = new List<DateTime>();
+                //foreach (TblMWTxnRecoverHeader item in reportData.ReportInCarAndSubWeight)
+                //{
+                //    needSyncDateList.Add(item.EntryDate);
+                //}
+
+
+                //dcf.BeginTrans();
+
+
+                //TblMWSynclog item = new TblMWSynclog();
+                //item.SyncDateTime = SqlDBMng.GetDBNow();
+                //item.Status = TblMWSynclog.STATUS_ENUM_Complete;
+
+                //int updCount = 0;
+                //if (!TblMWSynclogCtrl.Insert(dcf, item, ref updCount, ref errMsg))
+                //{
+                //    return false;
+                //}
+            }
+            #endregion
+
+            data = reportData;
+            return true;
+        }
+        public class SyncReportData
+        {
+            public List<TblMWTxnRecoverHeader> ReportInCarAndSubWeight = new List<TblMWTxnRecoverHeader>();
+            public List<TblMWInventory> ReportInventoryWeigth = new List<TblMWInventory>();
+
+            public decimal RecoverInCarWeigth { get; set; }//运量
+            public decimal RecoverSubWeigth { get; set; }//接货量
+            public decimal RecoverTxnWeight { get; set; }//入库量
+            public decimal InvWeight { get; set; }//库存量
+            public decimal PostTxnWeight { get; set; }//出库量
+            public decimal DestroyTxnWeight { get; set; }//处置量
+
+        }
+
+        public static bool DoSycn(ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            TblMWSynclog item = new TblMWSynclog();
+            item.SyncDateTime = SqlDBMng.GetDBNow();
+            item.Status = TblMWSynclog.STATUS_ENUM_Complete;
+
+            int updCount = 0;
+            if (!TblMWSynclogCtrl.Insert(dcf, item, ref updCount, ref errMsg))
+            {
+                return false;
+            }
 
             return true;
         }

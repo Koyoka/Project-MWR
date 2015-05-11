@@ -53,39 +53,81 @@ namespace ComLib.db.mysql
         public override string FormatSqlDateTimeString(DateTime val, SqlCommonFn.SqlWhereDateTimeFormatEnum dateFormat)
         {
             string defineFormatString = "";
-            
+            string sqlFormatChars = "";
             if (dateFormat == SqlCommonFn.SqlWhereDateTimeFormatEnum.Y)
             {
-                defineFormatString = " DATE_FORMAT('" + ComLib.ComFn.DateTimeToString(val, "yyyy-MM-dd HH:mm:ss") + "','%Y') ";
+                //defineFormatString = " DATE_FORMAT('" + ComLib.ComFn.DateTimeToString2(val, "yyyy-MM-dd HH:mm:ss") + "','%Y') ";
+                sqlFormatChars = "%Y";
             }
             else if (dateFormat == SqlCommonFn.SqlWhereDateTimeFormatEnum.YM)
             {
-                defineFormatString = " DATE_FORMAT('" + ComLib.ComFn.DateTimeToString(val, "yyyy-MM-dd HH:mm:ss") + "','%Y%m') ";
+                //defineFormatString = " DATE_FORMAT('" + ComLib.ComFn.DateTimeToString2(val, "yyyy-MM-dd HH:mm:ss") + "','%Y%m') ";
+                sqlFormatChars = "%Y%m";
             }
             else if (dateFormat == SqlCommonFn.SqlWhereDateTimeFormatEnum.YMD)
             {
-                defineFormatString = " DATE_FORMAT('" + ComLib.ComFn.DateTimeToString(val, "yyyy-MM-dd HH:mm:ss") + "','%Y%m%d') ";
+                //defineFormatString = " DATE_FORMAT('" + ComLib.ComFn.DateTimeToString2(val, "yyyy-MM-dd HH:mm:ss") + "','%Y%m%d') ";
+                sqlFormatChars = "%Y%m%d";
             }
             else if (dateFormat == SqlCommonFn.SqlWhereDateTimeFormatEnum.YMDH)
             {
-                defineFormatString = " DATE_FORMAT('" + ComLib.ComFn.DateTimeToString(val, "yyyy-MM-dd HH:mm:ss") + "','%Y%m%d%H') ";
+                //defineFormatString = " DATE_FORMAT('" + ComLib.ComFn.DateTimeToString2(val, "yyyy-MM-dd HH:mm:ss") + "','%Y%m%d%H') ";
+                sqlFormatChars = "%Y%m%d%H";
             }
             else if (dateFormat == SqlCommonFn.SqlWhereDateTimeFormatEnum.YMDHM)
             {
-                defineFormatString = " DATE_FORMAT('" + ComLib.ComFn.DateTimeToString(val, "yyyy-MM-dd HH:mm:ss") + "','%Y%m%d%H%i') ";
+                //defineFormatString = " DATE_FORMAT('" + ComLib.ComFn.DateTimeToString2(val, "yyyy-MM-dd HH:mm:ss") + "','%Y%m%d%H%i') ";
+                sqlFormatChars = "%Y%m%d%H%i";
             }
             else if (dateFormat == SqlCommonFn.SqlWhereDateTimeFormatEnum.YMDHMS)
             {
-                defineFormatString = " DATE_FORMAT('" + ComLib.ComFn.DateTimeToString(val, "yyyy-MM-dd HH:mm:ss") + "','%Y%m%d%H%i%S') ";
+                //defineFormatString = " DATE_FORMAT('" + ComLib.ComFn.DateTimeToString2(val, "yyyy-MM-dd HH:mm:ss") + "','%Y%m%d%H%i%S') ";
+                sqlFormatChars = "%Y%m%d%H%i%S";
             }
             else
             {
-                defineFormatString = " DATE_FORMAT('" + ComLib.ComFn.DateTimeToString(val, "yyyy-MM-dd HH:mm:ss") + "','%Y%m%d%H%i%S') ";
+                //defineFormatString = " DATE_FORMAT('" + ComLib.ComFn.DateTimeToString2(val, "yyyy-MM-dd HH:mm:ss") + "','%Y%m%d%H%i%S') ";
+                sqlFormatChars = "%Y%m%d%H%i%S";
+            }
+            defineFormatString = " DATE_FORMAT('" + ComLib.ComFn.DateTimeToString2(val, "yyyy-MM-dd HH:mm:ss") + "','" + sqlFormatChars + "') ";
+            return defineFormatString;
+        }
+
+        public override string FormatSqlDateTimeColumnString2(string columnName, SqlCommonFn.SqlWhereDateTimeFormatEnum dateFormat)
+        {
+            string defineFormatString = "";
+
+            if (dateFormat == SqlCommonFn.SqlWhereDateTimeFormatEnum.Y)
+            {
+                defineFormatString = " DATE_FORMAT(" + FormatSqlColumnNameString(columnName) + ",'%Y') ";
+            }
+            else if (dateFormat == SqlCommonFn.SqlWhereDateTimeFormatEnum.YM)
+            {
+                defineFormatString = " DATE_FORMAT(" + FormatSqlColumnNameString(columnName) + ",'%Y-%m') ";
+            }
+            else if (dateFormat == SqlCommonFn.SqlWhereDateTimeFormatEnum.YMD)
+            {
+                defineFormatString = " DATE_FORMAT(" + FormatSqlColumnNameString(columnName) + ",'%Y-%m-%d') ";
+            }
+            else if (dateFormat == SqlCommonFn.SqlWhereDateTimeFormatEnum.YMDH)
+            {
+                defineFormatString = " DATE_FORMAT(" + FormatSqlColumnNameString(columnName) + ",'%Y-%m-%d %H') ";
+            }
+            else if (dateFormat == SqlCommonFn.SqlWhereDateTimeFormatEnum.YMDHM)
+            {
+                defineFormatString = " DATE_FORMAT(" + FormatSqlColumnNameString(columnName) + ",'%Y-%m-%d %H:%i') ";
+            }
+            else if (dateFormat == SqlCommonFn.SqlWhereDateTimeFormatEnum.YMDHMS)
+            {
+                defineFormatString = " DATE_FORMAT(" + FormatSqlColumnNameString(columnName) + ",'%Y-%m-%d %H:%i:%S') ";
+            }
+            else
+            {
+                defineFormatString = " DATE_FORMAT(" + FormatSqlColumnNameString(columnName) + ",'%Y-%m-%d %H:%i:%S') ";
             }
 
             return defineFormatString;
         }
-
         public override string FormatSqlDateTimeColumnString(string columnName, SqlCommonFn.SqlWhereDateTimeFormatEnum dateFormat)
         {
             string defineFormatString = "";

@@ -78,6 +78,7 @@ namespace YRKJ.MWR
 
          public override void SetValue(System.Data.DataRow row)
          {
+              _dataRow = row;
              System.Data.DataColumnCollection dataCols = row.Table.Columns;
              if(dataCols.Contains("SyncDateTime"))
                  SetValue(ref _SyncDateTime, row["SyncDateTime"]);

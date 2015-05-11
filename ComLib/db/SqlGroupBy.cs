@@ -15,6 +15,14 @@ namespace ComLib.db
             buildSqlList.Add(defineOrderByStr);
             return this;
         }
+        public SqlGroupBy Add(string columnName)
+        {
+            string defineOrderByStr = "";
+            defineOrderByStr =
+                    SqlCommonFn.FormatSqlColumnNameString(columnName);
+            buildSqlList.Add(defineOrderByStr);
+            return this;
+        }
 
         public string getSql()
         {

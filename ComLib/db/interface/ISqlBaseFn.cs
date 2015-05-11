@@ -13,6 +13,8 @@ namespace ComLib.db.mysql
         public abstract string FormatQueryPageSql(string sql, int page, int pageSize);
         public abstract string FormatSqlDateTimeString(DateTime val, SqlCommonFn.SqlWhereDateTimeFormatEnum dateFormat);
         public abstract string FormatSqlDateTimeColumnString(string columnName,SqlCommonFn.SqlWhereDateTimeFormatEnum dateFormat);
+        public abstract string FormatSqlDateTimeColumnString2(string columnName, SqlCommonFn.SqlWhereDateTimeFormatEnum dateFormat);
+
         private const string key = "pMwrdbWORDTaBlE";
         public String DecryptString(string s)
         {

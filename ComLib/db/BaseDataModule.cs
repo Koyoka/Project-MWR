@@ -73,6 +73,18 @@ namespace ComLib.db
         }
         public abstract void SetValue(System.Data.DataRow row);
 
+
+        protected System.Data.DataRow _dataRow = null;
+        public object GetValue(string columnName)
+        {
+            System.Data.DataColumnCollection dataCols = _dataRow.Table.Columns;
+            if (dataCols.Contains(columnName))
+            {
+                return _dataRow[columnName];
+            }
+            return null;
+        }
+
         //public abstract string GetTableName();
         //public abstract DataColumnInfo[] GetColumns();
         //{

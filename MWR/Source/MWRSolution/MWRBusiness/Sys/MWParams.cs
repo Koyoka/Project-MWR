@@ -415,5 +415,38 @@ namespace YRKJ.MWR.Business.Sys
             return _carGPSMapCode;
         }
         #endregion
+
+        #region sync
+        private static DateTime _syncDateTime = DateTime.MinValue;
+        public static bool SetSyncDateTime(DateTime value, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            if (!SysParams.GetInstance().SetValue(dcf, "SyncDateTime", value.ToString("HH:mm"), ref errMsg))
+            {
+                return false;
+            }
+            return true;
+        }
+        public static DateTime GetSyncDateTime()
+        {
+            if (_syncDateTime == DateTime.MinValue)
+            {
+                DataCtrlInfo dcf = new DataCtrlInfo();
+                string defineSyncDateTimeStr = SysParams.GetInstance().GetValue(dcf,"SyncDateTime");
+                if (string.IsNullOrEmpty(defineSyncDateTimeStr))
+                {
+                    _syncDateTime = ComLib.ComFn.StringToDateTime("01:00", "HH:mm");
+                    string errMsg = "";
+                    SetSyncDateTime(_syncDateTime, ref errMsg);
+                }
+                else
+                {
+                    _syncDateTime = ComLib.ComFn.StringToDateTime(defineSyncDateTimeStr, "HH:mm");
+                }
+            }
+            return _syncDateTime;
+        }
+
+        #endregion
     }
 }

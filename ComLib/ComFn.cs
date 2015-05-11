@@ -472,6 +472,17 @@ namespace ComLib
             return new DateTime(dt.Year, dt.Month, dt.Day);
         }
 
+        public static string DateTimeToString2(DateTime dt, string format)
+        {
+            try
+            {
+                return dt.ToString(format);
+            }
+            catch
+            {
+                return "";
+            }
+        }
         public static string DateTimeToString(DateTime dt, string format)
         {
             try

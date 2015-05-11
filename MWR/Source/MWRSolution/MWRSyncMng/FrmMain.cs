@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using YRKJ.MWR.WinBase.WinAppBase;
 using ComLib.Log;
+using YRKJ.MWR.Business.Sys;
 
 namespace MWRSyncMng
 {
@@ -29,6 +30,7 @@ namespace MWRSyncMng
 
         private void FrmMain_Load(object sender, EventArgs e)
         {
+           
             try
             {
                 this.Cursor = Cursors.WaitCursor;
@@ -124,9 +126,20 @@ namespace MWRSyncMng
 
                 c_sspMain_L_txtRunTime.Text = _smrHelpr.RunTimeInfo;
 
+                DateTime locNow = DateTime.Now;
+                #region check need sync
+                DateTime syncTime = MWParams.GetSyncDateTime();
+                TimeSpan sp = locNow.TimeOfDay - syncTime.TimeOfDay;
+                if(!(sp.Hours == 0 && sp.Minutes >= 0 && sp.Minutes <= 10))
+                {
+                    return;
+                }
+                #endregion
+
                 DateTime lastBeginTime = DateTime.MinValue;
                 if (_smpMng != null)
                 {
+                    c_txtMain.Text = _smpMng.InfoMsg;
                     if (_smpMng.IsRunning)
                     {
                         return;
@@ -135,7 +148,7 @@ namespace MWRSyncMng
                     lastBeginTime = _smpMng.BeginTime;
                 }
 
-                TimeSpan ts = DateTime.Now - lastBeginTime;
+                TimeSpan ts = locNow - lastBeginTime;
                 if (ts.TotalSeconds < 0 || ts.TotalSeconds >= _interval)
                 {
                     //OK
@@ -429,11 +442,39 @@ namespace MWRSyncMng
                 _needStop = false;
                 try
                 {
+                    #region get data
+                    string errMsg = "";
+                    string defineTestStr = "运量{0}，接货量{1}，入库量{2}，库存量{3}，出库量{4}，处置量{5}";
+
+                    SyncHelper.SyncReportData data = null;
+                    if (!SyncHelper.GetSyncData(ref data, ref errMsg))
+                    {
+                        _hasCrashed = true;
+                        _crashedErrMsg = errMsg;
+                        return;
+                    }
+                    //if (data != null)
+                    //{
+                    //    defineTestStr = string.Format(defineTestStr,
+                    //        data.RecoverInCarWeigth,
+                    //        data.RecoverSubWeigth,
+                    //        data.RecoverTxnWeight,
+                    //        data.InvWeight,
+                    //        data.PostTxnWeight,
+                    //        data.DestroyTxnWeight);
+                    //}
+                    //else
+                    //{
+                    //    defineTestStr = "没有数据需要同步";
+                    //}
+                    #endregion
+
                     #region Show Info
                     StringBuilder sb = new StringBuilder();
                     
                     DateTime now = ComLib.db.SqlDBMng.GetDBNow();
-                    sb.AppendLine("Search Time = " + now.ToString("yyyy-MM-dd HH:mm:ss") + "");
+                    sb.AppendLine("同步时间 = " + now.ToString("yyyy-MM-dd HH:mm:ss") + "");
+                    sb.AppendLine(defineTestStr);
                     //sb.AppendLine("Need Send SMS Count = " + smsDataList.Length.ToString() + "");
                     //if (smsDataList.Length > 0)
                     //{

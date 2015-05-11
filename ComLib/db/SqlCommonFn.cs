@@ -137,6 +137,10 @@ namespace ComLib.db
             return createSqlFnInstance().FormatSqlDateTimeColumnString(columnName, dateFormat);
         }
 
+        public static string FormatSqlDateTimeColumnString2(DataColumnInfo column, SqlCommonFn.SqlWhereDateTimeFormatEnum dateFormat)
+        {
+            return createSqlFnInstance().FormatSqlDateTimeColumnString2(column.ColumnName, dateFormat);
+        }
         /**
          *result code
          *1: val length failure

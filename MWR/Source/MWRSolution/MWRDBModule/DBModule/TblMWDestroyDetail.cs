@@ -282,6 +282,7 @@ namespace YRKJ.MWR
 
          public override void SetValue(System.Data.DataRow row)
          {
+              _dataRow = row;
              System.Data.DataColumnCollection dataCols = row.Table.Columns;
              if(dataCols.Contains("DestroyDtlId"))
                  SetValue(ref _DestroyDtlId, row["DestroyDtlId"]);

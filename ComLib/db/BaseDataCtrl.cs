@@ -35,6 +35,9 @@ namespace ComLib.db
                 object o = typeof(T).GetProperty(dataInfo.ColumnName).GetValue(t, null);
                 suc.Add(dataInfo, o);
             }
+
+
+
             //typeof(T).GetProperty(dataInfo.ColumnName).ge
 
             ////foreach (System.Reflection.PropertyInfo pi in propertys)
