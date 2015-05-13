@@ -42,20 +42,45 @@ namespace MWRSyncMng
                     lastSyncTime = item.SyncDateTime;
                 }
             }
+            if (lastSyncTime == DateTime.MinValue)
+            {
+                TblMWTxnRecoverHeader item = null;
+                SqlQueryMng sqm = new SqlQueryMng();
+                sqm.QueryColumn.AddTop(1);
+                sqm.Condition.OrderBy.Add(TblMWTxnRecoverHeader.getEntryDateColumn(), SqlCommonFn.SqlOrderByType.ASC);
+
+                if (!TblMWTxnRecoverHeaderCtrl.QueryOne(dcf, sqm, ref item, ref errMsg))
+                {
+                    return false;
+                }
+
+                if (item != null)
+                {
+                    lastSyncTime = item.EntryDate;
+                }
+                else
+                {
+                    //no data
+                    return true;
+                }
+            }
+           
             #endregion
 
-            SyncReportData reportData = new SyncReportData();
             #region get sync data
             //运量
+            List<TblMWTxnRecoverHeader> txnRecoverHeaderList = null;
             {
                 DateTime syncDate = lastSyncTime;
                 SqlQueryMng sqm = new SqlQueryMng();
                 sqm.QueryColumn.AddSum(TblMWTxnRecoverHeader.getTotalSubWeightColumn());
                 sqm.QueryColumn.AddSum(TblMWTxnRecoverHeader.getTotalTxnWeightColumn());
                 sqm.QueryColumn.AddSum(TblMWTxnRecoverHeader.getTotalCrateQtyColumn());
+                //sqm.QueryColumn.AddSum(TblMWTxnRecoverHeader.getEntryDateColumn());
                 string formatColname = SqlCommonFn.FormatSqlDateTimeColumnString2(TblMWTxnRecoverHeader.getEntryDateColumn(), SqlCommonFn.SqlWhereDateTimeFormatEnum.YMD);
                 sqm.QueryColumn.Add(formatColname, "Date2");
                 sqm.Condition.Where.AddDateTimeCompareValue(TblMWTxnRecoverHeader.getEntryDateColumn(), SqlCommonFn.SqlWhereCompareEnum.MoreEquals, syncDate, SqlCommonFn.SqlWhereDateTimeFormatEnum.YMD);
+                sqm.Condition.OrderBy.Add(TblMWTxnRecoverHeader.getEntryDateColumn(), SqlCommonFn.SqlOrderByType.ASC);
                 sqm.Condition.GroupBy.Add("Date2");
 
                 List<TblMWTxnRecoverHeader> itemList = null;
@@ -63,12 +88,14 @@ namespace MWRSyncMng
                 {
                     return false;
                 }
+                txnRecoverHeaderList = itemList;
                 //itemList[0].GetValue("");
-                reportData.ReportInCarAndSubWeight = itemList;
-                object d = itemList[0].GetValue("Date2");
+                //reportData.ReportInCarAndSubWeight = itemList;
+                //object d = itemList[0].GetValue("Date2");
             }
 
             //回收总量，出库总量，处置总量
+            List<TblMWInventory> inventoryList = null;
             {
                 DateTime syncDate = lastSyncTime;
                 SqlQueryMng sqm = new SqlQueryMng();
@@ -88,13 +115,59 @@ namespace MWRSyncMng
                 {
                     return false;
                 }
-
-                reportData.ReportInventoryWeigth = itemList;
+                inventoryList = itemList;
+                //reportData.ReportInventoryWeigth = itemList;
             }
             #endregion
 
-            #region set sync plan
+            #region set sync data
+            List<SyncReportData> syncReportDataList = new List<SyncReportData>();
             {
+                DateTime d = lastSyncTime;
+                //StringBuilder sb = new StringBuilder();
+                for (int i = 0; (now - d.AddDays(i)).Days > 0; i++)
+                {
+                    DateTime reportDate = d.AddDays(i);
+                    string defineDateStr = reportDate.ToString("yyyy-MM-dd");
+                    SyncReportData rData = new SyncReportData();
+
+                    {
+                        bool hasData = false;
+                        foreach (var item in txnRecoverHeaderList)
+                        {
+                            if (item.GetValue("Date2").ToString() == defineDateStr)
+                            {
+                                rData.RecoverInCarWeigth = item.TotalSubWeight;
+                                rData.RecoverSubWeigth = item.TotalTxnWeight;
+                                hasData = true;
+                                break;
+                            }
+                        }
+
+                        foreach (var item in inventoryList)
+                        {
+                            if (item.GetValue("Date2").ToString() == defineDateStr)
+                            {
+                                rData.RecoverTxnWeight = item.InvWeight;
+                                //rData.InvWeight = item.PostWeight - item.InvWeight;
+                                rData.PostTxnWeight = item.PostWeight;
+                                rData.DestroyTxnWeight = item.DestWeight;
+                                hasData = true;
+                                break;
+                            }
+                        }
+                        if (hasData)
+                        {
+                            rData.ReportData = reportDate;
+                            syncReportDataList.Add(rData);
+                        }
+                    }
+
+                    //sb.AppendLine(
+                    //d.AddDays(i).ToString("yyyy-MM-dd"));
+                }
+
+
                 //List<DateTime> needSyncDateList = new List<DateTime>();
                 //foreach (TblMWTxnRecoverHeader item in reportData.ReportInCarAndSubWeight)
                 //{
@@ -117,13 +190,13 @@ namespace MWRSyncMng
             }
             #endregion
 
-            data = reportData;
+            //data = reportData;
             return true;
         }
         public class SyncReportData
         {
-            public List<TblMWTxnRecoverHeader> ReportInCarAndSubWeight = new List<TblMWTxnRecoverHeader>();
-            public List<TblMWInventory> ReportInventoryWeigth = new List<TblMWInventory>();
+            //public List<TblMWTxnRecoverHeader> ReportInCarAndSubWeight = new List<TblMWTxnRecoverHeader>();
+            //public List<TblMWInventory> ReportInventoryWeigth = new List<TblMWInventory>();
 
             public decimal RecoverInCarWeigth { get; set; }//运量
             public decimal RecoverSubWeigth { get; set; }//接货量
@@ -131,6 +204,7 @@ namespace MWRSyncMng
             public decimal InvWeight { get; set; }//库存量
             public decimal PostTxnWeight { get; set; }//出库量
             public decimal DestroyTxnWeight { get; set; }//处置量
+            public DateTime ReportData { get; set; }
 
         }
 

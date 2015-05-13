@@ -41,12 +41,31 @@ namespace YRKJ.MWR.Business.Report
             SqlQueryMng sqm = new SqlQueryMng();
             sqm.QueryColumn.AddSum(TblMWInventory.getRecoWeightColumn());
             sqm.QueryColumn.AddSum(TblMWInventory.getInvWeightColumn());
+            sqm.QueryColumn.AddSum(TblMWInventory.getPostWeightColumn());
             sqm.QueryColumn.AddSum(TblMWInventory.getDestWeightColumn());
            
             if (!TblMWInventoryCtrl.QueryOne(dcf, sqm, ref inv, ref errMsg))
             {
                 return false;
             }
+            return true;
+        }
+        public static bool GetInvAuthorizeWeightReportData(ref List<VewIvnAuthorizeWithTxnDetail> itemList,ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+
+            SqlQueryMng sqm = new SqlQueryMng();
+            sqm.QueryColumn.AddSum(VewIvnAuthorizeWithTxnDetail.getSubWeightColumn());
+            sqm.QueryColumn.AddSum(VewIvnAuthorizeWithTxnDetail.getTxnWeightColumn());
+            sqm.QueryColumn.AddSum(VewIvnAuthorizeWithTxnDetail.getDiffWeightColumn());
+            sqm.QueryColumn.Add(VewIvnAuthorizeWithTxnDetail.getTxnTypeColumn());
+            sqm.Condition.GroupBy.Add(VewIvnAuthorizeWithTxnDetail.getTxnTypeColumn());
+           
+            if (!VewIvnAuthorizeWithTxnDetailCtrl.QueryMore(dcf, sqm, ref itemList, ref errMsg))
+            {
+                return false;
+            }
+
             return true;
         }
 

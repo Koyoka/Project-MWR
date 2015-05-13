@@ -46,17 +46,40 @@
 				<span>
 					<% = PageInventoryReortData.RecoWeight %> KG
 				</span>
+                    回收审核总重量
+                <span>
+                    <% = (PageRecoInvAuthData == null ? "0" : PageRecoInvAuthData.DiffWeight.ToString())%> KG
+				</span>
 			</div>
 			<div class="portfolio-info">
-					库存总重量
+					库存历史总重量
 				<span>
 					<% = PageInventoryReortData.InvWeight %> KG
+				</span>
+                    库存剩余总重量
+                <span>
+                <% decimal totalLeftWeight = (PageInventoryReortData.InvWeight - PageInventoryReortData.PostWeight - (PagePostInvAuthData == null ? 0 : PagePostInvAuthData.DiffWeight)); %>
+					<% = (totalLeftWeight>=0 ?totalLeftWeight:0) %> KG
+				</span>
+			</div>
+            <div class="portfolio-info">
+					出库总重量
+				<span>
+					<% = PageInventoryReortData.PostWeight %> KG
+				</span>
+                    出库审核总重量
+                <span>
+					<% = (PagePostInvAuthData==null ? "0" : PagePostInvAuthData.DiffWeight.ToString()) %> KG
 				</span>
 			</div>
 			<div class="portfolio-info">
 					处置总重量
 				<span>
 					<% = PageInventoryReortData.DestWeight %> KG
+				</span>
+                    处置审核总重量
+                 <span>
+                    <% = (PageDestInvAuthData == null ? "0" : PageDestInvAuthData.DiffWeight.ToString())%> KG
 				</span>
 			</div>
 		</div>

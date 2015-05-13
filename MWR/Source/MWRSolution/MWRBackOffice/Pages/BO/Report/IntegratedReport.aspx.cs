@@ -56,6 +56,28 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Report
                 return false;
             }
 
+            List<VewIvnAuthorizeWithTxnDetail> invAuthList = null;
+          
+            if (!ReportDataMng.GetInvAuthorizeWeightReportData(ref invAuthList, ref errMsg))
+            {
+                return false;
+            }
+            foreach(var item in invAuthList)
+            {
+                if (item.TxnType == VewIvnAuthorizeWithTxnDetail.TXNTYPE_ENUM_Recover)
+                {
+                    PageRecoInvAuthData = item;
+                }
+                else if (item.TxnType == VewIvnAuthorizeWithTxnDetail.TXNTYPE_ENUM_Post)
+                {
+                    PagePostInvAuthData = item;
+                }
+                else if (item.TxnType == VewIvnAuthorizeWithTxnDetail.TXNTYPE_ENUM_Destroy)
+                {
+                    PageDestInvAuthData = item;
+                }
+            }
+
             List<TblMWInventory> invDataList = null;
             if (!ReportDataMng.GetInventoryGroupByVendorAndWasteReportData(ref invDataList, ref errMsg))
             {
@@ -123,6 +145,9 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Report
 
         #region PageDatas
         protected TblMWInventory PageInventoryReortData = null;
+        protected VewIvnAuthorizeWithTxnDetail PageRecoInvAuthData = null;
+        protected VewIvnAuthorizeWithTxnDetail PagePostInvAuthData = null;
+        protected VewIvnAuthorizeWithTxnDetail PageDestInvAuthData = null;
         protected List<PageVendorInfoData> PageVendorInfoDataList = new List<PageVendorInfoData>();
         protected List<PageVendorIncludeWasteData> PageWasteInfoDataList = new List<PageVendorIncludeWasteData>();
         #endregion

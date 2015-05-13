@@ -128,12 +128,14 @@ namespace MWRSyncMng
 
                 DateTime locNow = DateTime.Now;
                 #region check need sync
-                DateTime syncTime = MWParams.GetSyncDateTime();
-                TimeSpan sp = locNow.TimeOfDay - syncTime.TimeOfDay;
-                if(!(sp.Hours == 0 && sp.Minutes >= 0 && sp.Minutes <= 10))
-                {
-                    return;
-                }
+                //{
+                //    DateTime syncTime = MWParams.GetSyncDateTime();
+                //    TimeSpan sp = locNow.TimeOfDay - syncTime.TimeOfDay;
+                //    if (!(sp.Hours == 0 && sp.Minutes >= 0 && sp.Minutes <= 10))
+                //    {
+                //        return;
+                //    }
+                //}
                 #endregion
 
                 DateTime lastBeginTime = DateTime.MinValue;
