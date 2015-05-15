@@ -7,6 +7,7 @@ using System.IO;
 using ComLib.db;
 using YRKJ.MWR;
 using YRKJ.MWR.Business.Sys;
+using Newtonsoft.Json;
 
 namespace MWRSyncMng
 {
@@ -18,7 +19,7 @@ namespace MWRSyncMng
         public void Stop()
         { }
 
-        public static bool GetSyncData(ref SyncReportData data, ref string errMsg)
+        public static bool GetSyncData(ref List<SyncReportData> dataList, ref string errMsg)
         {
             DataCtrlInfo dcf = new DataCtrlInfo();
 
@@ -116,7 +117,6 @@ namespace MWRSyncMng
                     return false;
                 }
                 inventoryList = itemList;
-                //reportData.ReportInventoryWeigth = itemList;
             }
             #endregion
 
@@ -162,52 +162,16 @@ namespace MWRSyncMng
                             syncReportDataList.Add(rData);
                         }
                     }
-
-                    //sb.AppendLine(
-                    //d.AddDays(i).ToString("yyyy-MM-dd"));
                 }
 
-
-                //List<DateTime> needSyncDateList = new List<DateTime>();
-                //foreach (TblMWTxnRecoverHeader item in reportData.ReportInCarAndSubWeight)
-                //{
-                //    needSyncDateList.Add(item.EntryDate);
-                //}
-
-
-                //dcf.BeginTrans();
-
-
-                //TblMWSynclog item = new TblMWSynclog();
-                //item.SyncDateTime = SqlDBMng.GetDBNow();
-                //item.Status = TblMWSynclog.STATUS_ENUM_Complete;
-
-                //int updCount = 0;
-                //if (!TblMWSynclogCtrl.Insert(dcf, item, ref updCount, ref errMsg))
-                //{
-                //    return false;
-                //}
+                dataList = syncReportDataList;
             }
             #endregion
+            
 
-            //data = reportData;
             return true;
         }
-        public class SyncReportData
-        {
-            //public List<TblMWTxnRecoverHeader> ReportInCarAndSubWeight = new List<TblMWTxnRecoverHeader>();
-            //public List<TblMWInventory> ReportInventoryWeigth = new List<TblMWInventory>();
-
-            public decimal RecoverInCarWeigth { get; set; }//运量
-            public decimal RecoverSubWeigth { get; set; }//接货量
-            public decimal RecoverTxnWeight { get; set; }//入库量
-            public decimal InvWeight { get; set; }//库存量
-            public decimal PostTxnWeight { get; set; }//出库量
-            public decimal DestroyTxnWeight { get; set; }//处置量
-            public DateTime ReportData { get; set; }
-
-        }
-
+        
         public static bool DoSycn(ref string errMsg)
         {
             DataCtrlInfo dcf = new DataCtrlInfo();
@@ -223,7 +187,99 @@ namespace MWRSyncMng
 
             return true;
         }
+       
+        public static bool DoRequest(
+            List<SyncReportData> reportDataList, ref string errMsg)
+        {
+            ResJsonData data = new ResJsonData();
+            List<ResJsonData.ResJsonBusData> busdata = new List<ResJsonData.ResJsonBusData>();
 
+            string guid = "";
+            string city = "";
+            #region get lcoation client base infomation
+
+            #endregion
+
+            #region set request json data
+            data.city = city;
+            data.guid = guid;
+            foreach (var item in reportDataList)
+            {
+                #region //运量
+                {
+                    ResJsonData.ResJsonBusData defineBusData = new ResJsonData.ResJsonBusData();
+                    defineBusData.createtime = item.ReportData.ToString("yyyy-MM-dd");
+                    defineBusData.opttype = ResJsonData.ResJsonBusData_OptType_InCar;
+                    defineBusData.optnum = item.RecoverInCarWeigth.ToString();
+                    busdata.Add(defineBusData);
+                }
+                #endregion
+
+                #region //接货量
+                {
+                    ResJsonData.ResJsonBusData defineBusData = new ResJsonData.ResJsonBusData();
+                    defineBusData.createtime = item.ReportData.ToString("yyyy-MM-dd");
+                    defineBusData.opttype = ResJsonData.ResJsonBusData_OptType_RecoSub;
+                    defineBusData.optnum = item.RecoverSubWeigth.ToString();
+                    busdata.Add(defineBusData);
+                }
+                #endregion
+
+                #region //入库
+                {
+                    ResJsonData.ResJsonBusData defineBusData = new ResJsonData.ResJsonBusData();
+                    defineBusData.createtime = item.ReportData.ToString("yyyy-MM-dd");
+                    defineBusData.opttype = ResJsonData.ResJsonBusData_OptType_RecoTxn;
+                    defineBusData.optnum = item.RecoverTxnWeight.ToString();
+                    busdata.Add(defineBusData);
+                }
+                #endregion
+
+                #region //库存
+                {
+                    //ResJsonData.ResJsonBusData defineBusData = new ResJsonData.ResJsonBusData();
+                    //defineBusData.createtime = item.ReportData.ToString("yyyy-MM-dd");
+                    //defineBusData.opttype = ResJsonData.ResJsonBusData_OptType_;
+                    //defineBusData.optnum = item.RecoverTxnWeight.ToString();
+                    //busdata.Add(defineBusData);
+                }
+                #endregion
+
+                #region //出库
+                {
+                    ResJsonData.ResJsonBusData defineBusData = new ResJsonData.ResJsonBusData();
+                    defineBusData.createtime = item.ReportData.ToString("yyyy-MM-dd");
+                    defineBusData.opttype = ResJsonData.ResJsonBusData_OptType_PostTxn;
+                    defineBusData.optnum = item.PostTxnWeight.ToString();
+                    busdata.Add(defineBusData);
+                }
+                #endregion
+
+                #region //处置
+                {
+                    ResJsonData.ResJsonBusData defineBusData = new ResJsonData.ResJsonBusData();
+                    defineBusData.createtime = item.ReportData.ToString("yyyy-MM-dd");
+                    defineBusData.opttype = ResJsonData.ResJsonBusData_OptType_DestTxn;
+                    defineBusData.optnum = item.DestroyTxnWeight.ToString();
+                    busdata.Add(defineBusData);
+                }
+                #endregion
+
+            }
+            data.busdata = busdata;
+            #endregion
+
+            #region convent to json str
+            string jsonStr = "";
+            if (!ObjectToJson(data, ref jsonStr, ref errMsg))
+            {
+                return false;
+            }
+            #endregion
+
+            return true;
+        }
+        
         private static bool DoRequest(string assesssKey, string secretKey, string contentType, string body, string reqMethod, string fullUrl, ref string responseData, ref string errMsg)
         {
             Encoding encoding = Encoding.UTF8;
@@ -294,5 +350,55 @@ namespace MWRSyncMng
                 return true;
             }
         }
+
+        public static bool ObjectToJson(object obj, ref string jsonStr, ref string errMsg)
+        {
+            try
+            {
+                jsonStr = JsonConvert.SerializeObject(obj);
+                return true;
+
+            }
+            catch (Exception ex)
+            {
+                errMsg = ex.Message;
+                return false;
+            }
+        }
+
+        public class SyncReportData
+        {
+            //public List<TblMWTxnRecoverHeader> ReportInCarAndSubWeight = new List<TblMWTxnRecoverHeader>();
+            //public List<TblMWInventory> ReportInventoryWeigth = new List<TblMWInventory>();
+
+            public decimal RecoverInCarWeigth { get; set; }//运量
+            public decimal RecoverSubWeigth { get; set; }//接货量
+            public decimal RecoverTxnWeight { get; set; }//入库量
+            public decimal InvWeight { get; set; }//库存量
+            public decimal PostTxnWeight { get; set; }//出库量
+            public decimal DestroyTxnWeight { get; set; }//处置量
+            public DateTime ReportData { get; set; }
+
+        }
+        public class ResJsonData
+        {
+            public string guid { get; set; }
+            public string city { get; set; }
+            public List<ResJsonBusData> busdata { get; set; }
+            public class ResJsonBusData
+            {
+                public string createtime { get; set; }
+                public string opttype { get; set; }
+                public string optnum { get; set; }
+                public string remark { get; set; }
+            }
+            public const string ResJsonBusData_OptType_InCar = "1";
+            public const string ResJsonBusData_OptType_RecoSub = "2";
+            public const string ResJsonBusData_OptType_RecoTxn = "3";
+            public const string ResJsonBusData_OptType_Inv = "4";
+            public const string ResJsonBusData_OptType_PostTxn = "5";
+            public const string ResJsonBusData_OptType_DestTxn = "6";
+        }
+
     }
 }

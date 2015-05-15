@@ -16,7 +16,7 @@ namespace MWRSyncMng
     {
         private const string ClassName = "MWRSyncMng.FrmMain";
         private FormMng _frmMng = null;
-        private SMSProcessMng _smpMng = null;
+        private SMSProcessHelper _smpMng = null;
         private SMSRunTimeHelper _smrHelpr = null;
         private int _interval = 10;
         private List<string> _txtMain = new List<string>();
@@ -174,7 +174,7 @@ namespace MWRSyncMng
                     return;
                 }
 
-                _smpMng = new SMSProcessMng();
+                _smpMng = new SMSProcessHelper();
                 _smpMng.Run();
             }
             catch (Exception ex)
@@ -272,7 +272,7 @@ namespace MWRSyncMng
         {
             _smrHelpr.Begin();
 
-            _smpMng = new SMSProcessMng();
+            _smpMng = new SMSProcessHelper();
             _smpMng.Run();
 
             c_sspMain_R_txtStatus.Text = "RUNNING";
@@ -310,6 +310,8 @@ namespace MWRSyncMng
         #endregion
 
         #region Form Data Property
+       
+
         public class SMSRunTimeHelper
         {
             private bool _isBegin = false;
@@ -377,7 +379,7 @@ namespace MWRSyncMng
             }
         }
 
-        public class SMSProcessMng
+        public class SMSProcessHelper
         {
             private bool _isRunning = false;
             private bool _needStop = false;
@@ -448,29 +450,27 @@ namespace MWRSyncMng
                     string errMsg = "";
                     string defineTestStr = "运量{0}，接货量{1}，入库量{2}，库存量{3}，出库量{4}，处置量{5}";
 
-                    SyncHelper.SyncReportData data = null;
-                    if (!SyncHelper.GetSyncData(ref data, ref errMsg))
+                    List<SyncHelper.SyncReportData> dataList = null;
+                    if (!SyncHelper.GetSyncData(ref dataList, ref errMsg))
                     {
                         _hasCrashed = true;
                         _crashedErrMsg = errMsg;
                         return;
                     }
-                    //if (data != null)
-                    //{
-                    //    defineTestStr = string.Format(defineTestStr,
-                    //        data.RecoverInCarWeigth,
-                    //        data.RecoverSubWeigth,
-                    //        data.RecoverTxnWeight,
-                    //        data.InvWeight,
-                    //        data.PostTxnWeight,
-                    //        data.DestroyTxnWeight);
-                    //}
-                    //else
-                    //{
-                    //    defineTestStr = "没有数据需要同步";
-                    //}
+                    
                     #endregion
 
+                    #region request
+                    if (!SyncHelper.DoRequest(dataList, ref errMsg))
+                    {
+                        _hasCrashed = true;
+                        _crashedErrMsg = errMsg;
+                        return;
+                    }
+
+
+                    #endregion
+                    
                     #region Show Info
                     StringBuilder sb = new StringBuilder();
                     
@@ -503,10 +503,6 @@ namespace MWRSyncMng
             }
         }
         #endregion
-
-       
-
-
 
     }
 }
