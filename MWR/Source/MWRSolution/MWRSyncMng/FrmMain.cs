@@ -18,6 +18,7 @@ namespace MWRSyncMng
         private FormMng _frmMng = null;
         private SMSProcessHelper _smpMng = null;
         private SMSRunTimeHelper _smrHelpr = null;
+        private SMSCacheHelper _carchHelpr = null;
         private int _interval = 10;
         private List<string> _txtMain = new List<string>();
 
@@ -174,7 +175,7 @@ namespace MWRSyncMng
                     return;
                 }
 
-                _smpMng = new SMSProcessHelper();
+                _smpMng = new SMSProcessHelper(_carchHelpr);
                 _smpMng.Run();
             }
             catch (Exception ex)
@@ -250,6 +251,7 @@ namespace MWRSyncMng
 
         private bool InitFrm()
         {
+            _carchHelpr = new SMSCacheHelper();
             if (!LoadData())
                 return false;
 
@@ -272,7 +274,7 @@ namespace MWRSyncMng
         {
             _smrHelpr.Begin();
 
-            _smpMng = new SMSProcessHelper();
+            _smpMng = new SMSProcessHelper(_carchHelpr);
             _smpMng.Run();
 
             c_sspMain_R_txtStatus.Text = "RUNNING";
@@ -310,7 +312,26 @@ namespace MWRSyncMng
         #endregion
 
         #region Form Data Property
-       
+        public class SMSCacheHelper
+        {
+            private string _jsData = null;
+            
+            public bool GetCacheData(DelegateGetData d,ref string data,ref string errMsg)
+            {
+                if(string.IsNullOrEmpty(_jsData) && d != null)
+                {
+                    return d(ref data,ref errMsg);
+                }
+                data = _jsData;
+                return true;
+            }
+            public void Clear()
+            {
+                _jsData = null;
+            }
+
+            public delegate bool DelegateGetData(ref string data,ref string errMsg);
+        }
 
         public class SMSRunTimeHelper
         {
@@ -381,6 +402,14 @@ namespace MWRSyncMng
 
         public class SMSProcessHelper
         {
+
+            public SMSProcessHelper(SMSCacheHelper cacheHelper)
+            {
+                _cacheHelper = cacheHelper;
+            }
+
+            private SMSCacheHelper _cacheHelper = null;
+
             private bool _isRunning = false;
             private bool _needStop = false;
             private DateTime _beginTime = DateTime.MinValue;
@@ -450,18 +479,29 @@ namespace MWRSyncMng
                     string errMsg = "";
                     string defineTestStr = "运量{0}，接货量{1}，入库量{2}，库存量{3}，出库量{4}，处置量{5}";
 
-                    List<SyncHelper.SyncReportData> dataList = null;
-                    if (!SyncHelper.GetSyncData(ref dataList, ref errMsg))
+                    string jsonData = "";
+                    if (!_cacheHelper.GetCacheData(
+                        SyncHelper.GetSyncData, ref jsonData, ref errMsg))
                     {
                         _hasCrashed = true;
                         _crashedErrMsg = errMsg;
                         return;
                     }
+
+
+                    //if (!SyncHelper.GetSyncData(ref jsonData, ref errMsg))
+                    //{
+                    //    _hasCrashed = true;
+                    //    _crashedErrMsg = errMsg;
+                    //    return;
+                    //}
+                    SyncHelper.DoRequest1(jsonData, "http://192.168.1.152:8081/SynBusinessData.ashx", ref errMsg);
                     
                     #endregion
 
                     #region request
-                    if (!SyncHelper.DoRequest(dataList, ref errMsg))
+                    string url = "";
+                    if (!SyncHelper.DoRequest(jsonData, url, ref errMsg))
                     {
                         _hasCrashed = true;
                         _crashedErrMsg = errMsg;
@@ -477,19 +517,10 @@ namespace MWRSyncMng
                     DateTime now = ComLib.db.SqlDBMng.GetDBNow();
                     sb.AppendLine("同步时间 = " + now.ToString("yyyy-MM-dd HH:mm:ss") + "");
                     sb.AppendLine(defineTestStr);
-                    //sb.AppendLine("Need Send SMS Count = " + smsDataList.Length.ToString() + "");
-                    //if (smsDataList.Length > 0)
-                    //{
-                    //    sb.AppendLine("---------------------------------------------------");
-                    //    foreach (TblQWSMSPool smsData in smsDataList)
-                    //    {
-                    //        sb.AppendLine("SMSId # " + smsData.SMSId.ToString() + "");
-                    //    }
-                    //    sb.AppendLine("");
-                    //}
-
                     _infoMsg = sb.ToString();
                     #endregion
+
+                    _cacheHelper.Clear();
                 }
                 catch (Exception ex)
                 {

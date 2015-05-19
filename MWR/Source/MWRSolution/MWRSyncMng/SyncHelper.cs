@@ -13,270 +13,466 @@ namespace MWRSyncMng
 {
     public class SyncHelper
     {
-        public void Run()
-        { }
 
-        public void Stop()
-        { }
-
-        public static bool GetSyncData(ref List<SyncReportData> dataList, ref string errMsg)
+        public static bool GetSyncData(ref string jsonData, ref string errMsg)
         {
             DataCtrlInfo dcf = new DataCtrlInfo();
 
             DateTime now = SqlDBMng.GetDBNow();
             DateTime lastSyncTime = DateTime.MinValue;
+            List<SyncReportData> syncReportDataList = new List<SyncReportData>();
 
-            #region get last sync time
+            #region check unComplete sync data list
             {
-                TblMWSynclog item = null;
-
+                List<TblMWSynclog> itemList = null;
                 SqlQueryMng sqm = new SqlQueryMng();
                 sqm.Condition.Where.AddCompareValue(TblMWSynclog.getStatusColumn(), SqlCommonFn.SqlWhereCompareEnum.UnEquals, TblMWSynclog.STATUS_ENUM_Complete);
-                sqm.QueryColumn.AddTop(1);
                 sqm.Condition.OrderBy.Add(TblMWSynclog.getSyncDateTimeColumn(), SqlCommonFn.SqlOrderByType.ASC);
-                if (!TblMWSynclogCtrl.QueryOne(dcf, sqm, ref item, ref errMsg))
+                if (!TblMWSynclogCtrl.QueryMore(dcf,sqm,ref itemList,ref errMsg))
                 {
                     return false;
                 }
-                if (item != null)
+                foreach (var item in itemList)
                 {
-                    lastSyncTime = item.SyncDateTime;
-                }
-            }
-            if (lastSyncTime == DateTime.MinValue)
-            {
-                TblMWTxnRecoverHeader item = null;
-                SqlQueryMng sqm = new SqlQueryMng();
-                sqm.QueryColumn.AddTop(1);
-                sqm.Condition.OrderBy.Add(TblMWTxnRecoverHeader.getEntryDateColumn(), SqlCommonFn.SqlOrderByType.ASC);
-
-                if (!TblMWTxnRecoverHeaderCtrl.QueryOne(dcf, sqm, ref item, ref errMsg))
-                {
-                    return false;
-                }
-
-                if (item != null)
-                {
-                    lastSyncTime = item.EntryDate;
-                }
-                else
-                {
-                    //no data
-                    return true;
-                }
-            }
-           
-            #endregion
-
-            #region get sync data
-            //运量
-            List<TblMWTxnRecoverHeader> txnRecoverHeaderList = null;
-            {
-                DateTime syncDate = lastSyncTime;
-                SqlQueryMng sqm = new SqlQueryMng();
-                sqm.QueryColumn.AddSum(TblMWTxnRecoverHeader.getTotalSubWeightColumn());
-                sqm.QueryColumn.AddSum(TblMWTxnRecoverHeader.getTotalTxnWeightColumn());
-                sqm.QueryColumn.AddSum(TblMWTxnRecoverHeader.getTotalCrateQtyColumn());
-                //sqm.QueryColumn.AddSum(TblMWTxnRecoverHeader.getEntryDateColumn());
-                string formatColname = SqlCommonFn.FormatSqlDateTimeColumnString2(TblMWTxnRecoverHeader.getEntryDateColumn(), SqlCommonFn.SqlWhereDateTimeFormatEnum.YMD);
-                sqm.QueryColumn.Add(formatColname, "Date2");
-                sqm.Condition.Where.AddDateTimeCompareValue(TblMWTxnRecoverHeader.getEntryDateColumn(), SqlCommonFn.SqlWhereCompareEnum.MoreEquals, syncDate, SqlCommonFn.SqlWhereDateTimeFormatEnum.YMD);
-                sqm.Condition.OrderBy.Add(TblMWTxnRecoverHeader.getEntryDateColumn(), SqlCommonFn.SqlOrderByType.ASC);
-                sqm.Condition.GroupBy.Add("Date2");
-
-                List<TblMWTxnRecoverHeader> itemList = null;
-                if (!TblMWTxnRecoverHeaderCtrl.QueryMore(dcf, sqm, ref itemList, ref errMsg))
-                {
-                    return false;
-                }
-                txnRecoverHeaderList = itemList;
-                //itemList[0].GetValue("");
-                //reportData.ReportInCarAndSubWeight = itemList;
-                //object d = itemList[0].GetValue("Date2");
-            }
-
-            //回收总量，出库总量，处置总量
-            List<TblMWInventory> inventoryList = null;
-            {
-                DateTime syncDate = lastSyncTime;
-                SqlQueryMng sqm = new SqlQueryMng();
-                sqm.QueryColumn.Add(TblMWInventory.getRecoWeightColumn());
-                sqm.QueryColumn.Add(TblMWInventory.getInvWeightColumn());
-                sqm.QueryColumn.Add(TblMWInventory.getPostWeightColumn());
-                sqm.QueryColumn.Add(TblMWInventory.getDestWeightColumn());
-                //sqm.QueryColumn.Add(TblMWInventory.getEntryDateColumn());
-                string formatColname = SqlCommonFn.FormatSqlDateTimeColumnString2(TblMWTxnRecoverHeader.getEntryDateColumn(), SqlCommonFn.SqlWhereDateTimeFormatEnum.YMD);
-                sqm.QueryColumn.Add(formatColname, "Date2");
-                sqm.Condition.Where.AddDateTimeCompareValue(TblMWInventory.getEntryDateColumn(), SqlCommonFn.SqlWhereCompareEnum.MoreEquals, syncDate, SqlCommonFn.SqlWhereDateTimeFormatEnum.YMD);
-                sqm.Condition.GroupBy.Add("Date2");
-                //sqm.Condition.GroupBy.Add(TblMWInventory.getEntryDateColumn());
-
-                List<TblMWInventory> itemList = null;
-                if (!TblMWInventoryCtrl.QueryMore(dcf, sqm, ref itemList, ref errMsg))
-                {
-                    return false;
-                }
-                inventoryList = itemList;
-            }
-            #endregion
-
-            #region set sync data
-            List<SyncReportData> syncReportDataList = new List<SyncReportData>();
-            {
-                DateTime d = lastSyncTime;
-                //StringBuilder sb = new StringBuilder();
-                for (int i = 0; (now - d.AddDays(i)).Days > 0; i++)
-                {
-                    DateTime reportDate = d.AddDays(i);
-                    string defineDateStr = reportDate.ToString("yyyy-MM-dd");
                     SyncReportData rData = new SyncReportData();
+                    rData.RecoverInCarWeigth = item.InCarWeight;
+                    rData.RecoverSubWeigth = item.RecoSubWeight;
+                    rData.RecoverTxnWeight = item.RecoTxnWeight;
+                    rData.InvWeight = item.InvWeight;
+                    rData.PostTxnWeight = item.PostTxnWeight;
+                    rData.DestroyTxnWeight = item.DestTxnWeight;
+                    rData.ReportData = item.SyncDateTime;
+                    syncReportDataList.Add(rData);
+                }
+            }
+            #endregion
 
+            if (syncReportDataList.Count == 0)
+            {
+                #region get last sync time
+                {
+                    TblMWSynclog item = null;
+
+                    SqlQueryMng sqm = new SqlQueryMng();
+                    sqm.Condition.Where.AddCompareValue(TblMWSynclog.getStatusColumn(), SqlCommonFn.SqlWhereCompareEnum.UnEquals, TblMWSynclog.STATUS_ENUM_Complete);
+                    sqm.QueryColumn.AddTop(1);
+                    sqm.Condition.OrderBy.Add(TblMWSynclog.getSyncDateTimeColumn(), SqlCommonFn.SqlOrderByType.ASC);
+                    if (!TblMWSynclogCtrl.QueryOne(dcf, sqm, ref item, ref errMsg))
                     {
-                        bool hasData = false;
-                        foreach (var item in txnRecoverHeaderList)
-                        {
-                            if (item.GetValue("Date2").ToString() == defineDateStr)
-                            {
-                                rData.RecoverInCarWeigth = item.TotalSubWeight;
-                                rData.RecoverSubWeigth = item.TotalTxnWeight;
-                                hasData = true;
-                                break;
-                            }
-                        }
+                        return false;
+                    }
+                    if (item != null)
+                    {
+                        lastSyncTime = item.SyncDateTime;
+                    }
+                }
+                if (lastSyncTime == DateTime.MinValue)
+                {
+                    TblMWTxnRecoverHeader item = null;
+                    SqlQueryMng sqm = new SqlQueryMng();
+                    sqm.QueryColumn.AddTop(1);
+                    sqm.Condition.OrderBy.Add(TblMWTxnRecoverHeader.getEntryDateColumn(), SqlCommonFn.SqlOrderByType.ASC);
 
-                        foreach (var item in inventoryList)
-                        {
-                            if (item.GetValue("Date2").ToString() == defineDateStr)
-                            {
-                                rData.RecoverTxnWeight = item.InvWeight;
-                                //rData.InvWeight = item.PostWeight - item.InvWeight;
-                                rData.PostTxnWeight = item.PostWeight;
-                                rData.DestroyTxnWeight = item.DestWeight;
-                                hasData = true;
-                                break;
-                            }
-                        }
-                        if (hasData)
-                        {
-                            rData.ReportData = reportDate;
-                            syncReportDataList.Add(rData);
-                        }
+                    if (!TblMWTxnRecoverHeaderCtrl.QueryOne(dcf, sqm, ref item, ref errMsg))
+                    {
+                        return false;
+                    }
+
+                    if (item != null)
+                    {
+                        lastSyncTime = item.EntryDate;
+                    }
+                    else
+                    {
+                        //no data
+                        return true;
                     }
                 }
 
-                dataList = syncReportDataList;
+                #endregion
+
+                #region get sync data
+                //运量
+                #region data 1
+                List<TblMWTxnRecoverHeader> txnRecoverHeaderList = null;
+                {
+                    DateTime syncDate = lastSyncTime;
+                    SqlQueryMng sqm = new SqlQueryMng();
+                    sqm.QueryColumn.AddSum(TblMWTxnRecoverHeader.getTotalSubWeightColumn());
+                    sqm.QueryColumn.AddSum(TblMWTxnRecoverHeader.getTotalTxnWeightColumn());
+                    sqm.QueryColumn.AddSum(TblMWTxnRecoverHeader.getTotalCrateQtyColumn());
+                    //sqm.QueryColumn.AddSum(TblMWTxnRecoverHeader.getEntryDateColumn());
+                    string formatColname = SqlCommonFn.FormatSqlDateTimeColumnString2(TblMWTxnRecoverHeader.getEntryDateColumn(), SqlCommonFn.SqlWhereDateTimeFormatEnum.YMD);
+                    sqm.QueryColumn.Add(formatColname, "Date2");
+                    sqm.Condition.Where.AddDateTimeCompareValue(TblMWTxnRecoverHeader.getEntryDateColumn(), SqlCommonFn.SqlWhereCompareEnum.MoreEquals, syncDate, SqlCommonFn.SqlWhereDateTimeFormatEnum.YMD);
+                    sqm.Condition.OrderBy.Add(TblMWTxnRecoverHeader.getEntryDateColumn(), SqlCommonFn.SqlOrderByType.ASC);
+                    sqm.Condition.GroupBy.Add("Date2");
+
+                    List<TblMWTxnRecoverHeader> itemList = null;
+                    if (!TblMWTxnRecoverHeaderCtrl.QueryMore(dcf, sqm, ref itemList, ref errMsg))
+                    {
+                        return false;
+                    }
+                    txnRecoverHeaderList = itemList;
+                    //itemList[0].GetValue("");
+                    //reportData.ReportInCarAndSubWeight = itemList;
+                    //object d = itemList[0].GetValue("Date2");
+                }
+                #endregion
+
+                //回收总量，出库总量，处置总量
+                #region data 2
+                List<TblMWInventory> inventoryList = null;
+                {
+                    DateTime syncDate = lastSyncTime;
+                    SqlQueryMng sqm = new SqlQueryMng();
+                    sqm.QueryColumn.Add(TblMWInventory.getRecoWeightColumn());
+                    sqm.QueryColumn.Add(TblMWInventory.getInvWeightColumn());
+                    sqm.QueryColumn.Add(TblMWInventory.getPostWeightColumn());
+                    sqm.QueryColumn.Add(TblMWInventory.getDestWeightColumn());
+                    //sqm.QueryColumn.Add(TblMWInventory.getEntryDateColumn());
+                    string formatColname = SqlCommonFn.FormatSqlDateTimeColumnString2(TblMWTxnRecoverHeader.getEntryDateColumn(), SqlCommonFn.SqlWhereDateTimeFormatEnum.YMD);
+                    sqm.QueryColumn.Add(formatColname, "Date2");
+                    sqm.Condition.Where.AddDateTimeCompareValue(TblMWInventory.getEntryDateColumn(), SqlCommonFn.SqlWhereCompareEnum.MoreEquals, syncDate, SqlCommonFn.SqlWhereDateTimeFormatEnum.YMD);
+                    sqm.Condition.GroupBy.Add("Date2");
+                    //sqm.Condition.GroupBy.Add(TblMWInventory.getEntryDateColumn());
+
+                    List<TblMWInventory> itemList = null;
+                    if (!TblMWInventoryCtrl.QueryMore(dcf, sqm, ref itemList, ref errMsg))
+                    {
+                        return false;
+                    }
+                    inventoryList = itemList;
+                }
+                #endregion
+                #endregion
+
+                #region set sync data
+                List<TblMWSynclog> syncLogList = new List<TblMWSynclog>();
+                {
+                    DateTime d = lastSyncTime;
+                    for (int i = 0; (now - d.AddDays(i)).Days > 0; i++)
+                    {
+                        DateTime reportDate = d.AddDays(i);
+                        string defineDateStr = reportDate.ToString("yyyy-MM-dd");
+                        SyncReportData rData = new SyncReportData();
+
+                        {
+                            bool hasData = false;
+                            foreach (var item in txnRecoverHeaderList)
+                            {
+                                if (item.GetValue("Date2").ToString() == defineDateStr)
+                                {
+                                    rData.RecoverInCarWeigth = item.TotalSubWeight;
+                                    rData.RecoverSubWeigth = item.TotalTxnWeight;
+                                    hasData = true;
+                                    break;
+                                }
+                            }
+
+                            foreach (var item in inventoryList)
+                            {
+                                if (item.GetValue("Date2").ToString() == defineDateStr)
+                                {
+                                    rData.RecoverTxnWeight = item.InvWeight;
+                                    //rData.InvWeight = item.PostWeight - item.InvWeight;
+                                    rData.PostTxnWeight = item.PostWeight;
+                                    rData.DestroyTxnWeight = item.DestWeight;
+                                    hasData = true;
+                                    break;
+                                }
+                            }
+                            if (hasData)
+                            {
+                                TblMWSynclog syncLog = new TblMWSynclog();
+                                syncLog.SyncDateTime = reportDate;
+                                syncLog.EntryDate = now;
+                                syncLog.InCarWeight = rData.RecoverInCarWeigth;
+                                syncLog.RecoSubWeight = rData.RecoverSubWeigth;
+                                syncLog.RecoTxnWeight = rData.RecoverTxnWeight;
+                                syncLog.InvWeight = rData.InvWeight;
+                                syncLog.PostTxnWeight = rData.PostTxnWeight;
+                                syncLog.DestTxnWeight = rData.DestroyTxnWeight;
+                                syncLogList.Add(syncLog);
+                                rData.ReportData = reportDate;
+                                syncReportDataList.Add(rData);
+                            }
+                        }
+                    }
+
+                    //dataList = syncReportDataList;
+                }
+                #endregion
+
+                #region updata sync log data
+                {
+                    int updCount = 0;
+                    dcf.BeginTrans();
+
+                    foreach (var item in syncLogList)
+                    {
+                        item.Status = TblMWSynclog.STATUS_ENUM_Wait;
+                        if (!TblMWSynclogCtrl.Insert(dcf, item, ref updCount, ref errMsg))
+                        {
+                            return false;
+                        }
+                    }
+
+                    int[] updCounts = null;
+                    if (!dcf.Commit(ref updCounts, ref errMsg))
+                    {
+                        return false;
+                    }
+
+                }
+                #endregion
+            }
+
+            #region get json data
+            if (syncReportDataList.Count == 0)
+            {
+                //empty data
+                return true;
+            }
+            else
+            {
+                ResJsonData data = new ResJsonData();
+                List<ResJsonData.ResJsonBusData> busdata = new List<ResJsonData.ResJsonBusData>();
+
+                string guid = "";
+                string city = "";
+                #region get lcoation client base infomation
+                city = "武汉";
+                #endregion
+
+                #region set request json data
+                data.city = city;
+                data.guid = guid;
+                foreach (var item in syncReportDataList)
+                {
+                    #region //运量
+                    {
+                        ResJsonData.ResJsonBusData defineBusData = new ResJsonData.ResJsonBusData();
+                        defineBusData.createtime = item.ReportData.ToString("yyyy-MM-dd");
+                        defineBusData.opttype = ResJsonData.ResJsonBusData_OptType_InCar;
+                        defineBusData.optnum = item.RecoverInCarWeigth.ToString();
+                        busdata.Add(defineBusData);
+                    }
+                    #endregion
+
+                    #region //接货量
+                    {
+                        ResJsonData.ResJsonBusData defineBusData = new ResJsonData.ResJsonBusData();
+                        defineBusData.createtime = item.ReportData.ToString("yyyy-MM-dd");
+                        defineBusData.opttype = ResJsonData.ResJsonBusData_OptType_RecoSub;
+                        defineBusData.optnum = item.RecoverSubWeigth.ToString();
+                        busdata.Add(defineBusData);
+                    }
+                    #endregion
+
+                    #region //入库
+                    {
+                        ResJsonData.ResJsonBusData defineBusData = new ResJsonData.ResJsonBusData();
+                        defineBusData.createtime = item.ReportData.ToString("yyyy-MM-dd");
+                        defineBusData.opttype = ResJsonData.ResJsonBusData_OptType_RecoTxn;
+                        defineBusData.optnum = item.RecoverTxnWeight.ToString();
+                        busdata.Add(defineBusData);
+                    }
+                    #endregion
+
+                    #region //库存
+                    {
+                        //ResJsonData.ResJsonBusData defineBusData = new ResJsonData.ResJsonBusData();
+                        //defineBusData.createtime = item.ReportData.ToString("yyyy-MM-dd");
+                        //defineBusData.opttype = ResJsonData.ResJsonBusData_OptType_;
+                        //defineBusData.optnum = item.RecoverTxnWeight.ToString();
+                        //busdata.Add(defineBusData);
+                    }
+                    #endregion
+
+                    #region //出库
+                    {
+                        ResJsonData.ResJsonBusData defineBusData = new ResJsonData.ResJsonBusData();
+                        defineBusData.createtime = item.ReportData.ToString("yyyy-MM-dd");
+                        defineBusData.opttype = ResJsonData.ResJsonBusData_OptType_PostTxn;
+                        defineBusData.optnum = item.PostTxnWeight.ToString();
+                        busdata.Add(defineBusData);
+                    }
+                    #endregion
+
+                    #region //处置
+                    {
+                        ResJsonData.ResJsonBusData defineBusData = new ResJsonData.ResJsonBusData();
+                        defineBusData.createtime = item.ReportData.ToString("yyyy-MM-dd");
+                        defineBusData.opttype = ResJsonData.ResJsonBusData_OptType_DestTxn;
+                        defineBusData.optnum = item.DestroyTxnWeight.ToString();
+                        busdata.Add(defineBusData);
+                    }
+                    #endregion
+
+                }
+                data.busdata = busdata;
+                #endregion
+
+                #region convent to json data
+                string jsonStr = "";
+                if (!ObjectToJson(data, ref jsonStr, ref errMsg))
+                {
+                    return false;
+                }
+                jsonData = jsonStr;
+                #endregion
             }
             #endregion
-            
 
             return true;
         }
         
-        public static bool DoSycn(ref string errMsg)
+        //public static bool DoSycn(ref string errMsg)
+        //{
+        //    DataCtrlInfo dcf = new DataCtrlInfo();
+        //    TblMWSynclog item = new TblMWSynclog();
+        //    item.SyncDateTime = SqlDBMng.GetDBNow();
+        //    item.Status = TblMWSynclog.STATUS_ENUM_Complete;
+
+        //    int updCount = 0;
+        //    if (!TblMWSynclogCtrl.Insert(dcf, item, ref updCount, ref errMsg))
+        //    {
+        //        return false;
+        //    }
+
+        //    return true;
+        //}
+       
+        public static bool DoRequest1(string jsonData,string fullUrl,ref string errMsg)
         {
-            DataCtrlInfo dcf = new DataCtrlInfo();
-            TblMWSynclog item = new TblMWSynclog();
-            item.SyncDateTime = SqlDBMng.GetDBNow();
-            item.Status = TblMWSynclog.STATUS_ENUM_Complete;
+             string responseData = "";
 
-            int updCount = 0;
-            if (!TblMWSynclogCtrl.Insert(dcf, item, ref updCount, ref errMsg))
+            #region request
+            string body = jsonData;
+            Encoding encoding = Encoding.UTF8;
+
+            string result = string.Empty;
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(fullUrl);
             {
-                return false;
-            }
+                #region set request params
+                request.Method = "POST";
+                request.Date = DateTime.Now;
+                request.ContentType = "application/json";
 
+                #endregion
+
+                #region set request body data
+                using (Stream s = request.GetRequestStream())
+                {
+                    byte[] buffer = encoding.GetBytes(body);
+                    s.Write(buffer, 0, buffer.Length);
+                    s.Close();
+                }
+                #endregion
+
+                #region Send
+                try
+                {
+                    using (System.IO.StreamReader sr = new System.IO.StreamReader(request.GetResponse().GetResponseStream(), encoding))
+                    {
+                        responseData = sr.ReadToEnd();
+                        sr.Close();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    errMsg = ex.Message;
+                    
+                }
+                #endregion
+                request = null;
+            }
+            #endregion
             return true;
         }
-       
+
         public static bool DoRequest(
-            List<SyncReportData> reportDataList, ref string errMsg)
+            string jsonData,string fullUrl, ref string errMsg)
         {
-            ResJsonData data = new ResJsonData();
-            List<ResJsonData.ResJsonBusData> busdata = new List<ResJsonData.ResJsonBusData>();
+            bool syncIsErr = false;
+            string responseData = "";
 
-            string guid = "";
-            string city = "";
-            #region get lcoation client base infomation
+            #region request
+            string body = jsonData;
+            Encoding encoding = Encoding.UTF8;
 
-            #endregion
-
-            #region set request json data
-            data.city = city;
-            data.guid = guid;
-            foreach (var item in reportDataList)
+            string result = string.Empty;
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(fullUrl);
             {
-                #region //运量
+                #region set request params
+                request.Method = "POST";
+                request.Date = DateTime.Now;
+                request.ContentType = "application/json";
+
+                #endregion
+
+                #region set request body data
+                using (Stream s = request.GetRequestStream())
                 {
-                    ResJsonData.ResJsonBusData defineBusData = new ResJsonData.ResJsonBusData();
-                    defineBusData.createtime = item.ReportData.ToString("yyyy-MM-dd");
-                    defineBusData.opttype = ResJsonData.ResJsonBusData_OptType_InCar;
-                    defineBusData.optnum = item.RecoverInCarWeigth.ToString();
-                    busdata.Add(defineBusData);
+                    byte[] buffer = encoding.GetBytes(body);
+                    s.Write(buffer, 0, buffer.Length);
+                    s.Close();
                 }
                 #endregion
 
-                #region //接货量
+                #region Send
+                try
                 {
-                    ResJsonData.ResJsonBusData defineBusData = new ResJsonData.ResJsonBusData();
-                    defineBusData.createtime = item.ReportData.ToString("yyyy-MM-dd");
-                    defineBusData.opttype = ResJsonData.ResJsonBusData_OptType_RecoSub;
-                    defineBusData.optnum = item.RecoverSubWeigth.ToString();
-                    busdata.Add(defineBusData);
+                    using (System.IO.StreamReader sr = new System.IO.StreamReader(request.GetResponse().GetResponseStream(), encoding))
+                    {
+                        responseData = sr.ReadToEnd();
+                        sr.Close();
+                    }
+                    syncIsErr = false;
+                }
+                catch (Exception ex)
+                {
+                    errMsg = ex.Message;
+                    syncIsErr = true;
                 }
                 #endregion
-
-                #region //入库
-                {
-                    ResJsonData.ResJsonBusData defineBusData = new ResJsonData.ResJsonBusData();
-                    defineBusData.createtime = item.ReportData.ToString("yyyy-MM-dd");
-                    defineBusData.opttype = ResJsonData.ResJsonBusData_OptType_RecoTxn;
-                    defineBusData.optnum = item.RecoverTxnWeight.ToString();
-                    busdata.Add(defineBusData);
-                }
-                #endregion
-
-                #region //库存
-                {
-                    //ResJsonData.ResJsonBusData defineBusData = new ResJsonData.ResJsonBusData();
-                    //defineBusData.createtime = item.ReportData.ToString("yyyy-MM-dd");
-                    //defineBusData.opttype = ResJsonData.ResJsonBusData_OptType_;
-                    //defineBusData.optnum = item.RecoverTxnWeight.ToString();
-                    //busdata.Add(defineBusData);
-                }
-                #endregion
-
-                #region //出库
-                {
-                    ResJsonData.ResJsonBusData defineBusData = new ResJsonData.ResJsonBusData();
-                    defineBusData.createtime = item.ReportData.ToString("yyyy-MM-dd");
-                    defineBusData.opttype = ResJsonData.ResJsonBusData_OptType_PostTxn;
-                    defineBusData.optnum = item.PostTxnWeight.ToString();
-                    busdata.Add(defineBusData);
-                }
-                #endregion
-
-                #region //处置
-                {
-                    ResJsonData.ResJsonBusData defineBusData = new ResJsonData.ResJsonBusData();
-                    defineBusData.createtime = item.ReportData.ToString("yyyy-MM-dd");
-                    defineBusData.opttype = ResJsonData.ResJsonBusData_OptType_DestTxn;
-                    defineBusData.optnum = item.DestroyTxnWeight.ToString();
-                    busdata.Add(defineBusData);
-                }
-                #endregion
-
-            }
-            data.busdata = busdata;
-            #endregion
-
-            #region convent to json str
-            string jsonStr = "";
-            if (!ObjectToJson(data, ref jsonStr, ref errMsg))
-            {
-                return false;
+                request = null;
             }
             #endregion
 
+            #region update sync log
+
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            if (syncIsErr)
+            {
+                SqlUpdateColumn suc = new SqlUpdateColumn();
+                suc.Add(TblMWSynclog.getStatusColumn(), TblMWSynclog.STATUS_ENUM_Error);
+
+                SqlWhere sw = new SqlWhere();
+                sw.AddCompareValue(TblMWSynclog.getStatusColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, TblMWSynclog.STATUS_ENUM_Wait);
+
+                int updCount = 0;
+                if (!TblMWSynclogCtrl.Update(dcf, suc, sw, ref updCount, ref errMsg))
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                SqlUpdateColumn suc = new SqlUpdateColumn();
+                suc.Add(TblMWSynclog.getStatusColumn(), TblMWSynclog.STATUS_ENUM_Complete);
+
+                SqlWhere sw = new SqlWhere();
+                sw.AddCompareValue(TblMWSynclog.getStatusColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, TblMWSynclog.STATUS_ENUM_Wait);
+
+                int updCount = 0;
+                if (!TblMWSynclogCtrl.Update(dcf, suc, sw, ref updCount, ref errMsg))
+                {
+                    return false;
+                }
+            }
+            #endregion
             return true;
         }
         

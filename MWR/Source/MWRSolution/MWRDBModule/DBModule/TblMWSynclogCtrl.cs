@@ -95,6 +95,13 @@ namespace YRKJ.MWR
                 item.SyncDateTime,
                 item.Status,
                 item.Remark,
+                item.InCarWeight,
+                item.RecoSubWeight,
+                item.RecoTxnWeight,
+                item.InvWeight,
+                item.PostTxnWeight,
+                item.DestTxnWeight,
+                item.EntryDate,
                     ref count,
                     ref errMsg
                     );
@@ -104,6 +111,13 @@ namespace YRKJ.MWR
             DateTime syncDateTime,
             string status,
             string remark,
+            decimal inCarWeight,
+            decimal recoSubWeight,
+            decimal recoTxnWeight,
+            decimal invWeight,
+            decimal postTxnWeight,
+            decimal destTxnWeight,
+            DateTime entryDate,
                 ref int _count,
                 ref string _errMsg
                 )
@@ -113,6 +127,13 @@ namespace YRKJ.MWR
             sum.Add(TblMWSynclog.getSyncDateTimeColumn(), syncDateTime);
             sum.Add(TblMWSynclog.getStatusColumn(), status);
             sum.Add(TblMWSynclog.getRemarkColumn(), remark);
+            sum.Add(TblMWSynclog.getInCarWeightColumn(), inCarWeight);
+            sum.Add(TblMWSynclog.getRecoSubWeightColumn(), recoSubWeight);
+            sum.Add(TblMWSynclog.getRecoTxnWeightColumn(), recoTxnWeight);
+            sum.Add(TblMWSynclog.getInvWeightColumn(), invWeight);
+            sum.Add(TblMWSynclog.getPostTxnWeightColumn(), postTxnWeight);
+            sum.Add(TblMWSynclog.getDestTxnWeightColumn(), destTxnWeight);
+            sum.Add(TblMWSynclog.getEntryDateColumn(), entryDate);
             string sql = sum.getInsertSql();
             if (sql == null)
             {
@@ -128,6 +149,13 @@ namespace YRKJ.MWR
             suc.Add(TblMWSynclog.getSyncDateTimeColumn(), item.SyncDateTime);
             suc.Add(TblMWSynclog.getStatusColumn(), item.Status);
             suc.Add(TblMWSynclog.getRemarkColumn(), item.Remark);
+            suc.Add(TblMWSynclog.getInCarWeightColumn(), item.InCarWeight);
+            suc.Add(TblMWSynclog.getRecoSubWeightColumn(), item.RecoSubWeight);
+            suc.Add(TblMWSynclog.getRecoTxnWeightColumn(), item.RecoTxnWeight);
+            suc.Add(TblMWSynclog.getInvWeightColumn(), item.InvWeight);
+            suc.Add(TblMWSynclog.getPostTxnWeightColumn(), item.PostTxnWeight);
+            suc.Add(TblMWSynclog.getDestTxnWeightColumn(), item.DestTxnWeight);
+            suc.Add(TblMWSynclog.getEntryDateColumn(), item.EntryDate);
             return Update(dcf, suc, sw, ref count, ref errMsg);
         }
 

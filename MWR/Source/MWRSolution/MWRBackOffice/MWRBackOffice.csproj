@@ -281,6 +281,7 @@
     <Content Include="Assets\bodestroylog.js" />
     <Content Include="Assets\bosetupindex.js" />
     <Content Include="Global.asax" />
+    <Content Include="HTMLPage1.htm" />
     <Content Include="Lib\Newtonsoft.Json.Net20.dll" />
     <Content Include="Pages\BOSetup\BOSetupIndex.aspx" />
     <Content Include="Pages\BOSetup\SetupAdmin.aspx" />

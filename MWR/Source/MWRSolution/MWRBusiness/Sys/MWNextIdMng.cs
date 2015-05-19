@@ -222,7 +222,6 @@ namespace YRKJ.MWR.Business.Sys
             //return defineNextNum;
         }
 
-       
         #endregion
 
         private static int GetNextId(string tableName)
