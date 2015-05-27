@@ -100,7 +100,11 @@ namespace MWRSyncMng
             try
             {
                 this.Cursor = Cursors.WaitCursor;
-
+                using (Form f = new FrmSetting())
+                {
+                    f.ShowDialog();
+                    c_sspMain_L_txtService.Text = SysInfo.GetInstance().Config.ServiceRoot;
+                }
                 
             }
             catch (Exception ex)
@@ -129,20 +133,24 @@ namespace MWRSyncMng
 
                 DateTime locNow = DateTime.Now;
                 #region check need sync
-                //{
-                //    DateTime syncTime = MWParams.GetSyncDateTime();
-                //    TimeSpan sp = locNow.TimeOfDay - syncTime.TimeOfDay;
-                //    if (!(sp.Hours == 0 && sp.Minutes >= 0 && sp.Minutes <= 10))
-                //    {
-                //        return;
-                //    }
-                //}
+                {
+                    DateTime syncTime = MWParams.GetSyncDateTime();
+                    TimeSpan sp = locNow.TimeOfDay - syncTime.TimeOfDay;
+                    if (!(sp.Hours == 0 && sp.Minutes >= 0 && sp.Minutes <= 10))
+                    {
+                        c_txtMain.Text = "同步时间未到 -> " + syncTime.ToString("HH:mm");
+                        return;
+                    }
+                }
                 #endregion
 
                 DateTime lastBeginTime = DateTime.MinValue;
                 if (_smpMng != null)
                 {
-                    c_txtMain.Text = _smpMng.InfoMsg;
+                    //if (!string.IsNullOrEmpty(_smpMng.InfoMsg))
+                    //{
+                    //    c_txtMain.Text = _smpMng.InfoMsg;
+                    //}
                     if (_smpMng.IsRunning)
                     {
                         return;
@@ -157,8 +165,10 @@ namespace MWRSyncMng
                     //OK
                     if (_smpMng != null)
                     {
-
-                        c_txtMain.Text = _smpMng.InfoMsg;
+                        if (!string.IsNullOrEmpty(_smpMng.InfoMsg))
+                        {
+                            c_txtMain.Text = _smpMng.InfoMsg;
+                        }
                         //_txtMain.Insert(0, _smpMng.InfoMsg);
                         //c_txtMain.Lines = _txtMain.ToArray();
 
@@ -262,6 +272,7 @@ namespace MWRSyncMng
 
         private bool InitCtrls()
         {
+            c_sspMain_L_txtService.Text = SysInfo.GetInstance().Config.ServiceRoot;
             return true;
         }
 
@@ -272,6 +283,15 @@ namespace MWRSyncMng
 
         private bool ServiceBegin()
         {
+            #region check params
+            string city = MWParams.GetSyncCity();
+            if (string.IsNullOrEmpty(city))
+            {
+                MessageBox.Show("请在配置中设置城市");
+                return false;
+            }
+            #endregion
+
             _smrHelpr.Begin();
 
             _smpMng = new SMSProcessHelper(_carchHelpr);
@@ -475,10 +495,9 @@ namespace MWRSyncMng
                 _needStop = false;
                 try
                 {
-                    #region get data
                     string errMsg = "";
-                    string defineTestStr = "运量{0}，接货量{1}，入库量{2}，库存量{3}，出库量{4}，处置量{5}";
 
+                    #region get data
                     string jsonData = "";
                     if (!_cacheHelper.GetCacheData(
                         SyncHelper.GetSyncData, ref jsonData, ref errMsg))
@@ -488,35 +507,33 @@ namespace MWRSyncMng
                         return;
                     }
 
-
-                    //if (!SyncHelper.GetSyncData(ref jsonData, ref errMsg))
-                    //{
-                    //    _hasCrashed = true;
-                    //    _crashedErrMsg = errMsg;
-                    //    return;
-                    //}
-                    SyncHelper.DoRequest1(jsonData, "http://192.168.1.152:8081/SynBusinessData.ashx", ref errMsg);
-                    
                     #endregion
 
+                    if (string.IsNullOrEmpty(jsonData))
+                    {
+                        return;
+                    }
+
                     #region request
-                    string url = "";
-                    if (!SyncHelper.DoRequest(jsonData, url, ref errMsg))
+                    string sericveUrl = SysInfo.GetInstance().Config.ServiceRoot;
+                    if (!SyncHelper.DoRequest(jsonData,
+                        //"http://192.168.1.152:8081/SynBusinessData.ashx", 
+                        sericveUrl,
+                        ref errMsg))
                     {
                         _hasCrashed = true;
                         _crashedErrMsg = errMsg;
                         return;
                     }
-
-
                     #endregion
                     
                     #region Show Info
                     StringBuilder sb = new StringBuilder();
                     
                     DateTime now = ComLib.db.SqlDBMng.GetDBNow();
+                    //string defineTestStr = "运量{0}，接货量{1}，入库量{2}，库存量{3}，出库量{4}，处置量{5} 统计日期{6}";
                     sb.AppendLine("同步时间 = " + now.ToString("yyyy-MM-dd HH:mm:ss") + "");
-                    sb.AppendLine(defineTestStr);
+                    sb.AppendLine(jsonData);
                     _infoMsg = sb.ToString();
                     #endregion
 

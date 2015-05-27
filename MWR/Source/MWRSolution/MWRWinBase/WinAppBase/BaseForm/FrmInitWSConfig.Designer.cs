@@ -1,6 +1,6 @@
 ﻿namespace YRKJ.MWR.WinBase.WinAppBase.BaseForm
 {
-    partial class FrmInitConfig
+    partial class FrmInitWSConfig
     {
         /// <summary>
         /// Required designer variable.

@@ -59,7 +59,7 @@ namespace MWRSyncMng
                          configData.DBPassword,
                          configData.DBPort, ref errMsg))
                     {
-                        using (FrmInitDBConfig f = new FrmInitDBConfig())
+                        using (FrmInitSMSConfig f = new FrmInitSMSConfig())
                         {
                             if (f.ShowDialog() != DialogResult.OK)
                             {
@@ -79,6 +79,8 @@ namespace MWRSyncMng
                      configData.DBUserName,
                      configData.DBPassword,
                      configData.DBPort));
+
+                    SysInfo.GetInstance().Config = configData;
 
                 }
                 #endregion

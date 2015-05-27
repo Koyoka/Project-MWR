@@ -425,6 +425,7 @@ namespace YRKJ.MWR.Business.Sys
             {
                 return false;
             }
+            _syncDateTime = value;
             return true;
         }
         public static DateTime GetSyncDateTime()
@@ -447,6 +448,48 @@ namespace YRKJ.MWR.Business.Sys
             return _syncDateTime;
         }
 
+        private static string _companyDataCenterGUID = null;
+        public static bool SetCompanyDataCenterGUID(string value, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            if (!SysParams.GetInstance().SetValue(dcf, "CompanyDataCenterGUID", value, ref errMsg))
+            {
+                return false;
+            }
+            _companyDataCenterGUID = value;
+            return true;
+        }
+        public static string GetCompanyDataCenterGUID()
+        {
+            if (string.IsNullOrEmpty(_companyDataCenterGUID))
+            {
+                DataCtrlInfo dcf = new DataCtrlInfo();
+                _companyDataCenterGUID = SysParams.GetInstance().GetValue(dcf, "CompanyDataCenterGUID");
+            }
+
+            return _companyDataCenterGUID;
+        }
+
+        private static string _syncCity = "";
+        public static bool SetSyncCity(string value,ref string errMsg)
+        {
+             DataCtrlInfo dcf = new DataCtrlInfo();
+            if (!SysParams.GetInstance().SetValue(dcf, "SyncCity", value, ref errMsg))
+            {
+                return false;
+            }
+            _syncCity = value;
+            return true;
+        }
+        public static string GetSyncCity()
+        {
+            if (string.IsNullOrEmpty(_syncCity))
+            {
+                DataCtrlInfo dcf = new DataCtrlInfo();
+                _syncCity = SysParams.GetInstance().GetValue(dcf, "SyncCity");
+            }
+            return _syncCity;
+        }
         #endregion
     }
 }

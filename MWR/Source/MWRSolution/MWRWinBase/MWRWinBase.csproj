@@ -53,17 +53,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="WinAppBase\BaseForm\FrmInitConfig.cs">
+    <Compile Include="WinAppBase\BaseForm\FrmInitWSConfig.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="WinAppBase\BaseForm\FrmInitConfig.Designer.cs">
-      <DependentUpon>FrmInitConfig.cs</DependentUpon>
+    <Compile Include="WinAppBase\BaseForm\FrmInitWSConfig.Designer.cs">
+      <DependentUpon>FrmInitWSConfig.cs</DependentUpon>
     </Compile>
-    <Compile Include="WinAppBase\BaseForm\FrmInitDBConfig.cs">
+    <Compile Include="WinAppBase\BaseForm\FrmInitSMSConfig.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="WinAppBase\BaseForm\FrmInitDBConfig.Designer.cs">
-      <DependentUpon>FrmInitDBConfig.cs</DependentUpon>
+    <Compile Include="WinAppBase\BaseForm\FrmInitSMSConfig.Designer.cs">
+      <DependentUpon>FrmInitSMSConfig.cs</DependentUpon>
     </Compile>
     <Compile Include="WinAppBase\Config\AppConfig.cs" />
     <Compile Include="WinAppBase\Config\ConfigMng.cs" />
@@ -78,11 +78,11 @@
     <Compile Include="WinUtility\WinFn.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="WinAppBase\BaseForm\FrmInitConfig.resx">
-      <DependentUpon>FrmInitConfig.cs</DependentUpon>
+    <EmbeddedResource Include="WinAppBase\BaseForm\FrmInitWSConfig.resx">
+      <DependentUpon>FrmInitWSConfig.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinAppBase\BaseForm\FrmInitDBConfig.resx">
-      <DependentUpon>FrmInitDBConfig.cs</DependentUpon>
+    <EmbeddedResource Include="WinAppBase\BaseForm\FrmInitSMSConfig.resx">
+      <DependentUpon>FrmInitSMSConfig.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

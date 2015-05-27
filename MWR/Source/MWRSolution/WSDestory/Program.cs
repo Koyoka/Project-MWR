@@ -58,7 +58,7 @@ namespace YRKJ.MWR.WSDestory
                          configData.DBPassword,
                          configData.DBPort, ref errMsg))
                     {
-                        using (FrmInitConfig f = new FrmInitConfig())
+                        using (FrmInitWSConfig f = new FrmInitWSConfig())
                         {
                             if (f.ShowDialog() != DialogResult.OK)
                             {

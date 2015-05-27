@@ -37,12 +37,13 @@
             this.配置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.c_mnuPSetting = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.c_sspMain_L_txtRunTime = new System.Windows.Forms.ToolStripStatusLabel();
             this.c_sspMain_R_txtStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.c_txtMain = new System.Windows.Forms.TextBox();
             this.c_back = new System.ComponentModel.BackgroundWorker();
             this.c_time = new System.Windows.Forms.Timer(this.components);
-            this.c_sspMain_L_txtRunTime = new System.Windows.Forms.ToolStripStatusLabel();
             this.c_notifyIconMain = new System.Windows.Forms.NotifyIcon(this.components);
+            this.c_sspMain_L_txtService = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -70,14 +71,14 @@
             // c_mnuServiceStrat
             // 
             this.c_mnuServiceStrat.Name = "c_mnuServiceStrat";
-            this.c_mnuServiceStrat.Size = new System.Drawing.Size(152, 22);
+            this.c_mnuServiceStrat.Size = new System.Drawing.Size(116, 22);
             this.c_mnuServiceStrat.Text = "启动(&B)";
             this.c_mnuServiceStrat.Click += new System.EventHandler(this.c_mnuServiceStrat_Click);
             // 
             // c_mnuStop
             // 
             this.c_mnuStop.Name = "c_mnuStop";
-            this.c_mnuStop.Size = new System.Drawing.Size(152, 22);
+            this.c_mnuStop.Size = new System.Drawing.Size(116, 22);
             this.c_mnuStop.Text = "停止(&S)";
             this.c_mnuStop.Click += new System.EventHandler(this.c_mnuStop_Click);
             // 
@@ -92,13 +93,14 @@
             // c_mnuPSetting
             // 
             this.c_mnuPSetting.Name = "c_mnuPSetting";
-            this.c_mnuPSetting.Size = new System.Drawing.Size(152, 22);
+            this.c_mnuPSetting.Size = new System.Drawing.Size(115, 22);
             this.c_mnuPSetting.Text = "参数(&P)";
             this.c_mnuPSetting.Click += new System.EventHandler(this.c_mnuPSetting_Click);
             // 
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.c_sspMain_L_txtService,
             this.c_sspMain_L_txtRunTime,
             this.c_sspMain_R_txtStatus});
             this.statusStrip1.Location = new System.Drawing.Point(0, 347);
@@ -107,10 +109,16 @@
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
+            // c_sspMain_L_txtRunTime
+            // 
+            this.c_sspMain_L_txtRunTime.Name = "c_sspMain_L_txtRunTime";
+            this.c_sspMain_L_txtRunTime.Size = new System.Drawing.Size(56, 17);
+            this.c_sspMain_L_txtRunTime.Text = "运行时间";
+            // 
             // c_sspMain_R_txtStatus
             // 
             this.c_sspMain_R_txtStatus.Name = "c_sspMain_R_txtStatus";
-            this.c_sspMain_R_txtStatus.Size = new System.Drawing.Size(475, 17);
+            this.c_sspMain_R_txtStatus.Size = new System.Drawing.Size(388, 17);
             this.c_sspMain_R_txtStatus.Spring = true;
             this.c_sspMain_R_txtStatus.Text = "状态";
             this.c_sspMain_R_txtStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -135,12 +143,6 @@
             // 
             this.c_time.Tick += new System.EventHandler(this.c_time_Tick);
             // 
-            // c_sspMain_L_txtRunTime
-            // 
-            this.c_sspMain_L_txtRunTime.Name = "c_sspMain_L_txtRunTime";
-            this.c_sspMain_L_txtRunTime.Size = new System.Drawing.Size(56, 17);
-            this.c_sspMain_L_txtRunTime.Text = "运行时间";
-            // 
             // c_notifyIconMain
             // 
             this.c_notifyIconMain.BalloonTipText = "危废同步服务Text";
@@ -148,6 +150,12 @@
             this.c_notifyIconMain.Text = "危废同步服务";
             this.c_notifyIconMain.Visible = true;
             this.c_notifyIconMain.Click += new System.EventHandler(this.c_notifyIconMain_Click);
+            // 
+            // c_sspMain_L_txtService
+            // 
+            this.c_sspMain_L_txtService.Name = "c_sspMain_L_txtService";
+            this.c_sspMain_L_txtService.Size = new System.Drawing.Size(56, 17);
+            this.c_sspMain_L_txtService.Text = "服务地址";
             // 
             // FrmMain
             // 
@@ -188,5 +196,6 @@
         private System.Windows.Forms.ToolStripStatusLabel c_sspMain_R_txtStatus;
         private System.Windows.Forms.ToolStripStatusLabel c_sspMain_L_txtRunTime;
         private System.Windows.Forms.NotifyIcon c_notifyIconMain;
+        private System.Windows.Forms.ToolStripStatusLabel c_sspMain_L_txtService;
     }
 }

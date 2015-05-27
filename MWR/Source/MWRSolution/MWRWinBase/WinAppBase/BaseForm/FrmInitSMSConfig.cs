@@ -12,12 +12,12 @@ using YRKJ.MWR.WinBase.WinUtility;
 
 namespace YRKJ.MWR.WinBase.WinAppBase.BaseForm
 {
-    public partial class FrmInitDBConfig : Form
+    public partial class FrmInitSMSConfig : Form
     {
         private const string ClassName = "YRKJ.MWR.WinBase.WinAppBase.BaseForm.FrmInitDBConfig";
         private FormMng _frmMng = null;
 
-        public FrmInitDBConfig()
+        public FrmInitSMSConfig()
         {
             InitializeComponent();
 
@@ -172,6 +172,7 @@ namespace YRKJ.MWR.WinBase.WinAppBase.BaseForm
             cfg.DBUserName = c_txtUserId.Text.Trim();
             cfg.DBPassword = c_txtPassword.Text;
             cfg.DBPort = c_txtPort.Text.Trim();
+            cfg.ServiceRoot = c_txtWebService.Text.Trim();
             return cfg;
         }
 

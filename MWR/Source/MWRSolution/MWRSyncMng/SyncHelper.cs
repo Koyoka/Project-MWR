@@ -8,6 +8,7 @@ using ComLib.db;
 using YRKJ.MWR;
 using YRKJ.MWR.Business.Sys;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace MWRSyncMng
 {
@@ -54,9 +55,9 @@ namespace MWRSyncMng
                     TblMWSynclog item = null;
 
                     SqlQueryMng sqm = new SqlQueryMng();
-                    sqm.Condition.Where.AddCompareValue(TblMWSynclog.getStatusColumn(), SqlCommonFn.SqlWhereCompareEnum.UnEquals, TblMWSynclog.STATUS_ENUM_Complete);
+                    sqm.Condition.Where.AddCompareValue(TblMWSynclog.getStatusColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, TblMWSynclog.STATUS_ENUM_Complete);
                     sqm.QueryColumn.AddTop(1);
-                    sqm.Condition.OrderBy.Add(TblMWSynclog.getSyncDateTimeColumn(), SqlCommonFn.SqlOrderByType.ASC);
+                    sqm.Condition.OrderBy.Add(TblMWSynclog.getSyncDateTimeColumn(), SqlCommonFn.SqlOrderByType.DESC);
                     if (!TblMWSynclogCtrl.QueryOne(dcf, sqm, ref item, ref errMsg))
                     {
                         return false;
@@ -65,29 +66,33 @@ namespace MWRSyncMng
                     {
                         lastSyncTime = item.SyncDateTime;
                     }
-                }
-                if (lastSyncTime == DateTime.MinValue)
-                {
-                    TblMWTxnRecoverHeader item = null;
-                    SqlQueryMng sqm = new SqlQueryMng();
-                    sqm.QueryColumn.AddTop(1);
-                    sqm.Condition.OrderBy.Add(TblMWTxnRecoverHeader.getEntryDateColumn(), SqlCommonFn.SqlOrderByType.ASC);
-
-                    if (!TblMWTxnRecoverHeaderCtrl.QueryOne(dcf, sqm, ref item, ref errMsg))
-                    {
-                        return false;
-                    }
-
-                    if (item != null)
-                    {
-                        lastSyncTime = item.EntryDate;
-                    }
                     else
-                    {
-                        //no data
-                        return true;
+                    { 
+                        // if unexist sync log data,select all data
                     }
                 }
+                //if (lastSyncTime == DateTime.MinValue)
+                //{
+                //    TblMWTxnRecoverHeader item = null;
+                //    SqlQueryMng sqm = new SqlQueryMng();
+                //    sqm.QueryColumn.AddTop(1);
+                //    sqm.Condition.OrderBy.Add(TblMWTxnRecoverHeader.getEntryDateColumn(), SqlCommonFn.SqlOrderByType.DESC);
+
+                //    if (!TblMWTxnRecoverHeaderCtrl.QueryOne(dcf, sqm, ref item, ref errMsg))
+                //    {
+                //        return false;
+                //    }
+
+                //    if (item != null)
+                //    {
+                //        lastSyncTime = item.EntryDate;
+                //    }
+                //    else
+                //    {
+                //        //no data
+                //        return true;
+                //    }
+                //}
 
                 #endregion
 
@@ -104,8 +109,9 @@ namespace MWRSyncMng
                     //sqm.QueryColumn.AddSum(TblMWTxnRecoverHeader.getEntryDateColumn());
                     string formatColname = SqlCommonFn.FormatSqlDateTimeColumnString2(TblMWTxnRecoverHeader.getEntryDateColumn(), SqlCommonFn.SqlWhereDateTimeFormatEnum.YMD);
                     sqm.QueryColumn.Add(formatColname, "Date2");
-                    sqm.Condition.Where.AddDateTimeCompareValue(TblMWTxnRecoverHeader.getEntryDateColumn(), SqlCommonFn.SqlWhereCompareEnum.MoreEquals, syncDate, SqlCommonFn.SqlWhereDateTimeFormatEnum.YMD);
-                    sqm.Condition.OrderBy.Add(TblMWTxnRecoverHeader.getEntryDateColumn(), SqlCommonFn.SqlOrderByType.ASC);
+                    sqm.Condition.Where.AddDateTimeCompareValue(TblMWTxnRecoverHeader.getEntryDateColumn(), SqlCommonFn.SqlWhereCompareEnum.More, syncDate, SqlCommonFn.SqlWhereDateTimeFormatEnum.YMD);
+                    sqm.Condition.Where.AddDateTimeCompareValue(TblMWTxnRecoverHeader.getEntryDateColumn(), SqlCommonFn.SqlWhereCompareEnum.Less, now, SqlCommonFn.SqlWhereDateTimeFormatEnum.YMD);
+                    //sqm.Condition.OrderBy.Add(TblMWTxnRecoverHeader.getEntryDateColumn(), SqlCommonFn.SqlOrderByType.ASC);
                     sqm.Condition.GroupBy.Add("Date2");
 
                     List<TblMWTxnRecoverHeader> itemList = null;
@@ -133,7 +139,8 @@ namespace MWRSyncMng
                     //sqm.QueryColumn.Add(TblMWInventory.getEntryDateColumn());
                     string formatColname = SqlCommonFn.FormatSqlDateTimeColumnString2(TblMWTxnRecoverHeader.getEntryDateColumn(), SqlCommonFn.SqlWhereDateTimeFormatEnum.YMD);
                     sqm.QueryColumn.Add(formatColname, "Date2");
-                    sqm.Condition.Where.AddDateTimeCompareValue(TblMWInventory.getEntryDateColumn(), SqlCommonFn.SqlWhereCompareEnum.MoreEquals, syncDate, SqlCommonFn.SqlWhereDateTimeFormatEnum.YMD);
+                    sqm.Condition.Where.AddDateTimeCompareValue(TblMWInventory.getEntryDateColumn(), SqlCommonFn.SqlWhereCompareEnum.More, syncDate, SqlCommonFn.SqlWhereDateTimeFormatEnum.YMD);
+                    sqm.Condition.Where.AddDateTimeCompareValue(TblMWInventory.getEntryDateColumn(), SqlCommonFn.SqlWhereCompareEnum.Less, now, SqlCommonFn.SqlWhereDateTimeFormatEnum.YMD);
                     sqm.Condition.GroupBy.Add("Date2");
                     //sqm.Condition.GroupBy.Add(TblMWInventory.getEntryDateColumn());
 
@@ -242,7 +249,9 @@ namespace MWRSyncMng
                 string guid = "";
                 string city = "";
                 #region get lcoation client base infomation
-                city = "武汉";
+                city = MWParams.GetSyncCity();
+                guid = MWParams.GetCompanyDataCenterGUID();
+                guid = string.IsNullOrEmpty(guid) ? "" : guid;
                 #endregion
 
                 #region set request json data
@@ -395,7 +404,11 @@ namespace MWRSyncMng
         public static bool DoRequest(
             string jsonData,string fullUrl, ref string errMsg)
         {
-            bool syncIsErr = false;
+            if (string.IsNullOrEmpty(jsonData))
+            {
+                return true;
+            }
+
             string responseData = "";
 
             #region request
@@ -403,68 +416,118 @@ namespace MWRSyncMng
             Encoding encoding = Encoding.UTF8;
 
             string result = string.Empty;
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(fullUrl);
+            try
             {
-                #region set request params
-                request.Method = "POST";
-                request.Date = DateTime.Now;
-                request.ContentType = "application/json";
-
-                #endregion
-
-                #region set request body data
-                using (Stream s = request.GetRequestStream())
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(fullUrl);
                 {
-                    byte[] buffer = encoding.GetBytes(body);
-                    s.Write(buffer, 0, buffer.Length);
-                    s.Close();
-                }
-                #endregion
+                    #region set request params
+                    request.Method = "POST";
+                    request.Date = DateTime.Now;
+                    request.ContentType = "application/json";
+                    request.Timeout = 5000;
+                    #endregion
 
-                #region Send
-                try
-                {
+                    #region set request body data
+                    using (Stream s = request.GetRequestStream())
+                    {
+                        byte[] buffer = encoding.GetBytes(body);
+                        s.Write(buffer, 0, buffer.Length);
+                        s.Close();
+                    }
+                    #endregion
+
+                    #region Send
+
                     using (System.IO.StreamReader sr = new System.IO.StreamReader(request.GetResponse().GetResponseStream(), encoding))
                     {
                         responseData = sr.ReadToEnd();
                         sr.Close();
                     }
-                    syncIsErr = false;
+
+                    #endregion
+                    request = null;
                 }
-                catch (Exception ex)
+            }
+            catch (Exception ex)
+            {
+                errMsg = "服务器连接失败，请检查服务器或服务器地址。 错误信息：" + ex.Message;
                 {
-                    errMsg = ex.Message;
-                    syncIsErr = true;
+                    DataCtrlInfo dcf = new DataCtrlInfo();
+                    SqlUpdateColumn suc = new SqlUpdateColumn();
+                    suc.Add(TblMWSynclog.getStatusColumn(), TblMWSynclog.STATUS_ENUM_Error);
+
+                    SqlWhere sw = new SqlWhere();
+                    sw.AddCompareValue(TblMWSynclog.getStatusColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, TblMWSynclog.STATUS_ENUM_Wait);
+
+                    int updCount = 0;
+                    if (!TblMWSynclogCtrl.Update(dcf, suc, sw, ref updCount, ref errMsg))
+                    {
+                        return false;
+                    }
+
+                    return false;
                 }
-                #endregion
-                request = null;
+
             }
             #endregion
 
-            #region update sync log
-
-            DataCtrlInfo dcf = new DataCtrlInfo();
-            if (syncIsErr)
+           
+            #region convent response json
+            ResponseJsonData resJsonData = new ResponseJsonData();
             {
-                SqlUpdateColumn suc = new SqlUpdateColumn();
-                suc.Add(TblMWSynclog.getStatusColumn(), TblMWSynclog.STATUS_ENUM_Error);
+                JObject jo = (JObject)JsonConvert.DeserializeObject(responseData);
+                string success = SafeJsonToString("success", jo);
+                string guid = SafeJsonToString("guid", jo);
+                string errormessage = SafeJsonToString("errormessage", jo);
+                resJsonData.success = success == "0" ? true : false;
+                resJsonData.guid = guid;
+                resJsonData.errormessage = errormessage;
+            }
+            #endregion
 
-                SqlWhere sw = new SqlWhere();
-                sw.AddCompareValue(TblMWSynclog.getStatusColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, TblMWSynclog.STATUS_ENUM_Wait);
+            #region use response json data
+            if (!resJsonData.success)
+            {
+                errMsg = resJsonData.errormessage;
+                return false;
+            }
 
-                int updCount = 0;
-                if (!TblMWSynclogCtrl.Update(dcf, suc, sw, ref updCount, ref errMsg))
+            if (!string.IsNullOrEmpty(resJsonData.guid))
+            {
+                if (!MWParams.SetCompanyDataCenterGUID(resJsonData.guid, ref errMsg))
                 {
                     return false;
                 }
             }
-            else
+            #endregion
+            
+
+            #region update sync log
+
+           
+            //if (syncIsErr)
+            //{
+            //    SqlUpdateColumn suc = new SqlUpdateColumn();
+            //    suc.Add(TblMWSynclog.getStatusColumn(), TblMWSynclog.STATUS_ENUM_Error);
+
+            //    SqlWhere sw = new SqlWhere();
+            //    sw.AddCompareValue(TblMWSynclog.getStatusColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, TblMWSynclog.STATUS_ENUM_Wait);
+
+            //    int updCount = 0;
+            //    if (!TblMWSynclogCtrl.Update(dcf, suc, sw, ref updCount, ref errMsg))
+            //    {
+            //        return false;
+            //    }
+            //    return false;
+            //}
+            //else
             {
+                DataCtrlInfo dcf = new DataCtrlInfo();
                 SqlUpdateColumn suc = new SqlUpdateColumn();
                 suc.Add(TblMWSynclog.getStatusColumn(), TblMWSynclog.STATUS_ENUM_Complete);
 
                 SqlWhere sw = new SqlWhere();
-                sw.AddCompareValue(TblMWSynclog.getStatusColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, TblMWSynclog.STATUS_ENUM_Wait);
+                sw.AddCompareValue(TblMWSynclog.getStatusColumn(), SqlCommonFn.SqlWhereCompareEnum.UnEquals, TblMWSynclog.STATUS_ENUM_Complete);
 
                 int updCount = 0;
                 if (!TblMWSynclogCtrl.Update(dcf, suc, sw, ref updCount, ref errMsg))
@@ -562,6 +625,26 @@ namespace MWRSyncMng
             }
         }
 
+        public static string SafeJsonToString(string key, Newtonsoft.Json.Linq.JObject jo)
+        {
+            if (jo == null)
+            {
+                return "";
+            }
+            try
+            {
+                if (jo[key] == null)
+                {
+                    return null;
+                }
+                return jo[key].ToString();
+            }
+            catch (Exception ex)
+            {
+                return "";
+            }
+        }
+
         public class SyncReportData
         {
             //public List<TblMWTxnRecoverHeader> ReportInCarAndSubWeight = new List<TblMWTxnRecoverHeader>();
@@ -594,6 +677,13 @@ namespace MWRSyncMng
             public const string ResJsonBusData_OptType_Inv = "4";
             public const string ResJsonBusData_OptType_PostTxn = "5";
             public const string ResJsonBusData_OptType_DestTxn = "6";
+        }
+        public class ResponseJsonData
+        {
+            public bool success { get; set; }
+            public string guid { get; set; }
+            public string errormessage { get; set; }
+
         }
 
     }

@@ -1,6 +1,6 @@
 ﻿namespace YRKJ.MWR.WinBase.WinAppBase.BaseForm
 {
-    partial class FrmInitDBConfig
+    partial class FrmInitSMSConfig
     {
         /// <summary>
         /// Required designer variable.
@@ -43,8 +43,12 @@
             this.c_btnDetectDB = new System.Windows.Forms.Button();
             this.c_btnCancel = new System.Windows.Forms.Button();
             this.c_btnOk = new System.Windows.Forms.Button();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.c_txtWebService = new System.Windows.Forms.TextBox();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox2
@@ -181,7 +185,7 @@
             // 
             this.c_btnDetectDB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.c_btnDetectDB.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.c_btnDetectDB.Location = new System.Drawing.Point(12, 238);
+            this.c_btnDetectDB.Location = new System.Drawing.Point(12, 285);
             this.c_btnDetectDB.Name = "c_btnDetectDB";
             this.c_btnDetectDB.Size = new System.Drawing.Size(102, 43);
             this.c_btnDetectDB.TabIndex = 4;
@@ -193,7 +197,7 @@
             // 
             this.c_btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.c_btnCancel.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.c_btnCancel.Location = new System.Drawing.Point(322, 238);
+            this.c_btnCancel.Location = new System.Drawing.Point(322, 285);
             this.c_btnCancel.Name = "c_btnCancel";
             this.c_btnCancel.Size = new System.Drawing.Size(102, 43);
             this.c_btnCancel.TabIndex = 3;
@@ -205,7 +209,7 @@
             // 
             this.c_btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.c_btnOk.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.c_btnOk.Location = new System.Drawing.Point(430, 238);
+            this.c_btnOk.Location = new System.Drawing.Point(430, 285);
             this.c_btnOk.Name = "c_btnOk";
             this.c_btnOk.Size = new System.Drawing.Size(102, 43);
             this.c_btnOk.TabIndex = 2;
@@ -213,22 +217,59 @@
             this.c_btnOk.UseVisualStyleBackColor = true;
             this.c_btnOk.Click += new System.EventHandler(this.c_btnOk_Click);
             // 
-            // FrmInitDBConfig
+            // groupBox3
+            // 
+            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(245)))), ((int)(((byte)(241)))));
+            this.groupBox3.Controls.Add(this.label6);
+            this.groupBox3.Controls.Add(this.c_txtWebService);
+            this.groupBox3.Font = new System.Drawing.Font("宋体", 1F);
+            this.groupBox3.Location = new System.Drawing.Point(13, 238);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(525, 41);
+            this.groupBox3.TabIndex = 2;
+            this.groupBox3.TabStop = false;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.label6.Location = new System.Drawing.Point(12, 11);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(96, 20);
+            this.label6.TabIndex = 0;
+            this.label6.Text = "Web服务地址";
+            // 
+            // c_txtWebService
+            // 
+            this.c_txtWebService.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.c_txtWebService.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.c_txtWebService.Location = new System.Drawing.Point(112, 8);
+            this.c_txtWebService.Name = "c_txtWebService";
+            this.c_txtWebService.Size = new System.Drawing.Size(404, 25);
+            this.c_txtWebService.TabIndex = 2;
+            // 
+            // FrmInitSMSConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(550, 293);
+            this.ClientSize = new System.Drawing.Size(550, 340);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.c_btnDetectDB);
             this.Controls.Add(this.c_btnCancel);
             this.Controls.Add(this.c_btnOk);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
-            this.Name = "FrmInitDBConfig";
+            this.Name = "FrmInitSMSConfig";
             this.Text = "FrmInitDBConfig";
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -250,5 +291,8 @@
         private System.Windows.Forms.Button c_btnDetectDB;
         private System.Windows.Forms.Button c_btnCancel;
         private System.Windows.Forms.Button c_btnOk;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox c_txtWebService;
     }
 }

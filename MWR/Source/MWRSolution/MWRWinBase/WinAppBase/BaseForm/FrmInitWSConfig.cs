@@ -12,13 +12,13 @@ using YRKJ.MWR.WinBase.WinUtility;
 
 namespace YRKJ.MWR.WinBase.WinAppBase.BaseForm
 {
-    public partial class FrmInitConfig : Form
+    public partial class FrmInitWSConfig : Form
     {
         private const string ClassName = "YRKJ.MWR.WinBase.WinAppBase.BaseForm.FrmInitConfig";
         private FormMng _frmMng = null;
 
 
-        public FrmInitConfig()
+        public FrmInitWSConfig()
         {
             InitializeComponent();
 
