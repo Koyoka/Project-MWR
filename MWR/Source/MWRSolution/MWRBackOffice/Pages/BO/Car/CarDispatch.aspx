@@ -16,10 +16,13 @@
             </h3>
             <ul class="page-breadcrumb breadcrumb">
                 
-                <li><i class="fa fa-home"></i><a href="#<% = RedirectHelper.BOMain %>">首页</a> <i
-                    class="fa fa-angle-right"></i></li>
-                <li><a href="#">车辆管理</a> <i class="fa fa-angle-right"></i></li>
-                <li><a href="#<% = RedirectHelper.CarDispatch %>">车辆调度</a> </li>
+                <li><i class="fa fa-home"></i>
+                <a class="mw-redirect" href="<% = WebAppFn.GetBoFullPageUrl(RedirectHelper.BOMain) %>">主页</a>
+                <i class="fa fa-angle-right"></i></li>
+                <li><a href="javascript:;">车辆管理</a> <i class="fa fa-angle-right"></i></li>
+                <li>
+                <a  href="javascript:;">车辆调度</a>
+                </li>
             </ul>
             <!-- END PAGE TITLE & BREADCRUMB-->
         </div>

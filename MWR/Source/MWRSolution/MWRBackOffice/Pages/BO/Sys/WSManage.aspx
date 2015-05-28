@@ -15,7 +15,9 @@
                 工作站管理 <small>出入库、处置工作站，手机终端管理</small>
             </h3>
             <ul class="page-breadcrumb breadcrumb">
-                <li><i class="fa fa-home"></i><a href="#<% = RedirectHelper.BOMain %>">首页</a> <i
+                <li><i class="fa fa-home"></i>
+                <a class="mw-redirect" href="<% = WebAppFn.GetBoFullPageUrl(RedirectHelper.BOMain) %>">主页</a>
+                 <i
                     class="fa fa-angle-right"></i></li>
                 <li>工作站管理</li>
 

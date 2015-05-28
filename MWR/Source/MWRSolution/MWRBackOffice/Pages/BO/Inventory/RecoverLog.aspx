@@ -19,7 +19,7 @@
 			</li>
 			<li>
 				<i class="fa fa-home"></i>
-				<a href="#<% = RedirectHelper.BOMain %>">主页</a>
+                <a class="mw-redirect" href="<% = WebAppFn.GetBoFullPageUrl(RedirectHelper.BOMain) %>">主页</a>
 				<i class="fa fa-angle-right"></i>
 			</li>
             <li>
@@ -106,7 +106,8 @@
                     %>
                 <tr>
                     <td>
-					    <a href="#<% = RedirectHelper.TxnDetail%>?txnNum=<% = item.TxnNum %>"><% = item.TxnNum %></a>
+                       <a class="mw-redirect" href="<% = WebAppFn.GetBoFullPageUrl(RedirectHelper.TxnDetail)%>?txnNum=<% = item.TxnNum %>"><% = item.TxnNum %></a>
+                        
                         <input type="hidden" name="txnDetailId" value="<% = item.TxnDetailId %>" />
 				    </td>
 				    <td>
@@ -137,8 +138,11 @@
 					    <% = ComLib.ComFn.DateTimeToString(item.EntryDate, YRKJ.MWR.Business.BizBase.GetInstance().DateTimeFormatString)  %>
 				    </td>
                     <td>
+                    
                     <% if (item.InvAuthId != 0){  %>
-                        <a href="#<% = RedirectHelper.InvAuthorizelog %>?ID=<% = item.InvAuthId %>">查看审核</a>
+                        
+                        <a class="mw-redirect" href="<% = WebAppFn.GetBoFullPageUrl(RedirectHelper.InvAuthorizelog)%>?ID=<% = item.InvAuthId %>">查看审核</a>
+                        
                     <% } %>
                     <% if (item.InvAuthId == 0){  %>
 					   否

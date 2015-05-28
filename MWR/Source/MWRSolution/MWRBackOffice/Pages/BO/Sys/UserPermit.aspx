@@ -12,7 +12,9 @@
                 权限管理 <small>添加、设置用户所属的权限组</small>
             </h3>
             <ul class="page-breadcrumb breadcrumb">
-                <li><i class="fa fa-home"></i><a href="#<% = RedirectHelper.BOMain %>">首页</a> <i
+                <li><i class="fa fa-home"></i>
+                <a class="mw-redirect" href="<% = WebAppFn.GetBoFullPageUrl(RedirectHelper.BOMain) %>">主页</a>
+                <i
                     class="fa fa-angle-right"></i></li>
                 <li>权限管理</li>
             </ul>
@@ -35,7 +37,7 @@
         <div class="col-md-3  inbox">
             <ul class="inbox-nav margin-bottom-10 ">
 				<li class="compose-btn">
-					<a href="#<% = RedirectHelper.FuncGroupEdit %>" data-title="Compose" class="btn green">
+					<a href="<% = WebAppFn.GetBoFullPageUrl(RedirectHelper.FuncGroupEdit) %>" data-title="Compose" class="btn green mw-redirect">
 					<i class="fa fa-plus"></i> 权限组列表（点击管理） </a>
 				</li>
                 <%

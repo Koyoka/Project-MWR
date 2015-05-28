@@ -58,7 +58,7 @@
                                 当前外出车辆
                             </div>
                         </div>
-                        <a class="more" href="#<% = RedirectHelper.CarDispatch %>">车辆调度 <i class="m-icon-swapright m-icon-white"></i></a>
+                        <a class="more mw-redirect" href="<% = RedirectHelper.CarDispatch %>">车辆调度 <i class="m-icon-swapright m-icon-white"></i></a>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
@@ -74,7 +74,7 @@
                                 待审核货箱
                             </div>
                         </div>
-                        <a class="more" href="#<% = RedirectHelper.InvAuthorize %>">进入审核 <i class="m-icon-swapright m-icon-white"></i></a>
+                        <a class="more mw-redirect" href="<% = RedirectHelper.InvAuthorize %>">进入审核 <i class="m-icon-swapright m-icon-white"></i></a>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
@@ -90,7 +90,7 @@
                                 今日入库总量
                             </div>
                         </div>
-                        <a class="more" href="#<% = RedirectHelper.RecoverLog %>">库存查看 <i class="m-icon-swapright m-icon-white"></i></a>
+                        <a class="more mw-redirect" href="<% = RedirectHelper.RecoverLog %>">库存查看 <i class="m-icon-swapright m-icon-white"></i></a>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
@@ -106,7 +106,7 @@
                                 今日处置总量
                             </div>
                         </div>
-                        <a class="more" href="#<% = RedirectHelper.DestroyLog %>">处置查看 <i class="m-icon-swapright m-icon-white"></i></a>
+                        <a class="more mw-redirect" href="<% = RedirectHelper.DestroyLog %>">处置查看 <i class="m-icon-swapright m-icon-white"></i></a>
                     </div>
                 </div>
             </div>

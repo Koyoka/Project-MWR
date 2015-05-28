@@ -13,9 +13,12 @@
                 权限组管理 <small>添加、设置权限组</small>
             </h3>
             <ul class="page-breadcrumb breadcrumb">
-                <li><i class="fa fa-home"></i><a href="#<% = RedirectHelper.BOMain %>">首页</a> <i
+                <li><i class="fa fa-home"></i>
+                <a class="mw-redirect" href="<% = WebAppFn.GetBoFullPageUrl(RedirectHelper.BOMain) %>">主页</a>
+                <i
                     class="fa fa-angle-right"></i></li>
-                <li><a href="#<% = RedirectHelper.UserPermit %>">权限管理</a><i
+                <li>
+                <a class="mw-redirect" href="<% = WebAppFn.GetBoFullPageUrl(RedirectHelper.UserPermit) %>">权限管理</a><i
                     class="fa fa-angle-right"></i></li></li>
                 <li>权限组管理</li>
             </ul>

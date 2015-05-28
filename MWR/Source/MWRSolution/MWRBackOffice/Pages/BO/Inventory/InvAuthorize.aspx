@@ -15,10 +15,12 @@
                 货损审核 <small>审核工作站上报货损货箱</small>
             </h3>
             <ul class="page-breadcrumb breadcrumb">
-                <li><i class="fa fa-home"></i><a href="#<% = RedirectHelper.BOMain %>">首页</a> <i
+                <li><i class="fa fa-home"></i>
+                <a class="mw-redirect" href="<% = WebAppFn.GetBoFullPageUrl(RedirectHelper.BOMain) %>">主页</a>
+                <i
                     class="fa fa-angle-right"></i></li>
-                <li><a href="#">库存管理</a> <i class="fa fa-angle-right"></i></li>
-                <li><a href="#<% = RedirectHelper.InvAuthorize %>">货损审核</a> </li>
+                <li>库存管理 <i class="fa fa-angle-right"></i></li>
+                <li>货损审核 </li>
             </ul>
             <!-- END PAGE TITLE & BREADCRUMB-->
         </div>
@@ -111,7 +113,8 @@
                                     </td>
                                     <td>
                                         <input class="diffweight" type="hidden" value="<% = item.DiffWeight %>" /> 
-                                        <a href="#<% = RedirectHelper.InvAuthorizeDetail %>?id=<% = item.AuthId %>" class="btn default btn-xs purple"><i class="fa fa-edit"></i> 审核</a>
+                                        <a href="<% = WebAppFn.GetBoFullPageUrl(RedirectHelper.InvAuthorizeDetail) %>?id=<% = item.AuthId %>" class="btn default btn-xs purple mw-redirect"><i class="fa fa-edit"></i> 审核</a>
+                                       <%-- <a class="mw-redirect" href="<% = WebAppFn.GetBoFullPageUrl(RedirectHelper.InvAuthorizeDetail) %>">主页</a>--%>
                                         <!--
                                         <a href="#" data-wgt="mw-showauthform" data-wgt-showauthformid="auth<% = item.AuthId %>" data-target="#stack1"  data-toggle="modal" class="btn default btn-xs purple"><i class="fa fa-edit"></i> 审核</a>
                                         -->

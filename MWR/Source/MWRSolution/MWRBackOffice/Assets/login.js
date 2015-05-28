@@ -4,7 +4,7 @@
     }
 
     var _recallLogin = function (el, netData, locData) {
-        window.location.href = "/Pages/BO/BOIndex.aspx#BOMain.aspx";
+        window.location.href = "/Pages/BO/BOIndex2.aspx";
 
     }
 

@@ -14,10 +14,14 @@
             货损审核 <small>审核工作站上报货损货箱</small>
         </h3>
         <ul class="page-breadcrumb breadcrumb">
-            <li><i class="fa fa-home"></i><a href="#<% = RedirectHelper.BOMain %>">首页</a> <i
+            <li><i class="fa fa-home"></i>
+            <a class="mw-redirect" href="<% = WebAppFn.GetBoFullPageUrl(RedirectHelper.BOMain) %>">主页</a>
+            <i
                 class="fa fa-angle-right"></i></li>
-            <li><a href="#">库存管理</a> <i class="fa fa-angle-right"></i></li>
-            <li><a href="#<% = RedirectHelper.InvAuthorize %>">货损审核</a> <i class="fa fa-angle-right"></i></li>
+            <li>库存管理 <i class="fa fa-angle-right"></i></li>
+            <li>
+            <a class="mw-redirect" href="<% = WebAppFn.GetBoFullPageUrl(RedirectHelper.InvAuthorize) %>">货损审核</a>
+            <i class="fa fa-angle-right"></i></li>
             <li>审核详情</li>
         </ul>
         <!-- END PAGE TITLE & BREADCRUMB-->
@@ -53,7 +57,7 @@
 							    <i class="fa fa-map-marker"></i>
                                 <input type="hidden" name="invAuthId" value="<% = PageAuthData.InvAuthId %>" />
                             
-							    <input name="remark" maxlength="<% = YRKJ.MWR.TblMWInvAuthorize.getRemarkColumn().ColumnSize %>" class="form-control" type="text" placeholder="请输入货箱缺损说明...">
+							    <input name="remark" maxlength="<% = YRKJ.MWR.TblMWInvAuthorize.getRemarkColumn().ColumnSize %>" class="form-control" type="text"  />
 						    </div>
 					    </div>
 				    </div>
@@ -89,7 +93,7 @@
 						    </div>
 					    </div>
 				    </div>
-				    <button class="btn green btn-block margin-top-20">审核通过 <i class="m-icon-swapright m-icon-white"></i></button>
+				    <button  class="btn green btn-block margin-top-20">审核通过 <i class="m-icon-swapright m-icon-white"></i></button>
                 </div>
 			</form>
 		</div>
@@ -427,7 +431,7 @@
 <script src="/assets/plugins/jquery-file-upload/js/jquery.fileupload-validate.js"></script>--%>
 <%--<script src="/assets/plugins/jquery-file-upload/js/jquery.fileupload-ui.js"></script>--%>
 
-<script type="text/javascript" src="/assets/plugins/jquery-validation/dist/jquery.validate.min.js"></script>
+<script type="text/javascript" src="/assets/plugins/jquery-validation/dist/jquery.validate.js"></script>
 <script type="text/javascript" src="/assets/plugins/jquery-validation/dist/additional-methods.min.js"></script><%--<script type="text/javascript" src="/assets/plugins/jquery-validation/localization/messages_zh.js"></script>--%>
 <script src="/assets/boinvauthorizedetail.js"></script>
 <script type="text/javascript">

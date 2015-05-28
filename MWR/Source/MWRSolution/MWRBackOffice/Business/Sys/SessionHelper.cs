@@ -13,7 +13,9 @@ namespace YRKJ.MWR.BackOffice.Business.Sys
 
         public static bool GetSessionEmploy(ref TblMWEmploy empy,ref string errMsg)
         {
-
+            //empy = new TblMWEmploy();
+            //empy.FuncGroupId = -1;
+            //return true;
             if (HttpContext.Current.Session[session_key_employ] == null)
             {
                 errMsg = "用户数据超时，请重新登录";

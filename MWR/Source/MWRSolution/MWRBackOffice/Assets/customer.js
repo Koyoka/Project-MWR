@@ -283,7 +283,7 @@ var Custom = function () {
                     type: "POST",
                     url: URL,
                     data: JSONDATA,
-                    async: false,
+//                    async: true,
                     error: function (data) {
                         if (typeof data === "object") {
                             if (data.Result == 0) {
@@ -330,7 +330,7 @@ var Custom = function () {
                     type: "POST",
                     url: URL,
                     data: JSONDATA,
-                    async: false,
+//                    async: true,
                     error: function (data) {
                         if (typeof data === "object") {
                             if (data.Error == 0) {

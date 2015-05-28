@@ -74,6 +74,10 @@ namespace YRKJ.MWR.BackOffice
                 {
                     return;
                 }
+                if (requestPath.EndsWith(@"BOINDEX2.ASPX"))
+                {
+                    return;
+                }
                 #endregion
 
                 #region valid permit

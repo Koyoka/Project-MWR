@@ -17,7 +17,7 @@
 			</li>
 			<li>
 				<i class="fa fa-home"></i>
-				<a href="#<% = RedirectHelper.BOMain %>">主页</a>
+                <a class="mw-redirect" href="<% = WebAppFn.GetBoFullPageUrl(RedirectHelper.BOMain) %>">主页</a>
 				<i class="fa fa-angle-right"></i>
 			</li>
 			<li>
@@ -154,8 +154,7 @@
                                            
 										</div>
                                         <div class="text-right">
-                                        
-											<a href="#<% = RedirectHelper.VendorReport+"?code="+item.Code %>" class="btn blue">
+                                            <a href="<% = WebAppFn.GetBoFullPageUrl(RedirectHelper.VendorReport)+"?code="+item.Code %>" class="btn blue mw-redirect">
 											查看详情 <i class="m-icon-swapright m-icon-white"></i>
 											</a>
                                         </div>
@@ -387,7 +386,8 @@
 											</div>
 											
 										</div>
-                                        <div class="text-right"><a href="#<% = RedirectHelper.WasteReport+"?code="+item.Code %>" class="btn green">
+                                        <div class="text-right">
+                                        <a href="<% = WebAppFn.GetBoFullPageUrl(RedirectHelper.WasteReport)+"?code="+item.Code %>" class="btn green mw-redirect">
 											查看详情 <i class="m-icon-swapright m-icon-white"></i>
 											</a></div>
 									</div>

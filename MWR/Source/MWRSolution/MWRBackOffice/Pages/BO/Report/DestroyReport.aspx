@@ -19,7 +19,7 @@
 			</li>
 			<li>
 				<i class="fa fa-home"></i>
-				<a href="#<% = RedirectHelper.BOMain %>">主页</a>
+                <a class="mw-redirect" href="<% = WebAppFn.GetBoFullPageUrl(RedirectHelper.BOMain) %>">主页</a>
 				<i class="fa fa-angle-right"></i>
 			</li>
             <li>
@@ -145,7 +145,9 @@
                     %>
                 <tr>
                     <td>
-                        <a href="#<% = RedirectHelper.TxnDetail%>?txnNum=<% = item.TxnNum %>"><% = item.TxnNum %></a>
+                        
+                        <a class="mw-redirect" href="<% = WebAppFn.GetBoFullPageUrl(RedirectHelper.TxnDetail)%>?txnNum=<% = item.TxnNum %>"><% = item.TxnNum %></a>
+                        
                         <input type="hidden" name="txnNum" value="<% = item.TxnNum %>" />
                     </td>
 				    <td>

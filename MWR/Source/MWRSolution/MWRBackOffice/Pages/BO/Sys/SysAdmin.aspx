@@ -15,7 +15,7 @@
 			</li>
 			<li>
 				<i class="fa fa-home"></i>
-				<a href="#<% = RedirectHelper.BOMain %>">主页</a>
+                <a class="mw-redirect" href="<% = WebAppFn.GetBoFullPageUrl(RedirectHelper.BOMain) %>">主页</a>
 				<i class="fa fa-angle-right"></i>
 			</li>
 			<li>

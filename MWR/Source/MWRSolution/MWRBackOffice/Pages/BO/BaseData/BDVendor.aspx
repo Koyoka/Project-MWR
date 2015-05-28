@@ -39,7 +39,7 @@
 			</li>
 			<li>
 				<i class="fa fa-home"></i>
-				<a href="#<% = RedirectHelper.BOMain %>">主页</a>
+                <a class="mw-redirect" href="<% = WebAppFn.GetBoFullPageUrl(RedirectHelper.BOMain) %>">主页</a>
 				<i class="fa fa-angle-right"></i>
 			</li>
 			<li>
@@ -176,6 +176,7 @@
 <script src="/assets/wgt-edittable.js"></script>
 <%--<script src="/assets/plugins/bootstrap-modal/js/bootstrap-modalmanager.js" type="text/javascript"></script>
 <script src="/assets/plugins/bootstrap-modal/js/bootstrap-modal.js" type="text/javascript"></script>--%>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=<% = YRKJ.MWR.Business.Sys.MWParams.GetBaiduMapAK() %>"></script>--%>
 
 <script>
 
@@ -210,19 +211,6 @@
                 return;
             }
             return;
-            //            var ads = $('#address').val();
-            //            if (ads) {
-            //                var adsArray = ads.split(',');
-            //                if (adsArray.length == 2) {
-            //                    setMapAddressLab(parseFloat(adsArray[0]), parseFloat(adsArray[1]));
-            //                } else {
-            //                    map.clearOverlays();
-            //                    $('#mwTxtVendorAddress').val("");
-            //                }
-            //            } else {
-            //                map.clearOverlays();
-            //                $('#mwTxtVendorAddress').val("");
-            //            }
         });
         $('#btnOK').click(function () {
             $('#address').val($('#mwTxtVendorAddress').val());

@@ -114,11 +114,12 @@
             },
             submit: function (e) {
                 e.preventDefault();
-
                 if (!!this.element.valid) {
-                    if (!this.element.valid())
+                    if (!this.element.valid()) {
                         return;
+                    }
                 }
+
                 var method = this.element.attr("data-wgt-submit-method");
                 var url = this.element.attr("action");
                 var data = this.element.serializeJson();
@@ -358,7 +359,7 @@
         window.alert(12345 + " " + s)
     }
     var _redirectPage = function (s) {
-        window.location.hash = s;
+        window.location.href = s;
     }
     var _getwgtrecall = function (wgtrecall) {
         var recall;
@@ -386,7 +387,7 @@
             Modal.alert(netData.Value);
         } else {
             Modal.alert(netData.Value).on(function (e) {
-                _redirectPage("Inventory/InvAuthorize.aspx");
+                _redirectPage("InvAuthorize.aspx");
             });
         }
     }

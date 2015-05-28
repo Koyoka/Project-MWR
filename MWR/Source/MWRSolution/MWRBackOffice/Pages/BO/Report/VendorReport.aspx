@@ -19,12 +19,12 @@
 			</li>
 			<li>
 				<i class="fa fa-home"></i>
-				<a href="#<% = RedirectHelper.BOMain %>">主页</a>
+                <a class="mw-redirect" href="<% = WebAppFn.GetBoFullPageUrl(RedirectHelper.BOMain) %>">主页</a>
 				<i class="fa fa-angle-right"></i>
 			</li>
 			<li>
 				<i class="fa fa-home"></i>
-                <a href="#<% = RedirectHelper.IntegratedReport %>">综合报告</a>
+                <a class="mw-redirect" href="<% = WebAppFn.GetBoFullPageUrl(RedirectHelper.IntegratedReport) %>">综合报告</a>
                 <i class="fa fa-angle-right"></i>
 			</li>
             <li>

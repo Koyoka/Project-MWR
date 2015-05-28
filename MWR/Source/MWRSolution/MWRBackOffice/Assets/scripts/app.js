@@ -246,8 +246,9 @@ var App = function () {
                 error: function (xhr, ajaxOptions, thrownError) {
                     pageContentBody.html('<h4>Could not load the requested content.</h4>');
                     App.unblockUI(pageContent);
-                },
-                async: false
+                }
+//                ,
+//                async: false
             });
         });
     }
