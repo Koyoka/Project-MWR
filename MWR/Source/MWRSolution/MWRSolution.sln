@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FW2", "FW2\FW2.csproj", "{5
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MWRSyncMng", "MWRSyncMng\MWRSyncMng.csproj", "{3882635D-AF98-4F6F-95DD-40E3FF9D5FCA}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "MWRDataCenterSetup", "MWRDataCenterSetup\MWRDataCenterSetup.vdproj", "{4434E5A7-696F-43F5-A47D-7B18F55930C7}"
+EndProject
 Global
 	GlobalSection(SourceCodeControl) = preSolution
 		SccNumberOfProjects = 7
@@ -162,6 +164,12 @@ Global
 		{3882635D-AF98-4F6F-95DD-40E3FF9D5FCA}.Release|Mixed Platforms.Build.0 = Release|x86
 		{3882635D-AF98-4F6F-95DD-40E3FF9D5FCA}.Release|x86.ActiveCfg = Release|x86
 		{3882635D-AF98-4F6F-95DD-40E3FF9D5FCA}.Release|x86.Build.0 = Release|x86
+		{4434E5A7-696F-43F5-A47D-7B18F55930C7}.Debug|Any CPU.ActiveCfg = Debug
+		{4434E5A7-696F-43F5-A47D-7B18F55930C7}.Debug|Mixed Platforms.ActiveCfg = Debug
+		{4434E5A7-696F-43F5-A47D-7B18F55930C7}.Debug|x86.ActiveCfg = Debug
+		{4434E5A7-696F-43F5-A47D-7B18F55930C7}.Release|Any CPU.ActiveCfg = Release
+		{4434E5A7-696F-43F5-A47D-7B18F55930C7}.Release|Mixed Platforms.ActiveCfg = Release
+		{4434E5A7-696F-43F5-A47D-7B18F55930C7}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
