@@ -812,14 +812,30 @@
     <Content Include="Assets\demobobdcrate.js" />
     <Content Include="Assets\boindex2.js" />
     <None Include="Assets\custplugins\jquery-iframe-auto-height-master\release\README" />
-    <None Include="Assets\fonts\cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff" />
-    <None Include="Assets\fonts\DXI1ORHCpsQm3Vp6mXoaTXhCUOGz7vYGh680lGh-uXM.woff" />
-    <None Include="Assets\fonts\fontawesome-webfont.eot" />
-    <None Include="Assets\fonts\fontawesome-webfont.ttf" />
-    <None Include="Assets\fonts\fontawesome-webfont.woff" />
-    <None Include="Assets\fonts\FontAwesome.otf" />
-    <None Include="Assets\fonts\k3k702ZOKiLJc3WVjuplzHhCUOGz7vYGh680lGh-uXM.woff" />
-    <None Include="Assets\fonts\MTP_ySUJH_bn48VBG8sNSnhCUOGz7vYGh680lGh-uXM.woff" />
+    <None Include="Assets\fonts\cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\fonts\DXI1ORHCpsQm3Vp6mXoaTXhCUOGz7vYGh680lGh-uXM.woff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\fonts\fontawesome-webfont.eot">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\fonts\fontawesome-webfont.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\fonts\fontawesome-webfont.woff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\fonts\FontAwesome.otf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\fonts\k3k702ZOKiLJc3WVjuplzHhCUOGz7vYGh680lGh-uXM.woff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\fonts\MTP_ySUJH_bn48VBG8sNSnhCUOGz7vYGh680lGh-uXM.woff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Content Include="Pages\MasterPages\MWBOBlock.master" />
     <Content Include="Services\FileUpload\MWFileUploadHandler.ashx" />
     <Content Include="Services\FileUpload\Thumbnail.ashx" />
@@ -828,7 +844,9 @@
     <None Include="Assets\img\bg\Thumbs.db" />
     <Content Include="Services\MWMainServiceHandler.ashx" />
     <Content Include="packages.config" />
-    <None Include="Pages\BO\Sys\1.xlsx" />
+    <None Include="Pages\BO\Sys\1.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="UploadFile\1.xlsx" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

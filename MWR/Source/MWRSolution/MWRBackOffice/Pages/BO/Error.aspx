@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Pages/MasterPages/MWBOEmpty.Master" AutoEventWireup="true" CodeBehind="Error.aspx.cs" Inherits="YRKJ.MWR.BackOffice.Pages.BO.Error" %>
+<%@ Import Namespace="YRKJ.MWR.BackOffice.Business.Sys" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 
 
@@ -8,7 +9,7 @@
 
 			<!-- END STYLE CUSTOMIZER -->
 			<!-- BEGIN PAGE HEADER-->
-			<div class="row">
+			<%--<div class="row">
 				<div class="col-md-12">
 					<!-- BEGIN PAGE TITLE & BREADCRUMB-->
 					<h3 class="page-title">
@@ -18,7 +19,7 @@
 						<li class="btn-group">
 							
 						</li>
-						<li>
+						<%--<li>
 							<i class="fa fa-home"></i>
 							
                             <a class="mw-redirect" href="<% = WebAppFn.GetBoFullPageUrl(RedirectHelper.BOMain) %>">主页</a>
@@ -31,7 +32,7 @@
 					</ul>
 					<!-- END PAGE TITLE & BREADCRUMB-->
 				</div>
-			</div>
+			</div>--%>
 			<!-- END PAGE HEADER-->
 			<!-- BEGIN PAGE CONTENT-->
 			<div class="row">
@@ -44,18 +45,19 @@
                          <%
                         string btype = Request.QueryString["BT"] == null ? "" : Request.QueryString["BT"].ToString();
                         string href = Request.QueryString["BP"] == null ? "" : Request.QueryString["BP"].ToString();
-                        if (btype == YRKJ.MWR.BackOffice.Business.Sys.RedirectHelper.BackType.redirect.ToString())
-                        {
-                            href = YRKJ.MWR.BackOffice.Business.Sys.WebAppFn.GetBoFullPageUrl(href);
-                        }
-                        else if (btype == YRKJ.MWR.BackOffice.Business.Sys.RedirectHelper.BackType.include.ToString())
-                        {
-                            href = "#" + href;
-                        }
+                        //string clazz = "mw-mainFrame";
+                        //if (btype == YRKJ.MWR.BackOffice.Business.Sys.RedirectHelper.BackType.redirect.ToString())
+                        //{
+                        //    href = YRKJ.MWR.BackOffice.Business.Sys.WebAppFn.GetBoFullPageUrl(href);
+                        //}
+                        //else if (btype == YRKJ.MWR.BackOffice.Business.Sys.RedirectHelper.BackType.include.ToString())
+                        //{
+                        //    //href = href;
+                        //}
                          %>
 						<p>
-							 请根据错误信息联系管理员<br>
-							<a href="<% = href %>">返回主页</a> 
+							 请根据错误信息联系管理员<br />
+							<a  target="_parent" href="<% = href %>">返回登陆</a> 
 						</p>
 						
 					</div>

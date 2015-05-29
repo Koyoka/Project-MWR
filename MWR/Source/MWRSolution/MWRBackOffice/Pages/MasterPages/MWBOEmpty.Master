@@ -37,6 +37,8 @@
 <link href="/assets/plugins/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet" type="text/css"/>--%>
 
 <%  }%>
+<link href="/assets/plugins/bootstrap-modal/css/bootstrap-modal-bs3patch.css" rel="stylesheet" type="text/css"/>
+<link href="/assets/plugins/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet" type="text/css"/>
 <asp:ContentPlaceHolder ID="head" runat="server">
 </asp:ContentPlaceHolder>
 <% if (!IsContainerPage){ %>
@@ -65,9 +67,10 @@
 <%  }%>
 <% if (!IsIndexPage && !IsContainerPage)
    { %>
+   <uc1:UModal ID="UModal1" runat="server" />
 <div class="page-content-wrapper" >
 <div class="page-content scroller" style="padding:20px; min-height:700px; ">
-<uc1:UModal ID="UModal1" runat="server" /><%  }%>
+<%  }%>
 <% if (IsContainerPage)
    { %>
    <div id="mw-content-body">

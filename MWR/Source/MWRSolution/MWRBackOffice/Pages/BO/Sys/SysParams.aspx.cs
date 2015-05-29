@@ -13,6 +13,8 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Sys
     {
         public const string ClassName = "YRKJ.MWR.BackOffice.Pages.BO.Sys.SysParams";
 
+
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)

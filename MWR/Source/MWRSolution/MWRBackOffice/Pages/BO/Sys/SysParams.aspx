@@ -226,7 +226,7 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="foot" runat="server">
 <script type="text/javascript" src="/assets/plugins/select2/select2.min.js"></script><script src="/assets/plugins/bootstrap-switch/static/js/bootstrap-switch.min.js" type="text/javascript"></script><script type="text/javascript" src="/assets/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js"></script><script>

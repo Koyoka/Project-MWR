@@ -4,8 +4,8 @@
 <%@ Register src="../../UCtrl/UPage.ascx" tagname="UPage" tagprefix="uc1" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 <link rel="stylesheet" href="/assets/plugins/data-tables/DT_bootstrap.css"/>
-<link href="/assets/plugins/bootstrap-modal/css/bootstrap-modal-bs3patch.css" rel="stylesheet" type="text/css"/>
-<link href="/assets/plugins/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet" type="text/css"/><style>
+<%--<link href="/assets/plugins/bootstrap-modal/css/bootstrap-modal-bs3patch.css" rel="stylesheet" type="text/css"/>
+<link href="/assets/plugins/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet" type="text/css"/>--%><style>
     #allmap11{width:100%;height:500px;}
 </style>
 </asp:Content>

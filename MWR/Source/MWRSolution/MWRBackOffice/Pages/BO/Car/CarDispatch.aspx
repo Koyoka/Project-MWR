@@ -323,9 +323,9 @@
     </div>
 
                        
-    <div id="stack1" class="modal fade" tabindex="-1"  aria-hidden="true" style="display: none;">
-		<div class="modal-dialog">
-			<div class="modal-content">
+    <div id="stack1" class="modal fade" tabindex="-1"  aria-hidden="true" style="display: none;" data-width="600">
+		<%--<div class="modal-dialog">
+			<div class="modal-content">--%>
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
 					<h4 class="modal-title">车辆派遣</h4>
@@ -355,8 +355,8 @@
                 <button type="button" data-dismiss="modal" class="btn red">关闭</button>
 					<button type="button" data-dismiss="modal" class="btn ok">确认</button>
 				</div>
-			</div>
-		</div>
+			<%--</div>
+		</div>--%>
 	</div>
 
 

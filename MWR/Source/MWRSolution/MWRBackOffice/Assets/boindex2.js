@@ -7,7 +7,7 @@ var IndexHelper = function () {
     };
     var initHelper = function () {
 
-
+      
         $('a[target="mw-mainFrame"]').click(function (e) {
             var ifr = $('#mw-mainFrame');
             //            ifr.height(0+"px");
@@ -20,7 +20,7 @@ var IndexHelper = function () {
                 this.loadDefaultPage();
             },
             menuArrowFocus: function (page) {
-//                window.alert(page)
+                //                window.alert(page)
                 var menuContainer = jQuery('.page-sidebar ul');
                 var pageContentBody = $('.page-content .page-content-body');
                 menuContainer.children('li.active').removeClass('active');
@@ -34,9 +34,9 @@ var IndexHelper = function () {
                 })
                 .get();
 
-//                window.alert(defineCtrl.length);
-//                return;
-//                window.alert(ctrl.length);
+                //                window.alert(defineCtrl.length);
+                //                return;
+                //                window.alert(ctrl.length);
                 $(defineCtrl).parents('li').each(function () {
                     $(defineCtrl).addClass('active');
                     $(defineCtrl).children('a > span.arrow').addClass('open');
@@ -59,6 +59,7 @@ var IndexHelper = function () {
                         //                        window.alert('eleven')
                         App.blockUI(pageContent, false);
                     });
+                   
                 });
                 var defaultPage = this.element.attr("data-default");
                 if (!ifr.attr('src')) {

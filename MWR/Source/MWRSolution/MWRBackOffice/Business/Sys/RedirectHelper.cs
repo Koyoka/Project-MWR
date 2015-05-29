@@ -92,7 +92,7 @@ namespace YRKJ.MWR.BackOffice.Business.Sys
             paraList.Add("Msg", errMsg);
             paraList.Add("BP", backPage);
             paraList.Add("BT",type+"");
-            paraList.Add("container", "1");
+            //paraList.Add("container", "1");
             Redirect( RedirectHelper.SysError, paraList);
         }
 

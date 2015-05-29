@@ -21,7 +21,7 @@ namespace YRKJ.MWR
         public static DataColumnInfo[] Columns = 
                 new DataColumnInfo[]{
             new DataColumnInfo(true,false,false,false,"ParameterName",SqlCommonFn.DataColumnType.STRING,128),
-            new DataColumnInfo(false,true,false,false,"ParameterValue",SqlCommonFn.DataColumnType.STRING,128),
+            new DataColumnInfo(false,true,false,false,"ParameterValue",SqlCommonFn.DataColumnType.STRING,1024),
             new DataColumnInfo(false,true,false,false,"Remark",SqlCommonFn.DataColumnType.STRING,45)
         };
 

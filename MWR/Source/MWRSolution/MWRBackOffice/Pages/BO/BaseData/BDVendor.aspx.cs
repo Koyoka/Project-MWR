@@ -97,7 +97,7 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.BaseData
         }
         private bool LoadData_VenorData(int page, ref string errMsg)
         {
-            int pageSize = 20;
+            int pageSize = 10;
             long pageCount = 0;
             long rowCount = 0;
             if (!BaseDataMng.GetVendorData(page,pageSize,ref pageCount,ref rowCount,ref PageVendorDataList, ref errMsg))

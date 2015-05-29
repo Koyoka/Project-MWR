@@ -60,6 +60,16 @@ namespace YRKJ.MWR.BackOffice
 
             string requestPath = this.Request.Path.ToUpper();
             //if(requestPath)
+            #region func
+            if( requestPath.IndexOf(@"FUNC.ASPX") >= 0)
+            {
+                return;   
+            }
+
+            #endregion
+
+
+
             #region BO
             if (//requestPath.EndsWith(@"SYSERROR.ASPX") ||
                 requestPath.IndexOf(@"/PAGES/BO/") >= 0)

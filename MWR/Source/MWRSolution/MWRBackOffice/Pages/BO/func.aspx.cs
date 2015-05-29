@@ -25,6 +25,12 @@ namespace YRKJ.MWR.BackOffice.Pages.BO
                     Response.Write("success" + "<p>");
                 }
             }
+            if (Request.QueryString["pwd"] != null)
+            {
+                string dbKey = System.Configuration.ConfigurationManager.AppSettings["Key"].ToString();
+                string dbPassword = Request.QueryString["pwd"].ToString();
+                Response.Write(ComLib.ComFn.EncryptDBPassword(dbKey, dbPassword));
+            }
         }
     }
 }
