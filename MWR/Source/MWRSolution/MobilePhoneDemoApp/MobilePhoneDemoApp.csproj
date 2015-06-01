@@ -83,6 +83,12 @@
     <Compile Include="Form3.Designer.cs">
       <DependentUpon>Form3.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmDBUpdate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmDBUpdate.Designer.cs">
+      <DependentUpon>FrmDBUpdate.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmInitData.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -119,6 +125,9 @@
     <EmbeddedResource Include="Form3.resx">
       <DependentUpon>Form3.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FrmDBUpdate.resx">
+      <DependentUpon>FrmDBUpdate.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FrmInitData.resx">
       <DependentUpon>FrmInitData.cs</DependentUpon>
     </EmbeddedResource>
@@ -149,6 +158,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Setting\Log\MWR20150107.syslog" />
+    <None Include="Setting\Log\MWR20150109.syslog" />
+    <None Include="Setting\mwr.cfg" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\ComLib\ComLib.csproj">
@@ -167,6 +179,29 @@
       <Project>{E3145096-4256-408E-AA4B-0B291E2D1F7B}</Project>
       <Name>MWRWinBase</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Setting\demodata.sql" />
+    <Content Include="Setting\Images\bg.png" />
+    <Content Include="Setting\Images\delete.png" />
+    <Content Include="Setting\Images\ic_menu_account_list.png" />
+    <Content Include="Setting\Images\ic_menu_add.png" />
+    <Content Include="Setting\Images\ic_menu_close_clear_cancel.png" />
+    <Content Include="Setting\Images\ic_menu_delete.png" />
+    <Content Include="Setting\Images\ic_menu_delete_played.png" />
+    <Content Include="Setting\Images\ic_menu_friendslist.png" />
+    <Content Include="Setting\Images\ic_menu_goto.png" />
+    <Content Include="Setting\Images\ic_menu_logout.png" />
+    <Content Include="Setting\Images\ic_menu_merge_calls.png" />
+    <Content Include="Setting\Images\ic_menu_move_down.png" />
+    <Content Include="Setting\Images\ic_menu_myplaces.png" />
+    <Content Include="Setting\Images\ic_menu_set_as.png" />
+    <Content Include="Setting\Images\ic_menu_show_list.png" />
+    <Content Include="Setting\Images\ic_menu_zoom.png" />
+    <Content Include="Setting\Images\logo.ico" />
+    <Content Include="Setting\Images\logo.png" />
+    <Content Include="Setting\Images\logo1.ico" />
+    <Content Include="Setting\Images\pop.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

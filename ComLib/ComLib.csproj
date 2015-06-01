@@ -62,6 +62,7 @@
     <Compile Include="db\BaseModule\TblSysNextIdCtrl.cs" />
     <Compile Include="db\BaseModule\TblSysParameter.cs" />
     <Compile Include="db\BaseModule\TblSysParameterCtrl.cs" />
+    <Compile Include="db\BaseModule\UpTableInfo.cs" />
     <Compile Include="db\BaseSys\LockerMng.cs" />
     <Compile Include="db\BaseSys\NextIdMng.cs" />
     <Compile Include="db\BaseSys\SysParams.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="db\BaseDataCtrl.cs" />
     <Compile Include="db\BaseDataModule.cs" />
     <Compile Include="db\DataColumnInfo.cs" />
+    <Compile Include="db\dbUpdate\IDBUpdate.cs" />
     <Compile Include="db\Demo\TblMWCar.cs" />
     <Compile Include="db\Demo\TblMWCarCtrl.cs" />
     <Compile Include="db\Demo\TblMWCarDispatch.cs" />
@@ -80,6 +82,8 @@
     <Compile Include="db\mysql\MySqlHelper2.cs" />
     <Compile Include="db\mysql\SqlMySqlDBMng.cs" />
     <Compile Include="db\mysql\SqlMySqlFn.cs" />
+    <Compile Include="db\BaseModule\UpTableFieldInfo.cs" />
+    <Compile Include="db\mysql\Update\MySqlDBUpdate.cs" />
     <Compile Include="db\SqlCommonFn.cs" />
     <Compile Include="db\SqlCondition.cs" />
     <Compile Include="db\SqlDBMng.cs" />

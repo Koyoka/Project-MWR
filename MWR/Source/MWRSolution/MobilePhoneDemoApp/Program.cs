@@ -97,7 +97,10 @@ namespace MobilePhoneDemoApp
         }
 
 
-
+        private static void testDBUpdata()
+        {
+            Application.Run(new FrmDBUpdate());
+        }
 
         delegate void CallEvent();
       
@@ -109,8 +112,9 @@ namespace MobilePhoneDemoApp
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            foo();
-            Application.Run(new Form3());
+            testDBUpdata();
+            //foo();
+            //Application.Run(new Form3());
             return;
             #region
             ComLib.db.SqlDBMng.initDBMng(ComLib.db.SqlDBMng.DBTypeEnum.MySQl);

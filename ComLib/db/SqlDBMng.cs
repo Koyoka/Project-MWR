@@ -26,6 +26,12 @@ namespace ComLib.db
                 ,dbname,dbsource,uid,password,port);
 
         }
+        public static string GetConnStr(string dbsource, string uid, string password, string port)
+        {
+            return string.Format("Port={3};Data Source='{0}';User Id='{1}';Password='{2}';charset='utf8'"
+                ,  dbsource, uid, password, port);
+
+        }
         public static void initDBMng(string connstr,DBTypeEnum type)
         {
             initDBMng(type);
