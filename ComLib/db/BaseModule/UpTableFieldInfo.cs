@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ComLib.db.BaseModule
 {
-    public class TableFieldInfo
+    public class UpTableFieldInfo
     {
         public string FieldName { get; set; }
         public string ColumnType { get; set; }//varchar(45) or decimal(10,2)
