@@ -13,6 +13,9 @@ namespace ComLib.db.mysql.Update
 {
     public class MySqlDBUpdate : IDBUpdate
     {
+        protected DoUpdateHelper _helper = new DoUpdateHelper();
+        protected DoUpdateDBMng _mng = null;
+
         public static MySqlDBUpdate GetInstance()
         {
             MySqlDBUpdate up = new MySqlDBUpdate();
@@ -29,10 +32,6 @@ namespace ComLib.db.mysql.Update
            
             return up;
         }
-
-
-        protected  DoUpdateHelper _helper = new DoUpdateHelper();
-        protected DoUpdateDBMng _mng = null;
 
         public void SetPrint(DoUpdateHelper.DelegateOutput op,DoUpdateHelper.DelegateDebugOutput dop)
         {
@@ -71,31 +70,32 @@ namespace ComLib.db.mysql.Update
             #endregion
 
             #region step 2. compare db tables diff
-            if (!CompareOldDBTableToNewDB(ref errMsg))
+            List<TableDDLHelper> modTableList = null;
+            if (!CompareOldDBTableToNewDBAndCreateDDLSql(ref modTableList,ref errMsg))
             {
                 return false;
             }
             #endregion
 
-            #region step 3. create modify old table DDL
+            #region  step 3. backup old db data
 
             #endregion
 
-            #region  step 4. backup old db data
-
+            #region step 4. do DDL
+            if (!ExDBUpdate(modTableList, ref errMsg))
+            {
+                return false;
+            }
             #endregion
 
-            #region step 5. do DDL
-
-            #endregion
-
-            #region step 6. del templete db
+            #region step 5. del templete db
             if (!_mng.DropDB(_helper.TempDBName, ref errMsg))
             {
                 return false;
             }
+            _helper.PrintOutput("临时表删除完成");
             #endregion
-
+            _helper.PrintOutput("数据库更新完毕");
             return true;
         }
 
@@ -125,7 +125,7 @@ namespace ComLib.db.mysql.Update
                     fs.Close();
                 }
                 newDBSql = sb.ToString();
-                _helper.PrintDebugOutput(newDBSql);
+                //_helper.PrintDebugOutput(newDBSql);
             }
             catch (Exception ex)
             {
@@ -140,7 +140,7 @@ namespace ComLib.db.mysql.Update
         protected bool CreateNewVerstionTempDB(string newDBSql,string oldDBName,ref string errMsg)
         {
             _helper.PrintOutput("开始创建临时数据库");
-
+            DateTime beginTime = DateTime.Now;
             #region convent dbsql to Temp DBSql
             string newTempDBSql = newDBSql;
 
@@ -177,14 +177,16 @@ namespace ComLib.db.mysql.Update
                 return false;
             }
             #endregion
-
-            _helper.PrintOutput("临时数据库创建完成");
+            TimeSpan ts = DateTime.Now - beginTime;
+            _helper.PrintOutput("临时数据库创建完成 执行时间[" + ts.TotalSeconds.ToString("f2") + "秒]");
             return true;
         }
 
-        protected bool CompareOldDBTableToNewDB(ref string errMsg)
+        protected bool CompareOldDBTableToNewDBAndCreateDDLSql(ref List<TableDDLHelper> modTableList, ref string errMsg)
         {
             _helper.PrintOutput("开始数据库结构分析...");
+            DateTime beginTime = DateTime.Now;
+            _helper.PrintOutput("---------------------");
 
             #region Old DB Table information
             List<UpTableInfo> oldDBTabList = null;
@@ -218,7 +220,13 @@ namespace ComLib.db.mysql.Update
                 {
                     foreach (var item1 in item.TableFieldInfoList)
                     {
-                        _helper.PrintDebugOutput("fields -- " + item1.FieldName,false);
+                        _helper.PrintDebugOutput("fields -- " + item1.FieldName
+                            + " " + item1.ColumnType
+                            + " " + item1.DetaultValue 
+                            + " " + item1.NullAble 
+                            + " " + item1.IsPRIKey
+                            + " " + item1.Extra
+                            ,false);
                     }
                 }
                 
@@ -237,51 +245,68 @@ namespace ComLib.db.mysql.Update
                 {
                     foreach (var item1 in item.TableFieldInfoList)
                     {
-                        _helper.PrintDebugOutput("fields -- " + item1.FieldName,false);
+                        _helper.PrintDebugOutput("fields -- " + item1.FieldName
+                            + " " + item1.ColumnType
+                            + " " + item1.DetaultValue
+                            + " " + item1.NullAble
+                            + " " + item1.IsPRIKey
+                            + " " + item1.Extra
+                            , false);
                     }
                 }
             }
             #endregion
 
-            #region data analysis
-            StringBuilder sb = new StringBuilder();
-            foreach (var item in tempDBTabList)
+            #region data ddl analysis
+            //StringBuilder sb = new StringBuilder();
+            modTableList = new List<TableDDLHelper>();
+            foreach (var tempTab in tempDBTabList)
             {
-                UpTableInfo oldTabInfo = null;
+                UpTableInfo oldTab = null;
                 int tableIndex = 0;
                 #region search same item
                 for (int i = 0; i < oldDBTabList.Count; i++)
                 {
                     tableIndex = i;
-                    if (item.TableName.Equals(oldDBTabList[i].TableName))
+                    if (tempTab.TableName.Equals(oldDBTabList[i].TableName))
                     {
-                        oldTabInfo = oldDBTabList[i];
+                        oldTab = oldDBTabList[i];
                         break;
                     }
                 }
                 #endregion
 
-                if (oldTabInfo == null)
+                if (oldTab == null)
                 {
-                    #region add new table
-
-                    #endregion
+                    _helper.PrintOutput("创建新表 " + tempTab.TableName);
+                    TableDDLHelper atHelper = new TableDDLHelper(_helper.OldDBName, tempTab,true);
+                    modTableList.Add(atHelper);
+                    //sb.AppendLine(atHelper.GetNewTableSql());
                     continue;
                 }
                 else
                 {
-                    #region Compare field
-                    foreach (var f in item.TableFieldInfoList)
-                    {
-                        
-                        int fieldIndex = 0; 
+                    TableDDLHelper atHelper = new TableDDLHelper(_helper.OldDBName, oldTab,false);
 
+                    #region Check tempTab
+                    foreach (var f in oldTab.TableFieldInfoList)
+                    {
+                        atHelper.CheckOldFieldInfo(f);
+                    }
+
+                    foreach (var f in tempTab.TableFieldInfoList)
+                    {
+                        atHelper.CheckNewFieldInfo(f);
+
+                        #region compare old & new  field craete ddl
+                        int fieldIndex = 0; 
                         UpTableFieldInfo oldFieldInfo = null;
+
                         #region search same field
-                        for (int i = 0; i < oldTabInfo.TableFieldInfoList.Count;i++ )
+                        for (int i = 0; i < oldTab.TableFieldInfoList.Count;i++ )
                         {
                             fieldIndex = i;
-                            UpTableFieldInfo of = oldTabInfo.TableFieldInfoList[i];
+                            UpTableFieldInfo of = oldTab.TableFieldInfoList[i];
                             if (of.FieldName.Equals(f.FieldName))
                             {
                                 oldFieldInfo = of;
@@ -294,7 +319,8 @@ namespace ComLib.db.mysql.Update
                         if (oldFieldInfo == null)
                         {
                             #region new field
-                            sb.AppendLine(DDLHelper.NewField(f));
+                            _helper.PrintOutput("添加表字段 " + tempTab.TableName+"."+f.FieldName);
+                            atHelper.AddNewField(f);
                             #endregion
                             continue;
                         }
@@ -304,42 +330,76 @@ namespace ComLib.db.mysql.Update
                             #region check change
                             if (f.ColumnType == oldFieldInfo.ColumnType
                                 && f.IsPRIKey == oldFieldInfo.IsPRIKey
-                                && f.NullAble == oldFieldInfo.NullAble)
+                                && f.NullAble == oldFieldInfo.NullAble
+                                && f.DetaultValue == oldFieldInfo.DetaultValue
+                                && f.Extra == oldFieldInfo.Extra)
                             {
                                 hasChange = false;
                             }
                             if (hasChange)
                             {
-                                //#region check PRI
-
-                                //#endregion
-
-                                #region check field change
-
-                                #endregion
+                                _helper.PrintOutput("修改表字段 " + tempTab.TableName + "." + f.FieldName);
+                                atHelper.ChangeField(f);
+                                
                             }
                             #endregion
 
                             #region del old field in list
-                            oldTabInfo.TableFieldInfoList.RemoveAt(fieldIndex);
+                            oldTab.TableFieldInfoList.RemoveAt(fieldIndex);
                             #endregion
                         }
+                        #endregion
 
                     }
-
                     #endregion
+
+                    string sql = atHelper.GetSql();
+                    if (!string.IsNullOrEmpty(sql))
+                    {
+                        modTableList.Add(atHelper);
+                        //sb.AppendLine(atHelper.GetModifyTableSql());
+                    }
+                    
                 }
 
                 #region del old table in list
                 oldDBTabList.RemoveAt(tableIndex);
                 #endregion
             }
-
             #endregion
-
+            
+            TimeSpan ts = DateTime.Now - beginTime;
+            _helper.PrintOutput("-----------------");
+            _helper.PrintOutput("数据库结构分析完成 执行时间[" + ts.TotalSeconds.ToString("f2") + "秒]");
             return true;
         }
-       
+
+        protected bool ExDBUpdate(List<TableDDLHelper> modTableList, ref string errMsg)
+        {
+            _helper.PrintOutput("开始数据库更新");
+            _helper.PrintOutput("-----------------");
+            foreach (var item in modTableList)
+            {
+                _helper.PrintOutput(_helper.OldDBName + "." + item.GetUpTableInfo().TableName + " strat");
+                _helper.PrintOutput(item.GetSql());
+                if (!_mng.DoSql(item.GetSql(), ref errMsg))
+                {
+                    _helper.PrintOutput(_helper.OldDBName + "." + item.GetUpTableInfo().TableName + " error",Color.Red);
+                    _helper.PrintOutput(errMsg, Color.Red);
+                    return false;
+                }
+                else
+                {
+                    _helper.PrintOutput(_helper.OldDBName + "." + item.GetUpTableInfo().TableName + " done");
+                }
+                _helper.PrintOutput("");
+                
+            }
+            _helper.PrintOutput("-----------------");
+            _helper.PrintOutput("数据库更新完成");
+            return true;
+        }
+
         public class DoUpdateHelper
         {
             public bool IsDebug = true;
@@ -396,7 +456,7 @@ namespace ComLib.db.mysql.Update
             public bool GetSplitSqlFileToSqlStr(string sqlFileStr, ref List<string> splitSql, ref string errMsg)
             {
                 splitSql = new List<string>();
-                StringBuilder sb = new StringBuilder(sqlFileStr);
+                //StringBuilder sb = new StringBuilder(sqlFileStr);
 
                 string line = "";
                 string l;  
@@ -419,13 +479,14 @@ namespace ComLib.db.mysql.Update
                     if (l.StartsWith("SET")) continue;
 
                     // 行数加1   
-                    line += l;
+                    line += Environment.NewLine+l;
                     // 如果不是完整的一条语句，则继续读取  
                     if (!line.EndsWith(";")) continue;
                     if (line.StartsWith("/*!"))
                     {
                         continue;
                     }
+
                     splitSql.Add(line);
                 }
                 
@@ -443,7 +504,7 @@ namespace ComLib.db.mysql.Update
                     //Color.FromArgb
                     string htmlColor = ColorTranslator.ToHtml(color);
                     //GetNow() + Environment.NewLine +  
-                    message = "<font color='" + htmlColor + "'>" + message + "</font>" + Environment.NewLine + Environment.NewLine;
+                    message = "> <font color='" + htmlColor + "'>" + message + "</font>" + Environment.NewLine;
                     Output(message);
                 }
             }
@@ -474,19 +535,322 @@ namespace ComLib.db.mysql.Update
                 return DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             }
         }
-
-        public class DDLHelper
+        public class TableDDLHelper
         {
-            public static string NewField(UpTableFieldInfo f)
+            private const string SPACE = " ";
+            private const string DT_INT = "INT";
+            private const string DT_DECIMAL = "DECIMAL";
+            private const string DT_BIGINT = "BIGINT";
+            private const string DT_DOUBLE = "DOUBLE";
+            private const string DT_FLOAT = "FLOAT";
+            private const string DT_MEDIUMINT = "MEDIUMINT";
+            private const string DT_SMALLINT = "SMALLINT";
+            private const string DT_TINYINT = "TINYINT";
+            private string[] DT_NUM_ARRAY = new string[] { 
+                    DT_INT,
+                    DT_DECIMAL,
+                    DT_BIGINT,
+                    DT_DOUBLE,
+                    DT_FLOAT,
+                    DT_MEDIUMINT,
+                    DT_SMALLINT,
+                    DT_TINYINT
+                };
+
+            private const string EX_AUTO_INCREMENT = "AUTO_INCREMENT";
+
+            private string _cacheSql = null;
+            private string _dbName = "";
+            private string _tableName = "";
+            private UpTableInfo _tabInfo = null;
+            private List<string> _ddlSql = new List<string>();
+            private bool _isNewTable = false;
+            public UpTableInfo GetUpTableInfo()
             {
-                //ALTER TABLE `demodata`.`demotable_1` 
-                //ADD COLUMN `ColStr1` VARCHAR(45) NULL AFTER `ColDecimal`;
-                string sql = "ADD COLUMN `{0}` {1} NULL;";
-                sql = string.Format(sql, f.FieldName, f.ColumnType);
+                return _tabInfo;
+            }
+
+            public TableDDLHelper(string dbName, UpTableInfo tabInfo,bool isNewTable)
+            {
+
+                _dbName = dbName;
+                _tableName = tabInfo.TableName;
+                _tabInfo = tabInfo;
+                _isNewTable = isNewTable;
+            }
+
+            private string GetNewTableSql()
+            {
+                // CREATE TABLE `demodata`.`demotable_2` (
+                //`id` INT NOT NULL,
+                //PRIMARY KEY (`id`));
+
+                string sql = "CREATE TABLE `{0}`.`{1}` ({2});";
+                string fieldSql = "";
+
+                StringBuilder sb = new StringBuilder();
+                #region filed
+                List<string> fieldSqlList = new List<string>();
+                string pkf = "";
+
+                foreach (var item in _tabInfo.TableFieldInfoList)
+                {
+                    if (item.IsPRIKey)
+                    {
+                        pkf += "`" + item.FieldName + "`,";
+                    }
+                    fieldSqlList.Add(GetNewTableColumnOptionsSql(item));
+                }
+                if (!string.IsNullOrEmpty(pkf))
+                {
+                    fieldSqlList.Add(string.Format("PRIMARY KEY ({0})", pkf.TrimEnd(',')));
+                }
+
+                sb.AppendLine();
+                for (int i = 0; i < fieldSqlList.Count; i++)
+                {
+                    string end = "";
+                    if (i == (fieldSqlList.Count - 1)) sb.Append(fieldSqlList[i]);
+                    else sb.AppendLine(fieldSqlList[i] + ","); 
+                }
+                fieldSql = sb.ToString();
+                #endregion
+
+                sql = string.Format(sql, _dbName, _tableName, fieldSql);
+
+                return sql.ToString().TrimEnd((char[])"\r\n".ToCharArray());
+            }
+            private string GetModifyTableSql()
+            {
+                string sql = "ALTER TABLE `{0}`.`{1}` ";
+                sql = string.Format(sql, _dbName, _tableName);
+                StringBuilder sb = new StringBuilder();
+                sb.AppendLine(sql);
+
+                SetPRIKeyChangeSql();
+
+                for (int i = 0; i < _ddlSql.Count; i++)
+                {
+                    string end = "";
+                    if (i == (_ddlSql.Count - 1)) end = ";";
+                    else end = ",";
+                    sb.AppendLine(_ddlSql[i] + end);
+                }
+
+                if (_ddlSql.Count == 0)
+                {
+                    return "";
+                }
+
+                return sb.ToString().TrimEnd((char[])"\r\n".ToCharArray());
+            }
+            public string GetSql()
+            {
+                if (!string.IsNullOrEmpty(_cacheSql))
+                {
+                    return _cacheSql;
+                }
+                if (_isNewTable)
+                {
+                    _cacheSql =  GetNewTableSql();
+                }
+                else {
+                    _cacheSql =  GetModifyTableSql();
+                }
+
+                return _cacheSql;
+            }
+            //private string GetTableOptions()
+            //{
+            //    return "";
+            //}
+            //private string GetColumnDefinition()
+            //{
+            //    return "";
+            //}
+
+            #region Table new
+            private string GetNewTableColumnOptionsSql(UpTableFieldInfo f)
+            {
+                string sql = "";
+                sql += GetFieldName(f) + SPACE;
+                // data type
+                sql += GetFieldDataType(f) + SPACE;
+                // Null able
+                sql += GetFieldNullAble(f) + SPACE;
+                // default value
+                sql += GetFieldDefaultValue(f) + SPACE;
+                // extra
+                sql += GetFieldExtra(f) + SPACE;
                 return sql;
             }
+            
+            #endregion
+
+            #region Field change
+            public void AddNewField(UpTableFieldInfo f)
+            {
+                string sql = "";// "ADD COLUMN `int1` INT NULL AUTO_INCREMENT ;";
+                // ddl cmd
+                sql += "ADD COLUMN" + SPACE;
+                // field name
+                sql += GetFieldName(f) + SPACE;
+                // data type
+                sql += GetFieldDataType(f) + SPACE;
+                // Null able
+                sql += GetFieldNullAble(f) + SPACE;
+                // default value
+                sql += GetFieldDefaultValue(f) + SPACE;
+                // extra
+                sql += GetFieldExtra(f) + SPACE;
+
+                _ddlSql.Add(sql);
+            }
+
+            public void ChangeField(UpTableFieldInfo f)
+            {
+                //CHANGE COLUMN `ccc` `ccc` VARCHAR(10) NULL DEFAULT NULL ,
+                string sql = "";
+                // ddl cmd
+                sql += "CHANGE COLUMN" + SPACE;
+                // field name
+                sql += GetFieldName(f) + SPACE + GetFieldName(f) + SPACE;
+                // data type
+                sql += GetFieldDataType(f) + SPACE;
+                // Null able
+                sql += GetFieldNullAble(f) + SPACE;
+                // default value
+                sql += GetFieldDefaultValue(f) + SPACE;
+                // extra
+                sql += GetFieldExtra(f) + SPACE;
+                _ddlSql.Add(sql);
+            }
+            #endregion
+
+            #region PRI Change
+            private List<string> _newTablePKFList = new List<string>();
+            private List<string> _oldTablePKFList = new List<string>();
+            private string[] _newTablePKFClone = null;
+            public void CheckNewFieldInfo(UpTableFieldInfo f)
+            {
+                if (f.IsPRIKey)
+                {
+                    _newTablePKFList.Add(f.FieldName);
+                }
+            }
+            public void CheckOldFieldInfo(UpTableFieldInfo f)
+            {
+                if (f.IsPRIKey)
+                {
+                    _oldTablePKFList.Add(f.FieldName);
+                }
+            }
+            private void SetPRIKeyChangeSql()
+            {
+                _newTablePKFClone = new string[_newTablePKFList.Count];
+                _newTablePKFList.CopyTo(_newTablePKFClone);
+                if (!CheckPKHasChange())
+                {
+                    return;
+                }
+               
+                if (_newTablePKFClone.Length == 0) return;
+
+                //DROP PRIMARY KEY,
+                //ADD PRIMARY KEY (`Id`, `cccc`);
+                _ddlSql.Add("DROP PRIMARY KEY");
+                string fSql = "";
+                foreach (var item in _newTablePKFClone)
+                {
+                    fSql += "`" + item + "`,";
+                }
+                fSql = fSql.TrimEnd(',');
+
+                _ddlSql.Add("ADD PRIMARY KEY (" + fSql + ")");
+            }
+            private bool CheckPKHasChange()
+            {
+                if (_newTablePKFList.Count != _oldTablePKFList.Count)
+                {
+                    return true;
+                }
+
+                for (int i = 0; i < _newTablePKFList.Count; i++)
+                {
+                    string defineNF = _newTablePKFList[i];
+                    if (_oldTablePKFList.Count == 0) break;
+
+                    for (int j = 0; j < _oldTablePKFList.Count; j++)
+                    {
+                        string defineOF = _oldTablePKFList[j];
+                        if (defineNF.ToUpper().Equals(defineOF.ToUpper()))
+                        {
+                            _newTablePKFList.RemoveAt(i);
+                            _oldTablePKFList.RemoveAt(j);
+                            i--;
+                            j--;
+                            break;
+                        }
+                    }
+                }
+
+                if (_newTablePKFList.Count != 0 && _oldTablePKFList.Count != 0)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+            #endregion
+
+            #region common unity
+           
+            private string GetFieldName(UpTableFieldInfo f)
+            {
+                return "`" + f.FieldName + "`";
+            }
+            private string GetFieldDataType(UpTableFieldInfo f)
+            {
+                return f.ColumnType;
+            }
+            private string GetFieldNullAble(UpTableFieldInfo f)
+            {
+                return f.NullAble ? "NULL" : "NOT NULL";
+            }
+            private string GetFieldDefaultValue(UpTableFieldInfo f)
+            {
+                
+                if (f.NullAble)
+                {
+                    bool isText = CheckFieldTypeIsText(f);
+                    string val = isText ? "'" + f.DetaultValue + "'" : f.DetaultValue;
+                    return string.IsNullOrEmpty(f.DetaultValue) ? "DEFAULT NULL" : "DEFAULT " + val;
+                }
+                else
+                {
+                    return "";
+                }
+               
+            }
+            private string GetFieldExtra(UpTableFieldInfo f)
+            {
+                string extra = f.Extra;
+                return extra;
+            }
+
+            private bool CheckFieldTypeIsText(UpTableFieldInfo f)
+            {
+                foreach (var item in DT_NUM_ARRAY)
+                {
+                    if (f.ColumnType.ToUpper().StartsWith(item))
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
+            #endregion
         }
-        
         public class DoUpdateDBMng
         {
             private string _connStr = "";
@@ -536,6 +900,8 @@ namespace ComLib.db.mysql.Update
                         tfi.ColumnType = row["type"].ToString();
                         tfi.NullAble = row["Null"].ToString() == "YES" ? true : false;
                         tfi.IsPRIKey = row["Key"].ToString() == "PRI" ? true : false;
+                        tfi.DetaultValue = row["Default"].ToString();
+                        tfi.Extra = row["Extra"].ToString();
                         tfiList.Add(tfi);
                     }
                     tabFieldInfoList = tfiList;
@@ -563,6 +929,20 @@ namespace ComLib.db.mysql.Update
                     errMsg = ex.Message;
                     return false;
                 }
+            }
+            public bool DoSql(string sql, ref string errMsg)
+            {
+                try
+                {
+                    new SqlMySqlDBMng(_connStr).update(sql);
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    errMsg = ex.Message;
+                    return false;
+                }
+
             }
         }
     }

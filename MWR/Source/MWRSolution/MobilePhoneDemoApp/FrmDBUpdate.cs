@@ -20,8 +20,9 @@ namespace MobilePhoneDemoApp
 
         private void button1_Click(object sender, EventArgs e)
         {
-         
-            MySqlDBUpdate dbUpdate = MySqlDBUpdate.GetInstance();
+            richTextBox1.Text = "";
+            MySqlDBUpdate dbUpdate = MySqlDBUpdate.GetInstance(false);
+            
             dbUpdate.SetPrint((x) =>
             {
                 int strat = 0;
@@ -73,6 +74,12 @@ namespace MobilePhoneDemoApp
             string errMsg = "";
             string dbName, dbService, dbUser, dbPassword, dbPort, path;
 
+            //dbName = "mwrdata";
+            //dbService = "127.0.0.1";
+            //dbUser = "root";
+            //dbPassword = "-101868";
+            //dbPort = "3306";
+            //path = WinAppFn.GetSettingFolder() + "mwr.sql";
             dbName = "demodata";
             dbService = "127.0.0.1";
             dbUser = "root";
