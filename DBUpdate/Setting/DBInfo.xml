@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Root>
+  <DBInfo>
+    <Id>15981de8-208e-4f32-97b5-aa36a0cd3c65</Id>
+    <ConnName>a</ConnName>
+    <Service>127.0.0.1</Service>
+    <Uid>root</Uid>
+    <Password>-101868</Password>
+    <Port>3306</Port>
+    <DBName>demodata</DBName>
+    <SqlPath>C:\Users\Administrator\Desktop\mwrdata.sql</SqlPath>
+  </DBInfo>
+  <DBInfo>
+    <Id>ad8740f3-1eea-4f3c-8bc7-074fb235561c</Id>
+    <ConnName>c</ConnName>
+    <Service>127.0.0.1</Service>
+    <Uid>root</Uid>
+    <Password>-101868</Password>
+    <Port>3306</Port>
+    <DBName>demodata</DBName>
+    <SqlPath>C:\Users\Administrator\Desktop\1212.sql</SqlPath>
+  </DBInfo>
+  <FormInfo>
+     <Id>256fbaeb-08f1-4291-a97d-d60aadd81b52</Id>
+     <ConnName>b</ConnName>
+     <Service>127.0.0.1</Service>
+     <Uid>root</Uid>
+     <Password>-101868</Password>
+     <Port>3306</Port>
+     <DBName>mwrdata</DBName>
+     <SqlPath>C:\Users\Administrator\Desktop\mwrdata.sql</SqlPath>
+</FormInfo>
+  <DBInfo>
+    <Id>256fbaeb-08f1-4291-a97d-d60aadd81b52</Id>
+    <ConnName>b</ConnName>
+    <Service>127.0.0.1</Service>
+    <Uid>root</Uid>
+    <Password>-101868</Password>
+    <Port>3306</Port>
+    <DBName>mwrdata</DBName>
+    <SqlPath>C:\Users\Administrator\Desktop\mwrdata.sql</SqlPath>
+  </DBInfo>
+</Root>

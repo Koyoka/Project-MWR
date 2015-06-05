@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Root>
+  <DBInfo>
+    <ConnName>a</ConnName>
+    <Service>127.0.0.1</Service>
+    <Uid>root</Uid>
+    <Password>-101868</Password>
+    <Port>3306</Port>
+    <DBName>demodata</DBName>
+    <SqlPath>C:\Users\Administrator\Desktop\1212.sql</SqlPath>
+  </DBInfo>
+  <DBInfo>
+    <ConnName>b</ConnName>
+    <Service>127.0.0.1</Service>
+    <Uid>root</Uid>
+    <Password>-101868</Password>
+    <Port>3306</Port>
+    <DBName>mwrdata</DBName>
+    <SqlPath>C:\Users\Administrator\Desktop\cdcs.sql</SqlPath>
+  </DBInfo>
+  <DBInfo>
+     <ConnName>c</ConnName>
+     <Service>127.0.0.1</Service>
+     <Uid>root</Uid>
+     <Password>-101868</Password>
+     <Port>3306</Port>
+     <DBName>mysql</DBName>
+     <SqlPath>C:\Users\Administrator\Desktop\world.sql</SqlPath>
+</DBInfo>
+</Root>

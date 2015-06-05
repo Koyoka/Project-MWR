@@ -80,12 +80,18 @@ namespace MobilePhoneDemoApp
             //dbPassword = "-101868";
             //dbPort = "3306";
             //path = WinAppFn.GetSettingFolder() + "mwr.sql";
-            dbName = "demodata";
-            dbService = "127.0.0.1";
+            //dbName = "demodata";
+            //dbService = "127.0.0.1";
+            //dbUser = "root";
+            //dbPassword = "-101868";
+            //dbPort = "3306";
+            //path = WinAppFn.GetSettingFolder() + "demodata.sql";
+            dbName = "cdcs";
+            dbService = "192.168.1.152";
             dbUser = "root";
-            dbPassword = "-101868";
+            dbPassword = "123456";
             dbPort = "3306";
-            path = WinAppFn.GetSettingFolder() + "demodata.sql";
+            path = WinAppFn.GetSettingFolder() + "cdcs.sql";
             
             if (!dbUpdate.DoUpdate(dbName,dbService, dbUser, dbPassword, dbPort, path, ref errMsg))
             {

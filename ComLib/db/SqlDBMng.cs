@@ -151,7 +151,23 @@ namespace ComLib.db
             return true;
 
         }
-
+        public static bool DetectDBServer( string server, string uid, string pwd, string port, ref string errMsg)
+        {
+            try
+            {
+                DateTime d = DateTime.MinValue;
+                if (!GetDBNow(GetConnStr(server, uid, pwd, port), ref d, ref errMsg))
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                errMsg = ex.Message;
+                return false;
+            }
+            return true;
+        }
         public static bool DetectDBServer(string dbname, string server, string uid, string pwd,string port,ref string errMsg)
         {
             try

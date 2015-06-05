@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Root>
+  <DBInfo>
+    <ConnName>aa</ConnName>
+    <Service>127.0.0.1</Service>
+    <Uid>root</Uid>
+    <Password>-101868</Password>
+    <Port>3306</Port>
+    <DBName>demodata</DBName>
+    <SqlPath>C:\Users\Administrator\Desktop\cdcs.sql</SqlPath>
+  </DBInfo>
+  <DBInfo>
+    <ConnName>bb</ConnName>
+    <Service>127.0.0.1</Service>
+    <Uid>root</Uid>
+    <Password>-101868</Password>
+    <Port>3306</Port>
+    <DBName>mwrdata</DBName>
+    <SqlPath>C:\Users\Administrator\Desktop\mwrdata.sql</SqlPath>
+  </DBInfo>
+  <DBInfo>
+    <ConnName>MWR开发数据库</ConnName>
+    <Service>127.0.0.1</Service>
+    <Uid>root</Uid>
+    <Password>-101868</Password>
+    <Port>3306</Port>
+    <DBName>mwrdata</DBName>
+    <SqlPath>C:\Users\Administrator\Desktop\mwrdata.sql</SqlPath>
+  </DBInfo>
+  <FormInfo>
+     <ConnName>MWR开发数据库</ConnName>
+     <Service>127.0.0.1</Service>
+     <Uid>root</Uid>
+     <Password>-101868</Password>
+     <Port>3306</Port>
+     <DBName>mwrdata</DBName>
+     <SqlPath>C:\Users\Administrator\Desktop\mwrdata.sql</SqlPath>
+</FormInfo>
+  <DBInfo>
+    <ConnName>ccc</ConnName>
+    <Service>127.0.0.1</Service>
+    <Uid>root</Uid>
+    <Password>-101868</Password>
+    <Port>3306</Port>
+    <DBName>performance_schema</DBName>
+    <SqlPath>C:\Users\Administrator\Desktop\cdcs.sql</SqlPath>
+  </DBInfo>
+</Root>
