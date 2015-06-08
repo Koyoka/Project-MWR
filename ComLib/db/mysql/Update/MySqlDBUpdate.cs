@@ -45,8 +45,7 @@ namespace ComLib.db.mysql.Update
             string newDBSqlPath,
             ref string errMsg)
         {
-            
-            List<UpTableInfo> tabList = null;
+
             string newDBSql = "";
             _helper.DoStep = DoUpdateHelper.EnumDoStep.Strat;
 
@@ -55,6 +54,17 @@ namespace ComLib.db.mysql.Update
             _helper.DBConnStr = SqlDBMng.GetConnStr(dbSource, dbUser, dbPassword, dbPort);
             _mng = new DoUpdateDBMng(_helper.DBConnStr, dbName);
 
+            #region print db information
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.AppendLine(dbName+"@"+dbSource);
+                sb.AppendLine("uid:"+dbUser);
+                sb.AppendLine("password:"+dbPassword);
+                sb.AppendLine("port:"+dbPort);
+                sb.AppendLine("sql:" + newDBSqlPath);
+                _helper.PrintOutput(sb.ToString());
+            }
+            #endregion
             if (!ReadNewVerSql(newDBSqlPath, ref newDBSql, ref errMsg))
             {
                 return false;
@@ -62,7 +72,7 @@ namespace ComLib.db.mysql.Update
             #endregion
 
             #region step 1. create Temp  new verstion db
-            
+
             if (!CreateNewVerstionTempDB(newDBSql, dbName, ref errMsg))
             {
                 return false;
@@ -71,30 +81,32 @@ namespace ComLib.db.mysql.Update
 
             #region step 2. compare db tables diff
             List<TableDDLHelper> modTableList = null;
-            if (!CompareOldDBTableToNewDBAndCreateDDLSql(ref modTableList,ref errMsg))
+            if (!CompareOldDBTableToNewDBAndCreateDDLSql(ref modTableList, ref errMsg))
             {
                 return false;
             }
             #endregion
 
-            #region  step 3. backup old db data
-
-            #endregion
-
-            #region step 4. do DDL
-            if (!ExDBUpdate(modTableList, ref errMsg))
-            {
-                return false;
-            }
-            #endregion
-
-            #region step 5. del templete db
+            #region step 3. del templete db
             if (!_mng.DropDB(_helper.TempDBName, ref errMsg))
             {
                 return false;
             }
             _helper.PrintOutput("临时表删除完成");
             #endregion
+
+            #region  step 4. backup old db data
+
+            #endregion
+
+            #region step 5. do DDL
+            if (!ExDBUpdate(modTableList, ref errMsg))
+            {
+                return false;
+            }
+            #endregion
+
+
             _helper.PrintOutput("数据库更新完毕");
             return true;
         }
@@ -186,7 +198,7 @@ namespace ComLib.db.mysql.Update
         {
             _helper.PrintOutput("开始数据库结构分析...");
             DateTime beginTime = DateTime.Now;
-            _helper.PrintOutput("---------------------");
+            _helper.PrintOutput("-----------------");
 
             #region Old DB Table information
             List<UpTableInfo> oldDBTabList = null;
@@ -378,6 +390,7 @@ namespace ComLib.db.mysql.Update
         {
             _helper.PrintOutput("开始数据库更新");
             _helper.PrintOutput("-----------------");
+            DateTime beginTime = DateTime.Now;
             foreach (var item in modTableList)
             {
                 _helper.PrintOutput(_helper.OldDBName + "." + item.GetUpTableInfo().TableName + " strat");
@@ -395,8 +408,9 @@ namespace ComLib.db.mysql.Update
                 _helper.PrintOutput("");
                 
             }
+            TimeSpan ts = DateTime.Now - beginTime;
             _helper.PrintOutput("-----------------");
-            _helper.PrintOutput("数据库更新完成");
+            _helper.PrintOutput("数据库更新完成 执行时间[" + ts.TotalSeconds.ToString("f2") + "秒]");
             return true;
         }
 

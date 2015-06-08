@@ -18,12 +18,24 @@ namespace DBUpdate
         private const string ClassName = "DBUpdate.FrmCreatConn";
         private FormMng _frmMng = null;
         private MdlDBInfo _dbInfo = null;
+        private EnumFrmType _frmType = EnumFrmType.New;
+        private EnumStep _step = EnumStep.Init;
+        private MdlDBInfo _modDbInfo = null;
+
+        public enum EnumFrmType { New,Modify}
 
         public FrmCreatConn()
         {
             InitializeComponent();
             this.Text = LngRes.MSG_FormName;
-        } 
+        }
+
+        public FrmCreatConn(MdlDBInfo dbInfo)
+            : this()
+        {
+            _frmType = EnumFrmType.Modify;
+            _modDbInfo = dbInfo;
+        }
 
         #region Event
         private void FrmCreatConn_Load(object sender, EventArgs e)
@@ -139,12 +151,24 @@ namespace DBUpdate
                     MsgBox.Show(errMsg);
                     return;
                 }
-
-                if (!xmlMng.AddNewNode(dbInfo, ref errMsg))
+                if (_frmType == EnumFrmType.New)
                 {
-                    MsgBox.Show(errMsg);
-                    return;
+                    if (!xmlMng.AddNewNode(dbInfo, ref errMsg))
+                    {
+                        MsgBox.Show(errMsg);
+                        return;
+                    }
                 }
+                else
+                {
+                    _dbInfo.Id = _modDbInfo.Id;
+                    if (!xmlMng.ModifyNode(dbInfo, ref errMsg))
+                    {
+                        MsgBox.Show(errMsg);
+                        return;
+                    }
+                }
+
                 this.DialogResult = System.Windows.Forms.DialogResult.OK;
                 this.Close();
 
@@ -240,7 +264,25 @@ namespace DBUpdate
         private bool InitCtrls()
         {
             c_txtSqlPath.ReadOnly = true;
-            SetStep(EnumStep.Init);
+
+
+            if (_frmType == EnumFrmType.Modify
+                && _modDbInfo != null)
+            {
+                this.c_txtConnName.Text = _modDbInfo.ConnName;
+                this.c_txtService.Text = _modDbInfo.Service;
+                this.c_txtUid.Text = _modDbInfo.Uid;
+                this.c_txtPassword.Text = _modDbInfo.Password;
+                this.c_txtPort.Text = _modDbInfo.Port;
+                this.c_txtSqlPath.Text = _modDbInfo.SqlPath;
+                SetStep(EnumStep.ModifyInit);
+               
+                c_btnCreate.Text = "修改";
+            }
+            else
+            {
+                SetStep(EnumStep.Init);
+            }
             return true;
         }
 
@@ -251,9 +293,9 @@ namespace DBUpdate
 
         private enum EnumStep
         { 
-            Init,ConnDBDone,SelectDBDone
+            Init,ConnDBDone,SelectDBDone,ModifyInit
         }
-        EnumStep _step = EnumStep.Init;
+        
         private void SetStep(EnumStep step)
         {
             switch (step)
@@ -269,6 +311,9 @@ namespace DBUpdate
                     break;
                 case EnumStep.SelectDBDone:
                     c_btnCreate.Enabled = true;
+                    break;
+                case EnumStep.ModifyInit:
+                    BindDBInfo();
                     break;
             }
             _step = step;
@@ -310,6 +355,12 @@ namespace DBUpdate
             }
 
             c_cmbDB.DataSource = dbInfoList;
+
+            if (_frmType == EnumFrmType.Modify
+                && _modDbInfo != null)
+            {
+                c_cmbDB.SelectedItem = _modDbInfo.DBName;
+            }
         }
 
         public MdlDBInfo Output()
@@ -326,12 +377,6 @@ namespace DBUpdate
         }
 
         #endregion
-
-        
-
-        
-
-      
 
         #region Form Data Property
 

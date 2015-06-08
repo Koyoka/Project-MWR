@@ -10,6 +10,8 @@ using DBUpdate.WinAppBase;
 using ComLib.Log;
 using DBUpdate.Mng;
 using DBUpdate.Module;
+using ComLib.db.mysql.Update;
+using System.Threading;
 
 namespace DBUpdate
 {
@@ -20,6 +22,7 @@ namespace DBUpdate
         private XmlMng _xmlMng = null;
 
         private List<MdlDBInfo> _dbInfoList = null;
+        private MdlDBInfo _curDBInfo = null;
         private MdlDBInfo _LastDbInfo = null;
 
         public FrmMain()
@@ -84,6 +87,184 @@ namespace DBUpdate
             }
         }
 
+        private void c_treConn_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            try
+            {
+                this.Cursor = Cursors.WaitCursor;
+                if (c_treConn.SelectedNode == null)
+                {
+                    c_btnUpdate.Enabled = false;
+                    return;
+                }
+
+                c_btnUpdate.Enabled = true;
+                MdlDBInfo dbInfo =
+                    _dbInfoList[c_treConn.SelectedNode.Index];
+                c_txtConnName.Text = dbInfo.ConnName;
+                c_txtDBName.Text = dbInfo.DBName;
+                c_txtService.Text = dbInfo.Service;
+                c_txtSqlPath.Text = dbInfo.SqlPath;
+                _curDBInfo = dbInfo;
+            }
+            catch (Exception ex)
+            {
+                LogMng.GetLog().PrintError(ClassName, "c_treConn_AfterSelect", ex);
+                MsgBox.Error(ex);
+            }
+            finally
+            {
+                this.Cursor = Cursors.Default;
+            }
+        }
+        
+        private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            try
+            {
+                this.Cursor = Cursors.WaitCursor;
+                if (_curDBInfo == null)
+                    return;
+
+                string errMsg = "";
+                if (!_xmlMng.EditFormInfoNode(_curDBInfo, ref errMsg))
+                {
+                    MsgBox.Show(errMsg);
+                    return;
+                }
+            }
+            catch (Exception ex)
+            {
+                LogMng.GetLog().PrintError(ClassName, "FrmMain_FormClosing", ex);
+                MsgBox.Error(ex);
+            }
+            finally
+            {
+                this.Cursor = Cursors.Default;
+            }
+        }
+
+        private void c_btnModifyDBInfo_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                this.Cursor = Cursors.WaitCursor;
+                //_curDBInfo;
+                using (FrmCreatConn f = new FrmCreatConn(_curDBInfo))
+                {
+                    if (f.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                    {
+                        MdlDBInfo dbInfo = f.Output();
+                        //_dbInfoList.Add(dbInfo);
+                        //c_treConn.Nodes.Add(TreeDataBind_CreateNode(dbInfo));
+                        c_treConn.SelectedNode.Text = dbInfo.ConnName + " " + dbInfo.DBName + "@" + dbInfo.Service;
+                        c_txtConnName.Text = dbInfo.ConnName;
+                        c_txtDBName.Text = dbInfo.DBName;
+                        c_txtService.Text = dbInfo.Service;
+                        c_txtSqlPath.Text = dbInfo.SqlPath;
+                        _curDBInfo = dbInfo;
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                LogMng.GetLog().PrintError(ClassName, "c_btnModifyDBInfo_Click", ex);
+                MsgBox.Error(ex);
+            }
+            finally
+            {
+                this.Cursor = Cursors.Default;
+            }
+        }
+
+        private Thread _tread = null;
+        private void c_btnUpdate_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                this.Cursor = Cursors.WaitCursor;
+                if (_tread != null)
+                {
+                    MsgBox.Show("执行更新中");
+                    return;
+                }
+                #region
+                string errMsg = "";
+
+                richTextBox1.Text = "";
+                richTextBox1.Refresh();
+                MySqlDBUpdate dbUpdate = MySqlDBUpdate.GetInstance(false);
+
+                #region print output
+                dbUpdate.SetPrint((x) =>
+                {
+                    ThreadSafe(() =>
+                    {
+                        int strat = 0;
+                        int length = 0;
+                        Color c = new Color();
+                        string s =
+                        ComLib.db.mysql.Update.MySqlDBUpdate.DoUpdateHelper.GetColorOutput(x, ref strat, ref length, ref c);
+                        int orgLength = richTextBox1.Text.Length;
+                        richTextBox1.AppendText(s);
+                        richTextBox1.SelectionStart = strat + orgLength;
+                        richTextBox1.SelectionLength = length;
+                        richTextBox1.SelectionColor = c;
+                    });
+                }, (x) =>
+                {
+                    ThreadSafe(() =>
+                    {
+                        int strat = 0;
+                        int length = 0;
+                        Color c = new Color();
+                        string s =
+                        ComLib.db.mysql.Update.MySqlDBUpdate.DoUpdateHelper.GetColorOutput(x, ref strat, ref length, ref c);
+                        int orgLength = richTextBox1.Text.Length;
+                        richTextBox1.AppendText(s);
+                        richTextBox1.SelectionStart = strat + orgLength;
+                        richTextBox1.SelectionLength = length;
+                        richTextBox1.SelectionColor = c;
+                    });
+                });
+                #endregion
+
+                #region run thread
+                string dbName, dbService, dbUser, dbPassword, dbPort, path;
+                dbName = _curDBInfo.DBName;
+                dbService = _curDBInfo.Service;
+                dbUser = _curDBInfo.Uid;
+                dbPassword = _curDBInfo.Password;
+                dbPort = _curDBInfo.Port;
+                path = _curDBInfo.SqlPath;//WinAppFn.GetSettingFolder() + "cdcs.sql";
+
+                _tread = new Thread(() => { 
+                    
+
+                    if (!dbUpdate.DoUpdate(dbName, dbService, dbUser, dbPassword, dbPort, path, ref errMsg))
+                    {
+                        MessageBox.Show(errMsg);
+                    }
+                    _tread = null;
+                });
+                _tread.Start();
+                #endregion
+
+                #endregion
+            }
+            catch (Exception ex)
+            {
+                LogMng.GetLog().PrintError(ClassName, "c_btnUpdate_Click", ex);
+                MsgBox.Error(ex);
+            }
+            finally
+            {
+                this.Cursor = Cursors.Default;
+            }
+        }
+
+        
         #endregion
 
         #region Functions
@@ -173,6 +354,23 @@ namespace DBUpdate
             return true;
         }
 
+        private void ThreadSafe(MethodInvoker method)
+        {
+            //try
+            //{
+            if (this.InvokeRequired)
+            {
+                this.Invoke(method);
+            }
+            else
+            {
+                method();
+            }
+            //}
+            //catch (Exception ex)
+            //{ }
+        }
+        
         #endregion
 
         #region Common
@@ -183,65 +381,6 @@ namespace DBUpdate
         }
 
         #endregion
-        private MdlDBInfo _curDBInfo = null;
-        private void c_treConn_AfterSelect(object sender, TreeViewEventArgs e)
-        {
-            try
-            {
-                this.Cursor = Cursors.WaitCursor;
-                if (c_treConn.SelectedNode == null)
-                {
-                    c_btnUpdate.Enabled = false;
-                    return;
-                }
-
-                c_btnUpdate.Enabled = true;
-                MdlDBInfo dbInfo = 
-                    _dbInfoList[c_treConn.SelectedNode.Index];
-                c_txtConnName.Text = dbInfo.ConnName;
-                c_txtDBName.Text = dbInfo.DBName;
-                c_txtService.Text = dbInfo.Service;
-                c_txtSqlPath.Text = dbInfo.SqlPath;
-                _curDBInfo = dbInfo;
-            }
-            catch (Exception ex)
-            {
-                LogMng.GetLog().PrintError(ClassName, "c_treConn_AfterSelect", ex);
-                MsgBox.Error(ex);
-            }
-            finally
-            {
-                this.Cursor = Cursors.Default;
-            }
-        }
-
-        private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            try
-            {
-                this.Cursor = Cursors.WaitCursor;
-                if(_curDBInfo == null)
-                    return;
-
-                string errMsg = "";
-                if (!_xmlMng.EditFormInfoNode(_curDBInfo, ref errMsg))
-                {
-                    MsgBox.Show(errMsg);
-                    return;
-                }
-            }
-            catch (Exception ex)
-            {
-                LogMng.GetLog().PrintError(ClassName, "FrmMain_FormClosing", ex);
-                MsgBox.Error(ex);
-            }
-            finally
-            {
-                this.Cursor = Cursors.Default;
-            }
-        }
-
-        
 
         #region Form Data Property
 

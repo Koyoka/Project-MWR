@@ -102,10 +102,65 @@ namespace DBUpdate.Mng
             }
             catch (Exception ex)
             {
+                errMsg = ex.Message;
                 return false;
             }
         }
-        public bool AddNewNode(MdlDBInfo dbConn, ref string errMsg)
+        public bool ModifyNode(MdlDBInfo dbInfo, ref string errMsg)
+        {
+            try
+            {
+                XmlDocument doc = new XmlDocument();
+                doc.Load(_xmlPath);
+                XmlNode rootNode =
+                   doc.SelectSingleNode("Root");
+
+
+                XmlNodeList nodeList =
+                    doc.SelectNodes("Root/DBInfo");
+
+                XmlNode modNode = null;
+                foreach (XmlNode n in nodeList)
+                {
+                    string defineId =
+                        ComFn.SafeGetXmlNodeInnerText(n, "Id");
+                    if (defineId == dbInfo.Id)
+                    {
+                        modNode = n;
+                        break;
+                    }
+                }
+                
+                if (modNode == null)
+                {
+                    return AddNewNode(dbInfo, ref errMsg);
+                }
+                else
+                {
+                    System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                    //sb.Append(" <DBInfo>");
+                    sb.AppendLine("");
+                    sb.AppendLine("     <Id>" + ComFn.GetSafeXml(dbInfo.Id) + "</Id>");
+                    sb.AppendLine("     <ConnName>" + ComFn.GetSafeXml(dbInfo.ConnName) + "</ConnName>");
+                    sb.AppendLine("     <Service>" + ComFn.GetSafeXml(dbInfo.Service) + "</Service>");
+                    sb.AppendLine("     <Uid>" + ComFn.GetSafeXml(dbInfo.Uid) + "</Uid>");
+                    sb.AppendLine("     <Password>" + ComFn.GetSafeXml(dbInfo.Password) + "</Password>");
+                    sb.AppendLine("     <Port>" + ComFn.GetSafeXml(dbInfo.Port) + "</Port>");
+
+                    sb.AppendLine("     <DBName>" + ComFn.GetSafeXml(dbInfo.DBName) + "</DBName>");
+                    sb.AppendLine("     <SqlPath>" + ComFn.GetSafeXml(dbInfo.SqlPath) + "</SqlPath>");
+                    modNode.InnerXml = sb.ToString();
+                    doc.Save(_xmlPath);
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                errMsg = ex.Message;
+                return false;
+            }
+        }
+        public bool AddNewNode(MdlDBInfo dbInfo, ref string errMsg)
         {
             try
             {
@@ -114,19 +169,19 @@ namespace DBUpdate.Mng
                 doc.Load(_xmlPath);
                 XmlNode rootNode =
                     doc.SelectSingleNode("Root");
-                dbConn.Id = Guid.NewGuid().ToString();
+                dbInfo.Id = Guid.NewGuid().ToString();
                 System.Text.StringBuilder sb = new System.Text.StringBuilder();
                 //sb.Append(" <DBInfo>");
                 sb.AppendLine("");
-                sb.AppendLine("     <Id>" + ComFn.GetSafeXml(dbConn.Id) + "</Id>");
-                sb.AppendLine("     <ConnName>" + ComFn.GetSafeXml(dbConn.ConnName) + "</ConnName>");
-                sb.AppendLine("     <Service>" + ComFn.GetSafeXml(dbConn.Service) + "</Service>");
-                sb.AppendLine("     <Uid>" + ComFn.GetSafeXml(dbConn.Uid) + "</Uid>");
-                sb.AppendLine("     <Password>" + ComFn.GetSafeXml(dbConn.Password) + "</Password>");
-                sb.AppendLine("     <Port>" + ComFn.GetSafeXml(dbConn.Port) + "</Port>");
+                sb.AppendLine("     <Id>" + ComFn.GetSafeXml(dbInfo.Id) + "</Id>");
+                sb.AppendLine("     <ConnName>" + ComFn.GetSafeXml(dbInfo.ConnName) + "</ConnName>");
+                sb.AppendLine("     <Service>" + ComFn.GetSafeXml(dbInfo.Service) + "</Service>");
+                sb.AppendLine("     <Uid>" + ComFn.GetSafeXml(dbInfo.Uid) + "</Uid>");
+                sb.AppendLine("     <Password>" + ComFn.GetSafeXml(dbInfo.Password) + "</Password>");
+                sb.AppendLine("     <Port>" + ComFn.GetSafeXml(dbInfo.Port) + "</Port>");
 
-                sb.AppendLine("     <DBName>" + ComFn.GetSafeXml(dbConn.DBName) + "</DBName>");
-                sb.AppendLine("     <SqlPath>" + ComFn.GetSafeXml(dbConn.SqlPath) + "</SqlPath>");
+                sb.AppendLine("     <DBName>" + ComFn.GetSafeXml(dbInfo.DBName) + "</DBName>");
+                sb.AppendLine("     <SqlPath>" + ComFn.GetSafeXml(dbInfo.SqlPath) + "</SqlPath>");
                 //sb.Append(" </DBInfo>");
                 XmlElement elem = doc.CreateElement("DBInfo");
                 elem.InnerXml = sb.ToString();

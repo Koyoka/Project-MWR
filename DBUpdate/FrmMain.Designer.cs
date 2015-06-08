@@ -29,22 +29,25 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.c_btnModifyDBInfo = new System.Windows.Forms.Button();
             this.c_txtDBName = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.c_txtSqlPath = new System.Windows.Forms.TextBox();
+            this.c_txtConnName = new System.Windows.Forms.TextBox();
             this.c_txtService = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.c_treConn = new System.Windows.Forms.TreeView();
             this.label5 = new System.Windows.Forms.Label();
             this.c_btnCreateConn = new System.Windows.Forms.Button();
             this.c_panContent = new System.Windows.Forms.Panel();
             this.c_btnUpdate = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.label2 = new System.Windows.Forms.Label();
-            this.c_txtConnName = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.c_panContent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -56,6 +59,7 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.c_btnModifyDBInfo);
             this.groupBox1.Controls.Add(this.c_txtDBName);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.label6);
@@ -66,10 +70,20 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(497, 117);
+            this.groupBox1.Size = new System.Drawing.Size(549, 115);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "数据库信息";
+            // 
+            // c_btnModifyDBInfo
+            // 
+            this.c_btnModifyDBInfo.Location = new System.Drawing.Point(354, 22);
+            this.c_btnModifyDBInfo.Name = "c_btnModifyDBInfo";
+            this.c_btnModifyDBInfo.Size = new System.Drawing.Size(106, 23);
+            this.c_btnModifyDBInfo.TabIndex = 3;
+            this.c_btnModifyDBInfo.Text = "连接信息修改";
+            this.c_btnModifyDBInfo.UseVisualStyleBackColor = true;
+            this.c_btnModifyDBInfo.Click += new System.EventHandler(this.c_btnModifyDBInfo_Click);
             // 
             // c_txtDBName
             // 
@@ -99,11 +113,21 @@
             // 
             // c_txtSqlPath
             // 
+            this.c_txtSqlPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.c_txtSqlPath.Location = new System.Drawing.Point(86, 81);
             this.c_txtSqlPath.Name = "c_txtSqlPath";
             this.c_txtSqlPath.ReadOnly = true;
-            this.c_txtSqlPath.Size = new System.Drawing.Size(374, 21);
+            this.c_txtSqlPath.Size = new System.Drawing.Size(457, 21);
             this.c_txtSqlPath.TabIndex = 3;
+            // 
+            // c_txtConnName
+            // 
+            this.c_txtConnName.Location = new System.Drawing.Point(86, 24);
+            this.c_txtConnName.Name = "c_txtConnName";
+            this.c_txtConnName.ReadOnly = true;
+            this.c_txtConnName.Size = new System.Drawing.Size(150, 21);
+            this.c_txtConnName.TabIndex = 1;
             // 
             // c_txtService
             // 
@@ -112,6 +136,15 @@
             this.c_txtService.ReadOnly = true;
             this.c_txtService.Size = new System.Drawing.Size(150, 21);
             this.c_txtService.TabIndex = 1;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(27, 27);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(53, 12);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "连接名称";
             // 
             // label1
             // 
@@ -127,12 +160,27 @@
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox2.Location = new System.Drawing.Point(3, 136);
+            this.groupBox2.Controls.Add(this.richTextBox1);
+            this.groupBox2.Location = new System.Drawing.Point(3, 124);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(497, 359);
+            this.groupBox2.Size = new System.Drawing.Size(549, 371);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "信息";
+            // 
+            // richTextBox1
+            // 
+            this.richTextBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.richTextBox1.Location = new System.Drawing.Point(11, 20);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.ReadOnly = true;
+            this.richTextBox1.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
+            this.richTextBox1.Size = new System.Drawing.Size(532, 345);
+            this.richTextBox1.TabIndex = 0;
+            this.richTextBox1.Text = "";
             // 
             // c_treConn
             // 
@@ -142,7 +190,7 @@
             this.c_treConn.Font = new System.Drawing.Font("宋体", 10F);
             this.c_treConn.Location = new System.Drawing.Point(3, 32);
             this.c_treConn.Name = "c_treConn";
-            this.c_treConn.Size = new System.Drawing.Size(238, 530);
+            this.c_treConn.Size = new System.Drawing.Size(277, 530);
             this.c_treConn.TabIndex = 2;
             this.c_treConn.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.c_treConn_AfterSelect);
             // 
@@ -177,19 +225,20 @@
             this.c_panContent.Controls.Add(this.groupBox2);
             this.c_panContent.Location = new System.Drawing.Point(3, 32);
             this.c_panContent.Name = "c_panContent";
-            this.c_panContent.Size = new System.Drawing.Size(505, 530);
+            this.c_panContent.Size = new System.Drawing.Size(557, 530);
             this.c_panContent.TabIndex = 5;
             // 
             // c_btnUpdate
             // 
             this.c_btnUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.c_btnUpdate.Enabled = false;
-            this.c_btnUpdate.Location = new System.Drawing.Point(425, 501);
+            this.c_btnUpdate.Location = new System.Drawing.Point(477, 501);
             this.c_btnUpdate.Name = "c_btnUpdate";
             this.c_btnUpdate.Size = new System.Drawing.Size(75, 23);
             this.c_btnUpdate.TabIndex = 2;
             this.c_btnUpdate.Text = "开始更新";
             this.c_btnUpdate.UseVisualStyleBackColor = true;
+            this.c_btnUpdate.Click += new System.EventHandler(this.c_btnUpdate_Click);
             // 
             // splitContainer1
             // 
@@ -208,32 +257,15 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.c_panContent);
             this.splitContainer1.Panel2.Controls.Add(this.c_btnCreateConn);
-            this.splitContainer1.Size = new System.Drawing.Size(759, 567);
-            this.splitContainer1.SplitterDistance = 244;
+            this.splitContainer1.Size = new System.Drawing.Size(850, 567);
+            this.splitContainer1.SplitterDistance = 283;
             this.splitContainer1.TabIndex = 6;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(27, 27);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(53, 12);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "连接名称";
-            // 
-            // c_txtConnName
-            // 
-            this.c_txtConnName.Location = new System.Drawing.Point(86, 24);
-            this.c_txtConnName.Name = "c_txtConnName";
-            this.c_txtConnName.ReadOnly = true;
-            this.c_txtConnName.Size = new System.Drawing.Size(150, 21);
-            this.c_txtConnName.TabIndex = 1;
             // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(783, 580);
+            this.ClientSize = new System.Drawing.Size(874, 580);
             this.Controls.Add(this.splitContainer1);
             this.Name = "FrmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -242,6 +274,7 @@
             this.Load += new System.EventHandler(this.FrmMain_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
             this.c_panContent.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
@@ -270,5 +303,7 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.TextBox c_txtConnName;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button c_btnModifyDBInfo;
+        private System.Windows.Forms.RichTextBox richTextBox1;
     }
 }
