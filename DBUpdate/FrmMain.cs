@@ -377,7 +377,7 @@ namespace DBUpdate
 
         private class LngRes
         {
-            public const string MSG_FormName = "MySql数据库更新工具";
+            public const string MSG_FormName = "MySql数据库更新工具 v0.1";
         }
 
         #endregion

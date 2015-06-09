@@ -72,7 +72,7 @@ namespace ComLib.db.mysql.Update
             #endregion
 
             #region step 1. create Temp  new verstion db
-
+            
             if (!CreateNewVerstionTempDB(newDBSql, dbName, ref errMsg))
             {
                 return false;
@@ -175,12 +175,17 @@ namespace ComLib.db.mysql.Update
             #endregion
 
             #region do create
-            List<string> slist = new List<string>();
-            _helper.GetSplitSqlFileToSqlStr(newTempDBSql, ref slist, ref errMsg);
+            
 
+            List<string> slist = new List<string>();
+            string delimiteSql = "";
+            _helper.GetSplitSqlFileToSqlStr(newTempDBSql, ref slist, ref delimiteSql, ref errMsg);
+          
             try
             {
                 new SqlMySqlDBMng(_helper.DBConnStr).doSql(slist);
+
+                _mng.ExeSqlDelimiteScript(delimiteSql);
                 _helper.DoStep = DoUpdateHelper.EnumDoStep.CreateTempDBEnd;
             }
             catch (Exception ex)
@@ -467,43 +472,81 @@ namespace ComLib.db.mysql.Update
                 string result = TitleMatch.Groups["url"].Value;
                 return result;
             }
-            public bool GetSplitSqlFileToSqlStr(string sqlFileStr, ref List<string> splitSql, ref string errMsg)
+            public bool GetSplitSqlFileToSqlStr(string sqlFileStr, ref List<string> splitSql, ref string delimiteSql, ref string errMsg)
             {
                 splitSql = new List<string>();
                 //StringBuilder sb = new StringBuilder(sqlFileStr);
 
                 string line = "";
-                string l;  
+                string l;
+
+                //DELIMITER
+                bool isDELIMITER = false;
+                StringBuilder delimiteSqlSB = new StringBuilder();
                 foreach (string s in sqlFileStr.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
                 {
-                    if (line.EndsWith(";"))
-                        line = "";
 
-                    l = s;// reader.ReadLine();
-
-                    // 如果到了最后一行，则退出循环  
-                    if (l == null) break;
-                    // 去除空格  
-                    l = l.TrimEnd();
-                    // 如果是空行，则跳出循环  
-                    if (l == "") continue;
-                    // 如果是注释，则跳出循环  
-                    if (l.StartsWith("--")) continue;
-
-                    if (l.StartsWith("SET")) continue;
-
-                    // 行数加1   
-                    line += Environment.NewLine+l;
-                    // 如果不是完整的一条语句，则继续读取  
-                    if (!line.EndsWith(";")) continue;
-                    if (line.StartsWith("/*!"))
+                    if (!isDELIMITER && s.ToUpper().StartsWith("DELIMITER $$"))
                     {
-                        continue;
+                        isDELIMITER = true;
                     }
 
-                    splitSql.Add(line);
+                    if (isDELIMITER)
+                    {
+                        #region
+                        l = s;// reader.ReadLine();
+
+                        // 如果到了最后一行，则退出循环  
+                        if (l == null) break;
+                        // 去除空格  
+                        l = l.TrimEnd();
+                        // 如果是空行，则跳出循环  
+                        if (l == "") continue;
+                        // 如果是注释，则跳出循环  
+                        if (l.StartsWith("--")) continue;
+                        if (l.StartsWith("SET")) continue;
+
+                        // 行数加1   
+                        line += Environment.NewLine + l;
+                        #endregion
+
+                        if (!line.EndsWith("DELIMITER ;")) continue;
+                        if (line.StartsWith("/*!")) continue;
+                        delimiteSqlSB.AppendLine(line);
+                        //delimiterList.Add(line);
+                        //splitSql.Add(line);
+                        isDELIMITER = false;
+                    }
+                    else if(!isDELIMITER)
+                    {
+                        if (line.EndsWith(";"))
+                            line = "";
+
+                        l = s;// reader.ReadLine();
+
+                        // 如果到了最后一行，则退出循环  
+                        if (l == null) break;
+                        // 去除空格  
+                        l = l.TrimEnd();
+                        // 如果是空行，则跳出循环  
+                        if (l == "") continue;
+                        // 如果是注释，则跳出循环  
+                        if (l.StartsWith("--")) continue;
+                        if (l.StartsWith("SET")) continue;
+
+                        // 行数加1   
+                        line += Environment.NewLine + l;
+                        // 如果不是完整的一条语句，则继续读取  
+                        if (!line.EndsWith(";")) continue;
+                        if (line.StartsWith("/*!"))
+                        {
+                            continue;
+                        }
+
+                        splitSql.Add(line);
+                    }
                 }
-                
+                delimiteSql = delimiteSqlSB.ToString();
                 return true;
             }
 
@@ -958,6 +1001,60 @@ namespace ComLib.db.mysql.Update
                 }
 
             }
+            public bool ExeSqlDelimiteScript( string sql)
+            {
+                string connStr = _connStr;
+                MySql.Data.MySqlClient.MySqlConnection conn
+                     = new MySql.Data.MySqlClient.MySqlConnection(connStr);
+                MySql.Data.MySqlClient.MySqlScript script =
+                    //new MySql.Data.MySqlClient.MySqlScript(connection, File.ReadAllText("script.sql"));
+                    //new MySql.Data.MySqlClient.MySqlScript(
+                    //    conn 
+                    //    , File.ReadAllText(sqlPath));
+                    new MySql.Data.MySqlClient.MySqlScript(
+                        conn
+                        , sql);
+                script.Delimiter = "$$";
+                script.Execute();
+                return true;
+            }
+            //public static string ExeCommand(string commandText)
+            //{
+            //    string strOutput = null;
+            //    try
+            //    {
+            //        System.Diagnostics.Process p = new System.Diagnostics.Process();
+            //        p.StartInfo.FileName = "cmd.exe";
+            //        p.StartInfo.UseShellExecute = false;
+            //        p.StartInfo.RedirectStandardInput = true;
+            //        p.StartInfo.RedirectStandardOutput = true;
+            //        p.StartInfo.RedirectStandardError = true;
+            //        p.StartInfo.CreateNoWindow = true;
+            //        p.EnableRaisingEvents = true;
+
+            //        p.Exited += delegate
+            //        {
+            //            //this.btnNext.Enabled = true;
+            //            //this.btnNext.Focus();
+            //        };
+
+            //        p.Start();
+            //        p.StandardInput.WriteLine(commandText);
+            //        p.StandardInput.WriteLine("初始化数据库执行完毕.");
+            //        p.StandardInput.WriteLine("exit");
+            //        strOutput = p.StandardOutput.ReadToEnd();
+            //        p.WaitForExit();
+            //        p.Close();
+            //    }
+            //    catch (Exception e)
+            //    {
+            //        strOutput = "初始化数据库出现错误." + Environment.NewLine + e.Message;
+            //    }
+
+            //    return strOutput;
+            //}
+
+            
         }
     }
 }

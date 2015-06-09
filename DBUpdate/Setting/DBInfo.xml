@@ -17,17 +17,17 @@
     <Uid>root</Uid>
     <Password>-101868</Password>
     <Port>3306</Port>
-    <DBName>mwrdata</DBName>
-    <SqlPath>E:\project\net\githubWorkspace\VS\DBUpdate\Setting\demodata.sql</SqlPath>
+    <DBName>cdcs</DBName>
+    <SqlPath>C:\Users\Administrator\Desktop\数据库更新\Setting\cdcs.sql</SqlPath>
   </DBInfo>
   <FormInfo>
-     <Id>02877f5c-741e-48d8-a67e-0ea90e511f45</Id>
-     <ConnName>数据库更新测试</ConnName>
+     <Id>3b5627f5-26c8-4573-958a-0e5fb9c685b9</Id>
+     <ConnName>ccc</ConnName>
      <Service>127.0.0.1</Service>
      <Uid>root</Uid>
      <Password>-101868</Password>
      <Port>3306</Port>
-     <DBName>demodata</DBName>
-     <SqlPath>E:\project\net\githubWorkspace\VS\DBUpdate\Setting\demodata.sql</SqlPath>
+     <DBName>cdcs</DBName>
+     <SqlPath>C:\Users\Administrator\Desktop\数据库更新\Setting\cdcs.sql</SqlPath>
 </FormInfo>
 </Root>
