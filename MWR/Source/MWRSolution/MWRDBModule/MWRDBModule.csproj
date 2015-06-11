@@ -58,6 +58,8 @@
     <Compile Include="DBModule\TblMWDepotCtrl.cs" />
     <Compile Include="DBModule\TblMWDestroyDetail.cs" />
     <Compile Include="DBModule\TblMWDestroyDetailCtrl.cs" />
+    <Compile Include="DBModule\TblMWDestroyMCParamsLog.cs" />
+    <Compile Include="DBModule\TblMWDestroyMCParamsLogCtrl.cs" />
     <Compile Include="DBModule\TblMWEmploy.cs" />
     <Compile Include="DBModule\TblMWEmployCtrl.cs" />
     <Compile Include="DBModule\TblMWFunction.cs" />

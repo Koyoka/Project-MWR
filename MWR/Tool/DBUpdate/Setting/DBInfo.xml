@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Root>
+  <DBInfo>
+    <Id>a582d2c8-d03e-43de-a592-89c63417d3e3</Id>
+    <ConnName>MWR开发数据库</ConnName>
+    <Service>127.0.0.1</Service>
+    <Uid>root</Uid>
+    <Password>-101868</Password>
+    <Port>3306</Port>
+    <DBName>mwrdata</DBName>
+    <SqlPath>E:\project\net\githubWorkspace\VS\MWR\Tool\DataBase\MWR.sql</SqlPath>
+  </DBInfo>
+  <FormInfo>
+     <Id>a582d2c8-d03e-43de-a592-89c63417d3e3</Id>
+     <ConnName>MWR开发数据库</ConnName>
+     <Service>127.0.0.1</Service>
+     <Uid>root</Uid>
+     <Password>-101868</Password>
+     <Port>3306</Port>
+     <DBName>mwrdata</DBName>
+     <SqlPath>E:\project\net\githubWorkspace\VS\MWR\Tool\DataBase\MWR.sql</SqlPath>
+</FormInfo>
+</Root>

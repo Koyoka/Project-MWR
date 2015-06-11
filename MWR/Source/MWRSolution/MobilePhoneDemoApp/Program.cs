@@ -102,6 +102,11 @@ namespace MobilePhoneDemoApp
             Application.Run(new FrmDBUpdate());
         }
 
+        private static void testModbus()
+        {
+            Application.Run(new FrmAbbPLCToModbusAddress());
+        }
+
         delegate void CallEvent();
       
         /// <summary>
@@ -112,7 +117,10 @@ namespace MobilePhoneDemoApp
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            testDBUpdata();
+
+
+
+            testModbus();
             //foo();
             //Application.Run(new Form3());
             return;

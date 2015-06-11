@@ -3533,6 +3533,23 @@ namespace YRKJ.MWR.Business.WS
 
         #endregion
 
+        #region Destroy MC 
+
+        public bool AddDMCParamsLog(TblMWDestroyMCParamsLog dmcLog,ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+
+            int updCount = 0;
+            if (!TblMWDestroyMCParamsLogCtrl.Insert(dcf, dmcLog, ref updCount, ref errMsg))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        #endregion
+
         public static bool TestUpdate()
         {
             string errMsg = "";

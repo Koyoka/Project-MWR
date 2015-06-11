@@ -100,6 +100,7 @@
             this.c_txtPassword.PasswordChar = '*';
             this.c_txtPassword.Size = new System.Drawing.Size(271, 25);
             this.c_txtPassword.TabIndex = 1;
+            this.c_txtPassword.Text = "-101868";
             // 
             // c_txtUserId
             // 
@@ -108,7 +109,7 @@
             this.c_txtUserId.Name = "c_txtUserId";
             this.c_txtUserId.Size = new System.Drawing.Size(271, 25);
             this.c_txtUserId.TabIndex = 0;
-            this.c_txtUserId.Text = "YG0008";
+            this.c_txtUserId.Text = "administrator";
             // 
             // label4
             // 
