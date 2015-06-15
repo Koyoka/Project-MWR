@@ -22,7 +22,12 @@ namespace YRKJ.MWR.WSDestory
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-         
+            #region test
+            {
+                YRKJ.MWR.WSDestory.Business.Modbus.ModbusHelper m = new Business.Modbus.ModbusHelper();
+                m.foo();
+            }
+            #endregion
             try
             {
                 string errMsg = "";
@@ -95,7 +100,7 @@ namespace YRKJ.MWR.WSDestory
 
                 #endregion
 
-                
+
             }
             catch (Exception ex)
             {

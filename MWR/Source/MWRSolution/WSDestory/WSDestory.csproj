@@ -72,7 +72,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Business\ModbusHelper.cs" />
+    <Compile Include="Business\Modbus\Class1.cs" />
+    <Compile Include="Business\Modbus\ModbusHelper.cs" />
+    <Compile Include="Business\Modbus\modbusTCP.cs" />
     <Compile Include="Business\Sys\SysHelper.cs" />
     <Compile Include="Business\Sys\SysInfo.cs" />
     <Compile Include="Business\Sys\SysInfoMng.cs" />

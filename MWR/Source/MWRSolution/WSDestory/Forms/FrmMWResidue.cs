@@ -84,7 +84,6 @@ namespace YRKJ.MWR.WSDestory.Forms
         }
 
         #endregion
-
         
         #region Form Data Property
 

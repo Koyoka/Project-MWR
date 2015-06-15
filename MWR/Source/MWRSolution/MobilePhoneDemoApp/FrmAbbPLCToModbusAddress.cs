@@ -26,6 +26,7 @@ namespace MobilePhoneDemoApp
             public const string PLC_ADDRESS_BATCH_CRATE_COUNT = "%MW0.1001";//本批次消毒箱数
             public const string PLC_ADDRESS_BATCH_FEED_COUNT = "%MW0.1002";//本批次已进料次数
             public const string PLC_ADDRESS_ET_FEED_COUNT = "%MW0.1003";//每次进料箱数
+
             public const string PLC_ADDRESS_BATCH_STRAT_TIME_HOUR = "%MW0.1004";//批次开始时间 HH
             public const string PLC_ADDRESS_BATCH_STRAT_TIME_MINUTE = "%MW0.1005";//批次开始时间 MM
             public const string PLC_ADDRESS_BATCH_STRAT_TIME_SECOND = "%MW0.1006";//批次开始时间 SS
@@ -34,6 +35,7 @@ namespace MobilePhoneDemoApp
             public const string PLC_ADDRESS_BATCH_STRAT_TIME_DAY = "%MW0.1009";//批次开始时间 DD
             public const string PLC_ADDRESS_MC_WARNING_COUNT = "%MW0.1010";//破碎机报警次数
             public const string PLC_ADDRESS_MC_STATUS = "%MW0.1011";//设备所处状态
+
             public const string PLC_ADDRESS_MC_PRESSURE = "%MD0.506";//消毒室压力
             public const string PLC_ADDRESS_MC_IN_TEMPERATURE = "%MD0.507";//消毒室内部温度
             public const string PLC_ADDRESS_MC_EX_TEMPERATURE = "%MD0.508";//消毒室外部温度
@@ -49,7 +51,40 @@ namespace MobilePhoneDemoApp
                 public int Address { get; set; }
                 public int Lenth { get; set; }
             }
-            public static int MAreaConventToHexAddress(ref ModInfo modInfo, string areaStr)
+
+            public static void ReadCoils_PLC_MC_RESPONSE(byte deviceId)
+            {
+                ushort startAddress = 0;
+                byte len = 0;
+                {
+                    ModInfo startModInof = null;
+                    if (!MAreaConventToHexAddress(PLC_ADDRESS_MC_STRAT, ref startModInof))
+                    {
+                        return;
+                    }
+                    if (startModInof == null) return;
+
+                    startAddress = Convert.ToUInt16(startModInof.Address);
+                }
+
+                {
+                    ModInfo endModInof = null;
+                    if (!MAreaConventToHexAddress(PLC_ADDRESS_TOTAL_FEED_COUNT, ref endModInof))
+                    {
+                        return;
+                    }
+                    if (endModInof == null) return;
+
+                    ushort endAddress = Convert.ToUInt16(endModInof.Address);
+
+                    short a = 0xff;
+                    byte[] _length = BitConverter.GetBytes((short)System.Net.IPAddress.HostToNetworkOrder((short)a));
+                    
+                    //len = Convert.ToByte((endAddress - startAddress) * 0x8);
+                }
+            }
+
+            public static bool MAreaConventToHexAddress(string areaStr,ref ModInfo modInfo)
             {
                 string defineStr = areaStr.Trim().TrimStart("%M".ToCharArray());
                 char areaType = defineStr[0];
@@ -87,7 +122,7 @@ namespace MobilePhoneDemoApp
                 }
 
                 if (bitLen == 0)
-                    return 0;
+                    return false;
 
                 int address = (byteNum * bitLen + bitNum) + lineNum * LINE_LENGTH;
                 modInfo = new ModInfo()
@@ -95,20 +130,32 @@ namespace MobilePhoneDemoApp
                     Address = Convert.ToUInt16(address),
                     Lenth = readLen
                 };
-                return address;
+                return true;
             }
 
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
+            {
+                string ss = "0x001B";
+                if (ss.IndexOf("0x", 0, ss.Length) == 0)
+                {
+                    string str = ss.Replace("0x", "");
+                    ushort hex = Convert.ToUInt16(str, 16);
+                    
+                }
+            }
+
             string s = textBox1.Text;
+            ModbusHelper.ReadCoils_PLC_MC_RESPONSE(1);
+
             ModbusHelper.ModInfo modInfo = null;
-             ModbusHelper.MAreaConventToHexAddress(ref modInfo,s).ToString();
-             if (modInfo != null)
-             {
-                 textBox2.Text = modInfo.Address + " " + modInfo.Lenth;
-             }
+            ModbusHelper.MAreaConventToHexAddress(s, ref modInfo);
+            if (modInfo != null)
+            {
+                textBox2.Text = modInfo.Address + " " + modInfo.Lenth;
+            }
         }
     }
 }
