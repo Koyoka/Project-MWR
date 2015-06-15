@@ -172,6 +172,29 @@ namespace YRKJ.MWR.WSDestory.Forms
             }
         }
 
+        private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            try
+            {
+                this.Cursor = Cursors.WaitCursor;
+
+                foreach (Form f in this.c_panForm.Controls)
+                {
+                   
+                    f.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                LogMng.GetLog().PrintError(ClassName, "FrmMain_FormClosing", ex);
+                MsgBox.Error(ex);
+            }
+            finally
+            {
+                this.Cursor = Cursors.Default;
+            }
+        }
+
         #endregion
 
         #region Functions
@@ -230,7 +253,7 @@ namespace YRKJ.MWR.WSDestory.Forms
         {
             try
             {
-
+                
                 
             }
             catch (Exception ex)
@@ -548,6 +571,7 @@ namespace YRKJ.MWR.WSDestory.Forms
 
         #endregion
 
+       
         #region Form Data Property
 
         #endregion

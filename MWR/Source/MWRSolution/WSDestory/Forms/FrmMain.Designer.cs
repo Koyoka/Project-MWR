@@ -80,7 +80,7 @@
             // c_sspMain_L_txtEmpy
             // 
             this.c_sspMain_L_txtEmpy.Name = "c_sspMain_L_txtEmpy";
-            this.c_sspMain_L_txtEmpy.Size = new System.Drawing.Size(758, 20);
+            this.c_sspMain_L_txtEmpy.Size = new System.Drawing.Size(789, 20);
             this.c_sspMain_L_txtEmpy.Spring = true;
             this.c_sspMain_L_txtEmpy.Text = "登陆员工:xxx";
             this.c_sspMain_L_txtEmpy.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -278,6 +278,7 @@
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "FrmMain";
             this.Text = "FrmMain";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmMain_FormClosing);
             this.Load += new System.EventHandler(this.FrmMain_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FrmMain_KeyDown);
             this.c_sspMain.ResumeLayout(false);
