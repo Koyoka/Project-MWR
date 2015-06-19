@@ -83,12 +83,12 @@
             this.c_picMCWarning = new System.Windows.Forms.PictureBox();
             this.label13 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
-            this.c_bgw = new System.ComponentModel.BackgroundWorker();
-            this.label33 = new System.Windows.Forms.Label();
             this.label34 = new System.Windows.Forms.Label();
             this.label35 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label33 = new System.Windows.Forms.Label();
+            this.c_bgw = new System.ComponentModel.BackgroundWorker();
             this.c_time = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.c_picMCStart)).BeginInit();
             this.panel1.SuspendLayout();
@@ -170,7 +170,7 @@
             this.c_txtMCExTemperature.ReadOnly = true;
             this.c_txtMCExTemperature.Size = new System.Drawing.Size(67, 29);
             this.c_txtMCExTemperature.TabIndex = 37;
-            this.c_txtMCExTemperature.Text = "15";
+            this.c_txtMCExTemperature.Text = "0";
             this.c_txtMCExTemperature.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // c_txtMCInTemperature
@@ -182,7 +182,7 @@
             this.c_txtMCInTemperature.ReadOnly = true;
             this.c_txtMCInTemperature.Size = new System.Drawing.Size(67, 29);
             this.c_txtMCInTemperature.TabIndex = 37;
-            this.c_txtMCInTemperature.Text = "15";
+            this.c_txtMCInTemperature.Text = "0";
             this.c_txtMCInTemperature.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // c_txtElectric2
@@ -195,7 +195,7 @@
             this.c_txtElectric2.ReadOnly = true;
             this.c_txtElectric2.Size = new System.Drawing.Size(50, 25);
             this.c_txtElectric2.TabIndex = 37;
-            this.c_txtElectric2.Text = "111";
+            this.c_txtElectric2.Text = "0";
             this.c_txtElectric2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // c_txtElectric1
@@ -208,7 +208,7 @@
             this.c_txtElectric1.ReadOnly = true;
             this.c_txtElectric1.Size = new System.Drawing.Size(50, 25);
             this.c_txtElectric1.TabIndex = 37;
-            this.c_txtElectric1.Text = "111";
+            this.c_txtElectric1.Text = "0";
             this.c_txtElectric1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // c_txtPressure
@@ -220,7 +220,7 @@
             this.c_txtPressure.ReadOnly = true;
             this.c_txtPressure.Size = new System.Drawing.Size(67, 29);
             this.c_txtPressure.TabIndex = 37;
-            this.c_txtPressure.Text = "15";
+            this.c_txtPressure.Text = "0";
             this.c_txtPressure.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label19
@@ -435,7 +435,7 @@
             this.c_txtMCWarningCount.ReadOnly = true;
             this.c_txtMCWarningCount.Size = new System.Drawing.Size(58, 29);
             this.c_txtMCWarningCount.TabIndex = 37;
-            this.c_txtMCWarningCount.Text = "15";
+            this.c_txtMCWarningCount.Text = "0";
             this.c_txtMCWarningCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // c_txtETFeedCount
@@ -447,7 +447,7 @@
             this.c_txtETFeedCount.ReadOnly = true;
             this.c_txtETFeedCount.Size = new System.Drawing.Size(58, 29);
             this.c_txtETFeedCount.TabIndex = 37;
-            this.c_txtETFeedCount.Text = "15";
+            this.c_txtETFeedCount.Text = "0";
             this.c_txtETFeedCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // c_txtBatchFeedCount
@@ -459,7 +459,7 @@
             this.c_txtBatchFeedCount.ReadOnly = true;
             this.c_txtBatchFeedCount.Size = new System.Drawing.Size(58, 29);
             this.c_txtBatchFeedCount.TabIndex = 37;
-            this.c_txtBatchFeedCount.Text = "15";
+            this.c_txtBatchFeedCount.Text = "0";
             this.c_txtBatchFeedCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // c_txtBatchStartTime
@@ -471,7 +471,7 @@
             this.c_txtBatchStartTime.ReadOnly = true;
             this.c_txtBatchStartTime.Size = new System.Drawing.Size(296, 29);
             this.c_txtBatchStartTime.TabIndex = 37;
-            this.c_txtBatchStartTime.Text = "2015-01-01 01:01:01";
+            this.c_txtBatchStartTime.Text = "0";
             // 
             // c_txtBatchCrateCount
             // 
@@ -482,7 +482,7 @@
             this.c_txtBatchCrateCount.ReadOnly = true;
             this.c_txtBatchCrateCount.Size = new System.Drawing.Size(58, 29);
             this.c_txtBatchCrateCount.TabIndex = 37;
-            this.c_txtBatchCrateCount.Text = "15";
+            this.c_txtBatchCrateCount.Text = "0";
             this.c_txtBatchCrateCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label9
@@ -686,7 +686,7 @@
             this.c_txtTotalFeedCount.ReadOnly = true;
             this.c_txtTotalFeedCount.Size = new System.Drawing.Size(79, 29);
             this.c_txtTotalFeedCount.TabIndex = 37;
-            this.c_txtTotalFeedCount.Text = "15";
+            this.c_txtTotalFeedCount.Text = "0";
             this.c_txtTotalFeedCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // c_txtTotalCrateCount
@@ -698,7 +698,7 @@
             this.c_txtTotalCrateCount.ReadOnly = true;
             this.c_txtTotalCrateCount.Size = new System.Drawing.Size(79, 29);
             this.c_txtTotalCrateCount.TabIndex = 37;
-            this.c_txtTotalCrateCount.Text = "15";
+            this.c_txtTotalCrateCount.Text = "0";
             this.c_txtTotalCrateCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label4
@@ -738,40 +738,6 @@
             this.label1.TabIndex = 36;
             this.label1.Text = "启动状态：";
             // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(14, 399);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(106, 21);
-            this.label15.TabIndex = 36;
-            this.label15.Text = "进料总次数：";
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(14, 339);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(170, 21);
-            this.label14.TabIndex = 36;
-            this.label14.Text = "已消毒医疗废物箱数：";
-            // 
-            // c_bgw
-            // 
-            this.c_bgw.DoWork += new System.ComponentModel.DoWorkEventHandler(this.c_bgw_DoWork);
-            // 
-            // label33
-            // 
-            this.label33.AutoSize = true;
-            this.label33.BackColor = System.Drawing.Color.Transparent;
-            this.label33.Font = new System.Drawing.Font("微软雅黑", 8F);
-            this.label33.ForeColor = System.Drawing.Color.White;
-            this.label33.Location = new System.Drawing.Point(302, 281);
-            this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(19, 16);
-            this.label33.TabIndex = 36;
-            this.label33.Text = "次";
-            // 
             // label34
             // 
             this.label34.AutoSize = true;
@@ -796,9 +762,43 @@
             this.label35.TabIndex = 36;
             this.label35.Text = "次";
             // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(14, 399);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(106, 21);
+            this.label15.TabIndex = 36;
+            this.label15.Text = "进料总次数：";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(14, 339);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(170, 21);
+            this.label14.TabIndex = 36;
+            this.label14.Text = "已消毒医疗废物箱数：";
+            // 
+            // label33
+            // 
+            this.label33.AutoSize = true;
+            this.label33.BackColor = System.Drawing.Color.Transparent;
+            this.label33.Font = new System.Drawing.Font("微软雅黑", 8F);
+            this.label33.ForeColor = System.Drawing.Color.White;
+            this.label33.Location = new System.Drawing.Point(302, 281);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(19, 16);
+            this.label33.TabIndex = 36;
+            this.label33.Text = "次";
+            // 
+            // c_bgw
+            // 
+            this.c_bgw.DoWork += new System.ComponentModel.DoWorkEventHandler(this.c_bgw_DoWork);
+            // 
             // c_time
             // 
-            this.c_time.Interval = 5000;
+            this.c_time.Interval = 3000;
             this.c_time.Tick += new System.EventHandler(this.c_time_Tick);
             // 
             // FrmMWResidue
