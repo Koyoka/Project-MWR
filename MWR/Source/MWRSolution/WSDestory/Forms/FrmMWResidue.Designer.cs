@@ -424,7 +424,6 @@
             this.c_txtMCStatus.ReadOnly = true;
             this.c_txtMCStatus.Size = new System.Drawing.Size(79, 29);
             this.c_txtMCStatus.TabIndex = 37;
-            this.c_txtMCStatus.Text = "卸压";
             // 
             // c_txtMCWarningCount
             // 

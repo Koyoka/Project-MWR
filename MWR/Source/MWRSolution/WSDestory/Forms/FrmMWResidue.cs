@@ -137,7 +137,7 @@ namespace YRKJ.MWR.WSDestory.Forms
             });
             _modbus.OnException = new ModbusHelper.DelegateException((x) =>
             {
-                MsgBox.Error(x);
+                //MsgBox.Error(x);
             });
 
             if (!LoadData())
@@ -184,7 +184,7 @@ namespace YRKJ.MWR.WSDestory.Forms
             c_txtBatchFeedCount.Text = model.BatchFeedCount;
             c_txtETFeedCount.Text = model.ETFeedCount;
             c_txtMCWarningCount.Text = model.MCWarningCount;
-            c_txtMCStatus.Text = model.MCStatus;
+            c_txtMCStatus.Text = model.MCStatusDesc;
 
             c_txtPressure.Text = model.MCPressure+"";
             c_txtMCInTemperature.Text = model.MCInTemperature + "";
@@ -219,7 +219,6 @@ namespace YRKJ.MWR.WSDestory.Forms
         }
 
         #endregion
-
        
         #region Form Data Property
 

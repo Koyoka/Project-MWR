@@ -23,10 +23,10 @@ namespace YRKJ.MWR.WSDestory
             Application.SetCompatibleTextRenderingDefault(false);
 
             #region test
-            {
-                YRKJ.MWR.WSDestory.Business.Modbus.ModbusHelper m = new Business.Modbus.ModbusHelper();
-                m.foo();
-            }
+            //{
+            //    YRKJ.MWR.WSDestory.Business.Modbus.ModbusHelper m = new Business.Modbus.ModbusHelper();
+            //    m.foo();
+            //}
             #endregion
             try
             {
