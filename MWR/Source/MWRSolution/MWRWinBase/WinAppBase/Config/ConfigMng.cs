@@ -36,11 +36,18 @@ namespace YRKJ.MWR.WinBase.WinAppBase.Config
 
                 data = new AppConfig();
 
+                #region DataBase
                 data.DBServerName = ComFn.SafeGetXmlNodeInnerText(doc, "Root/Database/ServerName");
                 //data.DBDatabaseNumber = ComFn.SafeGetXmlNodeInnerText(doc, "Root/Database/DatabaseNumber");
                 data.DBUserName = ComFn.SafeGetXmlNodeInnerText(doc, "Root/Database/UserName");
                 data.DBPassword = ComFn.DecryptDBPassword(WinAppBase.DBKey,ComFn.SafeGetXmlNodeInnerText(doc, "Root/Database/Password"));
                 data.DBPort = ComFn.SafeGetXmlNodeInnerText(doc, "Root/Database/Port");
+                #endregion
+
+                #region Modbus
+                data.ModbusIp = ComFn.SafeGetXmlNodeInnerText(doc,"Root/Modbus/IP");
+                data.ModbusPort = ComFn.SafeGetXmlNodeInnerText(doc, "Root/Modbus/Port");
+                #endregion
                 data.ServiceRoot = ComFn.SafeGetXmlNodeInnerText(doc, "Root/WebService/ServiceRoot");
 
                 data.WSCode = ComFn.SafeGetXmlNodeInnerText(doc, "Root/WorkStation/Code");
@@ -76,6 +83,12 @@ namespace YRKJ.MWR.WinBase.WinAppBase.Config
                 sb.Append(" <WebService>");
                 sb.Append("     <ServiceRoot>" + ComFn.GetSafeXml(data.ServiceRoot) + "</ServiceRoot>");
                 sb.Append(" </WebService>");
+
+                sb.Append(" <Modbus>");
+                sb.Append("     <IP>" + ComFn.GetSafeXml(data.ModbusIp) + "</IP>");
+                sb.Append("     <Port>" + ComFn.GetSafeXml(data.ModbusPort) + "</Port>");
+                sb.Append(" </Modbus>");
+                
                 sb.Append("	<WorkStation>");
                 sb.Append("		<Code>" + ComFn.GetSafeXml(data.WSCode) + "</Code>");
                 sb.Append("	</WorkStation>");

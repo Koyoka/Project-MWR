@@ -282,7 +282,19 @@ namespace ComLib
         #endregion
 
         #region C# Data Convert
-       
+
+        public static ushort StringToUShort(string s)
+        {
+            try
+            {
+                return ushort.Parse(s);
+            }
+            catch
+            {
+                //System.Diagnostics.Debug.WriteLine(ex.Message);
+                return 0;
+            }
+        }
 
         public static int StringToInt(string s)
         {

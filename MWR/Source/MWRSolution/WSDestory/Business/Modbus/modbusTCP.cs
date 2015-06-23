@@ -214,6 +214,7 @@ namespace ModbusTCP
             {
                 tcpSynCl = null;
                 tcpAsyCl = null;
+                _connected = false;
             }
             if(OnException != null) OnException(id, unit, function, exception);
         }

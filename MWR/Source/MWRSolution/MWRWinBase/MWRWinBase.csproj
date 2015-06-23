@@ -65,6 +65,12 @@
     <Compile Include="WinAppBase\BaseForm\FrmInitSMSConfig.Designer.cs">
       <DependentUpon>FrmInitSMSConfig.cs</DependentUpon>
     </Compile>
+    <Compile Include="WinAppBase\BaseForm\FrmInitDWSConfig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinAppBase\BaseForm\FrmInitDWSConfig.Designer.cs">
+      <DependentUpon>FrmInitDWSConfig.cs</DependentUpon>
+    </Compile>
     <Compile Include="WinAppBase\Config\AppConfig.cs" />
     <Compile Include="WinAppBase\Config\ConfigMng.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -83,6 +89,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="WinAppBase\BaseForm\FrmInitSMSConfig.resx">
       <DependentUpon>FrmInitSMSConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinAppBase\BaseForm\FrmInitDWSConfig.resx">
+      <DependentUpon>FrmInitDWSConfig.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

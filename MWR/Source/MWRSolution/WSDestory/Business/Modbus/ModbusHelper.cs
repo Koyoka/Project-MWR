@@ -133,7 +133,18 @@ namespace YRKJ.MWR.WSDestory.Business.Modbus
         private ModbusTCP.Master MBmaster;
         //private byte[] data;
 
-        //private bool _isConnected = false;
+        private bool _isConnected = false;
+        public bool IsConnected
+        {
+            get {
+                if (MBmaster == null)
+                {
+                    return false;
+                }
+
+                return MBmaster.connected;
+            }
+        }
         private string _ip = "";
         private ushort _port = 502;
         public EnumRunStatus RunStatus { get { return _runStatus; } }
@@ -261,9 +272,10 @@ namespace YRKJ.MWR.WSDestory.Business.Modbus
             if (_runStatus == EnumRunStatus.Running)
                 return;
 
+            _runStatus = EnumRunStatus.Running;
+            #region init modbus header
             if (_cacheHeaderInfo == null)
             {
-                //ushort id = SLAVE_HOLDREG_ID;//1;
                 //ushort startAddress = Convert.ToUInt16(STRAT_ADDRESS_MW - 1);
                 //the address is next address of start address.
                 ushort startAddress = Convert.ToUInt16(STRAT_ADDRESS_MW);
@@ -276,7 +288,8 @@ namespace YRKJ.MWR.WSDestory.Business.Modbus
                     Length = len
                 };
             }
-            
+            #endregion
+
             MBmaster.ReadHoldingRegister(
                 _cacheHeaderInfo.Id,
                 _cacheHeaderInfo.Unit,

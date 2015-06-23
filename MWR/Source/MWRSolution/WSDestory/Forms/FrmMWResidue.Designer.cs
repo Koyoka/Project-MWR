@@ -71,6 +71,8 @@
             this.label31 = new System.Windows.Forms.Label();
             this.label29 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.c_btnSaveModbusConfig = new System.Windows.Forms.Button();
+            this.c_btnReConn = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             this.c_txtMCAutoOrManu = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -88,6 +90,14 @@
             this.label15 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.label33 = new System.Windows.Forms.Label();
+            this.label36 = new System.Windows.Forms.Label();
+            this.label39 = new System.Windows.Forms.Label();
+            this.label38 = new System.Windows.Forms.Label();
+            this.label37 = new System.Windows.Forms.Label();
+            this.c_txtModbusStatus = new System.Windows.Forms.TextBox();
+            this.c_txtModbusPort = new System.Windows.Forms.TextBox();
+            this.c_txtmodbusLog = new System.Windows.Forms.TextBox();
+            this.c_txtModbusIp = new System.Windows.Forms.TextBox();
             this.c_bgw = new System.ComponentModel.BackgroundWorker();
             this.c_time = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.c_picMCStart)).BeginInit();
@@ -127,7 +137,7 @@
             // 
             this.c_picMCStart.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("c_picMCStart.BackgroundImage")));
             this.c_picMCStart.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.c_picMCStart.Location = new System.Drawing.Point(104, 26);
+            this.c_picMCStart.Location = new System.Drawing.Point(104, 4);
             this.c_picMCStart.Name = "c_picMCStart";
             this.c_picMCStart.Size = new System.Drawing.Size(79, 77);
             this.c_picMCStart.TabIndex = 35;
@@ -384,8 +394,18 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.c_btnSaveModbusConfig);
+            this.splitContainer1.Panel2.Controls.Add(this.c_btnReConn);
             this.splitContainer1.Panel2.Controls.Add(this.panel2);
+            this.splitContainer1.Panel2.Controls.Add(this.label36);
             this.splitContainer1.Panel2.Controls.Add(this.label2);
+            this.splitContainer1.Panel2.Controls.Add(this.label39);
+            this.splitContainer1.Panel2.Controls.Add(this.label38);
+            this.splitContainer1.Panel2.Controls.Add(this.label37);
+            this.splitContainer1.Panel2.Controls.Add(this.c_txtModbusStatus);
+            this.splitContainer1.Panel2.Controls.Add(this.c_txtModbusPort);
+            this.splitContainer1.Panel2.Controls.Add(this.c_txtmodbusLog);
+            this.splitContainer1.Panel2.Controls.Add(this.c_txtModbusIp);
             this.splitContainer1.Panel2.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.splitContainer1.Size = new System.Drawing.Size(984, 570);
             this.splitContainer1.SplitterDistance = 513;
@@ -600,6 +620,28 @@
             this.label3.Text = "运行状态";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // c_btnSaveModbusConfig
+            // 
+            this.c_btnSaveModbusConfig.ForeColor = System.Drawing.Color.Black;
+            this.c_btnSaveModbusConfig.Location = new System.Drawing.Point(279, 471);
+            this.c_btnSaveModbusConfig.Name = "c_btnSaveModbusConfig";
+            this.c_btnSaveModbusConfig.Size = new System.Drawing.Size(85, 59);
+            this.c_btnSaveModbusConfig.TabIndex = 38;
+            this.c_btnSaveModbusConfig.Text = "保存连接配置";
+            this.c_btnSaveModbusConfig.UseVisualStyleBackColor = true;
+            this.c_btnSaveModbusConfig.Click += new System.EventHandler(this.c_btnSaveModbusConfig_Click);
+            // 
+            // c_btnReConn
+            // 
+            this.c_btnReConn.ForeColor = System.Drawing.Color.Black;
+            this.c_btnReConn.Location = new System.Drawing.Point(370, 469);
+            this.c_btnReConn.Name = "c_btnReConn";
+            this.c_btnReConn.Size = new System.Drawing.Size(85, 59);
+            this.c_btnReConn.TabIndex = 38;
+            this.c_btnReConn.Text = "重新连接";
+            this.c_btnReConn.UseVisualStyleBackColor = true;
+            this.c_btnReConn.Click += new System.EventHandler(this.c_btnReConn_Click);
+            // 
             // panel2
             // 
             this.panel2.Anchor = System.Windows.Forms.AnchorStyles.Top;
@@ -622,14 +664,14 @@
             this.panel2.Controls.Add(this.label33);
             this.panel2.Location = new System.Drawing.Point(19, 45);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(436, 451);
+            this.panel2.Size = new System.Drawing.Size(436, 275);
             this.panel2.TabIndex = 37;
             // 
             // c_txtMCAutoOrManu
             // 
             this.c_txtMCAutoOrManu.BackColor = System.Drawing.Color.Black;
             this.c_txtMCAutoOrManu.ForeColor = System.Drawing.Color.Lime;
-            this.c_txtMCAutoOrManu.Location = new System.Drawing.Point(299, 49);
+            this.c_txtMCAutoOrManu.Location = new System.Drawing.Point(299, 27);
             this.c_txtMCAutoOrManu.Name = "c_txtMCAutoOrManu";
             this.c_txtMCAutoOrManu.ReadOnly = true;
             this.c_txtMCAutoOrManu.Size = new System.Drawing.Size(79, 29);
@@ -639,7 +681,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(214, 144);
+            this.label5.Location = new System.Drawing.Point(214, 116);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(90, 21);
             this.label5.TabIndex = 36;
@@ -649,7 +691,7 @@
             // 
             this.c_picDisiComp.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("c_picDisiComp.BackgroundImage")));
             this.c_picDisiComp.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.c_picDisiComp.Location = new System.Drawing.Point(299, 122);
+            this.c_picDisiComp.Location = new System.Drawing.Point(299, 88);
             this.c_picDisiComp.Name = "c_picDisiComp";
             this.c_picDisiComp.Size = new System.Drawing.Size(79, 77);
             this.c_picDisiComp.TabIndex = 35;
@@ -658,7 +700,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(214, 52);
+            this.label8.Location = new System.Drawing.Point(214, 30);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(90, 21);
             this.label8.TabIndex = 36;
@@ -668,10 +710,10 @@
             // 
             this.c_txtTotalBatchCount.BackColor = System.Drawing.Color.Black;
             this.c_txtTotalBatchCount.ForeColor = System.Drawing.Color.Lime;
-            this.c_txtTotalBatchCount.Location = new System.Drawing.Point(217, 268);
+            this.c_txtTotalBatchCount.Location = new System.Drawing.Point(218, 169);
             this.c_txtTotalBatchCount.Name = "c_txtTotalBatchCount";
             this.c_txtTotalBatchCount.ReadOnly = true;
-            this.c_txtTotalBatchCount.Size = new System.Drawing.Size(79, 29);
+            this.c_txtTotalBatchCount.Size = new System.Drawing.Size(160, 29);
             this.c_txtTotalBatchCount.TabIndex = 37;
             this.c_txtTotalBatchCount.Text = "0";
             this.c_txtTotalBatchCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -680,10 +722,10 @@
             // 
             this.c_txtTotalFeedCount.BackColor = System.Drawing.Color.Black;
             this.c_txtTotalFeedCount.ForeColor = System.Drawing.Color.Lime;
-            this.c_txtTotalFeedCount.Location = new System.Drawing.Point(217, 396);
+            this.c_txtTotalFeedCount.Location = new System.Drawing.Point(218, 241);
             this.c_txtTotalFeedCount.Name = "c_txtTotalFeedCount";
             this.c_txtTotalFeedCount.ReadOnly = true;
-            this.c_txtTotalFeedCount.Size = new System.Drawing.Size(79, 29);
+            this.c_txtTotalFeedCount.Size = new System.Drawing.Size(160, 29);
             this.c_txtTotalFeedCount.TabIndex = 37;
             this.c_txtTotalFeedCount.Text = "0";
             this.c_txtTotalFeedCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -692,10 +734,10 @@
             // 
             this.c_txtTotalCrateCount.BackColor = System.Drawing.Color.Black;
             this.c_txtTotalCrateCount.ForeColor = System.Drawing.Color.Lime;
-            this.c_txtTotalCrateCount.Location = new System.Drawing.Point(217, 336);
+            this.c_txtTotalCrateCount.Location = new System.Drawing.Point(218, 206);
             this.c_txtTotalCrateCount.Name = "c_txtTotalCrateCount";
             this.c_txtTotalCrateCount.ReadOnly = true;
-            this.c_txtTotalCrateCount.Size = new System.Drawing.Size(79, 29);
+            this.c_txtTotalCrateCount.Size = new System.Drawing.Size(160, 29);
             this.c_txtTotalCrateCount.TabIndex = 37;
             this.c_txtTotalCrateCount.Text = "0";
             this.c_txtTotalCrateCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -703,7 +745,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(14, 144);
+            this.label4.Location = new System.Drawing.Point(13, 116);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(87, 21);
             this.label4.TabIndex = 36;
@@ -713,7 +755,7 @@
             // 
             this.c_picMCWarning.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("c_picMCWarning.BackgroundImage")));
             this.c_picMCWarning.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.c_picMCWarning.Location = new System.Drawing.Point(104, 118);
+            this.c_picMCWarning.Location = new System.Drawing.Point(104, 88);
             this.c_picMCWarning.Name = "c_picMCWarning";
             this.c_picMCWarning.Size = new System.Drawing.Size(79, 77);
             this.c_picMCWarning.TabIndex = 35;
@@ -722,7 +764,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(14, 271);
+            this.label13.Location = new System.Drawing.Point(14, 172);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(106, 21);
             this.label13.TabIndex = 36;
@@ -731,7 +773,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(9, 52);
+            this.label1.Location = new System.Drawing.Point(9, 30);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(90, 21);
             this.label1.TabIndex = 36;
@@ -743,7 +785,7 @@
             this.label34.BackColor = System.Drawing.Color.Transparent;
             this.label34.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.label34.ForeColor = System.Drawing.Color.White;
-            this.label34.Location = new System.Drawing.Point(302, 349);
+            this.label34.Location = new System.Drawing.Point(384, 219);
             this.label34.Name = "label34";
             this.label34.Size = new System.Drawing.Size(19, 16);
             this.label34.TabIndex = 36;
@@ -755,7 +797,7 @@
             this.label35.BackColor = System.Drawing.Color.Transparent;
             this.label35.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.label35.ForeColor = System.Drawing.Color.White;
-            this.label35.Location = new System.Drawing.Point(302, 409);
+            this.label35.Location = new System.Drawing.Point(384, 254);
             this.label35.Name = "label35";
             this.label35.Size = new System.Drawing.Size(19, 16);
             this.label35.TabIndex = 36;
@@ -764,7 +806,7 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(14, 399);
+            this.label15.Location = new System.Drawing.Point(14, 244);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(106, 21);
             this.label15.TabIndex = 36;
@@ -773,7 +815,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(14, 339);
+            this.label14.Location = new System.Drawing.Point(13, 209);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(170, 21);
             this.label14.TabIndex = 36;
@@ -785,11 +827,95 @@
             this.label33.BackColor = System.Drawing.Color.Transparent;
             this.label33.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.label33.ForeColor = System.Drawing.Color.White;
-            this.label33.Location = new System.Drawing.Point(302, 281);
+            this.label33.Location = new System.Drawing.Point(384, 182);
             this.label33.Name = "label33";
             this.label33.Size = new System.Drawing.Size(19, 16);
             this.label33.TabIndex = 36;
             this.label33.Text = "次";
+            // 
+            // label36
+            // 
+            this.label36.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label36.BackColor = System.Drawing.Color.Black;
+            this.label36.Font = new System.Drawing.Font("微软雅黑", 11F);
+            this.label36.ForeColor = System.Drawing.Color.Lime;
+            this.label36.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.label36.Location = new System.Drawing.Point(77, 323);
+            this.label36.Name = "label36";
+            this.label36.Size = new System.Drawing.Size(291, 37);
+            this.label36.TabIndex = 34;
+            this.label36.Text = "设备连接状态";
+            this.label36.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label39
+            // 
+            this.label39.AutoSize = true;
+            this.label39.Location = new System.Drawing.Point(32, 434);
+            this.label39.Name = "label39";
+            this.label39.Size = new System.Drawing.Size(122, 21);
+            this.label39.TabIndex = 36;
+            this.label39.Text = "设备连接状态：";
+            // 
+            // label38
+            // 
+            this.label38.AutoSize = true;
+            this.label38.Location = new System.Drawing.Point(32, 399);
+            this.label38.Name = "label38";
+            this.label38.Size = new System.Drawing.Size(106, 21);
+            this.label38.TabIndex = 36;
+            this.label38.Text = "设备端口号：";
+            // 
+            // label37
+            // 
+            this.label37.AutoSize = true;
+            this.label37.Location = new System.Drawing.Point(32, 361);
+            this.label37.Name = "label37";
+            this.label37.Size = new System.Drawing.Size(105, 21);
+            this.label37.TabIndex = 36;
+            this.label37.Text = "设备IP地址：";
+            // 
+            // c_txtModbusStatus
+            // 
+            this.c_txtModbusStatus.BackColor = System.Drawing.Color.Black;
+            this.c_txtModbusStatus.ForeColor = System.Drawing.Color.Lime;
+            this.c_txtModbusStatus.Location = new System.Drawing.Point(237, 431);
+            this.c_txtModbusStatus.Name = "c_txtModbusStatus";
+            this.c_txtModbusStatus.ReadOnly = true;
+            this.c_txtModbusStatus.Size = new System.Drawing.Size(79, 29);
+            this.c_txtModbusStatus.TabIndex = 37;
+            // 
+            // c_txtModbusPort
+            // 
+            this.c_txtModbusPort.BackColor = System.Drawing.Color.Black;
+            this.c_txtModbusPort.ForeColor = System.Drawing.Color.Lime;
+            this.c_txtModbusPort.Location = new System.Drawing.Point(237, 396);
+            this.c_txtModbusPort.Name = "c_txtModbusPort";
+            this.c_txtModbusPort.Size = new System.Drawing.Size(79, 29);
+            this.c_txtModbusPort.TabIndex = 37;
+            this.c_txtModbusPort.Text = "502";
+            this.c_txtModbusPort.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // c_txtmodbusLog
+            // 
+            this.c_txtmodbusLog.BackColor = System.Drawing.Color.Black;
+            this.c_txtmodbusLog.Font = new System.Drawing.Font("微软雅黑", 9F);
+            this.c_txtmodbusLog.ForeColor = System.Drawing.Color.White;
+            this.c_txtmodbusLog.Location = new System.Drawing.Point(19, 533);
+            this.c_txtmodbusLog.Name = "c_txtmodbusLog";
+            this.c_txtmodbusLog.ReadOnly = true;
+            this.c_txtmodbusLog.Size = new System.Drawing.Size(436, 23);
+            this.c_txtmodbusLog.TabIndex = 37;
+            this.c_txtmodbusLog.Text = "数据刷新日志";
+            // 
+            // c_txtModbusIp
+            // 
+            this.c_txtModbusIp.BackColor = System.Drawing.Color.Black;
+            this.c_txtModbusIp.ForeColor = System.Drawing.Color.Lime;
+            this.c_txtModbusIp.Location = new System.Drawing.Point(237, 361);
+            this.c_txtModbusIp.Name = "c_txtModbusIp";
+            this.c_txtModbusIp.Size = new System.Drawing.Size(160, 29);
+            this.c_txtModbusIp.TabIndex = 37;
+            this.c_txtModbusIp.Text = "127.0.0.1";
             // 
             // c_bgw
             // 
@@ -818,6 +944,7 @@
             this.panel1.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
+            this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
@@ -892,5 +1019,15 @@
         private System.Windows.Forms.Label label34;
         private System.Windows.Forms.Label label35;
         private System.Windows.Forms.Timer c_time;
+        private System.Windows.Forms.Label label36;
+        private System.Windows.Forms.Label label37;
+        private System.Windows.Forms.TextBox c_txtModbusIp;
+        private System.Windows.Forms.TextBox c_txtModbusPort;
+        private System.Windows.Forms.Label label38;
+        private System.Windows.Forms.Label label39;
+        private System.Windows.Forms.TextBox c_txtModbusStatus;
+        private System.Windows.Forms.Button c_btnReConn;
+        private System.Windows.Forms.Button c_btnSaveModbusConfig;
+        private System.Windows.Forms.TextBox c_txtmodbusLog;
     }
 }

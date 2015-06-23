@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using YRKJ.MWR.WinBase.WinAppBase;
 using ComLib.Log;
 using YRKJ.MWR.WSDestory.Business.Modbus;
+using YRKJ.MWR.WSDestory.Business.Sys;
 
 namespace YRKJ.MWR.WSDestory.Forms
 {
@@ -51,6 +52,56 @@ namespace YRKJ.MWR.WSDestory.Forms
             }
         }
 
+        private void c_btnSaveModbusConfig_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                this.Cursor = Cursors.WaitCursor;
+                string errMsg = "";
+
+                SysInfo.GetInstance().Config.ModbusIp = c_txtModbusIp.Text;
+                SysInfo.GetInstance().Config.ModbusPort = c_txtModbusPort.Text;
+
+                #region save config
+                if (!YRKJ.MWR.WinBase.WinAppBase.Config.ConfigMng.SaveAppConfig(SysInfo.GetInstance().Config, ref errMsg))
+                {
+                    MsgBox.Error(errMsg);
+                    return;
+                }
+                #endregion
+            }
+            catch (Exception ex)
+            {
+                LogMng.GetLog().PrintError(ClassName, "c_btnSaveModbusConfig_Click", ex);
+                MsgBox.Error(ex);
+            }
+            finally
+            {
+                this.Cursor = Cursors.Default;
+            }
+        }
+
+        private void c_btnReConn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                this.Cursor = Cursors.WaitCursor;
+                string errMsg = "";
+                InitModbus(ref errMsg);
+
+
+            }
+            catch (Exception ex)
+            {
+                LogMng.GetLog().PrintError(ClassName, "c_btnReConn_Click", ex);
+                MsgBox.Error(ex);
+            }
+            finally
+            {
+                this.Cursor = Cursors.Default;
+            }
+        }
+
         private void c_bgw_DoWork(object sender, DoWorkEventArgs e)
         {
             try
@@ -60,7 +111,6 @@ namespace YRKJ.MWR.WSDestory.Forms
                     string unit = "1";
                     _modbus.ReadHoldRegs_PLC_MC(Convert.ToByte(unit));
                 }
-
             }
             catch (Exception ex)
             {
@@ -70,7 +120,6 @@ namespace YRKJ.MWR.WSDestory.Forms
             {
             }
         }
-
 
         private void FrmMWResidue_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -110,7 +159,6 @@ namespace YRKJ.MWR.WSDestory.Forms
             {
             }
         }
-
         #endregion
 
         #region Functions
@@ -119,26 +167,8 @@ namespace YRKJ.MWR.WSDestory.Forms
         {
 
             string errMsg = "";
-            _modbus = new ModbusHelper();
-            string ip = "127.0.0.1";
-            ushort port = 502;
 
-            if (!_modbus.Connect(ip, port, ref errMsg))
-            {
-                MsgBox.Error(errMsg);
-                return false;
-            }
-            _modbus.OnResponseData = new ModbusHelper.DelegateResponseData((x) =>
-            {
-                ThreadSafe(() => {
-                    DataBind(x);
-                });
-                
-            });
-            _modbus.OnException = new ModbusHelper.DelegateException((x) =>
-            {
-                //MsgBox.Error(x);
-            });
+            
 
             if (!LoadData())
                 return false;
@@ -149,11 +179,69 @@ namespace YRKJ.MWR.WSDestory.Forms
             return true;
         }
 
+        private bool InitModbus(ref string errMsg)
+        {
+            if (_modbus != null && _modbus.IsConnected)
+            {
+                MsgBox.Show("设备已连接");
+                return true;
+            }
+
+            _modbus = new ModbusHelper();
+
+            string ip = SysInfo.GetInstance().Config.ModbusIp;
+            ushort port = ComLib.ComFn.StringToUShort(SysInfo.GetInstance().Config.ModbusPort);
+
+            if (!_modbus.Connect(ip, port, ref errMsg))
+            {
+                c_txtModbusStatus.Text = "连接失败";
+                MsgBox.Error(errMsg);
+                return false;
+            }
+            c_txtModbusStatus.Text = "连接成功";
+
+            _modbus.OnResponseData = new ModbusHelper.DelegateResponseData((x) =>
+            {
+                ThreadSafe(() =>
+                {
+                    DataBind(x);
+                    c_txtmodbusLog.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " 获取数据成功";
+                    if (_modbus.IsConnected)
+                    {
+                        c_txtModbusStatus.Text = "连接成功";
+                    }
+                });
+
+            });
+            _modbus.OnException = new ModbusHelper.DelegateException((x) =>
+            {
+                ThreadSafe(() =>
+                {
+                    c_txtmodbusLog.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " error:" + x;
+                    if (!_modbus.IsConnected)
+                    {
+                        c_txtModbusStatus.Text = "连接丢失";
+                    }
+                    
+                });
+                //MsgBox.Error(x);
+            });
+            c_time.Start();
+            return true;
+        }
+
         private bool InitCtrls()
         {
-            //c_picMCStart.BackgroundImage = imageList1.Images[1];
+            string errMsg = "";
+            c_txtModbusIp.Text = SysInfo.GetInstance().Config.ModbusIp;
+            c_txtModbusPort.Text = SysInfo.GetInstance().Config.ModbusPort;
+            c_txtModbusStatus.Text = "未连接";
 
-            c_time.Start();
+            if (!InitModbus(ref errMsg))
+            {
+                return false;
+            }
+           
             return true;
         }
 
@@ -219,7 +307,7 @@ namespace YRKJ.MWR.WSDestory.Forms
         }
 
         #endregion
-       
+
         #region Form Data Property
 
         #endregion

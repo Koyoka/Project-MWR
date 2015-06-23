@@ -24,6 +24,19 @@ namespace YRKJ.MWR.WinBase.WinAppBase.Config
             set { _wsCode = value; }
         }
 
+        #region Modbus
+        private string _modbusIp = "";
+        public string ModbusIp {
+            get { return _modbusIp; }
+            set { _modbusIp = value; }
+        }
+
+        private string _modbusPort = "";
+        public string ModbusPort {
+            get { return _modbusPort; }
+            set { _modbusPort = value; }
+        }
+        #endregion
 
         #region DataBase
 
