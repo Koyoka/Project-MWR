@@ -11,7 +11,8 @@
     <RootNamespace>MobilePhoneDemoApp</RootNamespace>
     <AssemblyName>MobilePhoneDemoApp</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -113,6 +114,12 @@
     <Compile Include="FrmScannerConfirm.Designer.cs">
       <DependentUpon>FrmScannerConfirm.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmSMSTP.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmSMSTP.Designer.cs">
+      <DependentUpon>FrmSMSTP.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmText.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -146,6 +153,9 @@
     <EmbeddedResource Include="FrmScannerConfirm.resx">
       <DependentUpon>FrmScannerConfirm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FrmSMSTP.resx">
+      <DependentUpon>FrmSMSTP.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FrmText.resx">
       <DependentUpon>FrmText.cs</DependentUpon>
     </EmbeddedResource>
@@ -157,7 +167,9 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -175,6 +187,10 @@
     <ProjectReference Include="..\..\..\..\ComLib\ComLib.csproj">
       <Project>{70D21FDA-A5E3-4629-907B-B94051A65093}</Project>
       <Name>ComLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\ComUtility\ComUtility.csproj">
+      <Project>{EF1B5107-6F46-4C54-8E3D-BD610F704C0F}</Project>
+      <Name>ComUtility</Name>
     </ProjectReference>
     <ProjectReference Include="..\MWRBusiness\MWRBusiness.csproj">
       <Project>{C77051AD-CB44-445F-A914-2253F49D5EAA}</Project>

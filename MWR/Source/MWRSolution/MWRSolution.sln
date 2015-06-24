@@ -25,38 +25,9 @@ Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "MWRDataCenterSetup", "MWRDa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBUpdate", "..\..\..\DBUpdate\DBUpdate.csproj", "{C5A0D9D9-415A-4D94-B0C5-EF4CA284CA3F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComUtility", "..\..\..\ComUtility\ComUtility.csproj", "{EF1B5107-6F46-4C54-8E3D-BD610F704C0F}"
+EndProject
 Global
-	GlobalSection(SourceCodeControl) = preSolution
-		SccNumberOfProjects = 7
-		SccProjectUniqueName0 = MWRBackOffice\\MWRBackOffice.csproj
-		SccProjectName0 = \u0022$/MWR/Source/MWRSolution.root/MWRSolution/MWRBackOffice\u0022,\u0020JBAAAAAA
-		SccLocalPath0 = MWRBackOffice
-		SccProvider0 = MSSCCI:Microsoft\u0020Visual\u0020SourceSafe
-		SccProjectUniqueName1 = WSInventory\\WSInventory.csproj
-		SccProjectName1 = \u0022$/MWR/Source/MWRSolution.root/MWRSolution/WSInventory\u0022,\u0020PBAAAAAA
-		SccLocalPath1 = WSInventory
-		SccProvider1 = MSSCCI:Microsoft\u0020Visual\u0020SourceSafe
-		SccProjectUniqueName2 = WSDestory\\WSDestory.csproj
-		SccProjectName2 = \u0022$/MWR/Source/MWRSolution.root/MWRSolution/WSDestory\u0022,\u0020MBAAAAAA
-		SccLocalPath2 = WSDestory
-		SccProvider2 = MSSCCI:Microsoft\u0020Visual\u0020SourceSafe
-		SccProjectUniqueName3 = ..\\..\\..\\ComLib\\ComLib.csproj
-		SccProjectName3 = \u0022$/ComLib\u0022,\u0020PCAAAAAA
-		SccLocalPath3 = ..\\..\\..\\ComLib
-		SccProvider3 = MSSCCI:Microsoft\u0020Visual\u0020SourceSafe
-		SccProjectUniqueName4 = MWRDBModule\\MWRDBModule.csproj
-		SccProjectName4 = \u0022$/MWR/Source/MWRSolution.root/MWRSolution/MWRDBModule\u0022,\u0020UVAAAAAA
-		SccLocalPath4 = MWRDBModule
-		SccProvider4 = MSSCCI:Microsoft\u0020Visual\u0020SourceSafe
-		SccProjectUniqueName5 = MWRBusiness\\MWRBusiness.csproj
-		SccProjectName5 = \u0022$/MWR/Source/MWRSolution.root/MWRSolution/MWRBusiness\u0022,\u0020EYAAAAAA
-		SccLocalPath5 = MWRBusiness
-		SccProvider5 = MSSCCI:Microsoft\u0020Visual\u0020SourceSafe
-		SccProjectUniqueName6 = MWRWinBase\\MWRWinBase.csproj
-		SccProjectName6 = \u0022$/MWR/Source/MWRSolution.root/MWRSolution/MWRWinBase\u0022,\u0020QYAAAAAA
-		SccLocalPath6 = MWRWinBase
-		SccProvider6 = MSSCCI:Microsoft\u0020Visual\u0020SourceSafe
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -182,6 +153,16 @@ Global
 		{C5A0D9D9-415A-4D94-B0C5-EF4CA284CA3F}.Release|Mixed Platforms.Build.0 = Release|x86
 		{C5A0D9D9-415A-4D94-B0C5-EF4CA284CA3F}.Release|x86.ActiveCfg = Release|x86
 		{C5A0D9D9-415A-4D94-B0C5-EF4CA284CA3F}.Release|x86.Build.0 = Release|x86
+		{EF1B5107-6F46-4C54-8E3D-BD610F704C0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF1B5107-6F46-4C54-8E3D-BD610F704C0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF1B5107-6F46-4C54-8E3D-BD610F704C0F}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{EF1B5107-6F46-4C54-8E3D-BD610F704C0F}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{EF1B5107-6F46-4C54-8E3D-BD610F704C0F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EF1B5107-6F46-4C54-8E3D-BD610F704C0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF1B5107-6F46-4C54-8E3D-BD610F704C0F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF1B5107-6F46-4C54-8E3D-BD610F704C0F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{EF1B5107-6F46-4C54-8E3D-BD610F704C0F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{EF1B5107-6F46-4C54-8E3D-BD610F704C0F}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

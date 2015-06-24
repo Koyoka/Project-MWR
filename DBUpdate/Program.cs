@@ -16,6 +16,7 @@ namespace DBUpdate
         [STAThread]
         static void Main()
         {
+            
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             string errMsg = "";

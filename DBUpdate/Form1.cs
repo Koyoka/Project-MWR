@@ -14,6 +14,8 @@ namespace DBUpdate
         public Form1()
         {
             InitializeComponent();
+            
+            
         }
     }
 }

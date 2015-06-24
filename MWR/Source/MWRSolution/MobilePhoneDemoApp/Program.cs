@@ -4,6 +4,8 @@ using System.Linq;
 using System.Windows.Forms;
 using ComLib.db;
 using YRKJ.MWR;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace MobilePhoneDemoApp
 {
@@ -108,6 +110,25 @@ namespace MobilePhoneDemoApp
         }
 
         delegate void CallEvent();
+
+        public static string CreateMD5Hash(string input)
+        {
+            // Use input string to calculate MD5 hash
+            MD5 md5 = System.Security.Cryptography.MD5.Create();
+            byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(input);
+            byte[] hashBytes = md5.ComputeHash(inputBytes);
+
+            // Convert the byte array to hexadecimal string
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < hashBytes.Length; i++)
+            {
+                sb.Append(hashBytes[i].ToString("X2"));
+                // To force the hex string to lower-case letters instead of
+                // upper-case, use he following line instead:
+                // sb.Append(hashBytes[i].ToString("x2")); 
+            }
+            return sb.ToString();
+        }
       
         /// <summary>
         /// 应用程序的主入口点。
@@ -117,8 +138,12 @@ namespace MobilePhoneDemoApp
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            {
+                Application.Run(new FrmSMSTP());
+                return;
 
-
+            }
+            CreateMD5Hash("12345620150430125900");
 
             testModbus();
             //foo();
@@ -131,9 +156,9 @@ namespace MobilePhoneDemoApp
                        ComLib.db.SqlDBMng.GetConnStr("MWRDATA",
                        "127.0.0.1",
                        "root",
-                       "-101868","3306"));
+                       "-101868", "3306"));
             #endregion
-           
+
             Application.Run(new Form2());
             return;
             //Application.Run(new FrmScales());
@@ -177,9 +202,9 @@ namespace MobilePhoneDemoApp
             }
             //MessageBox.Show(args[0] + " " + args[1]);
             //return;
-           
 
-            using (FrmInitData f = new FrmInitData(args[0], args[1], args[2],args[3]))
+
+            using (FrmInitData f = new FrmInitData(args[0], args[1], args[2], args[3]))
             {
                 if (f.ShowDialog() != DialogResult.OK)
                 {
