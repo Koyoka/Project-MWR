@@ -175,10 +175,10 @@
             // 
             this.c_txtMCExTemperature.BackColor = System.Drawing.Color.Black;
             this.c_txtMCExTemperature.ForeColor = System.Drawing.Color.Lime;
-            this.c_txtMCExTemperature.Location = new System.Drawing.Point(175, 224);
+            this.c_txtMCExTemperature.Location = new System.Drawing.Point(163, 224);
             this.c_txtMCExTemperature.Name = "c_txtMCExTemperature";
             this.c_txtMCExTemperature.ReadOnly = true;
-            this.c_txtMCExTemperature.Size = new System.Drawing.Size(67, 29);
+            this.c_txtMCExTemperature.Size = new System.Drawing.Size(97, 29);
             this.c_txtMCExTemperature.TabIndex = 37;
             this.c_txtMCExTemperature.Text = "0";
             this.c_txtMCExTemperature.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -187,10 +187,10 @@
             // 
             this.c_txtMCInTemperature.BackColor = System.Drawing.Color.Black;
             this.c_txtMCInTemperature.ForeColor = System.Drawing.Color.Lime;
-            this.c_txtMCInTemperature.Location = new System.Drawing.Point(175, 190);
+            this.c_txtMCInTemperature.Location = new System.Drawing.Point(163, 190);
             this.c_txtMCInTemperature.Name = "c_txtMCInTemperature";
             this.c_txtMCInTemperature.ReadOnly = true;
-            this.c_txtMCInTemperature.Size = new System.Drawing.Size(67, 29);
+            this.c_txtMCInTemperature.Size = new System.Drawing.Size(97, 29);
             this.c_txtMCInTemperature.TabIndex = 37;
             this.c_txtMCInTemperature.Text = "0";
             this.c_txtMCInTemperature.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -225,10 +225,10 @@
             // 
             this.c_txtPressure.BackColor = System.Drawing.Color.Black;
             this.c_txtPressure.ForeColor = System.Drawing.Color.Lime;
-            this.c_txtPressure.Location = new System.Drawing.Point(175, 155);
+            this.c_txtPressure.Location = new System.Drawing.Point(163, 155);
             this.c_txtPressure.Name = "c_txtPressure";
             this.c_txtPressure.ReadOnly = true;
-            this.c_txtPressure.Size = new System.Drawing.Size(67, 29);
+            this.c_txtPressure.Size = new System.Drawing.Size(97, 29);
             this.c_txtPressure.TabIndex = 37;
             this.c_txtPressure.Text = "0";
             this.c_txtPressure.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -312,7 +312,7 @@
             this.label28.BackColor = System.Drawing.Color.Transparent;
             this.label28.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.label28.ForeColor = System.Drawing.Color.White;
-            this.label28.Location = new System.Drawing.Point(248, 237);
+            this.label28.Location = new System.Drawing.Point(266, 237);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(19, 16);
             this.label28.TabIndex = 36;
@@ -324,7 +324,7 @@
             this.label27.BackColor = System.Drawing.Color.Transparent;
             this.label27.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.label27.ForeColor = System.Drawing.Color.White;
-            this.label27.Location = new System.Drawing.Point(248, 203);
+            this.label27.Location = new System.Drawing.Point(266, 203);
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(19, 16);
             this.label27.TabIndex = 36;
@@ -336,7 +336,7 @@
             this.label26.BackColor = System.Drawing.Color.Transparent;
             this.label26.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.label26.ForeColor = System.Drawing.Color.White;
-            this.label26.Location = new System.Drawing.Point(248, 168);
+            this.label26.Location = new System.Drawing.Point(266, 168);
             this.label26.Name = "label26";
             this.label26.Size = new System.Drawing.Size(30, 16);
             this.label26.TabIndex = 36;
@@ -442,7 +442,7 @@
             this.c_txtMCStatus.Location = new System.Drawing.Point(163, 136);
             this.c_txtMCStatus.Name = "c_txtMCStatus";
             this.c_txtMCStatus.ReadOnly = true;
-            this.c_txtMCStatus.Size = new System.Drawing.Size(79, 29);
+            this.c_txtMCStatus.Size = new System.Drawing.Size(213, 29);
             this.c_txtMCStatus.TabIndex = 37;
             // 
             // c_txtMCWarningCount

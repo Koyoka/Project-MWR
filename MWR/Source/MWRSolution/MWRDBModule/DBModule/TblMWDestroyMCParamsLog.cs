@@ -24,11 +24,11 @@ namespace YRKJ.MWR
             new DataColumnInfo(true,false,false,false,"RunDate",SqlCommonFn.DataColumnType.DATETIME,0),
             new DataColumnInfo(false,true,false,false,"WSCode",SqlCommonFn.DataColumnType.STRING,20),
             new DataColumnInfo(false,true,false,false,"DisiNum",SqlCommonFn.DataColumnType.INT,10),
-            new DataColumnInfo(false,true,false,false,"Pressure",SqlCommonFn.DataColumnType.DECIMAL,10),
-            new DataColumnInfo(false,true,false,false,"InTemperature",SqlCommonFn.DataColumnType.DECIMAL,4),
-            new DataColumnInfo(false,true,false,false,"ExTemperature",SqlCommonFn.DataColumnType.DECIMAL,4),
-            new DataColumnInfo(false,true,false,false,"EC1",SqlCommonFn.DataColumnType.DECIMAL,10),
-            new DataColumnInfo(false,true,false,false,"EC2",SqlCommonFn.DataColumnType.DECIMAL,10),
+            new DataColumnInfo(false,true,false,false,"Pressure",SqlCommonFn.DataColumnType.FLOAT,12),
+            new DataColumnInfo(false,true,false,false,"InTemperature",SqlCommonFn.DataColumnType.FLOAT,12),
+            new DataColumnInfo(false,true,false,false,"ExTemperature",SqlCommonFn.DataColumnType.FLOAT,12),
+            new DataColumnInfo(false,true,false,false,"EC1",SqlCommonFn.DataColumnType.FLOAT,12),
+            new DataColumnInfo(false,true,false,false,"EC2",SqlCommonFn.DataColumnType.FLOAT,12),
             new DataColumnInfo(false,true,false,false,"WordStatus",SqlCommonFn.DataColumnType.STRING,45)
         };
 
@@ -77,11 +77,11 @@ namespace YRKJ.MWR
         private DateTime _RunDate = DateTime.MinValue;
         private string _WSCode = "";
         private int _DisiNum = 0;
-        private decimal _Pressure = 0;
-        private decimal _InTemperature = 0;
-        private decimal _ExTemperature = 0;
-        private decimal _EC1 = 0;
-        private decimal _EC2 = 0;
+        private float _Pressure = 0;
+        private float _InTemperature = 0;
+        private float _ExTemperature = 0;
+        private float _EC1 = 0;
+        private float _EC2 = 0;
         private string _WordStatus = "";
 
         public string MCCode
@@ -128,7 +128,7 @@ namespace YRKJ.MWR
                 _DisiNum = value;
             }
         }
-        public decimal Pressure
+        public float Pressure
         {
             get
             {
@@ -139,7 +139,7 @@ namespace YRKJ.MWR
                 _Pressure = value;
             }
         }
-        public decimal InTemperature
+        public float InTemperature
         {
             get
             {
@@ -150,7 +150,7 @@ namespace YRKJ.MWR
                 _InTemperature = value;
             }
         }
-        public decimal ExTemperature
+        public float ExTemperature
         {
             get
             {
@@ -161,7 +161,7 @@ namespace YRKJ.MWR
                 _ExTemperature = value;
             }
         }
-        public decimal EC1
+        public float EC1
         {
             get
             {
@@ -172,7 +172,7 @@ namespace YRKJ.MWR
                 _EC1 = value;
             }
         }
-        public decimal EC2
+        public float EC2
         {
             get
             {

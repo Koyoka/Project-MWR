@@ -10,6 +10,8 @@ using YRKJ.MWR.WinBase.WinAppBase;
 using ComLib.Log;
 using YRKJ.MWR.WSDestory.Business.Modbus;
 using YRKJ.MWR.WSDestory.Business.Sys;
+using YRKJ.MWR.Business.WS;
+using ComLib.db;
 
 namespace YRKJ.MWR.WSDestory.Forms
 {
@@ -202,10 +204,17 @@ namespace YRKJ.MWR.WSDestory.Forms
 
             _modbus.OnResponseData = new ModbusHelper.DelegateResponseData((x) =>
             {
+                bool saveSuccess = true;
+                if (!DataSave(x))
+                {
+                    saveSuccess = false;
+                }
                 ThreadSafe(() =>
                 {
                     DataBind(x);
-                    c_txtmodbusLog.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " 获取数据成功";
+                    
+                    c_txtmodbusLog.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " 获取数据成功 " +
+                        (saveSuccess?"数据保存成功":"数据保存失败");
                     if (_modbus.IsConnected)
                     {
                         c_txtModbusStatus.Text = "连接成功";
@@ -281,6 +290,43 @@ namespace YRKJ.MWR.WSDestory.Forms
             c_txtElectric2.Text = model.MCElectricCurrent2 + "";
 
         }
+        private List<TblMWDestroyMCParamsLog> _dmcLogs = new List<TblMWDestroyMCParamsLog>();
+        private bool DataSave(ModbusHelper.BizModel model)
+        {
+
+            //SysInfo.GetInstance().Config.WSCode;
+            
+            DateTime dbNow = SqlDBMng.GetDBNow();
+            _dmcLogs.Add(new TblMWDestroyMCParamsLog() {
+                MCCode = SysInfo.GetInstance().Config.WSCode,
+                RunDate = dbNow,//DateTime.Now,
+                WSCode = SysInfo.GetInstance().Config.WSCode,
+                DisiNum = ComLib.ComFn.StringToInt(model.TotalBatchCount),
+                Pressure = model.MCPressure,
+                InTemperature = model.MCInTemperature,
+                ExTemperature = model.MCExTemperature,
+                EC1 = model.MCElectricCurrent1,
+                EC2 = model.MCElectricCurrent2,
+                WordStatus = model.MCStatusDesc
+
+            });
+
+            if (_dmcLogs.Count >= 10)
+            {
+                string errMsg = "";
+                if (!TxnMng.BatchAddDMCParamsLog(_dmcLogs, ref errMsg))
+                {
+                    // error log
+                    return false;
+                }
+                else
+                {
+                    _dmcLogs.Clear();
+                }
+            }
+            return true;
+        }
+
         private void ThreadSafe(MethodInvoker method)
         {
             //try
