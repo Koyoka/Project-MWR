@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using YAS.ComUtility.SMTP;
+using YAS.ComUtility.IM;
 
 
 namespace MobilePhoneDemoApp
@@ -33,6 +34,65 @@ namespace MobilePhoneDemoApp
             string content = c_txtContent.Text;
             smtp.Send(1, phone, content, ref data, ref errMsg);
             textBox1.Text = errMsg + "\r\n" + data;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            string orgName = "elevendemo";
+            string appName = "elevendemoapp";
+            //string clientId = "YXA6WQDpcBtKEeWhFY0nM0YckA";
+            //string clientSecret = "YXA6vOyYXwnjmMPnbcL-5O2w6JtX-TQ";
+            string clientId = "YXA6WQDpcBtKEeWhFY0nM0YckA";
+            string clientSecret = "ccA6vOyYXwnjmMPnbcL-5O2w6JtX-TQ";
+            //token
+            HXIMHelper hxIMHelper = new HXIMHelper(
+                orgName,
+                appName,clientId,clientSecret);
+            //string errMsg = "";
+            //if (!hxIMHelper.GetAppToken(ref errMsg))
+            //{
+            //    MessageBox.Show(errMsg);
+            //}
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            //好友
+            string orgName = "elevendemo";
+            string appName = "elevendemoapp";
+            string clientId = "YXA6WQDpcBtKEeWhFY0nM0YckA";
+            string clientSecret = "YXA6vOyYXwnjmMPnbcL-5O2w6JtX-TQ";
+            //string clientId = "YXA6WQDpcBtKEeWhFY0nM0YckA";
+            //string clientSecret = "ccA6vOyYXwnjmMPnbcL-5O2w6JtX-TQ";
+            //token
+            HXIMHelper hxIMHelper = new HXIMHelper(
+                orgName,
+                appName, clientId, clientSecret);
+            string errMsg = "";
+            List<string> users = null;
+            hxIMHelper.GetUserContacts("u1", "YWMtMaxS0htaEeWMuV9qSXPpcgAAAU9gnatR1scIxj7FXk4esB9hc622CbiLSiA",ref users, ref errMsg);
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+              string orgName = "elevendemo";
+            string appName = "elevendemoapp";
+            string clientId = "YXA6WQDpcBtKEeWhFY0nM0YckA";
+            string clientSecret = "YXA6vOyYXwnjmMPnbcL-5O2w6JtX-TQ";
+            //string clientId = "YXA6WQDpcBtKEeWhFY0nM0YckA";
+            //string clientSecret = "ccA6vOyYXwnjmMPnbcL-5O2w6JtX-TQ";
+            //token
+            HXIMHelper hxIMHelper = new HXIMHelper(
+                orgName,
+                appName, clientId, clientSecret);
+            string errMsg = "";
+             List<string> owners = new List<string>();
+             List<string> members = new List<string>();
+            hxIMHelper.GetGroupDetails("75932856479646128", "YWMtMaxS0htaEeWMuV9qSXPpcgAAAU9gnatR1scIxj7FXk4esB9hc622CbiLSiA",
+                ref owners,
+                ref members,
+                ref errMsg);
+            
         }
     }
 }
