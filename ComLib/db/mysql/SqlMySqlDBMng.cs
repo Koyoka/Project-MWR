@@ -11,7 +11,7 @@ namespace ComLib.db.mysql
     {
         public string ClassName = "ComLib.db.mysql.SqlMySqlDBMng";
         private static string connstr = "Database='yrkjar';Data Source='127.0.0.1';User Id='root';Password='-101868';charset='utf8'";
-
+       
         
 
         #region ISqlDBMng 成员
@@ -24,7 +24,7 @@ namespace ComLib.db.mysql
 
         public DataSet query(string sql, params object[][] ps)
         {
-            System.Diagnostics.Debug.WriteLine(sql);
+            SqlDBMng.DebugPrint(sql);
 
             MySql.Data.MySqlClient.MySqlParameter[] sqlParams = null;
             if (ps != null && ps.Length != 0)
@@ -49,7 +49,8 @@ namespace ComLib.db.mysql
 
         public List<T> query<T>(string sql, T clazz, params object[][] ps) where T : BaseDataModule, new()
         {
-            System.Diagnostics.Debug.WriteLine(sql);
+            SqlDBMng.DebugPrint(sql);
+
 
             MySql.Data.MySqlClient.MySqlParameter[] sqlParams = null;
             if (ps != null && ps.Length != 0)
@@ -86,7 +87,8 @@ namespace ComLib.db.mysql
 
         public List<T> query<T>(string sql, T clazz) where T : BaseDataModule, new()
         {
-            System.Diagnostics.Debug.WriteLine(sql);
+            SqlDBMng.DebugPrint(sql);
+
             System.Data.DataSet ds = MySqlHelper2.GetDataSet(connstr, System.Data.CommandType.Text, sql);
             List<T> ts = null;
             if (ds != null && ds.Tables.Count == 1 && ds.Tables[0].Rows.Count > 0)
@@ -103,13 +105,15 @@ namespace ComLib.db.mysql
 
         public int update(string sql) 
         {
-            System.Diagnostics.Debug.WriteLine(sql);
+          
+            SqlDBMng.DebugPrint(sql);
             return MySqlHelper2.ExecuteNonQuery(connstr, System.Data.CommandType.Text, sql);
         }
 
         public int update(string sql, params object[][] ps) 
         {
-            System.Diagnostics.Debug.WriteLine(sql);
+           
+            SqlDBMng.DebugPrint(sql);
 
             MySql.Data.MySqlClient.MySqlParameter[] sqlParams = null;
             if (ps != null && ps.Length != 0)
@@ -150,7 +154,8 @@ namespace ComLib.db.mysql
                     int i = 0;
                     foreach (string sql in sqlList)
                     {
-                        System.Diagnostics.Debug.WriteLine(sql);
+                        
+                        SqlDBMng.DebugPrint(sql);
                         executeSql = sql;
                         count[i] = MySqlHelper2.ExecuteNonQuery(trans, System.Data.CommandType.Text, sql, sqlParams);
                         i++;

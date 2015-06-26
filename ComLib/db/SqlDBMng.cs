@@ -10,6 +10,7 @@ namespace ComLib.db
     {
         public static string ClassName = "ComLib.db.SqlDBMng";
         private static ISqlDBMng dbmng = null;
+        public static bool IsDebug = false;
 
         public enum DBTypeEnum
         { 
@@ -186,6 +187,11 @@ namespace ComLib.db
             return true;
         }
 
+        public static void DebugPrint(string s)
+        {
+            if (IsDebug)
+                System.Diagnostics.Debug.WriteLine(s);
+        }
         #endregion
 
 

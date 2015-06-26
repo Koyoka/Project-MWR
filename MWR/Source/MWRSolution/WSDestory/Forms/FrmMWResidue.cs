@@ -20,6 +20,7 @@ namespace YRKJ.MWR.WSDestory.Forms
         private const string ClassName = "YRKJ.MWR.WSDestory.Forms.FrmMWResidue";
         private FormMng _frmMng = null;
         private ModbusHelper _modbus = null;
+        private SavePLCDataHelper _savePLCDataHelper;
 
         public FrmMWResidue()
         {
@@ -128,9 +129,14 @@ namespace YRKJ.MWR.WSDestory.Forms
             try
             {
                 this.Cursor = Cursors.WaitCursor;
+                string errMsg = "";
+                c_time.Stop();
 
                 if (_modbus != null)
                     _modbus.Dispose();
+
+                System.Diagnostics.Debug.WriteLine("FrmMWResidue_FormClosing=========");
+                _savePLCDataHelper.SaveToDb(ref errMsg);
             }
             catch (Exception ex)
             {
@@ -143,14 +149,27 @@ namespace YRKJ.MWR.WSDestory.Forms
             }
         }
 
+        
         private void c_time_Tick(object sender, EventArgs e)
         {
             try
             {
+                System.Diagnostics.Debug.WriteLine("Pool data count:" + _savePLCDataHelper.PoolDataCount);
+
+                DateTime locTime = DateTime.Now;
+                if ((locTime - _savePLCDataHelper.LastSaveTime).TotalSeconds >= _savePLCDataHelper.Interval)
+                {
+                    string errMsg = "";
+                    System.Diagnostics.Debug.WriteLine("c_time_Tick=========");
+                    _savePLCDataHelper.SaveToDb(ref errMsg);
+                }
+
                 if (!c_bgw.IsBusy)
                 {
                     c_bgw.RunWorkerAsync();
                 }
+
+
 
             }
             catch (Exception ex)
@@ -204,17 +223,17 @@ namespace YRKJ.MWR.WSDestory.Forms
 
             _modbus.OnResponseData = new ModbusHelper.DelegateResponseData((x) =>
             {
-                bool saveSuccess = true;
-                if (!DataSave(x))
-                {
-                    saveSuccess = false;
-                }
+                //bool saveSuccess = true;
+                //if (!DataSave(x))
+                //{
+                //    saveSuccess = false;
+                //}
                 ThreadSafe(() =>
                 {
                     DataBind(x);
-                    
-                    c_txtmodbusLog.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " 获取数据成功 " +
-                        (saveSuccess?"数据保存成功":"数据保存失败");
+                    _savePLCDataHelper.Add(x);
+                    c_txtmodbusLog.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " 获取数据成功 ";// +
+                        //(saveSuccess?"数据保存成功":"数据保存失败");
                     if (_modbus.IsConnected)
                     {
                         c_txtModbusStatus.Text = "连接成功";
@@ -246,6 +265,7 @@ namespace YRKJ.MWR.WSDestory.Forms
             c_txtModbusPort.Text = SysInfo.GetInstance().Config.ModbusPort;
             c_txtModbusStatus.Text = "未连接";
 
+            _savePLCDataHelper = new SavePLCDataHelper();
             if (!InitModbus(ref errMsg))
             {
                 return false;
@@ -290,43 +310,7 @@ namespace YRKJ.MWR.WSDestory.Forms
             c_txtElectric2.Text = model.MCElectricCurrent2 + "";
 
         }
-        private List<TblMWDestroyMCParamsLog> _dmcLogs = new List<TblMWDestroyMCParamsLog>();
-        private bool DataSave(ModbusHelper.BizModel model)
-        {
-
-            //SysInfo.GetInstance().Config.WSCode;
-            
-            DateTime dbNow = SqlDBMng.GetDBNow();
-            _dmcLogs.Add(new TblMWDestroyMCParamsLog() {
-                MCCode = SysInfo.GetInstance().Config.WSCode,
-                RunDate = dbNow,//DateTime.Now,
-                WSCode = SysInfo.GetInstance().Config.WSCode,
-                DisiNum = ComLib.ComFn.StringToInt(model.TotalBatchCount),
-                Pressure = model.MCPressure,
-                InTemperature = model.MCInTemperature,
-                ExTemperature = model.MCExTemperature,
-                EC1 = model.MCElectricCurrent1,
-                EC2 = model.MCElectricCurrent2,
-                WordStatus = model.MCStatusDesc
-
-            });
-
-            if (_dmcLogs.Count >= 10)
-            {
-                string errMsg = "";
-                if (!TxnMng.BatchAddDMCParamsLog(_dmcLogs, ref errMsg))
-                {
-                    // error log
-                    return false;
-                }
-                else
-                {
-                    _dmcLogs.Clear();
-                }
-            }
-            return true;
-        }
-
+        
         private void ThreadSafe(MethodInvoker method)
         {
             //try
@@ -352,6 +336,64 @@ namespace YRKJ.MWR.WSDestory.Forms
             public const string MSG_FormName = "";
         }
 
+        private class SavePLCDataHelper
+        {
+            public DateTime LastSaveTime = DateTime.MinValue;
+            public int Interval = 20;
+            private object lockObj = new object();
+
+            private List<TblMWDestroyMCParamsLog> _dataPool = new List<TblMWDestroyMCParamsLog>();
+            public int PoolDataCount { get { return _dataPool.Count; } }
+
+            public void Add(TblMWDestroyMCParamsLog data)
+            {
+                _dataPool.Add(data);
+            }
+            public void Add(ModbusHelper.BizModel model)
+            {
+                if (!model.MCStrat)
+                    return;
+                DateTime dbNow = SqlDBMng.GetDBNow();
+                _dataPool.Add(new TblMWDestroyMCParamsLog()
+                {
+                    MCCode = SysInfo.GetInstance().Config.WSCode,
+                    RunDate = dbNow,//DateTime.Now,
+                    WSCode = SysInfo.GetInstance().Config.WSCode,
+                    DisiNum = ComLib.ComFn.StringToInt(model.TotalBatchCount),
+                    Pressure = model.MCPressure,
+                    InTemperature = model.MCInTemperature,
+                    ExTemperature = model.MCExTemperature,
+                    EC1 = model.MCElectricCurrent1,
+                    EC2 = model.MCElectricCurrent2,
+                    WordStatus = model.MCStatusDesc
+
+                });
+            }
+
+            public bool SaveToDb(ref string errMsg)
+            {
+                if (_dataPool.Count == 0)
+                    return true;
+
+                lock (lockObj)
+                {
+                    int len = _dataPool.Count;
+
+                    List<TblMWDestroyMCParamsLog> saveData = _dataPool.GetRange(0, len);
+                    if (!TxnMng.BatchAddDMCParamsLog(saveData, ref errMsg))
+                    {
+                        // error log
+                        return false;
+                    }
+                    System.Diagnostics.Debug.WriteLine("Pool Save Count:" + saveData.Count);
+                    _dataPool.RemoveRange(0, len);
+                    LastSaveTime = DateTime.Now;
+                }
+
+                System.Diagnostics.Debug.WriteLine("Pool Left Count:" + _dataPool.Count);
+                return true;
+            }
+        }
         #endregion
 
         #region Form Data Property
