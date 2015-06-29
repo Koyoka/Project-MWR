@@ -8,6 +8,7 @@ using YRKJ.MWR.BackOffice.Business.Sys;
 using YRKJ.MWR.Business.Permit;
 using YRKJ.MWR.Business.BaseData;
 using System.Web.SessionState;
+using YRKJ.MWR.Business.Sys;
 
 namespace YRKJ.MWR.BackOffice.Services
 {
@@ -139,6 +140,11 @@ namespace YRKJ.MWR.BackOffice.Services
         #region External Interface
         private bool BOUserLogin(HttpContext context, ref string result, ref string errMsg)
         {
+            if (!MWParams.GetHasBeenInitData())
+            {
+                return true;
+            }
+
             string empyCode = WebAppFn.SafeFormString(context.Request, "empycode").ToLower();
             string password = WebAppFn.SafeFormString(context.Request, "password").ToLower();
            

@@ -74,6 +74,7 @@ namespace YRKJ.MWR.BackOffice
             if (//requestPath.EndsWith(@"SYSERROR.ASPX") ||
                 requestPath.IndexOf(@"/PAGES/BO/") >= 0)
             {
+
                 if (System.Web.HttpContext.Current.Session == null)
                 {
                     return;
@@ -88,6 +89,7 @@ namespace YRKJ.MWR.BackOffice
                 {
                     return;
                 }
+
                 #endregion
 
                 #region valid permit

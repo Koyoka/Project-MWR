@@ -45,7 +45,7 @@ namespace YRKJ.MWR.WSDestory.Forms
                 TblMWEmploy empy = null;
                 string code = c_txtUserId.Text.Trim();
                 string password = c_txtPassword.Text;
-                if (!PermitMng.WSILogin(code, password, ref errMsg))
+                if (!PermitMng.WSDLogin(code, password, ref errMsg))
                 {
                     WinFn.SafeFocus(c_txtUserId);
                     MsgBox.Error(errMsg);

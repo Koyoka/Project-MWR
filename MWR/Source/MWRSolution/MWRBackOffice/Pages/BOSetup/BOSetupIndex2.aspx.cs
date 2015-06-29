@@ -5,25 +5,16 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using YRKJ.MWR.BackOffice.Business.Sys;
-using YRKJ.MWR.Business.Sys;
 
-namespace YRKJ.MWR.BackOffice.Pages.BO
+namespace YRKJ.MWR.BackOffice.Pages.BOInit
 {
-    public partial class BOIndex2 : System.Web.UI.Page
+    public partial class BOSetupIndex2 : System.Web.UI.Page
     {
         public const string ClassName = "ClassName";
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack)
-            {
-                string errMsg = "";
-                if (!InitPage(ref errMsg))
-                {
-                    // do error thing
-                    RedirectHelper.GotoLoginErrPage();
-                }
-            }
+            
         }
 
         #region Events
@@ -34,13 +25,6 @@ namespace YRKJ.MWR.BackOffice.Pages.BO
 
         private bool InitPage(ref string errMsg)
         {
-
-            if (!MWParams.GetHasBeenInitData())
-            {
-                Response.Redirect(WebAppFn.GetBoSetupFullPageUrl(RedirectHelper.SetupMainPage));
-                return true;
-            }
-
             if (!LoadData(ref errMsg))
             {
                 return false;

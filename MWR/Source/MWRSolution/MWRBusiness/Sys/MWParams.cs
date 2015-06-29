@@ -491,5 +491,29 @@ namespace YRKJ.MWR.Business.Sys
             return _syncCity;
         }
         #endregion
+
+        #region init data
+        //private static bool _hasBeenInitData = false;
+        private static string _hasBeenInitData = null;
+        public static bool SetHasBeenInitData(bool value, ref string errMsg)
+        {
+            _hasBeenInitData = value ? "1" : "0";
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            if (!SysParams.GetInstance().SetValue(dcf, "HasBeenInitData", _hasBeenInitData, ref errMsg))
+            {
+                return false;
+            }
+            return true;
+        }
+        public static bool GetHasBeenInitData()
+        {
+            if (string.IsNullOrEmpty(_hasBeenInitData))
+            {
+                DataCtrlInfo dcf = new DataCtrlInfo();
+                _hasBeenInitData = SysParams.GetInstance().GetValue(dcf, "HasBeenInitData");
+            }
+            return _hasBeenInitData == "1" ? true : false;
+        }
+        #endregion
     }
 }

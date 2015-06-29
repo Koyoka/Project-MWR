@@ -19,7 +19,7 @@
 </div>
 <div class="page-container">
     
-        <div class="page-sidebar-wrapper">
+        <div class="page-sidebar-wrapper" style=""border:1px slid blue">
             <div class="page-sidebar navbar-collapse collapse">
                 <ul class="page-sidebar-menu">
                    <li class="sidebar-toggler-wrapper">
@@ -47,9 +47,13 @@
         </div>
 
     <div class="page-content-wrapper">
-            <div class="page-content" style="">
-                   <uc1:UModal ID="UModal1" runat="server" />
-                   <div class="page-content-body" data-default="SetupAdmin.aspx" data-wgt="mw-loadpage">                    </div>
+            <div class="page-content"  style="border:0px solid red; padding:0px;min-height:700px; overflow:hidden;">
+                   <%--<uc1:UModal ID="UModal1" runat="server" />--%>
+                   <%--<div class="page-content-body" data-default="SetupAdmin.aspx" data-wgt="mw-loadpage">                    </div>--%>
+                     <iframe name="mw-mainFrame" data-default="<% = RedirectHelper.SetupAdmin %>" data-wgt="mw-loadpage" id="mw-mainFrame" class="auto-height"
+                
+                    marginheight="0" marginwidth="0"  height="0"
+                    frameborder="0" scrolling="no"></iframe>  
                
             </div>
         </div>
@@ -60,11 +64,15 @@
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="footscript" runat="server">
 
+<script src="/Assets/custplugins/jquery-iframe-auto-height-master/release/jquery.iframe-auto-height.js" type="text/javascript"></script>
+
 
 <script src="/assets/bosetupindex.js"></script>
 <script type="text/javascript">
     jQuery(document).ready(function () {
         SetupIndexHelper.init();
+
+        $('iframe').iframeAutoHeight({ debug: true, animate: false });
     });
 </script>
 </asp:Content>

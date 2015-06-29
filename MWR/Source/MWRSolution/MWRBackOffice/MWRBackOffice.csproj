@@ -310,6 +310,7 @@
     <Content Include="Global.asax" />
     <Content Include="HTMLPage1.htm" />
     <Content Include="Lib\Newtonsoft.Json.Net20.dll" />
+    <Content Include="Pages\BOSetup\BOSetupIndex2.aspx" />
     <Content Include="Pages\BOSetup\BOSetupIndex.aspx" />
     <Content Include="Pages\BOSetup\SetupAdmin.aspx" />
     <Content Include="Pages\BOSetup\SetupComplete.aspx" />
@@ -393,6 +394,13 @@
     <Compile Include="Class1.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\BOSetup\BOSetupIndex2.aspx.cs">
+      <DependentUpon>BOSetupIndex2.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\BOSetup\BOSetupIndex2.aspx.designer.cs">
+      <DependentUpon>BOSetupIndex2.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\BOSetup\BOSetupIndex.aspx.cs">
       <DependentUpon>BOSetupIndex.aspx</DependentUpon>

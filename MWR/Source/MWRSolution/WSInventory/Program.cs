@@ -7,6 +7,7 @@ using ComLib.Log;
 using YRKJ.MWR.WinBase.WinAppBase;
 using YRKJ.MWR.WinBase.WinAppBase.Config;
 using YRKJ.MWR.WinBase.WinAppBase.BaseForm;
+using YRKJ.MWR.Business.BO;
 
 namespace YRKJ.MWR.WSInventory
 {
@@ -16,7 +17,7 @@ namespace YRKJ.MWR.WSInventory
         /// 应用程序的主入口点。
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -26,7 +27,13 @@ namespace YRKJ.MWR.WSInventory
 
             try
             {
-
+                if (args != null)
+                {
+                    if (args.Length >= 1)
+                    {
+                        WinAppBase.DBName = args[0];
+                    }
+                }
                 string errMsg = "";
 
                 #region DBMng Init
@@ -62,6 +69,24 @@ namespace YRKJ.MWR.WSInventory
                     {
                         using (FrmInitWSConfig f = new FrmInitWSConfig())
                         {
+                            f.OnInitValid = x =>
+                            {
+                                DataCtrlInfo dcf = new DataCtrlInfo();
+                                dcf.SetDBSession(
+                                        SqlDBMng.GetConnStr(
+                                        WinAppBase.DBName,
+                                        x.DBServerName,
+                                        x.DBUserName,
+                                        x.DBPassword,
+                                        x.DBPort)
+                                    );
+                                if (!WSMng.RegistIWS(dcf,x.WSCode, ref errMsg))
+                                {
+                                    MsgBox.Error("工作站编号注册失败，请查看是否已注册。");
+                                    return false;
+                                }
+                                return true;
+                            };
                             if (f.ShowDialog() != DialogResult.OK)
                             {
                                 return;

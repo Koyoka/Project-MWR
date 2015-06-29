@@ -159,18 +159,20 @@ namespace ComLib.db.mysql.Update
             string tempDBName = oldDBName + "_" + Guid.NewGuid().ToString();
             _helper.TempDBName = tempDBName;
             {
-                string pattern = "NOT EXISTS `" + oldDBName.ToUpper() + "`";
+                //string pattern = "NOT EXISTS `" + oldDBName.ToUpper() + "`";
+                string pattern = "NOT EXISTS `[a-zA-Z0-9]+`";
                 string replaceStr = "NOT EXISTS `" + tempDBName + "`";
                 Regex reg = new Regex(pattern, RegexOptions.IgnoreCase);
                 newTempDBSql = reg.Replace(newTempDBSql, replaceStr);
             }
 
-            {
-                string pattern = "USE `" + oldDBName.ToUpper() + "`";
-                Regex reg = new Regex(pattern, RegexOptions.IgnoreCase);
-                string replaceStr = "USE `" + tempDBName + "`";
-                newTempDBSql = reg.Replace(newTempDBSql, replaceStr);
-            }
+            //{
+            //    //string pattern = "USE `" + oldDBName.ToUpper() + "`";
+            //    string pattern = "USE `[a-zA-Z0-9]+`";
+            //    Regex reg = new Regex(pattern, RegexOptions.IgnoreCase);
+            //    string replaceStr = "USE `" + tempDBName + "`";
+            //    newTempDBSql = reg.Replace(newTempDBSql, replaceStr);
+            //}
             _helper.PrintDebugOutput(newTempDBSql);
             #endregion
 
@@ -483,6 +485,8 @@ namespace ComLib.db.mysql.Update
                 //DELIMITER
                 bool isDELIMITER = false;
                 StringBuilder delimiteSqlSB = new StringBuilder();
+               
+
                 foreach (string s in sqlFileStr.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
                 {
 
@@ -533,6 +537,8 @@ namespace ComLib.db.mysql.Update
                         // 如果是注释，则跳出循环  
                         if (l.StartsWith("--")) continue;
                         if (l.StartsWith("SET")) continue;
+                        if (l.StartsWith("CREATE SCHEMA IF NOT EXISTS")) continue;
+                        if (l.StartsWith("USE")) continue;
 
                         // 行数加1   
                         line += Environment.NewLine + l;
@@ -546,7 +552,13 @@ namespace ComLib.db.mysql.Update
                         splitSql.Add(line);
                     }
                 }
-                delimiteSql = delimiteSqlSB.ToString();
+                #region Create DB Sql
+                splitSql.Insert(0,"CREATE SCHEMA IF NOT EXISTS `" + TempDBName + "` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;");
+                splitSql.Insert(1,"USE `" + TempDBName + "` ;");
+
+                #endregion
+
+                delimiteSql =  delimiteSqlSB.ToString();
                 return true;
             }
 

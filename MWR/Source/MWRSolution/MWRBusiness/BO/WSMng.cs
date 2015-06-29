@@ -9,6 +9,45 @@ namespace YRKJ.MWR.Business.BO
 {
     public class WSMng
     {
+
+        #region WS
+        public static bool RegistDWS(DataCtrlInfo dcf,string wsCode, ref string errMsg)
+        {
+           
+
+            TblMWWorkStation dws = new TblMWWorkStation() { 
+                WSCode = wsCode,
+                Desc = "处置工作站",
+                WSType = TblMWWorkStation.WSTYPE_ENUM_DesWorkStation
+            };
+
+            int updCount = 0;
+            if (!TblMWWorkStationCtrl.Insert(dcf,dws,ref updCount,ref errMsg))
+            {
+                return false;
+            }
+            return true;
+        }
+        public static bool RegistIWS(DataCtrlInfo dcf, string wsCode, ref string errMsg)
+        {
+
+            TblMWWorkStation dws = new TblMWWorkStation()
+            {
+                WSCode = wsCode,
+                Desc = "库存工作站",
+                WSType = TblMWWorkStation.WSTYPE_ENUM_InvWorkStation
+            };
+
+            int updCount = 0;
+            if (!TblMWWorkStationCtrl.Insert(dcf, dws, ref updCount, ref errMsg))
+            {
+                return false;
+            }
+            return true;
+        }
+
+        #endregion
+
         #region MWS
 
         #region get data

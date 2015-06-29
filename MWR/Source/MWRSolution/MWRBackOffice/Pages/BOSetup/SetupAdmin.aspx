@@ -122,7 +122,7 @@
     };
     function subRecall(el, d, data) {
 //        Modal.alert('修改成功。');
-        SetupIndexHelper.NextStep();
+        window.parent['SetupIndexHelper'].NextStep();
     }
     jQuery(document).ready(function () {
         initFrmValid();

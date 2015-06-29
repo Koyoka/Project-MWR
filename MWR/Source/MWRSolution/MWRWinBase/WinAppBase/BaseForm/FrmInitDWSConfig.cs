@@ -16,7 +16,8 @@ namespace YRKJ.MWR.WinBase.WinAppBase.BaseForm
     {
         private const string ClassName = "YRKJ.MWR.WinBase.WinAppBase.BaseForm.FrmInitDWSConfig";
         private FormMng _frmMng = null;
-
+        public delegate bool DelegateInitValid(AppConfig cfg);
+        public DelegateInitValid OnInitValid = null;
 
         public FrmInitDWSConfig()
         {
@@ -83,6 +84,7 @@ namespace YRKJ.MWR.WinBase.WinAppBase.BaseForm
                 string errMsg = "";
 
                 AppConfig cfg = GetCfgDataFromControl();
+              
 
                 #region valid db config
                 if (!ComLib.db.SqlDBMng.DetectDBServer(WinAppBase.DBName, cfg.DBServerName, cfg.DBUserName, cfg.DBPassword,cfg.DBPort, ref errMsg))
@@ -97,6 +99,13 @@ namespace YRKJ.MWR.WinBase.WinAppBase.BaseForm
                 string wscodemask = "WS###";
                 cfg.WSCode = ComLib.ComFn.GetMaskNumString((int)c_txtWSCode.Value, wscodemask);
                 cfg.ServiceRoot = c_txtModbusIp.Text;
+                if (OnInitValid != null)
+                {
+                    if (!OnInitValid(cfg))
+                    {
+                        return;
+                    }
+                }
                 #endregion
 
                 #region valid Modbus

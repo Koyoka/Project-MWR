@@ -5,7 +5,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
 <div class="note note-success">
 	<p>
-        系统完成初始化，<a href="<% = WebAppFn.GetBoFullPageUrl("index.html") %>">点我</a>开始使用！
+        系统完成初始化，<a target="_parent" href="<% = WebAppFn.GetBoFullPageUrl("index.html") %>">点我</a>开始使用！
 	</p>
 </div>
 <center>

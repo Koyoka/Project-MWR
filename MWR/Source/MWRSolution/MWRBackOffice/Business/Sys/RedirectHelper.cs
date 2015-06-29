@@ -66,6 +66,7 @@ namespace YRKJ.MWR.BackOffice.Business.Sys
         #endregion
 
         #region BOSetup
+        public const string SetupMainPage = "BOSetupIndex2.aspx";
         public const string SetupAdmin = "SetupAdmin.aspx";
         public const string SetupParams = "SetupParams.aspx";
         public const string SetupInitBaseData = "SetupInitBaseData.aspx";

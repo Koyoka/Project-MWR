@@ -179,7 +179,7 @@
 <script src="/assets/bosysinit.js"></script>
 <script>
     function recallImport(el, netData, locData) {
-        SetupIndexHelper.NextStep();
+        window.parent['SetupIndexHelper'].NextStep();
     }
     jQuery(document).ready(function () {
         SysInitHelper.init('<% = WebAppFn.GetBoSetupFullPageUrl(RedirectHelper.SetupInitBaseData) %>');

@@ -1,43 +1,33 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Root>
   <DBInfo>
-    <Id>02877f5c-741e-48d8-a67e-0ea90e511f45</Id>
-    <ConnName>数据库更新测试</ConnName>
-    <Service>127.0.0.1</Service>
-    <Uid>root</Uid>
-    <Password>-101868</Password>
-    <Port>3306</Port>
-    <DBName>demodata</DBName>
-    <SqlPath>E:\project\net\githubWorkspace\VS\DBUpdate\Setting\demodata.sql</SqlPath>
-  </DBInfo>
-  <DBInfo>
-    <Id>3b5627f5-26c8-4573-958a-0e5fb9c685b9</Id>
-    <ConnName>ccc</ConnName>
-    <Service>127.0.0.1</Service>
-    <Uid>root</Uid>
-    <Password>-101868</Password>
-    <Port>3306</Port>
-    <DBName>cdcs</DBName>
-    <SqlPath>C:\Users\Administrator\Desktop\数据库更新\Setting\cdcs.sql</SqlPath>
-  </DBInfo>
-  <FormInfo>
-     <Id>834acd6c-ef9f-40ea-ad76-18377ee9cfb8</Id>
-     <ConnName>家里-MWR开发数据库</ConnName>
-     <Service>127.0.0.1</Service>
-     <Uid>root</Uid>
-     <Password>-101868</Password>
-     <Port>3306</Port>
-     <DBName>mwrdata</DBName>
-     <SqlPath>E:\Project\net\GithubWorkSpace\VS\MWR\Tool\DataBase\MWR.sql</SqlPath>
-</FormInfo>
-  <DBInfo>
-    <Id>834acd6c-ef9f-40ea-ad76-18377ee9cfb8</Id>
-    <ConnName>家里-MWR开发数据库</ConnName>
+    <Id>a582d2c8-d03e-43de-a592-89c63417d3e3</Id>
+    <ConnName>MWR开发数据库</ConnName>
     <Service>127.0.0.1</Service>
     <Uid>root</Uid>
     <Password>-101868</Password>
     <Port>3306</Port>
     <DBName>mwrdata</DBName>
-    <SqlPath>E:\Project\net\GithubWorkSpace\VS\MWR\Tool\DataBase\MWR.sql</SqlPath>
+    <SqlPath>E:\project\net\githubWorkspace\VS\MWR\Tool\DataBase\MWR.sql</SqlPath>
+  </DBInfo>
+  <FormInfo>
+     <Id>ddc62f5b-4328-4893-ae49-8e021fd2f08f</Id>
+     <ConnName>MWR演示数据库1</ConnName>
+     <Service>127.0.0.1</Service>
+     <Uid>root</Uid>
+     <Password>-101868</Password>
+     <Port>3306</Port>
+     <DBName>mwrdata_test</DBName>
+     <SqlPath>E:\project\net\githubWorkspace\VS\MWR\Tool\DataBase\MWR.sql</SqlPath>
+</FormInfo>
+  <DBInfo>
+    <Id>ddc62f5b-4328-4893-ae49-8e021fd2f08f</Id>
+    <ConnName>MWR演示数据库1</ConnName>
+    <Service>127.0.0.1</Service>
+    <Uid>root</Uid>
+    <Password>-101868</Password>
+    <Port>3306</Port>
+    <DBName>mwrdata_test</DBName>
+    <SqlPath>E:\project\net\githubWorkspace\VS\MWR\Tool\DataBase\MWR.sql</SqlPath>
   </DBInfo>
 </Root>
