@@ -68,7 +68,7 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Inventory
                 pageExpandLogData.Add(new PageExpandLogData() { 
                     WSCode = data.WSCode,
                     EmpyName = data.EmpyName,
-                    OptType = BizHelper.GetTxnLogOptType(data.OptType),
+                    OptType = BizHelper.GetTxnLogOptType(data.OptType) + "-" + BizHelper.GetTxnDetailTxnType(data.TxnLogType),
                     OptDate = ComLib.ComFn.DateTimeToString(data.OptDate,BizBase.GetInstance().DateTimeFormatString)
                 });
             }

@@ -26,12 +26,12 @@ namespace YRKJ.MWR.WinBase.WinUtility
         decimal _weight = 0;
         string _unit = "";
 
-        private bool _isOpen = false;
-        public bool IsOpen
-        {
-            get { return _isOpen; }
-        }
-        private bool _isClose = false;
+        //private bool _isOpen = false;
+        //public bool IsOpen
+        //{
+        //    get { return _isOpen; }
+        //}
+        //private bool _isClose = false;
         private bool _isReceived = false;
 
         public delegate void ScalesOnConnected();
@@ -79,39 +79,21 @@ namespace YRKJ.MWR.WinBase.WinUtility
             _complete = false;
             _stratScale = false;
             _stCount = 0;
-            if (!_isOpen)
-                _isOpen = Device.Connect();
-           
-          
-            return _isOpen;
+
+            bool isOpen = false;
+            if (!Device.IsDeviceConnected)
+                isOpen = Device.Connect();
+
+
+            return isOpen;
         }
 
         public void Close()
         {
-            //lock (_closeLock)
+            _complete = true;
+            if (Device.IsDeviceConnected)
             {
-                //if (_isOpen)
-                //    _time.Stop();
-
-                //_isClose = true;
-                //_form = null;
-
-                
-                //onConnected = null;
-                //onDisConnected = null;
-                //onScalesDataReceived = null;
-
-                //Device.OnConnected -= DeviceOnConnected;
-                //Device.OnDisConnected -= DeviceOnDisConnected;
-                //Device.DataReceived -= DeviceDataReceived;
-                _complete = true;
-                if (_isOpen)
-                {
-                    _isOpen = false;
-                    Device.Disconnect();
-                }
-
-                //System.Diagnostics.Debug.WriteLine("Close--------[" + _isClose + "] e");
+                Device.Disconnect();
             }
         }
 
@@ -121,6 +103,9 @@ namespace YRKJ.MWR.WinBase.WinUtility
         {
             try
             {
+                _complete = false;
+                _stratScale = false;
+                _stCount = 0;
                 if (onConnected != null)
                     onConnected();
             }

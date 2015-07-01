@@ -851,7 +851,7 @@ namespace YRKJ.MWR.Business.BO
                 item.EmpyCode = empy.EmpyCode;
                 item.OptType = TblMWTxnLog.OPTTYPE_ENUM_AuthorizeDone;
                 item.OptDate = now;
-                item.TxnLogType = TblMWTxnLog.TXNLOGTYPE_ENUM_Post;
+                item.TxnLogType = detail.TxnType;//TblMWTxnLog.TXNLOGTYPE_ENUM_Post;
                 item.InvRecordId = detail.InvRecordId;
 
                 int updCount = 0;

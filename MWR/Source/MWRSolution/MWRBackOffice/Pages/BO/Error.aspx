@@ -45,19 +45,15 @@
                          <%
                         string btype = Request.QueryString["BT"] == null ? "" : Request.QueryString["BT"].ToString();
                         string href = Request.QueryString["BP"] == null ? "" : Request.QueryString["BP"].ToString();
-                        //string clazz = "mw-mainFrame";
-                        //if (btype == YRKJ.MWR.BackOffice.Business.Sys.RedirectHelper.BackType.redirect.ToString())
-                        //{
-                        //    href = YRKJ.MWR.BackOffice.Business.Sys.WebAppFn.GetBoFullPageUrl(href);
-                        //}
-                        //else if (btype == YRKJ.MWR.BackOffice.Business.Sys.RedirectHelper.BackType.include.ToString())
-                        //{
-                        //    //href = href;
-                        //}
+                        string target = "target=\"_parent\"";
+                        if (btype == YRKJ.MWR.BackOffice.Business.Sys.RedirectHelper.BackType.include.ToString())
+                        {
+                            target = "";
+                        }
                          %>
 						<p>
 							 请根据错误信息联系管理员<br />
-							<a  target="_parent" href="<% = href %>">返回登陆</a> 
+							<a  <% = target %> href="<% = href %>">返回登陆</a> 
 						</p>
 						
 					</div>

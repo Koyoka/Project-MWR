@@ -209,6 +209,7 @@
 <table  class="table table-hover">
     <thead>
     <tr>
+        <th>交易号</th>
         <th>操作员</th>
         <th>操作终端</th>
         <th>操作类型</th>
@@ -222,6 +223,7 @@
     <tbody>
 {% for (var i=0, d; d=o.data[i]; i++) { %}
     <tr>
+        <td>{%=d.TxnNum%}</th>
         <td>{%=d.EmpyName%}</td>
         <td>{%=d.WSCode %}</td>
         <td>{%=d.TxnType %}</td>

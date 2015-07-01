@@ -147,7 +147,7 @@ namespace YRKJ.MWR.BackOffice
                 if (!permit)
                 {
                     //RedirectHelper.GotoLoginErrPage();
-                    RedirectHelper.GotoErrPage("没有权限使用当前功能", RedirectHelper.BOMain, RedirectHelper.BackType.include);
+                    RedirectHelper.GotoErrPage("没有权限使用当前功能", RedirectHelper.Index, RedirectHelper.BackType.redirect);
                     return;
                 }
 

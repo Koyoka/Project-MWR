@@ -62,6 +62,7 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Report
             {
                 JsonInvTrackData data = new JsonInvTrackData()
                 {
+                    TxnNum = item.TxnNum,
                     EmpyName = item.EmpyName,
                     WSCode = item.WSCode,
                     EntryDate = item.EntryDate.ToString(BizBase.GetInstance().DateTimeFormatString),
@@ -79,6 +80,7 @@ namespace YRKJ.MWR.BackOffice.Pages.BO.Report
         }
         class JsonInvTrackData
         {
+            public string TxnNum { get; set; }
             public string WSCode { get; set; }
             public string EmpyName { get; set; }
             public string EntryDate { get; set; }
