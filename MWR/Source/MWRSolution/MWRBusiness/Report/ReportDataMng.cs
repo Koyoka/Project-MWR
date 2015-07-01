@@ -412,6 +412,25 @@ namespace YRKJ.MWR.Business.Report
             return true;
         }
 
+        public static bool GetTodayTxnRecoverRepotData(ref TblMWTxnRecoverHeader recHeader, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            SqlQueryMng sqm = new SqlQueryMng();
+            sqm.QueryColumn.AddCount(TblMWTxnRecoverHeader.getRecoHeaderIdColumn());
+            sqm.QueryColumn.AddSum(TblMWTxnRecoverHeader.getTotalSubWeightColumn());
+            sqm.QueryColumn.AddSum(TblMWTxnRecoverHeader.getTotalTxnWeightColumn());
+            sqm.QueryColumn.AddSum(TblMWTxnRecoverHeader.getTotalCrateQtyColumn());
+            DateTime now = SqlDBMng.GetDBNow();
+            sqm.Condition.Where.AddDateTimeCompareValue(
+                TblMWTxnRecoverHeader.getEntryDateColumn(),
+                SqlCommonFn.SqlWhereCompareEnum.Equals, 
+                now, SqlCommonFn.SqlWhereDateTimeFormatEnum.YMD);
+            if (!TblMWTxnRecoverHeaderCtrl.QueryOne(dcf, sqm, ref recHeader, ref errMsg))
+            {
+                return false;
+            }
+            return true;
+        }
         public static bool GetTxnRecoverReportData(ref TblMWTxnRecoverHeader recHeader, ref string errMsg)
         {
             DataCtrlInfo dcf = new DataCtrlInfo();
@@ -462,6 +481,26 @@ namespace YRKJ.MWR.Business.Report
 
             return true;
         }
+
+        public static bool GetTodayTxnDestroyReportData(ref TblMWTxnDestroyHeader desHeader, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            SqlQueryMng sqm = new SqlQueryMng();
+            sqm.QueryColumn.AddCount(TblMWTxnDestroyHeader.getDestHeaderIdColumn());
+            sqm.QueryColumn.AddSum(TblMWTxnDestroyHeader.getTotalSubWeightColumn());
+            sqm.QueryColumn.AddSum(TblMWTxnDestroyHeader.getTotalTxnWeightColumn());
+            sqm.QueryColumn.AddSum(TblMWTxnDestroyHeader.getTotalCrateQtyColumn());
+            DateTime now = SqlDBMng.GetDBNow();
+            sqm.Condition.Where.AddDateTimeCompareValue(TblMWTxnDestroyHeader.getStartDateColumn(),
+                SqlCommonFn.SqlWhereCompareEnum.Equals,
+                now, SqlCommonFn.SqlWhereDateTimeFormatEnum.YMD);
+            if (!TblMWTxnDestroyHeaderCtrl.QueryOne(dcf, sqm, ref desHeader, ref errMsg))
+            {
+                return false;
+            }
+            return true;
+        }
+
 
         public static bool GetTxnDestroyReportData(ref TblMWTxnDestroyHeader desHeader, ref string errMsg)
         {
@@ -595,6 +634,22 @@ namespace YRKJ.MWR.Business.Report
         #endregion
 
         #region Authorize
+        public static bool GetProcessAuthorizeCount(ref int count,ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            SqlQueryMng sqm = new SqlQueryMng();
+            sqm.QueryColumn.AddCount(TblMWInvAuthorize.getTxnDetailIdColumn());
+            sqm.Condition.Where.AddCompareValue(VewIvnAuthorizeWithTxnDetail.getStatusColumn(),
+                 SqlCommonFn.SqlWhereCompareEnum.Equals, VewIvnAuthorizeWithTxnDetail.STATUS_ENUM_Precess);
+            TblMWInvAuthorize item = null;
+            if (!TblMWInvAuthorizeCtrl.QueryOne(dcf, sqm, ref item, ref errMsg))
+            {
+                return false;
+            }
+
+            count = item.TxnDetailId;
+            return true;
+        }
 
         public static bool GetProcessAuthorizeList(int page, int pageSize, ref long pageCount, ref long rowCount, ref List<VewIvnAuthorizeWithTxnDetail> dataList, ref string errMsg)
         {

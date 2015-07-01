@@ -52,7 +52,7 @@
                         </div>
                         <div class="details">
                             <div class="number">
-                                4
+                                <% = PageMainPageReport.CarOutCount%>
                             </div>
                             <div class="desc">
                                 当前外出车辆
@@ -68,7 +68,7 @@
                         </div>
                         <div class="details">
                             <div class="number">
-                                0
+                                <% =  PageMainPageReport.AuthorizeCount %>
                             </div>
                             <div class="desc">
                                 待审核货箱
@@ -84,7 +84,7 @@
                         </div>
                         <div class="details">
                             <div class="number">
-                                10
+                                <% = PageMainPageReport.TodayRecoverCount %> KG
                             </div>
                             <div class="desc">
                                 今日入库总量
@@ -100,7 +100,7 @@
                         </div>
                         <div class="details">
                             <div class="number">
-                                2
+                                <% = PageMainPageReport.TodayDestoryCount %> KG
                             </div>
                             <div class="desc">
                                 今日处置总量
