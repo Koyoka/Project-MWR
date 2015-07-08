@@ -49,6 +49,7 @@ namespace YAS.ComUtility.IM
         {
             return GetAppServiceHostURL() + string.Format("users/{0}/contacts/users",userName);
         }
+
         private string GetGroupDetailsServiceUrl(string groupId)
         {
             //{org_name}/{app_name}/chatgroups/{group_id}/users
@@ -189,6 +190,75 @@ namespace YAS.ComUtility.IM
                 return false;
             }
         }
+
+        public bool GetAllGroupsInfo(string token, ref List<string> groups, ref string errMsg)
+        {
+            try
+            {
+                string url = "http://127.0.0.1/AngularJS/chatgroups.json";
+                NameValueCollection nv = new NameValueCollection();
+                nv.Add("Authorization", "Bearer " + token);
+
+                int statusCode = 0;
+                string responseData = "";
+                if (!HttpHelper.DoGetHttp(url, nv, ref responseData, ref statusCode, ref errMsg))
+                {
+                    return false;
+                }
+
+                Newtonsoft.Json.Linq.JObject jo = Newtonsoft.Json.Linq.JObject.Parse(responseData);
+                string jsonStr = jo["data"].ToString();
+                List<HXGroupInfoData> aa =
+                Newtonsoft.Json.JsonConvert.DeserializeObject<List<HXGroupInfoData>>(jsonStr);
+               
+                //groups = new List<string>();
+                //if (jarray != null)
+                //{
+                //    foreach (var item in jarray)
+                //    {
+                //        groups.Add(item.ToString());
+                //    }
+                //}
+                return true;
+            }
+            catch (Exception ex)
+            {
+                errMsg = ex.Message;
+                return false;
+            }
+        }
+        public bool GetGroupsByUser(string userName, string token, ref List<HXGroupInfoData> groups, ref string errMsg)
+        {
+            // /{org_name}/{app_name}/users/{username}/joined_chatgroups
+            try
+            {
+                string url = "http://127.0.0.1/AngularJS/joined_chatgroups.json";
+                NameValueCollection nv = new NameValueCollection();
+                nv.Add("Authorization", "Bearer " + token);
+
+                int statusCode = 0;
+                string responseData = "";
+                if (!HttpHelper.DoGetHttp(url, nv, ref responseData, ref statusCode, ref errMsg))
+                {
+                    return false;
+                }
+
+                Newtonsoft.Json.Linq.JObject jo = Newtonsoft.Json.Linq.JObject.Parse(responseData);
+                string jsonStr = jo["data"].ToString();
+                groups =
+                Newtonsoft.Json.JsonConvert.DeserializeObject<List<HXGroupInfoData>>(jsonStr);
+
+                if (groups == null)
+                    groups = new List<HXGroupInfoData>();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                errMsg = ex.Message;
+                return false;
+            }
+        }
         #endregion
         #region common data
 
@@ -227,7 +297,13 @@ namespace YAS.ComUtility.IM
 
 
         #endregion
-
+         public class HXGroupInfoData
+        {
+            public string GROUPID { get; set; }
+            public string GROUPNAME { get; set; }
+            public string owner { get; set; }
+            public int affiliations { get; set; }
+        }
         #region GroupDetails - user
         /*
          {
