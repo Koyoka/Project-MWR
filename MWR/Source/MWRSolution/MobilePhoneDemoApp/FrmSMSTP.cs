@@ -94,5 +94,23 @@ namespace MobilePhoneDemoApp
                 ref errMsg);
             
         }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+             string orgName = "elevendemo";
+            string appName = "elevendemoapp";
+            string clientId = "YXA6WQDpcBtKEeWhFY0nM0YckA";
+            string clientSecret = "YXA6vOyYXwnjmMPnbcL-5O2w6JtX-TQ";
+            //string clientId = "YXA6WQDpcBtKEeWhFY0nM0YckA";
+            //string clientSecret = "ccA6vOyYXwnjmMPnbcL-5O2w6JtX-TQ";
+            //token
+            HXIMHelper hxIMHelper = new HXIMHelper(
+                orgName,
+                appName, clientId, clientSecret);
+             List<string> owners = new List<string>();
+             string errMsg = "";
+             List<YAS.ComUtility.IM.HXIMHelper.HXGroupInfoData> groups = null;
+             hxIMHelper.GetGroupsByUser("", "", ref groups, ref errMsg);
+        }
     }
 }
