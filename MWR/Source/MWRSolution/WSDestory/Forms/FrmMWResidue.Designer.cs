@@ -198,12 +198,12 @@
             // c_txtElectric2
             // 
             this.c_txtElectric2.BackColor = System.Drawing.Color.Black;
-            this.c_txtElectric2.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.c_txtElectric2.Font = new System.Drawing.Font("微软雅黑", 9.5F);
             this.c_txtElectric2.ForeColor = System.Drawing.Color.Lime;
-            this.c_txtElectric2.Location = new System.Drawing.Point(373, 269);
+            this.c_txtElectric2.Location = new System.Drawing.Point(368, 269);
             this.c_txtElectric2.Name = "c_txtElectric2";
             this.c_txtElectric2.ReadOnly = true;
-            this.c_txtElectric2.Size = new System.Drawing.Size(50, 25);
+            this.c_txtElectric2.Size = new System.Drawing.Size(61, 24);
             this.c_txtElectric2.TabIndex = 37;
             this.c_txtElectric2.Text = "0";
             this.c_txtElectric2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -211,12 +211,12 @@
             // c_txtElectric1
             // 
             this.c_txtElectric1.BackColor = System.Drawing.Color.Black;
-            this.c_txtElectric1.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.c_txtElectric1.Font = new System.Drawing.Font("微软雅黑", 9.5F);
             this.c_txtElectric1.ForeColor = System.Drawing.Color.Lime;
-            this.c_txtElectric1.Location = new System.Drawing.Point(373, 101);
+            this.c_txtElectric1.Location = new System.Drawing.Point(368, 101);
             this.c_txtElectric1.Name = "c_txtElectric1";
             this.c_txtElectric1.ReadOnly = true;
-            this.c_txtElectric1.Size = new System.Drawing.Size(50, 25);
+            this.c_txtElectric1.Size = new System.Drawing.Size(61, 24);
             this.c_txtElectric1.TabIndex = 37;
             this.c_txtElectric1.Text = "0";
             this.c_txtElectric1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -300,7 +300,7 @@
             this.label25.BackColor = System.Drawing.Color.Transparent;
             this.label25.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.label25.ForeColor = System.Drawing.Color.White;
-            this.label25.Location = new System.Drawing.Point(424, 278);
+            this.label25.Location = new System.Drawing.Point(430, 278);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(19, 16);
             this.label25.TabIndex = 36;
@@ -348,7 +348,7 @@
             this.label7.BackColor = System.Drawing.Color.Transparent;
             this.label7.Font = new System.Drawing.Font("微软雅黑", 8F);
             this.label7.ForeColor = System.Drawing.Color.White;
-            this.label7.Location = new System.Drawing.Point(424, 110);
+            this.label7.Location = new System.Drawing.Point(430, 110);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(19, 16);
             this.label7.TabIndex = 36;
@@ -923,7 +923,7 @@
             // 
             // c_time
             // 
-            this.c_time.Interval = 3000;
+            this.c_time.Interval = 10000;
             this.c_time.Tick += new System.EventHandler(this.c_time_Tick);
             // 
             // FrmMWResidue

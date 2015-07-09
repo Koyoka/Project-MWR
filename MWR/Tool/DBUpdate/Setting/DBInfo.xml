@@ -11,13 +11,13 @@
     <SqlPath>E:\project\net\githubWorkspace\VS\MWR\Tool\DataBase\MWR.sql</SqlPath>
   </DBInfo>
   <FormInfo>
-     <Id>3e136b3e-de06-4994-a14f-e41c18f0ffd4</Id>
-     <ConnName>MWR演示数据库2</ConnName>
+     <Id>a582d2c8-d03e-43de-a592-89c63417d3e3</Id>
+     <ConnName>MWR开发数据库</ConnName>
      <Service>127.0.0.1</Service>
      <Uid>root</Uid>
      <Password>-101868</Password>
      <Port>3306</Port>
-     <DBName>mwrdata_test2</DBName>
+     <DBName>mwrdata</DBName>
      <SqlPath>E:\project\net\githubWorkspace\VS\MWR\Tool\DataBase\MWR.sql</SqlPath>
 </FormInfo>
   <DBInfo>

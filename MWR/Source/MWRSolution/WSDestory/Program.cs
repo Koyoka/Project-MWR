@@ -22,6 +22,7 @@ namespace YRKJ.MWR.WSDestory
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+           
 
             #region test
             //{

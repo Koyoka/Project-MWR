@@ -35,7 +35,7 @@ namespace YRKJ.MWR.WSDestory.Business.Modbus
             public float MCExTemperature { get; set; }
             public float MCElectricCurrent1 { get; set; }
             public float MCElectricCurrent2 { get; set; }
-            public string TotalBatchCount { get; set; }
+            public uint TotalBatchCount { get; set; }
             public string TotalCrateCount { get; set; }
             public string TotalFeedCount { get; set; }
 
@@ -372,6 +372,12 @@ namespace YRKJ.MWR.WSDestory.Business.Modbus
 
         private void MBmaster_OnResponseData(ushort ID, byte unit, byte function, byte[] values)
         {
+            if (values.Length == 0)
+            {
+                _runStatus = EnumRunStatus.Stop;
+                return;
+            }
+
             BizModel model = null;
             SetValue(values, ref model);
             if (OnResponseData != null)
@@ -666,7 +672,7 @@ namespace YRKJ.MWR.WSDestory.Business.Modbus
             {
                 uint val = 0;
                 GetDWord(PLC_ADDRESS_TOTAL_BATCH_COUNT, data, ref val);
-                model.TotalBatchCount = val + "";
+                model.TotalBatchCount = val;
             }
             //public const string PLC_ADDRESS_TOTAL_CRATE_COUNT          = "%MD0.512";//已消毒医疗废物箱数
             {
