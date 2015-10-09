@@ -1,5 +1,22 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="WebForm1.aspx.cs" Inherits="YRKJ.MWR.BackOffice.WebForm1" %>
-<div style="display:none;">
+{"Orders":[{"OrderNumber":"","CustomerHxUserName":"","VendorHxUserName":"","OrderStatus":0,"PaymentStatus":0,"CustomerRemark":"","OrderRemark":"","ShipAddress":"","ShipContactName":"","ShipContactPhone":"","Id":0}]}
+
+<%
+    string path = Server.MapPath("~/Setting");
+    System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(path);
+    if (di.Exists)
+    {
+        System.IO.FileInfo[] files = di.GetFiles();
+        foreach (var item in files)
+        {
+            Response.Write("count:" + item.Name);
+        }
+        Response.Write("count:"+files.Length);
+        return;
+    }
+     %>
+
+<%--<div style="display:none;">
 <% = HttpRuntime.AppDomainAppPath  %>
 <br />
 <% = Server.MapPath("")%>
@@ -37,4 +54,4 @@
          <% = dbName %><br />
          <% = dbService%><br />
          <% = dbUser%><br />
-         <% = dbPassword%><br />
+         <% = dbPassword%><br />--%>

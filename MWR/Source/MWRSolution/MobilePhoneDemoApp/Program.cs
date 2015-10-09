@@ -6,6 +6,9 @@ using ComLib.db;
 using YRKJ.MWR;
 using System.Security.Cryptography;
 using System.Text;
+using System.Runtime.Serialization.Json;
+using System.Xml.Serialization;
+using Newtonsoft.Json;
 
 namespace MobilePhoneDemoApp
 {
@@ -129,19 +132,42 @@ namespace MobilePhoneDemoApp
             }
             return sb.ToString();
         }
-      
+
+        public class Demo { 
+            public string name = "Mercedes-Benz SS Roadster 1930 Erdmann&Rossi retro legend sport cabriolet \r\n(梅赛德斯-奔驰 SS 跑车 1930 Erdmann&Rossi复古传奇运动敞篷车）";
+        }
+        public class acac<T>
+        {
+            public void a() {
+                JsonConvert.DeserializeObject<T>("");
+            }
+        }
+
         /// <summary>
         /// 应用程序的主入口点。
         /// </summary>
         [STAThread]
         static void Main(string[] args)
         {
+            var c = JsonConvert.DeserializeObject<C>("{}");
+            Type t = typeof(C);
+            JsonConvert.DeserializeObject<C>("");
+          
+            string sss = JsonConvert.SerializeObject(c);
+
+
+            DataContractJsonSerializer js = 
+                new DataContractJsonSerializer(typeof(C));
+
+            Demo d = new Demo();
+            string s = Newtonsoft.Json.JsonConvert.SerializeObject(d);
+
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             {
                 Application.Run(new FrmSMSTP());
                 return;
-
             }
             CreateMD5Hash("12345620150430125900");
 

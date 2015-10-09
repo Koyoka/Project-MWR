@@ -17,6 +17,7 @@
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
+    <UseIISExpress>false</UseIISExpress>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -335,6 +336,7 @@
     <Content Include="Pages\BO\Error.html" />
     <Content Include="Pages\BO\func.aspx" />
     <Content Include="Pages\BO\HTMLPage1.htm" />
+    <Content Include="Pages\BO\index.aspx" />
     <Content Include="Pages\BO\index.html" />
     <Content Include="Pages\BO\Inventory\DestroyLog.aspx" />
     <Content Include="Pages\BO\Inventory\InvAuthorize.aspx" />
@@ -555,6 +557,13 @@
     </Compile>
     <Compile Include="Pages\BO\func.aspx.designer.cs">
       <DependentUpon>func.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\BO\index.aspx.cs">
+      <DependentUpon>index.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\BO\index.aspx.designer.cs">
+      <DependentUpon>index.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\BO\Inventory\DestroyLog.aspx.cs">
       <DependentUpon>DestroyLog.aspx</DependentUpon>

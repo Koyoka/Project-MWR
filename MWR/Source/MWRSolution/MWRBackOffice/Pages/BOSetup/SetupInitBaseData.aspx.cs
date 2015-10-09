@@ -343,6 +343,7 @@ namespace YRKJ.MWR.BackOffice.Pages.BOSetup
             }
             catch (Exception ex)
             {
+                errMsg = ex.Message;
                 return false;
             }
             return true;

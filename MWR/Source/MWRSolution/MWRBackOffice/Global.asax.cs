@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Security;
 using System.Web.SessionState;
 using YRKJ.MWR.BackOffice.Business.Sys;
+using System.Web.Routing;
+using System.Web.Compilation;
 
 namespace YRKJ.MWR.BackOffice
 {
@@ -13,7 +15,7 @@ namespace YRKJ.MWR.BackOffice
 
         protected void Application_Start(object sender, EventArgs e)
         {
-
+            RegisterRoutes(RouteTable.Routes);
            
             string errMsg = "";
             #region log
@@ -40,6 +42,33 @@ namespace YRKJ.MWR.BackOffice
                        dbUser,
                        dbPassword, dbPort));
             #endregion
+        }
+
+        public static void RegisterRoutes(RouteCollection routes)
+        {
+            routes.Add("BikeSaleRoute", new Route
+            (
+               "BO",
+               new CustomRouteHandler("~/Pages/BO/index.aspx")
+            ));
+        }
+
+        public class CustomRouteHandler : IRouteHandler
+        {
+            public CustomRouteHandler(string virtualPath)
+            {
+                this.VirtualPath = virtualPath;
+            }
+
+            public string VirtualPath { get; private set; }
+
+            public IHttpHandler GetHttpHandler(RequestContext
+                  requestContext)
+            {
+                var page = BuildManager.CreateInstanceFromVirtualPath
+                     (VirtualPath, typeof(System.Web.UI.Page)) as IHttpHandler;
+                return page;
+            }
         }
 
         protected void Session_Start(object sender, EventArgs e)
