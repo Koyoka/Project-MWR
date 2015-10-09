@@ -237,7 +237,7 @@
                         <i class="fa fa-reorder"></i>车辆班次列表
                     </div>
                      <div class="actions ">
-                     2015年01月16日
+                     
                         <%--<div id="dashboard-report-range" class="dashboard-date-range tooltips" data-placement="top" data-original-title="Change dashboard date range" style="display: block;">
 								<i class="fa fa-calendar"></i>
 								<span>December 17, 2014 - December 28, 2014</span>
@@ -251,7 +251,7 @@
                     data-wgt-submit-method="AjaxGetCarDispstch" 
                     data-wgt-submit-options-reload="true" 
                     data-wgt-submit-options-block="true" 
-                   <%-- data-wgt-submit-options-recall="CommHelper.recallCarDispatch" --%>
+                    data-wgt-submit-options-recall="CommHelper.recallCarDispatch"
                     action="<% = WebAppFn.GetBoFullPageUrl(RedirectHelper.CarDispatch) %>">
                     <div class="table-responsive table-scrollable">
                         <table class="table table-hover">

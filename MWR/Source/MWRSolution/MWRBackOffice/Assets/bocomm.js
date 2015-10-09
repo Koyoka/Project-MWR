@@ -64,7 +64,8 @@
                     }
 
                 }, function (r) {
-                    Modal.alert('[' + r + ']');
+//                    Modal.alert('[' + r + ']');
+                    window.alert('[' + r + ']');
                 }, function () {
 
                     if (loadBtn)
@@ -161,14 +162,16 @@
                     if (recall)
                         recall(el, d, data);
                 }, function (r) {
-                    Modal.alert('[' + r + ']');
+                    //                    Modal.alert('[' + r + ']');
+                    window.alert('['+ r +']');
                 }, function () {
-
+                    debugger;
                     if (loadBtn)
                         loadBtn.button('loading');
                     if (blockEl)
                         App.blockUI(blockEl);
                 }, function () {
+                    debugger;
                     if (loadBtn)
                         loadBtn.button('reset');
                     if (blockEl)
@@ -270,13 +273,16 @@
                     btnok: "继续",
                     btncl: "取消"
                 }).on(function (r) {
+
+
                     if (r) {
                         $("#mwDisId").val(disId);
                         $("#mwTxtIsSubmit").val("");
                         $("#mwFrmDispList").submit();
-                        $("#mwFrmCarDisp").submit();
+                        //$("#mwFrmCarDisp").submit();
                         //                        Modal.alert('车辆调度已提交。');
                     } else {
+
                     }
                 });
             }
@@ -339,7 +345,8 @@
                     if (recall)
                         recall(el, d, data);
                 }, function (r) {
-                    Modal.alert('[' + r + ']');
+                    window.alert('[' + r + ']');
+//                    Modal.alert('[' + r + ']');
                 }, function () {
                     //                    if (loadBtn)
                     //                        loadBtn.button('loading');
@@ -377,9 +384,11 @@
         return recall;
     }
     var _recallCarDispatch = function (el, netData, locData) {
-        $("#mwFrmDispList").submit();
-        if (!!locData.issubmit)
-            Modal.alert('车辆调度已提交。'); //.on(function (e) {});
+        debugger;
+        $("#mwFrmCarDisp").submit();
+        //        $("#mwFrmDispList").submit();
+        //        if (!!locData.issubmit)
+        //            Modal.alert('车辆调度已提交。'); //.on(function (e) {});
     }
     var _subAuthorize = function (el, netData, locData) {
         //        window.alert(netData.Value + " " + locData)

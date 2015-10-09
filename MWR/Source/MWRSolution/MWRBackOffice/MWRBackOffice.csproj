@@ -308,6 +308,7 @@
     <Content Include="Assets\bodestroylog.js" />
     <Content Include="Assets\bosetupindex.js" />
     <Content Include="Assets\副本 boindex.js" />
+    <Content Include="cardispath.html" />
     <Content Include="Global.asax" />
     <Content Include="HTMLPage1.htm" />
     <Content Include="Lib\Newtonsoft.Json.Net20.dll" />
