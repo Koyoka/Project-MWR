@@ -385,7 +385,7 @@
     }
     var _recallCarDispatch = function (el, netData, locData) {
         debugger;
-        $("#mwFrmCarDisp").submit();
+        //$("#mwFrmCarDisp").submit();
         //        $("#mwFrmDispList").submit();
         //        if (!!locData.issubmit)
         //            Modal.alert('车辆调度已提交。'); //.on(function (e) {});

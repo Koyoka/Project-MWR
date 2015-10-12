@@ -490,6 +490,68 @@ namespace YRKJ.MWR.Business.Sys
             }
             return _syncCity;
         }
+
+
+
+        private static DateTime _syncMCLastDataCreationDate = DateTime.MinValue;
+        public static bool SetSyncMCLastDataCreationDate(DateTime value, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            if (!SysParams.GetInstance().SetValue(dcf, "SyncMCLastDataCreationDate", value.ToString("yyyy-MM-dd HH:mm:ss"), ref errMsg))
+            {
+                return false;
+            }
+            _syncMCLastDataCreationDate = value;
+            return true;
+        }
+        public static DateTime GetSyncMCLastDataCreationDate()
+        {
+            if (_syncMCLastDataCreationDate == DateTime.MinValue)
+            {
+                DataCtrlInfo dcf = new DataCtrlInfo();
+                string defineSyncDateTimeStr = SysParams.GetInstance().GetValue(dcf, "SyncMCLastDataCreationDate");
+                if (string.IsNullOrEmpty(defineSyncDateTimeStr))
+                {
+                    //do nothing
+                }
+                else
+                {
+                    _syncMCLastDataCreationDate = ComLib.ComFn.StringToDateTime(defineSyncDateTimeStr, "yyyy-MM-dd HH:mm:ss");
+                }
+            }
+            return _syncMCLastDataCreationDate;
+        }
+
+        private static DateTime _syncMCDetailLastDataCreationDate = DateTime.MinValue;
+        public static bool SetSyncMCDetailLastDataCreationDate(DateTime value, ref string errMsg)
+        {
+
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            if (!SysParams.GetInstance().SetValue(dcf, "SyncMCDetailLastDataCreationDate", value.ToString("yyyy-MM-dd HH:mm:ss"), ref errMsg))
+            {
+                return false;
+            }
+            _syncMCDetailLastDataCreationDate = value;
+            return true;
+        }
+        public static DateTime GetSyncMCDetailLastDataCreationDate()
+        {
+            if (_syncMCDetailLastDataCreationDate == DateTime.MinValue)
+            {
+                DataCtrlInfo dcf = new DataCtrlInfo();
+                string defineSyncDateTimeStr = SysParams.GetInstance().GetValue(dcf, "SyncMCDetailLastDataCreationDate");
+                if (string.IsNullOrEmpty(defineSyncDateTimeStr))
+                {
+                    //do nothing
+                }
+                else
+                {
+                    _syncMCDetailLastDataCreationDate = ComLib.ComFn.StringToDateTime(defineSyncDateTimeStr, "yyyy-MM-dd HH:mm:ss");
+                }
+            }
+            return _syncMCDetailLastDataCreationDate;
+        }
+
         #endregion
 
         #region init data
