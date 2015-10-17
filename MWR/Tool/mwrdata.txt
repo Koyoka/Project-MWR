@@ -1,12 +1,10 @@
-T mwdestroymcparamslog
-C MCCode 1 0 0 varchar 45 0  varchar(45) 
-C RunDate 1 0 0 datetime 0 0  datetime 
-C WSCode 0 1 0 varchar 20 0  varchar(20) 
+T mwdestroymcdetail
+C MCDetailId 1 0 0 int 10 0  int(11) 
 C DisiNum 0 1 0 int 10 0  int(11) 
-C Pressure 0 1 0 float 12 0  float 
-C InTemperature 0 1 0 float 12 0  float 
-C ExTemperature 0 1 0 float 12 0  float 
-C EC1 0 1 0 float 12 0  float 
-C EC2 0 1 0 float 12 0  float 
-C WordStatus 0 1 0 varchar 45 0  varchar(45) 
+C TxnDetailId 0 1 0 int 10 0  int(11) 
+C WSCode 0 1 0 varchar 20 0  varchar(20) 
+C CrateCode 0 1 0 varchar 45 0  varchar(45) 
+C DestWeight 0 1 0 decimal 10 2  decimal(10,2) 
+C EntryDate 0 1 0 datetime 0 0  datetime 
+C Status 0 1 0 varchar 2 0  varchar(2) 
 

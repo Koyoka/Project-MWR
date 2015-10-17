@@ -19,6 +19,8 @@ namespace MWRSyncMng
         private SMSProcessHelper _smpMng = null;
         private SMSRunTimeHelper _smrHelpr = null;
         private SMSCacheHelper _carchHelpr = null;
+        private SMSCacheHelper _carchMCDataHelpr = null;
+        private SMSCacheHelper _carchMCDetailDataHelpr = null;
         private int _interval = 10;
         private List<string> _txtMain = new List<string>();
 
@@ -185,7 +187,7 @@ namespace MWRSyncMng
                     return;
                 }
 
-                _smpMng = new SMSProcessHelper(_carchHelpr);
+                _smpMng = new SMSProcessHelper(_carchHelpr, _carchMCDataHelpr, _carchMCDetailDataHelpr);
                 _smpMng.Run();
             }
             catch (Exception ex)
@@ -262,6 +264,8 @@ namespace MWRSyncMng
         private bool InitFrm()
         {
             _carchHelpr = new SMSCacheHelper();
+            _carchMCDataHelpr = new SMSCacheHelper();
+            _carchMCDetailDataHelpr = new SMSCacheHelper();
             if (!LoadData())
                 return false;
 
@@ -294,7 +298,7 @@ namespace MWRSyncMng
 
             _smrHelpr.Begin();
 
-            _smpMng = new SMSProcessHelper(_carchHelpr);
+            _smpMng = new SMSProcessHelper(_carchHelpr, _carchMCDataHelpr, _carchMCDetailDataHelpr);
             _smpMng.Run();
 
             c_sspMain_R_txtStatus.Text = "RUNNING";
@@ -345,12 +349,21 @@ namespace MWRSyncMng
                 data = _jsData;
                 return true;
             }
+            public bool GetCacheData(DelegateGetDataByLastDate d, ref string data, ref DateTime lastCreationDate, ref string errMsg)
+            {
+                if (string.IsNullOrEmpty(_jsData) && d != null)
+                {
+                    return d(ref data, ref lastCreationDate, ref errMsg);
+                }
+                data = _jsData;
+                return true;
+            }
             public void Clear()
             {
                 _jsData = null;
             }
-
-            public delegate bool DelegateGetData(ref string data,ref string errMsg);
+            public delegate bool DelegateGetData(ref string data, ref string errMsg);
+            public delegate bool DelegateGetDataByLastDate(ref string data, ref  DateTime lastCreationDate, ref string errMsg);
         }
 
         public class SMSRunTimeHelper
@@ -423,12 +436,16 @@ namespace MWRSyncMng
         public class SMSProcessHelper
         {
 
-            public SMSProcessHelper(SMSCacheHelper cacheHelper)
+            public SMSProcessHelper(SMSCacheHelper cacheHelper, SMSCacheHelper cacheMCDataHelper, SMSCacheHelper carchMCDetailDataHelpr)
             {
                 _cacheHelper = cacheHelper;
+                _cacheMCDataHelper = cacheMCDataHelper;
+                _carchMCDetailDataHelpr = carchMCDetailDataHelpr;
             }
 
             private SMSCacheHelper _cacheHelper = null;
+            private SMSCacheHelper _cacheMCDataHelper = null;
+            private SMSCacheHelper _carchMCDetailDataHelpr = null;
 
             private bool _isRunning = false;
             private bool _needStop = false;
@@ -497,47 +514,144 @@ namespace MWRSyncMng
                 {
                     string errMsg = "";
 
-                    #region get data
-                    string jsonData = "";
-                    if (!_cacheHelper.GetCacheData(
-                        SyncHelper.GetSyncData, ref jsonData, ref errMsg))
-                    {
-                        _hasCrashed = true;
-                        _crashedErrMsg = errMsg;
-                        return;
-                    }
-
-                    #endregion
-
-                    if (string.IsNullOrEmpty(jsonData))
-                    {
-                        return;
-                    }
-
                     #region request
-                    string sericveUrl = SysInfo.GetInstance().Config.ServiceRoot;
-                    if (!SyncHelper.DoRequest(jsonData,
-                        //"http://192.168.1.152:8081/SynBusinessData.ashx", 
-                        sericveUrl,
-                        ref errMsg))
+
+                    #region report data
                     {
-                        _hasCrashed = true;
-                        _crashedErrMsg = errMsg;
-                        return;
+                        string jsonData = "";
+
+                        #region get data
+                        if (!_cacheHelper.GetCacheData(
+                            SyncHelper.GetSyncData, ref jsonData, ref errMsg))
+                        {
+                            _hasCrashed = true;
+                            _crashedErrMsg = errMsg;
+                            return;
+                        }
+                        #endregion
+
+                        if (string.IsNullOrEmpty(jsonData))
+                        {
+                            // do nothing
+                        }
+                        else
+                        {
+                            string sericveUrl = SysInfo.GetInstance().Config.ServiceRoot + "/SynBusinessData.ashx";
+                            if (!SyncHelper.DoRequest(jsonData,
+                                //"http://192.168.1.152:8081/SynBusinessData.ashx", 
+                                sericveUrl,
+                                ref errMsg))
+                            {
+                                SyncHelper.RollbackSyncData(ref errMsg);
+                                _hasCrashed = true;
+                                _crashedErrMsg = errMsg;
+                                return;
+                            }
+                            else
+                            {
+                                
+                            }
+                        }
+
+                        #region Show Info
+                        StringBuilder sb = new StringBuilder();
+
+                        DateTime now = ComLib.db.SqlDBMng.GetDBNow();
+                        //string defineTestStr = "运量{0}，接货量{1}，入库量{2}，库存量{3}，出库量{4}，处置量{5} 统计日期{6}";
+                        sb.AppendLine("同步时间 = " + now.ToString("yyyy-MM-dd HH:mm:ss") + "");
+                        sb.AppendLine(jsonData);
+                        _infoMsg = sb.ToString();
+                        #endregion
+
+                        _cacheHelper.Clear();
                     }
                     #endregion
-                    
-                    #region Show Info
-                    StringBuilder sb = new StringBuilder();
-                    
-                    DateTime now = ComLib.db.SqlDBMng.GetDBNow();
-                    //string defineTestStr = "运量{0}，接货量{1}，入库量{2}，库存量{3}，出库量{4}，处置量{5} 统计日期{6}";
-                    sb.AppendLine("同步时间 = " + now.ToString("yyyy-MM-dd HH:mm:ss") + "");
-                    sb.AppendLine(jsonData);
-                    _infoMsg = sb.ToString();
+
+                    #region mc data
+                    //if(false)
+                    {
+                        string jsonData = "";
+                        DateTime lastDate = MWParams.GetSyncMCLastDataCreationDate();
+                        #region get data
+                        if (!_cacheMCDataHelper.GetCacheData(
+                            SyncHelper.GetSyncMCData, ref jsonData, ref lastDate, ref errMsg))
+                        {
+                            _hasCrashed = true;
+                            _crashedErrMsg = errMsg;
+                            return;
+                        }
+                        #endregion
+
+                        if (string.IsNullOrEmpty(jsonData))
+                        {
+                            // do nothing
+                        }
+                        else
+                        {
+                            string sericveUrl = SysInfo.GetInstance().Config.ServiceRoot + "/SynHandleData.ashx";
+                                //"http://192.168.5.222:3448/SynHandleData.ashx";//SysInfo.GetInstance().Config.ServiceRoot;
+                            if (!SyncHelper.DoRequest(jsonData,
+                                    sericveUrl,
+                                    ref errMsg))
+                            {
+                                _hasCrashed = true;
+                                _crashedErrMsg = errMsg;
+                                return;
+                            }
+                            else
+                            {
+                                MWParams.SetSyncMCLastDataCreationDate(lastDate, ref errMsg);
+                            }
+                        }
+
+                        _cacheMCDataHelper.Clear();
+                    }
                     #endregion
 
-                    _cacheHelper.Clear();
+                    #region mc detail data
+                    //if (false)
+                    {
+                        string jsonData = "";
+                        DateTime lastDate = MWParams.GetSyncMCDetailLastDataCreationDate();
+                        #region get data
+                        if (!_carchMCDetailDataHelpr.GetCacheData(
+                            SyncHelper.GetSyncMCDetailData, ref jsonData, ref lastDate, ref errMsg))
+                        {
+                            _hasCrashed = true;
+                            _crashedErrMsg = errMsg;
+                            return;
+                        }
+                        #endregion
+
+                        if (string.IsNullOrEmpty(jsonData))
+                        {
+                            // do nothing
+                        }
+                        else
+                        {
+                            string sericveUrl = SysInfo.GetInstance().Config.ServiceRoot + "/SynHandleParamData.ashx";
+                                //"http://192.168.5.222:8085/SynHandleParamData.ashx";//SysInfo.GetInstance().Config.ServiceRoot;
+                            if (!SyncHelper.DoRequest(jsonData,
+                                    sericveUrl,
+                                    ref errMsg))
+                            {
+                                _hasCrashed = true;
+                                _crashedErrMsg = errMsg;
+                                return;
+                            }
+                            else {
+                                MWParams.SetSyncMCDetailLastDataCreationDate(lastDate, ref errMsg);
+                            }
+                        }
+
+                        _carchMCDetailDataHelpr.Clear();
+                    }
+                    #endregion
+
+                    #endregion
+
+                  
+                  
                 }
                 catch (Exception ex)
                 {

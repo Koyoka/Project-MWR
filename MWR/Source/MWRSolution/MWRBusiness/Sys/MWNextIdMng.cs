@@ -222,6 +222,14 @@ namespace YRKJ.MWR.Business.Sys
             //return defineNextNum;
         }
 
+        public static int GetDestroyMCDetailId()
+        {
+            return GetNextId("DestroyMCDetail");
+        }
+        public static int GetDestroyMCDetailId(int count)
+        {
+            return GetNextId(count, "DestroyMCDetail");
+        }
         #endregion
 
         private static int GetNextId(string tableName)

@@ -3517,6 +3517,32 @@ namespace YRKJ.MWR.Business.WS
             }
             #endregion
 
+            #region add to MC DestroyDetail
+            int destMCDetailId = 
+                MWNextIdMng.GetDestroyMCDetailId(detailList.Count);
+
+            foreach (var data in detailList)
+            {
+                TblMWDestroyMCDetail item = new TblMWDestroyMCDetail() {
+                    MCDetailId = destMCDetailId,
+                    DisiNum = 0,//in wait is zero
+                    TxnDetailId = data.TxnDetailId,
+                    WSCode = data.WSCode,
+                    CrateCode = data.CrateCode,
+                    DestWeight = data.TxnWeight,
+                    EntryDate = now,
+                    Status = TblMWDestroyMCDetail.STATUS_ENUM_Wait
+                };
+
+                if (!TblMWDestroyMCDetailCtrl.Insert(dcf, item, ref updCount, ref errMsg))
+                {
+                    return false;
+                }
+                destMCDetailId++;
+            }
+
+            #endregion
+
             #endregion
 
             int[] updCounts = null;
@@ -3563,6 +3589,25 @@ namespace YRKJ.MWR.Business.WS
 
             int[] updCounts = null;
             if (!dcf.Commit(ref updCounts, ref errMsg))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public static bool UpdateDestroyMCDetailToDisiNum(int disiNum,ref int updCount,ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+
+            SqlUpdateColumn suc = new SqlUpdateColumn();
+            suc.Add(TblMWDestroyMCDetail.getDisiNumColumn(), disiNum - 1);
+            suc.Add(TblMWDestroyMCDetail.getStatusColumn(), TblMWDestroyMCDetail.STATUS_ENUM_Complete);
+            SqlWhere sw = new SqlWhere();
+            sw.AddCompareValue(TblMWDestroyMCDetail.getStatusColumn(),
+                 SqlCommonFn.SqlWhereCompareEnum.Equals, TblMWDestroyMCDetail.STATUS_ENUM_Wait);
+
+            if (!TblMWDestroyMCDetailCtrl.Update(dcf, suc, sw, ref updCount, ref errMsg))
             {
                 return false;
             }

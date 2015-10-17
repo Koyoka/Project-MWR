@@ -14,7 +14,23 @@ namespace MWRSyncMng
 {
     public class SyncHelper
     {
+        public static bool RollbackSyncData(ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            SqlUpdateColumn suc = new SqlUpdateColumn();
+            suc.Add(TblMWSynclog.getStatusColumn(), TblMWSynclog.STATUS_ENUM_Error);
 
+            SqlWhere sw = new SqlWhere();
+            sw.AddCompareValue(TblMWSynclog.getStatusColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, TblMWSynclog.STATUS_ENUM_Wait);
+
+            int updCount = 0;
+            if (!TblMWSynclogCtrl.Update(dcf, suc, sw, ref updCount, ref errMsg))
+            {
+                return false;
+            }
+
+            return true;
+        }
         public static bool GetSyncData(ref string jsonData, ref string errMsg)
         {
             DataCtrlInfo dcf = new DataCtrlInfo();
@@ -336,6 +352,161 @@ namespace MWRSyncMng
 
             return true;
         }
+        public static bool GetSyncMCDetailData(ref string jsonData,ref DateTime lastCreationDate, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            DateTime now = SqlDBMng.GetDBNow();
+
+            var dataList = new List<object>();
+            SqlQueryMng sqm = new SqlQueryMng();
+            sqm.Condition.Where.AddDateTimeCompareValue(TblMWDestroyMCParamsLog.getRunDateColumn(), 
+                SqlCommonFn.SqlWhereCompareEnum.More, 
+                lastCreationDate, SqlCommonFn.SqlWhereDateTimeFormatEnum.YMDHMS);
+
+            List<TblMWDestroyMCParamsLog> itemList = new List<TblMWDestroyMCParamsLog>();
+            if (!TblMWDestroyMCParamsLogCtrl.QueryMore(dcf, sqm, ref itemList, ref errMsg))
+            {
+                return false;
+            }
+            if (itemList.Count == 0)
+            {
+                return true;
+            }
+            foreach (TblMWDestroyMCParamsLog item in itemList)
+            {
+                dataList.Add(new
+                {
+                    batch = item.DisiNum,
+                    room_p = item.Pressure,
+                    room_inner_t = item.InTemperature,
+                    room_exterior_t = item.ExTemperature,
+                    machine_a1 = item.EC1,
+                    machine_a2 = item.EC2,
+                    status = item.WordStatus,
+                    //weight = item.DestWeight,
+                    //number = "1",
+                    //code = item.CrateCode,
+                    //batch_time = item.EntryDate,
+                    post_time = item.RunDate
+                });
+            }
+
+             if (itemList.Count > 0)
+            {
+                lastCreationDate = itemList.Last().RunDate;
+            }
+
+            #region
+            ResJsonData data = new ResJsonData();
+
+
+            string guid = "";
+            string city = "";
+            #region get lcoation client base infomation
+            city = MWParams.GetSyncCity();
+            guid = MWParams.GetCompanyDataCenterGUID();
+            guid = string.IsNullOrEmpty(guid) ? "" : guid;
+            #endregion
+            data.city = city;
+            data.guid = guid;
+            data.busdata = dataList;
+
+            #endregion
+
+            #region convent to json data
+            string jsonStr = "";
+            if (!ObjectToJson(data, ref jsonStr, ref errMsg))
+            {
+                return false;
+            }
+            jsonData = jsonStr;
+            #endregion
+
+            //#region convent to json data
+            //string jsonStr = "";
+            //if (!ObjectToJson(dataList, ref jsonStr, ref errMsg))
+            //{
+            //    return false;
+            //}
+            //jsonData = jsonStr;
+            //#endregion
+
+            return true;
+        }
+        public static bool GetSyncMCData(ref string jsonData,ref DateTime lastCreationDate, ref string errMsg)
+        {
+            DataCtrlInfo dcf = new DataCtrlInfo();
+            DateTime now = SqlDBMng.GetDBNow();
+
+            var dataList = new List<object>();
+            {
+                SqlQueryMng sqm = new SqlQueryMng();
+                sqm.Condition.Where.AddDateTimeCompareValue(TblMWDestroyMCDetail.getEntryDateColumn(), 
+                    SqlCommonFn.SqlWhereCompareEnum.More, 
+                    lastCreationDate, SqlCommonFn.SqlWhereDateTimeFormatEnum.YMDHMS);
+
+                List<TblMWDestroyMCDetail> itemList = new List<TblMWDestroyMCDetail>();
+                if (!TblMWDestroyMCDetailCtrl.QueryMore(dcf, sqm, ref itemList, ref errMsg))
+                {
+                    return false;
+                }
+                if (itemList.Count == 0)
+                {
+                    return true;
+                }
+                foreach (var item in itemList)
+                {
+                    dataList.Add(new
+                    {
+                        batch = item.DisiNum,
+                        //room_p = subitem.Pressure,
+                        //room_inner_t = subitem.InTemperature,
+                        //room_exterior_t = subitem.ExTemperature,
+                        //machine_a1 = subitem.EC1,
+                        //machine_a2 = subitem.EC2,
+                        //status = subitem.WordStatus,
+                        weight = item.DestWeight,
+                        number = "1",
+                        code = item.CrateCode,
+                        batch_time = item.EntryDate,
+                        post_time = DateTime.Now
+                    });
+                    
+                }
+
+                if (itemList.Count > 0)
+                {
+                    lastCreationDate = itemList.Last().EntryDate;
+                }
+            }
+
+            #region
+            ResJsonData data = new ResJsonData();
+           
+            string guid = "";
+            string city = "";
+            #region get lcoation client base infomation
+            city = MWParams.GetSyncCity();
+            guid = MWParams.GetCompanyDataCenterGUID();
+            guid = string.IsNullOrEmpty(guid) ? "" : guid;
+            #endregion
+            data.city = city;
+            data.guid = guid;
+            data.busdata = dataList;
+
+            #endregion
+
+            #region convent to json data
+            string jsonStr = "";
+            if (!ObjectToJson(data, ref jsonStr, ref errMsg))
+            {
+                return false;
+            }
+            jsonData = jsonStr;
+            #endregion
+          
+            return true;
+        }
         
         //public static bool DoSycn(ref string errMsg)
         //{
@@ -424,7 +595,7 @@ namespace MWRSyncMng
                     request.Method = "POST";
                     request.Date = DateTime.Now;
                     request.ContentType = "application/json";
-                    request.Timeout = 5000;
+                    request.Timeout = 150000;
                     #endregion
 
                     #region set request body data
@@ -451,22 +622,8 @@ namespace MWRSyncMng
             catch (Exception ex)
             {
                 errMsg = "服务器连接失败，请检查服务器或服务器地址。 错误信息：" + ex.Message;
-                {
-                    DataCtrlInfo dcf = new DataCtrlInfo();
-                    SqlUpdateColumn suc = new SqlUpdateColumn();
-                    suc.Add(TblMWSynclog.getStatusColumn(), TblMWSynclog.STATUS_ENUM_Error);
-
-                    SqlWhere sw = new SqlWhere();
-                    sw.AddCompareValue(TblMWSynclog.getStatusColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, TblMWSynclog.STATUS_ENUM_Wait);
-
-                    int updCount = 0;
-                    if (!TblMWSynclogCtrl.Update(dcf, suc, sw, ref updCount, ref errMsg))
-                    {
-                        return false;
-                    }
-
-                    return false;
-                }
+                return false;
+               
 
             }
             #endregion
@@ -663,7 +820,7 @@ namespace MWRSyncMng
         {
             public string guid { get; set; }
             public string city { get; set; }
-            public List<ResJsonBusData> busdata { get; set; }
+            public object busdata { get; set; }
             public class ResJsonBusData
             {
                 public string createtime { get; set; }

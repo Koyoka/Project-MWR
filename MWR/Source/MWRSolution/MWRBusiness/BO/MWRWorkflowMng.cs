@@ -204,13 +204,72 @@ namespace YRKJ.MWR.Business.BO
             decimal totalSubWeight = 0;
             int totalCrateQty = 0;
             TblMWCarDispatch carDispatchInfo = null;
+
+            #region no recover data
+            if (txnDetailList.Count == 0)
+            {
+                DataCtrlInfo dcf = new DataCtrlInfo();
+                DateTime now = SqlDBMng.GetDBNow();
+                //直接完成
+                #region CarDispatch
+                {
+                    SqlQueryMng sqm = new SqlQueryMng();
+                    sqm.Condition.Where.AddCompareValue(TblMWCarDispatch.getCarCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, carCode);
+                    sqm.Condition.Where.AddCompareValue(TblMWCarDispatch.getStatusColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, TblMWCarDispatch.STATUS_ENUM_ShiftStrat);
+                    //sqm.Condition.Where.AddCompareValue(TblMWCarDispatch.getInDateColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, DateTime.MinValue);
+                    sqm.Condition.Where.AddCompareValue(TblMWCarDispatch.getDriverCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, driverCode);
+                    sqm.Condition.Where.AddCompareValue(TblMWCarDispatch.getInspectorCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, inspectorCode);
+                    sqm.Condition.Where.AddCompareValue(TblMWCarDispatch.getRecoMWSCodeColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, mwsCode);
+
+                    if (!TblMWCarDispatchCtrl.QueryOne(dcf, sqm, ref carDispatchInfo, ref errMsg))
+                    {
+                        return false;
+                    }
+                    if (carDispatchInfo == null)
+                    {
+                        errMsg = "没有找到当前车辆的出车记录,是否已被完成？";
+                        return false;
+                    }
+                    //if (carDispatchInfo.Status != TblMWCarDispatch.STATUS_ENUM_ShiftStrat)
+                    //{
+                    //    errMsg = "该回收计划已经被管理员关闭";
+                    //    return false;
+                    //}
+
+
+                }
+                #endregion
+
+                #region update cardisptch indate
+                {
+                    int updCount = 0;
+
+                    SqlWhere sw = new SqlWhere();
+                    sw.AddCompareValue(TblMWCarDispatch.getCarDisIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, carDispatchInfo.CarDisId);
+
+                    SqlUpdateColumn suc = new SqlUpdateColumn();
+                    suc.Add(TblMWCarDispatch.getInDateColumn(), now);
+
+                    if (!TblMWCarDispatchCtrl.Update(dcf, carDispatchInfo, suc, sw, ref updCount, ref errMsg))
+                    {
+                        return false;
+                    }
+                }
+                #endregion
+
+                return true;
+            }
+            #endregion
+
+
+
             #region valid & get moblie workstation base data
             {
-                if (txnDetailList.Count == 0)
-                {
-                    errMsg = "没有数据，请添加数据后再次提交。";
-                    return false;
-                }
+                //if (txnDetailList.Count == 0)
+                //{
+                //    errMsg = "没有数据，请添加数据后再次提交。";
+                //    return false;
+                //}
 
                 DataCtrlInfo dcf = new DataCtrlInfo();
                 totalCrateQty = txnDetailList.Count;
@@ -274,13 +333,13 @@ namespace YRKJ.MWR.Business.BO
                     //    return false;
                     //}
 
-#if !DEBUG
-                    if (carDispatchInfo.InDate != DateTime.MinValue)
-                    {
-                        errMsg = "该回收计划已经提交";
-                        return false;
-                    }
-#endif
+//#if !DEBUG
+//                    if (carDispatchInfo.InDate != DateTime.MinValue)
+//                    {
+//                        errMsg = "该回收计划已经提交";
+//                        return false;
+//                    }
+//#endif
                 }
                 #endregion
 
@@ -947,9 +1006,36 @@ namespace YRKJ.MWR.Business.BO
         {
             DataCtrlInfo dcf = new DataCtrlInfo();
 
+
+            #region valid data
+            {
+                SqlQueryMng sqm = new SqlQueryMng();
+                sqm.Condition.Where.AddCompareValue(TblMWCarDispatch.getCarDisIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, disId);
+
+                TblMWCarDispatch item = null;
+                if (!TblMWCarDispatchCtrl.QueryOne(dcf, sqm, ref item, ref errMsg))
+                {
+                    return false;
+                }
+
+                if (item == null)
+                {
+                    errMsg = ErrorMng.GetDBError(ClassName, "CloseCarDispatch", "没有找到当前的出车班次。");
+                    return false;
+                }
+
+                if (item.InDate == DateTime.MinValue)
+                {
+                    //errMsg = ErrorMng.GetDBError(ClassName, "CloseCarDispatch", "当前车辆还未回场，不能完成本班次。");
+                    errMsg = "当前车辆还未回场，不能完成本班次。";
+                    return false;
+                }
+            }
+            #endregion
+
             SqlUpdateColumn suc = new SqlUpdateColumn();
             suc.Add(TblMWCarDispatch.getStatusColumn(), TblMWCarDispatch.STATUS_ENUM_ShiftEnd);
-            suc.Add(TblMWCarDispatch.getInDateColumn(), SqlDBMng.GetDBNow());
+            //suc.Add(TblMWCarDispatch.getInDateColumn(), SqlDBMng.GetDBNow());
 
             SqlWhere sw = new SqlWhere();
             sw.AddCompareValue(TblMWCarDispatch.getCarDisIdColumn(), SqlCommonFn.SqlWhereCompareEnum.Equals, disId);

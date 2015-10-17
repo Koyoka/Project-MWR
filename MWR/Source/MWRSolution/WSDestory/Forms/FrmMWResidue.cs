@@ -20,7 +20,8 @@ namespace YRKJ.MWR.WSDestory.Forms
         private const string ClassName = "YRKJ.MWR.WSDestory.Forms.FrmMWResidue";
         private FormMng _frmMng = null;
         private ModbusHelper _modbus = null;
-        private SavePLCDataHelper _savePLCDataHelper;
+        private SavePLCDataHelper _savePLCDataHelper = null;
+        private UpdateDestroyMCDetailHelper _updMCDetailHelper = null;
 
         public FrmMWResidue()
         {
@@ -109,11 +110,7 @@ namespace YRKJ.MWR.WSDestory.Forms
         {
             try
             {
-                if (_modbus.RunStatus == ModbusHelper.EnumRunStatus.Stop)
-                {
-                    string unit = "1";
-                    _modbus.ReadHoldRegs_PLC_MC(Convert.ToByte(unit));
-                }
+                doReadPLC();
             }
             catch (Exception ex)
             {
@@ -123,7 +120,7 @@ namespace YRKJ.MWR.WSDestory.Forms
             {
             }
         }
-
+        
         private void FrmMWResidue_FormClosing(object sender, FormClosingEventArgs e)
         {
             try
@@ -148,7 +145,6 @@ namespace YRKJ.MWR.WSDestory.Forms
                 this.Cursor = Cursors.Default;
             }
         }
-
         
         private void c_time_Tick(object sender, EventArgs e)
         {
@@ -223,15 +219,11 @@ namespace YRKJ.MWR.WSDestory.Forms
 
             _modbus.OnResponseData = new ModbusHelper.DelegateResponseData((x) =>
             {
-                //bool saveSuccess = true;
-                //if (!DataSave(x))
-                //{
-                //    saveSuccess = false;
-                //}
                 ThreadSafe(() =>
                 {
                     DataBind(x);
                     _savePLCDataHelper.Add(x);
+                    _updMCDetailHelper.RefCurrentDisinum(x);
                     c_txtmodbusLog.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " 获取数据成功 ";// +
                         //(saveSuccess?"数据保存成功":"数据保存失败");
                     if (_modbus.IsConnected)
@@ -266,11 +258,12 @@ namespace YRKJ.MWR.WSDestory.Forms
             c_txtModbusStatus.Text = "未连接";
 
             _savePLCDataHelper = new SavePLCDataHelper();
+            _updMCDetailHelper = new UpdateDestroyMCDetailHelper();
             if (!InitModbus(ref errMsg))
             {
                 return false;
             }
-           
+            doReadPLC();
             return true;
         }
 
@@ -279,14 +272,23 @@ namespace YRKJ.MWR.WSDestory.Forms
             return true;
         }
 
+        private void doReadPLC()
+        {
+            if (_modbus.RunStatus == ModbusHelper.EnumRunStatus.Stop)
+            {
+                string unit = "1";
+                _modbus.ReadHoldRegs_PLC_MC(Convert.ToByte(unit));
+            }
+        }
+
         private void DataBind(ModbusHelper.BizModel model)
         {
             c_picMCStart.BackgroundImage = imageList1.Images[model.MCStrat ? 0 : 1];
-            c_picMCWarning.BackgroundImage = imageList1.Images[model.MCWarning ? 0 : 1];
+            c_picMCWarning.BackgroundImage = imageList1.Images[model.MCWarning ? 1 : 0];
             c_picDisiComp.BackgroundImage = imageList1.Images[model.MCDisiCompliance ? 0 : 1];
             c_txtMCAutoOrManu.Text = model.MCAutoRun ? "自动" : "手动";
 
-            c_txtTotalBatchCount.Text = model.TotalBatchCount;
+            c_txtTotalBatchCount.Text = model.TotalBatchCount+"";
             c_txtTotalCrateCount.Text = model.TotalCrateCount;
             c_txtTotalFeedCount.Text = model.TotalFeedCount;
 
@@ -303,11 +305,11 @@ namespace YRKJ.MWR.WSDestory.Forms
             c_txtMCWarningCount.Text = model.MCWarningCount;
             c_txtMCStatus.Text = model.MCStatusDesc;
 
-            c_txtPressure.Text = model.MCPressure+"";
-            c_txtMCInTemperature.Text = model.MCInTemperature + "";
-            c_txtMCExTemperature.Text = model.MCExTemperature + "";
-            c_txtElectric1.Text = model.MCElectricCurrent1 + "";
-            c_txtElectric2.Text = model.MCElectricCurrent2 + "";
+            c_txtPressure.Text = model.MCPressure.ToString("F3");
+            c_txtMCInTemperature.Text = model.MCInTemperature.ToString("F3");
+            c_txtMCExTemperature.Text = model.MCExTemperature.ToString("F3");
+            c_txtElectric1.Text = model.MCElectricCurrent1.ToString("F3");
+            c_txtElectric2.Text = model.MCElectricCurrent2.ToString("F3");
 
         }
         
@@ -359,7 +361,7 @@ namespace YRKJ.MWR.WSDestory.Forms
                     MCCode = SysInfo.GetInstance().Config.WSCode,
                     RunDate = dbNow,//DateTime.Now,
                     WSCode = SysInfo.GetInstance().Config.WSCode,
-                    DisiNum = ComLib.ComFn.StringToInt(model.TotalBatchCount),
+                    DisiNum = (int)model.TotalBatchCount,
                     Pressure = model.MCPressure,
                     InTemperature = model.MCInTemperature,
                     ExTemperature = model.MCExTemperature,
@@ -392,6 +394,41 @@ namespace YRKJ.MWR.WSDestory.Forms
 
                 System.Diagnostics.Debug.WriteLine("Pool Left Count:" + _dataPool.Count);
                 return true;
+            }
+        }
+
+        private class UpdateDestroyMCDetailHelper
+        {
+            private int? _curDisiNum = null;
+            public void RefCurrentDisinum(ModbusHelper.BizModel m)
+            {
+                if (!m.MCStrat)
+                    return;
+
+                int disiNum = (int)m.TotalBatchCount;
+                if (disiNum == 0)
+                    return;
+
+                if (disiNum == _curDisiNum)
+                    return;
+
+                _curDisiNum = disiNum;
+                if (UpdateCurrentDisiNumToDetail(disiNum) != 0)
+                {
+                    _curDisiNum = null;
+                }
+            }
+
+            private int UpdateCurrentDisiNumToDetail(int disiNum)
+            {
+                string errMsg = "";
+                int updCount = 0;
+                if (!TxnMng.UpdateDestroyMCDetailToDisiNum(disiNum, ref updCount, ref errMsg))
+                {
+                    MsgBox.Show(errMsg);
+                    return 0;
+                }
+                return updCount;
             }
         }
         #endregion
