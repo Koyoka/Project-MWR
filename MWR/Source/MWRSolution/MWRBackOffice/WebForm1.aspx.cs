@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using YRKJ.MWR.Business.Permit;
+using System.Text;
 
 namespace YRKJ.MWR.BackOffice
 {
@@ -12,6 +13,21 @@ namespace YRKJ.MWR.BackOffice
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+
+            string requestData = "";
+            #region get response data
+            using (System.IO.StreamReader sr = new System.IO.StreamReader(Request.InputStream, Encoding.UTF8))
+            {
+                requestData = sr.ReadToEnd();
+                sr.Close();
+            }
+            #endregion
+
+            Response.SetCookie(new HttpCookie("Eleven","ElevenSetCookie"));
+            Response.SetCookie(new HttpCookie("Rayment", "RaymentSetCookie"));
+
+            //Response.Write("");
+
             /*
              
              账号： mateware01
