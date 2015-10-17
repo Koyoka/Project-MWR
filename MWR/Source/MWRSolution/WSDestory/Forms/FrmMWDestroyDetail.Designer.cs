@@ -71,6 +71,8 @@
             this.c_labTotalTxnWeight = new System.Windows.Forms.Label();
             this.c_bgwRefTxnDetail = new System.ComponentModel.BackgroundWorker();
             this.c_time = new System.Windows.Forms.Timer(this.components);
+            this.c_txtScannerShow = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.c_grdMWTxnDetail)).BeginInit();
             this.panel2.SuspendLayout();
@@ -114,9 +116,9 @@
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.Controls.Add(this.c_grdMWTxnDetail);
             this.panel1.Font = new System.Drawing.Font("微软雅黑", 11F);
             this.panel1.Location = new System.Drawing.Point(12, 89);
@@ -477,11 +479,36 @@
             this.c_time.Interval = 2000;
             this.c_time.Tick += new System.EventHandler(this.c_time_Tick);
             // 
+            // c_txtScannerShow
+            // 
+            this.c_txtScannerShow.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.c_txtScannerShow.Location = new System.Drawing.Point(16, 12);
+            this.c_txtScannerShow.Multiline = true;
+            this.c_txtScannerShow.Name = "c_txtScannerShow";
+            this.c_txtScannerShow.ReadOnly = true;
+            this.c_txtScannerShow.Size = new System.Drawing.Size(834, 37);
+            this.c_txtScannerShow.TabIndex = 45;
+            this.c_txtScannerShow.Visible = false;
+            // 
+            // label2
+            // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(835, 15);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(15, 17);
+            this.label2.TabIndex = 46;
+            this.label2.Text = "1";
+            this.label2.Visible = false;
+            // 
             // FrmMWDestroyDetail
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1008, 429);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.c_txtScannerShow);
             this.Controls.Add(this.c_labTotalTxnWeight);
             this.Controls.Add(this.c_labTotalSubWeigth);
             this.Controls.Add(this.panel2);
@@ -551,5 +578,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn c_grdMWTxnDetail_C_Status;
         private System.ComponentModel.BackgroundWorker c_bgwRefTxnDetail;
         private System.Windows.Forms.Timer c_time;
+        private System.Windows.Forms.TextBox c_txtScannerShow;
+        private System.Windows.Forms.Label label2;
     }
 }

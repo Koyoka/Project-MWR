@@ -99,7 +99,7 @@ namespace YRKJ.MWR.WinBase.WinUtility
                         _barCode = "";
                         if (InvalidCodeScanned != null)
                         {
-                            InvalidCodeScanned("InputCode:[" + tempBarCode + "] Mask:[" + _mask + "]");
+                            InvalidCodeScanned("InputCode:[" + tempBarCode + "] Mask:[" + _mask + "] valid[" + valid + "] pattern[" + _pattern + "]");
                         }
                        
                         return;
@@ -110,6 +110,8 @@ namespace YRKJ.MWR.WinBase.WinUtility
                         _currentBarCode = tempBarCode;
                         CodeScanned(tempBarCode);
                     }
+
+                    //string testShow = "";
                 }
                 else if (CodeScanning != null)
                 {

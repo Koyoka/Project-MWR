@@ -148,10 +148,11 @@ namespace MWRSyncMng
                 {
                     DateTime syncDate = lastSyncTime;
                     SqlQueryMng sqm = new SqlQueryMng();
-                    sqm.QueryColumn.Add(TblMWInventory.getRecoWeightColumn());
-                    sqm.QueryColumn.Add(TblMWInventory.getInvWeightColumn());
-                    sqm.QueryColumn.Add(TblMWInventory.getPostWeightColumn());
-                    sqm.QueryColumn.Add(TblMWInventory.getDestWeightColumn());
+
+                    sqm.QueryColumn.AddSum(TblMWInventory.getRecoWeightColumn());
+                    sqm.QueryColumn.AddSum(TblMWInventory.getInvWeightColumn());
+                    sqm.QueryColumn.AddSum(TblMWInventory.getPostWeightColumn());
+                    sqm.QueryColumn.AddSum(TblMWInventory.getDestWeightColumn());
                     //sqm.QueryColumn.Add(TblMWInventory.getEntryDateColumn());
                     string formatColname = SqlCommonFn.FormatSqlDateTimeColumnString2(TblMWTxnRecoverHeader.getEntryDateColumn(), SqlCommonFn.SqlWhereDateTimeFormatEnum.YMD);
                     sqm.QueryColumn.Add(formatColname, "Date2");

@@ -45,7 +45,7 @@ namespace YRKJ.MWR.WSDestory.Forms
                 SysParams.GetInstance().GetCrateCodeMask());
                 //WinAppBase.CrateBarCodeMask);
             _scannerMng.CodeScanned += new ScannerMng.ScannedEventHandler(FrmMWDestroyDetail_CodeScanned);
-            //_scannerMng.InvalidCodeScanned += new ScannerMng.ScannedEventHandler(FrmMWDestroyDetail_InvalidCodeScanned);
+            _scannerMng.InvalidCodeScanned += new ScannerMng.ScannedEventHandler(FrmMWDestroyDetail_InvalidCodeScanned);
         }
 
         public FrmMWDestroyDetail(FrmMain f,string destroyTxnNum)
@@ -104,7 +104,10 @@ namespace YRKJ.MWR.WSDestory.Forms
                 this.Cursor = Cursors.Default;
             }
         }
-        
+        private void FrmMWDestroyDetail_InvalidCodeScanned(string str)
+        {
+            c_txtScannerShow.Text = str;
+        }
         private void FrmMWDestroyDetail_CodeScanned(string code)
         {
             try
