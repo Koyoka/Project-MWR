@@ -56,9 +56,9 @@
             // 
             // c_panForm
             // 
-            this.c_panForm.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.c_panForm.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.c_panForm.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.c_panForm.Location = new System.Drawing.Point(0, 113);
             this.c_panForm.Name = "c_panForm";
@@ -80,7 +80,7 @@
             // c_sspMain_L_txtEmpy
             // 
             this.c_sspMain_L_txtEmpy.Name = "c_sspMain_L_txtEmpy";
-            this.c_sspMain_L_txtEmpy.Size = new System.Drawing.Size(758, 20);
+            this.c_sspMain_L_txtEmpy.Size = new System.Drawing.Size(789, 20);
             this.c_sspMain_L_txtEmpy.Spring = true;
             this.c_sspMain_L_txtEmpy.Text = "登陆员工:xxx";
             this.c_sspMain_L_txtEmpy.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -165,6 +165,7 @@
             this.c_btnInvSearch.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.c_btnInvSearch.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.c_btnInvSearch.UseVisualStyleBackColor = true;
+            this.c_btnInvSearch.Visible = false;
             this.c_btnInvSearch.Click += new System.EventHandler(this.c_btnInvSearch_Click);
             // 
             // c_labBg2
