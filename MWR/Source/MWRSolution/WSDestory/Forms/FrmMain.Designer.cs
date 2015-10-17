@@ -132,7 +132,7 @@
             this.c_btnMWPost.Name = "c_btnMWPost";
             this.c_btnMWPost.Size = new System.Drawing.Size(135, 61);
             this.c_btnMWPost.TabIndex = 0;
-            this.c_btnMWPost.Text = "残渣管理";
+            this.c_btnMWPost.Text = "设备监控";
             this.c_btnMWPost.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.c_btnMWPost.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.c_btnMWPost.UseVisualStyleBackColor = true;
@@ -166,6 +166,7 @@
             this.c_btnInvSearch.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.c_btnInvSearch.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.c_btnInvSearch.UseVisualStyleBackColor = true;
+            this.c_btnInvSearch.Visible = false;
             this.c_btnInvSearch.Click += new System.EventHandler(this.c_btnInvSearch_Click);
             // 
             // c_labBg2

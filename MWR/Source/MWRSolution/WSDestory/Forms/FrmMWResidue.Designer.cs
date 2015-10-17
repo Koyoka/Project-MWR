@@ -100,6 +100,7 @@
             this.c_txtModbusIp = new System.Windows.Forms.TextBox();
             this.c_bgw = new System.ComponentModel.BackgroundWorker();
             this.c_time = new System.Windows.Forms.Timer(this.components);
+            this.c_txtTest = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.c_picMCStart)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -394,6 +395,7 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.c_txtTest);
             this.splitContainer1.Panel2.Controls.Add(this.c_btnSaveModbusConfig);
             this.splitContainer1.Panel2.Controls.Add(this.c_btnReConn);
             this.splitContainer1.Panel2.Controls.Add(this.panel2);
@@ -923,8 +925,17 @@
             // 
             // c_time
             // 
-            this.c_time.Interval = 10000;
+            this.c_time.Interval = 1111;
             this.c_time.Tick += new System.EventHandler(this.c_time_Tick);
+            // 
+            // c_txtTest
+            // 
+            this.c_txtTest.Font = new System.Drawing.Font("微软雅黑", 9F);
+            this.c_txtTest.Location = new System.Drawing.Point(19, 501);
+            this.c_txtTest.Name = "c_txtTest";
+            this.c_txtTest.Size = new System.Drawing.Size(254, 23);
+            this.c_txtTest.TabIndex = 38;
+            this.c_txtTest.Visible = false;
             // 
             // FrmMWResidue
             // 
@@ -1029,5 +1040,6 @@
         private System.Windows.Forms.Button c_btnReConn;
         private System.Windows.Forms.Button c_btnSaveModbusConfig;
         private System.Windows.Forms.TextBox c_txtmodbusLog;
+        private System.Windows.Forms.TextBox c_txtTest;
     }
 }

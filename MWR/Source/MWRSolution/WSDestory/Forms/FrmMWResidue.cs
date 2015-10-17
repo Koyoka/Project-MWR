@@ -110,7 +110,14 @@ namespace YRKJ.MWR.WSDestory.Forms
         {
             try
             {
+                if (_modbus != null)
+                {
+                    _modbus.Dispose();
+                }
+                Init();
+                
                 doReadPLC();
+               
             }
             catch (Exception ex)
             {
@@ -195,12 +202,60 @@ namespace YRKJ.MWR.WSDestory.Forms
 
             return true;
         }
+        private bool Init()
+        {
+            string errMsg = "";
+            _modbus = new ModbusHelper();
 
+            string ip = SysInfo.GetInstance().Config.ModbusIp;
+            ushort port = ComLib.ComFn.StringToUShort(SysInfo.GetInstance().Config.ModbusPort);
+
+            if (!_modbus.Connect(ip, port, ref errMsg))
+            {
+                c_txtModbusStatus.Text = "连接失败" + errMsg;
+                //MsgBox.Error(errMsg);
+                return false;
+            }
+            c_txtModbusStatus.Text = "连接成功";
+
+            _modbus.OnResponseData = new ModbusHelper.DelegateResponseData((x) =>
+            {
+                ThreadSafe(() =>
+                {
+                    DataBind(x);
+                    _savePLCDataHelper.Add(x);
+                    _updMCDetailHelper.RefCurrentDisinum(x);
+                    c_txtmodbusLog.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " 获取数据成功 ";// +
+                    //(saveSuccess?"数据保存成功":"数据保存失败");
+                    if (_modbus.IsConnected)
+                    {
+                        c_txtModbusStatus.Text = "连接成功";
+                    }
+                });
+
+            });
+            _modbus.OnException = new ModbusHelper.DelegateException((x) =>
+            {
+                ThreadSafe(() =>
+                {
+                    c_txtmodbusLog.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " error:" + x;
+                    if (!_modbus.IsConnected)
+                    {
+                        c_txtModbusStatus.Text = "连接丢失";
+                    }
+
+                });
+                //MsgBox.Error(x);
+            });
+
+            return true;
+        }
         private bool InitModbus(ref string errMsg)
         {
             if (_modbus != null && _modbus.IsConnected)
             {
-                MsgBox.Show("设备已连接");
+                //MsgBox.Show("设备已连接");
+                c_txtModbusStatus.Text = "设备已连接";
                 return true;
             }
 
@@ -211,8 +266,8 @@ namespace YRKJ.MWR.WSDestory.Forms
 
             if (!_modbus.Connect(ip, port, ref errMsg))
             {
-                c_txtModbusStatus.Text = "连接失败";
-                MsgBox.Error(errMsg);
+                c_txtModbusStatus.Text = "连接失败"+errMsg;
+                //MsgBox.Error(errMsg);
                 return false;
             }
             c_txtModbusStatus.Text = "连接成功";
@@ -274,11 +329,15 @@ namespace YRKJ.MWR.WSDestory.Forms
 
         private void doReadPLC()
         {
+            string s = "stop";
             if (_modbus.RunStatus == ModbusHelper.EnumRunStatus.Stop)
             {
-                string unit = "1";
+                s = "run";
+                string unit = "0";
+                //label3.Text = label3.Text + unit;
                 _modbus.ReadHoldRegs_PLC_MC(Convert.ToByte(unit));
             }
+            c_txtTest.Text = DateTime.Now.ToString("HHmmss") + "_" + s + "_" + _modbus.IsConnected;
         }
 
         private void DataBind(ModbusHelper.BizModel model)
@@ -341,6 +400,7 @@ namespace YRKJ.MWR.WSDestory.Forms
         private class SavePLCDataHelper
         {
             public DateTime LastSaveTime = DateTime.MinValue;
+            public DateTime LastAddTime = DateTime.MinValue;
             public int Interval = 20;
             private object lockObj = new object();
 
@@ -355,6 +415,16 @@ namespace YRKJ.MWR.WSDestory.Forms
             {
                 if (!model.MCStrat)
                     return;
+
+                #region
+                 DateTime locTime = DateTime.Now;
+                 if ((locTime - LastAddTime).TotalSeconds <= 5)
+                 {
+                     return;
+                 }
+                #endregion
+
+
                 DateTime dbNow = SqlDBMng.GetDBNow();
                 _dataPool.Add(new TblMWDestroyMCParamsLog()
                 {
@@ -370,6 +440,7 @@ namespace YRKJ.MWR.WSDestory.Forms
                     WordStatus = model.MCStatusDesc
 
                 });
+                LastAddTime = locTime;
             }
 
             public bool SaveToDb(ref string errMsg)
