@@ -184,7 +184,6 @@ namespace YRKJ.MWR.WinBase.WinUtility
                 {
                     ThreadSafe(() =>
                     {
-
                         if (onScalesDataReceivedAuto != null)
                         {
                           

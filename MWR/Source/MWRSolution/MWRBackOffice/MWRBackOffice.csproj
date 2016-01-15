@@ -348,6 +348,7 @@
     <Content Include="Pages\BO\Inventory\RecoverLog.aspx" />
     <Content Include="Pages\BO\Report\DestroyReport.aspx" />
     <Content Include="Pages\BO\Report\IntegratedReport.aspx" />
+    <Content Include="Pages\BO\Report\InventoryReport.aspx" />
     <Content Include="Pages\BO\Report\PostReport.aspx" />
     <Content Include="Pages\BO\Report\RecoverReport.aspx" />
     <Content Include="Pages\BO\Report\VendorReport.aspx" />
@@ -628,6 +629,13 @@
     </Compile>
     <Compile Include="Pages\BO\Report\IntegratedReport.aspx.designer.cs">
       <DependentUpon>IntegratedReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\BO\Report\InventoryReport.aspx.cs">
+      <DependentUpon>InventoryReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\BO\Report\InventoryReport.aspx.designer.cs">
+      <DependentUpon>InventoryReport.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\BO\Report\PostReport.aspx.cs">
       <DependentUpon>PostReport.aspx</DependentUpon>

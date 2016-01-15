@@ -532,6 +532,18 @@ namespace YRKJ.MWR.WSInventory.Forms
         public delegate void DelegateAuthorizeRecover(int invAuthId, decimal txnWeight, string txnStatus);
 
         public delegate void DelegateConfirmPostNew(string newTxnNum);
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            _txnWeight = BizHelper.ConventToSysUnitWeight(1, "kg", SysParams.GetInstance().GetSysWeightUnit());
+            if (!confirmScaleWieght(_txnWeight))
+            {
+                return;
+            }
+
+            this.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.Close();
+        }
         //public delegate void DelegateConfirmPostEdit(decimal txnWeight, string txnStatus, DateTime entryDate);
         //public delegate void DelegateConfirmPostNew(string newTxnNum, decimal txnWeight, string txnStatus, DateTime entryDate);
         //public delegate void DelegateAuthorizePostNew(string newTxnNum, int invAuthId, decimal txnWeight, string txnStatus);
